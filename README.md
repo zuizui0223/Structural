@@ -65,11 +65,12 @@ Canonical development files:
 - `docs/CONNECTIVITY_ADEQUACY_V0_1.md`
 - `docs/CONNECTIVITY_CROSSWALK_V0_1.md`
 - `docs/CONNECTIVITY_PREDICTIVE_KNOWN_TRUTH_V0_2.md`
+- `docs/CONNECTIVITY_STATE_LADDER_V0_3.md`
 - `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
 - `development/connectivity_adequacy_contract_v0_1.json`
 - `src/structural/connectivity_adequacy.py`
 
-v0.2 additionally verifies in held-out synthetic prediction that the winning connectivity coordinate reverses when the endpoint-generating operator reverses; a collapsed connectivity scalar recovers only partial information. This development is synthetic/protocol infrastructure only and is not an additional empirical endpoint for the current paper.
+v0.2 additionally verifies in held-out synthetic prediction that the winning connectivity coordinate reverses when the endpoint-generating operator reverses; a collapsed connectivity scalar recovers only partial information. v0.3 adds the prospective geometry → process model → realized connection → origin/history ladder and permits a state-adequacy claim only when a predeclared equivalence margin is satisfied; non-significance alone is indeterminate. This development is synthetic/protocol infrastructure only and is not an additional empirical endpoint for the current paper.
 
 ## Current state
 
