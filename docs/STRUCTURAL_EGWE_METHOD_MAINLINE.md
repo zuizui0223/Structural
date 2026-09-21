@@ -206,6 +206,27 @@ The operator-matched coordinate recovers more than 0.10 MSE relative to the loca
 
 The winning coordinate therefore reverses when endpoint truth reverses. This is the required synthetic behavior before any future empirical portability claim is admitted.
 
+### State closure requires equivalence, not a null
+
+v0.3 extends the sequence beyond operator-matched prediction:
+
+    structural geometry
+        → process-model connectivity
+        → realized connection
+        → residual origin/history test
+
+A residual origin/history coefficient that merely fails to exclude zero does **not** establish that the present state is sufficient.
+
+A state-adequacy claim is allowed only when the origin/history confidence interval lies completely inside a smallest-meaningful-effect margin frozen before outcome access.
+
+Therefore the final gate has three distinct non-positive outcomes:
+
+- residual origin/history **earned** → current state remains incomplete or history proxies a missing coordinate;
+- residual origin/history **indeterminate** → no closure claim;
+- residual origin/history inside the predeclared equivalence margin → **state adequacy earned for this endpoint/reference only**.
+
+This keeps the Structural framework aligned with EGWE's precision-bounded null logic.
+
 ### Relationship to the frozen Structural paper
 
 The frozen EOG connected-frequency term is retained as **structural_geometry**. It summarizes scenario-robust occurrence-anchored configuration and is not retroactively interpreted as demographic movement, pollen flow, gene flow, or realized dispersal.
