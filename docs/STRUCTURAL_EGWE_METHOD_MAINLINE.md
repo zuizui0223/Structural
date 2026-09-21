@@ -194,6 +194,18 @@ Under a declared pollen-specific transition, however, the next-state support dif
 
 Thus a universal scalar connectivity summary is not transition-sufficient for that declared operator. This is a constructive software/representation result only; it is not a natural prevalence claim.
 
+
+### Operator-matched predictive known-truth
+
+v0.2 adds a held-out predictive test. The same synthetic predictor distribution is scored under two known-truth endpoints:
+
+- pollen endpoint: future outcome depends on pollen connectivity;
+- whole-individual endpoint: future outcome depends on whole-individual connectivity.
+
+The operator-matched coordinate recovers more than 0.10 MSE relative to the local-state reference in both endpoint worlds, while the mismatched operator changes held-out MSE by less than 0.001. The collapsed mean-connectivity scalar recovers only part of the missing information. A typed two-operator state performs approximately as well as the matching coordinate because the irrelevant operator receives negligible fitted weight.
+
+The winning coordinate therefore reverses when endpoint truth reverses. This is the required synthetic behavior before any future empirical portability claim is admitted.
+
 ### Relationship to the frozen Structural paper
 
 The frozen EOG connected-frequency term is retained as **structural_geometry**. It summarizes scenario-robust occurrence-anchored configuration and is not retroactively interpreted as demographic movement, pollen flow, gene flow, or realized dispersal.

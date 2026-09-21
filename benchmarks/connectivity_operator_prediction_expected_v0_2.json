@@ -1,0 +1,33 @@
+{
+  "schema": "structural.connectivity_operator_prediction_expected.v0_2",
+  "expected_results": {
+    "pollen_flow": {
+      "reference_mse": 0.112676101573,
+      "pollen_mse": 0.000521694269,
+      "whole_individual_mse": 0.112185119062,
+      "collapsed_mse": 0.062584335119,
+      "typed_both_mse": 0.000521426394,
+      "pollen_delta": -0.112154407304,
+      "whole_individual_delta": -0.000490982511,
+      "collapsed_delta": -0.050091766454,
+      "typed_both_delta": -0.112154675179
+    },
+    "whole_individual": {
+      "reference_mse": 0.123978090604,
+      "pollen_mse": 0.123379587464,
+      "whole_individual_mse": 0.000520417953,
+      "collapsed_mse": 0.064427431208,
+      "typed_both_mse": 0.000521426394,
+      "pollen_delta": -0.00059850314,
+      "whole_individual_delta": -0.123457672651,
+      "collapsed_delta": -0.059550659396,
+      "typed_both_delta": -0.12345666421
+    }
+  },
+  "decision_rules": [
+    "matching operator must beat reference by more than 0.10 MSE",
+    "mismatched operator absolute improvement must be less than 0.001 MSE",
+    "collapsed scalar may improve but must remain worse than matching operator",
+    "typed two-operator state must match matching-operator performance within 0.00001 MSE"
+  ]
+}
