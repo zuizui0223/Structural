@@ -1,0 +1,26 @@
+{
+  "schema": "structural.connectivity_scalar_insufficiency_known_truth.v0_1",
+  "status": "synthetic_constructive_counterexample",
+  "state_a": {
+    "pollen_flow": 0.9,
+    "whole_individual": 0.1
+  },
+  "state_b": {
+    "pollen_flow": 0.1,
+    "whole_individual": 0.9
+  },
+  "collapsed_mean_expected": 0.5,
+  "declared_endpoint_operator": "pollen_flow",
+  "expected": {
+    "transition_a": 0.9,
+    "transition_b": 0.1,
+    "transition_difference": 0.8,
+    "conclusion": "collapsed_connectivity_not_transition_sufficient_for_declared_operator"
+  },
+  "claim_boundary": [
+    "synthetic known-truth only",
+    "does not estimate ecological prevalence",
+    "does not alter frozen A-Islands or Tanzania results",
+    "does not imply pollen and whole-individual movement are the only connectivity operators"
+  ]
+}
