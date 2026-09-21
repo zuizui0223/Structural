@@ -269,6 +269,7 @@ The active development sequence is therefore:
         → response-blind real-system admission (v0.4)
         → executable protocol qualification (v0.5)
         → retrospective adapter pilots kept permanently non-fresh (v0.6)
+        → schema-only adapter audit before retrospective fitting (v0.7)
         → future empirical scoring only after qualification
 
 ## Retrospective engineering lane
