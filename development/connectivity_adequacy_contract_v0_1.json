@@ -1,0 +1,45 @@
+{
+  "schema": "structural.connectivity_adequacy.v0_1",
+  "status": "exploratory_post_closure_synthetic_only",
+  "frozen_manuscript_reopened": false,
+  "core_object": "C^(operator, endpoint, origin | reference)",
+  "origins": [
+    "pre_existing_isolation",
+    "habitat_fragmentation",
+    "other"
+  ],
+  "gates": {
+    "adequacy": {
+      "favorable_loss_direction": "negative",
+      "states": [
+        "earned",
+        "adverse",
+        "indeterminate"
+      ]
+    },
+    "operator_portability": {
+      "minimum_distinct_operators": 2,
+      "any_adverse": "not_portable_in_declared_set",
+      "any_indeterminate": "not_established",
+      "all_earned": "supported_within_declared_set",
+      "shared_reference_substitutions_count_as_independent_replications": false
+    }
+  },
+  "future_empirical_freeze_required": [
+    "origin",
+    "endpoint",
+    "operator_semantics",
+    "reference_state",
+    "candidate_connectivity",
+    "heldout_unit",
+    "metric",
+    "shared_reference_dependence"
+  ],
+  "prohibited": [
+    "post_outcome_operator_relabeling",
+    "post_outcome_scale_retuning",
+    "post_outcome_candidate_swapping",
+    "universal_connectivity_equivalence_claim",
+    "reopening_frozen_structural_endpoints"
+  ]
+}

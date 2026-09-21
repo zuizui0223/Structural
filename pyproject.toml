@@ -12,5 +12,9 @@ license = {text = "MIT"}
 [project.optional-dependencies]
 dev = ["pytest>=8,<9"]
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
