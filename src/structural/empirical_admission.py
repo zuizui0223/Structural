@@ -108,3 +108,75 @@ def evaluate_empirical_admission(protocol: ConnectivityEmpiricalProtocol) -> Adm
         status=AdmissionStatus.STOP if reasons else AdmissionStatus.QUALIFIED,
         reasons=tuple(reasons),
     )
+
+
+def protocol_from_mapping(data: dict) -> ConnectivityEmpiricalProtocol:
+    """Parse a JSON-like mapping into a typed protocol, failing closed."""
+
+    if not isinstance(data, dict):
+        raise ValueError("protocol must be a JSON object")
+
+    required = (
+        "protocol_id",
+        "system_id",
+        "origin",
+        "endpoint",
+        "heldout_unit",
+        "metric",
+        "favorable_direction",
+        "source_snapshot_id",
+        "reference_id",
+        "geometry_coordinate",
+        "process_operator",
+        "process_coordinate",
+        "realized_coordinate",
+        "operator_semantics",
+        "connectivity_scale_rule",
+        "origin_history_variable",
+        "equivalence_margin",
+        "state_adequacy_claim_requested",
+        "candidate_uses_outcome",
+        "response_accessed",
+        "shared_reference_dependence_declared",
+    )
+    missing = [key for key in required if key not in data]
+    if missing:
+        raise ValueError("missing protocol keys: " + ", ".join(missing))
+
+    for key in (
+        "state_adequacy_claim_requested",
+        "candidate_uses_outcome",
+        "response_accessed",
+        "shared_reference_dependence_declared",
+    ):
+        if not isinstance(data[key], bool):
+            raise ValueError(f"{key} must be boolean")
+
+    margin = data["equivalence_margin"]
+    if margin is not None and not isinstance(margin, (int, float)):
+        raise ValueError("equivalence_margin must be numeric or null")
+
+    return ConnectivityEmpiricalProtocol(
+        protocol_id=str(data["protocol_id"]),
+        system_id=str(data["system_id"]),
+        origin=SeparationOrigin(data["origin"]),
+        endpoint=str(data["endpoint"]),
+        heldout_unit=str(data["heldout_unit"]),
+        metric=str(data["metric"]),
+        favorable_direction=FavorableDirection(data["favorable_direction"]),
+        source_snapshot_id=str(data["source_snapshot_id"]),
+        reference_id=str(data["reference_id"]),
+        geometry_coordinate=data["geometry_coordinate"],
+        process_operator=data["process_operator"],
+        process_coordinate=data["process_coordinate"],
+        realized_coordinate=data["realized_coordinate"],
+        operator_semantics=data["operator_semantics"],
+        connectivity_scale_rule=str(data["connectivity_scale_rule"]),
+        origin_history_variable=data["origin_history_variable"],
+        equivalence_margin=None if margin is None else float(margin),
+        state_adequacy_claim_requested=data["state_adequacy_claim_requested"],
+        candidate_uses_outcome=data["candidate_uses_outcome"],
+        response_accessed=data["response_accessed"],
+        shared_reference_dependence_declared=data["shared_reference_dependence_declared"],
+        shared_reference_group=data.get("shared_reference_group"),
+    )
