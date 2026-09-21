@@ -165,3 +165,88 @@ def audit_portability(records: Iterable[IncrementalEvidence]) -> PortabilitySumm
         independent_evidence_families=len({r.evidence_family_id for r in rows}),
         shared_reference_groups=groups,
     )
+
+
+@dataclass(frozen=True)
+class OperatorConnectivityState:
+    """Normalized operator-specific connectivity state for a synthetic closure."""
+
+    values: tuple[tuple[str, float], ...]
+
+    def __post_init__(self) -> None:
+        if not self.values:
+            raise ValueError("at least one operator value is required")
+        names = [name for name, _ in self.values]
+        if len(names) != len(set(names)):
+            raise ValueError("operator names must be unique")
+        for name, value in self.values:
+            if not name.strip():
+                raise ValueError("operator name must be non-empty")
+            if not isfinite(value) or not 0.0 <= value <= 1.0:
+                raise ValueError("operator connectivity must be finite and within [0, 1]")
+
+    @property
+    def collapsed_mean(self) -> float:
+        return sum(value for _, value in self.values) / len(self.values)
+
+    def value_for(self, operator: str) -> float:
+        for name, value in self.values:
+            if name == operator:
+                return value
+        raise KeyError(operator)
+
+
+@dataclass(frozen=True)
+class ScalarInsufficiencyWitness:
+    operator: str
+    collapsed_value: float
+    transition_a: float
+    transition_b: float
+    transition_difference: float
+
+
+def declared_operator_transition(
+    state: OperatorConnectivityState,
+    operator: str,
+) -> float:
+    """Synthetic known-truth transition using the matching operator coordinate."""
+
+    return state.value_for(operator)
+
+
+def scalar_insufficiency_witness(
+    state_a: OperatorConnectivityState,
+    state_b: OperatorConnectivityState,
+    operator: str,
+    *,
+    tolerance: float = 1e-12,
+) -> ScalarInsufficiencyWitness:
+    """Prove a collapsed connectivity mean is insufficient for one declared operator.
+
+    The witness requires the same operator set and the same collapsed mean, while
+    the declared operator-specific next-transition value differs.
+    """
+
+    operators_a = {name for name, _ in state_a.values}
+    operators_b = {name for name, _ in state_b.values}
+    if operators_a != operators_b:
+        raise ValueError("states must expose the same operator set")
+
+    mean_a = state_a.collapsed_mean
+    mean_b = state_b.collapsed_mean
+    if abs(mean_a - mean_b) > tolerance:
+        raise ValueError("collapsed connectivity values must match")
+
+    transition_a = declared_operator_transition(state_a, operator)
+    transition_b = declared_operator_transition(state_b, operator)
+    difference = transition_a - transition_b
+    if abs(difference) <= tolerance:
+        raise ValueError("operator-specific transitions must differ")
+
+    return ScalarInsufficiencyWitness(
+        operator=operator,
+        collapsed_value=(mean_a + mean_b) / 2.0,
+        transition_a=transition_a,
+        transition_b=transition_b,
+        transition_difference=difference,
+    )
