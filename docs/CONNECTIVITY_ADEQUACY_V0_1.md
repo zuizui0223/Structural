@@ -16,9 +16,9 @@ The next Structural development therefore rejects a single universal connectivit
 
 The working object is:
 
-    C^(operator, endpoint, origin | reference)
+    C^(level, operator, endpoint, origin | reference)
 
-where operator identifies the biological process represented by connectivity, endpoint identifies the held-out/future quantity being scored, origin records whether spatial separation is pre-existing isolation, habitat fragmentation, or another history, and reference is the already-supplied ecological/geographic state against which residual value is tested.
+where level distinguishes structural geometry, a process model, or a realized observation; operator identifies the biological process represented by connectivity; endpoint identifies the held-out/future quantity being scored; origin records whether spatial separation is pre-existing isolation, habitat fragmentation, or another history; and reference is the already-supplied ecological/geographic state against which residual value is tested.
 
 ## Core question
 
@@ -64,9 +64,21 @@ Example class: forest or urban fragments. The question is whether matrix/process
 
 The method compares adequacy logic, not a common biological fragmentation effect.
 
+## Connectivity representation levels
+
+Three levels are kept distinct:
+
+1. **structural_geometry** — adjacency, source network position, stepping-stone configuration, graph connectedness or other geometry-derived structure without a declared biological transport operator;
+2. **process_model** — resistance/current-flow, dispersal kernel, pollen-flow model or another representation that declares what biological entity/process is propagated;
+3. **realized_observation** — observed movement, pedigree/gene-flow, pollen transfer, recolonisation or another directly measured realized connection.
+
+Moving upward in this list does not automatically mean "better". Each level must still earn endpoint-relevant information relative to the declared reference.
+
+The frozen Structural paper's EOG connected frequency remains a **structural_geometry** object. It must not be retroactively relabelled as realized movement or a process-specific probability.
+
 ## Development objects
 
-v0.1 introduces ConnectivityCoordinate, IncrementalEvidence, classify_incremental, and audit_portability. These objects force operator, endpoint, origin, reference, evidence-family identity, and shared-reference dependence to remain explicit.
+v0.1 introduces ConnectivityCoordinate, ConnectivityEvidenceLevel, IncrementalEvidence, classify_incremental, and audit_portability. These objects force operator, endpoint, origin, reference, evidence-family identity, and shared-reference dependence to remain explicit.
 
 ## Synthetic known-truth role
 
