@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 from structural import (
     ConnectivityCoordinate,
+    ConnectivityEvidenceLevel,
     FavorableDirection,
     IncrementalEvidence,
     IncrementalVerdict,
@@ -89,6 +90,7 @@ def test_origin_is_typed_not_collapsed():
         origin=SeparationOrigin.HABITAT_FRAGMENTATION,
     )
     assert island.origin is not fragment.origin
+    assert island.evidence_level is ConnectivityEvidenceLevel.STRUCTURAL_GEOMETRY
 
 
 def test_invalid_interval_fails_closed():
@@ -133,3 +135,28 @@ def test_known_truth_fixture_replays_exactly():
     assert result["transition_b"] == 0.1
     assert result["transition_difference"] == pytest.approx(0.8)
     assert result["conclusion"] == "collapsed_connectivity_not_transition_sufficient_for_declared_operator"
+
+
+def test_connectivity_level_is_explicit():
+    structural = ConnectivityCoordinate(
+        name="archipelago_graph",
+        operator="unidentified_structural",
+        endpoint="incidence",
+        origin=SeparationOrigin.PRE_EXISTING_ISOLATION,
+        evidence_level=ConnectivityEvidenceLevel.STRUCTURAL_GEOMETRY,
+    )
+    process = ConnectivityCoordinate(
+        name="resistance_flow",
+        operator="whole_individual",
+        endpoint="occupancy",
+        origin=SeparationOrigin.HABITAT_FRAGMENTATION,
+        evidence_level=ConnectivityEvidenceLevel.PROCESS_MODEL,
+    )
+    realized = ConnectivityCoordinate(
+        name="observed_gene_flow",
+        operator="gene_flow",
+        endpoint="offspring_genotype",
+        origin=SeparationOrigin.HABITAT_FRAGMENTATION,
+        evidence_level=ConnectivityEvidenceLevel.REALIZED_OBSERVATION,
+    )
+    assert len({structural.evidence_level, process.evidence_level, realized.evidence_level}) == 3
