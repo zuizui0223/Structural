@@ -1,0 +1,121 @@
+{
+  "schema_version": "eog_structural_submission_manifest_v5",
+  "submission_status": "SCIENTIFIC_PRESENTATION_AND_REPOSITORY_VISUAL_QA_CLOSED_RELEASE_AUTHOR_POLICY_GATES_ACTIVE",
+  "paper_boundary": "manuscript/STRUCTURAL_ISLAND_PAPER_BOUNDARY_V1.json",
+  "target_journal": "Ecological Informatics",
+  "journal_decision_rule": {
+    "robust_negative_C_minus_R3": "Journal of Biogeography",
+    "null_adverse_or_indeterminate_C_minus_R3": "Ecological Informatics",
+    "observed_route": "Ecological Informatics"
+  },
+  "article_type": "Original Research Paper",
+  "title": "When does landscape configuration add held-out information? An auditable reference-conditioned framework across islands and forest fragments",
+  "title_status": "scientifically_frozen_working_title_after_frozen_island_result",
+  "main_manuscript": "manuscript/structural_reachability_manuscript.md",
+  "highlights": "manuscript/structural_highlights.txt",
+  "cover_letter": "manuscript/submission/cover_letter.md",
+  "data_code_availability": "manuscript/submission/data_code_availability.md",
+  "declarations": "manuscript/submission/declarations.md",
+  "author_metadata_template": "manuscript/submission/author_metadata.template.json",
+  "environment": "manuscript/submission/environment.md",
+  "live_policy_verification": "manuscript/submission/live_policy_verification_2026-08-12.md",
+  "release_readiness": "manuscript/submission/release_readiness.md",
+  "figure_qa": "manuscript/submission/figure_qa.md",
+  "repository_visual_qa_receipt": "manuscript/submission/STRUCTURAL_VISUAL_QA_RECEIPT_2026-09-12.md",
+  "supplementary_materials_list": "manuscript/submission/supplementary_materials.md",
+  "novelty_strategy": "manuscript/submission/novelty_submission_strategy_2026-08-12.md",
+  "island_preoutcome_contract": "validation/aislands_isolation_adequacy_20260812/preoutcome_contract.json",
+  "island_area_gate": "validation/aislands_isolation_adequacy_20260812/area_gate_expected.json",
+  "island_mainland_gate": "validation/aislands_isolation_adequacy_20260812/mainland_gate_expected.json",
+  "island_authoritative_outcome": "validation/aislands_isolation_adequacy_20260812/authoritative_outcome.json",
+  "island_authoritative_provenance": "validation/aislands_isolation_adequacy_20260812/authoritative_execution_provenance.json",
+  "island_outcome_qa": "validation/aislands_isolation_adequacy_20260812/authoritative_outcome_qa.json",
+  "figure_files": [
+    "figures/output/figure_1_reference_conditioned.svg",
+    "figures/output/figure_2_aislands_reference_conditioned.svg",
+    "figures/output/figure_3_tanzania.svg",
+    "figures/output/figure_4_boundary.svg",
+    "figures/output/figure_5_audit.svg"
+  ],
+  "presentation_v2_fingerprints": {
+    "figure_1_sha256": "4f49a5e23fafd630c38e215453ea15457f1d0ab465efa141ab754dbe5223d126",
+    "figure_2_sha256": "e401ab9aa0df3d152145d7afd00e7b9e2aaaf728ae42ff2fc8d16ddb0403fc69",
+    "figure_2_data_sha256": "51c125327cbb8cf6ed9152c00d76bc30718902458c3bbbfa5ca9291c42750c6a"
+  },
+  "figure_status": "reference_conditioned_v2_assets_committed_fingerprinted_and_regeneration_sync_tested; repository-side 1200px/800px and grayscale QA passed; submission-day publisher conversion QA remains open",
+  "machine_readable_results": [
+    "manuscript/result_tables/table_3_main_sensitivity_results.csv",
+    "manuscript/result_tables/table_s1_applicability_accounting.csv",
+    "validation/aislands_isolation_adequacy_20260812/authoritative_outcome.json",
+    "validation/aislands_isolation_adequacy_20260812/authoritative_outcome_qa.json",
+    "figures/output/figure_2_aislands_reference_conditioned_data.csv"
+  ],
+  "offline_build_command": "python manuscript/build_structural_submission_package_v2.py --output-dir build/structural_submission_v2",
+  "frozen_evidence": {
+    "aislands_original_direction": "positive_added_ordering_information_conditional_on_support_and_nearest_source_distance",
+    "aislands_original_conditional_concordance": 0.6177465917820878,
+    "aislands_strong_reference_direction": "adverse_incremental_predictive_effect_beyond_R3",
+    "aislands_strong_reference_C_minus_R3_log_loss": 0.003485181598265469,
+    "aislands_strong_reference_bootstrap_95_ci": [0.0024664225728659645, 0.004508216483355693],
+    "aislands_strong_reference_species_favourable": 341,
+    "aislands_strong_reference_species_adverse": 545,
+    "aislands_strong_reference_result_fingerprint": "5c9b1594b29d362e5983484614a49d530797d06e826c0b96a3e8442a6b6b493a",
+    "tanzania_primary_direction": "adverse_incremental_loso_beyond_current_flow_and_nearest_source_distance",
+    "tanzania_spatial_block_direction": "uncertain_interval_crosses_zero",
+    "tanzania_result_fingerprint": "6b555c28d61d3f39b9e672f5a97250de6870301871cf3e60378e97863cd109e4"
+  },
+  "completed_scientific_gate": {
+    "analysis": "aislands_isolation_adequacy_v1_3_exactly_once",
+    "workflow_run_id": 31564146592,
+    "workflow_run_attempt": 1,
+    "trigger_commit": "a9329d929933c919fe6c1c03934f0314c40f5c50",
+    "primary_contrast": "candidate C minus reference R3 matched heldout log loss",
+    "favourable_direction": "negative",
+    "observed_primary_direction": "adverse_positive",
+    "result_fingerprint": "5c9b1594b29d362e5983484614a49d530797d06e826c0b96a3e8442a6b6b493a",
+    "rerun_allowed": false
+  },
+  "scientific_content_completed": [
+    "frozen adverse island C-R3 result incorporated in manuscript, result tables, highlights and cover letter without weakening R3 or retuning scales or taxa",
+    "Introduction and Discussion framed around reference-conditioned structural adequacy",
+    "original A-Islands positive conditional-ordering result and strong-reference adverse predictive result kept explicit and non-conflated",
+    "Tanzania retained as an external strong-reference adverse boundary with spatial-block uncertainty",
+    "closest-prior literature boundary incorporated",
+    "EOG-WF and structural-island empirical denominators separated by manuscript/STRUCTURAL_ISLAND_PAPER_BOUNDARY_V1.json",
+    "Figure 1 presentation v2 implemented as declared reference -> held-out structural probe -> earned/redundant/adverse/indeterminate",
+    "A-Islands presentation v2 implemented with restricted-reference conditional concordance and strong-reference C-R3 log-loss increment on distinct axes",
+    "R0/R1/R2/R3/C ladder implemented with C-R3 marked as the sole primary extension contrast",
+    "reference-conditioned Figure 1 and Figure 2 assets, captions, accessibility text and data sidecar committed and fingerprinted",
+    "presentation-v2 renderers are deterministic and committed outputs are regression-tested against regeneration",
+    "repository-side five-figure visual QA passed at 1200px and 800px widths plus 800px grayscale rendering without clipping, overlap or colour-only sign interpretation"
+  ],
+  "required_pre_submission_resolutions": [
+    "confirm the live Ecological Informatics accepted vector/raster formats, DPI and physical-size requirements and inspect the publisher-rendered submission preview",
+    "create tagged software release <RELEASE_TAG> after the presentation state is frozen",
+    "reserve or mint release archive DOI <ARCHIVE_DOI> only after the final scientific/presentation package is frozen",
+    "complete author_metadata.template.json with author-approved metadata and remove placeholders in the final submission record",
+    "confirm author list, affiliations, corresponding author, contribution roles, funding, competing interests, originality and simultaneous-submission statements",
+    "approve the generative-AI disclosure with all authors",
+    "recheck Ecological Informatics live policy on the submission date and confirm article type, limits, figure formats, reference style, data/code requirements and declarations"
+  ],
+  "non_overlap_with_eog_wf": {
+    "separate_empirical_denominator": true,
+    "uses_eog_wf_three_endpoint_denominator": false,
+    "uses_eog_wf_endpoints_as_replications": false,
+    "primary_estimand": "reference-conditioned incremental structural information",
+    "eog_wf_primary_estimand": "finite-world structural falsification plus separately tested prediction-facing complementarity"
+  },
+  "prohibited_claims": [
+    "EOG universally outperforms SDM",
+    "connected frequency is a dispersal or colonisation probability",
+    "Tanzania establishes universal superiority of current flow",
+    "the cross-system difference identifies a causal mechanism",
+    "EOG discovers that island isolation is multidimensional",
+    "EOG discovers stepping stones",
+    "EOG is the first graph representation of island connectivity",
+    "R3 causally explains the original A-Islands conditional-concordance signal",
+    "R3 universally outperforms simpler island-isolation references",
+    "the original conditional-concordance and C-R3 log-loss increment are one common effect size",
+    "EOG-WF Layer A or Layer B endpoint results are additional replications of this paper"
+  ]
+}
