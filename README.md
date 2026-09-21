@@ -10,6 +10,21 @@ Standalone repository for the structural/reference-adequacy paper formerly devel
 
 Structural information is **reference-conditioned**. An occurrence-conditioned landscape signal can be detectable under a restricted reference yet fail to provide incremental held-out predictive value beyond a richer reference. Structural adequacy must therefore be earned relative to an explicitly declared reference and endpoint.
 
+## Two origins of spatial separation
+
+The paper deliberately spans two different origins of spatial separation:
+
+- **pre-existing isolation** — A-Islands are naturally separated by ocean from the outset;
+- **habitat fragmentation** — Tanzania forest fragments represent habitat that is partitioned within a terrestrial matrix.
+
+These origins are not assumed to be biologically equivalent. The shared question is narrower and more general:
+
+> **After the best declared description of the current ecological/geographic state is supplied, does an additional structural representation retain endpoint-relevant held-out information?**
+
+Thus the framework does not require “island isolation” and “fragmentation” to be the same process. It tests whether their different histories leave residual predictive information beyond the state/reference already represented.
+
+This creates a direct conceptual bridge to EGWE: **origin/history should not receive explanatory status merely because it is plausible; it must retain future-relevant information after an adequate current state is supplied.**
+
 ## Frozen empirical boundary
 
 - **A-Islands original:** conditional concordance = **0.6177466** across 845 estimable taxa under climatic support + nearest-source conditioning.
@@ -26,7 +41,12 @@ Shared EOG terminology/code provenance does not merge the scientific claims.
 
 ## Relationship to EGWE
 
-Structural and EGWE share a higher-level principle: a candidate variable or representation must demonstrate **endpoint-relevant residual information after an explicit reference/state has been supplied**. EGWE is conceptual/methodological context, not empirical evidence for this manuscript.
+Structural and EGWE share a higher-level principle: a candidate variable or representation must demonstrate **endpoint-relevant residual information after an explicit reference/state has been supplied**.
+
+- Structural tests this principle for **landscape configuration under pre-existing isolation and habitat fragmentation**.
+- EGWE tests it for **future-relevant eco-genetic state, origin/history and process representation**.
+
+EGWE is conceptual/methodological context, not empirical evidence for this manuscript.
 
 ## Current state
 
