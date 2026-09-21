@@ -54,3 +54,21 @@ def test_mapping_parser_rejects_non_boolean_flags():
     data["response_accessed"] = "false"
     with pytest.raises(ValueError, match="must be boolean"):
         protocol_from_mapping(data)
+
+
+def test_mapping_parser_rejects_non_string_optional_fields():
+    data = json.loads(
+        (ROOT / "examples/connectivity_empirical_protocol_qualified_v0_5.json").read_text()
+    )
+    data["process_operator"] = 10
+    with pytest.raises(ValueError, match="string or null"):
+        protocol_from_mapping(data)
+
+
+def test_mapping_parser_rejects_boolean_equivalence_margin():
+    data = json.loads(
+        (ROOT / "examples/connectivity_empirical_protocol_qualified_v0_5.json").read_text()
+    )
+    data["equivalence_margin"] = True
+    with pytest.raises(ValueError, match="numeric or null"):
+        protocol_from_mapping(data)
