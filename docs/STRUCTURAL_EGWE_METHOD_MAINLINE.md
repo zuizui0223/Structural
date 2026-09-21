@@ -268,7 +268,28 @@ The active development sequence is therefore:
         → state/reference ladder with equivalence closure (v0.3)
         → response-blind real-system admission (v0.4)
         → executable protocol qualification (v0.5)
+        → retrospective adapter pilots kept permanently non-fresh (v0.6)
         → future empirical scoring only after qualification
+
+## Retrospective engineering lane
+
+Published systems whose outcomes are already visible are not discarded, but they are assigned a different evidence role.
+
+They may be used to:
+
+- exercise source and schema adapters;
+- test whether structural, process-model and downstream genetic objects can be typed without ambiguity;
+- verify ecological-unit joins and repeated-measure structure;
+- replay the state ladder as software/inference engineering.
+
+They may **not** be used to:
+
+- count as fresh confirmation;
+- change the frozen Structural paper;
+- tune a candidate and later re-label it as prospective;
+- select favorable operators for a confirmatory portability claim.
+
+The primary v0.6 engineering pilot is the 2026 Heliconia tortuosa dataset, which contains landscape structure, hummingbird-movement-informed connectivity and contemporary pollen-mediated genetic endpoints in the same fragmented tropical landscapes. Because its publication already exposes the biological result, it is permanently marked `counts_as_fresh_evidence=false`.
 
 ## Why the distinction matters
 
