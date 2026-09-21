@@ -68,11 +68,13 @@ Canonical development files:
 - `docs/CONNECTIVITY_STATE_LADDER_V0_3.md`
 - `docs/CONNECTIVITY_EMPIRICAL_ADMISSION_V0_4.md`
 - `docs/CONNECTIVITY_EMPIRICAL_ADMISSION_CLI_V0_5.md`
+- `docs/CONNECTIVITY_RETROSPECTIVE_PILOTS_V0_6.md`
+- `docs/DAVIS_2026_RETROSPECTIVE_ADAPTER_V0_6.md`
 - `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
 - `development/connectivity_adequacy_contract_v0_1.json`
 - `src/structural/connectivity_adequacy.py`
 
-v0.2 additionally verifies in held-out synthetic prediction that the winning connectivity coordinate reverses when the endpoint-generating operator reverses; a collapsed connectivity scalar recovers only partial information. v0.3 adds the prospective geometry → process model → realized connection → origin/history ladder and permits a state-adequacy claim only when a predeclared equivalence margin is satisfied; non-significance alone is indeterminate. v0.4 adds a response-blind admission firewall: future real systems must freeze source identity, reference, held-out unit, endpoint, operator semantics, connectivity scale rule, shared-reference dependence, and any equivalence margin before outcome access. v0.5 makes that firewall executable as a JSON CLI with distinct qualified / scientific STOP / invalid-schema exit codes. This development is synthetic/protocol infrastructure only and is not an additional empirical endpoint for the current paper.
+v0.2 additionally verifies in held-out synthetic prediction that the winning connectivity coordinate reverses when the endpoint-generating operator reverses; a collapsed connectivity scalar recovers only partial information. v0.3 adds the prospective geometry → process model → realized connection → origin/history ladder and permits a state-adequacy claim only when a predeclared equivalence margin is satisfied; non-significance alone is indeterminate. v0.4 adds a response-blind admission firewall: future real systems must freeze source identity, reference, held-out unit, endpoint, operator semantics, connectivity scale rule, shared-reference dependence, and any equivalence margin before outcome access. v0.5 makes that firewall executable as a JSON CLI with distinct qualified / scientific STOP / invalid-schema exit codes. v0.6 adds a permanently separate retrospective engineering lane for public datasets whose outcomes are already exposed; these datasets can exercise adapters and typed-connectivity bookkeeping but can never be promoted to fresh evidence. This development is not an additional empirical endpoint for the current paper.
 
 ## Current state
 
