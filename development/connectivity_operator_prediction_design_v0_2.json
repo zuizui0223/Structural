@@ -1,0 +1,44 @@
+{
+  "schema": "structural.connectivity_operator_prediction_design.v0_2",
+  "status": "frozen_before_repository_execution",
+  "scientific_role": "synthetic known-truth mechanism benchmark",
+  "seed": 20260921,
+  "n": 320,
+  "split": "index_mod_5_equals_0_test",
+  "target_operators": [
+    "pollen_flow",
+    "whole_individual"
+  ],
+  "local_reference": [
+    "intercept",
+    "local_state"
+  ],
+  "candidates": {
+    "pollen": [
+      "local_reference",
+      "pollen_connectivity"
+    ],
+    "whole_individual": [
+      "local_reference",
+      "whole_individual_connectivity"
+    ],
+    "collapsed": [
+      "local_reference",
+      "mean_pollen_and_whole_individual_connectivity"
+    ],
+    "typed_both": [
+      "local_reference",
+      "pollen_connectivity",
+      "whole_individual_connectivity"
+    ]
+  },
+  "outcome_rule": "0.45*local_state + 1.10*matching_operator + uniform_noise_width_0.08",
+  "metric": "heldout_mean_squared_error",
+  "favorable_direction": "lower",
+  "prohibited": [
+    "retune_seed_after_result",
+    "change_operator_truth_after_result",
+    "use_as_natural_prevalence_evidence",
+    "alter_frozen_A_Islands_or_Tanzania_claims"
+  ]
+}
