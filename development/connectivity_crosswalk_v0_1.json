@@ -1,0 +1,93 @@
+{
+  "schema": "structural.connectivity_crosswalk.v0_1",
+  "status": "conceptual_cross_programme_map_not_pooled_evidence",
+  "entries": [
+    {
+      "programme": "Structural",
+      "system": "A-Islands",
+      "object": "EOG connected frequency",
+      "origin": "pre_existing_isolation",
+      "evidence_level": "structural_geometry",
+      "operator": "unidentified_structural_graph",
+      "endpoints": [
+        "conditional_incidence_ordering",
+        "heldout_occurrence_log_loss"
+      ],
+      "empirical_role": "candidate_structural_coordinate",
+      "portability_claim_allowed": false
+    },
+    {
+      "programme": "Structural",
+      "system": "Tanzania forest fragments",
+      "object": "matrix-aware current flow",
+      "origin": "habitat_fragmentation",
+      "evidence_level": "process_model",
+      "operator": "resistance_based_matrix_conductance_proxy",
+      "endpoints": [
+        "heldout_occurrence_log_loss"
+      ],
+      "empirical_role": "strong_reference_coordinate",
+      "portability_claim_allowed": false,
+      "note": "not realized animal movement and not a calibrated demographic dispersal operator"
+    },
+    {
+      "programme": "Structural",
+      "system": "Tanzania forest fragments",
+      "object": "EOG connected frequency",
+      "origin": "habitat_fragmentation",
+      "evidence_level": "structural_geometry",
+      "operator": "unidentified_structural_graph",
+      "endpoints": [
+        "heldout_occurrence_log_loss"
+      ],
+      "empirical_role": "candidate_structural_coordinate",
+      "portability_claim_allowed": false
+    },
+    {
+      "programme": "EGWE",
+      "system": "finite eco-genetic closure",
+      "object": "allele-frequency mixing",
+      "origin": "habitat_fragmentation",
+      "evidence_level": "process_model",
+      "operator": "allele_frequency_mixing",
+      "endpoints": [
+        "functional_loss"
+      ],
+      "empirical_role": "external_methodological_analogy_only",
+      "imported_as_structural_evidence": false
+    },
+    {
+      "programme": "EGWE",
+      "system": "finite eco-genetic closure",
+      "object": "whole-individual dispersal",
+      "origin": "habitat_fragmentation",
+      "evidence_level": "process_model",
+      "operator": "whole_individual_movement",
+      "endpoints": [
+        "functional_loss"
+      ],
+      "empirical_role": "external_methodological_analogy_only",
+      "imported_as_structural_evidence": false
+    },
+    {
+      "programme": "EGWE",
+      "system": "finite eco-genetic closure",
+      "object": "paternal-gamete pollen flow",
+      "origin": "habitat_fragmentation",
+      "evidence_level": "process_model",
+      "operator": "pollen_flow",
+      "endpoints": [
+        "functional_loss"
+      ],
+      "empirical_role": "external_methodological_analogy_only",
+      "imported_as_structural_evidence": false
+    }
+  ],
+  "invariants": [
+    "structural_geometry is not realized movement",
+    "process_model is not automatically realized observation",
+    "shared connectivity labels do not imply operator equivalence",
+    "EGWE rows are not empirical replications of Structural",
+    "A-Islands and Tanzania are not pooled as one fragmentation effect"
+  ]
+}
