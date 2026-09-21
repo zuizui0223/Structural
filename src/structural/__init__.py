@@ -5,6 +5,7 @@ from .empirical_admission import (
     AdmissionStatus,
     ConnectivityEmpiricalProtocol,
     evaluate_empirical_admission,
+    protocol_from_mapping,
 )
 
 from .connectivity_adequacy import (
@@ -34,6 +35,7 @@ __all__ = [
     "AdmissionDecision",
     "AdmissionStatus",
     "ConnectivityEmpiricalProtocol",
+    "protocol_from_mapping",
     "AdequacyStage",
     "ConnectivityCoordinate",
     "ConnectivityEvidenceLevel",
