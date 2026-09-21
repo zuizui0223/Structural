@@ -152,26 +152,53 @@ def protocol_from_mapping(data: dict) -> ConnectivityEmpiricalProtocol:
         if not isinstance(data[key], bool):
             raise ValueError(f"{key} must be boolean")
 
+    for key in (
+        "protocol_id",
+        "system_id",
+        "endpoint",
+        "heldout_unit",
+        "metric",
+        "source_snapshot_id",
+        "reference_id",
+        "connectivity_scale_rule",
+    ):
+        if not isinstance(data[key], str):
+            raise ValueError(f"{key} must be string")
+
+    for key in (
+        "geometry_coordinate",
+        "process_operator",
+        "process_coordinate",
+        "realized_coordinate",
+        "operator_semantics",
+        "origin_history_variable",
+        "shared_reference_group",
+    ):
+        if data.get(key) is not None and not isinstance(data.get(key), str):
+            raise ValueError(f"{key} must be string or null")
+
     margin = data["equivalence_margin"]
-    if margin is not None and not isinstance(margin, (int, float)):
+    if margin is not None and (
+        isinstance(margin, bool) or not isinstance(margin, (int, float))
+    ):
         raise ValueError("equivalence_margin must be numeric or null")
 
     return ConnectivityEmpiricalProtocol(
-        protocol_id=str(data["protocol_id"]),
-        system_id=str(data["system_id"]),
+        protocol_id=data["protocol_id"],
+        system_id=data["system_id"],
         origin=SeparationOrigin(data["origin"]),
-        endpoint=str(data["endpoint"]),
-        heldout_unit=str(data["heldout_unit"]),
-        metric=str(data["metric"]),
+        endpoint=data["endpoint"],
+        heldout_unit=data["heldout_unit"],
+        metric=data["metric"],
         favorable_direction=FavorableDirection(data["favorable_direction"]),
-        source_snapshot_id=str(data["source_snapshot_id"]),
-        reference_id=str(data["reference_id"]),
+        source_snapshot_id=data["source_snapshot_id"],
+        reference_id=data["reference_id"],
         geometry_coordinate=data["geometry_coordinate"],
         process_operator=data["process_operator"],
         process_coordinate=data["process_coordinate"],
         realized_coordinate=data["realized_coordinate"],
         operator_semantics=data["operator_semantics"],
-        connectivity_scale_rule=str(data["connectivity_scale_rule"]),
+        connectivity_scale_rule=data["connectivity_scale_rule"],
         origin_history_variable=data["origin_history_variable"],
         equivalence_margin=None if margin is None else float(margin),
         state_adequacy_claim_requested=data["state_adequacy_claim_requested"],
