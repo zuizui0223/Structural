@@ -238,6 +238,37 @@ The next development question is not whether to rescue the frozen A-Islands or T
 3. realized-connection residual information;
 4. operator portability across endpoints and histories.
 
+## Prospective empirical admission
+
+The connectivity programme now has a response firewall before any new real-system validation.
+
+A candidate system may proceed only after outcome-blind freezing of:
+
+- source snapshot identity;
+- spatial origin/history;
+- held-out ecological unit;
+- endpoint and metric;
+- present-state/reference model;
+- geometry coordinate;
+- biological operator and exact process semantics for process/realized connectivity;
+- process-model and/or realized connectivity coordinate;
+- scale/radius/kernel selection rule;
+- shared-reference dependence;
+- residual origin/history variable;
+- equivalence margin when state adequacy is requested.
+
+If the response has already been opened, the candidate connectivity was response-derived, or the biological operator cannot be specified, the system stops before scoring.
+
+These STOPs are protocol-integrity evidence, not ecological nulls.
+
+The active development sequence is therefore:
+
+    scalar insufficiency (v0.1)
+        → operator-matched held-out prediction (v0.2)
+        → state/reference ladder with equivalence closure (v0.3)
+        → response-blind real-system admission (v0.4)
+        → future empirical scoring only after qualification
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
