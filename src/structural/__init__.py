@@ -1,5 +1,12 @@
 """Structural post-closure development interfaces."""
 
+from .empirical_admission import (
+    AdmissionDecision,
+    AdmissionStatus,
+    ConnectivityEmpiricalProtocol,
+    evaluate_empirical_admission,
+)
+
 from .connectivity_adequacy import (
     AdequacyStage,
     ConnectivityCoordinate,
@@ -24,6 +31,9 @@ from .connectivity_adequacy import (
 )
 
 __all__ = [
+    "AdmissionDecision",
+    "AdmissionStatus",
+    "ConnectivityEmpiricalProtocol",
     "AdequacyStage",
     "ConnectivityCoordinate",
     "ConnectivityEvidenceLevel",
@@ -44,4 +54,5 @@ __all__ = [
     "classify_ladder_step",
     "declared_operator_transition",
     "scalar_insufficiency_witness",
+    "evaluate_empirical_admission",
 ]
