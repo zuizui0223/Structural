@@ -1,0 +1,14 @@
+{
+  "schema": "structural.standalone_migration.v1",
+  "migrated_from_repository": "zuizui0223/eog",
+  "migrated_from_commit": "d7d18be0d34ba28065a947df59338e4d660a4b4c",
+  "target_repository": "zuizui0223/Structural",
+  "scientific_result_changed": false,
+  "empirical_denominator_changed": false,
+  "eog_wf_assets_included": false,
+  "frozen_fingerprints": {
+    "aislands_strong_reference": "5c9b1594b29d362e5983484614a49d530797d06e826c0b96a3e8442a6b6b493a",
+    "tanzania": "6b555c28d61d3f39b9e672f5a97250de6870301871cf3e60378e97863cd109e4"
+  },
+  "migration_rule": "copy frozen Structural scientific assets verbatim; add standalone repository metadata only"
+}
