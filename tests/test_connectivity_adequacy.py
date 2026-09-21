@@ -160,3 +160,26 @@ def test_connectivity_level_is_explicit():
         evidence_level=ConnectivityEvidenceLevel.REALIZED_OBSERVATION,
     )
     assert len({structural.evidence_level, process.evidence_level, realized.evidence_level}) == 3
+
+
+def test_crosswalk_preserves_programme_and_operator_boundaries():
+    import json
+
+    crosswalk = json.loads(
+        (ROOT / "development/connectivity_crosswalk_v0_1.json").read_text(encoding="utf-8")
+    )
+    rows = crosswalk["entries"]
+    assert rows
+    assert all(row["origin"] for row in rows)
+    assert all(row["evidence_level"] in {
+        "structural_geometry", "process_model", "realized_observation"
+    } for row in rows)
+    assert all(row["operator"] for row in rows)
+
+    structural = [row for row in rows if row["programme"] == "Structural"]
+    egwe = [row for row in rows if row["programme"] == "EGWE"]
+    assert {row["system"] for row in structural} == {"A-Islands", "Tanzania forest fragments"}
+    assert all(row.get("imported_as_structural_evidence") is False for row in egwe)
+    assert any(row["origin"] == "pre_existing_isolation" for row in structural)
+    assert any(row["origin"] == "habitat_fragmentation" for row in structural)
+    assert "shared connectivity labels do not imply operator equivalence" in crosswalk["invariants"]
