@@ -267,6 +267,7 @@ The active development sequence is therefore:
         → operator-matched held-out prediction (v0.2)
         → state/reference ladder with equivalence closure (v0.3)
         → response-blind real-system admission (v0.4)
+        → executable protocol qualification (v0.5)
         → future empirical scoring only after qualification
 
 ## Why the distinction matters
