@@ -2,6 +2,7 @@
 
 from .connectivity_adequacy import (
     ConnectivityCoordinate,
+    ConnectivityEvidenceLevel,
     FavorableDirection,
     IncrementalEvidence,
     IncrementalVerdict,
@@ -18,6 +19,7 @@ from .connectivity_adequacy import (
 
 __all__ = [
     "ConnectivityCoordinate",
+    "ConnectivityEvidenceLevel",
     "FavorableDirection",
     "IncrementalEvidence",
     "IncrementalVerdict",
