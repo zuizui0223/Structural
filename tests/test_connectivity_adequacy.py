@@ -7,10 +7,13 @@ from structural import (
     FavorableDirection,
     IncrementalEvidence,
     IncrementalVerdict,
+    OperatorConnectivityState,
     PortabilityVerdict,
     SeparationOrigin,
     audit_portability,
     classify_incremental,
+    declared_operator_transition,
+    scalar_insufficiency_witness,
 )
 
 
@@ -86,3 +89,25 @@ def test_origin_is_typed_not_collapsed():
 def test_invalid_interval_fails_closed():
     with pytest.raises(ValueError, match="ci_low"):
         ev("pollen", -0.04, -0.02, -0.06, "a")
+
+
+def test_equal_scalar_connectivity_can_hide_operator_specific_future():
+    a = OperatorConnectivityState((("pollen_flow", 0.9), ("whole_individual", 0.1)))
+    b = OperatorConnectivityState((("pollen_flow", 0.1), ("whole_individual", 0.9)))
+
+    assert a.collapsed_mean == b.collapsed_mean == 0.5
+    assert declared_operator_transition(a, "pollen_flow") == 0.9
+    assert declared_operator_transition(b, "pollen_flow") == 0.1
+
+    witness = scalar_insufficiency_witness(a, b, "pollen_flow")
+    assert witness.collapsed_value == 0.5
+    assert witness.transition_a == 0.9
+    assert witness.transition_b == 0.1
+    assert witness.transition_difference == pytest.approx(0.8)
+
+
+def test_scalar_witness_fails_if_operator_specific_future_is_same():
+    a = OperatorConnectivityState((("pollen_flow", 0.5), ("whole_individual", 0.5)))
+    b = OperatorConnectivityState((("pollen_flow", 0.5), ("whole_individual", 0.5)))
+    with pytest.raises(ValueError, match="transitions must differ"):
+        scalar_insufficiency_witness(a, b, "pollen_flow")
