@@ -48,6 +48,28 @@ Structural and EGWE share a higher-level principle: a candidate variable or repr
 
 EGWE is conceptual/methodological context, not empirical evidence for this manuscript.
 
+## Post-closure connectivity development
+
+The frozen paper remains unchanged. A separate development lane now asks whether connectivity can be promoted from a generic spatial label to a future-relevant typed state.
+
+The v0.1 object is:
+
+    C^(level, operator, endpoint, origin | reference)
+
+The current implementation distinguishes structural geometry, process models and realized observations; keeps pre-existing isolation separate from habitat fragmentation; tests incremental adequacy relative to the declared current state/reference; and treats operator portability as a separate gate.
+
+A constructive known-truth counterexample shows that two states can share the same collapsed mean connectivity while having different operator-specific next-state support. Therefore a single scalar connectivity value is not assumed transition-sufficient.
+
+Canonical development files:
+
+- `docs/CONNECTIVITY_ADEQUACY_V0_1.md`
+- `docs/CONNECTIVITY_CROSSWALK_V0_1.md`
+- `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
+- `development/connectivity_adequacy_contract_v0_1.json`
+- `src/structural/connectivity_adequacy.py`
+
+This development is synthetic/protocol infrastructure only and is not an additional empirical endpoint for the current paper.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.
