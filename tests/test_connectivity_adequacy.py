@@ -1,6 +1,11 @@
 from __future__ import annotations
 
+import importlib.util
+from pathlib import Path
+
 import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
 
 from structural import (
     ConnectivityCoordinate,
@@ -111,3 +116,20 @@ def test_scalar_witness_fails_if_operator_specific_future_is_same():
     b = OperatorConnectivityState((("pollen_flow", 0.5), ("whole_individual", 0.5)))
     with pytest.raises(ValueError, match="transitions must differ"):
         scalar_insufficiency_witness(a, b, "pollen_flow")
+
+
+def test_known_truth_fixture_replays_exactly():
+    path = ROOT / "benchmarks/run_connectivity_scalar_insufficiency_v0_1.py"
+    spec = importlib.util.spec_from_file_location("connectivity_known_truth", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    result = module.run()
+
+    assert result["collapsed_mean_a"] == 0.5
+    assert result["collapsed_mean_b"] == 0.5
+    assert result["operator"] == "pollen_flow"
+    assert result["transition_a"] == 0.9
+    assert result["transition_b"] == 0.1
+    assert result["transition_difference"] == pytest.approx(0.8)
+    assert result["conclusion"] == "collapsed_connectivity_not_transition_sufficient_for_declared_operator"
