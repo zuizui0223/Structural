@@ -4,13 +4,13 @@
 
 The analyses use openly archived or provider-hosted source data together with reproducible acquisition and integrity-checking scripts. A-Islands version 1.0 is available from Zenodo (doi:10.5281/zenodo.10775809). The climatic predictors used in the A-Islands benchmark were obtained from CHELSA v2.1; the repository records the selected variables and verifies the derived frozen island-level climate table before analysis. The Tanzania forest-fragment benchmark is based on the Dryad archive associated with Brodie and Newmark (2019) (doi:10.5061/dryad.p042h0c); the workflow reacquires the declared archive version and verifies all source files by size and digest before constructing any benchmark quantity.
 
-All EOG analysis code, pre-outcome contracts, tests, workflow definitions, frozen result projections, manuscript figure builders, plotting sidecars, applicability tables, and cryptographic fingerprints are maintained in the public `zuizui0223/eog` repository. The structural manuscript can be rebuilt offline from the committed frozen inputs with:
+All Structural-paper contracts, frozen result projections, manuscript figure builders, plotting sidecars, applicability tables, cryptographic fingerprints, and submission-package infrastructure are maintained in the public `zuizui0223/Structural` repository. Shared historical EOG framework provenance is recorded in `STANDALONE_MIGRATION.json`; EOG-WF empirical endpoints are not part of this repository's scientific denominator. The structural manuscript can be rebuilt offline from the committed frozen inputs with:
 
 ```bash
-python manuscript/build_structural_submission_package.py --output-dir build/structural_submission
+python manuscript/build_structural_submission_package_v2.py --output-dir build/structural_submission_v2
 ```
 
-The command reconstructs the manuscript-facing figures and result tables into a separate package directory and verifies the scientific assets against committed frozen outputs. It does not rerun the one-time biological A-Islands strong-reference analysis. The generated `submission_package_manifest.json` records the exact source Git commit automatically together with all submission-facing result identities.
+The command reconstructs the manuscript-facing figures and result tables into a separate package directory and verifies the scientific assets against committed frozen outputs. It does not rerun the one-time biological A-Islands strong-reference analysis. The generated submission package manifests record the exact source Git commit automatically together with all submission-facing result identities.
 
 The original A-Islands conditional-ordering benchmark and the prospective A-Islands strong-reference predictive benchmark are archived as separate estimands. The latter was executed exactly once under the frozen `eog_aislands_isolation_adequacy_v1_3` contract after an outcome-free smoke gate and is identified by result fingerprint:
 
