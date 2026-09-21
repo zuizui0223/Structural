@@ -134,6 +134,77 @@ ONLY THEN
 compare systems, origins or regimes
 ```
 
+## Connectivity-aware development
+
+The shared method now treats connectivity as a **typed state candidate**, not a scalar label.
+
+The active post-closure object is:
+
+    C^(level, operator, endpoint, origin | reference)
+
+with four explicit axes:
+
+- **level** — structural geometry / process model / realized observation;
+- **operator** — what actually propagates (for example pollen, whole individuals, alleles, demographic recolonisation, interaction continuity);
+- **endpoint** — which held-out or future quantity the coordinate is supposed to inform;
+- **origin** — pre-existing isolation, habitat fragmentation, or another spatial history.
+
+The adequacy sequence becomes:
+
+    spatial origin/history
+            ↓
+    declared current state/reference R or S
+            ↓
+    typed connectivity C^(level, operator, endpoint, origin | reference)
+            ↓
+    held-out/future endpoint Y
+            ↓
+    does C retain residual endpoint-relevant information?
+            ↓
+    if yes: candidate state remains incomplete without C
+    if no: C is redundant/adverse/indeterminate for this endpoint
+            ↓
+    only then: test operator portability
+
+This adds a second test beyond ordinary structural adequacy.
+
+### Adequacy is not portability
+
+A connectivity coordinate may be useful for one operator and fail for another.
+
+Therefore:
+
+- success under pollen flow does not establish whole-individual movement connectivity;
+- success under gene-flow representation does not establish demographic recolonisation;
+- success of structural geometry does not identify a process-specific movement probability;
+- a shared scalar value does not establish state equivalence.
+
+A portability claim must be earned independently across the declared operator set. Shared-reference substitutions are legitimate operator tests but do not become independent baseline replications merely because the operator changes.
+
+### Constructive scalar-insufficiency result
+
+The v0.1 synthetic known-truth fixture contains two states:
+
+- state A: pollen connectivity 0.9, whole-individual connectivity 0.1;
+- state B: pollen connectivity 0.1, whole-individual connectivity 0.9.
+
+Both collapse to the same scalar mean connectivity of 0.5.
+
+Under a declared pollen-specific transition, however, the next-state support differs by 0.8.
+
+Thus a universal scalar connectivity summary is not transition-sufficient for that declared operator. This is a constructive software/representation result only; it is not a natural prevalence claim.
+
+### Relationship to the frozen Structural paper
+
+The frozen EOG connected-frequency term is retained as **structural_geometry**. It summarizes scenario-robust occurrence-anchored configuration and is not retroactively interpreted as demographic movement, pollen flow, gene flow, or realized dispersal.
+
+The next development question is not whether to rescue the frozen A-Islands or Tanzania outcomes. It is whether future systems with process-identified connectivity can distinguish:
+
+1. geometry-only residual information;
+2. process-model residual information;
+3. realized-connection residual information;
+4. operator portability across endpoints and histories.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
