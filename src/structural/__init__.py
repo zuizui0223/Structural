@@ -5,11 +5,15 @@ from .connectivity_adequacy import (
     FavorableDirection,
     IncrementalEvidence,
     IncrementalVerdict,
+    OperatorConnectivityState,
     PortabilitySummary,
     PortabilityVerdict,
+    ScalarInsufficiencyWitness,
     SeparationOrigin,
     audit_portability,
     classify_incremental,
+    declared_operator_transition,
+    scalar_insufficiency_witness,
 )
 
 __all__ = [
@@ -17,9 +21,13 @@ __all__ = [
     "FavorableDirection",
     "IncrementalEvidence",
     "IncrementalVerdict",
+    "OperatorConnectivityState",
     "PortabilitySummary",
     "PortabilityVerdict",
+    "ScalarInsufficiencyWitness",
     "SeparationOrigin",
     "audit_portability",
     "classify_incremental",
+    "declared_operator_transition",
+    "scalar_insufficiency_witness",
 ]
