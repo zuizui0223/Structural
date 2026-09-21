@@ -1,0 +1,40 @@
+{
+  "schema": "structural.connectivity_state_ladder.v0_3",
+  "status": "prospective_protocol_infrastructure_not_empirical_result",
+  "ladder": [
+    "structural_geometry",
+    "process_model",
+    "realized_observation",
+    "origin_history"
+  ],
+  "stage_order_strict": true,
+  "intermediate_stages_may_be_omitted_if_unavailable": true,
+  "single_ladder_requires_same": [
+    "origin",
+    "operator",
+    "endpoint",
+    "metric",
+    "favorable_direction"
+  ],
+  "state_adequacy_rule": {
+    "origin_history_must_be_tested": true,
+    "null_result_is_sufficient": false,
+    "equivalence_margin_must_be_frozen_before_outcome": true,
+    "earned_if": "entire origin-history confidence interval lies inside [-margin,+margin]",
+    "residual_favorable_interval": "origin_residual_earned",
+    "residual_unfavorable_interval": "origin_residual_adverse",
+    "interval_crosses_null_without_equivalence": "origin_residual_indeterminate"
+  },
+  "interpretation": {
+    "origin_residual_earned": "current measured state/reference remains incomplete or misses a history-correlated coordinate; not proof of historical causality",
+    "state_adequacy_earned": "origin/history carries no effect larger than the predeclared meaningful margin for this endpoint/reference; not universal sufficiency"
+  },
+  "prohibited": [
+    "declare_sufficiency_from_non_significance_alone",
+    "choose_equivalence_margin_after_outcome",
+    "mix_operators_inside_one_ladder",
+    "mix_endpoints_inside_one_ladder",
+    "pool_pre_existing_isolation_and_fragmentation_as_one_effect",
+    "reopen_frozen_structural_manuscript"
+  ]
+}
