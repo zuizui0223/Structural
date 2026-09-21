@@ -1,0 +1,128 @@
+{
+  "schema": "structural.connectivity_retrospective_pilot_registry.v0_6",
+  "status": "development_only_not_fresh_evidence",
+  "scientific_boundary": {
+    "counts_as_fresh_evidence": false,
+    "changes_frozen_structural_manuscript": false,
+    "can_promote_to_current_paper": false,
+    "purpose": [
+      "exercise real-data adapters",
+      "test typed-connectivity ladder mechanics",
+      "verify operator/reference bookkeeping",
+      "identify future response-blind protocol requirements"
+    ]
+  },
+  "candidates": [
+    {
+      "id": "davis_2026_heliconia",
+      "priority": 1,
+      "role": "primary_retrospective_engineering_pilot",
+      "dataset_doi": "10.5061/dryad.3ffbg7b08",
+      "publication_year": 2026,
+      "system": "Heliconia tortuosa in fragmented tropical forest landscapes",
+      "origin": "habitat_fragmentation",
+      "outcome_publicly_exposed": true,
+      "fresh_eligible": false,
+      "heldout_candidate_unit": "forest_patch",
+      "endpoint_candidates": [
+        "pollen_pool_diversity",
+        "biparental_inbreeding",
+        "outcrossing"
+      ],
+      "reference_candidates": [
+        "patch_area",
+        "forest_amount",
+        "elevation",
+        "pollinator_community_composition"
+      ],
+      "connectivity_levels": {
+        "structural_geometry": [
+          "contiguous_mature_forest",
+          "structural_IFM_connectivity"
+        ],
+        "process_model": [
+          "hummingbird_movement_weighted_IFM",
+          "gap_crossing_probability_weighted_connectivity"
+        ],
+        "realized_observation": [
+          "contemporary_pollen_mediated_gene_flow_genetic_endpoints"
+        ]
+      },
+      "operator": "pollinator_mediated_pollen_flow",
+      "operator_semantics": "hummingbird-mediated pollen transfer affecting contemporary mating/gene-flow endpoints",
+      "why_selected": "same fragmented landscape contains structural connectivity, pollinator-movement-informed functional connectivity, and contemporary pollen-mediated genetic outcomes",
+      "promotion_rule": "never counts as fresh confirmation because publication/dataset metadata expose outcomes"
+    },
+    {
+      "id": "noreen_2016_koompassia",
+      "priority": 2,
+      "role": "secondary_operator_pair_engineering_pilot",
+      "dataset_doi": "10.5061/dryad.663fb",
+      "publication_year": 2016,
+      "system": "Koompassia malaccensis in three urban forest patches in Singapore",
+      "origin": "habitat_fragmentation",
+      "outcome_publicly_exposed": true,
+      "fresh_eligible": false,
+      "heldout_candidate_unit": "forest_patch_or_parentage_unit",
+      "endpoint_candidates": [
+        "pollen_immigration",
+        "seed_immigration",
+        "interpatch_parentage_flow"
+      ],
+      "connectivity_levels": {
+        "structural_geometry": [
+          "interpatch_spatial_separation",
+          "urban_matrix_configuration"
+        ],
+        "realized_observation": [
+          "parentage_assigned_pollen_flow",
+          "parentage_assigned_seed_flow"
+        ]
+      },
+      "operator_pair": [
+        "pollen_flow",
+        "seed_dispersal"
+      ],
+      "why_selected": "same biological system contains two realized dispersal operators, useful for adapter and operator-specific bookkeeping",
+      "limitations": [
+        "only three primary forest patches",
+        "published outcomes already exposed",
+        "not suitable for fresh portability confirmation"
+      ]
+    },
+    {
+      "id": "delnevo_2026_conospermum",
+      "priority": 3,
+      "role": "retrospective_fragmentation_boundary_pilot",
+      "dataset_doi": "10.5061/dryad.95x69p907",
+      "publication_year": 2026,
+      "system": "Conospermum undulatum across fragmented and non-fragmented urban populations",
+      "origin": "habitat_fragmentation",
+      "outcome_publicly_exposed": true,
+      "fresh_eligible": false,
+      "endpoint_candidates": [
+        "paternity_assigned_pollen_flow",
+        "mating_system"
+      ],
+      "connectivity_levels": {
+        "realized_observation": [
+          "paternity_assigned_pollen_flow"
+        ]
+      },
+      "operator": "pollen_flow",
+      "why_selected": "recent fragmented/non-fragmented contrast with paternity data",
+      "limitation": "dataset abstract already states complete pollen isolation across built-up separated fragments; cannot be used as response-blind confirmation"
+    }
+  ],
+  "next_action": {
+    "primary_candidate": "davis_2026_heliconia",
+    "action": "schema_only_adapter_audit_before_any_new_modeling",
+    "open_public_outcome_allowed": true,
+    "reason": "retrospective pilot explicitly does not count as fresh evidence",
+    "forbidden": [
+      "reclassify_as_fresh_after_analysis",
+      "use_to_change_frozen_A_Islands_or_Tanzania_claims",
+      "select only favorable connectivity metrics as confirmatory evidence"
+    ]
+  }
+}

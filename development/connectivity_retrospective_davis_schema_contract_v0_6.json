@@ -1,0 +1,101 @@
+{
+  "schema": "structural.retrospective_davis_schema_adapter.v0_6",
+  "status": "response_exposed_retrospective_engineering_only",
+  "counts_as_fresh_evidence": false,
+  "dataset": {
+    "doi": "10.5061/dryad.3ffbg7b08",
+    "title": "Incorporating pollinator movement into connectivity models predicts pollen-mediated gene flow and highlights the importance of regenerating forests in tropical landscapes",
+    "published": "2026-03-24",
+    "archive_files": [
+      "DRYAD_Clean.zip",
+      "README.md"
+    ]
+  },
+  "system": {
+    "species": "Heliconia tortuosa",
+    "origin": "habitat_fragmentation",
+    "focal_process_operator": "pollinator_mediated_pollen_flow",
+    "operator_semantics": "hummingbird-mediated pollen transfer affecting contemporary mating/gene-flow endpoints"
+  },
+  "declared_ladder": {
+    "reference": {
+      "source": "Data/Genetic Data/Genetic_Data_Master.csv and Data/Landscape Data/Data_Patches.csv",
+      "candidate_columns": [
+        "Area_ha",
+        "Percent_Forest",
+        "Elevation",
+        "Proportion_High_Mobility"
+      ],
+      "note": "reference membership is provisional until exact file-level redundancy and timing are audited; no response-derived selection allowed"
+    },
+    "structural_geometry": {
+      "candidates": [
+        "focal patch area / contiguous mature forest",
+        "unweighted structural connectivity metrics",
+        "forest amount/configuration metrics"
+      ],
+      "source_objects": [
+        "Output/patch_based_metrics.RData",
+        "Output/whole_landscape_metrics.RData"
+      ]
+    },
+    "process_model": {
+      "operator": "pollinator_mediated_pollen_flow",
+      "candidates": [
+        "Si.probcross",
+        "movement-weighted IFM metrics",
+        "metrics using high-mobility hummingbird composition and gap-crossing probability"
+      ],
+      "source_objects": [
+        "Output/whole_landscape_metrics.RData",
+        "Code/Level_Framework_Analysis.Rmd",
+        "Code/Patch_Based_Metrics.R",
+        "Code/Whole_Landscape_Metrics.R"
+      ],
+      "scale_rule": "1 km local landscape; corresponds to declared maximum daily hummingbird movement range in source README"
+    },
+    "realized_endpoint": {
+      "source": "Data/Genetic Data/Genetic_Data_Master.csv",
+      "endpoint_candidates": [
+        "h_Pollen_Pool",
+        "Outcrossing",
+        "Biparental_Inbreeding"
+      ],
+      "endpoint_uncertainty": "choose one primary endpoint only after a response-independent semantic/measurement audit; because published outcome is already exposed, this choice is engineering-only and cannot become fresh confirmation"
+    }
+  },
+  "identifiers": {
+    "primary_population_key": "Pop",
+    "maternal_key": "Mom_ID",
+    "year_key": "Year",
+    "hummingbird_key": "Patch",
+    "patch_to_pop_mapping_status": "must_verify_from_source_files_before_join",
+    "prohibited_assumption": "do not assume Patch equals Pop by string identity until verified"
+  },
+  "sampling": {
+    "repeated_years_possible": true,
+    "candidate_heldout_unit": "Pop",
+    "final_heldout_unit_status": "must_verify number of populations and repeated-year structure from source files"
+  },
+  "response_exposure": {
+    "publication_abstract_exposes_results": true,
+    "dataset_readme_describes_analysis_targets": true,
+    "response_blind_admission_status": "STOP",
+    "reason": "published outcome and relative structural/functional performance are publicly exposed"
+  },
+  "adapter_hard_stops": [
+    "do not use manuscript Output/Tables to choose candidate features",
+    "do not use published model rankings to select the primary process metric",
+    "do not join Hummingbird Patch to Pop without explicit source-file verification",
+    "do not promote retrospective performance to fresh evidence",
+    "do not modify frozen Structural A-Islands or Tanzania claims"
+  ],
+  "next_adapter_steps": [
+    "verify extracted archive tree and exact file names",
+    "inspect headers/types without fitting models",
+    "verify Pop and Patch mapping",
+    "enumerate unique Pop and Year counts",
+    "classify each connectivity field by evidence level and operator semantics",
+    "freeze one engineering analysis table before retrospective scoring"
+  ]
+}
