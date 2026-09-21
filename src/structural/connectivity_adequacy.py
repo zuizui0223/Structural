@@ -257,3 +257,156 @@ def scalar_insufficiency_witness(
         transition_b=transition_b,
         transition_difference=difference,
     )
+
+
+class AdequacyStage(str, Enum):
+    STRUCTURAL_GEOMETRY = "structural_geometry"
+    PROCESS_MODEL = "process_model"
+    REALIZED_OBSERVATION = "realized_observation"
+    ORIGIN_HISTORY = "origin_history"
+
+
+class StateAdequacyVerdict(str, Enum):
+    ORIGIN_NOT_TESTED = "origin_not_tested"
+    STATE_ADEQUACY_EARNED = "state_adequacy_earned"
+    ORIGIN_RESIDUAL_EARNED = "origin_residual_earned"
+    ORIGIN_RESIDUAL_ADVERSE = "origin_residual_adverse"
+    ORIGIN_RESIDUAL_INDETERMINATE = "origin_residual_indeterminate"
+
+
+_STAGE_ORDER = {
+    AdequacyStage.STRUCTURAL_GEOMETRY: 1,
+    AdequacyStage.PROCESS_MODEL: 2,
+    AdequacyStage.REALIZED_OBSERVATION: 3,
+    AdequacyStage.ORIGIN_HISTORY: 4,
+}
+
+
+@dataclass(frozen=True)
+class LadderStepEvidence:
+    """One prospective candidate-minus-reference step in a state-adequacy ladder."""
+
+    stage: AdequacyStage
+    origin: SeparationOrigin
+    operator: str
+    endpoint: str
+    reference_id: str
+    metric: str
+    effect: float
+    ci_low: float
+    ci_high: float
+    favorable_direction: FavorableDirection
+    evidence_family_id: str
+    equivalence_margin: float | None = None
+
+    def __post_init__(self) -> None:
+        for label, value in (
+            ("operator", self.operator),
+            ("endpoint", self.endpoint),
+            ("reference_id", self.reference_id),
+            ("metric", self.metric),
+            ("evidence_family_id", self.evidence_family_id),
+        ):
+            if not value.strip():
+                raise ValueError(f"{label} must be non-empty")
+        if not all(isfinite(v) for v in (self.effect, self.ci_low, self.ci_high)):
+            raise ValueError("effect and confidence limits must be finite")
+        if self.ci_low > self.ci_high:
+            raise ValueError("ci_low must be <= ci_high")
+        if not (self.ci_low <= self.effect <= self.ci_high):
+            raise ValueError("effect must lie inside its confidence interval")
+        if self.equivalence_margin is not None:
+            if self.stage is not AdequacyStage.ORIGIN_HISTORY:
+                raise ValueError("equivalence_margin is only valid for origin_history")
+            if not isfinite(self.equivalence_margin) or self.equivalence_margin <= 0:
+                raise ValueError("equivalence_margin must be finite and > 0")
+
+
+@dataclass(frozen=True)
+class StateLadderSummary:
+    origin: SeparationOrigin
+    operator: str
+    endpoint: str
+    metric: str
+    stage_verdicts: tuple[tuple[AdequacyStage, IncrementalVerdict], ...]
+    state_adequacy: StateAdequacyVerdict
+    independent_evidence_families: int
+
+
+def classify_ladder_step(step: LadderStepEvidence) -> IncrementalVerdict:
+    """Classify one ladder increment without turning a null into equivalence."""
+
+    if step.favorable_direction is FavorableDirection.NEGATIVE:
+        if step.ci_high < 0:
+            return IncrementalVerdict.EARNED
+        if step.ci_low > 0:
+            return IncrementalVerdict.ADVERSE
+        return IncrementalVerdict.INDETERMINATE
+
+    if step.ci_low > 0:
+        return IncrementalVerdict.EARNED
+    if step.ci_high < 0:
+        return IncrementalVerdict.ADVERSE
+    return IncrementalVerdict.INDETERMINATE
+
+
+def audit_state_ladder(steps: Iterable[LadderStepEvidence]) -> StateLadderSummary:
+    """Audit a declared geometry -> process -> realized -> origin/history ladder.
+
+    The ladder may omit unavailable intermediate stages, but supplied stages must
+    be strictly ordered. State adequacy is earned only when the origin/history
+    increment has a predeclared equivalence margin and its entire confidence
+    interval lies inside that margin.
+    """
+
+    rows = tuple(steps)
+    if not rows:
+        raise ValueError("at least one ladder step is required")
+
+    if len({row.origin for row in rows}) != 1:
+        raise ValueError("one ladder cannot mix spatial origins")
+    if len({row.operator for row in rows}) != 1:
+        raise ValueError("one ladder cannot mix biological operators")
+    if len({row.endpoint for row in rows}) != 1:
+        raise ValueError("one ladder cannot mix endpoints")
+    if len({row.metric for row in rows}) != 1:
+        raise ValueError("one ladder cannot mix scoring metrics")
+    if len({row.favorable_direction for row in rows}) != 1:
+        raise ValueError("one ladder cannot mix favorable directions")
+
+    orders = [_STAGE_ORDER[row.stage] for row in rows]
+    if any(left >= right for left, right in zip(orders, orders[1:])):
+        raise ValueError("ladder stages must be unique and strictly increasing")
+
+    stage_verdicts = tuple((row.stage, classify_ladder_step(row)) for row in rows)
+    origin_rows = [row for row in rows if row.stage is AdequacyStage.ORIGIN_HISTORY]
+    if not origin_rows:
+        state_adequacy = StateAdequacyVerdict.ORIGIN_NOT_TESTED
+    else:
+        origin_step = origin_rows[0]
+        margin = origin_step.equivalence_margin
+        if (
+            margin is not None
+            and origin_step.ci_low >= -margin
+            and origin_step.ci_high <= margin
+        ):
+            state_adequacy = StateAdequacyVerdict.STATE_ADEQUACY_EARNED
+        else:
+            origin_verdict = classify_ladder_step(origin_step)
+            if origin_verdict is IncrementalVerdict.EARNED:
+                state_adequacy = StateAdequacyVerdict.ORIGIN_RESIDUAL_EARNED
+            elif origin_verdict is IncrementalVerdict.ADVERSE:
+                state_adequacy = StateAdequacyVerdict.ORIGIN_RESIDUAL_ADVERSE
+            else:
+                state_adequacy = StateAdequacyVerdict.ORIGIN_RESIDUAL_INDETERMINATE
+
+    first = rows[0]
+    return StateLadderSummary(
+        origin=first.origin,
+        operator=first.operator,
+        endpoint=first.endpoint,
+        metric=first.metric,
+        stage_verdicts=stage_verdicts,
+        state_adequacy=state_adequacy,
+        independent_evidence_families=len({row.evidence_family_id for row in rows}),
+    )
