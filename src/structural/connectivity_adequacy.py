@@ -17,6 +17,12 @@ class SeparationOrigin(str, Enum):
     OTHER = "other"
 
 
+class ConnectivityEvidenceLevel(str, Enum):
+    STRUCTURAL_GEOMETRY = "structural_geometry"
+    PROCESS_MODEL = "process_model"
+    REALIZED_OBSERVATION = "realized_observation"
+
+
 class FavorableDirection(str, Enum):
     NEGATIVE = "negative"
     POSITIVE = "positive"
@@ -43,6 +49,7 @@ class ConnectivityCoordinate:
     operator: str
     endpoint: str
     origin: SeparationOrigin
+    evidence_level: ConnectivityEvidenceLevel = ConnectivityEvidenceLevel.STRUCTURAL_GEOMETRY
     semantic_note: str = ""
 
     def __post_init__(self) -> None:
