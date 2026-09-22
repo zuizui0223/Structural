@@ -492,6 +492,30 @@ No replacement dataset may be selected as a rescue for either system.
 
 The next valid development object is **endpoint-transition estimability** itself: before spending a fresh response, a future protocol must establish response-blind evidence that the proposed future transition can plausibly yield sufficient class/event variation for the declared heldout design, without using the focal response values to tune the endpoint.
 
+## Endpoint-transition estimability becomes the next gate
+
+After PNW and RMNP, the next development target is not another connectivity metric and not another opportunistically chosen dataset.
+
+A future binary dynamic endpoint must first pass a **burned pilot**:
+
+1. pilot and confirmatory partitions are frozen before pilot response access;
+2. one endpoint definition and one heldout design are frozen;
+3. pilot response is opened and permanently excluded from confirmation;
+4. the exact planned test-row and training-class gates are applied to the pilot;
+5. only if enough pilot blocks are estimable may a new confirmatory protocol be frozen.
+
+A pilot pass is not predictive evidence. A pilot failure consumes that endpoint/version and cannot be repaired by lowering gates or swapping targets.
+
+This adds a new prerequisite to the Structural↔EGWE spine:
+
+    physical/state adequacy
+        → endpoint-transition estimability
+        → typed connectivity adequacy
+        → operator portability
+        → residual origin/history
+
+The future target must first generate an estimable loss before any state-sufficiency claim is meaningful.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
