@@ -467,6 +467,31 @@ The fresh-evidence class has been downgraded from pristine. External literature 
 
 The source metadata contain conflicting tiger-salamander nomenclature, but the current USGS data-release page for DOI `10.5066/P9EX70L7` identifies the tiger salamander as *Ambystoma mavortium*. The protocol binds the physical token `AMMA` to that current release identity while retaining the nomenclatural caveat.
 
+## RMNP terminal result and empirical denominator closure
+
+The focal-response-unseen RMNP AMMA lane has completed its full two-stage response firewall and is now closed.
+
+The 2022 target contains 3 positive and 66 negative sites across the frozen 69-site evaluation universe. Every leave-one-15-km-block-out training set therefore contains only 1–3 positives, below the predeclared minimum of five. No R0/R1/R2/C model is fitted.
+
+This is the opposite class-collapse direction from PNW:
+
+- PNW joint target: 108 positive / 3 negative;
+- RMNP target: 3 positive / 66 negative.
+
+Both systems reached a fully frozen feature surface, then failed the same endpoint-transition estimability principle before any predictive comparison.
+
+The current empirical denominator therefore closes at:
+
+- real dynamic systems attempted: 2;
+- scored predictive endpoints: 0;
+- favorable predictive endpoints: 0;
+- adverse predictive endpoints: 0;
+- terminal non-estimable endpoints: 2.
+
+No replacement dataset may be selected as a rescue for either system.
+
+The next valid development object is **endpoint-transition estimability** itself: before spending a fresh response, a future protocol must establish response-blind evidence that the proposed future transition can plausibly yield sufficient class/event variation for the declared heldout design, without using the focal response values to tune the endpoint.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
