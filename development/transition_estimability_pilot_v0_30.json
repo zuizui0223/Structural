@@ -1,0 +1,50 @@
+{
+  "schema": "structural.transition_estimability_pilot.v0_30",
+  "status": "prospective_protocol_infrastructure",
+  "empirical_denominator_reopened": false,
+  "current_empirical_denominator": {
+    "systems_attempted": 2,
+    "scored_predictive_endpoints": 0,
+    "terminal_non_estimable_endpoints": 2,
+    "systems": [
+      {
+        "id": "PNW_2012_2013_RACA",
+        "class_collapse": "positive_dominant",
+        "joint_target_positive": 108,
+        "joint_target_negative": 3
+      },
+      {
+        "id": "RMNP_2021_2022_AMMA",
+        "class_collapse": "negative_dominant",
+        "joint_target_positive": 3,
+        "joint_target_negative": 66
+      }
+    ]
+  },
+  "future_sequence": [
+    "freeze pilot and confirmatory partitions before pilot response access",
+    "freeze one endpoint definition and heldout design before pilot response access",
+    "open pilot response only",
+    "apply exact planned test-row and training-class gates to pilot",
+    "pilot is permanently excluded from confirmatory score/effect",
+    "if pilot passes minimum estimable-block requirement, freeze a new confirmatory protocol",
+    "if pilot fails, endpoint/version stops; no within-version rescue",
+    "only after confirmatory protocol is frozen may confirmatory lagged/future responses open"
+  ],
+  "default_gate_example": {
+    "minimum_test_rows": 3,
+    "minimum_train_positive": 5,
+    "minimum_train_negative": 5,
+    "minimum_estimable_blocks": 3
+  },
+  "pilot_claim_ceiling": "feasibility of the planned binary transition under the declared heldout gates; no predictive or causal claim",
+  "prohibited": [
+    "use pilot score as confirmatory evidence",
+    "combine pilot and confirmatory outcomes",
+    "change endpoint after pilot failure within the same protocol version",
+    "change heldout blocks after pilot failure",
+    "change class gates after pilot failure",
+    "select a new dataset as rescue for PNW or RMNP",
+    "reopen PNW or RMNP"
+  ]
+}
