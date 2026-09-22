@@ -8,7 +8,7 @@ M=ROOT/"development/rmnp_file_role_manifest_v0_22.json"
 def test_rmnp_response_is_still_sealed():
     x=json.loads(R.read_text())
     assert x["status"]=="advance_to_protocol_freeze"
-    assert x["evidence_class"]=="pristine_fresh_pre_response"
+    assert x["evidence_class"]=="focal_response_unseen_system_context_exposed"\n    assert x["counts_as_pristine_fresh_evidence"] is False
     assert x["response_firewall"]["protected_response_values_opened"] is False
     assert x["physical_schema_gates"]["response_values_read"] is False
 
@@ -37,3 +37,4 @@ def test_file_roles_keep_csv_mixed():
     roles={r["relative_path"]:r["role"] for r in x["assignments"]}
     assert roles["ROMO_data_release.csv"]=="mixed"
     assert roles["romo_datarelease.xml"]=="metadata"
+\n\ndef test_high_effort_universe_is_response_independent():\n    x=json.loads(R.read_text())\n    assert x["survey_effort"]["sites_with_at_least_one_100_percent_survey_both_years"]==70\n    assert x["survey_effort"]["sites_with_geometry_and_100_percent_survey_both_years"]==69\n    assert x["geometry"]["high_effort_candidate_sites"]==69\n
