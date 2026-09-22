@@ -1,0 +1,116 @@
+{
+  "schema": "structural.fresh_connectivity_candidate_registry.v0_9",
+  "status": "metadata_only_no_response_value_access",
+  "candidates": [
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022",
+      "source_id": "USGS DOI 10.5066/P9EX70L7 / USGS:657ca143d34e23d35331ce9d",
+      "source_type": "raw USGS spatial monitoring data release",
+      "origin": "breeding_waterbody_network_within_protected_montane_landscape",
+      "temporal_replication": "yes",
+      "immutable_source_identity": "yes",
+      "spatial_unit_id_documented": "yes",
+      "coordinates_or_geometry_documented": "unknown",
+      "outcome_file_separable": "unknown",
+      "operator_semantics_declarable": "yes",
+      "connectivity_question_already_published": "no",
+      "response_result_seen_by_project": "no",
+      "current_decision": "pending",
+      "current_reasons": [
+        "unknown_coordinates_or_geometry_documented",
+        "unknown_outcome_file_separable"
+      ],
+      "operator_candidate": "whole_individual_dispersal_between_breeding_waterbodies",
+      "endpoint_candidate": "future_waterbody_occupancy_or_colonization_conditioned_on_previous_state",
+      "metadata_support": {
+        "data_years": "1986-2022",
+        "occupancy_framework_from": "after 2002",
+        "within_season_repeats": "at least two visits during active season",
+        "spatial_design": "sites identified within pre-defined catchments using National Wetlands Inventory; incidental waterbodies added in field",
+        "public_release_note": "USGS Data Catalog labels the release Spatial Data and public/CC0"
+      },
+      "note": "highest-priority fresh candidate because it is a long-running raw spatial monitoring release with repeated occupancy surveys; physical file schema must still verify reproducible site geometry and response firewalling before qualification",
+      "priority": 1
+    },
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "source_id": "USGS DOI 10.5066/P13PGN55 / USGS.84c9499d-d840-4277-9ffd-d5d800bca97f",
+      "source_type": "raw monitoring data release",
+      "origin": "pre_existing_isolation_among_montane_ponds_with_landscape_fragmentation_context",
+      "temporal_replication": "yes",
+      "immutable_source_identity": "yes",
+      "spatial_unit_id_documented": "yes",
+      "coordinates_or_geometry_documented": "unknown",
+      "outcome_file_separable": "unknown",
+      "operator_semantics_declarable": "yes",
+      "connectivity_question_already_published": "no",
+      "response_result_seen_by_project": "no",
+      "current_decision": "pending",
+      "current_reasons": [
+        "unknown_coordinates_or_geometry_documented",
+        "unknown_outcome_file_separable"
+      ],
+      "operator_candidate": "whole_individual_dispersal_between_breeding_ponds",
+      "endpoint_candidate": "year2_pond_occupancy_conditioned_on_year1_state",
+      "note": "metadata confirms 2 years of amphibian pond surveys and site/survey attributes; physical file schema must be checked before protocol qualification",
+      "priority": 2
+    },
+    {
+      "candidate_id": "great_lakes_frog_2011_2023",
+      "source_id": "Dryad DOI 10.5061/dryad.hmgqnk9v8",
+      "source_type": "published monitoring dataset",
+      "origin": "coastal_wetland_fragmentation_context",
+      "temporal_replication": "yes",
+      "immutable_source_identity": "yes",
+      "spatial_unit_id_documented": "yes",
+      "coordinates_or_geometry_documented": "yes",
+      "outcome_file_separable": "yes",
+      "operator_semantics_declarable": "yes",
+      "connectivity_question_already_published": "no",
+      "response_result_seen_by_project": "yes",
+      "current_decision": "stop",
+      "current_reasons": [
+        "response_result_already_seen_by_project"
+      ],
+      "note": "excellent geometry and longitudinal structure, but project search exposed occurrence trends and landscape associations before protocol freeze; permanently ineligible for fresh lane",
+      "priority": 3
+    },
+    {
+      "candidate_id": "hungary_amphibian_100_ponds_2023",
+      "source_id": "Dryad DOI 10.5061/dryad.70rxwdc6w",
+      "source_type": "published detection dataset",
+      "origin": "urban_pond_network",
+      "temporal_replication": "no",
+      "immutable_source_identity": "yes",
+      "spatial_unit_id_documented": "unknown",
+      "coordinates_or_geometry_documented": "no",
+      "outcome_file_separable": "yes",
+      "operator_semantics_declarable": "yes",
+      "connectivity_question_already_published": "no",
+      "response_result_seen_by_project": "yes",
+      "current_decision": "stop",
+      "current_reasons": [
+        "response_result_already_seen_by_project"
+      ],
+      "note": "connectivity hypothesis was not the original study focus, but public outcome results were inspected during triage and the Dryad release does not document reproducible coordinates",
+      "priority": 4
+    }
+  ],
+  "promotion_rule": "Only advance_to_schema_audit candidates may enter physical file inspection for a fresh protocol. Pending candidates may be resolved using metadata/schema only. STOP candidates are never repaired into fresh evidence.",
+  "forbidden": [
+    "open_response_values_to_resolve_pending_metadata",
+    "repair_STOP_candidate_and_relabel_as_fresh",
+    "use_published_effect_direction_to_choose_connectivity_scale",
+    "treat_single_season_detection_data_as_longitudinal_colonization_without_new_design"
+  ],
+  "next_action": {
+    "primary_candidate": "usgs_rmnp_amphibian_surveys_1986_2022",
+    "action": "metadata_or_file_schema_only_geometry_and_response_firewall_verification",
+    "response_values_may_be_opened": false,
+    "stop_if": [
+      "physical geometry cannot be reproduced without response-informed reconstruction",
+      "response and predictor metadata cannot be firewalled before protocol freeze",
+      "operator scale requires post-outcome tuning"
+    ]
+  }
+}
