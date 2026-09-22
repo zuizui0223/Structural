@@ -1,5 +1,11 @@
 """Structural post-closure development interfaces."""
 
+from .confirmatory_freeze_gate import (
+    ConfirmatoryFreezeDecision,
+    ConfirmatoryFreezeStatus,
+    evaluate_confirmatory_freeze_gate,
+)
+
 from .transition_pilot_protocol import (
     PilotProtocolStatus,
     TransitionPilotProtocol,
@@ -74,6 +80,8 @@ from .connectivity_adequacy import (
 )
 
 __all__ = [
+    "ConfirmatoryFreezeDecision",
+    "ConfirmatoryFreezeStatus",
     "PilotProtocolStatus",
     "TransitionPilotProtocol",
     "TransitionPilotProtocolDecision",

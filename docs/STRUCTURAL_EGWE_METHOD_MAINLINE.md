@@ -560,6 +560,23 @@ This makes the sequence explicit:
         → if pass: freeze a separate confirmatory protocol
         → only later: confirmatory response
 
+## Pilot-to-confirmatory freeze gate
+
+v0.33 closes the gap between a successful burned pilot and any future confirmatory response.
+
+A pilot pass is accepted only when:
+
+- its protocol fingerprint matches the frozen v0.31 object;
+- the pilot contains no effect size or prediction score;
+- it contributes zero to the predictive denominator;
+- the confirmatory partition remained unopened.
+
+The only permitted action after a clean pass is to **freeze a separate confirmatory protocol**.
+
+Confirmatory response access still requires that later protocol to define and fingerprint the present-state/reference representation, typed connectivity features, heldout design, scoring implementation and response firewall.
+
+Thus pilot feasibility and confirmatory prediction are now separated by construction.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
