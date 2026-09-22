@@ -595,6 +595,18 @@ Therefore:
 
 The confirmatory queue is currently empty.
 
+## Executable confirmatory admission queue
+
+v0.36 makes the v0.31-v0.33 sequence a single reproducible repository admission boundary.
+
+Every queue entry must point to its frozen v0.31 protocol, its v0.32 burned-pilot result, and a deterministic v0.36 admission receipt. CI recomputes the protocol fingerprint, feasibility-only evidence ceiling, estimable-block accounting, confirmatory-exposure firewall and v0.33 freeze decision. A queue row that cannot reproduce the complete chain is rejected.
+
+A successful v0.36 admission authorizes only:
+
+    freeze_confirmatory_protocol_only
+
+It never authorizes confirmatory response access and contributes zero predictive evidence. Candidate discovery remains subordinate to this admission path, and TTF remains a later independent transferability layer.
+
 ## TTF as the outer transferability layer
 
 Structural and EGWE stop at a different inferential level from TTF.
