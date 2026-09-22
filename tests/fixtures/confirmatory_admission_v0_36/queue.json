@@ -1,0 +1,19 @@
+{
+  "schema": "structural.confirmatory_admission_queue.v0_36",
+  "status": "synthetic_ci_fixture_nonempirical",
+  "entry_count": 1,
+  "entries": [
+    {
+      "system_id": "synthetic-ci-only",
+      "protocol_id": "synthetic-v0_36-pass",
+      "protocol_path": "tests/fixtures/confirmatory_admission_v0_36/protocol.json",
+      "pilot_result_path": "tests/fixtures/confirmatory_admission_v0_36/pilot_result.json",
+      "admission_receipt_path": "tests/fixtures/confirmatory_admission_v0_36/receipt.json",
+      "protocol_fingerprint": "def335af364183f05562e18ffb432a7ff123c00e9477b2822fcb85885abaf29d"
+    }
+  ],
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "counts_as_confirmatory_system": false,
+  "purpose": "exercise the non-empty queue validation path in CI without changing the live queue or empirical denominator"
+}
