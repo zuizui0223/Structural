@@ -272,6 +272,7 @@ The active development sequence is therefore:
         → schema-only adapter audit before retrospective fitting (v0.7)
         → metadata-only fresh candidate triage (v0.8)
         → longitudinal fresh-candidate prioritization (v0.9)
+        → file-level physical-schema resolution (v0.10)
         → future empirical scoring only after qualification
 
 ## Retrospective engineering lane
@@ -303,6 +304,23 @@ Fresh candidates are screened using metadata only. A candidate advances only whe
 If the project sees the response result during discovery, the candidate is permanently removed from the fresh lane. It may still be used as a retrospective engineering system.
 
 The priority-1 fresh candidate is now the USGS Rocky Mountain National Park amphibian release (1986–2022). It is **pending**, not qualified. Public metadata establish a long repeated occupancy design, but the physical release must still verify per-waterbody geometry and response firewalling before feature/split freezing. The Pacific Northwest montane-pond release (2012–2013) remains a priority-2 pending candidate.
+
+## Physical-schema boundary
+
+A DOI, landing page, catalog spatial extent or metadata XML is not sufficient to qualify a connectivity candidate.
+
+Before protocol freeze, the project must physically verify:
+
+- the actual file inventory;
+- the ecological-unit geometry or coordinate key;
+- the response firewall;
+- all joins needed to construct geometry/reference features without reading response values.
+
+The user-supplied Pacific Northwest USGS XML resolves the DOI landing and original metadata but does not expose file-level data URLs on the catalog surface. The candidate therefore remains pending.
+
+Rocky Mountain NP also remains pending because the current access path resolves the catalog metadata but not the underlying ScienceBase file inventory.
+
+These are access/schema boundaries, not ecological nulls.
 
 ## Why the distinction matters
 
