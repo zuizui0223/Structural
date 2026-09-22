@@ -1,0 +1,191 @@
+{
+  "schema": "structural.rmnp_amma_temporal_connectivity_protocol.v0_23",
+  "status": "frozen_before_any_AMMA_response_open",
+  "evidence_class": "focal_response_unseen_system_context_exposed",
+  "counts_as_pristine_fresh_evidence": false,
+  "system": {
+    "dataset": "USGS RMNP amphibian surveys 1986-2022",
+    "doi": "10.5066/P9EX70L7",
+    "physical_token": "AMMA",
+    "focal_taxon_current_release_identity": "Ambystoma mavortium",
+    "nomenclature_caveat": "uploaded XML contains one Ambystoma maculatum label and historical NPS pages use Ambystoma tigrinum; current USGS data release identifies Ambystoma mavortium",
+    "psma_status": "fresh_STOP_prior_RMNP_result_exposed",
+    "lisy_status": "fresh_STOP_prior_RMNP_result_exposed",
+    "focal_AMMA_response_direction_seen": false,
+    "operator": "whole_individual_dispersal_between_breeding_waterbodies"
+  },
+  "transition": {
+    "source_year": 2021,
+    "target_year": 2022,
+    "selection_basis": "response-independent physical-schema rule in v0.22",
+    "use_target_year_geometry": false
+  },
+  "response_firewall": {
+    "stage1_allowed": [
+      "date",
+      "site_name",
+      "perc_surveyed",
+      "amma"
+    ],
+    "stage1_year": 2021,
+    "stage2_allowed": [
+      "date",
+      "site_name",
+      "perc_surveyed",
+      "amma"
+    ],
+    "stage2_year": 2022,
+    "psma_lisy_columns_forbidden": true,
+    "amma_stage_forbidden": true
+  },
+  "high_effort_rule": {
+    "source_pool": "2021 sites with valid transformed geometry and at least one perc_surveyed=100 visit",
+    "source_pool_sites": 116,
+    "evaluation_pool": "sites present in both years with valid 2021 geometry and at least one perc_surveyed=100 visit in both 2021 and 2022",
+    "evaluation_sites": 69,
+    "response_independent": true
+  },
+  "geometry": {
+    "canonical_crs": "EPSG:26913 NAD83 / UTM zone 13N",
+    "transform": "2021 NAD27 EPSG:26713 -> NAD83 EPSG:26913; NAD83 unchanged",
+    "site_coordinate": "median transformed 2021 coordinate per site_name",
+    "source_pool_max_within_site_spread_m": 231.9710031188878,
+    "target_geometry_from_2022_forbidden": true
+  },
+  "movement_worldset_m": [
+    500,
+    1000
+  ],
+  "movement_worldset_basis": {
+    "tuned_on_RMNP_response": false,
+    "sources": [
+      {
+        "taxon": "Ambystoma mavortium stebbinsi",
+        "evidence": "adult metamorphs moved on average >400 m and up to 1 km from breeding tanks",
+        "source": "Ecology and Evolution 2024; PMID 38628912"
+      },
+      {
+        "taxon": "tiger salamander complex",
+        "evidence": "typical post-breeding movement 50-350 m; reported maximum straight-line movement 659 m",
+        "source": "USGS summary of Bartelt et al. 2023, Ichthyology & Herpetology"
+      }
+    ],
+    "rationale": "500 m captures the broad terrestrial movement scale and 1000 m the documented upper A. mavortium movement; 250 m is omitted because within-site coordinate spread approaches that scale"
+  },
+  "endpoint": {
+    "claim_term": "observed annual site use, not latent occupancy",
+    "positive": "any AMMA=1 on any visit in the site-year",
+    "negative": "no AMMA=1 on any visit AND at least one visit with perc_surveyed=100",
+    "otherwise": "non_estimable",
+    "stage_restriction": "none; amma_stage is not used",
+    "no_detection_correction_claim": true
+  },
+  "local_reference_aggregation": {
+    "year": 2021,
+    "fish_ever_present": "1 if any Y; 0 if at least one N and no Y; missing otherwise",
+    "site_length_m": "median of distinct nonmissing 2021 values",
+    "site_width_m": "median of distinct nonmissing 2021 values",
+    "max_depth_ordinal": {
+      "< or =1": 0,
+      ">1 - <2": 1,
+      ">2": 2,
+      "aggregation": "maximum nonmissing category in 2021"
+    },
+    "source_pool_missing_counts": {
+      "fish": 0,
+      "site_length_m": 4,
+      "site_width_m": 5,
+      "max_depth": 0
+    }
+  },
+  "reference_ladder": {
+    "R0": [
+      "intercept",
+      "2021 target-site AMMA observed annual site-use state"
+    ],
+    "R1": [
+      "R0",
+      "2021 fish_ever_present",
+      "2021 site_length_m median",
+      "2021 site_width_m median",
+      "2021 max_depth ordinal maximum"
+    ],
+    "R2": [
+      "R1",
+      "nearest_other_2021_source_pond_distance_m",
+      "generic_pond_reachability_fraction_across_500_1000m_worlds",
+      "generic_pond_pressure_mean_across_500_1000m_worlds"
+    ],
+    "C": [
+      "R2",
+      "occupied_source_reachability_fraction_across_500_1000m_worlds",
+      "occupied_source_pressure_mean_across_500_1000m_worlds"
+    ],
+    "primary_contrast": "C minus R2"
+  },
+  "feature_definitions": {
+    "generic_pond_reachability_fraction_across_500_1000m_worlds": "fraction of {500,1000} m worlds containing at least one other source-pool pond",
+    "generic_pond_pressure_mean_across_500_1000m_worlds": "mean over 500/1000 m worlds of sum exp(-distance/radius) across other source-pool ponds",
+    "occupied_source_reachability_fraction_across_500_1000m_worlds": "fraction of {500,1000} m worlds containing at least one other 2021 AMMA-positive source",
+    "occupied_source_pressure_mean_across_500_1000m_worlds": "mean over 500/1000 m worlds of sum exp(-distance/radius) across other 2021 AMMA-positive sources",
+    "self_anchor_exclusion": true
+  },
+  "spatial_holdout": {
+    "candidate_grid_sizes_m": [
+      10000,
+      15000,
+      20000,
+      25000,
+      30000
+    ],
+    "selection_rule": "choose smallest grid with >=5 total blocks, >=80% blocks containing >=3 high-effort evaluation sites, and median block size >=5",
+    "selected_grid_m": 15000,
+    "selected_block_count": 6,
+    "selected_block_sizes": {
+      "28_297": 23,
+      "28_298": 14,
+      "29_296": 6,
+      "29_297": 16,
+      "29_298": 9,
+      "30_296": 1
+    },
+    "split": "leave-one-15km-grid-block-out",
+    "minimum_applicable_test_rows": 3,
+    "small_blocks_remain_visible": true
+  },
+  "evaluation": {
+    "model": "L2 logistic regression, C=1",
+    "preprocessing": "training-fold numeric median imputation + missingness indicator; training-only standardization of continuous predictors; categorical/binary predictors unstandardized",
+    "fish_encoding": "fixed yes/no/missing one-hot",
+    "training_class_gate": "at least 5 positive and 5 negative 2022 targets",
+    "primary_metric": "block-macro heldout log loss",
+    "secondary_metric": "block-macro Brier score",
+    "favorable_direction": "negative candidate-minus-reference difference",
+    "no_common_effect_pooling": true
+  },
+  "stage1_requirements": [
+    "this protocol merged and CI-green",
+    "response-free 2021 reference table frozen and fingerprinted",
+    "only 2021 AMMA may open",
+    "all R0/R1/R2/C features fingerprinted before Stage 2"
+  ],
+  "stage2_requirements": [
+    "Stage 1 result merged and CI-green",
+    "2022 AMMA target opened once",
+    "same applicability rows used for R0/R1/R2/C",
+    "report C-minus-R2 regardless of direction"
+  ],
+  "prohibited": [
+    "inspect PSMA or LISY response values for this fresh lane",
+    "change focal taxon after AMMA Stage 1 access",
+    "change 2021->2022 transition",
+    "use 2022 geometry",
+    "change movement worldset after Stage 1",
+    "change high-effort rule after response access",
+    "change reference variables after response access",
+    "change spatial blocks after response access",
+    "change model or metrics after response access",
+    "promote RMNP back to pristine fresh status",
+    "alter frozen A-Islands/Tanzania paper"
+  ]
+}
