@@ -428,6 +428,29 @@ The raw-table normalization required one explicit post-authorization adjudicatio
 
 All 2013 response values remain sealed. Stage 2 is not allowed until the Stage 1 receipt is merged and CI-green.
 
+## PNW terminal result
+
+PNW has completed the full two-stage access sequence and is now closed.
+
+The one-shot 2013 target contains 117 positive, 3 negative and 30 non-estimable sites in the frozen 150-site feature universe. After requiring an estimable 2012 lagged state, 111 sites remain: 108 positive and 3 negative.
+
+Every frozen leave-one-region-out training set therefore has only 2–3 negative targets, below the predeclared minimum of five. DaggerTwisp and Hwy20 additionally contain no applicable heldout target rows.
+
+Consequences:
+
+- estimable regions = 0 / 10;
+- R0 fits = 0;
+- R1 fits = 0;
+- R2 fits = 0;
+- C fits = 0;
+- primary C−R2 = non-estimable.
+
+This is not adverse evidence for connectivity. It is a target-variation/estimability boundary.
+
+No gate lowering, species swap, endpoint swap, split change or replacement-candidate rescue is allowed for PNW.
+
+The only pristine-fresh active lane is now Rocky Mountain National Park.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.

@@ -1,0 +1,55 @@
+{
+  "schema": "structural.connectivity_candidate_registry.v0_21",
+  "status": "post_pnw_stage2_terminal",
+  "pristine_fresh_lane": [
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022",
+      "priority": 1,
+      "evidence_class": "pristine_fresh_pending",
+      "current_decision": "pending_physical_schema",
+      "response_result_seen_by_project": false,
+      "historical_analysis_code_seen_by_project": false,
+      "next_action": "resolve file-level distribution, geometry, and response firewall without response access"
+    }
+  ],
+  "closed_design_exposed_lane": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "evidence_class": "design_exposed_terminal_non_estimable",
+      "terminal_decision": "non_estimable",
+      "target_opened_once": true,
+      "model_fit_count": 0,
+      "reason": "2013 target overwhelmingly positive; every frozen heldout-region training set has fewer than 5 negatives",
+      "rerun_with_changed_design_allowed": false,
+      "replacement_candidate_allowed_as_pnw_rescue": false
+    }
+  ],
+  "retrospective_or_stop_lane": [
+    {
+      "candidate_id": "great_lakes_frog_2011_2023",
+      "evidence_class": "fresh_stop_response_exposed"
+    },
+    {
+      "candidate_id": "hungary_amphibian_100_ponds_2023",
+      "evidence_class": "fresh_stop_response_exposed_and_geometry_unresolved"
+    },
+    {
+      "candidate_id": "davis_2026_heliconia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "noreen_2016_koompassia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "delnevo_2026_conospermum",
+      "evidence_class": "retrospective_engineering"
+    }
+  ],
+  "invariants": [
+    "PNW is terminal and cannot be repaired into a scored confirmation",
+    "PNW non-estimability is not an adverse predictive result",
+    "RMNP remains the only pristine-fresh active candidate",
+    "a replacement system must be a new protocol, not a PNW rescue"
+  ]
+}
