@@ -349,6 +349,24 @@ Only `safe_schema` and `metadata` may be semantically opened before protocol fre
 
 This makes the response firewall a property of the immutable file snapshot rather than a naming convention.
 
+## PNW physical-schema resolution and evidence-class downgrade
+
+The uploaded Pacific Northwest package resolves the physical geometry and response-firewall questions.
+
+The master table contains 275 unique sites and 425 site-year combinations. Exactly 150 sites occur in both 2012 and 2013. For those sites, the connectivity geometry is frozen to the median 2012 UTM coordinate per site under NAD83 / UTM Zone 10. This predictor-time rule avoids repairing or using inconsistent 2013 coordinates.
+
+Because the master CSV mixes geometry and focal response values, it is assigned a `mixed` file role. Only a SHA-pinned ten-column geometry/identifier allowlist may be projected before response authorization; focal species/life-stage/observation columns remain protected.
+
+However, the legacy R analysis code was semantically inspected before this new protocol was frozen. That design exposure means PNW is permanently classified as:
+
+`response_unopened_design_exposed`
+
+rather than pristine fresh evidence.
+
+PNW can still support a strong prospective-like response holdout, but it may not enter the pristine fresh denominator and legacy code may not justify species, reference-covariate, or dispersal-scale choices.
+
+Rocky Mountain NP remains the only current pristine-fresh candidate.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
