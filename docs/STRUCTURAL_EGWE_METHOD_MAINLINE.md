@@ -536,6 +536,30 @@ The pilot may only establish transition feasibility. It never estimates the conn
 
 A pilot pass still does not authorize confirmatory response access; it only permits a separate confirmatory protocol to be frozen.
 
+## Pilot-only execution firewall
+
+v0.32 opens only the burned pilot response after a v0.31 protocol has been frozen.
+
+The pilot input must contain only frozen pilot-partition units. Any confirmatory row or unfrozen unit is a terminal STOP for that execution.
+
+The output is deliberately restricted to:
+
+- class counts;
+- non-estimable counts;
+- heldout-block class support;
+- estimable-block count;
+- pass / stop-endpoint-variation decision.
+
+It cannot contain a connectivity effect size or prediction score and contributes zero observations to the predictive denominator.
+
+This makes the sequence explicit:
+
+    partition freeze
+        → pilot-only response opening
+        → transition-estimability audit
+        → if pass: freeze a separate confirmatory protocol
+        → only later: confirmatory response
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
