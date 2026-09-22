@@ -1,0 +1,57 @@
+{
+  "schema": "structural.connectivity_candidate_registry.v0_29",
+  "status": "no_active_empirical_candidate_after_two_terminal_dynamic_tests",
+  "closed_empirical_lanes": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "evidence_class": "design_exposed_terminal_non_estimable",
+      "target_class_collapse": "positive_dominant",
+      "joint_target_counts": {
+        "positive": 108,
+        "negative": 3
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    },
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022_AMMA_2021_2022",
+      "evidence_class": "system_context_exposed_terminal_non_estimable",
+      "target_class_collapse": "negative_dominant",
+      "joint_target_counts": {
+        "positive": 3,
+        "negative": 66
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    }
+  ],
+  "active_empirical_candidates": [],
+  "retrospective_or_stop_lane": [
+    {
+      "candidate_id": "great_lakes_frog_2011_2023",
+      "evidence_class": "fresh_stop_response_exposed"
+    },
+    {
+      "candidate_id": "hungary_amphibian_100_ponds_2023",
+      "evidence_class": "fresh_stop_response_exposed_and_geometry_unresolved"
+    },
+    {
+      "candidate_id": "davis_2026_heliconia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "noreen_2016_koompassia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "delnevo_2026_conospermum",
+      "evidence_class": "retrospective_engineering"
+    }
+  ],
+  "invariants": [
+    "PNW and RMNP are terminal and cannot be repaired into scored confirmation",
+    "non-estimability is not adverse evidence for connectivity",
+    "no replacement candidate may be selected as a rescue for either terminal system",
+    "a future empirical system requires a new protocol/version with response-blind endpoint-variation feasibility checks"
+  ]
+}
