@@ -1,5 +1,12 @@
 """Structural post-closure development interfaces."""
 
+from .physical_schema import (
+    PhysicalSchemaDecision,
+    PhysicalSchemaResolution,
+    PhysicalSchemaStatus,
+    evaluate_physical_schema_resolution,
+)
+
 from .candidate_triage import (
     ConnectivityCandidateMetadata,
     MetadataStatus,
@@ -40,6 +47,9 @@ from .connectivity_adequacy import (
 )
 
 __all__ = [
+    "PhysicalSchemaDecision",
+    "PhysicalSchemaResolution",
+    "PhysicalSchemaStatus",
     "ConnectivityCandidateMetadata",
     "MetadataStatus",
     "TriageDecision",
@@ -70,4 +80,5 @@ __all__ = [
     "scalar_insufficiency_witness",
     "evaluate_empirical_admission",
     "triage_candidate",
+    "evaluate_physical_schema_resolution",
 ]
