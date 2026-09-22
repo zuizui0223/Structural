@@ -577,6 +577,42 @@ Confirmatory response access still requires that later protocol to define and fi
 
 Thus pilot feasibility and confirmatory prediction are now separated by construction.
 
+## TTF as the outer transferability layer
+
+Structural and EGWE stop at a different inferential level from TTF.
+
+Structural asks whether a declared structural/connectivity coordinate earns endpoint-relevant information **within a system** beyond the current reference.
+
+EGWE asks whether the current state is sufficient for **future fate**, or whether origin/history retains residual information.
+
+TTF asks whether transition/turnover structure learned from some species predicts structure in **entirely unseen species**.
+
+The three tests therefore form:
+
+    within-system adequacy
+        → operator portability
+        → out-of-species transferability
+
+These properties must never be collapsed.
+
+The future handoff has two lanes:
+
+1. **transition-field transfer** — TTF learns a prospectively defined within-species future-transition turnover field and tests it on unseen species;
+2. **typed-connectivity predictor competition** — TTF compares a present-state/reference predictor space R with an augmented R+C space and evaluates the held-out transfer increment T_(R+C)−T_R.
+
+The anti-selection rule is strict: species cannot be selected into TTF because their Structural C−R result was favorable. Eligibility may depend only on prospectively frozen support/admissibility and endpoint-estimability criteria.
+
+The current genetic TTF result is conceptually informative but empirically separate. It demonstrates in its own qualified genetic domain that within-species self-detectability can coexist with a non-detected cross-species transfer field. It is not a replication of Structural connectivity.
+
+The full future methodological spine is therefore:
+
+    observational support / admissibility
+        → endpoint-transition estimability
+        → within-system reference/state adequacy
+        → operator portability
+        → species-disjoint transferability
+        → residual origin/history interpretation
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
