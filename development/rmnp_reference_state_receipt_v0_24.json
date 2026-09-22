@@ -1,0 +1,93 @@
+{
+  "schema": "structural.rmnp_reference_state_receipt.v0_24",
+  "status": "pre_response_reference_frozen",
+  "evidence_class": "focal_response_unseen_system_context_exposed",
+  "source_file_sha256": "aa42c97dcc506b96f832c2ea4180f057527b1efeec302586d06801751c1cda3a",
+  "metadata_file_sha256": "b4d7926a1eadfc469c8bb491bd2553477ea6eb197b442fd7508595f9313cece3",
+  "source_year": 2021,
+  "target_year": 2022,
+  "response_access": {
+    "amma_2021_opened": false,
+    "amma_2022_opened": false,
+    "psma_opened": false,
+    "lisy_opened": false,
+    "model_fit_count": 0,
+    "candidate_ranking_count": 0
+  },
+  "identifier_normalization": {
+    "site_name_rule": "strip leading and trailing whitespace only",
+    "reason": "2022 contains trailing-space site identifiers; this response-independent normalization reconciles 92 raw-string common sites to 93 normalized common sites",
+    "example_equivalence": "Dutchtown Campsite Pond == Dutchtown Campsite Pond<space>",
+    "other_identifier_repairs_forbidden": true
+  },
+  "high_effort_universe": {
+    "source_pool_rule": "2021 site with convertible 2021 geometry and at least one perc_surveyed=100 visit",
+    "source_pool_sites": 116,
+    "evaluation_rule": "normalized site present in both 2021 and 2022, convertible 2021 geometry, and at least one perc_surveyed=100 visit in each year",
+    "common_sites_before_geometry_gate": 70,
+    "evaluation_sites": 69,
+    "excluded_geometry_site": [
+      "Timber Lake #3"
+    ]
+  },
+  "geometry": {
+    "canonical_crs": "EPSG:26913 NAD83 / UTM zone 13N",
+    "transformation": "NAD27 UTM13 EPSG:26713 -> NAD83 UTM13 EPSG:26913; NAD83 unchanged",
+    "source_coordinate_rule": "median transformed 2021 easting/northing per normalized site_name",
+    "use_2022_geometry": false
+  },
+  "local_reference": {
+    "fish_ever_present": "1 if any 2021 Y; 0 if at least one 2021 N and no Y; missing otherwise",
+    "site_length_m": "median of distinct nonmissing 2021 values",
+    "site_width_m": "median of distinct nonmissing 2021 values",
+    "max_depth_ordinal": {
+      "< or =1": 0,
+      ">1 - <2": 1,
+      ">2": 2,
+      "aggregation": "maximum nonmissing 2021 category"
+    },
+    "missing_counts_source_116": {
+      "fish_ever_present": 0,
+      "site_length_m": 4,
+      "site_width_m": 5,
+      "max_depth_ordinal": 0
+    },
+    "missing_counts_evaluation_69": {
+      "fish_ever_present": 0,
+      "site_length_m": 2,
+      "site_width_m": 2,
+      "max_depth_ordinal": 0
+    }
+  },
+  "spatial_holdout": {
+    "grid_size_m": 15000,
+    "block_rule": "floor(easting_nad83_utm13/15000), floor(northing_nad83_utm13/15000)",
+    "evaluation_block_count": 6,
+    "evaluation_block_sizes": {
+      "28_297": 23,
+      "28_298": 14,
+      "29_296": 6,
+      "29_297": 16,
+      "29_298": 9,
+      "30_296": 1
+    }
+  },
+  "derived_reference_table": {
+    "rows": 116,
+    "logical_path": "validation/rmnp_reference_state_2021_v0_24.csv",
+    "sha256": "1680ffd22cb5c524b32be668f9bb1a7e19c8ffacdb9d3ef44c8eebdc7538769c",
+    "committed_in_repository": false,
+    "reason": "freeze identity before AMMA opening; derived bytes retained in working evidence package"
+  },
+  "next_stage": "stage1_AMMA_2021_authorization",
+  "prohibited": [
+    "open AMMA before a separate Stage 1 authorization receipt is merged and CI-green",
+    "open PSMA or LISY response values",
+    "change 2021->2022 transition",
+    "change 69-site high-effort evaluation universe after AMMA access",
+    "use 2022 geometry",
+    "change 15km blocks after AMMA access",
+    "change R1 aggregation after AMMA access",
+    "promote RMNP back to pristine fresh status"
+  ]
+}
