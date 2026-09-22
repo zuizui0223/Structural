@@ -275,6 +275,7 @@ The active development sequence is therefore:
         → file-level physical-schema resolution (v0.10)
         → content-blind archive inventory (v0.11)
         → SHA-pinned file-role firewall (v0.12)
+        → safe-schema header/ID-time audit (v0.13)
         → future empirical scoring only after qualification
 
 ## Retrospective engineering lane
@@ -348,6 +349,16 @@ Only `safe_schema` and `metadata` may be semantically opened before protocol fre
 `response`, `code`, and `unknown` remain closed. Code is deliberately closed by default because original scripts may reveal response definitions, tuned scales, candidate rankings or other post-outcome decisions.
 
 This makes the response firewall a property of the immutable file snapshot rather than a naming convention.
+
+## Safe-schema inspection
+
+After v0.12, v0.13 may semantically open only files explicitly marked `safe_schema`.
+
+For CSV/TSV tables it may inspect headers, row counts, and values of predeclared ID/time columns solely to report unique counts. It does not emit identifier values.
+
+This permits verification of stable site keys, repeated years and coordinate-column presence without opening response, code or unknown-role files.
+
+The physical source is rehashed before inspection; any archive drift invalidates the role manifest and stops the audit.
 
 ## Why the distinction matters
 
