@@ -1,0 +1,166 @@
+{
+  "schema": "structural.pnw_temporal_connectivity_protocol.v0_15",
+  "status": "frozen_before_lagged_state_open",
+  "evidence_class": "response_unopened_design_exposed",
+  "counts_as_pristine_fresh_evidence": false,
+  "system": {
+    "dataset": "USGS PNW montane pond amphibians 2012-2013",
+    "species_scientific_name": "Rana cascadae",
+    "expected_species_token": "RACA",
+    "species_selection_basis": [
+      "species is explicitly listed in dataset metadata",
+      "independent conspecific mark-recapture/telemetry literature supports pond-to-pond and inter-basin movement at multiple spatial scales",
+      "legacy R analysis code is not an admissible justification for species selection"
+    ],
+    "operator": "whole_individual_dispersal_between_breeding_ponds",
+    "origin": "naturally_discrete_montane_breeding_pond_network"
+  },
+  "temporal_firewall": {
+    "contract_id": "structural.temporal_response_firewall.v0_14",
+    "lagged_state_time": "2012",
+    "future_target_time": "2013",
+    "future_target_may_inform_features": false
+  },
+  "geometry": {
+    "source_year": 2012,
+    "target_evaluation_sites": "sites present in both 2012 and 2013",
+    "source_pool": "all physically valid 2012 sites",
+    "coordinate_rule": "median 2012 UTMe and UTMn per site",
+    "datum": "NAD83",
+    "utm_zone": 10,
+    "self_anchor_exclusion": true,
+    "use_2013_geometry": false,
+    "physical_receipt": "development/pnw_physical_schema_receipt_v0_13.json"
+  },
+  "scale_worldset_m": [
+    250,
+    500,
+    1000,
+    1500,
+    5000
+  ],
+  "scale_selection": {
+    "tuned_on_dataset": false,
+    "winner_selected": false,
+    "rationale": "fixed response-independently from external Rana cascadae movement literature spanning common hundreds-of-meters movements, >1 km dispersal, inter-basin dispersal around 0.8-1.6 km, and documented movements up to about 5.2 km",
+    "sources": [
+      {
+        "citation": "Garwood 2009, Spatial ecology of the Cascades frog",
+        "url": "https://digitalcommons.humboldt.edu/etd/2193/"
+      },
+      {
+        "citation": "Garwood & Welsh 2007, Ecology of the Cascades frog",
+        "url": "https://nrm.dfg.ca.gov/FileHandler.ashx?DocumentID=3823"
+      },
+      {
+        "citation": "Phillipsen et al. 2011, Evolution",
+        "doi": "10.1111/j.1558-5646.2011.01356.x"
+      }
+    ]
+  },
+  "response_construction": {
+    "species_token": "RACA",
+    "observation_columns": [
+      "obs1",
+      "obs2",
+      "obs3",
+      "obs4",
+      "obs5",
+      "obs6"
+    ],
+    "survey_presence_columns": [
+      "survtype1",
+      "survtype2",
+      "survtype3",
+      "survtype4",
+      "survtype5",
+      "survtype6"
+    ],
+    "minimum_valid_visits_per_site_year": 2,
+    "site_use_rule": "1 if any RACA observation count is >0 across valid visits; 0 if at least two valid surveys occurred and no RACA observation is >0; otherwise non-estimable",
+    "life_stage_restriction": "none; species-level site use across all recorded life stages",
+    "claim_term": "observed site use, not latent true occupancy"
+  },
+  "pre_response_safe_reference_columns": [
+    "year",
+    "park",
+    "site",
+    "region",
+    "datum",
+    "UTMzone",
+    "UTMe",
+    "UTMn",
+    "error",
+    "elev.m",
+    "max.size",
+    "maxdepth",
+    "perc.wooded",
+    "fish"
+  ],
+  "reference_ladder": {
+    "R0": [
+      "intercept",
+      "2012 target-site RACA observed site-use state"
+    ],
+    "R1": [
+      "R0",
+      "2012 elev.m",
+      "2012 max.size",
+      "2012 maxdepth",
+      "2012 perc.wooded",
+      "2012 fish categorical state"
+    ],
+    "R2": [
+      "R1",
+      "nearest_other_2012_pond_distance_m",
+      "generic_pond_reachability_fraction_across_scale_worldset",
+      "generic_pond_pressure_mean_across_scale_worldset"
+    ],
+    "C": [
+      "R2",
+      "occupied_source_reachability_fraction_across_scale_worldset",
+      "occupied_source_pressure_mean_across_scale_worldset"
+    ],
+    "primary_contrast": "C minus R2"
+  },
+  "feature_definitions": {
+    "generic_pond_reachability_fraction_across_scale_worldset": "fraction of frozen radii with >=1 other 2012 pond within radius",
+    "generic_pond_pressure_mean_across_scale_worldset": "mean over radii of sum over other 2012 ponds exp(-distance/radius)",
+    "occupied_source_reachability_fraction_across_scale_worldset": "fraction of frozen radii with >=1 other 2012 RACA-positive source within radius",
+    "occupied_source_pressure_mean_across_scale_worldset": "mean over radii of sum over other 2012 RACA-positive sources exp(-distance/radius)"
+  },
+  "evaluation": {
+    "heldout_unit": "2012 region",
+    "split": "leave-one-2012-region-out",
+    "training_class_gate": "at least 5 positive and 5 negative 2013 targets in training after endpoint applicability filtering",
+    "model": "L2 logistic regression, C=1, training-only numeric standardization",
+    "numeric_missing_rule": "training-fold median imputation with missingness indicator",
+    "fish_rule": "fixed categorical levels yes/no/missing",
+    "primary_metric": "region-macro heldout log loss",
+    "secondary_metric": "region-macro Brier score",
+    "favorable_direction": "negative candidate-minus-reference difference",
+    "no_common_effect_pooling": true
+  },
+  "stage1_authorization_requirements": [
+    "this protocol committed and CI-green",
+    "expanded mixed-file safe-column manifest committed",
+    "no 2013 target values opened",
+    "no scale, species, reference or split changes after Stage 1"
+  ],
+  "stage2_authorization_requirements": [
+    "2012 site-use state receipt frozen",
+    "R0/R1/R2/C feature table fingerprint frozen",
+    "all feature construction complete without 2013 target",
+    "one-shot 2013 target opening only"
+  ],
+  "prohibited": [
+    "use legacy R code to alter species/reference/scale",
+    "select one radius after seeing 2012 or 2013 responses",
+    "change scale worldset after Stage 1",
+    "use 2013 coordinates",
+    "repair 2013 coordinate anomalies",
+    "use 2013 response to choose source anchors",
+    "promote PNW to pristine fresh evidence",
+    "use PNW result to alter frozen A-Islands/Tanzania manuscript"
+  ]
+}
