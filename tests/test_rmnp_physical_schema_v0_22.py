@@ -38,4 +38,10 @@ def test_file_roles_keep_csv_mixed():
     roles={r["relative_path"]:r["role"] for r in x["assignments"]}
     assert roles["ROMO_data_release.csv"]=="mixed"
     assert roles["romo_datarelease.xml"]=="metadata"
-\n\ndef test_high_effort_universe_is_response_independent():\n    x=json.loads(R.read_text())\n    assert x["survey_effort"]["sites_with_at_least_one_100_percent_survey_both_years"]==70\n    assert x["survey_effort"]["sites_with_geometry_and_100_percent_survey_both_years"]==69\n    assert x["geometry"]["high_effort_candidate_sites"]==69\n
+
+
+def test_high_effort_universe_is_response_independent():
+    x=json.loads(R.read_text())
+    assert x["survey_effort"]["sites_with_at_least_one_100_percent_survey_both_years"]==70
+    assert x["survey_effort"]["sites_with_geometry_and_100_percent_survey_both_years"]==69
+    assert x["geometry"]["high_effort_candidate_sites"]==69
