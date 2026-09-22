@@ -1,0 +1,59 @@
+{
+  "schema": "structural.connectivity_candidate_registry.v0_13",
+  "status": "current_candidate_evidence_classes",
+  "pristine_fresh_lane": [
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022",
+      "priority": 1,
+      "evidence_class": "pristine_fresh_pending",
+      "current_decision": "pending_physical_schema",
+      "response_result_seen_by_project": false,
+      "historical_analysis_code_seen_by_project": false,
+      "next_action": "resolve file-level distribution, geometry, and response firewall without response access"
+    }
+  ],
+  "response_unopened_design_exposed_lane": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "priority": 1,
+      "evidence_class": "response_unopened_design_exposed",
+      "current_decision": "advance_to_protocol_freeze_with_design_exposure_caveat",
+      "response_values_intentionally_inspected": false,
+      "protected_response_values_summarized": false,
+      "historical_analysis_code_seen_by_project": true,
+      "file_level_distribution_resolved": true,
+      "geometry_resolved": true,
+      "response_firewall_feasible": true,
+      "counts_as_pristine_fresh_evidence": false,
+      "next_action": "freeze two-stage lagged-state/future-target protocol; never use legacy code to justify species, reference, or scale"
+    }
+  ],
+  "retrospective_or_stop_lane": [
+    {
+      "candidate_id": "great_lakes_frog_2011_2023",
+      "evidence_class": "fresh_stop_response_exposed"
+    },
+    {
+      "candidate_id": "hungary_amphibian_100_ponds_2023",
+      "evidence_class": "fresh_stop_response_exposed_and_geometry_unresolved"
+    },
+    {
+      "candidate_id": "davis_2026_heliconia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "noreen_2016_koompassia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "delnevo_2026_conospermum",
+      "evidence_class": "retrospective_engineering"
+    }
+  ],
+  "invariants": [
+    "evidence class may only move downward after additional exposure, never upward",
+    "PNW can never be reclassified as pristine fresh",
+    "retrospective or STOP systems can never become fresh confirmation",
+    "RMNP loses pristine status if focal response or connectivity results are inspected before protocol freeze"
+  ]
+}
