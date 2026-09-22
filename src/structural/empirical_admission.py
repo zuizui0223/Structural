@@ -74,6 +74,7 @@ def evaluate_empirical_admission(protocol: ConnectivityEmpiricalProtocol) -> Adm
     # "candidate_uses_outcome" means future/held-out target information.
     # Lagged/current state is handled separately below.
     if protocol.candidate_uses_outcome:
+        reasons.append("candidate_not_response_blind")
         reasons.append("candidate_uses_future_or_heldout_target")
 
     if protocol.candidate_uses_lagged_state and _blank(protocol.lagged_state_contract_id):
