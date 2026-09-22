@@ -1,0 +1,32 @@
+{
+  "schema": "structural.temporal_response_firewall.v0_14",
+  "status": "protocol_infrastructure_no_response_opening",
+  "principle": "lagged/current state may inform prediction after authorization; future/heldout target may never inform feature construction",
+  "stages": [
+    "schema_only",
+    "lagged_state_opened",
+    "features_frozen",
+    "future_target_opened"
+  ],
+  "required_freeze_before_lagged_state": [
+    "species_or_taxon_rule",
+    "geometry_rule",
+    "reference_rule",
+    "connectivity_rule",
+    "split_rule",
+    "metric"
+  ],
+  "pnw_translation": {
+    "lagged_state_time": "2012",
+    "future_target_time": "2013",
+    "ecological_unit": "site",
+    "geometry_rule": "median 2012 UTM per site among 150 sites observed in both years"
+  },
+  "prohibited": [
+    "open future target before feature fingerprint",
+    "change source anchors after future target access",
+    "select connectivity scale using future target",
+    "use future target to choose reference variables",
+    "reclassify PNW as pristine fresh"
+  ]
+}
