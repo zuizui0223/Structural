@@ -1,0 +1,35 @@
+{
+  "schema": "structural.transition_pilot_protocol.v0_31",
+  "status": "prospective_partition_freeze_infrastructure",
+  "purpose": "freeze burned-pilot and confirmatory partitions before pilot response access",
+  "required_before_pilot_open": [
+    "system identity",
+    "partition axis",
+    "nonempty pilot partition",
+    "nonempty confirmatory partition",
+    "pilot/confirmatory disjointness",
+    "one endpoint definition",
+    "one heldout design",
+    "minimum test rows",
+    "minimum training positives",
+    "minimum training negatives",
+    "minimum estimable blocks"
+  ],
+  "pilot_role": "estimability feasibility only",
+  "confirmatory_role": "only partition eligible for later predictive adequacy scoring",
+  "hard_stops": [
+    "pilot response already accessed before partition freeze",
+    "confirmatory response already accessed",
+    "pilot marked for predictive effect estimation",
+    "partition overlap",
+    "duplicate or empty partition units"
+  ],
+  "invariants": [
+    "pilot never enters predictive denominator",
+    "pilot and confirmatory outcomes are never pooled",
+    "pilot failure consumes the protocol version",
+    "pilot pass authorizes only creation of a new confirmatory protocol, not target access",
+    "confirmatory response remains sealed until its own frozen protocol is merged and CI-green"
+  ],
+  "relationship_to_v0_30": "v0.30 defines the estimability audit; v0.31 freezes the disjoint evidence partitions before that audit can be run"
+}

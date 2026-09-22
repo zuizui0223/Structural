@@ -1,5 +1,13 @@
 """Structural post-closure development interfaces."""
 
+from .transition_pilot_protocol import (
+    PilotProtocolStatus,
+    TransitionPilotProtocol,
+    TransitionPilotProtocolDecision,
+    evaluate_transition_pilot_protocol,
+    protocol_fingerprint as transition_pilot_protocol_fingerprint,
+)
+
 from .transition_estimability import (
     PilotBlockAudit,
     PilotDecision,
@@ -66,6 +74,9 @@ from .connectivity_adequacy import (
 )
 
 __all__ = [
+    "PilotProtocolStatus",
+    "TransitionPilotProtocol",
+    "TransitionPilotProtocolDecision",
     "PilotBlockAudit",
     "PilotDecision",
     "PilotObservation",
