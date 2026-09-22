@@ -1,0 +1,52 @@
+{
+  "schema": "structural.rmnp_file_roles.v0_22",
+  "source_snapshot": "user_uploaded_2026-09-22",
+  "assignments": [
+    {
+      "relative_path": "romo_datarelease.xml",
+      "sha256": "b4d7926a1eadfc469c8bb491bd2553477ea6eb197b442fd7508595f9313cece3",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "ROMO_data_release.csv",
+      "sha256": "aa42c97dcc506b96f832c2ea4180f057527b1efeec302586d06801751c1cda3a",
+      "role": "mixed"
+    }
+  ],
+  "mixed_file_column_manifest": {
+    "relative_path": "ROMO_data_release.csv",
+    "file_sha256": "aa42c97dcc506b96f832c2ea4180f057527b1efeec302586d06801751c1cda3a",
+    "header_sha256": "77d8096d900bccee7996d0a6dac73663a3da0a8aec1b398526a2eeafeaf67491",
+    "safe_pre_response_columns": [
+      "date",
+      "site_name",
+      "township",
+      "range",
+      "section",
+      "datum",
+      "utm_zone",
+      "northing",
+      "easting",
+      "fish",
+      "perc_surveyed",
+      "weather",
+      "wind",
+      "air_temp_c",
+      "water_temp_c",
+      "site_length_m",
+      "site_width_m",
+      "max_depth",
+      "north_shoreline_shallows",
+      "north_shore_emerg_veg"
+    ],
+    "protected_response_columns": [
+      "psma",
+      "psma_stage",
+      "lisy",
+      "lisy_stage",
+      "amma",
+      "amma_stage"
+    ],
+    "all_other_columns": "none"
+  }
+}
