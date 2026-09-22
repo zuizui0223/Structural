@@ -1,0 +1,86 @@
+{
+  "schema": "structural.rmnp_stage1_authorization.v0_25",
+  "status": "authorized_once_for_2021_AMMA_lagged_state_only",
+  "authorization_parent_commit": "bdaaf3b13bbf4fa292b0f29963ebf5332250a470",
+  "locked_inputs": {
+    "source_file_sha256": "aa42c97dcc506b96f832c2ea4180f057527b1efeec302586d06801751c1cda3a",
+    "protocol_v0_23_blob_sha": "bc20145a35d1320511d3f0d364a0db55ca1eb0d5",
+    "reference_receipt_v0_24_blob_sha": "6c5d72ffe94773aaaf1bdc351045dd84b7c3b4cb",
+    "reference_table_sha256": "1680ffd22cb5c524b32be668f9bb1a7e19c8ffacdb9d3ef44c8eebdc7538769c",
+    "focal_token": "AMMA",
+    "focal_taxon": "Ambystoma mavortium",
+    "source_year": 2021,
+    "target_year": 2022,
+    "source_pool_sites": 116,
+    "evaluation_sites": 69,
+    "movement_worldset_m": [
+      500,
+      1000
+    ],
+    "spatial_grid_m": 15000
+  },
+  "allowed_access": {
+    "year": 2021,
+    "columns": [
+      "date",
+      "site_name",
+      "perc_surveyed",
+      "amma"
+    ],
+    "site_identifier_normalization": "strip leading/trailing whitespace only",
+    "focal_column": "amma",
+    "purpose": "construct 2021 AMMA observed annual site-use state and occupied-source anchors"
+  },
+  "endpoint_semantic_clarification": {
+    "metadata_values": {
+      "0": "not detected",
+      "1": "detected",
+      "NA": "no data"
+    },
+    "positive": "any 2021 AMMA=1 at the site",
+    "negative": "no AMMA=1 at the site AND at least one 2021 visit with perc_surveyed=100 AND AMMA=0",
+    "otherwise": "non_estimable",
+    "reason": "NA is explicitly No Data in source metadata and may not be converted to non-detection",
+    "timing": "frozen before first AMMA response access"
+  },
+  "source_state_application": {
+    "source_pool": "only the frozen 116 high-effort/geometry-valid 2021 sites",
+    "evaluation_pool": "only the frozen 69 high-effort 2021-2022 evaluation sites",
+    "source_anchor_rule": "AMMA-positive 2021 source sites only",
+    "self_anchor_exclusion": true
+  },
+  "forbidden_access": {
+    "columns": [
+      "psma",
+      "psma_stage",
+      "lisy",
+      "lisy_stage",
+      "amma_stage"
+    ],
+    "years": [
+      2022
+    ],
+    "actions": [
+      "inspect or summarize 2022 AMMA",
+      "change focal taxon after 2021 opening",
+      "change 2021->2022 transition",
+      "change source/evaluation pools",
+      "change 500/1000 m worldset",
+      "change 15 km blocks",
+      "change R0/R1/R2/C definitions",
+      "change local reference variables",
+      "use 2022 geometry",
+      "promote evidence class to pristine fresh"
+    ]
+  },
+  "post_access_requirements": [
+    "freeze 2021 AMMA site-state table fingerprint",
+    "freeze occupied-source set count and fingerprint",
+    "build complete 69-row R0/R1/R2/C feature table from frozen reference plus 2021 AMMA state",
+    "freeze feature-table fingerprint",
+    "record source/evaluation applicability before any 2022 AMMA access",
+    "merge and pass CI before Stage 2 authorization"
+  ],
+  "evidence_class": "focal_response_unseen_system_context_exposed",
+  "counts_as_pristine_fresh_evidence": false
+}
