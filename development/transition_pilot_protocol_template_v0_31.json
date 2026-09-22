@@ -1,0 +1,22 @@
+{
+  "schema": "structural.transition_pilot_protocol_instance.v0_31",
+  "protocol_id": "<FILL>",
+  "system_id": "<FILL>",
+  "partition_axis": "<e.g. time_window / site_panel / population_panel>",
+  "pilot_partition": [
+    "<PILOT_UNIT_1>"
+  ],
+  "confirmatory_partition": [
+    "<CONFIRMATORY_UNIT_1>"
+  ],
+  "endpoint_id": "<FROZEN_ENDPOINT>",
+  "endpoint_semantics": "<FROZEN_BINARY_OR_OTHER_ENDPOINT_RULE>",
+  "heldout_design_id": "<FROZEN_HELDOUT_DESIGN>",
+  "minimum_test_rows": 3,
+  "minimum_train_positive": 5,
+  "minimum_train_negative": 5,
+  "minimum_estimable_blocks": 3,
+  "pilot_response_accessed": false,
+  "confirmatory_response_accessed": false,
+  "pilot_used_for_effect_estimation": false
+}
