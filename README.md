@@ -80,6 +80,7 @@ Canonical development files:
 - `docs/TEMPORAL_RESPONSE_FIREWALL_V0_14.md`
 - `docs/PNW_TEMPORAL_CONNECTIVITY_PROTOCOL_V0_15.md`
 - `docs/PNW_REFERENCE_STATE_V0_16.md`
+- `docs/PNW_STAGE1_AUTHORIZATION_V0_17.md`
 - `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
 - `development/connectivity_adequacy_contract_v0_1.json`
 - `src/structural/connectivity_adequacy.py`
