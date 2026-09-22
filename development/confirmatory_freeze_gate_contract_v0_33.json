@@ -1,0 +1,23 @@
+{
+  "schema": "structural.confirmatory_freeze_gate.v0_33",
+  "status": "post_pilot_pre_confirmatory_protocol_gate",
+  "eligible_only_if": [
+    "pilot result status is qualified_for_new_confirmatory_protocol",
+    "pilot result protocol fingerprint matches frozen v0.31 protocol",
+    "pilot effect_size is null",
+    "pilot prediction_score is null",
+    "pilot predictive denominator contribution is zero",
+    "confirmatory partition was not opened",
+    "confirmatory response row count seen is zero",
+    "confirmatory response remains unopened"
+  ],
+  "eligible_action_only": "freeze a separate confirmatory protocol",
+  "explicitly_not_authorized": [
+    "confirmatory response access",
+    "predictive model fitting",
+    "connectivity effect estimation",
+    "pooling pilot with confirmation"
+  ],
+  "pilot_failure_rule": "stop protocol version; no confirmatory freeze",
+  "relationship": "v0.31 freezes partitions, v0.32 burns pilot, v0.33 permits confirmatory protocol construction only after a clean pilot pass"
+}
