@@ -1,0 +1,59 @@
+{
+  "schema": "structural.pnw_file_roles.v0_13",
+  "source_snapshot": "user_uploaded_2026-09-22",
+  "assignments": [
+    {
+      "relative_path": "Ryan_Metadata Questionnaire.docx",
+      "sha256": "fe7948c42ae880e8ad8f280f933fe43daea156d04be972fc7daf23fa4ec61a20",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "amphibianOccupancy_fgdc.xml",
+      "sha256": "25fca58a101f212efa3d0072403abf4032eac80e337e0326d222a68fcaa175fd",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Ryan_Logistic_and_Occupancy_Code.R",
+      "sha256": "2094a34dbd293b4a3263f1b500329d2af682a4c28b62cd24a95cd1377aaa3182",
+      "role": "code"
+    },
+    {
+      "relative_path": "Ryan_mastersheet.csv",
+      "sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+      "role": "mixed"
+    }
+  ],
+  "mixed_file_column_manifest": {
+    "relative_path": "Ryan_mastersheet.csv",
+    "file_sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+    "header_sha256": "554a96b07510d2bb828eaca24cb3ca892fa77466abaccdaee18f3eb20a696213",
+    "safe_pre_response_columns": [
+      "year",
+      "park",
+      "site",
+      "region",
+      "datum",
+      "UTMzone",
+      "UTMe",
+      "UTMn",
+      "error",
+      "elev.m"
+    ],
+    "protected_response_columns": [
+      "species",
+      "life.stage",
+      "tadpole.stage",
+      "obs1",
+      "obs2",
+      "obs3",
+      "obs4",
+      "obs5",
+      "obs6",
+      "RACAeggsstrand",
+      "RACAtadsstranded",
+      "AMMAstranded",
+      "AMGRstranded"
+    ],
+    "all_other_columns": "closed_until_protocol_freeze_or_explicit_reclassification"
+  }
+}

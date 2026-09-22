@@ -1,0 +1,106 @@
+{
+  "schema": "structural.pnw_physical_schema_receipt.v0_13",
+  "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+  "status": "advance_to_protocol_freeze_with_design_exposure_caveat",
+  "evidence_class": "response_unopened_design_exposed",
+  "counts_as_pristine_fresh_evidence": false,
+  "counts_as_frozen_structural_paper_evidence": false,
+  "source_files": {
+    "Ryan_Metadata Questionnaire.docx": {
+      "size_bytes": 43070,
+      "sha256": "fe7948c42ae880e8ad8f280f933fe43daea156d04be972fc7daf23fa4ec61a20"
+    },
+    "Ryan_Logistic_and_Occupancy_Code.R": {
+      "size_bytes": 40629,
+      "sha256": "2094a34dbd293b4a3263f1b500329d2af682a4c28b62cd24a95cd1377aaa3182"
+    },
+    "amphibianOccupancy_fgdc.xml": {
+      "size_bytes": 27646,
+      "sha256": "25fca58a101f212efa3d0072403abf4032eac80e337e0326d222a68fcaa175fd"
+    },
+    "Ryan_mastersheet.csv": {
+      "size_bytes": 645306,
+      "sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+      "header_count": 142,
+      "header_sha256": "554a96b07510d2bb828eaca24cb3ca892fa77466abaccdaee18f3eb20a696213"
+    }
+  },
+  "metadata_confirmation": {
+    "coordinates_declared_in_master_sheet": true,
+    "coordinate_system": "NAD83 / UTM Zone 10N",
+    "site_key": "site",
+    "years": [
+      "2012",
+      "2013"
+    ],
+    "metadata_entity": "Ryan_mastersheet.csv"
+  },
+  "safe_column_audit": {
+    "safe_columns_read": [
+      "year",
+      "park",
+      "site",
+      "region",
+      "datum",
+      "UTMzone",
+      "UTMe",
+      "UTMn",
+      "error",
+      "elev.m"
+    ],
+    "protected_response_columns_intentionally_accessed": [],
+    "protected_response_values_summarized": false,
+    "protected_response_values_used_for_design": false,
+    "full_rows_structurally_tokenized_by_csv_parser": true,
+    "model_fit_count": 0,
+    "candidate_ranking_count": 0
+  },
+  "safe_geometry_summary": {
+    "rows_total": 1091,
+    "unique_sites_total": 275,
+    "unique_site_years": 425,
+    "sites_2012": 219,
+    "sites_2013": 206,
+    "sites_present_both_years": 150,
+    "missing_coordinate_rows": 0,
+    "baseline_geometry_year": 2012,
+    "baseline_common_sites": 150,
+    "baseline_datum": [
+      "NAD83"
+    ],
+    "baseline_utm_zone": [
+      10
+    ],
+    "baseline_missing_coordinate_rows": 0,
+    "baseline_sites_with_multiple_coordinate_pairs": 2,
+    "baseline_max_within_site_coordinate_spread_m": 29.546573405388315,
+    "baseline_coordinate_rule": "for sites observed in both years, use median 2012 UTMe and median 2012 UTMn grouped by site; never use 2013 coordinates to construct predictor geometry"
+  },
+  "nonbaseline_geometry_diagnostic": {
+    "sites_with_multiple_coordinate_tuples_across_all_rows": 13,
+    "maximum_observed_within_site_spread_m": 4770023.000128406,
+    "interpretation": "at least one 2013 coordinate record is grossly inconsistent; no repair is attempted and 2013 geometry is excluded from the frozen baseline rule"
+  },
+  "design_exposure": {
+    "legacy_R_code_semantically_inspected": true,
+    "legacy_R_code_executed": false,
+    "historical_code_may_not_justify_fresh_species_selection": true,
+    "historical_code_may_not_justify_fresh_reference_selection": true,
+    "historical_code_may_not_justify_connectivity_scale_selection": true,
+    "consequence": "PNW may be used as a response-unopened prospective-like holdout/engineering test, but not as pristine fresh confirmatory evidence"
+  },
+  "physical_schema_gates": {
+    "file_level_distribution_resolved": true,
+    "reproducible_geometry_present": true,
+    "response_firewall_feasible": true,
+    "response_target_values_opened_for_analysis": false,
+    "advance_to_protocol_freeze": true
+  },
+  "prohibited_next_actions": [
+    "inspect species or obs values before a separately frozen response-access protocol",
+    "repair 2013 coordinate anomalies using response information",
+    "choose species or reference covariates because they appear in the historical R analysis",
+    "count PNW as pristine fresh evidence",
+    "use PNW to alter the frozen A-Islands/Tanzania paper"
+  ]
+}
