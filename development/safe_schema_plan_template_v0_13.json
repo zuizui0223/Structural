@@ -1,0 +1,20 @@
+{
+  "schema": "structural.safe_schema_plan.v0_13",
+  "instructions": [
+    "Every requested file must be assigned role safe_schema in the v0.12 manifest.",
+    "Only CSV/TSV are supported in v0.13.",
+    "id_columns and time_columns are read only from safe_schema files.",
+    "The audit emits counts, not identifier values."
+  ],
+  "audits": [
+    {
+      "relative_path": "<SAFE_SCHEMA.csv>",
+      "id_columns": [
+        "<SITE_ID_COLUMN>"
+      ],
+      "time_columns": [
+        "<YEAR_OR_TIME_COLUMN>"
+      ]
+    }
+  ]
+}
