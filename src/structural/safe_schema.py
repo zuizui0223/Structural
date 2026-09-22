@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Iterator
 from zipfile import ZipFile
 
-from .file_inventory import inventory_source, to_mapping
+from .file_inventory import inventory_source, to_mapping as inventory_to_mapping
 from .file_roles import (
     FileRole,
     FileRoleFirewallError,
@@ -54,7 +54,7 @@ def _inventory_map(inventory: dict) -> dict[str, tuple[int, str]]:
 
 
 def verify_source_matches_inventory(source: Path, inventory: dict) -> None:
-    current = to_mapping(inventory_source(source))
+    current = inventory_to_mapping(inventory_source(source))
     frozen = _inventory_map(inventory)
     observed = _inventory_map(current)
     if frozen != observed:
