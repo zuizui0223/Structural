@@ -1,0 +1,86 @@
+{
+  "schema": "structural.rmnp_stage2_authorization.v0_28",
+  "status": "authorized_once_for_2022_AMMA_future_target_only",
+  "authorization_parent_commit": "9c05c830e40aaacfd46540825708ba2abc593732",
+  "locked_inputs": {
+    "source_file_sha256": "aa42c97dcc506b96f832c2ea4180f057527b1efeec302586d06801751c1cda3a",
+    "protocol_v0_23_blob_sha": "bc20145a35d1320511d3f0d364a0db55ca1eb0d5",
+    "reference_v0_24_blob_sha": "6c5d72ffe94773aaaf1bdc351045dd84b7c3b4cb",
+    "stage1_authorization_v0_25_blob_sha": "ea4a34da57a1fa4a1d5e5270a106121f89d9a89a",
+    "stage1_result_v0_26_blob_sha": "75a7475b74aa05ebb7a60d7b89b4c349e8594988",
+    "scoring_v0_27_blob_sha": "89a1598df87f97cc4fbf87c4739d16305ca7631e",
+    "state_table_sha256": "38018b783ebf03a20e08b7fa8adcc2c7a0473100ef7e83ad1e6c92cb2f5a2ca5",
+    "feature_table_sha256": "e45ad76a41126fed7dea2c147c094e2d5998dda548f99ac3efc700c68b900a1c",
+    "focal_token": "AMMA",
+    "target_year": 2022,
+    "evaluation_sites": 69,
+    "movement_worldset_m": [
+      500,
+      1000
+    ],
+    "spatial_grid_m": 15000
+  },
+  "allowed_access": {
+    "year": 2022,
+    "columns": [
+      "date",
+      "site_name",
+      "perc_surveyed",
+      "amma"
+    ],
+    "site_identifier_normalization": "strip leading/trailing whitespace only",
+    "focal_column": "amma",
+    "purpose": "construct 2022 AMMA observed annual site-use target under the same metadata semantics as Stage 1"
+  },
+  "endpoint_semantics": {
+    "positive": "any 2022 AMMA=1 at the site",
+    "negative": "no AMMA=1 AND at least one 2022 visit with perc_surveyed=100 AND AMMA=0",
+    "otherwise": "non_estimable",
+    "NA": "no data; never converted to non-detection"
+  },
+  "applicability": {
+    "require_frozen_69_site_universe": true,
+    "require_2021_lagged_state_estimable": true,
+    "require_2022_target_estimable": true,
+    "no_other_post_response_filtering": true
+  },
+  "scoring": {
+    "feature_models": [
+      "R0",
+      "R1",
+      "R2",
+      "C"
+    ],
+    "primary_contrast": "C minus R2",
+    "heldout_unit": "15 km grid block",
+    "minimum_applicable_test_rows": 3,
+    "training_positive_minimum": 5,
+    "training_negative_minimum": 5,
+    "primary_metric": "block-macro heldout log loss",
+    "secondary_metric": "block-macro Brier score",
+    "favorable_direction": "negative candidate-minus-reference difference"
+  },
+  "forbidden": [
+    "inspect PSMA or LISY",
+    "change AMMA endpoint semantics",
+    "change evaluation universe",
+    "change 2021 source state or occupied-source anchors",
+    "change feature table",
+    "change movement worldset",
+    "change 15 km blocks",
+    "change preprocessing or model implementation",
+    "change class/test-row gates",
+    "change target after seeing result",
+    "rerun under a modified design as confirmation"
+  ],
+  "post_access_requirements": [
+    "freeze 2022 target-table fingerprint",
+    "record target applicability and class counts",
+    "evaluate every frozen heldout block under predeclared gates",
+    "score R0/R1/R2/C on identical applicable rows",
+    "report C-minus-R2 regardless of direction",
+    "retain any non-estimability without rescue"
+  ],
+  "evidence_class": "focal_response_unseen_system_context_exposed",
+  "counts_as_pristine_fresh_evidence": false
+}
