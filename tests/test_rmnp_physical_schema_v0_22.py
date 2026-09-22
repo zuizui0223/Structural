@@ -28,10 +28,14 @@ def test_geometry_is_source_year_only_and_reproducible():
     assert g["canonical_crs"].startswith("EPSG:26913")
     assert g["geometry_repair_using_2022_forbidden"] is True
 
-def test_amma_is_excluded_before_response_access():
+def test_amma_is_resolved_with_source_caveat_and_psma_lisy_are_stopped():
     x=json.loads(R.read_text())
     assert x["metadata_semantics"]["amma_taxon_identity_conflict"] is True
-    assert "reintroduce AMMA" in " ".join(x["prohibited"])
+    assert x["metadata_semantics"]["amma_resolution_source"]["taxon"]=="Ambystoma mavortium"
+    contamination=x["metadata_semantics"]["response_contamination"]
+    assert contamination["amma"]=="focal_response_direction_not_seen"
+    assert contamination["psma"].startswith("STOP")
+    assert contamination["lisy"].startswith("STOP")
 
 def test_file_roles_keep_csv_mixed():
     x=json.loads(M.read_text())
