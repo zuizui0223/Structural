@@ -1,0 +1,11 @@
+{
+  "schema": "structural.confirmatory_admission_queue.v0_36",
+  "status": "active_gate_first_queue",
+  "entry_count": 0,
+  "entries": [],
+  "confirmatory_response_authorized": false,
+  "entry_rule": "an entry must reproduce an admitted v0.31-v0.33 receipt from its frozen protocol and burned-pilot result under CI",
+  "eligible_action": "freeze_confirmatory_protocol_only",
+  "pilot_predictive_denominator_contribution": 0,
+  "ttf_handoff_is_dependency": false
+}

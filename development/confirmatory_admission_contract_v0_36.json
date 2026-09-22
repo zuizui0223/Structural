@@ -1,0 +1,27 @@
+{
+  "schema": "structural.confirmatory_admission_contract.v0_36",
+  "status": "active_mainline_gate",
+  "purpose": "make v0.31-v0.33 one reproducible admission decision before any system enters the confirmatory-protocol queue",
+  "inputs": [
+    "frozen v0.31 transition-pilot protocol",
+    "v0.32 burned-pilot result"
+  ],
+  "recomputed_gates": [
+    "v0.31 protocol pre-access qualification and fingerprint",
+    "v0.32 exact feasibility-only output ceiling and estimable-block consistency",
+    "v0.33 fingerprint/exposure/predictive-output freeze gate"
+  ],
+  "admitted_status": "admitted_to_confirmatory_protocol_queue",
+  "admitted_action": "freeze_confirmatory_protocol_only",
+  "confirmatory_response_authorized": false,
+  "predictive_denominator_contribution": 0,
+  "queue_file": "development/confirmatory_admission_queue_v0_36.json",
+  "ci_validator": "scripts/validate_confirmatory_queue_v0_36.py",
+  "anti_selection": [
+    "no system enters because a connectivity effect is favorable",
+    "burned pilot contains no effect size or prediction score",
+    "pilot failure consumes the endpoint/version",
+    "candidate hunting remains subordinate to prospective gate qualification",
+    "TTF remains a later independent transferability layer"
+  ]
+}
