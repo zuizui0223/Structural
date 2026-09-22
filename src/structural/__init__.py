@@ -1,5 +1,13 @@
 """Structural post-closure development interfaces."""
 
+from .transition_estimability import (
+    PilotBlockAudit,
+    PilotDecision,
+    PilotObservation,
+    TransitionPilotAudit,
+    audit_transition_pilot,
+)
+
 from .temporal_response_firewall import (
     TemporalAccessAction,
     TemporalAccessError,
@@ -58,6 +66,10 @@ from .connectivity_adequacy import (
 )
 
 __all__ = [
+    "PilotBlockAudit",
+    "PilotDecision",
+    "PilotObservation",
+    "TransitionPilotAudit",
     "TemporalAccessAction",
     "TemporalAccessError",
     "TemporalAccessStage",
