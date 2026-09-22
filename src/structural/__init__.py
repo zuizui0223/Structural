@@ -1,5 +1,13 @@
 """Structural post-closure development interfaces."""
 
+from .candidate_triage import (
+    ConnectivityCandidateMetadata,
+    MetadataStatus,
+    TriageDecision,
+    TriageStatus,
+    triage_candidate,
+)
+
 from .empirical_admission import (
     AdmissionDecision,
     AdmissionStatus,
@@ -32,6 +40,10 @@ from .connectivity_adequacy import (
 )
 
 __all__ = [
+    "ConnectivityCandidateMetadata",
+    "MetadataStatus",
+    "TriageDecision",
+    "TriageStatus",
     "AdmissionDecision",
     "AdmissionStatus",
     "ConnectivityEmpiricalProtocol",
@@ -57,4 +69,5 @@ __all__ = [
     "declared_operator_transition",
     "scalar_insufficiency_witness",
     "evaluate_empirical_admission",
+    "triage_candidate",
 ]
