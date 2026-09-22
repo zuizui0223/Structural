@@ -270,6 +270,7 @@ The active development sequence is therefore:
         → executable protocol qualification (v0.5)
         → retrospective adapter pilots kept permanently non-fresh (v0.6)
         → schema-only adapter audit before retrospective fitting (v0.7)
+        → metadata-only fresh candidate triage (v0.8)
         → future empirical scoring only after qualification
 
 ## Retrospective engineering lane
@@ -291,6 +292,16 @@ They may **not** be used to:
 - select favorable operators for a confirmatory portability claim.
 
 The primary v0.6 engineering pilot is the 2026 Heliconia tortuosa dataset, which contains landscape structure, hummingbird-movement-informed connectivity and contemporary pollen-mediated genetic endpoints in the same fragmented tropical landscapes. Because its publication already exposes the biological result, it is permanently marked `counts_as_fresh_evidence=false`.
+
+## Fresh-candidate discovery boundary
+
+The project now distinguishes candidate discovery from protocol admission.
+
+Fresh candidates are screened using metadata only. A candidate advances only when source identity, ecological units, reproducible geometry, response firewalling, temporal design and operator semantics can be established without opening response values or inspecting a published connectivity result.
+
+If the project sees the response result during discovery, the candidate is permanently removed from the fresh lane. It may still be used as a retrospective engineering system.
+
+The current active fresh candidate is the USGS/NPS Pacific Northwest montane-pond amphibian release (2012–2013). It is **pending**, not qualified, because the physical data release still needs response-blind confirmation that pond geometry is reproducible and response columns/files can be isolated before feature/split freezing.
 
 ## Why the distinction matters
 
