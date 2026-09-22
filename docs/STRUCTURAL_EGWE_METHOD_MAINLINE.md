@@ -271,6 +271,7 @@ The active development sequence is therefore:
         → retrospective adapter pilots kept permanently non-fresh (v0.6)
         → schema-only adapter audit before retrospective fitting (v0.7)
         → metadata-only fresh candidate triage (v0.8)
+        → longitudinal fresh-candidate prioritization (v0.9)
         → future empirical scoring only after qualification
 
 ## Retrospective engineering lane
@@ -301,7 +302,7 @@ Fresh candidates are screened using metadata only. A candidate advances only whe
 
 If the project sees the response result during discovery, the candidate is permanently removed from the fresh lane. It may still be used as a retrospective engineering system.
 
-The current active fresh candidate is the USGS/NPS Pacific Northwest montane-pond amphibian release (2012–2013). It is **pending**, not qualified, because the physical data release still needs response-blind confirmation that pond geometry is reproducible and response columns/files can be isolated before feature/split freezing.
+The priority-1 fresh candidate is now the USGS Rocky Mountain National Park amphibian release (1986–2022). It is **pending**, not qualified. Public metadata establish a long repeated occupancy design, but the physical release must still verify per-waterbody geometry and response firewalling before feature/split freezing. The Pacific Northwest montane-pond release (2012–2013) remains a priority-2 pending candidate.
 
 ## Why the distinction matters
 
