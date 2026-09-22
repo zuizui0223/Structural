@@ -1,0 +1,19 @@
+{
+  "schema": "structural.file_role_manifest.v0_12",
+  "instructions": [
+    "Every inventory file must appear exactly once.",
+    "SHA-256 must match the v0.11 inventory.",
+    "Use safe_schema only for files whose semantic content may be opened before response freeze.",
+    "Use metadata for descriptive/source documentation safe to open.",
+    "Use response for files containing focal response values.",
+    "Use code for analysis/source code; code remains closed by default because it may reveal response-driven choices.",
+    "Use unknown whenever role is not proven without semantic inspection."
+  ],
+  "assignments": [
+    {
+      "relative_path": "<PATH_FROM_V0_11_INVENTORY>",
+      "sha256": "<SHA256_FROM_V0_11_INVENTORY>",
+      "role": "unknown"
+    }
+  ]
+}

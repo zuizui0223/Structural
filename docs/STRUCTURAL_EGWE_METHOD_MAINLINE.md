@@ -274,6 +274,7 @@ The active development sequence is therefore:
         → longitudinal fresh-candidate prioritization (v0.9)
         → file-level physical-schema resolution (v0.10)
         → content-blind archive inventory (v0.11)
+        → SHA-pinned file-role firewall (v0.12)
         → future empirical scoring only after qualification
 
 ## Retrospective engineering lane
@@ -337,6 +338,16 @@ The tool may record only:
 It may hash opaque bytes but may not decode text, inspect table headers, summarize response values or fit a model.
 
 This creates an immutable source snapshot before files are assigned to safe-schema / response / unknown roles.
+
+## File-role firewall
+
+After the opaque v0.11 inventory, every physical file must be assigned exactly one SHA-pinned role.
+
+Only `safe_schema` and `metadata` may be semantically opened before protocol freeze.
+
+`response`, `code`, and `unknown` remain closed. Code is deliberately closed by default because original scripts may reveal response definitions, tuned scales, candidate rankings or other post-outcome decisions.
+
+This makes the response firewall a property of the immutable file snapshot rather than a naming convention.
 
 ## Why the distinction matters
 
