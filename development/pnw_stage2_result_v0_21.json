@@ -1,0 +1,261 @@
+{
+  "schema": "structural.pnw_stage2_result.v0_21",
+  "status": "terminal_non_estimable_after_authorized_2013_target_open",
+  "execution_type": "authoritative_once_design_exposed_response_holdout",
+  "source_file_sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+  "stage1_feature_table_sha256": "f2e85764d736ee069c5805e6a808b7e434bbb2930cfa0808e7ff723927af4ce6",
+  "target_table_sha256": "998961d32a7bd968744de61d2feb8afdb1188df7f8009228c9940f07e09b44a4",
+  "prediction_table_sha256": "9b4f5c5bb59ad027afd59122c621e9bbe9120e4d1074ebb287abf6020a036e3d",
+  "runtime": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "sklearn": "1.8.0"
+  },
+  "target_counts_150": {
+    "positive": 117,
+    "negative": 3,
+    "non_estimable": 30
+  },
+  "applicability": {
+    "feature_rows": 150,
+    "lagged_estimable": 125,
+    "target_estimable": 120,
+    "joint_applicable": 111,
+    "joint_target_pos": 108,
+    "joint_target_neg": 3
+  },
+  "folds": [
+    {
+      "region": "DaggerTwisp",
+      "feature_rows": 3,
+      "lagged_estimable_rows": 3,
+      "target_estimable_rows": 0,
+      "joint_applicable_test_rows": 0,
+      "test_pos": 0,
+      "test_neg": 0,
+      "n_train": 111,
+      "train_pos": 108,
+      "train_neg": 3,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "no_applicable_test_rows",
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "DeerLake",
+      "feature_rows": 20,
+      "lagged_estimable_rows": 19,
+      "target_estimable_rows": 19,
+      "joint_applicable_test_rows": 18,
+      "test_pos": 17,
+      "test_neg": 1,
+      "n_train": 93,
+      "train_pos": 91,
+      "train_neg": 2,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "Hwy20",
+      "feature_rows": 2,
+      "lagged_estimable_rows": 2,
+      "target_estimable_rows": 0,
+      "joint_applicable_test_rows": 0,
+      "test_pos": 0,
+      "test_neg": 0,
+      "n_train": 111,
+      "train_pos": 108,
+      "train_neg": 3,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "no_applicable_test_rows",
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "MazamaLakes",
+      "feature_rows": 8,
+      "lagged_estimable_rows": 8,
+      "target_estimable_rows": 8,
+      "joint_applicable_test_rows": 8,
+      "test_pos": 8,
+      "test_neg": 0,
+      "n_train": 103,
+      "train_pos": 100,
+      "train_neg": 3,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "Palisades",
+      "feature_rows": 19,
+      "lagged_estimable_rows": 16,
+      "target_estimable_rows": 17,
+      "joint_applicable_test_rows": 16,
+      "test_pos": 15,
+      "test_neg": 1,
+      "n_train": 95,
+      "train_pos": 93,
+      "train_neg": 2,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "Potholes",
+      "feature_rows": 16,
+      "lagged_estimable_rows": 16,
+      "target_estimable_rows": 15,
+      "joint_applicable_test_rows": 15,
+      "test_pos": 14,
+      "test_neg": 1,
+      "n_train": 96,
+      "train_pos": 94,
+      "train_neg": 2,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "SevenLakes",
+      "feature_rows": 30,
+      "lagged_estimable_rows": 27,
+      "target_estimable_rows": 29,
+      "joint_applicable_test_rows": 27,
+      "test_pos": 27,
+      "test_neg": 0,
+      "n_train": 84,
+      "train_pos": 81,
+      "train_neg": 3,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "SprayPark",
+      "feature_rows": 10,
+      "lagged_estimable_rows": 10,
+      "target_estimable_rows": 8,
+      "joint_applicable_test_rows": 8,
+      "test_pos": 8,
+      "test_neg": 0,
+      "n_train": 103,
+      "train_pos": 100,
+      "train_neg": 3,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "UpperLena",
+      "feature_rows": 21,
+      "lagged_estimable_rows": 17,
+      "target_estimable_rows": 17,
+      "joint_applicable_test_rows": 16,
+      "test_pos": 16,
+      "test_neg": 0,
+      "n_train": 95,
+      "train_pos": 92,
+      "train_neg": 3,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    },
+    {
+      "region": "WyeLakes",
+      "feature_rows": 21,
+      "lagged_estimable_rows": 7,
+      "target_estimable_rows": 7,
+      "joint_applicable_test_rows": 3,
+      "test_pos": 3,
+      "test_neg": 0,
+      "n_train": 108,
+      "train_pos": 105,
+      "train_neg": 3,
+      "estimable": false,
+      "non_estimable_reasons": [
+        "training_negative_count_below_5"
+      ],
+      "model_fit_count": 0
+    }
+  ],
+  "estimable_regions": [],
+  "non_estimable_regions": [
+    "DaggerTwisp",
+    "DeerLake",
+    "Hwy20",
+    "MazamaLakes",
+    "Palisades",
+    "Potholes",
+    "SevenLakes",
+    "SprayPark",
+    "UpperLena",
+    "WyeLakes"
+  ],
+  "model_fit_count": 0,
+  "prediction_row_count": 0,
+  "model_summary": {
+    "R0": {
+      "region_macro_log_loss": null,
+      "region_macro_brier": null,
+      "n_regions": 0,
+      "n_predictions": 0
+    },
+    "R1": {
+      "region_macro_log_loss": null,
+      "region_macro_brier": null,
+      "n_regions": 0,
+      "n_predictions": 0
+    },
+    "R2": {
+      "region_macro_log_loss": null,
+      "region_macro_brier": null,
+      "n_regions": 0,
+      "n_predictions": 0
+    },
+    "C": {
+      "region_macro_log_loss": null,
+      "region_macro_brier": null,
+      "n_regions": 0,
+      "n_predictions": 0
+    }
+  },
+  "primary": {
+    "contrast": "C minus R2",
+    "region_macro_log_loss_difference": null,
+    "region_macro_brier_difference": null,
+    "decision": "non_estimable",
+    "reason": "every frozen heldout-region fold fails the predeclared training-class gate (training negatives <5); DaggerTwisp and Hwy20 additionally have zero applicable test rows"
+  },
+  "response_access": {
+    "2013_future_target_opened": true,
+    "target_open_count": 1,
+    "features_changed_after_target_open": false,
+    "scale_changed_after_target_open": false,
+    "source_anchors_changed_after_target_open": false
+  },
+  "evidence_class": "design_exposed_terminal_non_estimable",
+  "counts_as_pristine_fresh_evidence": false,
+  "rerun_with_changed_design_allowed": false,
+  "replacement_candidate_allowed_as_pnw_rescue": false
+}
