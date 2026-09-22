@@ -1,0 +1,79 @@
+{
+  "schema": "structural.usgs_metadata_resolution.v0_10",
+  "status": "metadata_distribution_resolution_no_response_values",
+  "candidates": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "source_identifier": "USGS.84c9499d-d840-4277-9ffd-d5d800bca97f",
+      "doi": "10.5066/P13PGN55",
+      "user_supplied_metadata_url": "https://data.usgs.gov/datacatalog/metadata/USGS.84c9499d-d840-4277-9ffd-d5d800bca97f.xml",
+      "catalog_distribution_summary": {
+        "resource_count": 2,
+        "resources": [
+          {
+            "title": "Digital Data",
+            "access_type": "landing_page",
+            "access_url": "https://doi.org/10.5066/P13PGN55"
+          },
+          {
+            "title": "Original Metadata",
+            "access_type": "metadata_xml",
+            "download_url": "https://data.usgs.gov/datacatalog/metadata/USGS.84c9499d-d840-4277-9ffd-d5d800bca97f.xml"
+          }
+        ],
+        "file_level_download_urls_present": false
+      },
+      "source_landing_resolved": true,
+      "file_level_distribution_resolved": false,
+      "geometry_verified": false,
+      "response_firewall_verified": false,
+      "response_values_read": false,
+      "decision": "pending_physical_schema",
+      "reasons": [
+        "file_level_distribution_unresolved",
+        "geometry_not_physically_verified",
+        "response_firewall_not_verified"
+      ],
+      "interpretation": "The XML/DCAT surface resolves the DOI landing and original metadata only; it does not expose the underlying data-file inventory required for a fresh connectivity protocol."
+    },
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022",
+      "source_identifier": "USGS:657ca143d34e23d35331ce9d",
+      "doi": "10.5066/P9EX70L7",
+      "public_catalog_metadata": {
+        "data_span": "1986-2022",
+        "occupancy_framework": "after 2002",
+        "repeat_visits": "at least two during active season",
+        "spatial_data_label": true,
+        "access": "public",
+        "license": "CC0",
+        "related_primary_publication_at_catalog_surface": "none listed on catalog record"
+      },
+      "source_landing_resolved": true,
+      "file_level_distribution_resolved": false,
+      "geometry_verified": false,
+      "response_firewall_verified": false,
+      "response_values_read": false,
+      "decision": "pending_physical_schema",
+      "reasons": [
+        "file_level_distribution_unresolved",
+        "geometry_not_physically_verified",
+        "response_firewall_not_verified"
+      ],
+      "access_notes": [
+        "public Data Catalog page resolves metadata but not file-level bytes through the current tool path",
+        "direct metadata endpoint returned HTTP 403 to automated fetch",
+        "ScienceBase file inventory is not accessible through the current web path"
+      ],
+      "interpretation": "Access failure is an infrastructure boundary, not an ecological STOP; the candidate remains pending and response values remain unopened."
+    }
+  ],
+  "promotion_rule": "advance_to_protocol_freeze only when file-level distribution, reproducible geometry, and response firewall are all verified before any response value is read",
+  "prohibited": [
+    "treat_DOI_landing_as_file_level_schema",
+    "infer_geometry_from_catalog_spatial_extent_without_physical_site_key",
+    "open_response_values_to_discover_join_keys",
+    "treat_access_failure_as_ecological_null",
+    "promote_pending_candidate_without_physical_firewall"
+  ]
+}
