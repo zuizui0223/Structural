@@ -1,0 +1,107 @@
+{
+  "schema": "structural.pnw_stage2_authorization.v0_19",
+  "status": "authorized_once_for_2013_future_target_only",
+  "authorization_parent_commit": "da48526ad291e427e53e01b71b0535a123eabd01",
+  "locked_inputs": {
+    "source_file_sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+    "protocol_v0_15": "development/pnw_temporal_connectivity_protocol_v0_15.json",
+    "stage1_authorization_v0_17": "development/pnw_stage1_authorization_v0_17.json",
+    "stage1_result_v0_18": "development/pnw_stage1_result_v0_18.json",
+    "stage1_state_table_sha256": "bbf407503d1db9f911989d27717bb44e80d4028b65647c7b588d23f5bf87b440",
+    "stage1_feature_table_sha256": "f2e85764d736ee069c5805e6a808b7e434bbb2930cfa0808e7ff723927af4ce6",
+    "species_token": "RACA",
+    "scale_worldset_m": [
+      250,
+      500,
+      1000,
+      1500,
+      5000
+    ],
+    "normalization": {
+      "valid_survey_types": [
+        "full",
+        "partial"
+      ],
+      "excluded_survey_types": [
+        "dry",
+        "NA",
+        "blank"
+      ],
+      "missing_species_row_rule": "zero-fill RACA on valid survey occasions when no explicit RACA row exists"
+    }
+  },
+  "allowed_access": {
+    "year": "2013 only",
+    "columns": [
+      "year",
+      "site",
+      "species",
+      "obs1",
+      "obs2",
+      "obs3",
+      "obs4",
+      "obs5",
+      "obs6",
+      "survtype1",
+      "survtype2",
+      "survtype3",
+      "survtype4",
+      "survtype5",
+      "survtype6"
+    ],
+    "species_filter": "RACA only after row projection",
+    "purpose": "construct the sealed 2013 observed-site-use target under the same normalization rule as Stage 1"
+  },
+  "applicability": {
+    "require_site_in_frozen_150_feature_table": true,
+    "require_2012_lagged_state_estimable": true,
+    "require_2013_target_estimable": true,
+    "no_other_post_response_site_filtering": true
+  },
+  "endpoint_rule": {
+    "minimum_valid_visits": 2,
+    "positive": "any RACA obs1..obs6 value > 0 among full/partial visits",
+    "negative": "at least two full/partial visits and no positive RACA observation",
+    "otherwise": "non_estimable",
+    "term": "observed site use, not latent true occupancy"
+  },
+  "scoring": {
+    "models": [
+      "R0",
+      "R1",
+      "R2",
+      "C"
+    ],
+    "primary_contrast": "C minus R2",
+    "heldout_unit": "2012 region",
+    "split": "leave-one-2012-region-out",
+    "training_class_gate": "at least 5 positive and 5 negative 2013 targets in training after applicability filtering",
+    "model": "L2 logistic regression, C=1, training-only numeric standardization",
+    "numeric_missing_rule": "training-fold median imputation with missingness indicator",
+    "fish_rule": "fixed categorical levels yes/no/missing",
+    "primary_metric": "region-macro heldout log loss",
+    "secondary_metric": "region-macro Brier score",
+    "favorable_direction": "negative candidate-minus-reference difference"
+  },
+  "forbidden": [
+    "use 2013 target to alter source anchors",
+    "change movement worldset",
+    "change normalization",
+    "change R0/R1/R2/C feature definitions",
+    "change applicability after viewing target",
+    "change heldout region split",
+    "change model family or regularization",
+    "repair 2013 geometry",
+    "promote PNW to pristine fresh evidence"
+  ],
+  "post_access_requirements": [
+    "write immutable 2013 target receipt",
+    "record applicability by region",
+    "score all frozen models on the same applicable rows",
+    "record every non-estimable region",
+    "report C-minus-R2 regardless of direction",
+    "do not rerun with altered design"
+  ],
+  "evidence_class": "response_unopened_design_exposed",
+  "counts_as_pristine_fresh_evidence": false
+}
