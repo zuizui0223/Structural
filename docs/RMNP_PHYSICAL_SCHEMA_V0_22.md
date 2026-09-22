@@ -10,7 +10,7 @@ Status:
 
 Evidence class remains:
 
-`pristine_fresh_pre_response`
+`focal_response_unseen_system_context_exposed`
 
 ## Source snapshot
 
@@ -33,9 +33,9 @@ No protected value has been summarized or used for candidate selection.
 
 PSMA is consistently defined as *Pseudacris maculata* and LISY as *Lithobates sylvaticus*.
 
-AMMA is excluded before response access because the XML is internally inconsistent: the abstract refers to tiger salamander as *Ambystoma mavortium*, while the taxonomy/attribute section labels AMMA as *Ambystoma maculatum*.
+AMMA remains eligible, with an explicit nomenclatural caveat. The uploaded XML abstract identifies tiger salamander as *Ambystoma mavortium*, while one taxonomy/attribute label says *Ambystoma maculatum*. The current USGS data-release page for DOI `10.5066/P9EX70L7` explicitly identifies the tiger salamander as *Ambystoma mavortium*. Historical NPS pages also use *Ambystoma tigrinum*. The protocol therefore binds the physical token `AMMA` to the current USGS release identity *Ambystoma mavortium* while retaining the source inconsistency.
 
-No attempt is made to repair that identity after seeing response data.
+During external movement-literature triage, prior RMNP occupancy/connectivity results for PSMA and LISY became visible. Those two taxa are permanently STOP for the fresh lane. No RMNP-specific AMMA response direction was inspected. The evidence class is therefore not pristine; it is `focal_response_unseen_system_context_exposed`.
 
 ## Response-independent transition choice
 
@@ -56,7 +56,7 @@ Therefore 2021→2022 is frozen before any species response value is opened.
 
 2021 contains 123 unique sites. 122 have convertible UTM geometry.
 
-The 2021→2022 intersection contains 93 sites; 92 have valid source-year geometry. `Timber Lake #3` is excluded because source-year coordinate/datum information is insufficient.
+The 2021→2022 intersection contains 93 sites; 92 have valid source-year geometry. `Timber Lake #3` is excluded because source-year coordinate/datum information is insufficient. Safe survey-effort metadata show 70 common sites with at least one 100% survey in both years; 69 of those also have valid source geometry. This 69-site high-effort universe is a response-independent candidate for the biological protocol, not yet an authorized endpoint.
 
 Coordinates are standardized before analysis:
 
