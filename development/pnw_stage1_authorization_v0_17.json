@@ -1,0 +1,77 @@
+{
+  "schema": "structural.pnw_stage1_authorization.v0_17",
+  "status": "authorized_once_for_2012_lagged_state_only",
+  "authorization_parent_commit": "4d04761fbc3d686d1bd967f95ce660d8a37c5093",
+  "locked_inputs": {
+    "source_file_sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+    "source_header_sha256": "554a96b07510d2bb828eaca24cb3ca892fa77466abaccdaee18f3eb20a696213",
+    "temporal_contract_blob_sha": "d8e3db1de13421d518392d40495eea8474fa7499",
+    "protocol_v0_15_blob_sha": "44ed117583b36abbd7d6fcd2057dadf108832535",
+    "column_manifest_v0_15_blob_sha": "a1bbf8622fd3370a51a0e75c9c27f6159a492eae",
+    "reference_receipt_v0_16_blob_sha": "eb9551fb914b2fb90ed863941419cd87e1be401f",
+    "reference_table_sha256": "13277413ee5d4c9c30d4d8f9cb900203a92e129ccbc5ad4b6b0593dee0bbcdfd",
+    "species_scientific_name": "Rana cascadae",
+    "species_token": "RACA",
+    "scale_worldset_m": [
+      250,
+      500,
+      1000,
+      1500,
+      5000
+    ]
+  },
+  "allowed_access": {
+    "year": "2012 only",
+    "columns": [
+      "year",
+      "site",
+      "species",
+      "obs1",
+      "obs2",
+      "obs3",
+      "obs4",
+      "obs5",
+      "obs6",
+      "survtype1",
+      "survtype2",
+      "survtype3",
+      "survtype4",
+      "survtype5",
+      "survtype6"
+    ],
+    "species_filter": "RACA only after row projection",
+    "purpose": "construct 2012 observed site-use state and occupied-source anchors under frozen v0.15 rule"
+  },
+  "forbidden_access": {
+    "years": [
+      "2013"
+    ],
+    "actions": [
+      "summarize or inspect 2013 species/obs/survtype values",
+      "change taxon after 2012 access",
+      "change movement scale worldset",
+      "change R0/R1/R2/C definitions",
+      "change heldout region split",
+      "change model or metric",
+      "use 2013 target to define source anchors",
+      "repair 2013 geometry"
+    ]
+  },
+  "endpoint_rule": {
+    "minimum_valid_visits": 2,
+    "positive": "any RACA obs1..obs6 value > 0 among valid visits",
+    "negative": "at least two valid visits and no RACA obs value > 0",
+    "otherwise": "non_estimable",
+    "term": "observed site use, not latent true occupancy"
+  },
+  "post_access_requirements": [
+    "write immutable Stage 1 result receipt",
+    "freeze 2012 state table fingerprint",
+    "build and freeze full R0/R1/R2/C feature table without 2013 response",
+    "record applicability and source counts",
+    "do not open 2013 until feature fingerprint is merged and CI-green"
+  ],
+  "rerun_rule": "Stage 1 may be reconstructed deterministically from the same frozen source/protocol, but no design choice may change after this authorization.",
+  "counts_as_pristine_fresh_evidence": false,
+  "evidence_class": "response_unopened_design_exposed"
+}
