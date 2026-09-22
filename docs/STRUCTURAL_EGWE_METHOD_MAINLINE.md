@@ -273,6 +273,7 @@ The active development sequence is therefore:
         → metadata-only fresh candidate triage (v0.8)
         → longitudinal fresh-candidate prioritization (v0.9)
         → file-level physical-schema resolution (v0.10)
+        → content-blind archive inventory (v0.11)
         → future empirical scoring only after qualification
 
 ## Retrospective engineering lane
@@ -321,6 +322,21 @@ The user-supplied Pacific Northwest USGS XML resolves the DOI landing and origin
 Rocky Mountain NP also remains pending because the current access path resolves the catalog metadata but not the underlying ScienceBase file inventory.
 
 These are access/schema boundaries, not ecological nulls.
+
+## Content-blind physical inventory
+
+Once archive bytes are available, the first allowed operation is v0.11 inventory.
+
+The tool may record only:
+
+- relative file path;
+- file extension;
+- file size;
+- SHA-256.
+
+It may hash opaque bytes but may not decode text, inspect table headers, summarize response values or fit a model.
+
+This creates an immutable source snapshot before files are assigned to safe-schema / response / unknown roles.
 
 ## Why the distinction matters
 
