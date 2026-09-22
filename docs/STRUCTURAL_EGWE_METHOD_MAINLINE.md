@@ -416,6 +416,18 @@ Among the 150 common sites, only one frozen R1 numeric value is missing (maxdept
 
 No species, observation or future-target value was used. The next irreversible gate is Stage 1 authorization for 2012 lagged RACA state only.
 
+## PNW Stage 1 complete
+
+The design-exposed PNW lane has now completed its first irreversible biological-state opening.
+
+Only 2012 RACA lagged state was opened. The frozen 2012 source state contains 134 positive, 19 negative and 66 non-estimable sites among 219 source ponds. The 150-site 2012→2013 evaluation universe contains 113 positive, 12 negative and 25 non-estimable lagged states.
+
+The occupied-source set is fixed at 134 sites. The complete 150-row R0/R1/R2/C feature table is frozen by SHA-256 `f2e85764d736ee069c5805e6a808b7e434bbb2930cfa0808e7ff723927af4ce6`.
+
+The raw-table normalization required one explicit post-authorization adjudication: valid surveys are `full/partial`, `dry` is excluded, and missing RACA site×species rows are zero-filled on valid visits following source metadata/source-processing semantics. This is recorded as a caveat and does not raise the PNW evidence class.
+
+All 2013 response values remain sealed. Stage 2 is not allowed until the Stage 1 receipt is merged and CI-green.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
