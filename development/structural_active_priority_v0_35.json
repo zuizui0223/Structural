@@ -1,0 +1,40 @@
+{
+  "schema": "structural.active_priority.v0_35",
+  "status": "active_mainline_lock",
+  "active_goal": "admit only systems that pass the disjoint burned-pilot estimability pipeline before confirmatory protocol construction",
+  "current_confirmatory_eligible_systems": [],
+  "current_confirmatory_eligible_count": 0,
+  "empirical_denominator": {
+    "closed_dynamic_systems": [
+      "PNW_terminal_non_estimable",
+      "RMNP_terminal_non_estimable"
+    ],
+    "scored_predictive_endpoints": 0,
+    "reopened": false
+  },
+  "required_sequence": [
+    "v0.31 freeze disjoint pilot and confirmatory partitions plus endpoint and heldout gates",
+    "v0.32 open pilot only and run estimability audit with zero predictive contribution",
+    "v0.33 verify clean pilot pass and permit confirmatory-protocol construction only",
+    "freeze confirmatory state/reference/connectivity/scoring protocol",
+    "only then authorize confirmatory response"
+  ],
+  "priority_rules": {
+    "new_candidate_hunting_as_primary_objective": false,
+    "opportunistic_dataset_search": false,
+    "confirmatory_without_v0_31_v0_32_v0_33": false,
+    "lower_gate_after_pilot_failure": false,
+    "change_endpoint_after_pilot_failure_within_version": false,
+    "use_pilot_as_predictive_evidence": false,
+    "ttf_handoff_is_active_dependency": false
+  },
+  "later": [
+    "TTF transferability handoff v0.34",
+    "new biological candidate discovery only when it can enter as a fully frozen v0.31 protocol rather than exploratory hunting"
+  ],
+  "next_valid_work": [
+    "validate and harden v0.31-v0.33 gate machinery",
+    "maintain an empty confirmatory queue until a system produces a clean v0.32 pilot pass",
+    "when such a pass exists, build its confirmatory protocol without opening confirmatory response"
+  ]
+}
