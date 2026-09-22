@@ -37,6 +37,8 @@ class ConnectivityEmpiricalProtocol:
     response_accessed: bool
     shared_reference_dependence_declared: bool
     shared_reference_group: str | None = None
+    candidate_uses_lagged_state: bool = False
+    lagged_state_contract_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -69,8 +71,13 @@ def evaluate_empirical_admission(protocol: ConnectivityEmpiricalProtocol) -> Adm
 
     if protocol.response_accessed:
         reasons.append("response_already_accessed")
+    # "candidate_uses_outcome" means future/held-out target information.
+    # Lagged/current state is handled separately below.
     if protocol.candidate_uses_outcome:
-        reasons.append("candidate_not_response_blind")
+        reasons.append("candidate_uses_future_or_heldout_target")
+
+    if protocol.candidate_uses_lagged_state and _blank(protocol.lagged_state_contract_id):
+        reasons.append("lagged_state_requires_temporal_access_contract")
 
     if all(
         _blank(value)
@@ -151,6 +158,10 @@ def protocol_from_mapping(data: dict) -> ConnectivityEmpiricalProtocol:
     ):
         if not isinstance(data[key], bool):
             raise ValueError(f"{key} must be boolean")
+    if "candidate_uses_lagged_state" in data and not isinstance(
+        data["candidate_uses_lagged_state"], bool
+    ):
+        raise ValueError("candidate_uses_lagged_state must be boolean")
 
     for key in (
         "protocol_id",
@@ -206,4 +217,6 @@ def protocol_from_mapping(data: dict) -> ConnectivityEmpiricalProtocol:
         response_accessed=data["response_accessed"],
         shared_reference_dependence_declared=data["shared_reference_dependence_declared"],
         shared_reference_group=data.get("shared_reference_group"),
+        candidate_uses_lagged_state=data.get("candidate_uses_lagged_state", False),
+        lagged_state_contract_id=data.get("lagged_state_contract_id"),
     )
