@@ -1,0 +1,31 @@
+{
+  "schema": "structural.transition_pilot_runner.v0_32",
+  "status": "pilot_only_execution_infrastructure",
+  "required_pilot_columns": [
+    "partition_unit",
+    "block",
+    "target"
+  ],
+  "target_domain": [
+    "0",
+    "1",
+    "missing"
+  ],
+  "hard_firewall": [
+    "confirmatory partition rows are forbidden",
+    "unfrozen partition units are forbidden",
+    "all frozen pilot units must be represented"
+  ],
+  "output_ceiling": [
+    "estimability accounting only",
+    "effect_size is null",
+    "prediction_score is null",
+    "predictive_denominator_contribution is zero"
+  ],
+  "exit_codes": {
+    "0": "qualified_for_new_confirmatory_protocol",
+    "1": "invalid input/protocol",
+    "2": "pilot scientific/protocol STOP"
+  },
+  "relationship_to_v0_30_v0_31": "v0.31 freezes partitions/gates; v0.32 opens only the burned pilot and runs the v0.30 estimability audit"
+}
