@@ -94,5 +94,8 @@
     "cross-species transferability proves common mechanism",
     "operator portability and species transferability are the same property",
     "pilot feasibility counts as transfer evidence"
-  ]
+  ],
+  "priority_status": "later_not_active_structural_dependency",
+  "active_precondition": "a future system has passed v0.31 partition freeze, v0.32 burned-pilot estimability, and v0.33 confirmatory-freeze gate",
+  "candidate_hunting_must_not_be_driven_by_ttf": true
 }

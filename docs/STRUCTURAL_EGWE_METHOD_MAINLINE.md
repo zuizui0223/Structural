@@ -577,6 +577,24 @@ Confirmatory response access still requires that later protocol to define and fi
 
 Thus pilot feasibility and confirmatory prediction are now separated by construction.
 
+## Active priority lock
+
+The current Structural development mainline is **gate-first confirmatory admission**.
+
+There are no confirmatory-eligible systems at present.
+
+The active objective is not to search rapidly for another biological candidate. The next confirmatory system must first exist as a fully frozen v0.31 disjoint pilot/confirmatory protocol, survive the v0.32 burned-pilot estimability audit, and pass the v0.33 pilot-to-confirmatory freeze gate.
+
+Therefore:
+
+- opportunistic candidate hunting is off the mainline;
+- a pilot failure consumes that endpoint/version;
+- pilot outcomes never enter the predictive denominator;
+- confirmatory response remains sealed until a separate confirmatory protocol is frozen;
+- v0.34 TTF transferability is a later generalization layer and is not an active dependency.
+
+The confirmatory queue is currently empty.
+
 ## TTF as the outer transferability layer
 
 Structural and EGWE stop at a different inferential level from TTF.
