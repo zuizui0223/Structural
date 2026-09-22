@@ -1,0 +1,84 @@
+{
+  "schema": "structural.rmnp_stage1_result.v0_26",
+  "status": "stage1_complete_2022_target_sealed",
+  "source_file_sha256": "aa42c97dcc506b96f832c2ea4180f057527b1efeec302586d06801751c1cda3a",
+  "focal_token": "AMMA",
+  "focal_taxon": "Ambystoma mavortium",
+  "source_year": 2021,
+  "target_year": 2022,
+  "endpoint_semantics": {
+    "positive": "any AMMA=1 in 2021",
+    "negative": "no AMMA=1 and at least one perc_surveyed=100 visit with AMMA=0",
+    "non_estimable": "otherwise",
+    "NA": "no data; never converted to non-detection"
+  },
+  "source_state": {
+    "source_sites": 116,
+    "positive": 4,
+    "negative": 112,
+    "non_estimable": 0,
+    "state_table_sha256": "38018b783ebf03a20e08b7fa8adcc2c7a0473100ef7e83ad1e6c92cb2f5a2ca5",
+    "occupied_source_set_count": 4,
+    "occupied_source_set_sha256": "447ae926b242f2ee3457364aea6fe4d954e11388de5fdbe6e3551db0ecfb5274"
+  },
+  "evaluation_state": {
+    "evaluation_sites": 69,
+    "positive_2021": 1,
+    "negative_2021": 68,
+    "non_estimable_2021": 0
+  },
+  "connectivity_feature_summary": {
+    "evaluation_rows": 69,
+    "generic_reachability_positive_rows": 57,
+    "occupied_source_reachability_positive_rows": 5,
+    "occupied_source_reachability_both_worlds_rows": 1,
+    "movement_worldset_m": [
+      500,
+      1000
+    ],
+    "self_anchor_exclusion": true
+  },
+  "feature_table": {
+    "rows": 69,
+    "columns": [
+      "site_name",
+      "block15km",
+      "lagged_state_2021",
+      "lagged_state_estimable",
+      "fish_ever_present",
+      "site_length_m",
+      "site_width_m",
+      "max_depth_ordinal",
+      "nearest_other_2021_source_pond_distance_m",
+      "generic_pond_reachability_fraction_across_500_1000m_worlds",
+      "generic_pond_pressure_mean_across_500_1000m_worlds",
+      "occupied_source_reachability_fraction_across_500_1000m_worlds",
+      "occupied_source_pressure_mean_across_500_1000m_worlds"
+    ],
+    "sha256": "e45ad76a41126fed7dea2c147c094e2d5998dda548f99ac3efc700c68b900a1c",
+    "committed_in_repository": false,
+    "reason": "derived from user-supplied public source; identity frozen before 2022 opening"
+  },
+  "response_access": {
+    "amma_2021_opened": true,
+    "amma_2022_opened": false,
+    "psma_opened": false,
+    "lisy_opened": false,
+    "model_fit_count": 0,
+    "candidate_ranking_count": 0,
+    "features_changed_after_2021_open": false
+  },
+  "evidence_class": "focal_response_unseen_system_context_exposed",
+  "counts_as_pristine_fresh_evidence": false,
+  "next_stage": "freeze_exact_scoring_implementation_then_stage2_authorization",
+  "prohibited": [
+    "change AMMA taxon",
+    "change 2021->2022 transition",
+    "change 116-source or 69-evaluation universe",
+    "change 500/1000 m worldset",
+    "change occupied-source definition",
+    "change R0/R1/R2/C feature table",
+    "open 2022 AMMA before separate Stage 2 authorization",
+    "open PSMA or LISY"
+  ]
+}
