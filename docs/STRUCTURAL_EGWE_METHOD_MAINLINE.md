@@ -367,6 +367,21 @@ PNW can still support a strong prospective-like response holdout, but it may not
 
 Rocky Mountain NP remains the only current pristine-fresh candidate.
 
+## Temporal state is not future-target leakage
+
+For dynamic connectivity questions, a response-like variable can be legitimate predictor state when it occurs **before** the target.
+
+The v0.14 contract therefore separates:
+
+1. lagged/current state opening;
+2. source-conditioned connectivity construction;
+3. feature fingerprint freeze;
+4. future-target opening.
+
+A 2012 occupied pond may therefore act as a 2012 source anchor for a 2013 forecast after Stage 1 authorization. The 2013 target may never inform source anchors, scale selection, reference variables, feature construction or splits.
+
+This distinction is essential for the Structural↔EGWE idea: current biological state is part of the state representation; future state is the prediction target.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
