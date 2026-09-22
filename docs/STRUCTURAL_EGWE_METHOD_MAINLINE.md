@@ -516,6 +516,26 @@ This adds a new prerequisite to the Structural↔EGWE spine:
 
 The future target must first generate an estimable loss before any state-sufficiency claim is meaningful.
 
+## Burned-pilot partition freeze
+
+v0.31 makes the v0.30 estimability principle operational.
+
+Before any pilot response is opened, a future protocol must freeze:
+
+- the biological system;
+- the partition axis;
+- a nonempty burned pilot partition;
+- a disjoint confirmatory partition;
+- one endpoint definition;
+- one heldout design;
+- the exact minimum test-row / training-positive / training-negative / estimable-block gates.
+
+The complete object is canonically fingerprinted. Any later change to the partition, endpoint semantics or gates creates a new protocol identity.
+
+The pilot may only establish transition feasibility. It never estimates the connectivity effect and never enters the predictive denominator.
+
+A pilot pass still does not authorize confirmatory response access; it only permits a separate confirmatory protocol to be frozen.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
