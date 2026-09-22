@@ -10,6 +10,7 @@ class FileRole(str, Enum):
     METADATA = "metadata"
     RESPONSE = "response"
     CODE = "code"
+    MIXED = "mixed"
     UNKNOWN = "unknown"
 
 
@@ -27,6 +28,7 @@ class FileRoleFirewallResult:
     response_files: tuple[str, ...]
     unknown_files: tuple[str, ...]
     code_files: tuple[str, ...]
+    mixed_files: tuple[str, ...]
 
 
 class FileRoleFirewallError(RuntimeError):
@@ -109,6 +111,13 @@ def apply_file_role_firewall(
             if assignment.role is FileRole.CODE
         )
     )
+    mixed = tuple(
+        sorted(
+            path
+            for path, assignment in assignment_map.items()
+            if assignment.role is FileRole.MIXED
+        )
+    )
 
     return FileRoleFirewallResult(
         allowed_for_semantic_open=allowed,
@@ -116,6 +125,7 @@ def apply_file_role_firewall(
         response_files=response,
         unknown_files=unknown,
         code_files=code,
+        mixed_files=mixed,
     )
 
 
