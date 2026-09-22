@@ -382,6 +382,28 @@ A 2012 occupied pond may therefore act as a 2012 source anchor for a 2013 foreca
 
 This distinction is essential for the Structural↔EGWE idea: current biological state is part of the state representation; future state is the prediction target.
 
+## Frozen PNW dynamic connectivity test
+
+v0.15 freezes the first real dynamic test before opening the 2012 lagged biological state.
+
+The taxon is **Rana cascadae** and the biological operator is whole-individual dispersal among breeding ponds. The movement worldset is fixed response-independently at 250, 500, 1000, 1500 and 5000 m; no scale is selected from the PNW responses.
+
+The 2012→2013 ladder is:
+
+    R0 = 2012 target-site state
+        ↓
+    R1 = R0 + frozen local pond state
+        ↓
+    R2 = R1 + generic 2012 pond geometry
+        ↓
+    C  = R2 + 2012 occupied-source connectivity
+        ↓
+    2013 observed site-use target
+
+The sole primary contrast is **C − R2** under leave-one-2012-region-out scoring. Thus the test asks whether occurrence-conditioned source connectivity contains held-out information beyond current state, local habitat and generic pond geometry.
+
+The protocol is a real response holdout but remains `response_unopened_design_exposed`; it cannot become pristine fresh evidence regardless of result. Rocky Mountain NP remains the pristine-fresh lane.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
