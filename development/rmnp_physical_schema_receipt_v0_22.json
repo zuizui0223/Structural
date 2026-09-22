@@ -1,0 +1,184 @@
+{
+  "schema": "structural.rmnp_physical_schema_receipt.v0_22",
+  "status": "advance_to_protocol_freeze",
+  "evidence_class": "focal_response_unseen_system_context_exposed",
+  "source_files": {
+    "romo_datarelease.xml": {
+      "size_bytes": 39372,
+      "sha256": "b4d7926a1eadfc469c8bb491bd2553477ea6eb197b442fd7508595f9313cece3",
+      "role": "metadata"
+    },
+    "ROMO_data_release.csv": {
+      "size_bytes": 546256,
+      "sha256": "aa42c97dcc506b96f832c2ea4180f057527b1efeec302586d06801751c1cda3a",
+      "role": "mixed",
+      "header_count": 26,
+      "header_sha256": "77d8096d900bccee7996d0a6dac73663a3da0a8aec1b398526a2eeafeaf67491"
+    }
+  },
+  "response_firewall": {
+    "protected_columns": [
+      "psma",
+      "psma_stage",
+      "lisy",
+      "lisy_stage",
+      "amma",
+      "amma_stage"
+    ],
+    "protected_response_values_opened": false,
+    "protected_response_values_summarized": false,
+    "model_fit_count": 0,
+    "candidate_ranking_count": 0
+  },
+  "metadata_semantics": {
+    "time_span": "1986-2022",
+    "occupancy_framework": "after 2002",
+    "site_key": "site_name",
+    "coordinate_fields": [
+      "datum",
+      "utm_zone",
+      "easting",
+      "northing"
+    ],
+    "utm_zone": 13,
+    "response_domains": {
+      "psma": "0=not detected, 1=detected, NA=no data",
+      "lisy": "0=not detected, 1=detected, NA=no data"
+    },
+    "amma_taxon_identity_conflict": true,
+    "amma_conflict_note": "uploaded XML abstract identifies tiger salamander as Ambystoma mavortium while one taxonomy/attribute label says Ambystoma maculatum; current USGS data-release page for DOI 10.5066/P9EX70L7 explicitly identifies the tiger salamander as Ambystoma mavortium. Historical NPS pages also use Ambystoma tigrinum. Protocols must use source token AMMA plus the current data-release identity Ambystoma mavortium and retain the nomenclatural caveat.",
+    "response_contamination": {
+      "psma": "STOP_for_fresh_lane_RMNP_prior_occupancy_connectivity_result_exposed_during_external_search",
+      "lisy": "STOP_for_fresh_lane_RMNP_prior_occupancy_connectivity_result_exposed_during_external_search",
+      "amma": "focal_response_direction_not_seen"
+    },
+    "amma_resolution_source": {
+      "authority": "U.S. Geological Survey data release",
+      "doi": "10.5066/P9EX70L7",
+      "taxon": "Ambystoma mavortium"
+    }
+  },
+  "transition_selection_rule": {
+    "criteria": [
+      "consecutive years after occupancy-framework onset",
+      "at least 80 shared site_name values",
+      "source-year UTM coordinate coverage at least 95 percent of shared sites",
+      "source-year explicit NAD27/NAD83 datum coverage at least 95 percent of shared sites",
+      "UTM zone 13",
+      "no response values used"
+    ],
+    "audited_pairs": [
+      {
+        "transition": "2005->2006",
+        "shared_sites": 89,
+        "coordinate_fraction": 1,
+        "explicit_datum_fraction": 0.033707865168539325,
+        "qualifies": false
+      },
+      {
+        "transition": "2006->2007",
+        "shared_sites": 87,
+        "coordinate_fraction": 0.9885057471264368,
+        "explicit_datum_fraction": 0.022988505747126436,
+        "qualifies": false
+      },
+      {
+        "transition": "2007->2008",
+        "shared_sites": 87,
+        "coordinate_fraction": 0.9195402298850575,
+        "explicit_datum_fraction": 0.034482758620689655,
+        "qualifies": false
+      },
+      {
+        "transition": "2009->2010",
+        "shared_sites": 118,
+        "coordinate_fraction": 1,
+        "explicit_datum_fraction": 0.01694915254237288,
+        "qualifies": false
+      },
+      {
+        "transition": "2021->2022",
+        "shared_sites": 93,
+        "coordinate_fraction": 0.989247311827957,
+        "explicit_datum_fraction": 0.989247311827957,
+        "qualifies": true
+      }
+    ],
+    "selected_transition": "2021->2022"
+  },
+  "geometry": {
+    "source_year": 2021,
+    "source_year_rows": 164,
+    "source_year_sites": 123,
+    "source_sites_with_convertible_geometry": 122,
+    "shared_sites_2021_2022": 93,
+    "evaluation_sites_with_source_geometry": 92,
+    "excluded_shared_sites": [
+      "Timber Lake #3"
+    ],
+    "source_datum_row_counts": {
+      "NAD27": 160,
+      "NAD83": 4
+    },
+    "canonical_crs": "EPSG:26913 NAD83 / UTM zone 13N",
+    "transformation_rule": "NAD27 UTM 13N EPSG:26713 -> NAD83 UTM 13N EPSG:26913; NAD83 rows unchanged",
+    "site_coordinate_rule": "median transformed 2021 easting and northing per site_name",
+    "maximum_within_site_transformed_spread_m": 231.9710031188878,
+    "geometry_repair_using_2022_forbidden": true,
+    "high_effort_candidate_sites": 69,
+    "high_effort_max_within_site_transformed_spread_m": 231.9710031188878,
+    "high_effort_spread_counts_m": {
+      "0": 55,
+      "10": 56,
+      "25": 56,
+      "50": 56,
+      "100": 56,
+      "250": 69
+    }
+  },
+  "spatial_blocking": {
+    "grid_size_m": 10000,
+    "block_rule": "floor(NAD83_easting/10000), floor(NAD83_northing/10000)",
+    "evaluation_block_count": 13,
+    "evaluation_block_sizes": {
+      "42_445": 1,
+      "42_446": 18,
+      "42_447": 14,
+      "43_445": 3,
+      "43_446": 6,
+      "43_447": 2,
+      "44_444": 2,
+      "44_445": 8,
+      "44_446": 24,
+      "44_447": 10,
+      "44_448": 2,
+      "45_445": 1,
+      "45_448": 1
+    },
+    "note": "block identity is frozen response-independently from predictor-time geometry"
+  },
+  "physical_schema_gates": {
+    "file_level_distribution_resolved": true,
+    "geometry_verified": true,
+    "response_firewall_verified": true,
+    "response_values_read": false,
+    "advance_to_protocol_freeze": true
+  },
+  "prohibited": [
+    "inspect psma/lisy/amma values before protocol freeze and staged authorization",
+    "use 2022 geometry to repair source geometry",
+    "relax transition-selection criteria after response access",
+    "alter frozen Structural A-Islands/Tanzania claims",
+    "use PSMA or LISY as fresh focal taxa after RMNP prior-result exposure",
+    "promote RMNP back to pristine fresh status"
+  ],
+  "counts_as_pristine_fresh_evidence": false,
+  "survey_effort": {
+    "shared_sites_2021_2022": 93,
+    "sites_with_at_least_one_100_percent_survey_2021": 87,
+    "sites_with_at_least_one_100_percent_survey_2022": 73,
+    "sites_with_at_least_one_100_percent_survey_both_years": 70,
+    "sites_with_geometry_and_100_percent_survey_both_years": 69,
+    "rule_candidate": "at least one perc_surveyed=100 visit in both source and target year; response-independent and not yet an endpoint authorization"
+  }
+}

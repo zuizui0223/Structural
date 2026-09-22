@@ -1,0 +1,58 @@
+{
+  "schema": "structural.connectivity_candidate_registry.v0_22",
+  "status": "rmnp_physical_schema_resolved_pre_protocol",
+  "focal_response_unseen_lane": [
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022",
+      "priority": 1,
+      "evidence_class": "focal_response_unseen_system_context_exposed",
+      "current_decision": "advance_to_protocol_freeze",
+      "selected_transition": "2021->2022",
+      "focal_taxon_token": "AMMA",
+      "focal_taxon_current_release_identity": "Ambystoma mavortium",
+      "protected_response_values_opened": false,
+      "psma_fresh_status": "STOP_prior_RMNP_result_exposed",
+      "lisy_fresh_status": "STOP_prior_RMNP_result_exposed",
+      "geometry_sites": 92,
+      "high_effort_geometry_sites": 69,
+      "next_action": "freeze AMMA movement worldset, current-state reference, target rule, spatial blocks, model/scoring, and two-stage 2021-state/2022-target firewall before any AMMA value is opened"
+    }
+  ],
+  "closed_design_exposed_lane": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "evidence_class": "design_exposed_terminal_non_estimable",
+      "terminal_decision": "non_estimable",
+      "model_fit_count": 0,
+      "rerun_allowed": false
+    }
+  ],
+  "retrospective_or_stop_lane": [
+    {
+      "candidate_id": "great_lakes_frog_2011_2023",
+      "evidence_class": "fresh_stop_response_exposed"
+    },
+    {
+      "candidate_id": "hungary_amphibian_100_ponds_2023",
+      "evidence_class": "fresh_stop_response_exposed_and_geometry_unresolved"
+    },
+    {
+      "candidate_id": "davis_2026_heliconia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "noreen_2016_koompassia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "delnevo_2026_conospermum",
+      "evidence_class": "retrospective_engineering"
+    }
+  ],
+  "invariants": [
+    "RMNP may not be promoted back to pristine fresh after system-context exposure",
+    "PSMA and LISY are permanently excluded from the RMNP fresh lane",
+    "AMMA response values remain sealed until a separately merged protocol and staged authorization",
+    "PNW remains terminal non-estimable and cannot be rescued"
+  ]
+}
