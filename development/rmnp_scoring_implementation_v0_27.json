@@ -1,0 +1,120 @@
+{
+  "schema": "structural.rmnp_scoring_implementation.v0_27",
+  "status": "frozen_before_2022_AMMA_target_open",
+  "feature_table_sha256": "e45ad76a41126fed7dea2c147c094e2d5998dda548f99ac3efc700c68b900a1c",
+  "applicability": {
+    "require_2021_lagged_state_estimable": true,
+    "require_2022_target_estimable": true,
+    "require_frozen_69_site_universe": true,
+    "no_post_target_row_filtering": true
+  },
+  "feature_sets": {
+    "R0": [
+      "lagged_state_2021"
+    ],
+    "R1": [
+      "lagged_state_2021",
+      "fish_ever_present",
+      "site_length_m",
+      "site_width_m",
+      "max_depth_ordinal"
+    ],
+    "R2": [
+      "lagged_state_2021",
+      "fish_ever_present",
+      "site_length_m",
+      "site_width_m",
+      "max_depth_ordinal",
+      "nearest_other_2021_source_pond_distance_m",
+      "generic_pond_reachability_fraction_across_500_1000m_worlds",
+      "generic_pond_pressure_mean_across_500_1000m_worlds"
+    ],
+    "C": [
+      "lagged_state_2021",
+      "fish_ever_present",
+      "site_length_m",
+      "site_width_m",
+      "max_depth_ordinal",
+      "nearest_other_2021_source_pond_distance_m",
+      "generic_pond_reachability_fraction_across_500_1000m_worlds",
+      "generic_pond_pressure_mean_across_500_1000m_worlds",
+      "occupied_source_reachability_fraction_across_500_1000m_worlds",
+      "occupied_source_pressure_mean_across_500_1000m_worlds"
+    ]
+  },
+  "preprocessing": {
+    "continuous_numeric": [
+      "site_length_m",
+      "site_width_m",
+      "max_depth_ordinal",
+      "nearest_other_2021_source_pond_distance_m",
+      "generic_pond_reachability_fraction_across_500_1000m_worlds",
+      "generic_pond_pressure_mean_across_500_1000m_worlds",
+      "occupied_source_reachability_fraction_across_500_1000m_worlds",
+      "occupied_source_pressure_mean_across_500_1000m_worlds"
+    ],
+    "binary_unstandardized": [
+      "lagged_state_2021"
+    ],
+    "numeric_missing": "training-fold median imputation; all-training-missing => model/fold non-estimable",
+    "numeric_missing_indicator": "one unstandardized indicator per included continuous numeric predictor",
+    "numeric_standardization": "after imputation, training-fold mean and population SD; zero-SD maps to 0",
+    "fish_encoding": {
+      "input": "fish_ever_present",
+      "levels": [
+        "yes",
+        "no",
+        "missing"
+      ],
+      "columns": [
+        "fish_yes",
+        "fish_no",
+        "fish_missing"
+      ],
+      "coding": "full fixed one-hot, unstandardized"
+    }
+  },
+  "model": {
+    "implementation": "scikit-learn LogisticRegression",
+    "solver": "lbfgs",
+    "penalty": "l2",
+    "C": 1,
+    "fit_intercept": true,
+    "max_iter": 5000,
+    "tol": 1e-10,
+    "class_weight": null,
+    "random_state": null
+  },
+  "fold_estimability": {
+    "heldout_unit": "15km grid block",
+    "minimum_applicable_test_rows": 3,
+    "training_positive_minimum": 5,
+    "training_negative_minimum": 5,
+    "same_applicable_rows_for_all_models": true
+  },
+  "metrics": {
+    "primary": "block-macro heldout log loss",
+    "secondary": "block-macro Brier score",
+    "macro_rule": "compute metric within each estimable heldout block, then equal-weight mean across estimable blocks",
+    "probability_clip_epsilon": 1e-15,
+    "primary_contrast": "C minus R2",
+    "favorable_direction": "negative"
+  },
+  "first_authoritative_runtime_expected": {
+    "python": "3.13.5",
+    "sklearn": "1.8.0",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "actual_versions_must_be_recorded": true
+  },
+  "prohibited": [
+    "change solver after target open",
+    "change C after target open",
+    "change feature sets after target open",
+    "drop sparse occupied-connectivity predictors after target open",
+    "change fish coding after target open",
+    "change missingness rule after target open",
+    "change block gate after target open",
+    "change probability clipping after target open"
+  ]
+}
