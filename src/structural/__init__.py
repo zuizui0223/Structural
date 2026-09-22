@@ -1,5 +1,16 @@
 """Structural post-closure development interfaces."""
 
+from .temporal_response_firewall import (
+    TemporalAccessAction,
+    TemporalAccessError,
+    TemporalAccessStage,
+    TemporalAccessState,
+    TemporalResponseProtocol,
+    advance_temporal_access,
+    future_target_may_inform_features,
+    lagged_state_may_inform_connectivity,
+)
+
 from .physical_schema import (
     PhysicalSchemaDecision,
     PhysicalSchemaResolution,
@@ -47,6 +58,11 @@ from .connectivity_adequacy import (
 )
 
 __all__ = [
+    "TemporalAccessAction",
+    "TemporalAccessError",
+    "TemporalAccessStage",
+    "TemporalAccessState",
+    "TemporalResponseProtocol",
     "PhysicalSchemaDecision",
     "PhysicalSchemaResolution",
     "PhysicalSchemaStatus",
@@ -81,4 +97,7 @@ __all__ = [
     "evaluate_empirical_admission",
     "triage_candidate",
     "evaluate_physical_schema_resolution",
+    "advance_temporal_access",
+    "future_target_may_inform_features",
+    "lagged_state_may_inform_connectivity",
 ]
