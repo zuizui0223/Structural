@@ -8,7 +8,8 @@ M=ROOT/"development/rmnp_file_role_manifest_v0_22.json"
 def test_rmnp_response_is_still_sealed():
     x=json.loads(R.read_text())
     assert x["status"]=="advance_to_protocol_freeze"
-    assert x["evidence_class"]=="focal_response_unseen_system_context_exposed"\n    assert x["counts_as_pristine_fresh_evidence"] is False
+    assert x["evidence_class"]=="focal_response_unseen_system_context_exposed"
+    assert x["counts_as_pristine_fresh_evidence"] is False
     assert x["response_firewall"]["protected_response_values_opened"] is False
     assert x["physical_schema_gates"]["response_values_read"] is False
 
