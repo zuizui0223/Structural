@@ -1,7 +1,7 @@
 {
   "schema": "structural.rmnp_physical_schema_receipt.v0_22",
   "status": "advance_to_protocol_freeze",
-  "evidence_class": "pristine_fresh_pre_response",
+  "evidence_class": "focal_response_unseen_system_context_exposed",
   "source_files": {
     "romo_datarelease.xml": {
       "size_bytes": 39372,
@@ -46,7 +46,17 @@
       "lisy": "0=not detected, 1=detected, NA=no data"
     },
     "amma_taxon_identity_conflict": true,
-    "amma_conflict_note": "abstract identifies tiger salamander as Ambystoma mavortium while taxonomy/attribute metadata label AMMA as Ambystoma maculatum; AMMA is excluded before response access"
+    "amma_conflict_note": "uploaded XML abstract identifies tiger salamander as Ambystoma mavortium while one taxonomy/attribute label says Ambystoma maculatum; current USGS data-release page for DOI 10.5066/P9EX70L7 explicitly identifies the tiger salamander as Ambystoma mavortium. Historical NPS pages also use Ambystoma tigrinum. Protocols must use source token AMMA plus the current data-release identity Ambystoma mavortium and retain the nomenclatural caveat.",
+    "response_contamination": {
+      "psma": "STOP_for_fresh_lane_RMNP_prior_occupancy_connectivity_result_exposed_during_external_search",
+      "lisy": "STOP_for_fresh_lane_RMNP_prior_occupancy_connectivity_result_exposed_during_external_search",
+      "amma": "focal_response_direction_not_seen"
+    },
+    "amma_resolution_source": {
+      "authority": "U.S. Geological Survey data release",
+      "doi": "10.5066/P9EX70L7",
+      "taxon": "Ambystoma mavortium"
+    }
   },
   "transition_selection_rule": {
     "criteria": [
@@ -114,7 +124,17 @@
     "transformation_rule": "NAD27 UTM 13N EPSG:26713 -> NAD83 UTM 13N EPSG:26913; NAD83 rows unchanged",
     "site_coordinate_rule": "median transformed 2021 easting and northing per site_name",
     "maximum_within_site_transformed_spread_m": 231.9710031188878,
-    "geometry_repair_using_2022_forbidden": true
+    "geometry_repair_using_2022_forbidden": true,
+    "high_effort_candidate_sites": 69,
+    "high_effort_max_within_site_transformed_spread_m": 231.9710031188878,
+    "high_effort_spread_counts_m": {
+      "0": 55,
+      "10": 56,
+      "25": 56,
+      "50": 56,
+      "100": 56,
+      "250": 69
+    }
   },
   "spatial_blocking": {
     "grid_size_m": 10000,
@@ -148,7 +168,17 @@
     "inspect psma/lisy/amma values before protocol freeze and staged authorization",
     "use 2022 geometry to repair source geometry",
     "relax transition-selection criteria after response access",
-    "reintroduce AMMA without resolving the taxon-identity conflict in a new protocol",
-    "alter frozen Structural A-Islands/Tanzania claims"
-  ]
+    "alter frozen Structural A-Islands/Tanzania claims",
+    "use PSMA or LISY as fresh focal taxa after RMNP prior-result exposure",
+    "promote RMNP back to pristine fresh status"
+  ],
+  "counts_as_pristine_fresh_evidence": false,
+  "survey_effort": {
+    "shared_sites_2021_2022": 93,
+    "sites_with_at_least_one_100_percent_survey_2021": 87,
+    "sites_with_at_least_one_100_percent_survey_2022": 73,
+    "sites_with_at_least_one_100_percent_survey_both_years": 70,
+    "sites_with_geometry_and_100_percent_survey_both_years": 69,
+    "rule_candidate": "at least one perc_surveyed=100 visit in both source and target year; response-independent and not yet an endpoint authorization"
+  }
 }
