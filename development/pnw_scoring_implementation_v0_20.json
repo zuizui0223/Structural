@@ -1,0 +1,120 @@
+{
+  "schema": "structural.pnw_scoring_implementation.v0_20",
+  "status": "frozen_before_2013_target_open",
+  "feature_table_sha256": "f2e85764d736ee069c5805e6a808b7e434bbb2930cfa0808e7ff723927af4ce6",
+  "applicability": {
+    "require_lagged_state_estimable": true,
+    "require_future_target_estimable": true
+  },
+  "feature_sets": {
+    "R0": [
+      "lagged_state_2012"
+    ],
+    "R1": [
+      "lagged_state_2012",
+      "elev.m",
+      "max.size",
+      "maxdepth",
+      "perc.wooded",
+      "fish"
+    ],
+    "R2": [
+      "lagged_state_2012",
+      "elev.m",
+      "max.size",
+      "maxdepth",
+      "perc.wooded",
+      "fish",
+      "nearest_other_2012_pond_distance_m",
+      "generic_pond_reachability_fraction_across_scale_worldset",
+      "generic_pond_pressure_mean_across_scale_worldset"
+    ],
+    "C": [
+      "lagged_state_2012",
+      "elev.m",
+      "max.size",
+      "maxdepth",
+      "perc.wooded",
+      "fish",
+      "nearest_other_2012_pond_distance_m",
+      "generic_pond_reachability_fraction_across_scale_worldset",
+      "generic_pond_pressure_mean_across_scale_worldset",
+      "occupied_source_reachability_fraction_across_scale_worldset",
+      "occupied_source_pressure_mean_across_scale_worldset"
+    ]
+  },
+  "preprocessing": {
+    "continuous_numeric": [
+      "elev.m",
+      "max.size",
+      "maxdepth",
+      "perc.wooded",
+      "nearest_other_2012_pond_distance_m",
+      "generic_pond_reachability_fraction_across_scale_worldset",
+      "generic_pond_pressure_mean_across_scale_worldset",
+      "occupied_source_reachability_fraction_across_scale_worldset",
+      "occupied_source_pressure_mean_across_scale_worldset"
+    ],
+    "binary_unstandardized": [
+      "lagged_state_2012"
+    ],
+    "numeric_missing": "training-fold median; if all training values missing => fold/model non-estimable",
+    "numeric_missing_indicator": "one indicator per included continuous numeric predictor; unstandardized",
+    "numeric_standardization": "after imputation, training-fold mean and population SD; zero-SD predictor maps to 0",
+    "fish_encoding": {
+      "levels": [
+        "yes",
+        "no",
+        "missing"
+      ],
+      "columns": [
+        "fish_yes",
+        "fish_no",
+        "fish_missing"
+      ],
+      "coding": "full fixed one-hot, unstandardized"
+    }
+  },
+  "model": {
+    "implementation": "scikit-learn LogisticRegression",
+    "solver": "lbfgs",
+    "penalty": "l2",
+    "C": 1,
+    "fit_intercept": true,
+    "max_iter": 5000,
+    "tol": 1e-10,
+    "class_weight": null,
+    "random_state": null
+  },
+  "clipping": {
+    "probability_epsilon": 1e-15,
+    "purpose": "finite log-loss evaluation only"
+  },
+  "scoring": {
+    "fold_unit": "region",
+    "region_macro_definition": "compute metric over applicable target rows within each heldout region, then mean equally over estimable heldout regions",
+    "primary_metric": "log_loss",
+    "secondary_metric": "brier",
+    "primary_contrast": "C minus R2",
+    "favorable_direction": "negative"
+  },
+  "non_estimability": [
+    "training target has fewer than 5 positives",
+    "training target has fewer than 5 negatives",
+    "any included continuous predictor is all-missing in training fold",
+    "optimizer fails to converge"
+  ],
+  "software_runtime_for_first_authoritative_execution": {
+    "python": "3.11_or_current_working_runtime_record_at_execution",
+    "sklearn_expected": "1.8.0",
+    "note": "actual runtime versions must be recorded in the result receipt"
+  },
+  "prohibited": [
+    "change solver after seeing 2013 target",
+    "drop predictors after seeing 2013 target",
+    "change fish coding after seeing 2013 target",
+    "change missingness rule after seeing 2013 target",
+    "change probability clipping after seeing 2013 target",
+    "retune C"
+  ]
+}
