@@ -1,0 +1,98 @@
+{
+  "schema": "structural.egwe_ttf_handoff.v0_34",
+  "status": "conceptual_and_protocol_handoff_not_empirical_pooling",
+  "programme_roles": {
+    "Structural": "within-system reference-conditioned structural adequacy",
+    "EGWE": "future-state sufficiency and residual origin/history after current state",
+    "TTF": "out-of-species transferability of within-species transition/turnover structure"
+  },
+  "methodological_spine": [
+    "observational/admissibility support",
+    "endpoint-transition estimability",
+    "within-system state/reference adequacy",
+    "operator portability if claimed",
+    "species-disjoint transferability",
+    "residual origin/history interpretation"
+  ],
+  "handoff_object": {
+    "required": [
+      "species_or_system_id",
+      "frozen endpoint semantics",
+      "frozen current-state/reference space",
+      "typed connectivity operator and level",
+      "response-independent feature construction",
+      "within-species edge transform for TTF",
+      "support/estimability receipt",
+      "species-disjoint train/evaluation split identity",
+      "feature provenance and hashes"
+    ],
+    "optional": [
+      "origin/history label",
+      "self-detectability receipt",
+      "signed transition orientation"
+    ]
+  },
+  "transfer_lanes": {
+    "transition_field": {
+      "question": "does within-species transition turnover learned from training species predict transition turnover in unseen species?",
+      "target": "prospectively defined within-species transition/turnover state",
+      "TTF_role": "canonical held-out-species transfer"
+    },
+    "typed_connectivity_increment": {
+      "question": "does a Structural/EGWE typed-connectivity predictor space add out-of-species transfer skill beyond the declared current-state/reference space?",
+      "comparison": "T_(R+C) minus T_R",
+      "feature_rule": "C must be frozen externally, training-only, or cross-fitted without evaluation-species outcomes"
+    }
+  },
+  "anti_leakage": [
+    "never select TTF species because within-species C-minus-R was favorable",
+    "species eligibility may depend on response-independent support/admissibility and prospectively frozen estimability gates only",
+    "never tune connectivity radius, operator weights, transforms, reference variables, or endpoint semantics on evaluation-species outcomes",
+    "burned pilot partitions never enter TTF predictive transfer",
+    "TTF training/evaluation species split must be frozen before evaluation outcomes are used to fit any transfer field",
+    "evaluation species may not fit shared field parameters except under endpoint-safe cross-fitting explicitly permitted by the TTF protocol"
+  ],
+  "interpretation_matrix": [
+    {
+      "within_system_structure": "supported_or_self_detectable",
+      "cross_species_transfer": "supported",
+      "interpretation": "candidate reusable cross-species state-transition rule in the tested domain"
+    },
+    {
+      "within_system_structure": "supported_or_self_detectable",
+      "cross_species_transfer": "not_detected_under_qualified_test",
+      "interpretation": "system_or_lineage_conditioned structure; not absence of within-system structure"
+    },
+    {
+      "within_system_structure": "not_evaluable",
+      "cross_species_transfer": "not_interpretable",
+      "interpretation": "abstain; support/estimability failure is not biological absence"
+    },
+    {
+      "within_system_structure": "adequacy_not_earned",
+      "cross_species_transfer": "positive_or_negative",
+      "interpretation": "TTF transfer may be descriptive/predictive for its own frozen predictor space but cannot rescue a failed Structural adequacy claim"
+    }
+  ],
+  "current_empirical_boundaries": {
+    "Structural_frozen_paper": [
+      "A-Islands",
+      "Tanzania"
+    ],
+    "Structural_dynamic_postclosure": [
+      "PNW_terminal_non_estimable",
+      "RMNP_terminal_non_estimable"
+    ],
+    "TTF_genetic_result": "qualified cross-species post-IBD transfer not detected; within-species self test significant relative to frozen null",
+    "pooling_forbidden": true,
+    "note": "TTF genetic result is an empirical example of self-detectability != transferability, not a replication of Structural connectivity"
+  },
+  "prohibited_claims": [
+    "TTF genetic non-transfer proves Structural connectivity is lineage-specific",
+    "Structural A-Islands or Tanzania are TTF replications",
+    "within-species adequacy automatically implies cross-species transferability",
+    "cross-species transferability proves common mechanism",
+    "operator portability and species transferability are the same property",
+    "pilot feasibility counts as transfer evidence"
+  ]
+}
