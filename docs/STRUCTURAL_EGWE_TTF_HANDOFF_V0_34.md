@@ -1,5 +1,12 @@
 # Structural ↔ EGWE ↔ TTF handoff v0.34
 
+## Priority status
+
+**Later / not an active Structural dependency.**
+
+The active Structural mainline is the v0.31–v0.33 burned-pilot estimability gate. TTF handoff work resumes only after a future system has passed that gate and produced a separately frozen confirmatory protocol. v0.34 must not motivate candidate hunting or bypass transition-estimability qualification.
+
+
 ## Core connection
 
 The three programmes address **different levels of generalization**.
