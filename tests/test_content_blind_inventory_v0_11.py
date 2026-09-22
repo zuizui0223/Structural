@@ -49,6 +49,8 @@ def test_inventory_is_deterministic(tmp_path: Path):
 def test_cli_contract_can_be_serialized_without_file_roles(tmp_path: Path):
     (tmp_path / "unknown.dat").write_bytes(b"123")
     payload = to_mapping(inventory_source(tmp_path))
-    encoded = json.dumps(payload)
-    assert "response" not in encoded.lower()
-    assert "unknown.dat" in encoded
+    assert payload["response_value_parse_count"] == 0
+    assert payload["semantic_text_parse_count"] == 0
+    assert payload["model_fit_count"] == 0
+    assert payload["entries"][0]["relative_path"] == "unknown.dat"
+    assert all("role" not in row and "classification" not in row for row in payload["entries"])
