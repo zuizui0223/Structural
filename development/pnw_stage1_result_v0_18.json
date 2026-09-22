@@ -1,0 +1,86 @@
+{
+  "schema": "structural.pnw_stage1_result.v0_18",
+  "status": "stage1_complete_with_normalization_adjudication",
+  "source_file_sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+  "year_opened": 2012,
+  "future_target_year_opened": false,
+  "species_token": "RACA",
+  "normalization": {
+    "valid_survey_types": [
+      "full",
+      "partial"
+    ],
+    "excluded_survey_types": [
+      "dry",
+      "NA",
+      "blank"
+    ],
+    "missing_species_row_rule": "zero-fill RACA on valid survey occasions when no explicit RACA row exists",
+    "adjudication_note": "v0.17 did not enumerate valid survtype values or missing-species row expansion; rules are fixed from source metadata/source-processing semantics, not response direction"
+  },
+  "site_state": {
+    "sites_total": 219,
+    "positive": 134,
+    "negative": 19,
+    "non_estimable": 66,
+    "explicit_raca_sites": 135,
+    "zero_filled_sites": 84,
+    "survey_type_site_visit_counts": {
+      "dry": 115,
+      "full": 313,
+      "partial": 147
+    },
+    "state_table_sha256": "bbf407503d1db9f911989d27717bb44e80d4028b65647c7b588d23f5bf87b440"
+  },
+  "evaluation_universe": {
+    "common_sites": 150,
+    "positive_2012": 113,
+    "negative_2012": 12,
+    "non_estimable_2012": 25
+  },
+  "connectivity": {
+    "source_sites_all_2012": 219,
+    "occupied_source_sites": 134,
+    "scale_worldset_m": [
+      250,
+      500,
+      1000,
+      1500,
+      5000
+    ],
+    "self_anchor_exclusion": true
+  },
+  "feature_table": {
+    "rows": 150,
+    "columns": [
+      "site",
+      "park",
+      "region",
+      "UTMe_2012",
+      "UTMn_2012",
+      "lagged_state_2012",
+      "lagged_state_estimable",
+      "valid_visit_count_2012",
+      "elev.m",
+      "max.size",
+      "maxdepth",
+      "perc.wooded",
+      "fish",
+      "nearest_other_2012_pond_distance_m",
+      "generic_pond_reachability_fraction_across_scale_worldset",
+      "generic_pond_pressure_mean_across_scale_worldset",
+      "occupied_source_reachability_fraction_across_scale_worldset",
+      "occupied_source_pressure_mean_across_scale_worldset"
+    ],
+    "sha256": "f2e85764d736ee069c5805e6a808b7e434bbb2930cfa0808e7ff723927af4ce6"
+  },
+  "response_access": {
+    "2012_lagged_state_opened": true,
+    "2013_target_opened": false,
+    "2013_target_values_summarized": false,
+    "model_fit_count": 0,
+    "candidate_ranking_count": 0
+  },
+  "evidence_class": "response_unopened_design_exposed",
+  "counts_as_pristine_fresh_evidence": false
+}
