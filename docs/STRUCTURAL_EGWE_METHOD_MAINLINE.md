@@ -404,6 +404,18 @@ The sole primary contrast is **C − R2** under leave-one-2012-region-out scorin
 
 The protocol is a real response holdout but remains `response_unopened_design_exposed`; it cannot become pristine fresh evidence regardless of result. Rocky Mountain NP remains the pristine-fresh lane.
 
+## Frozen PNW pre-response reference
+
+v0.16 freezes the response-free 2012 reference before any RACA state is opened.
+
+The 2012 safe projection contains 219 sites; 150 of them also occur in 2013 and define the evaluation-site universe before endpoint applicability is known. Numeric site variables are aggregated as the median of distinct nonmissing values so biological row multiplicity cannot weight the physical/current-state reference.
+
+The derived 219-site table is frozen by SHA-256 `13277413ee5d4c9c30d4d8f9cb900203a92e129ccbc5ad4b6b0593dee0bbcdfd`.
+
+Among the 150 common sites, only one frozen R1 numeric value is missing (maxdepth at Deerheart.LakeMUL9). It remains in the cohort and will follow the already-frozen training-fold median + missingness-indicator rule.
+
+No species, observation or future-target value was used. The next irreversible gate is Stage 1 authorization for 2012 lagged RACA state only.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.

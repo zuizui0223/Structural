@@ -1,0 +1,89 @@
+{
+  "schema": "structural.pnw_reference_state_receipt.v0_16",
+  "status": "pre_response_reference_frozen",
+  "source_file_sha256": "67039bbbfbdec90fbae6d8f40b5018ab8bccafa6d5e4623f359b5b9a1e05e975",
+  "source_header_sha256": "554a96b07510d2bb828eaca24cb3ca892fa77466abaccdaee18f3eb20a696213",
+  "year": "2012",
+  "source_rows_projected": 542,
+  "site_rows": 219,
+  "evaluation_target_sites_common_with_2013": 150,
+  "safe_columns": [
+    "year",
+    "park",
+    "site",
+    "region",
+    "datum",
+    "UTMzone",
+    "UTMe",
+    "UTMn",
+    "error",
+    "elev.m",
+    "max.size",
+    "maxdepth",
+    "perc.wooded",
+    "fish"
+  ],
+  "site_aggregation": {
+    "numeric": "median of distinct nonmissing values within 2012 site",
+    "categorical": "require exactly one distinct nonmissing value; otherwise STOP",
+    "categorical_conflicts": 0
+  },
+  "missing_site_values": {
+    "all_219_sites": {
+      "elev.m": 0,
+      "max.size": 14,
+      "maxdepth": 4,
+      "perc.wooded": 10,
+      "fish": 0
+    },
+    "common_150_sites": {
+      "elev.m": 0,
+      "max.size": 0,
+      "maxdepth": 1,
+      "perc.wooded": 0,
+      "fish": 0
+    }
+  },
+  "common_150_missing_detail": {
+    "maxdepth": [
+      "Deerheart.LakeMUL9"
+    ]
+  },
+  "evaluation_park_counts": {
+    "MORA": 37,
+    "NOCA": 5,
+    "OLYM": 108
+  },
+  "evaluation_region_counts": {
+    "DaggerTwisp": 3,
+    "DeerLake": 20,
+    "Hwy20": 2,
+    "MazamaLakes": 8,
+    "Palisades": 19,
+    "Potholes": 16,
+    "SevenLakes": 30,
+    "SprayPark": 10,
+    "UpperLena": 21,
+    "WyeLakes": 21
+  },
+  "fish_counts_all_219": {
+    "no": 209,
+    "yes": 10
+  },
+  "derived_table": {
+    "logical_path": "validation/pnw_reference_state_2012_v0_16.csv",
+    "sha256": "13277413ee5d4c9c30d4d8f9cb900203a92e129ccbc5ad4b6b0593dee0bbcdfd",
+    "committed_in_repository": false,
+    "reason": "freeze identity first; raw uploaded source bytes remain outside the public repository"
+  },
+  "response_access": {
+    "focal_species_values_opened": false,
+    "observation_values_opened": false,
+    "future_target_values_opened": false,
+    "protected_response_values_summarized": false
+  },
+  "model_fit_count": 0,
+  "candidate_ranking_count": 0,
+  "next_rule": "training-fold median imputation plus missingness indicator for numeric reference predictors remains frozen from v0.15; do not drop Deerheart.LakeMUL9 because maxdepth is missing",
+  "next_stage": "stage1_lagged_state_authorization"
+}
