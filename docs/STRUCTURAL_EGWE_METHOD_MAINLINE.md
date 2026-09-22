@@ -451,6 +451,22 @@ No gate lowering, species swap, endpoint swap, split change or replacement-candi
 
 The only pristine-fresh active lane is now Rocky Mountain National Park.
 
+## RMNP physical-schema resolution
+
+The RMNP source package is now physically resolved without opening amphibian response values.
+
+The selected dynamic transition is **2021→2022**. It is the only audited large transition that satisfies the response-independent geometry rule: at least 80 common sites, at least 95% source-year coordinate coverage, at least 95% explicit NAD27/NAD83 datum coverage, and UTM Zone 13.
+
+There are 93 common sites; 92 have convertible 2021 geometry. Coordinates are converted to NAD83 / UTM 13N and collapsed to the median transformed 2021 coordinate per site. 2022 geometry is forbidden for predictor construction.
+
+Safe survey-effort metadata identify 70 sites with at least one 100% survey in both years; 69 of those also have valid source geometry. This 69-site universe is the current response-independent high-effort candidate set.
+
+The fresh-evidence class has been downgraded from pristine. External literature triage exposed prior RMNP occupancy/connectivity results for PSMA and LISY, so those taxa are permanently STOP for this lane. No RMNP-specific AMMA response direction has been inspected. The remaining focal class is therefore:
+
+`focal_response_unseen_system_context_exposed`
+
+The source metadata contain conflicting tiger-salamander nomenclature, but the current USGS data-release page for DOI `10.5066/P9EX70L7` identifies the tiger salamander as *Ambystoma mavortium*. The protocol binds the physical token `AMMA` to that current release identity while retaining the nomenclatural caveat.
+
 ## Why the distinction matters
 
 A label such as `island`, `fragmented`, `urban`, `F_ST`, `distance`, or `connectivity` is not granted mechanistic state status by name.
