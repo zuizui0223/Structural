@@ -1,0 +1,7 @@
+focal_population,source_population,comparison_class
+F1,S1,graph_connected
+F1,S2,alternative
+F2,S2,graph_connected
+F2,S3,alternative
+F3,S3,graph_connected
+F3,S4,alternative
