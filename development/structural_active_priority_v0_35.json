@@ -33,9 +33,10 @@
     "new biological candidate discovery only when it can enter as a fully frozen v0.31 protocol rather than exploratory hunting"
   ],
   "next_valid_work": [
-    "keep v0.31-v0.39 admission machinery frozen and CI-green",
-    "maintain an empty confirmatory queue until a real system can commit a frozen protocol plus exact three-column burned-pilot input that replays and qualifies",
-    "after a replay-qualified admission, freeze that system's separate confirmatory state/reference/connectivity/scoring protocol before any confirmatory response access"
+    "keep the frozen v0.31-v0.40 admission chain CI-green without adding new gate features",
+    "maintain an empty confirmatory queue until a real system independently satisfies a new v0.31 protocol and immutable burned-pilot replay",
+    "after admission, freeze that system's separate confirmatory state/reference/connectivity/scoring protocol before any confirmatory response access"
   ],
-  "active_verifier": "v0.39 exact three-column burned-pilot surface + v0.38 raw replay + v0.37 block recomputation"
+  "active_verifier": "v0.39 exact three-column surface + v0.38 raw replay + v0.37 recomputation, frozen by v0.40",
+  "admission_infrastructure_frozen_at": "v0.40"
 }

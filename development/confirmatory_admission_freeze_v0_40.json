@@ -1,0 +1,37 @@
+{
+  "schema": "structural.confirmatory_admission_freeze.v0_40",
+  "status": "frozen_gate_infrastructure",
+  "frozen_chain": [
+    "v0.31 disjoint pilot/confirmatory protocol and fingerprint",
+    "v0.32 burned-pilot estimability execution",
+    "v0.39 exact three-column burned-pilot input and zero-predictive output ceiling",
+    "v0.38 raw pilot SHA-256 plus exact v0.32 replay",
+    "v0.37 independent block/arithmetic estimability recomputation",
+    "v0.33 pilot-to-confirmatory freeze gate",
+    "v0.38 confirmatory-protocol queue"
+  ],
+  "live_queue": "development/confirmatory_admission_queue_v0_38.json",
+  "expected_live_queue_count_until_real_qualification": 0,
+  "successful_gate_action": "freeze_confirmatory_protocol_only",
+  "confirmatory_response_authorized_by_admission": false,
+  "pilot_predictive_denominator_contribution": 0,
+  "allowed_next_actions": [
+    "keep the frozen chain CI-green",
+    "for a future real system, commit a new v0.31 protocol before pilot response access",
+    "burn only the frozen pilot partition through the exact v0.39 input surface",
+    "admit only if raw-input replay and all downstream gates reproduce cleanly",
+    "after admission, freeze a separate system-specific confirmatory state/reference/connectivity/scoring protocol before confirmatory response access",
+    "repair an implementation defect only when a response-independent failing test demonstrates the defect and the scientific gate is not relaxed"
+  ],
+  "forbidden_until_new_protocol_version": [
+    "lower an estimability threshold after pilot failure",
+    "change endpoint semantics after pilot failure",
+    "change heldout design after pilot failure",
+    "replace a failed system with a favorable rescue candidate as the mainline objective",
+    "use burned-pilot outcomes as predictive evidence",
+    "open confirmatory response because admission passed",
+    "select or rescue Structural systems using TTF outcomes"
+  ],
+  "candidate_hunting_as_primary_objective": false,
+  "ttf_is_active_dependency": false
+}
