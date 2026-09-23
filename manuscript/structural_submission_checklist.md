@@ -74,6 +74,7 @@ The paper is **not ready to submit or release** until every remaining author/rel
 - [x] Release-candidate verifier v0.2 added and wired after submission-package build; current CI must reproduce the HOLD while verifying package `source_commit == git HEAD` and frozen fingerprints.
 - [x] Deterministic release-bundle builder v0.1 added and wired into CI; staging mode snapshots the exact tracked source + verified submission package and records all missing external retained ZIPs explicitly.
 - [ ] After human/manual gates clear, build the complete release bundle with all four retained authoritative ZIPs under `--require-complete`, then use that exact bundle as the DOI/public archive payload.
+- [x] Exact-commit release-ready receipt issuer v0.1 added; current CI requires `HOLD_NOT_RELEASE_READY`, and only a later external receipt may authorize the final tag/GitHub Release/archive publication.
 - [ ] Tagged software release `v0.1.0` created.
 - [ ] Release commit matches final revised manuscript/code state.
 - [ ] Zenodo/archive DOI reserved/minted after author/live-policy gates clear.

@@ -1,0 +1,32 @@
+{
+  "schema": "structural.release_ready_receipt_contract.v0_1",
+  "status": "release_admin_infrastructure",
+  "purpose": "issue an external exact-commit release authorization receipt only after human/manual gates, identifier insertion, verified submission package and complete raw-artifact release bundle all agree",
+  "issuance_requirements": [
+    "release candidate verifier stage == READY_FOR_RELEASE_CANDIDATE_RECEIPT",
+    "release preflight status == READY_FOR_RELEASE_CANDIDATE_RECEIPT",
+    "submission package is verified and source_commit == git HEAD",
+    "complete release bundle contains all four retained external artifacts",
+    "release bundle ZIP size and SHA-256 match its external receipt",
+    "release bundle manifest source_commit == git HEAD",
+    "candidate tag agrees across preflight, candidate verifier and bundle"
+  ],
+  "current_expected_status": "HOLD_NOT_RELEASE_READY",
+  "current_hold_is_ci_success_with_allow_hold": true,
+  "issued_receipt_authorizations": {
+    "create_final_tag": true,
+    "create_github_release": true,
+    "publish_archive_record": true,
+    "submit_to_journal": false
+  },
+  "self_reference_boundary": {
+    "receipt_is_external_build_artifact": true,
+    "receipt_must_not_be_committed_before_tag_creation": true,
+    "reason": "committing the receipt would create a new HEAD and invalidate the exact source_commit binding"
+  },
+  "tag_invariant": {
+    "tag_name": "v0.1.0",
+    "tag_must_point_exactly_to_receipt_source_commit": true,
+    "tag_may_move_after_creation": false
+  }
+}
