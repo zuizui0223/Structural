@@ -93,6 +93,16 @@
       "m1_and_m2_qualified_independently": true,
       "pilot_effect_contribution": 0,
       "confirmatory_response_authorized": false
+    },
+    "auxiliary_mechanism_gate": {
+      "path": "development/mechanism_auxiliary_gate_v0_3.json",
+      "runner": "scripts/run_mechanism_auxiliary_gate_v0_3.py",
+      "status": "synthetic_only_no_current_system",
+      "m3_opens_genetic_outcome": false,
+      "m4_opens_confirmatory_response": false,
+      "m3_and_m4_qualified_independently": true,
+      "mechanism_claim_contribution": 0,
+      "confirmatory_response_authorized": false
     }
   }
 }
