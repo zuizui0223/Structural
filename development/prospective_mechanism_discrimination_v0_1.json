@@ -1,0 +1,127 @@
+{
+  "schema": "structural.prospective_mechanism_discrimination.v0_1",
+  "status": "prospective_mechanism_framework_not_yet_tested",
+  "origin": {
+    "discovery_freeze": "development/exploratory_ecology_freeze_v0_4.json",
+    "ecological_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "discovery_systems_may_not_count_as_confirmation": [
+      "A-Islands",
+      "Tanzania"
+    ]
+  },
+  "purpose": "distinguish contemporary colonization, rescue/persistence, historical colonization legacy, and environmental-proxy explanations for prospectively observed source-decoupling without using mechanism analyses to rescue the Structural primary",
+  "entry_conditions": {
+    "independent_system_required": true,
+    "normal_structural_admission_required": true,
+    "v0_3_extreme_isolation_protocol_frozen_before_response_access": true,
+    "mechanism_module_frozen_before_confirmatory_response_access_when_data_lane_is_available": true,
+    "favourable_structural_result_may_not_be_used_to_choose_system": true,
+    "mechanism_result_may_not_change_structural_primary": true
+  },
+  "shared_predictor_state": {
+    "extreme_isolation_primary": "upper 25% of one predictor-only isolation distribution frozen before response access",
+    "source_decoupling_secondary": "source-conditioned connectivity exceeds the generic connectivity representation already included in the strong reference",
+    "multi_hop_secondary": "connected to a permitted source at the smallest frozen graph scale while direct source distance exceeds that scale",
+    "graph_scales_frozen_before_response": true,
+    "source_definition_frozen_before_response": true
+  },
+  "mechanism_lanes": {
+    "M1_contemporary_colonization": {
+      "minimum_data": "at least two occupancy states with a prospectively frozen transition design; repeated detection data required when nondetection is plausibly substantial",
+      "target_transition": "0_to_1",
+      "estimand": "incremental colonization support of source-decoupling or multi-hop state beyond the strong ecological reference",
+      "favourable_direction": "higher colonization probability or lower held-out transition loss in source-connected state",
+      "required_controls": [
+        "local habitat/environment state at t",
+        "unit size/area when ecologically meaningful",
+        "direct source distance at t",
+        "generic connectivity at t",
+        "observation/detection process when repeated survey data permit"
+      ],
+      "discriminating_prediction": "source-decoupling predicts 0_to_1 transitions after controls; an effect confined to 1_to_1 persistence does not establish this lane",
+      "cannot_be_inferred_from_static_presence": true
+    },
+    "M2_rescue_persistence": {
+      "minimum_data": "at least two occupancy states with a prospectively frozen transition design; repeated detection data required when nondetection is plausibly substantial",
+      "target_transition": "1_to_0 or equivalently 1_to_1 persistence",
+      "estimand": "incremental extinction-risk reduction or persistence support of source-decoupling beyond the strong ecological reference",
+      "favourable_direction": "lower local extinction probability or higher persistence probability in source-connected state",
+      "required_controls": [
+        "local habitat/environment state at t",
+        "unit size/area when ecologically meaningful",
+        "direct source distance at t",
+        "generic connectivity at t",
+        "observation/detection process when repeated survey data permit"
+      ],
+      "discriminating_prediction": "source-decoupling predicts reduced 1_to_0 loss or increased 1_to_1 persistence; a signal confined to 0_to_1 transitions does not establish rescue/persistence",
+      "cannot_be_inferred_from_static_presence": true
+    },
+    "M3_historical_colonization_legacy": {
+      "minimum_data": "population-genetic or phylogeographic information from focal populations and plausible source populations, sampled independently of favourable Structural outcomes",
+      "target": "genetic affinity/source assignment conditional on geographic distance and available habitat/environment covariates",
+      "estimand": "whether remote source-decoupled populations are genetically closer to the connected occupied-source set than equally or more geographically plausible alternatives",
+      "favourable_direction": "greater genetic affinity to graph-connected source set beyond geographic distance/environment",
+      "required_controls": [
+        "geographic distance",
+        "sampling effort or sample size",
+        "population size proxy when available",
+        "environmental or habitat similarity",
+        "phylogenetic or population-structure nuisance terms when appropriate"
+      ],
+      "discriminating_prediction": "genetic affinity follows the frozen source-path relation even if contemporary 0_to_1 and 1_to_0 transition effects are weak; this is consistent with historical legacy but does not date the colonization event by itself",
+      "allowed_data_examples": [
+        "genome-wide SNP or reduced-representation markers",
+        "population assignment or coancestry",
+        "F_ST or related genetic distance with appropriate controls",
+        "organellar plus nuclear phylogeography when resolution is adequate"
+      ]
+    },
+    "M4_environmental_proxy": {
+      "minimum_data": "response-blind enriched habitat/environment predictors collected or defined before confirmatory outcome access",
+      "target": "incremental topology information after an enriched non-topological environmental reference",
+      "estimand": "whether source-decoupling/topology retains held-out information after plausible omitted habitat/environment structure is represented",
+      "favourable_direction_for_proxy_explanation": "topology increment collapses toward zero while enriched environmental reference improves held-out prediction",
+      "required_controls": [
+        "the original strong ecological reference",
+        "predeclared enriched environment/habitat variables",
+        "same held-out partition used for topology comparison"
+      ],
+      "negative_control": "environmental enrichment must be chosen without inspecting topology outcome direction and may not be expanded iteratively to erase a favourable topology result",
+      "discriminating_prediction": "if topology signal disappears under a prospectively enriched environmental reference and neither dynamic nor genetic lanes support connectivity, environmental proxy remains the leading explanation"
+    }
+  },
+  "dynamic_separation_contract": {
+    "colonization_and_extinction_are_separate_estimands": true,
+    "pooling_0_to_1_and_1_to_0_into_one_binary_endpoint_for_mechanism_claims": false,
+    "transition_event_minima_are_system_specific_and_must_be_frozen_before_response_access": true,
+    "non_estimable_transition_lane_counts_as_neither_support_nor_refutation": true,
+    "pilot_event_counts_may_not_contribute_effect_size_or_prediction_score": true
+  },
+  "interpretation_matrix": {
+    "colonization_consistent": "M1 supported; M2 may be supported or unsupported; M3/M4 do not override the contemporary 0_to_1 evidence",
+    "rescue_persistence_consistent": "M2 supported; M1 may be supported or unsupported; static occupancy alone is insufficient",
+    "ongoing_connectivity_consistent": "both M1 and M2 supported under the predeclared dynamic design",
+    "historical_legacy_consistent": "M3 supported while contemporary transition lanes are estimable but weak/unsupported; does not prove a unique historical route",
+    "environmental_proxy_consistent": "M4 proxy prediction supported while M1/M2/M3 provide no independent connectivity evidence",
+    "mixed_or_unresolved": "multiple lanes supported, lane non-estimability, or conflicting spatial-transfer results; no forced single-winner label"
+  },
+  "spatial_transfer": {
+    "each_dynamic_lane_requires_local_and_separate_spatial_block_evaluation": true,
+    "mechanism_claim_cannot_rely_only_on_local_interpolation": true,
+    "historical_genetic_lane_requires_geographic_null_or_distance_control": true,
+    "environmental_proxy_lane_uses_same_spatial_holdout_where_feasible": true
+  },
+  "anti_selection": [
+    "do not choose a system because A-Islands source-decoupling looked favourable",
+    "do not inspect 0_to_1 or 1_to_0 outcomes before freezing transition thresholds and partitions",
+    "do not merge colonization and extinction transitions after seeing which one is favourable",
+    "do not collect genetics only from populations selected by favourable topology residuals",
+    "do not add environmental predictors iteratively until topology disappears",
+    "do not call non-estimable dynamic lanes negative evidence",
+    "do not use any mechanism lane to rescue a failed Structural extreme-isolation primary",
+    "do not require one exclusive mechanism when evidence supports a mixture"
+  ],
+  "current_systems": [],
+  "confirmatory_response_authorized": false,
+  "mechanism_claim_authorized": false
+}
