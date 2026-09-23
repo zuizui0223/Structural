@@ -36,9 +36,39 @@ def protocol_mapping(**changes):
 def clean_result(protocol):
     pre = evaluate_transition_pilot_protocol(protocol)
     audits = [
-        {"block": "a", "estimable": True},
-        {"block": "b", "estimable": True},
-        {"block": "c", "estimable": True},
+        {
+            "block": "a",
+            "test_rows": 6,
+            "test_positive": 3,
+            "test_negative": 3,
+            "train_rows": 12,
+            "train_positive": 6,
+            "train_negative": 6,
+            "estimable": True,
+            "reasons": [],
+        },
+        {
+            "block": "b",
+            "test_rows": 6,
+            "test_positive": 3,
+            "test_negative": 3,
+            "train_rows": 12,
+            "train_positive": 6,
+            "train_negative": 6,
+            "estimable": True,
+            "reasons": [],
+        },
+        {
+            "block": "c",
+            "test_rows": 6,
+            "test_positive": 3,
+            "test_negative": 3,
+            "train_rows": 12,
+            "train_positive": 6,
+            "train_negative": 6,
+            "estimable": True,
+            "reasons": [],
+        },
     ]
     return {
         "schema": "structural.transition_pilot_result.v0_32",
@@ -48,6 +78,10 @@ def clean_result(protocol):
         "confirmatory_partition_opened": False,
         "confirmatory_response_row_count_seen": 0,
         "pilot_consumed": True,
+        "applicable_rows": 18,
+        "positive": 9,
+        "negative": 9,
+        "non_estimable": 0,
         "total_blocks": 3,
         "estimable_blocks": 3,
         "minimum_estimable_blocks": 3,
