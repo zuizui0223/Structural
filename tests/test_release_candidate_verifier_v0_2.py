@@ -112,14 +112,17 @@ def test_preflight_still_forbids_final_release():
         for value in preflight["release_actions_authorized"].values()
     )
 
-def test_current_repository_exposes_authoritative_artifact_archive_blocker():
-    blockers = _archive_blockers()
-
-    assert blockers == ["authoritative_raw_artifact_not_preserved_durably"]
+def test_current_repository_has_no_actions_expiry_archive_blocker():
+    assert _archive_blockers() == []
 
 
-def test_archive_gate_blocks_identifier_stage_after_human_gates_clear(monkeypatch):
+def test_archive_gate_blocks_identifier_stage_when_retention_regresses(monkeypatch):
     monkeypatch.setattr(verifier, "_human_policy_blockers", lambda metadata: [])
+    monkeypatch.setattr(
+        verifier,
+        "_archive_blockers",
+        lambda: ["authoritative_raw_artifact_not_preserved_durably"],
+    )
 
     receipt = verifier.evaluate(None)
 
