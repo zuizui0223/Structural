@@ -1,0 +1,24 @@
+{
+  "schema": "structural.release_candidate_verifier_contract.v0_2",
+  "status": "release_admin_infrastructure",
+  "purpose": "verify that an exact repository commit and built submission package remain internally consistent while distinguishing human-policy HOLD from later identifier/release stages",
+  "stages": [
+    "HOLD_HUMAN_POLICY_GATES",
+    "READY_FOR_IDENTIFIER_RESERVATION_AND_IDENTIFIER_ONLY_PR",
+    "READY_FOR_RELEASE_CANDIDATE_RECEIPT"
+  ],
+  "never_authorizes_release_by_itself": true,
+  "checks": [
+    "pyproject version matches release preflight and candidate tag",
+    "science and presentation remain frozen",
+    "author metadata and approvals are evaluated without inference",
+    "journal-specific guide approval flag is explicit",
+    "release-tag and archive-DOI placeholder state is explicit",
+    "built submission package source_commit equals git HEAD",
+    "A-Islands and Tanzania fingerprints match the repository submission manifest",
+    "EOG-WF empirical denominator remains excluded",
+    "canonical packaged figures exist"
+  ],
+  "ci_mode": "run after package build with --allow-hold; HOLD is acceptable only when internally consistent",
+  "release_actions_authorized": false
+}
