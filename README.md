@@ -94,6 +94,7 @@ Canonical development files:
 - `docs/CONFIRMATORY_ADMISSION_REPLAY_V0_38.md`
 - `docs/BURNED_PILOT_SURFACE_V0_39.md`
 - `docs/CONFIRMATORY_ADMISSION_FREEZE_V0_40.md`
+- `docs/CURRENT_STATUS_V0_41.md`
 - `docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md`
 - `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
 - `development/connectivity_adequacy_contract_v0_1.json`
@@ -128,6 +129,8 @@ v0.38 binds admission to the raw burned-pilot CSV itself: CI verifies its SHA-25
 v0.39 closes that raw evidence surface to exactly `partition_unit, block, target`; extra or reordered columns are rejected, and every runner exit explicitly retains null effect/score with zero predictive-denominator contribution.
 
 v0.40 freezes the v0.31-v0.39 admission machinery. The live queue staying empty is now an intended state; further infrastructure work is maintenance-only unless a response-independent failing test demonstrates an implementation defect. The next scientific event is a genuinely new v0.31 protocol, not another round of candidate hunting or gate retuning.
+
+v0.41 converges all current-status pointers: the authoritative empirical registry is v0.29 with no active candidates, the live v0.38 queue is empty, v0.40 freezes admission infrastructure, and TTF remains a later independent transferability layer. Older candidate-triage files are historical snapshots rather than current instructions.
 
 ## Current state
 

@@ -1,5 +1,7 @@
 # PNW Stage 2 result v0.21
 
+> **Status note (superseded current-lane text):** this document is the historical v0.21 PNW result. Its final “Active lane” paragraph described project status at that time. Current status is defined by registry v0.29 and the v0.40 admission freeze: PNW and RMNP are both terminal non-estimable, there are no active empirical candidates, and the live confirmatory queue is empty.
+
 ## Terminal result
 
 The authorized 2013 RACA target was opened once under the frozen v0.19 authorization and v0.20 scoring implementation.
@@ -79,8 +81,8 @@ The following are forbidden:
 
 A future empirical test must be a new separately frozen protocol.
 
-## Active lane
+## Active lane at v0.21 — superseded
 
-PNW is closed.
+PNW was closed at v0.21.
 
-The only current pristine-fresh candidate remains the Rocky Mountain National Park long-term amphibian release, still pending physical file/geometry/firewall resolution.
+At that time, the Rocky Mountain National Park long-term amphibian release remained the next pristine-fresh candidate. That status was later superseded by the completed RMNP workflow; RMNP is now also terminal non-estimable.

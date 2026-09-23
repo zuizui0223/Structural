@@ -4,7 +4,7 @@
 
 **Later / not an active Structural dependency.**
 
-The active Structural mainline is the v0.31–v0.33 burned-pilot estimability gate. TTF handoff work resumes only after a future system has passed that gate and produced a separately frozen confirmatory protocol. v0.34 must not motivate candidate hunting or bypass transition-estimability qualification.
+The Structural admission machinery is frozen at v0.40. TTF handoff work resumes only after a future system has independently entered the Structural confirmatory-protocol queue through the frozen v0.31–v0.39 chain and then produced a separately frozen confirmatory protocol. v0.34 must not motivate candidate hunting, alter Structural admission, or bypass transition-estimability qualification.
 
 
 ## Core connection
@@ -160,7 +160,7 @@ A species whose Structural C−R result is null or adverse must remain in the TT
 
 ## Burned pilots and TTF
 
-Structural v0.30–v0.33 adds a prerequisite that TTF has only partly needed in static turnover settings:
+Structural v0.30–v0.40 establishes a frozen prerequisite that TTF has only partly needed in static turnover settings:
 
 > the future transition itself must be estimable before a confirmatory response is spent.
 

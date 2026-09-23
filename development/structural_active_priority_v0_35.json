@@ -38,5 +38,8 @@
     "after admission, freeze that system's separate confirmatory state/reference/connectivity/scoring protocol before any confirmatory response access"
   ],
   "active_verifier": "v0.39 exact three-column surface + v0.38 raw replay + v0.37 recomputation, frozen by v0.40",
-  "admission_infrastructure_frozen_at": "v0.40"
+  "admission_infrastructure_frozen_at": "v0.40",
+  "canonical_current_status": "development/current_status_v0_41.json",
+  "current_empirical_registry": "development/connectivity_candidate_registry_v0_29.json",
+  "live_confirmatory_queue": "development/confirmatory_admission_queue_v0_38.json"
 }

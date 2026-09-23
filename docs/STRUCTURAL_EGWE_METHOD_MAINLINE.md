@@ -299,13 +299,15 @@ The primary v0.6 engineering pilot is the 2026 Heliconia tortuosa dataset, which
 
 ## Fresh-candidate discovery boundary
 
-The project now distinguishes candidate discovery from protocol admission.
+> **Historical development note.** This section records the v0.8-v0.9 discovery phase. It is not the current candidate list. The authoritative current registry is v0.29: PNW and RMNP are terminal non-estimable and there are no active empirical candidates. The live confirmatory queue is empty under the v0.40 infrastructure freeze.
+
+The project distinguishes candidate discovery from protocol admission.
 
 Fresh candidates are screened using metadata only. A candidate advances only when source identity, ecological units, reproducible geometry, response firewalling, temporal design and operator semantics can be established without opening response values or inspecting a published connectivity result.
 
 If the project sees the response result during discovery, the candidate is permanently removed from the fresh lane. It may still be used as a retrospective engineering system.
 
-The priority-1 fresh candidate is now the USGS Rocky Mountain National Park amphibian release (1986–2022). It is **pending**, not qualified. Public metadata establish a long repeated occupancy design, but the physical release must still verify per-waterbody geometry and response firewalling before feature/split freezing. The Pacific Northwest montane-pond release (2012–2013) remains a priority-2 pending candidate.
+At v0.9, the priority-1 fresh candidate was the USGS Rocky Mountain National Park amphibian release (1986–2022), with the Pacific Northwest montane-pond release (2012–2013) second. That triage state was later superseded: both systems were executed through later frozen protocols and closed as terminal non-estimable before any predictive model fit.
 
 ## Physical-schema boundary
 
@@ -318,11 +320,9 @@ Before protocol freeze, the project must physically verify:
 - the response firewall;
 - all joins needed to construct geometry/reference features without reading response values.
 
-The user-supplied Pacific Northwest USGS XML resolves the DOI landing and original metadata but does not expose file-level data URLs on the catalog surface. The candidate therefore remains pending.
+At the v0.10 stage, the user-supplied Pacific Northwest USGS XML resolved the DOI landing and original metadata but did not expose file-level data URLs on the catalog surface, and Rocky Mountain NP was likewise pending physical file resolution. Those access/schema states were later superseded by the completed PNW and RMNP workflows; both systems are now terminal non-estimable, not pending candidates.
 
-Rocky Mountain NP also remains pending because the current access path resolves the catalog metadata but not the underlying ScienceBase file inventory.
-
-These are access/schema boundaries, not ecological nulls.
+These historical access/schema boundaries were not ecological nulls.
 
 ## Content-blind physical inventory
 
@@ -365,7 +365,7 @@ rather than pristine fresh evidence.
 
 PNW can still support a strong prospective-like response holdout, but it may not enter the pristine fresh denominator and legacy code may not justify species, reference-covariate, or dispersal-scale choices.
 
-Rocky Mountain NP remains the only current pristine-fresh candidate.
+At that historical stage, Rocky Mountain NP was the remaining pristine-fresh candidate; this status was later superseded by the completed RMNP workflow and v0.29 registry closure.
 
 ## Temporal state is not future-target leakage
 

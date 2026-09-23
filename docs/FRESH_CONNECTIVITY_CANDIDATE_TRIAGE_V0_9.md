@@ -1,10 +1,12 @@
 # Fresh connectivity candidate triage v0.9
 
-## Current decision
+> **Historical snapshot:** v0.9 records the candidate triage state before PNW and RMNP were executed. It must not be used as the current candidate registry. Current status is v0.29: both dynamic attempts are terminal non-estimable and there are no active empirical candidates; v0.40 freezes the gate-first admission infrastructure with an empty live queue.
 
-The fresh lane now has **two pending USGS raw-monitoring candidates**, with the Rocky Mountain National Park release ranked first.
+## Decision at v0.9 — superseded
 
-No candidate is yet qualified for outcome access.
+At v0.9 the fresh lane had **two pending USGS raw-monitoring candidates**, with the Rocky Mountain National Park release ranked first.
+
+Neither candidate was qualified for outcome access at that historical stage.
 
 ## Priority 1 — Rocky Mountain National Park amphibians, 1986–2022
 
