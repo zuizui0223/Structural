@@ -103,6 +103,17 @@
       "m3_and_m4_qualified_independently": true,
       "mechanism_claim_contribution": 0,
       "confirmatory_response_authorized": false
+    },
+    "mechanism_admission_gate": {
+      "path": "development/mechanism_admission_gate_v0_4.json",
+      "runner": "scripts/run_mechanism_admission_v0_4.py",
+      "status": "synthetic_only_no_current_system",
+      "structural_parent_must_be_v0_38_replay_validated": true,
+      "partial_lane_admission_allowed": true,
+      "protocol_breach_stops_all_lanes": true,
+      "qualified_lane_action": "freeze_confirmatory_mechanism_protocol_only",
+      "confirmatory_response_authorized": false,
+      "mechanism_claim_authorized": false
     }
   }
 }
