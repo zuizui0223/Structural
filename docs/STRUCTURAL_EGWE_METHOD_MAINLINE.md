@@ -611,6 +611,10 @@ It never authorizes confirmatory response access and contributes zero predictive
 
 The admission verifier no longer trusts the pilot's stored `estimable` booleans. For every held-out block it recomputes the frozen minimum-test-row and training-class gates from the committed counts, verifies the training set is the exact complement of the held-out block, and reconciles block partitions with global applicable/positive/negative totals. Any arithmetic or gate mismatch is a STOP before queue admission.
 
+### v0.38 raw-pilot replay
+
+Admission is now bound to the burned evidence itself, not only to its summary JSON. Each queue entry must include the raw pilot CSV and its SHA-256. CI reruns the v0.32 pilot runner from the frozen protocol and that exact CSV; the full replayed result must equal the committed pilot-result object before the v0.37 arithmetic verifier and v0.33 freeze gate are evaluated. An internally coherent but fabricated pilot-result JSON therefore cannot enter the queue.
+
 ## TTF as the outer transferability layer
 
 Structural and EGWE stop at a different inferential level from TTF.
