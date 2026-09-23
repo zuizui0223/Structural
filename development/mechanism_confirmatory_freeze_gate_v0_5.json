@@ -7,8 +7,7 @@
     "protocol_id",
     "system_id",
     "mechanism_lane",
-    "parent_mechanism_protocol_fingerprint",
-    "parent_structural_protocol_fingerprint",
+    "parent_binding_mode",
     "response_firewall_state",
     "response_partition",
     "local_holdout_design",
@@ -51,7 +50,9 @@
     "system_id_must_match_parent": true,
     "parent_mechanism_protocol_fingerprint_must_match": true,
     "parent_structural_protocol_fingerprint_must_match": true,
-    "qualification_raw_input_hashes_recorded": true
+    "qualification_raw_input_hashes_recorded": true,
+    "parent_fingerprints_copied_by_hand": false,
+    "parent_fingerprints_bound_from_replayed_v0_4_admission": true
   },
   "output_ceiling": {
     "effect_size": null,
