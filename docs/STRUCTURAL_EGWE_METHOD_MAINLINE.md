@@ -619,6 +619,10 @@ Admission is now bound to the burned evidence itself, not only to its summary JS
 
 The replayed pilot CSV now has one exact schema: `partition_unit, block, target`. Extra or reordered columns are a STOP, preventing unused fields from carrying confirmatory outcomes, fitted effects or other post-outcome information through the burned-pilot artifact. All runner exits also explicitly preserve the nonpredictive evidence ceiling: null effect size, null prediction score and zero predictive-denominator contribution.
 
+### v0.40 infrastructure freeze
+
+The gate-first admission machinery is frozen after v0.39. An empty live queue is now the expected state until a real system independently qualifies. New gate features, threshold relaxation, endpoint rescue and opportunistic candidate replacement are off the mainline. Only response-independent implementation bug fixes that preserve the scientific gate are maintenance-eligible.
+
 ## TTF as the outer transferability layer
 
 Structural and EGWE stop at a different inferential level from TTF.
