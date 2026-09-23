@@ -1,0 +1,26 @@
+{
+  "schema": "structural.confirmatory_admission_verifier.v0_37",
+  "status": "active_gate_hardening",
+  "purpose": "recompute burned-pilot estimability from committed block counts instead of trusting reported estimable booleans",
+  "input_schema_compatibility": {
+    "pilot_result": "structural.transition_pilot_result.v0_32",
+    "queue": "structural.confirmatory_admission_queue.v0_36",
+    "receipt": "structural.confirmatory_admission_receipt.v0_36"
+  },
+  "recomputed_invariants": [
+    "positive + negative equals applicable_rows",
+    "each block test_positive + test_negative equals test_rows",
+    "each block train_positive + train_negative equals train_rows",
+    "each block training counts equal the complement of the heldout test block",
+    "test blocks partition the global applicable/positive/negative counts",
+    "block estimability is recomputed from frozen minimum_test_rows, minimum_train_positive and minimum_train_negative",
+    "block reasons exactly match the frozen gate failures",
+    "reported estimable_blocks equals the recomputed count",
+    "recomputed estimable_blocks meets the frozen minimum_estimable_blocks"
+  ],
+  "fail_closed": true,
+  "confirmatory_response_authorized": false,
+  "predictive_denominator_contribution": 0,
+  "live_queue": "development/confirmatory_admission_queue_v0_36.json",
+  "ttf_dependency": false
+}
