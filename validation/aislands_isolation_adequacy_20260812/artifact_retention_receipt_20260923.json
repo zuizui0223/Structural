@@ -1,6 +1,6 @@
 {
   "schema": "structural.aislands_authoritative_artifact_retention.v0_1",
-  "status": "VERIFIED_CURRENT_ACTIONS_ARTIFACT_RETENTION_REQUIRED",
+  "status": "VERIFIED_OUTSIDE_ACTIONS_BACKUP_FINAL_ARCHIVE_PENDING",
   "verified_on": "2026-09-23",
   "source_repository": "zuizui0223/eog",
   "source_commit": "a9329d929933c919fe6c1c03934f0314c40f5c50",
@@ -45,10 +45,18 @@
     "internal_result_hashes_match_committed_provenance": true
   },
   "long_term_preservation": {
-    "preserved_outside_github_actions": false,
+    "preserved_outside_github_actions": true,
+    "actions_expiry_risk_mitigated": true,
+    "backup_provider": "Google Drive",
+    "backup_locator": "Structural release retention/aislands-isolation-adequacy-authoritative-outcome.zip",
+    "backup_visibility": "private_backup_not_public_archive",
+    "backup_uploaded_at": "2026-09-23T02:26:12.168Z",
+    "backup_size_bytes": 36856265,
+    "backup_redownload_verified_on": "2026-09-23",
+    "backup_redownload_sha256": "59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e",
+    "final_doi_archive_contains_verified_artifact": false,
     "final_archive_must_include_verified_artifact_or_equivalent_verified_members": true,
-    "must_be_completed_before_actions_expiry": true,
-    "retention_deadline": "2026-11-10T04:42:52Z",
+    "actions_artifact_expires_at": "2026-11-10T04:42:52Z",
     "final_release_must_not_claim_raw_authoritative_artifact_archived_until_verified": true
   }
 }
