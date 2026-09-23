@@ -6,6 +6,12 @@ Live-policy refresh: **2026-09-23** — Elsevier-wide author/AI/highlights guida
 Repository package version: **0.1.0** (`pyproject.toml`).  
 The candidate first submission archive tag remains **`v0.1.0`**, unless the package version is deliberately changed before release.
 
+Canonical machine-readable release HOLD:
+
+`manuscript/submission/release_preflight_v0_1_0.json`
+
+The 2026-09-23 preflight status is **HOLD_HUMAN_POLICY_GATES**. It must remain HOLD until author-approved metadata/declarations and the journal-specific manual checks are complete.
+
 ## Scientific and repository-presentation HOLD — cleared
 
 The scientific and repository-side presentation gates that previously blocked release preparation are now closed. The historical audit heading **Current scientific HOLD before DOI reservation** is retained here as a provenance key; that scientific HOLD is now cleared, while author/live-policy gates remain active.

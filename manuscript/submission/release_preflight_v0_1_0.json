@@ -1,0 +1,57 @@
+{
+  "schema": "structural.release_preflight.v0_1_0",
+  "status": "HOLD_HUMAN_POLICY_GATES",
+  "package_version": "0.1.0",
+  "candidate_tag": "v0.1.0",
+  "target_journal": "Ecological Informatics",
+  "science_frozen": true,
+  "presentation_frozen": true,
+  "current_policy_record": "manuscript/submission/live_policy_verification_2026-09-23.md",
+  "author_metadata_template": "manuscript/submission/author_metadata.template.json",
+  "data_code_availability": "manuscript/submission/data_code_availability.md",
+  "submission_manifest": "manuscript/submission/submission_manifest.json",
+  "release_readiness": "manuscript/submission/release_readiness.md",
+  "release_actions_authorized": {
+    "reserve_or_publish_archive_doi": false,
+    "create_final_tag": false,
+    "create_final_github_release": false,
+    "submit_to_journal": false
+  },
+  "human_or_manual_blockers": [
+    "author list and affiliations approved",
+    "corresponding author details approved",
+    "author contribution roles approved",
+    "funding statement approved",
+    "competing interests statement approved",
+    "ethics/permit relevance confirmed",
+    "originality and simultaneous-submission statement approved",
+    "generative-AI disclosure approved by all authors",
+    "creator order and software citation metadata approved",
+    "journal-specific Ecological Informatics Guide for Authors checked in a normal browser",
+    "journal-specific figure format/size/DPI requirements confirmed",
+    "publisher-rendered submission preview checked"
+  ],
+  "identifier_placeholders_must_remain_until_release_gate_clears": [
+    "<RELEASE_TAG>",
+    "<ARCHIVE_DOI>"
+  ],
+  "frozen_results": {
+    "aislands_strong_reference_result_fingerprint": "5c9b1594b29d362e5983484614a49d530797d06e826c0b96a3e8442a6b6b493a",
+    "tanzania_result_fingerprint": "6b555c28d61d3f39b9e672f5a97250de6870301871cf3e60378e97863cd109e4"
+  },
+  "allowed_next_steps": [
+    "collect author-approved metadata and declarations without inferring missing values",
+    "manually check the live Ecological Informatics Guide for Authors and publisher preview requirements",
+    "after all human/manual gates clear, reserve the archive DOI",
+    "make an identifier-only repository change replacing release-tag/DOI placeholders",
+    "require full CI green and rebuild the final submission package",
+    "only then create v0.1.0 and the matching public release/archive"
+  ],
+  "forbidden_before_gate_clearance": [
+    "create or move the final v0.1.0 tag",
+    "publish a GitHub Release",
+    "publish or reserve the final archive DOI",
+    "replace author placeholders using Git history or inference",
+    "alter frozen scientific results, fingerprints, taxa, graph scales, reference hierarchy, or empirical denominator"
+  ]
+}

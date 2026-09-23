@@ -120,5 +120,6 @@
     "R3 universally outperforms simpler island-isolation references",
     "the original conditional-concordance and C-R3 log-loss increment are one common effect size",
     "EOG-WF Layer A or Layer B endpoint results are additional replications of this paper"
-  ]
+  ],
+  "release_preflight": "manuscript/submission/release_preflight_v0_1_0.json"
 }
