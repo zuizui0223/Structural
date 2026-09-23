@@ -1,0 +1,17 @@
+partition_unit,block,z_t,z_t1
+pilot-A,A,0,0
+pilot-A,A,0,1
+pilot-A,A,1,0
+pilot-A,A,1,1
+pilot-A,B,0,0
+pilot-A,B,0,1
+pilot-A,B,1,0
+pilot-A,B,1,1
+pilot-A,C,0,0
+pilot-A,C,0,1
+pilot-A,C,1,0
+pilot-A,C,1,1
+pilot-A,D,0,0
+pilot-A,D,0,1
+pilot-A,D,1,0
+pilot-A,D,1,1
