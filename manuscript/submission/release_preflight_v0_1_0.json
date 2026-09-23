@@ -45,6 +45,7 @@
     "after all human/manual gates clear, reserve the archive DOI",
     "make an identifier-only repository change replacing release-tag/DOI placeholders",
     "require full CI green and rebuild the final submission package",
+    "build the deterministic complete release bundle from the exact release-candidate commit and all verified retained external artifacts",
     "only then create v0.1.0 and the matching public release/archive"
   ],
   "forbidden_before_gate_clearance": [
@@ -64,5 +65,12 @@
     "actions_expiry_risk_mitigated": true,
     "temporary_backup_verified_sha256": "59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e",
     "final_doi_archive_contains_verified_artifact": false
+  },
+  "release_bundle": {
+    "contract": "manuscript/submission/release_bundle_contract_v0_1.json",
+    "builder": "scripts/build_release_bundle_v0_1.py",
+    "ci_staging_expected_stage": "STAGING_HOLD_HUMAN_POLICY_GATES",
+    "final_bundle_requires_all_retained_external_artifacts": true,
+    "final_bundle_alone_authorizes_release": false
   }
 }
