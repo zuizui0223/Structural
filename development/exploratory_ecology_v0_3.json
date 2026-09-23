@@ -1,0 +1,142 @@
+{
+  "schema": "structural.exploratory_ecology.v0_3",
+  "status": "post_outcome_hypothesis_generation_only",
+  "supersedes_interpretive_layer": "development/exploratory_ecology_v0_2.json",
+  "changes_frozen_structural_paper": false,
+  "counts_as_confirmatory_evidence": false,
+  "counts_as_new_empirical_replication": false,
+  "may_select_future_confirmatory_systems_by_favourable_outcome": false,
+  "analysis_subset": {
+    "system": "A-Islands",
+    "rule": "species with all five frozen folds evaluable, so full species-by-island observed state can be reconstructed from the already-open authoritative held-out artifact without opening any new response source",
+    "species": 687,
+    "islands": 842,
+    "rows": 578454,
+    "selection_uses_candidate_direction": false
+  },
+  "feature_reconstruction": {
+    "geometry_source": "frozen 842-island coordinates from the pre-outcome isolation-contract artifact",
+    "radii_km": [25, 50, 125, 250],
+    "component_rule": "exact source-code rule: undirected component under haversine distance <= radius",
+    "species_sources": "outer-training presences only for each frozen fold",
+    "heldout_labels_used_as_sources": false,
+    "generic_mainland_step_frequency": "fraction of radii whose focal component contains an island within that radius of continental Australia",
+    "species_conditioned_eog_frequency": "fraction of radii whose focal component contains an outer-training presence of the focal species"
+  },
+  "findings": {
+    "E11_species_specific_excess_connectivity": {
+      "definition": "species_conditioned_eog_frequency > generic_mainland_step_frequency",
+      "rows": 15225,
+      "nonremote_rows_under_frozen_q75_rule": 0,
+      "mainland_distance_range_km": [70.1669745965, 228.3859351052],
+      "only_observed_state_pair": {
+        "species_conditioned_eog_frequency": 1.0,
+        "generic_mainland_step_frequency": 0.75
+      },
+      "interpretation": "Every excess-connectivity row is connected to an occupied species source at all four frozen radii while generic mainland access fails at the smallest 25-km radius. This is a predictor-only signature of insular-source connectivity exceeding generic mainland stepping."
+    },
+    "E12_remote_presence_alignment": {
+      "question": "Within remote islands, does predictor-only excess source connectivity mark the presence rows where adding species-conditioned topology is helpful rather than harmful?",
+      "row_level": {
+        "excess_connectivity": {
+          "n": 2932,
+          "mean_C_minus_R3_log_loss": -0.08713884,
+          "median_C_minus_R3_log_loss": -0.03835644,
+          "favourable_fraction": 0.77830832,
+          "mean_candidate_minus_reference_probability": 0.03157915,
+          "mean_nearest_source_km": 42.12511
+        },
+        "no_excess_connectivity": {
+          "n": 3979,
+          "mean_C_minus_R3_log_loss": 0.09941628,
+          "median_C_minus_R3_log_loss": 0.03899622,
+          "favourable_fraction": 0.39532546,
+          "mean_candidate_minus_reference_probability": -0.01915493,
+          "mean_nearest_source_km": 453.19866
+        }
+      },
+      "species_paired": {
+        "species_n": 155,
+        "mean_no_excess": 0.19485375,
+        "mean_excess": -0.10674806,
+        "mean_excess_minus_no_excess": -0.30160181,
+        "median_excess_minus_no_excess": -0.18325239,
+        "wilcoxon_p": 1.3661059264648066e-13,
+        "favourable_species_fraction_no_excess": 0.32903226,
+        "favourable_species_fraction_excess": 0.80645161
+      },
+      "interpretation": "The remote-tail regime switch is concentrated in rows where species-conditioned source connectivity exceeds generic mainland stepping. This is post-outcome alignment evidence, not a causal colonization estimate."
+    },
+    "E13_multihop_stepping_stone_state": {
+      "definition": "species-conditioned connectivity is present at the 25-km graph but nearest occupied training source is farther than 25 km; therefore connectivity requires at least one intermediate island under the frozen graph",
+      "nearest_source_band_test_km": [25, 100],
+      "true_presence_rows": {
+        "multihop25": {
+          "n": 3635,
+          "mean_C_minus_R3_log_loss": -0.10417904,
+          "median_C_minus_R3_log_loss": -0.05278511,
+          "favourable_fraction": 0.77799175,
+          "mean_candidate_minus_reference_probability": 0.03314498,
+          "mean_nearest_source_km": 47.52266
+        },
+        "not_multihop25": {
+          "n": 2538,
+          "mean_C_minus_R3_log_loss": 0.08102968,
+          "median_C_minus_R3_log_loss": 0.02493328,
+          "favourable_fraction": 0.35500394,
+          "mean_candidate_minus_reference_probability": -0.01867478,
+          "mean_nearest_source_km": 64.49450
+        }
+      },
+      "species_paired": {
+        "species_n": 211,
+        "mean_not_multihop25": 0.10089514,
+        "mean_multihop25": -0.10549747,
+        "mean_difference": -0.20639260,
+        "median_difference": -0.18696237,
+        "wilcoxon_p": 1.6051551447736577e-21,
+        "favourable_species_fraction_not_multihop25": 0.27962085,
+        "favourable_species_fraction_multihop25": 0.76777251
+      },
+      "connected_at_25_presence_comparison": {
+        "direct_source_within_25km": {
+          "n": 1213,
+          "mean_C_minus_R3_log_loss": -0.050371,
+          "favourable_fraction": 0.758450,
+          "mean_candidate_minus_reference_probability": 0.018550
+        },
+        "multihop_source_beyond_25km": {
+          "n": 3639,
+          "mean_C_minus_R3_log_loss": -0.103590,
+          "favourable_fraction": 0.777411,
+          "mean_candidate_minus_reference_probability": 0.033074
+        }
+      },
+      "interpretation": "Species-conditioned topology can encode a source path that nearest-source distance alone does not represent: a focal island may be more than 25 km from any occupied source yet remain in the source component through a chain of <=25-km inter-island links."
+    },
+    "E14_mechanistic_reframing": {
+      "previous_hypothesis": "extreme isolation causes topology to re-emerge",
+      "refined_hypothesis": "extreme isolation creates the opportunity for species-conditioned insular source paths to diverge from generic mainland connectivity; topology is informative when it represents those source-specific multi-hop paths rather than generic remoteness itself",
+      "why_remote_tail_still_matters": "species-specific EOG can exceed generic mainland stepping only in the remote tail of the reconstructed five-fold-evaluable data",
+      "why_remoteness_is_not_sufficient": "multi-hop source-connected presence rows can be favourable outside the remote tail as well; remoteness is therefore a context enabling source/generic decoupling, not the sole mechanism",
+      "exploratory_status": "leading_mechanistic_hypothesis_not_confirmed"
+    }
+  },
+  "updated_ecological_synthesis": [
+    "Area, mainland distance and direct source proximity absorb much of the structural signal under ordinary island conditions.",
+    "The residual topology signal is best understood as source-conditioned path information rather than generic network position.",
+    "A biologically distinctive state occurs when an island remains connected to occupied insular sources at scales where generic mainland stepping is already broken.",
+    "Multi-hop inter-island paths can make species-conditioned topology informative even when the nearest occupied source is farther than the smallest graph radius.",
+    "The remote-tail regime switch is therefore reframed as insular-source decoupling: remote islands can be disconnected from generic mainland entry yet remain connected to the focal species' occupied archipelago source network.",
+    "This does not establish colonization, rescue effects, persistence, or realized movement; those remain prospective biological mechanisms."
+  ],
+  "claim_ceiling": [
+    "do not call excess connectivity a colonization probability",
+    "do not infer realized stepping-stone movement from graph paths",
+    "do not claim that the 25-km scale is biologically universal",
+    "do not claim remote islands are maintained by rescue effects from these analyses",
+    "do not promote true-presence subgroup diagnostics into the frozen primary result",
+    "do not treat the 687-species reconstruction subset as a new confirmatory denominator",
+    "do not change the frozen 75%-tail future primary using v0.3 subgroup results"
+  ]
+}
