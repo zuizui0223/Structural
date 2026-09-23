@@ -1,0 +1,30 @@
+{
+  "confirmatory_response_authorized": false,
+  "effect_size": null,
+  "eligible_next_action": "run_separate_lane_response_authorization_gate_only",
+  "input_sha256": {
+    "lane_protocol": "268d8403a735aeb9600c3e0fbff798ebc7cd53e2a5e7f5297bddd6c1cd49f5c9",
+    "mechanism_protocol": "767dc60c65a6072a19becb66eaca04da77cace251ba92ba6133ee287e3e67dd4",
+    "structural_queue": "fd0ab578638aacb757a8cfe06cac775c8b51f693d4ba35665233d3c48efa8b67",
+    "transition_pilot": "99cd690798b578f9dc14fbd8605f323d65371c2470c6b00f152d1baa70504c6c"
+  },
+  "mechanism_claim_authorized": false,
+  "mechanism_claim_contribution": 0,
+  "mechanism_lane": "M1_contemporary_colonization",
+  "parent_mechanism_admission_status": "eligible_to_freeze_selected_confirmatory_mechanism_protocols",
+  "parent_mechanism_protocol_fingerprint": "abe412b309d28db2aa7a26bd9413159dcc1c815252cdaf33ce2739a11049f744",
+  "parent_structural_protocol_fingerprint": "def335af364183f05562e18ffb432a7ff123c00e9477b2822fcb85885abaf29d",
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "protocol_fingerprint": "efb809353d4da0eca9c7704fca4f519918abd54e623787c3e35ab75e7ecbdae7",
+  "protocol_id": "synthetic-M1-confirmatory-v0.5",
+  "response_partition": [
+    "confirm-B"
+  ],
+  "schema": "structural.mechanism_confirmatory_freeze_receipt.v0_5",
+  "scoring_rule": "candidate minus reference heldout log loss; negative is favourable",
+  "status": "frozen_confirmatory_mechanism_protocol_response_still_sealed",
+  "success_rule": "primary contrast must be favourable under the frozen local design and retain the predeclared direction under separate spatial transfer for a portable mechanism claim",
+  "system_id": "synthetic-ci-only",
+  "ttf_handoff_authorized": false
+}
