@@ -21,9 +21,11 @@ This is the current expected stage.
 
 ### HOLD_ARCHIVE_CONTENT_GATES
 
-Human/manual approval gates are complete, but at least one required archival object is not yet durably preserved.
+Human/manual approval gates are complete, but at least one required archival object lacks a verified outside-Actions retention copy.
 
-For the current Structural release plan, the critical archive-content gate is the authoritative A-Islands one-time raw outcome artifact. Its GitHub Actions copy expires on 2026-11-10 and must be moved into a durable final archive before release readiness can advance.
+The authoritative A-Islands one-time raw outcome artifact now has a verified private Google Drive backup, so this stage is not currently active. The verifier retains this stage as a fail-closed regression boundary if outside-Actions retention becomes unverified.
+
+The eventual DOI/public archive must still include and reverify the authoritative artifact before the public archive is declared complete; that final publication step is later than this retention gate.
 
 ### READY_FOR_IDENTIFIER_RESERVATION_AND_IDENTIFIER_ONLY_PR
 
