@@ -1,0 +1,38 @@
+{
+  "schema": "structural.mechanism_protocol_template_requirements.v0_1",
+  "status": "template_requirements_only_not_an_active_protocol",
+  "required_fields_for_future_system_protocol": [
+    "protocol_id",
+    "system_id",
+    "source_commit_or_data_fingerprint",
+    "structural_admission_protocol_fingerprint",
+    "response_firewall_state",
+    "spatial_units",
+    "time_axis_if_dynamic",
+    "extreme_isolation_metric",
+    "extreme_isolation_threshold_rule",
+    "generic_connectivity_definition",
+    "source_conditioned_connectivity_definition",
+    "smallest_graph_scale",
+    "source_definition",
+    "strong_reference_predictors",
+    "enriched_environment_predictors_if_M4",
+    "colonization_transition_definition_if_M1",
+    "extinction_transition_definition_if_M2",
+    "transition_event_minima_if_dynamic",
+    "detection_model_if_needed",
+    "genetic_estimand_and_null_if_M3",
+    "local_holdout_design",
+    "spatial_transfer_design",
+    "mechanism_lanes_authorized",
+    "response_access_authorized"
+  ],
+  "invariants": {
+    "response_access_authorized_initially": false,
+    "extreme_isolation_threshold_rule": "upper 25% primary; 70/80% non-rescuing sensitivity only unless a future system has a biologically external threshold frozen before response",
+    "structural_primary_unchanged_by_mechanism_module": true,
+    "colonization_and_extinction_separate": true,
+    "mechanism_lane_non_estimability_is_neutral": true,
+    "mechanism_lanes_cannot_rescue_primary": true
+  }
+}
