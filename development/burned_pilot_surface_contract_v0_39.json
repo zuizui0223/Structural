@@ -1,0 +1,20 @@
+{
+  "schema": "structural.burned_pilot_surface.v0_39",
+  "status": "active_gate_hardening",
+  "purpose": "make the burned-pilot response surface minimal and closed before raw-input replay",
+  "exact_csv_header": [
+    "partition_unit",
+    "block",
+    "target"
+  ],
+  "extra_columns_allowed": false,
+  "reordered_columns_allowed": false,
+  "all_exit_evidence_ceiling": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0
+  },
+  "relationship": "v0.39 tightens the raw input/output surface consumed by the active v0.38 replay queue; it does not create a new empirical denominator",
+  "confirmatory_response_authorized": false,
+  "ttf_dependency": false
+}
