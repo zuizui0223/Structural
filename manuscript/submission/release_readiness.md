@@ -99,6 +99,16 @@ The v2 package rebuilds/validates the frozen scientific evidence, uses the commi
 
 Require the normal package matrix and the structural second-paper presentation/package workflow to pass at the release-candidate commit.
 
+The CI package step must also run:
+
+```bash
+python scripts/verify_release_candidate_v0_2.py \
+  --package-dir build/structural_submission_v2 \
+  --allow-hold
+```
+
+During the current HOLD, this command must reproduce `HOLD_HUMAN_POLICY_GATES` while still verifying that the built package source commit equals Git HEAD and that frozen result fingerprints remain synchronized. After human/manual gates clear, the same verifier becomes the bridge to the identifier-only and release-candidate stages; it never authorizes a final release by itself.
+
 ### 6. Create tag and GitHub Release
 
 Create tag **`v0.1.0`** at exactly the verified release-candidate commit and create the GitHub Release from that tag.
