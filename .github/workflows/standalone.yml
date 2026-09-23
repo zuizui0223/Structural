@@ -33,3 +33,5 @@ jobs:
         run: python scripts/verify_release_candidate_v0_2.py --package-dir build/structural_submission_v2 --allow-hold
       - name: Build deterministic release staging bundle
         run: python scripts/build_release_bundle_v0_1.py --submission-package build/structural_submission_v2 --output-dir build/structural_release_bundle_v0_1 --zip-path build/structural_release_bundle_v0_1.zip
+      - name: Verify release-ready receipt remains correctly blocked
+        run: python scripts/issue_release_ready_receipt_v0_1.py --submission-package build/structural_submission_v2 --release-bundle-zip build/structural_release_bundle_v0_1.zip --release-bundle-receipt build/structural_release_bundle_v0_1.zip.receipt.json --allow-hold
