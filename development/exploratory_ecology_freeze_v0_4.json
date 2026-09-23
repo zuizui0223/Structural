@@ -1,0 +1,32 @@
+{
+  "schema": "structural.exploratory_ecology_freeze.v0_4",
+  "status": "frozen_post_outcome_discovery",
+  "frozen_on": "2026-09-23",
+  "latest_interpretive_layer": "development/exploratory_ecology_v0_4.json",
+  "prospective_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+  "reason": "A-Islands and Tanzania have now been used to generate and stress-test the source-decoupling hypothesis. Additional threshold, taxon, trait, site, response-state or graph-scale mining on the same outcomes would increase researcher degrees of freedom without providing independent confirmation.",
+  "discovery_sources": [
+    "A-Islands original authoritative benchmark",
+    "A-Islands strong-reference authoritative outcome",
+    "A-Islands frozen isolation geometry/contract",
+    "Tanzania frozen held-out benchmark"
+  ],
+  "allowed_after_freeze": [
+    "correct a demonstrated implementation or transcription error without changing scientific selection rules",
+    "preserve source artifacts and improve reproducibility metadata",
+    "apply the already-frozen prospective v0.3 hypothesis to a genuinely independent future system after normal Structural admission",
+    "report existing v0.1-v0.4 exploratory findings with their post-outcome status and boundaries"
+  ],
+  "forbidden_after_freeze": [
+    "search additional A-Islands thresholds for a more favourable effect",
+    "search additional A-Islands taxa, traits or island subsets for a more favourable effect",
+    "change the 25/50/125/250-km graph ensemble using the exploratory outcomes",
+    "promote observed-state subgroup results into a retrospective primary",
+    "mine additional Tanzania region/trait/fragment subsets to manufacture replication",
+    "use exploratory effect direction to select the next confirmatory system",
+    "change the prospective 75% primary threshold because of same-data v0.4 results"
+  ],
+  "next_scientific_event": "independent prospectively admitted system capable of testing the frozen extreme-isolation primary plus source-decoupling and multi-hop secondaries",
+  "current_confirmatory_systems": [],
+  "confirmatory_response_authorized": false
+}

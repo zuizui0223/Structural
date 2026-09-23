@@ -1,0 +1,133 @@
+{
+  "schema": "structural.exploratory_ecology.v0_4",
+  "status": "post_outcome_hypothesis_generation_only",
+  "supersedes_interpretive_layer": "development/exploratory_ecology_v0_3.json",
+  "changes_frozen_structural_paper": false,
+  "counts_as_confirmatory_evidence": false,
+  "counts_as_new_empirical_replication": false,
+  "may_select_future_confirmatory_systems_by_favourable_outcome": false,
+  "purpose": "test whether the v0.3 source-decoupling state marks a reference gap already present in the frozen R3 held-out predictions, without using the fitted candidate C as the response",
+  "analysis_population": {
+    "system": "A-Islands",
+    "species": 687,
+    "islands": 842,
+    "all_rows": 578454,
+    "remote_islands_under_frozen_q75_rule": 211,
+    "remote_rows": 144957,
+    "selection_rule": "all five frozen folds evaluable; no selection by candidate direction"
+  },
+  "reference_gap_response": {
+    "definition": "observed - p_R3 on frozen held-out rows",
+    "interpretation": "positive values mean the already-frozen strong reference underpredicts occurrence probability on average; this is a calibration residual, not a causal or demographic residual"
+  },
+  "predictor_only_states": {
+    "source_conditioned_minus_generic": "species-conditioned EOG connected frequency minus generic mainland stepping frequency, both reconstructed using the frozen 25/50/125/250-km graph ensemble and outer-training sources only",
+    "excess_connectivity": "species-conditioned EOG frequency > generic mainland stepping frequency",
+    "multihop25": "connected to an outer-training occupied source in the 25-km component while nearest outer-training source distance exceeds 25 km",
+    "nearest_source_covariate": "log1p nearest outer-training source distance"
+  },
+  "model": {
+    "main_panel": "frozen remote 75% island tail",
+    "fixed_effects": ["species", "island"],
+    "estimator": "OLS on two-way-demeaned held-out calibration residual",
+    "uncertainty": "Cameron-Gelbach-Miller two-way cluster-robust covariance: species cluster + island cluster - cell contribution",
+    "candidate_C_used_as_response": false,
+    "candidate_C_used_to_define_predictor_state": false
+  },
+  "findings": {
+    "E15_reference_gap_source_decoupling": {
+      "remote_panel": {
+        "excess_connectivity": {
+          "beta": 0.0725678162,
+          "se_two_way_clustered": 0.0152657832,
+          "p": 0.00000199801
+        },
+        "continuous_source_minus_generic": {
+          "beta": 0.0888621962,
+          "se_two_way_clustered": 0.0162889403,
+          "p": 0.00000004887097
+        },
+        "multihop25": {
+          "beta": 0.0643573462,
+          "se_two_way_clustered": 0.0146816060,
+          "p": 0.00001167684
+        },
+        "direct_source_within_25km": {
+          "beta": 0.0417011971,
+          "se_two_way_clustered": 0.0232528382,
+          "p": 0.0729120
+        }
+      },
+      "interpretation": "Within the same remote islands and after removing species-wide and island-wide mean differences, R3 underprediction is larger in source-decoupled and multi-hop states. The direct-within-25-km state is not comparably detected in this diagnostic."
+    },
+    "E16_reference_gap_not_nearest_source_distance": {
+      "remote_panel_adjusted_for_log_nearest_source": {
+        "excess_connectivity": {
+          "beta": 0.07391712,
+          "se": 0.02545204,
+          "p": 0.00368224
+        },
+        "continuous_source_minus_generic": {
+          "beta": 0.21249171,
+          "se": 0.03312305,
+          "p": 0.0000000001406175
+        },
+        "multihop25": {
+          "beta": 0.05365973,
+          "se": 0.01959743,
+          "p": 0.00617951
+        }
+      },
+      "interpretation": "The source-decoupling reference gap persists after an explicit within-panel adjustment for nearest outer-training source distance. This supports path-state information beyond direct source distance, while not proving a realized movement mechanism."
+    },
+    "E17_spatial_fold_robustness": {
+      "remote_fold_2": {
+        "islands": 116,
+        "excess_rows": 11448,
+        "excess_beta": 0.19291280,
+        "excess_se": 0.03098487,
+        "excess_p": 0.0000000004783934,
+        "source_minus_generic_beta": 0.18216585,
+        "source_minus_generic_p": 0.0000213895
+      },
+      "remote_fold_4": {
+        "islands": 39,
+        "excess_rows": 3629,
+        "excess_beta": 0.13136950,
+        "excess_se": 0.03457733,
+        "excess_p": 0.000145108,
+        "source_minus_generic_beta": 0.18095099,
+        "source_minus_generic_p": 0.000000001804996
+      },
+      "remote_fold_5": {
+        "islands": 26,
+        "excess_rows": 148,
+        "excess_beta": -0.03247034,
+        "excess_p": 0.406407,
+        "source_minus_generic_beta": -0.01482006,
+        "source_minus_generic_p": 0.712588
+      },
+      "interpretation": "The reference-gap alignment is independently present in the two remote folds containing almost all excess-connectivity rows. The small fold-5 excess subset is not detected and is retained as a boundary rather than hidden."
+    },
+    "E18_mechanistic_synthesis": {
+      "statement": "The v0.3 source-decoupling state identifies a calibration gap in the strong reference itself, not merely a favourable behaviour of the fitted topology-augmented model.",
+      "ecological_hypothesis": "When generic mainland connectivity weakens but an occupied insular source path remains intact, a strong area-isolation-source reference can systematically underrepresent occurrence support because direct source distance and generic stepping do not encode focal-species path continuity.",
+      "evidence_boundary": "held-out reference-gap alignment only; no realized dispersal, colonization, rescue, or persistence is observed"
+    }
+  },
+  "updated_ecological_synthesis": [
+    "The strongest current ecological hypothesis is no longer generic extreme-isolation importance; it is source-network decoupling under extreme isolation.",
+    "Species-conditioned path state predicts a residual gap in the already-frozen R3 reference before candidate-C performance is consulted.",
+    "Multi-hop source paths retain this reference-gap association after nearest-source distance is adjusted, supporting path continuity as information not reducible to direct source proximity.",
+    "The effect is strong in the two remote spatial folds that contain almost all source-decoupled rows and absent in the tiny third remote subset, so cross-landscape generality remains unproven.",
+    "The existing future 75% isolation primary and v0.3 mechanistic secondaries are sufficient to test this hypothesis prospectively; further mining of the same A-Islands/Tanzania outcomes would mainly increase researcher degrees of freedom."
+  ],
+  "claim_ceiling": [
+    "do not interpret observed-minus-p_R3 as demographic growth, colonization or persistence",
+    "do not claim source-decoupling proves use of stepping-stone islands",
+    "do not hide the non-detected remote fold-5 boundary",
+    "do not change the frozen 75% future primary",
+    "do not elevate source-decoupling or multi-hop diagnostics into a retrospective primary",
+    "do not add further same-data subgroup or threshold searches after the v0.4 exploratory freeze"
+  ]
+}
