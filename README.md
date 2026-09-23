@@ -93,6 +93,7 @@ Canonical development files:
 - `docs/CONFIRMATORY_ADMISSION_VERIFIER_V0_37.md`
 - `docs/CONFIRMATORY_ADMISSION_REPLAY_V0_38.md`
 - `docs/BURNED_PILOT_SURFACE_V0_39.md`
+- `docs/CONFIRMATORY_ADMISSION_FREEZE_V0_40.md`
 - `docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md`
 - `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
 - `development/connectivity_adequacy_contract_v0_1.json`
@@ -125,6 +126,8 @@ v0.37 hardens that verifier by recomputing every block's estimability from the f
 v0.38 binds admission to the raw burned-pilot CSV itself: CI verifies its SHA-256, reruns the v0.32 pilot runner from the frozen protocol + raw CSV, and requires the complete replayed result to match the committed pilot result exactly before any v0.37/v0.33 admission checks proceed.
 
 v0.39 closes that raw evidence surface to exactly `partition_unit, block, target`; extra or reordered columns are rejected, and every runner exit explicitly retains null effect/score with zero predictive-denominator contribution.
+
+v0.40 freezes the v0.31-v0.39 admission machinery. The live queue staying empty is now an intended state; further infrastructure work is maintenance-only unless a response-independent failing test demonstrates an implementation defect. The next scientific event is a genuinely new v0.31 protocol, not another round of candidate hunting or gate retuning.
 
 ## Current state
 
