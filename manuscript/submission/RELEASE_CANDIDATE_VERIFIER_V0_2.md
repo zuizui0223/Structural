@@ -19,6 +19,12 @@ At least one author approval, author metadata field, journal-specific Guide chec
 
 This is the current expected stage.
 
+### HOLD_ARCHIVE_CONTENT_GATES
+
+Human/manual approval gates are complete, but at least one required archival object is not yet durably preserved.
+
+For the current Structural release plan, the critical archive-content gate is the authoritative A-Islands one-time raw outcome artifact. Its GitHub Actions copy expires on 2026-11-10 and must be moved into a durable final archive before release readiness can advance.
+
 ### READY_FOR_IDENTIFIER_RESERVATION_AND_IDENTIFIER_ONLY_PR
 
 All human/manual gates are complete, but `<RELEASE_TAG>` / `<ARCHIVE_DOI>` placeholders remain unresolved.
