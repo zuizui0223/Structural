@@ -61,9 +61,12 @@ The A-Islands one-time raw outcome artifact was independently re-downloaded from
 - artifact: `9128998976`;
 - ZIP SHA-256: `59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e`;
 - GitHub Actions expiry: **2026-11-10T04:42:52Z**;
-- current durable-preservation state: **not yet preserved outside GitHub Actions**.
+- outside-Actions backup state: **verified private Google Drive backup created and re-downloaded successfully**;
+- backup re-download SHA-256: `59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e`;
+- GitHub Actions expiry risk: **mitigated**;
+- final DOI/public archive state: **not yet complete**.
 
-Before the final archive is claimed complete, preserve the verified raw artifact (or equivalent verified members with the same declared hashes) in the durable release archive and verify it there with `scripts/verify_aislands_authoritative_artifact_v0_1.py`.
+Before the final archive is claimed complete, include the verified raw artifact (or equivalent verified members with the same declared hashes) in the durable release archive and verify it there with `scripts/verify_aislands_authoritative_artifact_v0_1.py`.
 
 Canonical retention receipt:
 
