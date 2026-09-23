@@ -1,0 +1,9 @@
+analysis,group,n,mean_delta,median_delta
+primary_loso,absence,476,0.007432,-0.002957
+primary_loso,presence,350,0.067324,0.005507
+primary_loso,distance_to_large_fragment_Q1,238,0.059909,-0.000766
+primary_loso,distance_to_large_fragment_Q2,233,0.041615,-0.000273
+primary_loso,distance_to_large_fragment_Q3,175,0.019148,-0.000286
+primary_loso,distance_to_large_fragment_Q4,180,-0.001137,-0.001986
+spatial_mst_block,absence,419,0.049172,-0.001435
+spatial_mst_block,presence,299,-0.030238,-0.004712
