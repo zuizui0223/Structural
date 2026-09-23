@@ -25,6 +25,10 @@ jobs:
         run: python scripts/validate_confirmatory_queue_v0_38.py
       - name: Exercise non-empty raw-replay queue fixture
         run: python scripts/validate_confirmatory_queue_v0_38.py tests/fixtures/confirmatory_admission_v0_38/queue.json
+      - name: Validate prospective mechanism framework
+        run: python scripts/validate_mechanism_protocol_v0_1.py
+      - name: Validate synthetic response-sealed mechanism protocol
+        run: python scripts/validate_mechanism_protocol_v0_1.py tests/fixtures/mechanism_protocol_v0_1/valid_protocol.json
       - name: Validate standalone and connectivity-development boundaries
         run: python -m pytest -q
       - name: Build standalone submission package
