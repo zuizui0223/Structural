@@ -46,6 +46,7 @@
     "make an identifier-only repository change replacing release-tag/DOI placeholders",
     "require full CI green and rebuild the final submission package",
     "build the deterministic complete release bundle from the exact release-candidate commit and all verified retained external artifacts",
+    "issue the exact-commit external release-ready receipt only after candidate verifier, preflight, identifiers, complete bundle and HEAD all agree",
     "only then create v0.1.0 and the matching public release/archive"
   ],
   "forbidden_before_gate_clearance": [
@@ -72,5 +73,13 @@
     "ci_staging_expected_stage": "STAGING_HOLD_HUMAN_POLICY_GATES",
     "final_bundle_requires_all_retained_external_artifacts": true,
     "final_bundle_alone_authorizes_release": false
+  },
+  "release_ready_receipt": {
+    "contract": "manuscript/submission/release_ready_receipt_contract_v0_1.json",
+    "issuer": "scripts/issue_release_ready_receipt_v0_1.py",
+    "current_expected_status": "HOLD_NOT_RELEASE_READY",
+    "must_be_generated_outside_candidate_commit": true,
+    "required_before_final_tag": true,
+    "may_authorize_journal_submission": false
   }
 }
