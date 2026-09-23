@@ -126,8 +126,7 @@ A future system must enter independently through normal Structural admission and
 
 **Mechanistic secondaries**
 - source-conditioned connectivity exceeding the generic connectivity already represented in the reference;
-- multi-hop source path at a predeclared smallest graph scale;
-- strong-reference calibration residual alignment with those predictor-only states.
+- multi-hop source path at a predeclared smallest graph scale.
 
 The primary cannot be rescued by the secondaries.
 
