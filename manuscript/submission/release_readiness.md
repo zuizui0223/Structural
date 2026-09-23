@@ -87,9 +87,25 @@ For the final DOI/public archive, run the same builder with the round-trip-verif
 
 A successful bundle build is still not release authorization. The separate release-ready receipt, final tag, DOI publication and GitHub Release remain later gates.
 
-Canonical contract:
+The final machine authorization step is:
 
-`manuscript/submission/release_bundle_contract_v0_1.json`
+```bash
+python scripts/issue_release_ready_receipt_v0_1.py \
+  --submission-package build/structural_submission_v2 \
+  --release-bundle-zip build/structural_release_bundle_v0_1.zip \
+  --release-bundle-receipt build/structural_release_bundle_v0_1.zip.receipt.json
+```
+
+The receipt is generated **outside the release candidate commit**. Do not commit it before tagging: doing so would move HEAD and invalidate its exact-commit binding.
+
+The issuer only succeeds when the candidate verifier and committed preflight are both `READY_FOR_RELEASE_CANDIDATE_RECEIPT`, the submission package is bound to HEAD, and the complete bundle contains all four verified external ZIPs.
+
+An issued receipt authorizes only the exact-tag/GitHub-Release/archive-publication workflow. Journal submission remains blocked until the publisher-rendered preview is checked.
+
+Canonical contracts:
+
+- `manuscript/submission/release_bundle_contract_v0_1.json`
+- `manuscript/submission/release_ready_receipt_contract_v0_1.json`
 
 ## DOI-first release sequence after the remaining gates clear
 
