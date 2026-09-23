@@ -138,6 +138,8 @@ A separate **prospective mechanism-discrimination framework** is frozen in `deve
 
 The dynamic part is now executable through `development/mechanism_transition_pilot_gate_v0_2.json` and `scripts/run_mechanism_transition_pilot_v0_2.py`. A burned pilot can expose only `partition_unit,block,z_t,z_t1`; it audits M1 from 0→1 versus 0→0 and M2 from 1→0 versus 1→1 under frozen block minima. One lane cannot rescue the other, partial estimability is explicit, and the pilot contributes no effect size, prediction score or mechanism claim.
 
+M3/M4 qualification is now executable through `development/mechanism_auxiliary_gate_v0_3.json`. M3 opens only sampling counts and predictor-only graph-connected versus alternative source comparisons—never genotypes or genetic outcomes. M4 opens only the exact response-blind enriched environmental predictor matrix and checks coverage/variation before any ecological response or topology effect is inspected. M3 and M4 qualify independently and neither contributes a mechanism claim.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.

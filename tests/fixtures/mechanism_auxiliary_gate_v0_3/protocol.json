@@ -1,0 +1,67 @@
+{
+  "protocol_id": "synthetic-mechanism-aux-v0.3",
+  "system_id": "synthetic-independent-system",
+  "source_commit_or_data_fingerprint": "synthetic-source-sha256",
+  "structural_admission_protocol_fingerprint": "synthetic-v031-fingerprint",
+  "response_firewall_state": "response_sealed",
+  "spatial_units": "synthetic populations and habitat units",
+  "time_axis_if_dynamic": "t0,t1",
+  "extreme_isolation_metric": "synthetic predictor-only isolation",
+  "extreme_isolation_threshold_rule": "upper 25% of predictor-only isolation distribution",
+  "generic_connectivity_definition": "species-independent synthetic graph connectivity",
+  "source_conditioned_connectivity_definition": "same graph conditioned on permitted training sources",
+  "smallest_graph_scale": 10,
+  "source_definition": "outer-training occupied units only",
+  "strong_reference_predictors": [
+    "habitat",
+    "area",
+    "nearest_source",
+    "generic_connectivity"
+  ],
+  "enriched_environment_predictors_if_M4": [
+    "habitat_pc1",
+    "habitat_pc2"
+  ],
+  "colonization_transition_definition_if_M1": "z_t=0 and z_t1=1",
+  "extinction_transition_definition_if_M2": "z_t=1 and z_t1=0",
+  "transition_event_minima_if_dynamic": {
+    "minimum_0_to_1": 2,
+    "minimum_1_to_0": 2
+  },
+  "detection_model_if_needed": "synthetic repeated-detection model",
+  "genetic_estimand_and_null_if_M3": "source affinity beyond geographic distance and habitat similarity",
+  "local_holdout_design": "synthetic heldout units",
+  "spatial_transfer_design": "synthetic spatial blocks",
+  "mechanism_lanes_authorized": [
+    "M1_contemporary_colonization",
+    "M2_rescue_persistence",
+    "M3_historical_colonization_legacy",
+    "M4_environmental_proxy"
+  ],
+  "response_access_authorized": false,
+  "auxiliary_estimability": {
+    "M3_historical_colonization_legacy": {
+      "minimum_sample_n_focal": 4,
+      "minimum_sample_n_source": 4,
+      "minimum_eligible_focal_populations": 3,
+      "minimum_eligible_source_populations": 3,
+      "minimum_focal_blocks": 2,
+      "minimum_graph_connected_sources_per_focal": 1,
+      "minimum_alternative_sources_per_focal": 1,
+      "genetic_outcomes_accessed": false,
+      "sample_selection_used_structural_outcome": false
+    },
+    "M4_environmental_proxy": {
+      "minimum_units": 6,
+      "minimum_blocks": 3,
+      "minimum_nonmissing_fraction": 0.8,
+      "minimum_unique_values": 3,
+      "minimum_complete_rows_per_block": 2,
+      "minimum_blocks_with_complete_rows": 3,
+      "confirmatory_response_accessed": false,
+      "predictors_selected_after_response": false,
+      "topology_outcome_used_to_select_predictors": false,
+      "environment_predictors_are_non_topological": true
+    }
+  }
+}

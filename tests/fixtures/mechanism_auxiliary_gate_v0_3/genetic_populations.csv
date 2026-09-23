@@ -1,0 +1,8 @@
+population_id,block,role,sample_n
+F1,A,focal,6
+F2,B,focal,5
+F3,C,focal,7
+S1,A,source,8
+S2,B,source,6
+S3,C,source,7
+S4,D,source,5
