@@ -1,0 +1,10 @@
+contrast,group,n,mean_delta,favourable_fraction
+C_minus_R3,presence_count_10_12,226,0.001280,0.424779
+C_minus_R3,presence_count_13_18,242,0.000264,0.433884
+C_minus_R3,presence_count_19_30,201,0.002784,0.363184
+C_minus_R3,presence_count_31_60,129,0.003896,0.341085
+C_minus_R3,presence_count_61_plus,88,0.019006,0.261364
+C_minus_R3,mainland_distance_Q1_near,144957,0.004493,0.620791
+C_minus_R3,mainland_distance_Q2,144270,0.008392,0.588667
+C_minus_R3,mainland_distance_Q3,144957,0.005996,0.607366
+C_minus_R3,mainland_distance_Q4_remote,144270,-0.001243,0.515325

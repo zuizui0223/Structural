@@ -1,0 +1,198 @@
+{
+  "schema": "structural.exploratory_ecology.v0_1",
+  "status": "post_outcome_hypothesis_generation_only",
+  "changes_frozen_structural_paper": false,
+  "counts_as_confirmatory_evidence": false,
+  "counts_as_new_empirical_replication": false,
+  "may_select_future_confirmatory_systems_by_favourable_outcome": false,
+  "purpose": "use already-frozen A-Islands and Tanzania outputs to identify ecological heterogeneity hypotheses for prospective future tests without changing the frozen primary results",
+  "source_provenance": {
+    "aislands_original": {
+      "repository": "zuizui0223/eog",
+      "workflow_run_id": 31251171516,
+      "artifact_id": 9020090309,
+      "artifact_digest": "sha256:31ff22edf214b48ae99fa8a5510e0e2752b6787dbe6e22602bada0ec96398501"
+    },
+    "aislands_strong_reference": {
+      "repository": "zuizui0223/eog",
+      "workflow_run_id": 31564146592,
+      "artifact_id": 9128998976,
+      "artifact_digest": "sha256:59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e",
+      "result_fingerprint": "5c9b1594b29d362e5983484614a49d530797d06e826c0b96a3e8442a6b6b493a"
+    },
+    "aislands_isolation_contract": {
+      "repository": "zuizui0223/eog",
+      "workflow_run_id": 31559937383,
+      "artifact_id": 9127369257,
+      "artifact_digest": "sha256:e1c2c6b80187ecae3a031170759a7a1cbbe2848b227c45b04837127acdc2556a"
+    },
+    "tanzania_primary": {
+      "repository": "zuizui0223/eog",
+      "workflow_run_id": 31432646901,
+      "artifact_id": 9079948365,
+      "artifact_digest": "sha256:6f05cb4987300b78c627bb201a2c0da31d8e4a21a7aee83a658de0758f66d4d5",
+      "result_fingerprint": "6b555c28d61d3f39b9e672f5a97250de6870301871cf3e60378e97863cd109e4"
+    }
+  },
+  "sign_convention": "negative candidate-minus-reference log-loss is favourable to the structural candidate; positive is adverse",
+  "hypotheses": {
+    "E1_reference_absorption": {
+      "question": "Does ecologically explicit area/isolation/source state absorb most of the apparent higher-order configuration signal?",
+      "aislands": {
+        "prevalence_tertile_mean_log_loss_increments": {
+          "narrow": {
+            "R1_minus_R0": -0.012782,
+            "R2_minus_R1": 0.000707,
+            "R3_minus_R2": 0.002302,
+            "C_minus_R3": 0.000975
+          },
+          "mid": {
+            "R1_minus_R0": -0.016106,
+            "R2_minus_R1": 0.002566,
+            "R3_minus_R2": 0.004423,
+            "C_minus_R3": 0.001243
+          },
+          "wide": {
+            "R1_minus_R0": -0.013424,
+            "R2_minus_R1": 0.006550,
+            "R3_minus_R2": 0.019165,
+            "C_minus_R3": 0.008647
+          }
+        },
+        "interpretation": "The tier adding climate-conditioned island area, mainland distance and nearest species source (R1) improves held-out prediction across breadth classes; additional diffuse source pressure, generic archipelago context and species-conditioned EOG are on average redundant/adverse."
+      },
+      "tanzania": {
+        "frozen_primary_direction": "adverse_incremental_LOSO_beyond_patch_area_matrix_aware_current_flow_interaction_and_nearest_source_distance",
+        "interpretation": "Consistent with reference absorption: once patch state, matrix-aware connectivity and source proximity are represented, generic EOG adds no overall primary held-out benefit."
+      },
+      "exploratory_status": "supported_as_cross_system_pattern_but_not_causal_mechanism"
+    },
+    "E2_range_source_saturation": {
+      "question": "Does species-conditioned topology become increasingly redundant as a species occupies more islands and therefore has more potential source anchors?",
+      "aislands": {
+        "prevalence_vs_C_minus_R3": {
+          "spearman_rho": 0.200661,
+          "spearman_p": 1.6830438358283478e-09,
+          "pearson_r": 0.421755,
+          "pearson_p": 1.5965974648316902e-39
+        },
+        "presence_count_bins": {
+          "10_12": {"n": 226, "mean_C_minus_R3": 0.001280, "favourable_fraction": 0.424779},
+          "13_18": {"n": 242, "mean_C_minus_R3": 0.000264, "favourable_fraction": 0.433884},
+          "19_30": {"n": 201, "mean_C_minus_R3": 0.002784, "favourable_fraction": 0.363184},
+          "31_60": {"n": 129, "mean_C_minus_R3": 0.003896, "favourable_fraction": 0.341085},
+          "61_plus": {"n": 88, "mean_C_minus_R3": 0.019006, "favourable_fraction": 0.261364}
+        },
+        "interpretation": "The strongest redundancy occurs in widespread species; narrow-range species are closer to neutral rather than strongly favourable."
+      },
+      "tanzania": {
+        "occupied_site_count_vs_species_mean_delta": {
+          "spearman_rho": -0.027736,
+          "spearman_p": 0.833386,
+          "pearson_r": -0.192766,
+          "pearson_p": 0.140043
+        },
+        "interpretation": "No corresponding occupancy-breadth relationship is detected in the 14-fragment bird panel."
+      },
+      "exploratory_status": "supported_in_islands_not_portable_to_tanzania"
+    },
+    "E3_extreme_isolation_threshold": {
+      "question": "Does species-conditioned topology become informative mainly at the extreme tail of isolation rather than monotonically across the full isolation gradient?",
+      "aislands": {
+        "mainland_distance_quartile_mean_C_minus_R3": {
+          "Q1_near": 0.004493,
+          "Q2": 0.008392,
+          "Q3": 0.005996,
+          "Q4_remote": -0.001243
+        },
+        "wide_species_remote_minus_near": {
+          "mean_difference": -0.012811,
+          "median_difference": -0.003858,
+          "paired_species_n": 277,
+          "wilcoxon_p": 1.0072858555489014e-07
+        },
+        "interpretation": "For widespread species, EOG is strongly adverse/redundant on near-to-intermediate islands but becomes favourable on the most mainland-remote quartile."
+      },
+      "tanzania": {
+        "distance_to_large_fragment_quartile_mean_delta": {
+          "Q1_nearLarge": 0.059909,
+          "Q2": 0.041615,
+          "Q3": 0.019148,
+          "Q4_farLarge": -0.001137
+        },
+        "Q4_minus_Q1_species_paired": {
+          "mean_difference": -0.060535,
+          "median_difference": -0.021805,
+          "paired_species_n": 60,
+          "wilcoxon_p": 0.00043335
+        },
+        "critical_confounding": "all Q4_farLarge fragments are East Usambara; after restricting to East Usambara, far-large-fragment versus other-East species-paired difference is not detected (Wilcoxon p=0.28246)",
+        "interpretation": "The apparent threshold-shaped fragmentation pattern is suggestive but is not an independent replication because region and extreme isolation are confounded."
+      },
+      "exploratory_status": "fresh_prospective_hypothesis_generated_not_confirmed_cross_system"
+    },
+    "E4_exclusion_constraint_asymmetry": {
+      "question": "After a strong reference is supplied, does the structural candidate behave more like an exclusion constraint than a colonization-support signal?",
+      "aislands": {
+        "species_macro_mean_delta_absence": -0.000798,
+        "species_macro_mean_delta_presence": 0.103840,
+        "presence_minus_absence_mean": 0.104637,
+        "presence_minus_absence_median": 0.056586,
+        "paired_species_n": 845,
+        "wilcoxon_p": 9.053222838307115e-23,
+        "interpretation": "C is slightly helpful for absences but strongly adverse for true presences; the candidate also lowers predicted occurrence probabilities on average."
+      },
+      "tanzania_primary_loso": {
+        "row_mean_delta_absence": 0.007432,
+        "row_mean_delta_presence": 0.067324,
+        "species_macro_presence_minus_absence_mean": 0.106720,
+        "paired_species_n": 53,
+        "wilcoxon_p": 0.000418904,
+        "inverse_area_sensitivity_species_macro_presence_minus_absence_mean": 0.109597,
+        "inverse_area_sensitivity_wilcoxon_p": 0.000083158
+      },
+      "tanzania_spatial_block_sensitivity": {
+        "row_mean_delta_absence": 0.049172,
+        "row_mean_delta_presence": -0.030238,
+        "species_macro_presence_minus_absence_mean": -0.072028,
+        "paired_species_n": 45,
+        "wilcoxon_p": 0.105278,
+        "interpretation": "The LOSO exclusion asymmetry reverses and becomes uncertain under spatial blocking; it is therefore not a robust cross-landscape mechanism."
+      },
+      "exploratory_status": "strong_in_islands_local_in_tanzania_not_spatially_portable"
+    },
+    "E5_fragment_specialization": {
+      "question": "Are forest-specialist or understory birds less redundant with respect to EOG than more generalist birds?",
+      "tanzania_primary_loso": {
+        "forest_dependent": {"n": 50, "mean_delta": 0.027508},
+        "non_forest_dependent": {"n": 10, "mean_delta": 0.055140},
+        "mann_whitney_p": 0.032166,
+        "understory": {"n": 43, "mean_delta": 0.026228},
+        "non_understory": {"n": 17, "mean_delta": 0.046999},
+        "understory_mann_whitney_p": 0.025671
+      },
+      "tanzania_spatial_block": {
+        "forest_dependence_difference_detected": false,
+        "understory_difference_detected": false,
+        "interpretation": "Trait moderation is a local LOSO pattern and does not survive the spatial-block sensitivity."
+      },
+      "exploratory_status": "suggestive_local_pattern_not_spatially_robust"
+    }
+  },
+  "current_ecological_synthesis": [
+    "Classical and process-aware isolation variables absorb much of the apparent network signal in both original island isolation and habitat fragmentation.",
+    "The remaining structural residual is strongly context dependent rather than a universal connectivity bonus.",
+    "In A-Islands, redundancy rises sharply with species range breadth, consistent with source saturation.",
+    "The most interesting fresh hypothesis is threshold-like: species-conditioned topology may matter primarily at extreme isolation, where it acts more as an exclusion constraint than as positive colonization support.",
+    "Tanzania does not independently confirm that threshold because extreme large-fragment isolation is confounded with East Usambara; a new prospectively frozen fragmentation panel is required.",
+    "Any future confirmatory test must freeze the isolation threshold/moderator definition before response access and must retain presence-versus-absence asymmetry as a predeclared secondary diagnostic rather than selecting only favourable taxa or sites."
+  ],
+  "claim_ceiling": [
+    "do not claim that EOG estimates colonization probability",
+    "do not claim that remote islands or fragments are causally filtered by the graph",
+    "do not claim that range breadth is a universal moderator across systems",
+    "do not claim that Tanzania confirms the extreme-isolation threshold",
+    "do not replace or reinterpret the frozen A-Islands or Tanzania primary outcomes",
+    "do not promote any exploratory subgroup result into the frozen paper denominator"
+  ]
+}

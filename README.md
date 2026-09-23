@@ -132,6 +132,8 @@ v0.40 freezes the v0.31-v0.39 admission machinery. The live queue staying empty 
 
 v0.41 converges all current-status pointers: the authoritative empirical registry is v0.29 with no active candidates, the live v0.38 queue is empty, v0.40 freezes admission infrastructure, and TTF remains a later independent transferability layer. Older candidate-triage files are historical snapshots rather than current instructions.
 
+A separate post-outcome ecology lane now uses only frozen outputs for hypothesis generation. `docs/EXPLORATORY_ECOLOGY_V0_1.md` tests where residual configuration information is concentrated across species breadth, extreme isolation and response state. It is explicitly non-confirmatory and does not change the frozen paper. Its main fresh output is a prospectively frozen extreme-isolation × topology hypothesis for a future independent panel.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.

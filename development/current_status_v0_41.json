@@ -54,5 +54,12 @@
     "docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md",
     "docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md",
     "docs/CONFIRMATORY_ADMISSION_FREEZE_V0_40.md"
-  ]
+  ],
+  "post_outcome_exploratory_ecology": {
+    "path": "development/exploratory_ecology_v0_1.json",
+    "role": "hypothesis_generation_only",
+    "counts_as_confirmatory_evidence": false,
+    "changes_frozen_paper": false,
+    "fresh_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_1.json"
+  }
 }

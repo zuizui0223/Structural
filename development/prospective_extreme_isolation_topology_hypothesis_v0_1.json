@@ -1,0 +1,69 @@
+{
+  "schema": "structural.prospective_ecology_hypothesis.extreme_isolation_topology.v0_1",
+  "status": "fresh_hypothesis_frozen_from_post_outcome_discovery_not_yet_tested",
+  "discovery_sources": [
+    "A-Islands frozen original and strong-reference outputs",
+    "Tanzania frozen held-out outputs"
+  ],
+  "discovery_sources_may_not_count_as_confirmation": true,
+  "candidate_selection_by_discovery_effect_direction": false,
+  "primary_hypothesis": {
+    "name": "extreme_isolation_topology_interaction",
+    "statement": "After a strong ecological reference is supplied, the incremental held-out effect of a species-conditioned structural coordinate becomes more favourable in the extreme-isolation tail than in the remaining eligible spatial units.",
+    "increment_definition": "candidate held-out loss minus strong-reference held-out loss; negative is favourable",
+    "moderator": "one response-independent isolation metric selected from system biology before any pilot or confirmatory response access",
+    "extreme_isolation_rule": "upper 25% of the frozen eligible-unit isolation distribution, computed from predictor-only data before response access",
+    "primary_contrast": "mean candidate-minus-reference loss in extreme-isolation units minus mean candidate-minus-reference loss in non-extreme units",
+    "favourable_direction": "negative",
+    "threshold_retuning_after_response": false
+  },
+  "required_reference": {
+    "must_precede_topology": true,
+    "minimum_components": [
+      "local habitat/support state",
+      "spatial unit area or size when ecologically meaningful",
+      "direct source proximity",
+      "a process-aware or source-aware isolation representation appropriate to the system"
+    ],
+    "topology_may_not_replace_a_weaker_reference_after_outcome": true
+  },
+  "secondary_diagnostics": {
+    "presence_absence_asymmetry": {
+      "statement": "Test whether the topology increment differs between true presences and true absences.",
+      "role": "secondary_mechanism_diagnostic_not_primary_success_gate",
+      "favourable_subgroup_selection_forbidden": true
+    },
+    "range_source_breadth": {
+      "statement": "Estimate the continuous interaction between pre-response species range/source breadth and topology increment.",
+      "role": "secondary_system_heterogeneity_diagnostic",
+      "expected_direction_from_discovery": "broader source sets may increase topology redundancy outside extreme isolation",
+      "universal_direction_required": false
+    }
+  },
+  "transfer_design": {
+    "local_interpolation_test": "predeclared heldout-unit design within landscape",
+    "spatial_transfer_test": "separate predeclared spatial-block design",
+    "cross_origin_claim_rule": "a shared island-fragmentation claim requires the primary extreme-isolation interaction to retain the same direction under spatial transfer in independently admitted systems",
+    "local_only_support_cannot_establish_cross_origin_portability": true
+  },
+  "anti_selection": [
+    "do not choose a future system because exploratory subgroup results already look favourable",
+    "do not choose the isolation metric after inspecting future responses",
+    "do not move the 75% threshold after response access",
+    "do not remove non-extreme spatial units after response access",
+    "do not select taxa using within-system candidate-minus-reference direction",
+    "do not use A-Islands or Tanzania exploratory subgroup statistics in the future confirmatory denominator",
+    "do not call presence-versus-absence subgroup success the primary result"
+  ],
+  "claim_ceiling": {
+    "if_primary_supported_under_local_and_spatial_transfer": "topology retains incremental predictive information preferentially under extreme isolation beyond the declared strong reference in the tested systems",
+    "not_licensed": [
+      "topology estimates colonization probability",
+      "extreme isolation causes the topology effect",
+      "the 75% threshold is universal across ecosystems",
+      "one common dispersal mechanism applies to islands and fragments"
+    ]
+  },
+  "current_confirmatory_systems": [],
+  "confirmatory_response_authorized": false
+}
