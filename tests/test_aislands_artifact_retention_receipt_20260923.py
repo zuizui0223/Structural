@@ -19,7 +19,7 @@ def test_retention_receipt_matches_committed_authoritative_provenance():
     receipt = load(RECEIPT)
     provenance = load(PROVENANCE)
 
-    assert receipt["status"] == "VERIFIED_CURRENT_ACTIONS_ARTIFACT_RETENTION_REQUIRED"
+    assert receipt["status"] == "VERIFIED_OUTSIDE_ACTIONS_BACKUP_FINAL_ARCHIVE_PENDING"
     assert receipt["source_repository"] == "zuizui0223/eog"
     assert receipt["source_commit"] == provenance["git_commit"]
     assert receipt["workflow_run_id"] == provenance["workflow_run_id"]
@@ -71,9 +71,13 @@ def test_retention_deadline_is_explicit_and_not_claimed_complete():
 
     assert receipt["artifact_expired_at_verification"] is False
     assert receipt["artifact_expires_at"] == "2026-11-10T04:42:52Z"
-    assert retention["preserved_outside_github_actions"] is False
-    assert retention["must_be_completed_before_actions_expiry"] is True
-    assert retention["retention_deadline"] == receipt["artifact_expires_at"]
+    assert retention["preserved_outside_github_actions"] is True
+    assert retention["actions_expiry_risk_mitigated"] is True
+    assert retention["backup_provider"] == "Google Drive"
+    assert retention["backup_size_bytes"] == receipt["artifact_size_bytes"]
+    assert retention["backup_redownload_sha256"] == receipt["artifact_zip_sha256"]
+    assert retention["final_doi_archive_contains_verified_artifact"] is False
+    assert retention["actions_artifact_expires_at"] == receipt["artifact_expires_at"]
     assert (
         retention["final_release_must_not_claim_raw_authoritative_artifact_archived_until_verified"]
         is True
