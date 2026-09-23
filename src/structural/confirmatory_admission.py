@@ -40,7 +40,7 @@ def _audit_v0_32_payload(
     protocol: TransitionPilotProtocol,
     pilot_result: Mapping[str, object],
 ) -> tuple[str, ...]:
-    """Verify that the supplied result has the exact burned-pilot evidence ceiling."""
+    """Recompute the burned-pilot feasibility audit from its committed counts."""
 
     reasons: list[str] = []
 
@@ -72,22 +72,111 @@ def _audit_v0_32_payload(
 
     if not _is_int(minimum) or minimum != protocol.minimum_estimable_blocks:
         reasons.append("v0_32:minimum_estimable_blocks_mismatch")
-    if not _is_int(estimable):
+    if not _is_int(estimable) or estimable < 0:
         reasons.append("v0_32:estimable_blocks_invalid")
-    elif estimable < protocol.minimum_estimable_blocks:
-        reasons.append("v0_32:estimable_blocks_below_frozen_gate")
+
+    aggregate_keys = ("applicable_rows", "positive", "negative", "non_estimable")
+    aggregate: dict[str, int] = {}
+    for key in aggregate_keys:
+        value = pilot_result.get(key)
+        if not _is_int(value) or value < 0:
+            reasons.append(f"v0_32:{key}_invalid")
+        else:
+            aggregate[key] = value
+
+    if all(key in aggregate for key in ("applicable_rows", "positive", "negative")):
+        if aggregate["positive"] + aggregate["negative"] != aggregate["applicable_rows"]:
+            reasons.append("v0_32:applicable_class_counts_inconsistent")
 
     if not isinstance(block_audits, list):
         reasons.append("v0_32:block_audits_missing")
-    else:
-        if not _is_int(total) or total != len(block_audits):
-            reasons.append("v0_32:total_blocks_inconsistent")
-        if any(not isinstance(row, dict) for row in block_audits):
-            reasons.append("v0_32:block_audit_invalid")
+        return tuple(reasons)
+
+    if not _is_int(total) or total < 0 or total != len(block_audits):
+        reasons.append("v0_32:total_blocks_inconsistent")
+
+    seen_blocks: set[str] = set()
+    recomputed_estimable = 0
+    test_rows_sum = 0
+    test_positive_sum = 0
+    test_negative_sum = 0
+
+    for index, row in enumerate(block_audits):
+        prefix = f"v0_32:block_{index}"
+        if not isinstance(row, dict):
+            reasons.append(f"{prefix}_audit_invalid")
+            continue
+
+        block = row.get("block")
+        if not isinstance(block, str) or not block.strip():
+            reasons.append(f"{prefix}_name_invalid")
+        elif block in seen_blocks:
+            reasons.append(f"{prefix}_duplicate_name")
         else:
-            counted = sum(row.get("estimable") is True for row in block_audits)
-            if _is_int(estimable) and counted != estimable:
-                reasons.append("v0_32:estimable_block_count_inconsistent")
+            seen_blocks.add(block)
+
+        count_keys = (
+            "test_rows",
+            "test_positive",
+            "test_negative",
+            "train_rows",
+            "train_positive",
+            "train_negative",
+        )
+        counts: dict[str, int] = {}
+        for key in count_keys:
+            value = row.get(key)
+            if not _is_int(value) or value < 0:
+                reasons.append(f"{prefix}_{key}_invalid")
+            else:
+                counts[key] = value
+
+        if len(counts) != len(count_keys):
+            continue
+
+        if counts["test_positive"] + counts["test_negative"] != counts["test_rows"]:
+            reasons.append(f"{prefix}_test_class_counts_inconsistent")
+        if counts["train_positive"] + counts["train_negative"] != counts["train_rows"]:
+            reasons.append(f"{prefix}_train_class_counts_inconsistent")
+
+        if all(key in aggregate for key in ("applicable_rows", "positive", "negative")):
+            if counts["train_rows"] != aggregate["applicable_rows"] - counts["test_rows"]:
+                reasons.append(f"{prefix}_train_rows_not_heldout_complement")
+            if counts["train_positive"] != aggregate["positive"] - counts["test_positive"]:
+                reasons.append(f"{prefix}_train_positive_not_heldout_complement")
+            if counts["train_negative"] != aggregate["negative"] - counts["test_negative"]:
+                reasons.append(f"{prefix}_train_negative_not_heldout_complement")
+
+        expected_reasons: list[str] = []
+        if counts["test_rows"] < protocol.minimum_test_rows:
+            expected_reasons.append("test_rows_below_minimum")
+        if counts["train_positive"] < protocol.minimum_train_positive:
+            expected_reasons.append("training_positive_count_below_minimum")
+        if counts["train_negative"] < protocol.minimum_train_negative:
+            expected_reasons.append("training_negative_count_below_minimum")
+
+        expected_estimable = not expected_reasons
+        if row.get("estimable") is not expected_estimable:
+            reasons.append(f"{prefix}_estimability_inconsistent")
+        if row.get("reasons") != expected_reasons:
+            reasons.append(f"{prefix}_reasons_inconsistent")
+
+        recomputed_estimable += int(expected_estimable)
+        test_rows_sum += counts["test_rows"]
+        test_positive_sum += counts["test_positive"]
+        test_negative_sum += counts["test_negative"]
+
+    if "applicable_rows" in aggregate and test_rows_sum != aggregate["applicable_rows"]:
+        reasons.append("v0_32:test_rows_do_not_partition_applicable_rows")
+    if "positive" in aggregate and test_positive_sum != aggregate["positive"]:
+        reasons.append("v0_32:test_positive_do_not_partition_positive")
+    if "negative" in aggregate and test_negative_sum != aggregate["negative"]:
+        reasons.append("v0_32:test_negative_do_not_partition_negative")
+
+    if _is_int(estimable) and estimable != recomputed_estimable:
+        reasons.append("v0_32:estimable_block_count_inconsistent")
+    if recomputed_estimable < protocol.minimum_estimable_blocks:
+        reasons.append("v0_32:recomputed_estimable_blocks_below_frozen_gate")
 
     return tuple(reasons)
 
