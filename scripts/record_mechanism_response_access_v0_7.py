@@ -465,36 +465,54 @@ def record_access(
             "authorization response partition missing"
         )
 
-    if lane in {M1, M2}:
-        audit = _audit_dynamic_response(
-            response_csv,
-            lane=lane,
-            allowed_partitions=partitions,
-        )
-    elif lane == M3:
-        if genetic_pairs_csv is None:
-            raise MechanismResponseAccessError(
-                "M3 access requires frozen genetic pair metadata"
+    try:
+        if lane in {M1, M2}:
+            audit = _audit_dynamic_response(
+                response_csv,
+                lane=lane,
+                allowed_partitions=partitions,
             )
-        audit = _audit_genetic_response(
-            response_csv,
-            allowed_partitions=partitions,
-            genetic_pairs_csv=genetic_pairs_csv,
-        )
-    elif lane == M4:
-        if environment_csv is None:
-            raise MechanismResponseAccessError(
-                "M4 access requires frozen environment metadata"
+        elif lane == M3:
+            if genetic_pairs_csv is None:
+                raise MechanismResponseAccessError(
+                    "M3 access requires frozen genetic pair metadata"
+                )
+            audit = _audit_genetic_response(
+                response_csv,
+                allowed_partitions=partitions,
+                genetic_pairs_csv=genetic_pairs_csv,
             )
-        audit = _audit_environment_response(
-            response_csv,
-            allowed_partitions=partitions,
-            environment_csv=environment_csv,
-        )
-    else:
-        raise MechanismResponseAccessError(
-            f"unknown mechanism lane in authorization: {lane}"
-        )
+        elif lane == M4:
+            if environment_csv is None:
+                raise MechanismResponseAccessError(
+                    "M4 access requires frozen environment metadata"
+                )
+            audit = _audit_environment_response(
+                response_csv,
+                allowed_partitions=partitions,
+                environment_csv=environment_csv,
+            )
+        else:
+            raise MechanismResponseAccessError(
+                f"unknown mechanism lane in authorization: {lane}"
+            )
+    except MechanismResponseAccessError as exc:
+        return 2, {
+            "schema": SCHEMA,
+            "status": "STOP_invalid_or_unauthorized_response_surface",
+            "mechanism_lane": lane,
+            "authorization_id": stored.get("authorization_id"),
+            "reason": str(exc),
+            "response_access_consumed": False,
+            "confirmatory_response_authorized": False,
+            "scoring_authorized": False,
+            "mechanism_claim_authorized": False,
+            "effect_size": None,
+            "prediction_score": None,
+            "predictive_denominator_contribution": 0,
+            "mechanism_claim_contribution": 0,
+            "ttf_handoff_authorized": False,
+        }
 
     response_sha = sha256_file(response_csv)
     receipt = {
