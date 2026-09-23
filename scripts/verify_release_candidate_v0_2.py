@@ -190,6 +190,20 @@ def _validate_package(
         if not isinstance(relative, str) or not (package_dir / relative).is_file():
             raise ReleaseCandidateError(f"missing packaged canonical figure: {label}")
 
+    retention_relative = str(ARTIFACT_RETENTION.relative_to(ROOT))
+    packaged_files = package.get("files", {})
+    if not isinstance(packaged_files, dict):
+        raise ReleaseCandidateError("submission package file manifest missing")
+    expected_retention_sha = _sha256(ARTIFACT_RETENTION)
+    if packaged_files.get(retention_relative) != expected_retention_sha:
+        raise ReleaseCandidateError(
+            "authoritative artifact retention receipt missing or mismatched in package"
+        )
+    if not (package_dir / retention_relative).is_file():
+        raise ReleaseCandidateError(
+            "authoritative artifact retention receipt not physically packaged"
+        )
+
     return {
         "manifest_path": str(manifest_path.relative_to(ROOT)),
         "manifest_sha256": _sha256(manifest_path),
