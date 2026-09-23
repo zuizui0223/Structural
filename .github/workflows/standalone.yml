@@ -21,10 +21,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install test dependency
         run: python -m pip install pytest
-      - name: Validate confirmatory admission queue
-        run: python scripts/validate_confirmatory_queue_v0_36.py
-      - name: Exercise non-empty confirmatory queue fixture
-        run: python scripts/validate_confirmatory_queue_v0_36.py tests/fixtures/confirmatory_admission_v0_36/queue.json
+      - name: Validate raw-replay confirmatory admission queue
+        run: python scripts/validate_confirmatory_queue_v0_38.py
+      - name: Exercise non-empty raw-replay queue fixture
+        run: python scripts/validate_confirmatory_queue_v0_38.py tests/fixtures/confirmatory_admission_v0_38/queue.json
       - name: Validate standalone and connectivity-development boundaries
         run: python -m pytest -q
       - name: Build standalone submission package
