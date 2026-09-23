@@ -1,0 +1,63 @@
+{
+  "schema": "structural.prospective_ecology_hypothesis.extreme_isolation_topology.v0_2",
+  "status": "fresh_hypothesis_frozen_from_post_outcome_discovery_not_yet_tested",
+  "supersedes": "development/prospective_extreme_isolation_topology_hypothesis_v0_1.json",
+  "discovery_sources_may_not_count_as_confirmation": true,
+  "candidate_selection_by_discovery_effect_direction": false,
+  "primary_hypothesis": {
+    "name": "extreme_isolation_topology_regime_switch",
+    "statement": "After a strong ecological reference is supplied, the incremental held-out effect of a species-conditioned structural coordinate is more favourable in the upper 25% of a response-independent isolation distribution than in the remaining eligible units.",
+    "increment_definition": "candidate held-out loss minus strong-reference held-out loss; negative is favourable",
+    "extreme_isolation_rule": "upper 25% of the frozen eligible-unit isolation distribution computed from predictor-only data before response access",
+    "primary_contrast": "mean candidate-minus-reference loss in extreme-isolation units minus mean candidate-minus-reference loss in non-extreme units",
+    "favourable_direction": "negative",
+    "threshold_retuning_after_response": false
+  },
+  "predeclared_robustness": {
+    "thresholds": [0.70, 0.80],
+    "role": "directional sensitivity only; the 0.75 threshold remains primary",
+    "success_rule": "robustness thresholds cannot rescue a failed primary 0.75 contrast"
+  },
+  "secondary_moderation_hypothesis": {
+    "name": "source_saturation_relief",
+    "statement": "The extreme-isolation improvement becomes more favourable as pre-response species source/range breadth increases.",
+    "test": "continuous standardized breadth x extreme-isolation interaction on candidate-minus-reference held-out loss",
+    "favourable_direction": "negative",
+    "breadth_definition": "a response-independent source/range breadth measure frozen before confirmatory response access",
+    "may_not_become_primary_after_outcome": true
+  },
+  "secondary_state_diagnostic": {
+    "name": "presence_penalty_attenuation",
+    "statement": "If a regime switch exists, the candidate's excess loss on true presences should be smaller in extreme-isolation units than in non-extreme units.",
+    "observed_state_is_post_outcome_diagnostic_only": true,
+    "not_a_deployable_predictor": true,
+    "not_a_primary_success_gate": true,
+    "expected_interaction_direction": "observed_presence x extreme_isolation negative on candidate-minus-reference loss"
+  },
+  "required_reference": {
+    "must_precede_topology": true,
+    "minimum_components": [
+      "local habitat/support state",
+      "spatial-unit size when ecologically meaningful",
+      "direct source proximity",
+      "process-aware or source-aware isolation appropriate to the system"
+    ]
+  },
+  "transfer_requirement": {
+    "local_interpolation": "predeclared heldout-unit design",
+    "spatial_transfer": "separate predeclared spatial-block design",
+    "cross_origin_generalization": "requires same-direction primary regime-switch contrast in independently admitted island and fragmentation systems under spatial transfer",
+    "local_only_support_is_insufficient": true
+  },
+  "anti_selection": [
+    "do not choose a system because exploratory extreme-tail results are already favourable",
+    "do not choose the isolation metric after future response access",
+    "do not move the primary 0.75 threshold after future response access",
+    "do not use 0.70 or 0.80 robustness thresholds to rescue a failed 0.75 primary",
+    "do not select taxa using candidate-minus-reference direction",
+    "do not promote source-breadth or observed-state diagnostics into the primary after outcome",
+    "do not count A-Islands or Tanzania discovery statistics as future confirmation"
+  ],
+  "current_confirmatory_systems": [],
+  "confirmatory_response_authorized": false
+}

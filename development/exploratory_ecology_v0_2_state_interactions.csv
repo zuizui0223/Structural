@@ -1,0 +1,11 @@
+system,model,term,beta,se,p,status
+A-Islands,two_way_species_island_FE,breadth_x_log_mainland_distance,-0.00267192,0.00079109,0.0007314,exploratory
+A-Islands,two_way_species_island_FE_with_area,breadth_x_log_mainland_distance,-0.00273347,0.00080346,0.00066864,exploratory
+A-Islands,two_way_species_island_FE_with_area,breadth_x_log_area,0.00098145,0.00064016,0.12524,exploratory
+A-Islands,state_regime_FE,observed_presence,0.120315,0.018840,0.0000000001703,secondary_diagnostic
+A-Islands,state_regime_FE,observed_presence_x_extreme75,-0.093090,0.033008,0.004799,secondary_diagnostic
+A-Islands,state_regime_FE,observed_presence_x_breadth,0.041239,0.011584,0.0003706,secondary_diagnostic
+A-Islands,state_regime_FE,observed_presence_x_breadth_x_extreme75,-0.036852,0.013002,0.004592,secondary_diagnostic
+Tanzania-East,state_regime_species_site_FE,observed_presence,0.074741,0.015322,0.00000107,weak_small_panel_diagnostic
+Tanzania-East,state_regime_species_site_FE,observed_presence_x_extreme75,-0.024421,0.012123,0.043960,weak_small_panel_diagnostic
+Tanzania-East,continuous_species_site_FE,observed_presence_x_log_distance,0.007796,0.004300,0.069854,weak_small_panel_diagnostic

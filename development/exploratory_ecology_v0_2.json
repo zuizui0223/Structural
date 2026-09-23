@@ -1,0 +1,146 @@
+{
+  "schema": "structural.exploratory_ecology.v0_2",
+  "status": "post_outcome_hypothesis_generation_only",
+  "supersedes_interpretive_layer": "development/exploratory_ecology_v0_1.json",
+  "changes_frozen_structural_paper": false,
+  "counts_as_confirmatory_evidence": false,
+  "counts_as_new_empirical_replication": false,
+  "may_select_future_confirmatory_systems_by_favourable_outcome": false,
+  "source_rows": {
+    "aislands_heldout_predictions": 712515,
+    "aislands_species": 886,
+    "aislands_islands": 842,
+    "tanzania_primary_loso_valid_predictions": 826
+  },
+  "analysis_convention": {
+    "loss_increment": "candidate C minus declared strong reference held-out log loss",
+    "favourable_direction": "negative",
+    "continuous_isolation": "log1p mainland distance for A-Islands; log1p distance to nearest large fragment for Tanzania diagnostics",
+    "breadth": "log1p occupied-island count, standardized across the frozen A-Islands taxon cohort",
+    "row_dependence_control": "A-Islands interaction models use species and island fixed effects with two-way species/island clustered standard errors",
+    "threshold_rule_used_for_v0_2_diagnostics": "upper 25% of predictor-only isolation distribution; this threshold was already frozen for future testing in v0.1 before v0.2 modelling",
+    "observed_state_role": "post-outcome secondary mechanism diagnostic only; never a prospective predictor"
+  },
+  "findings": {
+    "E6_continuous_range_by_remoteness": {
+      "question": "Is the apparent extreme-isolation pattern a quartile artefact, or does range breadth interact continuously with mainland remoteness?",
+      "aislands": {
+        "breadth_x_log_mainland_distance": {
+          "beta": -0.00267192,
+          "se_two_way_clustered": 0.00079109,
+          "p": 0.0007314
+        },
+        "joint_with_breadth_x_log_area": {
+          "breadth_x_log_mainland_distance_beta": -0.00273347,
+          "breadth_x_log_mainland_distance_se": 0.00080346,
+          "breadth_x_log_mainland_distance_p": 0.00066864,
+          "breadth_x_log_area_beta": 0.00098145,
+          "breadth_x_log_area_se": 0.00064016,
+          "breadth_x_log_area_p": 0.12524
+        },
+        "interpretation": "The relative EOG penalty weakens as widespread species are evaluated on more mainland-remote islands. This pattern is tied to mainland remoteness rather than an analogous breadth-by-island-area interaction."
+      },
+      "exploratory_status": "supported_within_aislands_continuous_model"
+    },
+    "E7_tail_strengthening_not_single_cutpoint": {
+      "question": "Does the breadth-by-isolation interaction strengthen progressively into the remote tail rather than depend on exactly one quartile cut?",
+      "aislands": {
+        "breadth_x_extreme_fixed_effect_coefficients": [
+          {"upper_tail_start_quantile": 0.50, "cut_km": 20.18648, "beta": -0.003014, "se": 0.001655, "p": 0.068666},
+          {"upper_tail_start_quantile": 0.60, "cut_km": 50.41985, "beta": -0.003604, "se": 0.001923, "p": 0.060923},
+          {"upper_tail_start_quantile": 0.70, "cut_km": 61.153612, "beta": -0.007388, "se": 0.001599, "p": 0.000003857},
+          {"upper_tail_start_quantile": 0.75, "cut_km": 68.850278, "beta": -0.009478, "se": 0.001664, "p": 0.00000001225347},
+          {"upper_tail_start_quantile": 0.80, "cut_km": 87.063796, "beta": -0.012151, "se": 0.001859, "p": 0.000000000063475},
+          {"upper_tail_start_quantile": 0.85, "cut_km": 161.423009, "beta": -0.012072, "se": 0.002189, "p": 0.000000034995},
+          {"upper_tail_start_quantile": 0.90, "cut_km": 196.073164, "beta": -0.013221, "se": 0.002947, "p": 0.000007234}
+        ],
+        "paired_species_extreme_minus_nonextreme": {
+          "q75_mean": -0.005736,
+          "q75_median": -0.000911,
+          "q75_species_n": 886,
+          "q75_wilcoxon_p": 0.00000000000666431
+        },
+        "interpretation": "The moderation strengthens rather than disappears as the isolation definition moves deeper into the remote tail. The future 75% rule remains the frozen primary threshold; the other cuts are post-outcome robustness diagnostics and may not replace it."
+      },
+      "exploratory_status": "tail_pattern_robust_but_threshold_value_not_universal"
+    },
+    "E8_state_dependent_regime_switch": {
+      "question": "Is the remote-tail improvement merely better exclusion of absences, or does extreme isolation change how topology treats genuine presences?",
+      "aislands_two_way_fixed_effect_model": {
+        "breadth_x_extreme75": {"beta": -0.002423, "se": 0.001384, "p": 0.079944},
+        "observed_presence": {"beta": 0.120315, "se": 0.018840, "p": 0.0000000001703},
+        "observed_presence_x_extreme75": {"beta": -0.093090, "se": 0.033008, "p": 0.004799},
+        "observed_presence_x_breadth": {"beta": 0.041239, "se": 0.011584, "p": 0.0003706},
+        "observed_presence_x_breadth_x_extreme75": {"beta": -0.036852, "se": 0.013002, "p": 0.004592}
+      },
+      "aislands_descriptive_corner": {
+        "broadest_quartile_presence_rows_near_Q1": {
+          "n": 3348,
+          "mean_loss_increment": 0.192060,
+          "median_loss_increment": 0.065231,
+          "favourable_fraction": 0.336619,
+          "mean_candidate_minus_reference_probability": -0.015582
+        },
+        "broadest_quartile_presence_rows_remote_Q4": {
+          "n": 4663,
+          "mean_loss_increment": 0.016076,
+          "median_loss_increment": -0.012301,
+          "favourable_fraction": 0.590178,
+          "mean_candidate_minus_reference_probability": 0.003578
+        }
+      },
+      "interpretation": "Outside the extreme tail, adding topology strongly suppresses predicted occurrence for widespread-species presences and is usually harmful. In the remote tail, that presence penalty collapses and the average probability shift changes sign. The ecological hypothesis is therefore a regime switch, not a universal exclusion-only effect.",
+      "exploratory_status": "strong_within_aislands_state_dependent_pattern"
+    },
+    "E9_original_signal_persistence": {
+      "question": "Do species with the strongest original restricted-reference conditional-concordance signal retain the strongest incremental topology effect beyond R3?",
+      "aislands": {
+        "spearman_rho": -0.075818,
+        "spearman_p": 0.027535,
+        "pearson_r": -0.069992,
+        "pearson_p": 0.041945,
+        "conditional_concordance_quartiles": {
+          "Q1": {"n": 212, "mean_C_minus_R3": 0.003104, "favourable_fraction": 0.353774},
+          "Q2": {"n": 211, "mean_C_minus_R3": 0.006758, "favourable_fraction": 0.298578},
+          "Q3": {"n": 211, "mean_C_minus_R3": 0.004699, "favourable_fraction": 0.364929},
+          "Q4": {"n": 211, "mean_C_minus_R3": 0.000097, "favourable_fraction": 0.431280}
+        },
+        "interpretation": "Original structural ordering predicts at most a very weak reduction in later adversity. Even the strongest original-signal quartile is approximately neutral rather than positively incremental beyond R3."
+      },
+      "exploratory_status": "detectability_does_not_imply_independent_incremental_state"
+    },
+    "E10_tanzania_tail_state_check": {
+      "question": "Does the state-dependent remote-tail attenuation have any analogue inside the Tanzania fragmentation panel after acknowledging region confounding?",
+      "all_panel_limitation": "The upper-25%-distance-to-large-fragment sites are all East Usambara, so the overall tail cannot be treated as an independent region-free replication.",
+      "east_usambara_only": {
+        "species_site_fixed_effect_model": {
+          "observed_presence": {"beta": 0.074741, "se": 0.015322, "p": 0.00000107},
+          "observed_presence_x_extreme75": {"beta": -0.024421, "se": 0.012123, "p": 0.043960}
+        },
+        "continuous_log_distance_model": {
+          "observed_presence_x_log_distance_beta": 0.007796,
+          "se": 0.004300,
+          "p": 0.069854
+        },
+        "interpretation": "Within East Usambara, the most isolated tail also shows a smaller presence penalty, but the continuous trend does not support a simple monotonic distance response. With only nine East fragments this is a small-panel consistency check, not confirmation."
+      },
+      "exploratory_status": "weak_analogue_nonmonotonic_and_not_independent_replication"
+    }
+  },
+  "updated_ecological_synthesis": [
+    "The key residual is not a universal connectivity bonus. It is a context-dependent change in how a species-conditioned topology term modifies predictions after area, source proximity and broader isolation are already represented.",
+    "In A-Islands, broad-range species are where topology is most redundant in ordinary near-to-intermediate settings, consistent with source saturation.",
+    "That redundancy is relaxed sharply in the remote tail, and the strongest shift occurs for genuine presences: topology changes from probability suppression toward probability support.",
+    "This motivates an isolation-regime-switch hypothesis: strong references absorb topology under ordinary connectivity, but species-conditioned topology can re-emerge at extreme isolation where generic source context no longer resolves which remote units remain linked to occupied sources.",
+    "Original restricted-reference structural detectability is not sufficient evidence for this independent state; the persistence test is weak.",
+    "Tanzania offers only a weak within-region analogue and cannot establish cross-origin generality."
+  ],
+  "claim_ceiling": [
+    "do not call the v0.2 interactions confirmatory",
+    "do not claim a universal 75% ecological threshold",
+    "do not claim topology causes persistence or colonization",
+    "do not treat the observed-state diagnostic as a deployable predictor",
+    "do not claim Tanzania independently replicates the regime switch",
+    "do not alter the frozen A-Islands or Tanzania primary outcomes or denominator"
+  ]
+}
