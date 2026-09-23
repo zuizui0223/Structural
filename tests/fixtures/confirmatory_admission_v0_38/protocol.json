@@ -1,0 +1,17 @@
+{
+  "protocol_id": "synthetic-v0_36-pass",
+  "system_id": "synthetic-ci-only",
+  "partition_axis": "time_window",
+  "pilot_partition": ["pilot-window"],
+  "confirmatory_partition": ["confirmatory-window"],
+  "endpoint_id": "synthetic_binary_transition",
+  "endpoint_semantics": "1=event; 0=no event; NA=non-estimable",
+  "heldout_design_id": "leave-one-block-out",
+  "minimum_test_rows": 2,
+  "minimum_train_positive": 1,
+  "minimum_train_negative": 1,
+  "minimum_estimable_blocks": 2,
+  "pilot_response_accessed": false,
+  "confirmatory_response_accessed": false,
+  "pilot_used_for_effect_estimation": false
+}

@@ -91,6 +91,7 @@ Canonical development files:
 - `docs/CONFIRMATORY_FREEZE_GATE_V0_33.md`
 - `docs/CONFIRMATORY_ADMISSION_QUEUE_V0_36.md`
 - `docs/CONFIRMATORY_ADMISSION_VERIFIER_V0_37.md`
+- `docs/CONFIRMATORY_ADMISSION_REPLAY_V0_38.md`
 - `docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md`
 - `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
 - `development/connectivity_adequacy_contract_v0_1.json`
@@ -119,6 +120,8 @@ The v0.34 Structural↔EGWE↔TTF handoff remains **later**, not an active depen
 v0.36 now makes admission executable: the repository queue is validated from committed v0.31 protocol + v0.32 burned-pilot result + deterministic v0.36 receipt. CI recomputes the v0.31-v0.33 chain for every non-empty queue entry. A manually inserted system that cannot reproduce a clean gate pass fails CI. Admission still authorizes only confirmatory-protocol freezing; confirmatory response access remains false.
 
 v0.37 hardens that verifier by recomputing every block's estimability from the frozen test-row and training-class thresholds, checking held-out complement arithmetic and reconciling block counts with global pilot totals. Reported `estimable=true` flags are no longer trusted as admission evidence.
+
+v0.38 binds admission to the raw burned-pilot CSV itself: CI verifies its SHA-256, reruns the v0.32 pilot runner from the frozen protocol + raw CSV, and requires the complete replayed result to match the committed pilot result exactly before any v0.37/v0.33 admission checks proceed.
 
 ## Current state
 
