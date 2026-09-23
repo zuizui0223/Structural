@@ -1,0 +1,58 @@
+{
+  "schema": "structural.current_status.v0_41",
+  "status": "canonical_current_status",
+  "authoritative_empirical_registry": {
+    "path": "development/connectivity_candidate_registry_v0_29.json",
+    "expected_status": "no_active_empirical_candidate_after_two_terminal_dynamic_tests",
+    "expected_active_empirical_candidates": []
+  },
+  "live_confirmatory_queue": {
+    "path": "development/confirmatory_admission_queue_v0_38.json",
+    "expected_entry_count": 0,
+    "confirmatory_response_authorized": false
+  },
+  "admission_infrastructure": {
+    "path": "development/confirmatory_admission_freeze_v0_40.json",
+    "expected_status": "frozen_gate_infrastructure",
+    "frozen_through": "v0.40"
+  },
+  "closed_dynamic_systems": [
+    "PNW_terminal_non_estimable",
+    "RMNP_terminal_non_estimable"
+  ],
+  "active_empirical_candidates": [],
+  "candidate_hunting_as_primary_objective": false,
+  "next_valid_scientific_event": "a genuinely new system independently arrives and is frozen prospectively as a new v0.31 protocol before burned-pilot response access",
+  "ttf_boundary": {
+    "status": "later_independent_transferability_layer",
+    "structural_precondition": "future system independently passes the frozen Structural admission chain, enters the confirmatory-protocol queue, and receives a separately frozen confirmatory protocol before any TTF handoff",
+    "may_select_structural_candidates": false,
+    "may_rescue_failed_structural_systems": false,
+    "may_count_burned_pilot_as_transfer_evidence": false,
+    "empirical_denominator_shared_with_structural": false
+  },
+  "historical_status_artifacts": [
+    {
+      "path": "docs/FRESH_CONNECTIVITY_CANDIDATE_TRIAGE_V0_9.md",
+      "role": "historical_candidate_triage_snapshot"
+    },
+    {
+      "path": "docs/PNW_STAGE2_RESULT_V0_21.md",
+      "role": "historical_result_with_superseded_current-lane_text"
+    },
+    {
+      "path": "development/connectivity_candidate_registry_v0_21.json",
+      "role": "historical_registry_snapshot"
+    },
+    {
+      "path": "development/connectivity_candidate_registry_v0_22.json",
+      "role": "historical_registry_snapshot"
+    }
+  ],
+  "active_docs": [
+    "README.md",
+    "docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md",
+    "docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md",
+    "docs/CONFIRMATORY_ADMISSION_FREEZE_V0_40.md"
+  ]
+}
