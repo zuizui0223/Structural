@@ -29,6 +29,8 @@ jobs:
         run: python scripts/validate_mechanism_protocol_v0_1.py
       - name: Validate synthetic response-sealed mechanism protocol
         run: python scripts/validate_mechanism_protocol_v0_1.py tests/fixtures/mechanism_protocol_v0_1/valid_protocol.json
+      - name: Exercise burned mechanism transition pilot gate
+        run: python scripts/run_mechanism_transition_pilot_v0_2.py tests/fixtures/mechanism_transition_pilot_v0_2/protocol.json tests/fixtures/mechanism_transition_pilot_v0_2/pilot.csv
       - name: Validate standalone and connectivity-development boundaries
         run: python -m pytest -q
       - name: Build standalone submission package
