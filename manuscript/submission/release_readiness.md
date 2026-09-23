@@ -1,6 +1,7 @@
 # Structural manuscript release readiness
 
-Verification date: **2026-09-12**
+Verification date: **2026-09-12**  
+Live-policy refresh: **2026-09-23** — Elsevier-wide author/AI/highlights guidance rechecked; the journal-specific *Ecological Informatics* Guide for Authors remains blocked by HTTP 403 in automated retrieval and therefore remains a manual submission-day gate.
 
 Repository package version: **0.1.0** (`pyproject.toml`).  
 The candidate first submission archive tag remains **`v0.1.0`**, unless the package version is deliberately changed before release.

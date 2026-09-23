@@ -38,7 +38,9 @@ Draft disclosure reflecting the actual manuscript-development workflow:
 
 The declaration must remain distinct from any use of AI as part of the research method. If an AI-assisted method were used to generate or interpret research data, that use would instead require reproducible description in the Methods section.
 
-Elsevier's current policy also prohibits generative-AI creation or alteration of manuscript figures/images except when such use is part of the research design and is reproducibly described. The current EOG figures are deterministic code-generated SVGs from frozen repository data/contracts; they are not generative-AI artwork. Do not use generative-AI image editing on submission figures.
+Elsevier's current journal policy distinguishes explanatory images, data visualizations, primary research images and graphical abstracts rather than imposing one blanket rule. AI-assisted explanatory images may be permitted with disclosure; AI-assisted data visualizations may be permitted only when directly derived from underlying data through reproducible methods and documented appropriately; AI tools must not create or alter primary research images that were not directly obtained in the research; and general-purpose generative-AI image tools must not be used for graphical abstracts.
+
+The current Structural figures are deterministic code-generated SVGs from frozen repository data/contracts and do not use generative-AI image generation or image editing. No AI-image disclosure is therefore required for the committed figures. Any future proposal to use AI assistance on a submission figure must trigger a fresh policy check and explicit documentation before that use occurs.
 
 ## Originality and simultaneous submission
 

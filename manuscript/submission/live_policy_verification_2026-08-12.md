@@ -1,5 +1,7 @@
 # Live journal-policy verification — 2026-08-12
 
+> **Historical policy snapshot — superseded for current submission use.** This file records the 2026-08-12 verification state. The current repository policy record is `manuscript/submission/live_policy_verification_2026-09-23.md`. In particular, Elsevier's June 2026 journal AI policy distinguishes explanatory images, data visualizations, primary research images and graphical abstracts; do not use this older file as the current AI-image rule.
+
 Target: **Ecological Informatics** (Elsevier / ScienceDirect)
 
 ## Verified from current official sources
