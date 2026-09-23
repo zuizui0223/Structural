@@ -102,7 +102,8 @@ The paper is **not ready to submit or release** until every remaining author/rel
 
 ### Final live-policy verification
 
-- [x] Current Elsevier journal-wide generative-AI policy independently verified on 2026-08-12 and reflected in `manuscript/submission/declarations.md` and `manuscript/submission/live_policy_verification_2026-08-12.md`.
+- [x] Current Elsevier journal-wide generative-AI policy independently reverified on 2026-09-23 and reflected in `manuscript/submission/declarations.md` and `manuscript/submission/live_policy_verification_2026-09-23.md`; the June 2026 policy distinguishes explanatory images, data visualizations, primary research images and graphical abstracts rather than imposing a blanket image rule.
+- [x] Current Elsevier-wide Highlights guidance reverified on 2026-09-23: 3–5 bullets, <=85 characters including spaces; these generic requirements do not substitute for the journal-specific guide.
 - [ ] Re-open the current *Ecological Informatics* journal-specific Guide for Authors in a normal browser on the actual submission date.
 - [ ] Confirm journal-specific article type, word/abstract/keyword limits, figure formats, reference style, data/code requirements, anonymisation model and required declarations.
 
