@@ -144,6 +144,8 @@ Mechanism admission is now bound back to Structural through `development/mechani
 
 Each eligible lane can now be frozen separately through `development/mechanism_confirmatory_freeze_gate_v0_5.json`. The freezer replays v0.4, binds the lane protocol to the replayed Structural/mechanism parent fingerprints, and fingerprints the lane's response partition, estimand, reference, candidate, scoring, uncertainty and success rules. M1/M2 transition semantics, M3 genetic null/source comparison and M4 enriched predictor list are immutable at this stage. A v0.5 pass still leaves the response sealed; its only next action is a separate lane-specific response-authorization gate.
 
+That final access gate is now executable as `development/mechanism_response_authorization_gate_v0_6.json`. It requires a git-tracked v0.5 freeze receipt and reproduces that receipt exactly from raw inputs before authorizing a single read of the exact frozen response partition for that lane. The authorization does not score the response, does not establish a mechanism claim and does not authorize TTF; response access must be recorded before scoring.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.
