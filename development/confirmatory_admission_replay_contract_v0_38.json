@@ -1,0 +1,24 @@
+{
+  "schema": "structural.confirmatory_admission_replay.v0_38",
+  "status": "active_mainline_gate",
+  "purpose": "bind confirmatory admission to the immutable raw burned-pilot input rather than to a self-contained pilot-result JSON",
+  "required_queue_artifacts": [
+    "frozen v0.31 protocol",
+    "raw burned-pilot CSV",
+    "SHA-256 of raw burned-pilot CSV",
+    "stored v0.32 pilot result",
+    "deterministic admission receipt"
+  ],
+  "replay_rule": "CI reruns scripts/run_transition_pilot_v0_32.py logic from protocol + raw pilot CSV and requires exact equality with the stored pilot-result object",
+  "downstream_verification": [
+    "v0.37 block-level estimability and arithmetic recomputation",
+    "v0.33 confirmatory freeze gate",
+    "receipt reproduction"
+  ],
+  "admitted_action": "freeze_confirmatory_protocol_only",
+  "confirmatory_response_authorized": false,
+  "predictive_denominator_contribution": 0,
+  "live_queue": "development/confirmatory_admission_queue_v0_38.json",
+  "ci_validator": "scripts/validate_confirmatory_queue_v0_38.py",
+  "ttf_dependency": false
+}
