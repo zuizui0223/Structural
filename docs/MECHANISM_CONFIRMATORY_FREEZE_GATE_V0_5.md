@@ -27,11 +27,15 @@ The freezer reruns v0.4 from the raw inputs.
 
 The selected lane must still be listed in `eligible_lanes`.
 
-The lane protocol must bind to the same:
+The lane protocol declares `parent_binding_mode = bind_from_replayed_v0_4_admission_at_freeze`.
 
-- system id;
-- parent mechanism protocol fingerprint;
-- Structural protocol fingerprint.
+The freezer then binds the receipt automatically to:
+
+- the same system id;
+- the replayed parent mechanism protocol fingerprint;
+- the replayed Structural protocol fingerprint.
+
+Those fingerprints are not manually transcribed into the lane draft.
 
 ## Common frozen state
 
