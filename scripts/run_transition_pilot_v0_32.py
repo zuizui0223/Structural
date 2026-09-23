@@ -156,6 +156,7 @@ def main() -> int:
             "reason": str(exc),
             "effect_size": None,
             "prediction_score": None,
+            "predictive_denominator_contribution": 0,
         }
 
     text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
