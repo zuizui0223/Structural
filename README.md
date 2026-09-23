@@ -142,6 +142,8 @@ M3/M4 qualification is now executable through `development/mechanism_auxiliary_g
 
 Mechanism admission is now bound back to Structural through `development/mechanism_admission_gate_v0_4.json`. The gate first replays the system's Structural v0.38 queue entry, then replays the raw M1/M2 pilot and response-blind M3/M4 qualification inputs. Only individually qualified lanes may freeze separate confirmatory mechanism protocols; non-estimable lanes remain neutral, while any protocol breach stops the entire mechanism admission. No gate authorizes confirmatory response access or a mechanism claim.
 
+Each eligible lane can now be frozen separately through `development/mechanism_confirmatory_freeze_gate_v0_5.json`. The freezer replays v0.4, binds the lane protocol to the replayed Structural/mechanism parent fingerprints, and fingerprints the lane's response partition, estimand, reference, candidate, scoring, uncertainty and success rules. M1/M2 transition semantics, M3 genetic null/source comparison and M4 enriched predictor list are immutable at this stage. A v0.5 pass still leaves the response sealed; its only next action is a separate lane-specific response-authorization gate.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.
