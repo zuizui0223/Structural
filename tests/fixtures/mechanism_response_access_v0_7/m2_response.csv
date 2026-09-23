@@ -1,0 +1,5 @@
+partition_unit,block,unit_id,z_t,z_t1
+confirm-B,A,P1,1,0
+confirm-B,A,P2,1,1
+confirm-B,B,P3,1,0
+confirm-B,B,P4,1,1

@@ -1,0 +1,7 @@
+partition_unit,focal_population,source_population,comparison_class,genetic_value
+confirm-B,F1,S1,graph_connected,0.80
+confirm-B,F1,S2,alternative,0.35
+confirm-B,F2,S2,graph_connected,0.75
+confirm-B,F2,S3,alternative,0.40
+confirm-B,F3,S3,graph_connected,0.82
+confirm-B,F3,S4,alternative,0.30

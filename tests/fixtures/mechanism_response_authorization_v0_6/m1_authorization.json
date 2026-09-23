@@ -1,0 +1,27 @@
+{
+  "schema": "structural.mechanism_response_authorization.v0_6",
+  "status": "confirmatory_mechanism_response_access_authorized_once",
+  "authorization_id": "7323c1155f15ca8cd5b9cb188952fb25b81b5ca9df4946d385e94525fbeb5f2d",
+  "authorization_scope": "read_exact_frozen_response_partition_for_this_lane_protocol_only",
+  "confirmatory_response_authorized": true,
+  "counts_as_empirical_evidence": false,
+  "effect_size": null,
+  "freeze_receipt_path": "tests/fixtures/mechanism_confirmatory_freeze_v0_5/m1_receipt.json",
+  "freeze_receipt_sha256": "5e8f529c65c51d0bf78c36b40325637744e191146962a70577bad2534435ec61",
+  "mechanism_claim_authorized": false,
+  "mechanism_claim_contribution": 0,
+  "mechanism_lane": "M1_contemporary_colonization",
+  "next_action": "open_exact_response_partition_once_then_record_access_before_scoring",
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "protocol_fingerprint": "efb809353d4da0eca9c7704fca4f519918abd54e623787c3e35ab75e7ecbdae7",
+  "protocol_id": "synthetic-M1-confirmatory-v0.5",
+  "response_access_consumed": false,
+  "response_partition": [
+    "confirm-B"
+  ],
+  "single_use": true,
+  "synthetic_ci_authorization": true,
+  "system_id": "synthetic-ci-only",
+  "ttf_handoff_authorized": false
+}

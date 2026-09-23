@@ -1,0 +1,60 @@
+{
+  "schema": "structural.mechanism_response_access_gate.v0_7",
+  "status": "prospective_infrastructure_no_current_system",
+  "parent_gate": "development/mechanism_response_authorization_gate_v0_6.json",
+  "purpose": "consume one tracked v0.6 lane authorization by binding it to one exact response file and recording access before any scoring",
+  "requirements": [
+    "v0.6 authorization receipt is git-tracked",
+    "v0.6 authorization is reproduced exactly from v0.5/raw inputs",
+    "authorization is single-use and unconsumed",
+    "response contains only the exact authorized partition",
+    "response surface is lane-specific and exact",
+    "M1 response contains only z_t=0 eligible rows",
+    "M2 response contains only z_t=1 eligible rows",
+    "M3 response pairs were already frozen in the response-blind source-pair design",
+    "M4 response units/blocks occur in the frozen environment matrix"
+  ],
+  "lane_response_surfaces": {
+    "M1_contemporary_colonization": [
+      "partition_unit",
+      "block",
+      "unit_id",
+      "z_t",
+      "z_t1"
+    ],
+    "M2_rescue_persistence": [
+      "partition_unit",
+      "block",
+      "unit_id",
+      "z_t",
+      "z_t1"
+    ],
+    "M3_historical_colonization_legacy": [
+      "partition_unit",
+      "focal_population",
+      "source_population",
+      "comparison_class",
+      "genetic_value"
+    ],
+    "M4_environmental_proxy": [
+      "partition_unit",
+      "block",
+      "unit_id",
+      "target"
+    ]
+  },
+  "successful_status": "confirmatory_mechanism_response_access_recorded",
+  "successful_output": {
+    "response_access_consumed": true,
+    "confirmatory_response_authorized": false,
+    "scoring_authorized": true,
+    "mechanism_claim_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "ttf_handoff_authorized": false
+  },
+  "successful_next_action": "run_frozen_lane_scoring_only",
+  "current_systems": []
+}

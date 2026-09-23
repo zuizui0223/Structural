@@ -136,6 +136,18 @@
       "mechanism_claim_authorized": false,
       "ttf_handoff_authorized": false,
       "successful_next_action": "open_exact_response_partition_once_then_record_access_before_scoring"
+    },
+    "response_access_record_gate": {
+      "path": "development/mechanism_response_access_gate_v0_7.json",
+      "runner": "scripts/record_mechanism_response_access_v0_7.py",
+      "status": "synthetic_only_no_current_system",
+      "requires_git_tracked_v0_6_authorization": true,
+      "exact_lane_response_surface": true,
+      "cross_lane_response_leakage_forbidden": true,
+      "response_sha256_bound": true,
+      "scoring_authorized_after_access_record": true,
+      "mechanism_claim_authorized": false,
+      "successful_next_action": "run_frozen_lane_scoring_only"
     }
   }
 }
