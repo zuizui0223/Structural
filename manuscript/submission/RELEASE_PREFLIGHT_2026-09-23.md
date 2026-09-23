@@ -12,9 +12,11 @@ This preflight does not reopen science.
 
 The authoritative A-Islands raw outcome artifact was located in the source repository `zuizui0223/eog`, re-downloaded, and independently verified against committed provenance.
 
-The current GitHub Actions artifact expires at **2026-11-10T04:42:52Z** and is not yet preserved outside GitHub Actions.
+The GitHub Actions artifact expires at **2026-11-10T04:42:52Z**. On 2026-09-23, the exact verified ZIP was copied to a private Google Drive retention folder, then downloaded back and rehashed to the same SHA-256. The Actions-expiry risk is therefore mitigated.
 
-Therefore, after the human/policy HOLD is cleared, release readiness must still remain at `HOLD_ARCHIVE_CONTENT_GATES` until the verified raw artifact has been copied into the durable final archive and reverified there.
+`HOLD_ARCHIVE_CONTENT_GATES` remains a fail-closed stage if that outside-Actions retention guarantee is lost or cannot be verified. It is not the current blocker.
+
+The private Drive copy is not the final DOI/public archive. The eventual release archive must still include and reverify the same authoritative artifact before the public archive is declared complete.
 
 Canonical receipt:
 
