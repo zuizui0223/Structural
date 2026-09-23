@@ -53,6 +53,22 @@ Do **not** reserve/publish the final Zenodo record or create the final `v0.1.0` 
 
 The repository-side grayscale/down-scaling QA does not substitute for the publisher-rendered submission preview.
 
+## Authoritative one-time artifact retention gate
+
+The A-Islands one-time raw outcome artifact was independently re-downloaded from its source repository `zuizui0223/eog` on 2026-09-23 and reverified against committed provenance.
+
+- workflow run: `31564146592`;
+- artifact: `9128998976`;
+- ZIP SHA-256: `59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e`;
+- GitHub Actions expiry: **2026-11-10T04:42:52Z**;
+- current durable-preservation state: **not yet preserved outside GitHub Actions**.
+
+Before the final archive is claimed complete, preserve the verified raw artifact (or equivalent verified members with the same declared hashes) in the durable release archive and verify it there with `scripts/verify_aislands_authoritative_artifact_v0_1.py`.
+
+Canonical retention receipt:
+
+`validation/aislands_isolation_adequacy_20260812/artifact_retention_receipt_20260923.json`
+
 ## DOI-first release sequence after the remaining gates clear
 
 The DOI-first sequence remains appropriate **only after the island result and journal route are frozen**; both are now frozen. The remaining gates are author metadata, author approvals and submission-day live-policy checks.
