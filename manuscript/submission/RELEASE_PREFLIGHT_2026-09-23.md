@@ -8,6 +8,18 @@ The scientific and repository-presentation state is frozen. The remaining blocke
 
 This preflight does not reopen science.
 
+## Additional archive-content gate discovered on 2026-09-23
+
+The authoritative A-Islands raw outcome artifact was located in the source repository `zuizui0223/eog`, re-downloaded, and independently verified against committed provenance.
+
+The current GitHub Actions artifact expires at **2026-11-10T04:42:52Z** and is not yet preserved outside GitHub Actions.
+
+Therefore, after the human/policy HOLD is cleared, release readiness must still remain at `HOLD_ARCHIVE_CONTENT_GATES` until the verified raw artifact has been copied into the durable final archive and reverified there.
+
+Canonical receipt:
+
+`validation/aislands_isolation_adequacy_20260812/artifact_retention_receipt_20260923.json`
+
 ## What is already closed
 
 - scientific content;
