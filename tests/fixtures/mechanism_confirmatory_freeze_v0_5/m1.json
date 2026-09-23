@@ -1,0 +1,30 @@
+{
+  "schema": "structural.mechanism_confirmatory_protocol.v0_5",
+  "status": "response_sealed_confirmatory_protocol_draft",
+  "system_id": "synthetic-ci-only",
+  "parent_binding_mode": "bind_from_replayed_v0_4_admission_at_freeze",
+  "response_firewall_state": "response_sealed",
+  "response_partition": [
+    "confirm-B"
+  ],
+  "local_holdout_design": "predeclared local heldout blocks",
+  "spatial_transfer_design": "predeclared spatial-block transfer",
+  "reference_definition": "frozen strong ecological reference from parent Structural/mechanism protocol",
+  "candidate_definition": "strong reference plus frozen source-decoupling / multi-hop mechanism coordinate",
+  "scoring_rule": "candidate minus reference heldout log loss; negative is favourable",
+  "uncertainty_rule": "predeclared block-aware uncertainty with no post-outcome resampling changes",
+  "success_rule": "primary contrast must be favourable under the frozen local design and retain the predeclared direction under separate spatial transfer for a portable mechanism claim",
+  "secondary_diagnostics": [],
+  "confirmatory_response_accessed": false,
+  "protocol_selected_after_response": false,
+  "mechanism_claim_authorized": false,
+  "protocol_id": "synthetic-M1-confirmatory-v0.5",
+  "mechanism_lane": "M1_contemporary_colonization",
+  "primary_estimand": "incremental heldout information for 0_to_1 colonization beyond the strong reference",
+  "lane_specific": {
+    "transition_target": "0_to_1",
+    "transition_non_event": "0_to_0",
+    "detection_model": "synthetic repeated-detection model frozen before confirmatory response",
+    "pilot_minima_bound": true
+  }
+}
