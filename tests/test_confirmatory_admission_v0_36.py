@@ -145,7 +145,7 @@ def test_block_accounting_is_recomputed():
     result["block_audits"][2]["estimable"] = False
     decision = evaluate_confirmatory_admission(protocol=protocol, pilot_result=result)
     assert decision.status is ConfirmatoryAdmissionStatus.STOP
-    assert "v0_32:estimable_block_count_inconsistent" in decision.reasons
+    assert "v0_32:block_2_estimability_inconsistent" in decision.reasons
 
 
 def test_confirmatory_exposure_stops_even_after_pilot_pass():
