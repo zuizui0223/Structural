@@ -65,5 +65,20 @@
     "freeze": "development/exploratory_ecology_freeze_v0_4.json",
     "fresh_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
     "source_artifact_retention": "development/exploratory_source_artifact_retention_20260923.json"
+  },
+  "prospective_mechanism_discrimination": {
+    "path": "development/prospective_mechanism_discrimination_v0_1.json",
+    "status": "framework_frozen_no_current_system",
+    "derived_from": "development/exploratory_ecology_freeze_v0_4.json",
+    "structural_primary": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "mechanism_lanes": [
+      "M1_contemporary_colonization",
+      "M2_rescue_persistence",
+      "M3_historical_colonization_legacy",
+      "M4_environmental_proxy"
+    ],
+    "current_systems": [],
+    "confirmatory_response_authorized": false,
+    "mechanism_claim_authorized": false
   }
 }
