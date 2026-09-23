@@ -131,7 +131,7 @@ def _archive_blockers() -> list[str]:
         blockers.append("authoritative_raw_artifact_not_preserved_durably")
     if retention.get("artifact_expired_at_verification") is not False:
         blockers.append("authoritative_actions_artifact_was_expired_at_verification")
-    if retention.get("status") != "VERIFIED_CURRENT_ACTIONS_ARTIFACT_RETENTION_REQUIRED":
+    if retention.get("status") != "VERIFIED_OUTSIDE_ACTIONS_BACKUP_FINAL_ARCHIVE_PENDING":
         blockers.append("unexpected_authoritative_artifact_retention_status")
 
     return blockers
