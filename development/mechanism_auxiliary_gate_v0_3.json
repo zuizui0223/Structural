@@ -1,0 +1,69 @@
+{
+  "schema": "structural.mechanism_auxiliary_gate.v0_3",
+  "status": "prospective_infrastructure_no_current_system",
+  "parent_framework": "development/prospective_mechanism_discrimination_v0_1.json",
+  "purpose": "qualify historical-genetic and environmental-proxy mechanism lanes using response-blind design/support metadata before any genetic outcome or confirmatory ecological response is opened",
+  "M3_historical_colonization_legacy": {
+    "opened_information": [
+      "population identifiers and spatial blocks",
+      "sample counts",
+      "focal/source/both sampling roles",
+      "predictor-only graph-connected versus alternative source comparison design"
+    ],
+    "forbidden_information": [
+      "genotypes",
+      "allele frequencies",
+      "F_ST",
+      "coancestry",
+      "assignment probabilities",
+      "phylogenetic outcome",
+      "any genetic effect direction"
+    ],
+    "qualification_requires": [
+      "prospectively frozen minimum focal sample size",
+      "prospectively frozen minimum source sample size",
+      "enough eligible focal populations",
+      "enough eligible source populations",
+      "enough focal spatial blocks",
+      "for each eligible focal, enough graph-connected sources and enough alternative sources"
+    ]
+  },
+  "M4_environmental_proxy": {
+    "opened_information": [
+      "unit identifiers and blocks",
+      "exact prospectively frozen enriched non-topological environmental predictor matrix"
+    ],
+    "forbidden_information": [
+      "occupancy or transition response",
+      "topology effect direction",
+      "candidate prediction",
+      "residual",
+      "post-outcome predictor selection"
+    ],
+    "qualification_requires": [
+      "exact predictor header equals frozen enriched predictor list",
+      "enriched predictors do not overlap the strong reference by name",
+      "minimum units and spatial blocks",
+      "minimum nonmissing fraction per predictor",
+      "minimum unique values per predictor",
+      "minimum complete rows across enough blocks"
+    ]
+  },
+  "independence_rules": [
+    "M3 qualification cannot rescue M4 non-estimability",
+    "M4 qualification cannot rescue M3 non-estimability",
+    "partial qualification is reported explicitly",
+    "non-estimable auxiliary lanes count as neither support nor refutation"
+  ],
+  "evidence_boundary": {
+    "effect_size": null,
+    "prediction_score": null,
+    "genetic_outcome_opened": false,
+    "confirmatory_response_opened": false,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "confirmatory_response_authorized": false,
+    "successful_next_action": "freeze_separate_confirmatory_mechanism_protocols_only"
+  },
+  "current_systems": []
+}
