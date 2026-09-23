@@ -4,6 +4,7 @@
   "purpose": "verify that an exact repository commit and built submission package remain internally consistent while distinguishing human-policy HOLD from later identifier/release stages",
   "stages": [
     "HOLD_HUMAN_POLICY_GATES",
+    "HOLD_ARCHIVE_CONTENT_GATES",
     "READY_FOR_IDENTIFIER_RESERVATION_AND_IDENTIFIER_ONLY_PR",
     "READY_FOR_RELEASE_CANDIDATE_RECEIPT"
   ],
@@ -14,6 +15,7 @@
     "author metadata and approvals are evaluated without inference",
     "journal-specific guide approval flag is explicit",
     "release-tag and archive-DOI placeholder state is explicit",
+    "authoritative A-Islands raw artifact retention status is explicit and durable preservation is required before release readiness",
     "built submission package source_commit equals git HEAD",
     "A-Islands and Tanzania fingerprints match the repository submission manifest",
     "EOG-WF empirical denominator remains excluded",

@@ -177,7 +177,16 @@ def copy_island_strong_reference_evidence(package: Path) -> None:
     require(provenance.get("result_fingerprint") == AIS_STRONG_FINGERPRINT, "A-Islands strong-reference provenance drift")
     require(provenance.get("workflow_run_attempt") == 1 and provenance.get("rerun_allowed") is False, "A-Islands one-time provenance drift")
     require(qa.get("source_result_fingerprint") == AIS_STRONG_FINGERPRINT, "A-Islands strong-reference QA drift")
-    for src in (AIS_STRONG_RESULT, AIS_STRONG_PROVENANCE, AIS_STRONG_QA, ROOT / "validation/aislands_isolation_adequacy_20260812/preoutcome_contract.json", ROOT / "validation/aislands_isolation_adequacy_20260812/outcome_execution_authorization.json", ROOT / "validation/aislands_isolation_adequacy_20260812/area_gate_expected.json", ROOT / "validation/aislands_isolation_adequacy_20260812/mainland_gate_expected.json"):
+    for src in (
+        AIS_STRONG_RESULT,
+        AIS_STRONG_PROVENANCE,
+        AIS_STRONG_QA,
+        ROOT / "validation/aislands_isolation_adequacy_20260812/preoutcome_contract.json",
+        ROOT / "validation/aislands_isolation_adequacy_20260812/outcome_execution_authorization.json",
+        ROOT / "validation/aislands_isolation_adequacy_20260812/area_gate_expected.json",
+        ROOT / "validation/aislands_isolation_adequacy_20260812/mainland_gate_expected.json",
+        ROOT / "validation/aislands_isolation_adequacy_20260812/artifact_retention_receipt_20260923.json",
+    ):
         copy_verified(src, package / src.relative_to(ROOT))
 
 

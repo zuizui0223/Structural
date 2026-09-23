@@ -75,6 +75,8 @@ The paper is **not ready to submit or release** until every remaining author/rel
 - [ ] Tagged software release `v0.1.0` created.
 - [ ] Release commit matches final revised manuscript/code state.
 - [ ] Zenodo/archive DOI reserved/minted after author/live-policy gates clear.
+- [x] A-Islands authoritative Actions artifact re-downloaded and independently reverified on 2026-09-23; ZIP digest and all declared output hashes match committed provenance.
+- [ ] Preserve the verified A-Islands authoritative raw artifact in a durable final archive before its GitHub Actions expiry at 2026-11-10T04:42:52Z.
 - [ ] Frozen original benchmarks plus island-extension contracts, geographic fingerprints, raw authoritative outcome artifact, summaries, sidecars and submission manifest archived with the release.
 - [x] Reproducibility environment boundary documented for the submission package.
 - [x] Clean-checkout submission-package v2 command verifies manuscript-facing projections including the new island result while never rerunning the one-time biological outcome.

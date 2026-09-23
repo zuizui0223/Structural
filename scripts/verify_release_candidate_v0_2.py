@@ -16,6 +16,11 @@ PREFLIGHT = ROOT / "manuscript/submission/release_preflight_v0_1_0.json"
 AUTHOR_METADATA = ROOT / "manuscript/submission/author_metadata.template.json"
 SUBMISSION_MANIFEST = ROOT / "manuscript/submission/submission_manifest.json"
 AVAILABILITY = ROOT / "manuscript/submission/data_code_availability.md"
+ARTIFACT_RETENTION = (
+    ROOT
+    / "validation/aislands_isolation_adequacy_20260812/"
+    "artifact_retention_receipt_20260923.json"
+)
 
 
 class ReleaseCandidateError(RuntimeError):
@@ -117,6 +122,21 @@ def _human_policy_blockers(metadata: dict) -> list[str]:
     return blockers
 
 
+def _archive_blockers() -> list[str]:
+    retention = _load(ARTIFACT_RETENTION)
+    long_term = retention.get("long_term_preservation", {})
+    blockers: list[str] = []
+
+    if long_term.get("preserved_outside_github_actions") is not True:
+        blockers.append("authoritative_raw_artifact_not_preserved_durably")
+    if retention.get("artifact_expired_at_verification") is not False:
+        blockers.append("authoritative_actions_artifact_was_expired_at_verification")
+    if retention.get("status") != "VERIFIED_CURRENT_ACTIONS_ARTIFACT_RETENTION_REQUIRED":
+        blockers.append("unexpected_authoritative_artifact_retention_status")
+
+    return blockers
+
+
 def _identifier_state(preflight: dict) -> tuple[bool, list[str]]:
     text = AVAILABILITY.read_text(encoding="utf-8")
     unresolved = [
@@ -170,6 +190,20 @@ def _validate_package(
         if not isinstance(relative, str) or not (package_dir / relative).is_file():
             raise ReleaseCandidateError(f"missing packaged canonical figure: {label}")
 
+    retention_relative = str(ARTIFACT_RETENTION.relative_to(ROOT))
+    packaged_files = package.get("files", {})
+    if not isinstance(packaged_files, dict):
+        raise ReleaseCandidateError("submission package file manifest missing")
+    expected_retention_sha = _sha256(ARTIFACT_RETENTION)
+    if packaged_files.get(retention_relative) != expected_retention_sha:
+        raise ReleaseCandidateError(
+            "authoritative artifact retention receipt missing or mismatched in package"
+        )
+    if not (package_dir / retention_relative).is_file():
+        raise ReleaseCandidateError(
+            "authoritative artifact retention receipt not physically packaged"
+        )
+
     return {
         "manifest_path": str(manifest_path.relative_to(ROOT)),
         "manifest_sha256": _sha256(manifest_path),
@@ -196,10 +230,13 @@ def evaluate(package_dir: Path | None) -> dict[str, object]:
 
     head = _git_head()
     human_blockers = _human_policy_blockers(metadata)
+    archive_blockers = _archive_blockers()
     identifiers_resolved, unresolved_identifiers = _identifier_state(preflight)
 
     if human_blockers:
         stage = "HOLD_HUMAN_POLICY_GATES"
+    elif archive_blockers:
+        stage = "HOLD_ARCHIVE_CONTENT_GATES"
     elif not identifiers_resolved:
         stage = "READY_FOR_IDENTIFIER_RESERVATION_AND_IDENTIFIER_ONLY_PR"
     else:
@@ -220,6 +257,7 @@ def evaluate(package_dir: Path | None) -> dict[str, object]:
         "package_version": version,
         "candidate_tag": candidate_tag,
         "human_policy_blockers": human_blockers,
+        "archive_content_blockers": archive_blockers,
         "unresolved_identifier_placeholders": unresolved_identifiers,
         "package_verified": package_receipt is not None,
         "package": package_receipt,
@@ -256,7 +294,7 @@ def main() -> int:
         args.output.write_text(text, encoding="utf-8")
     print(text, end="")
 
-    if receipt["stage"] == "HOLD_HUMAN_POLICY_GATES" and not args.allow_hold:
+    if receipt["stage"].startswith("HOLD_") and not args.allow_hold:
         return 1
     return 0
 
