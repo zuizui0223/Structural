@@ -18,7 +18,7 @@
   "declarations": "manuscript/submission/declarations.md",
   "author_metadata_template": "manuscript/submission/author_metadata.template.json",
   "environment": "manuscript/submission/environment.md",
-  "live_policy_verification": "manuscript/submission/live_policy_verification_2026-08-12.md",
+  "live_policy_verification": "manuscript/submission/live_policy_verification_2026-09-23.md",
   "release_readiness": "manuscript/submission/release_readiness.md",
   "figure_qa": "manuscript/submission/figure_qa.md",
   "repository_visual_qa_receipt": "manuscript/submission/STRUCTURAL_VISUAL_QA_RECEIPT_2026-09-12.md",
@@ -56,7 +56,10 @@
     "aislands_original_conditional_concordance": 0.6177465917820878,
     "aislands_strong_reference_direction": "adverse_incremental_predictive_effect_beyond_R3",
     "aislands_strong_reference_C_minus_R3_log_loss": 0.003485181598265469,
-    "aislands_strong_reference_bootstrap_95_ci": [0.0024664225728659645, 0.004508216483355693],
+    "aislands_strong_reference_bootstrap_95_ci": [
+      0.0024664225728659645,
+      0.004508216483355693
+    ],
     "aislands_strong_reference_species_favourable": 341,
     "aislands_strong_reference_species_adverse": 545,
     "aislands_strong_reference_result_fingerprint": "5c9b1594b29d362e5983484614a49d530797d06e826c0b96a3e8442a6b6b493a",
