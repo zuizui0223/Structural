@@ -71,6 +71,7 @@ The paper is **not ready to submit or release** until every remaining author/rel
 ### Reproducibility release
 
 - [x] v0.1.0 machine-readable release preflight added; current status is `HOLD_HUMAN_POLICY_GATES`, not release-authorized.
+- [x] Release-candidate verifier v0.2 added and wired after submission-package build; current CI must reproduce the HOLD while verifying package `source_commit == git HEAD` and frozen fingerprints.
 - [ ] Tagged software release `v0.1.0` created.
 - [ ] Release commit matches final revised manuscript/code state.
 - [ ] Zenodo/archive DOI reserved/minted after author/live-policy gates clear.
