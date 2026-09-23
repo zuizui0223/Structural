@@ -607,6 +607,10 @@ A successful v0.36 admission authorizes only:
 
 It never authorizes confirmatory response access and contributes zero predictive evidence. Candidate discovery remains subordinate to this admission path, and TTF remains a later independent transferability layer.
 
+### v0.37 verifier hardening
+
+The admission verifier no longer trusts the pilot's stored `estimable` booleans. For every held-out block it recomputes the frozen minimum-test-row and training-class gates from the committed counts, verifies the training set is the exact complement of the held-out block, and reconciles block partitions with global applicable/positive/negative totals. Any arithmetic or gate mismatch is a STOP before queue admission.
+
 ## TTF as the outer transferability layer
 
 Structural and EGWE stop at a different inferential level from TTF.
