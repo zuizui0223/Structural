@@ -124,5 +124,8 @@
   "release_preflight": "manuscript/submission/release_preflight_v0_1_0.json",
   "release_candidate_verifier": "manuscript/submission/release_candidate_verifier_v0_2.json",
   "release_candidate_verifier_command": "python scripts/verify_release_candidate_v0_2.py --package-dir build/structural_submission_v2 --allow-hold",
-  "aislands_authoritative_artifact_retention": "validation/aislands_isolation_adequacy_20260812/artifact_retention_receipt_20260923.json"
+  "aislands_authoritative_artifact_retention": "validation/aislands_isolation_adequacy_20260812/artifact_retention_receipt_20260923.json",
+  "release_bundle_contract": "manuscript/submission/release_bundle_contract_v0_1.json",
+  "release_bundle_builder": "scripts/build_release_bundle_v0_1.py",
+  "release_bundle_ci_command": "python scripts/build_release_bundle_v0_1.py --submission-package build/structural_submission_v2 --output-dir build/structural_release_bundle_v0_1 --zip-path build/structural_release_bundle_v0_1.zip"
 }

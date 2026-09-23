@@ -31,3 +31,5 @@ jobs:
         run: python manuscript/build_structural_submission_package_v2.py --output-dir build/structural_submission_v2
       - name: Verify release candidate state
         run: python scripts/verify_release_candidate_v0_2.py --package-dir build/structural_submission_v2 --allow-hold
+      - name: Build deterministic release staging bundle
+        run: python scripts/build_release_bundle_v0_1.py --submission-package build/structural_submission_v2 --output-dir build/structural_release_bundle_v0_1 --zip-path build/structural_release_bundle_v0_1.zip

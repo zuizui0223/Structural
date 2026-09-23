@@ -72,6 +72,8 @@ The paper is **not ready to submit or release** until every remaining author/rel
 
 - [x] v0.1.0 machine-readable release preflight added; current status is `HOLD_HUMAN_POLICY_GATES`, not release-authorized.
 - [x] Release-candidate verifier v0.2 added and wired after submission-package build; current CI must reproduce the HOLD while verifying package `source_commit == git HEAD` and frozen fingerprints.
+- [x] Deterministic release-bundle builder v0.1 added and wired into CI; staging mode snapshots the exact tracked source + verified submission package and records all missing external retained ZIPs explicitly.
+- [ ] After human/manual gates clear, build the complete release bundle with all four retained authoritative ZIPs under `--require-complete`, then use that exact bundle as the DOI/public archive payload.
 - [ ] Tagged software release `v0.1.0` created.
 - [ ] Release commit matches final revised manuscript/code state.
 - [ ] Zenodo/archive DOI reserved/minted after author/live-policy gates clear.
