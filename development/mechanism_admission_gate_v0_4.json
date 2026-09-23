@@ -1,0 +1,43 @@
+{
+  "schema": "structural.mechanism_admission_gate.v0_4",
+  "status": "prospective_infrastructure_no_current_system",
+  "purpose": "bind mechanism-lane qualification to a replay-validated Structural v0.38 queue entry and admit only individually qualified mechanism lanes to separate confirmatory-protocol freezing",
+  "required_parent_state": {
+    "structural_queue_schema": "structural.confirmatory_admission_queue.v0_38",
+    "production_queue_status": "active_gate_first_queue_with_raw_pilot_replay",
+    "structural_entry_must_replay_cleanly": true,
+    "system_id_must_match_mechanism_protocol": true,
+    "structural_protocol_fingerprint_must_match_mechanism_protocol_binding": true
+  },
+  "lane_inputs": {
+    "M1_M2": "raw frozen burned-pilot transition CSV replayed through v0.2",
+    "M3": "response-blind genetic sampling inventory and predictor-only source-pair design replayed through v0.3",
+    "M4": "response-blind enriched environmental predictor matrix replayed through v0.3"
+  },
+  "admission_semantics": {
+    "qualified_lane_action": "freeze_confirmatory_mechanism_protocol_only",
+    "non_estimable_lane_action": null,
+    "non_estimable_lane_is_neutral": true,
+    "partial_lane_admission_allowed": true,
+    "protocol_breach_stops_entire_mechanism_admission": true,
+    "confirmatory_response_authorized": false,
+    "mechanism_claim_authorized": false
+  },
+  "hard_stop_examples": [
+    "Structural queue raw replay fails",
+    "mechanism system/fingerprint does not match exactly one Structural queue entry",
+    "confirmatory mechanism partition exposed during burned pilot",
+    "unfrozen mechanism pilot partition used",
+    "response-open or outcome-selected M3/M4 qualification protocol",
+    "missing requested mechanism input surface"
+  ],
+  "output_ceiling": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "ttf_handoff_authorized": false
+  },
+  "successful_next_action": "freeze_one_separate_confirmatory_protocol_per_eligible_lane",
+  "current_systems": []
+}
