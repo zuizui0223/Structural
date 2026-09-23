@@ -58,8 +58,11 @@
   "archive_content_requirements": {
     "authoritative_aislands_artifact_receipt": "validation/aislands_isolation_adequacy_20260812/artifact_retention_receipt_20260923.json",
     "current_actions_artifact_verified": true,
-    "preserved_outside_github_actions": false,
+    "preserved_outside_github_actions": true,
     "actions_artifact_expires_at": "2026-11-10T04:42:52Z",
-    "must_be_preserved_in_final_durable_archive": true
+    "must_be_preserved_in_final_durable_archive": true,
+    "actions_expiry_risk_mitigated": true,
+    "temporary_backup_verified_sha256": "59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e",
+    "final_doi_archive_contains_verified_artifact": false
   }
 }
