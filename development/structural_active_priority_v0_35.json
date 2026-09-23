@@ -33,8 +33,9 @@
     "new biological candidate discovery only when it can enter as a fully frozen v0.31 protocol rather than exploratory hunting"
   ],
   "next_valid_work": [
-    "validate and harden v0.31-v0.33 gate machinery",
-    "maintain an empty confirmatory queue until a system produces a clean v0.32 pilot pass",
-    "when such a pass exists, build its confirmatory protocol without opening confirmatory response"
-  ]
+    "keep v0.31-v0.37 admission machinery frozen and CI-green",
+    "maintain an empty confirmatory queue until a system produces a clean response-blind burned-pilot pass",
+    "when such a pass exists, freeze that system's separate confirmatory state/reference/connectivity/scoring protocol before any confirmatory response access"
+  ],
+  "active_verifier": "v0.37 recomputed block-level burned-pilot estimability"
 }
