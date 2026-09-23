@@ -4,9 +4,11 @@ from copy import deepcopy
 import json
 from pathlib import Path
 
+import scripts.verify_release_candidate_v0_2 as verifier
 from scripts.verify_release_candidate_v0_2 import (
     AUTHOR_METADATA,
     PREFLIGHT,
+    _archive_blockers,
     _human_policy_blockers,
     evaluate,
 )
@@ -109,3 +111,32 @@ def test_preflight_still_forbids_final_release():
         value is False
         for value in preflight["release_actions_authorized"].values()
     )
+
+def test_current_repository_exposes_authoritative_artifact_archive_blocker():
+    blockers = _archive_blockers()
+
+    assert blockers == ["authoritative_raw_artifact_not_preserved_durably"]
+
+
+def test_archive_gate_blocks_identifier_stage_after_human_gates_clear(monkeypatch):
+    monkeypatch.setattr(verifier, "_human_policy_blockers", lambda metadata: [])
+
+    receipt = verifier.evaluate(None)
+
+    assert receipt["stage"] == "HOLD_ARCHIVE_CONTENT_GATES"
+    assert receipt["archive_content_blockers"] == [
+        "authoritative_raw_artifact_not_preserved_durably"
+    ]
+
+
+def test_identifier_stage_requires_both_human_and_archive_gates_clear(monkeypatch):
+    monkeypatch.setattr(verifier, "_human_policy_blockers", lambda metadata: [])
+    monkeypatch.setattr(verifier, "_archive_blockers", lambda: [])
+
+    receipt = verifier.evaluate(None)
+
+    assert receipt["stage"] == "READY_FOR_IDENTIFIER_RESERVATION_AND_IDENTIFIER_ONLY_PR"
+    assert receipt["human_policy_blockers"] == []
+    assert receipt["archive_content_blockers"] == []
+    assert receipt["unresolved_identifier_placeholders"]
+
