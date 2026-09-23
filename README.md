@@ -140,6 +140,8 @@ The dynamic part is now executable through `development/mechanism_transition_pil
 
 M3/M4 qualification is now executable through `development/mechanism_auxiliary_gate_v0_3.json`. M3 opens only sampling counts and predictor-only graph-connected versus alternative source comparisons—never genotypes or genetic outcomes. M4 opens only the exact response-blind enriched environmental predictor matrix and checks coverage/variation before any ecological response or topology effect is inspected. M3 and M4 qualify independently and neither contributes a mechanism claim.
 
+Mechanism admission is now bound back to Structural through `development/mechanism_admission_gate_v0_4.json`. The gate first replays the system's Structural v0.38 queue entry, then replays the raw M1/M2 pilot and response-blind M3/M4 qualification inputs. Only individually qualified lanes may freeze separate confirmatory mechanism protocols; non-estimable lanes remain neutral, while any protocol breach stops the entire mechanism admission. No gate authorizes confirmatory response access or a mechanism claim.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.
