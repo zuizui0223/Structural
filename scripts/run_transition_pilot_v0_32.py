@@ -46,10 +46,11 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
         reader = csv.DictReader(handle)
         if reader.fieldnames is None:
             raise ValueError("pilot CSV has no header")
-        required = {"partition_unit", "block", "target"}
-        missing = sorted(required - set(reader.fieldnames))
-        if missing:
-            raise ValueError("missing pilot CSV columns: " + ", ".join(missing))
+        required = ["partition_unit", "block", "target"]
+        if reader.fieldnames != required:
+            raise ValueError(
+                "pilot CSV header must be exactly: " + ", ".join(required)
+            )
 
         for row in reader:
             unit = (row.get("partition_unit") or "").strip()
