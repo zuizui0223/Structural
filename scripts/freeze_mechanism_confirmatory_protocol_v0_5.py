@@ -117,28 +117,18 @@ def _validate_common(
             f"mechanism lane was not admitted by v0.4: {lane}"
         )
 
-    parent_mech = _require_nonempty_string(
-        lane_protocol, "parent_mechanism_protocol_fingerprint"
-    )
-    expected_mech = admission.get("mechanism_protocol_fingerprint")
-    if parent_mech != expected_mech:
+    if lane_protocol.get("parent_binding_mode") != (
+        "bind_from_replayed_v0_4_admission_at_freeze"
+    ):
         raise MechanismConfirmatoryFreezeError(
-            "parent mechanism protocol fingerprint mismatch"
+            "parent_binding_mode must bind from replayed v0.4 admission"
         )
 
-    parent_structural = _require_nonempty_string(
-        lane_protocol, "parent_structural_protocol_fingerprint"
-    )
     structural = admission.get("structural_admission")
     if not isinstance(structural, dict):
         raise MechanismConfirmatoryFreezeError(
             "v0.4 admission lacks Structural parent receipt"
         )
-    if parent_structural != structural.get("structural_protocol_fingerprint"):
-        raise MechanismConfirmatoryFreezeError(
-            "parent Structural protocol fingerprint mismatch"
-        )
-
     if lane_protocol.get("response_firewall_state") != "response_sealed":
         raise MechanismConfirmatoryFreezeError(
             "response_firewall_state must be response_sealed"
