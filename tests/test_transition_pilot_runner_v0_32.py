@@ -64,6 +64,9 @@ def test_confirmatory_row_stops_immediately(tmp_path: Path):
     code,out=run(p,c)
     assert code==2
     assert out["status"]=="STOP_confirmatory_partition_exposed"
+    assert out["effect_size"] is None
+    assert out["prediction_score"] is None
+    assert out["predictive_denominator_contribution"]==0
 
 
 def test_unfrozen_partition_row_stops(tmp_path: Path):
@@ -73,6 +76,7 @@ def test_unfrozen_partition_row_stops(tmp_path: Path):
     code,out=run(p,c)
     assert code==2
     assert out["status"]=="STOP_unfrozen_partition_unit"
+    assert out["predictive_denominator_contribution"]==0
 
 
 def test_collapsed_pilot_stops_without_effect(tmp_path: Path):
