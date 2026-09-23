@@ -146,6 +146,8 @@ Each eligible lane can now be frozen separately through `development/mechanism_c
 
 That final access gate is now executable as `development/mechanism_response_authorization_gate_v0_6.json`. It requires a git-tracked v0.5 freeze receipt and reproduces that receipt exactly from raw inputs before authorizing a single read of the exact frozen response partition for that lane. The authorization does not score the response, does not establish a mechanism claim and does not authorize TTF; response access must be recorded before scoring.
 
+Response access itself is now recorded through `development/mechanism_response_access_gate_v0_7.json`. The recorder requires a git-tracked v0.6 authorization, replays it exactly, restricts M1 to state-0 rows and M2 to state-1 rows, restricts M3 to prequalified focal/source pairs and M4 to units in the frozen environment matrix, then binds the opened response SHA-256 into an access receipt. Only that receipt authorizes the next frozen-scoring stage; no mechanism claim is made at access time.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.
