@@ -1,0 +1,38 @@
+{
+  "schema": "structural.release_bundle_contract.v0_1",
+  "status": "release_admin_infrastructure",
+  "purpose": "assemble a deterministic release staging bundle from the exact git commit, verified submission package, tracked-source snapshot and externally retained authoritative artifacts",
+  "bundle_contents": [
+    "complete git-tracked source snapshot",
+    "verified structural submission package v2",
+    "A-Islands strong-reference authoritative raw outcome ZIP",
+    "A-Islands original authoritative benchmark ZIP",
+    "A-Islands frozen isolation contract/geometry ZIP",
+    "Tanzania held-out result ZIP",
+    "machine-readable release_bundle_manifest.json"
+  ],
+  "ci_mode": {
+    "external_raw_artifacts_required": false,
+    "expected_current_stage": "STAGING_HOLD_HUMAN_POLICY_GATES",
+    "purpose": "verify deterministic source/package assembly while recording missing external artifacts explicitly"
+  },
+  "final_mode": {
+    "command_requires_all_external_artifacts": true,
+    "flag": "--require-complete",
+    "all_external_artifacts_must_match_committed_retention_sha256_and_size": true
+  },
+  "determinism": {
+    "zip_member_order": "lexicographic",
+    "zip_member_timestamp": "1980-01-01T00:00:00",
+    "zip_member_mode": "0644",
+    "receipt_outside_zip": true,
+    "receipt_records_zip_sha256": true
+  },
+  "release_boundary": {
+    "builder_authorizes_tag": false,
+    "builder_authorizes_github_release": false,
+    "builder_authorizes_archive_doi": false,
+    "builder_authorizes_journal_submission": false,
+    "separate_release_ready_receipt_still_required": true
+  }
+}
