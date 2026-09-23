@@ -136,6 +136,8 @@ A separate post-outcome ecology lane uses only frozen outputs for hypothesis gen
 
 A separate **prospective mechanism-discrimination framework** is frozen in `development/prospective_mechanism_discrimination_v0_1.json`. It does not reopen A-Islands/Tanzania and has no current system. For a future independently admitted system it separates four explanations with distinct evidence lanes: contemporary colonization (0→1), rescue/persistence (1→0 or 1→1), historical colonization legacy (genetic source affinity), and environmental proxy (response-blind enriched habitat reference). Colonization and extinction may not be pooled, non-estimable lanes are neutral, and no mechanism lane may rescue a failed Structural primary.
 
+The dynamic part is now executable through `development/mechanism_transition_pilot_gate_v0_2.json` and `scripts/run_mechanism_transition_pilot_v0_2.py`. A burned pilot can expose only `partition_unit,block,z_t,z_t1`; it audits M1 from 0→1 versus 0→0 and M2 from 1→0 versus 1→1 under frozen block minima. One lane cannot rescue the other, partial estimability is explicit, and the pilot contributes no effect size, prediction score or mechanism claim.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.

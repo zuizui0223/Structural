@@ -1,0 +1,60 @@
+{
+  "schema": "structural.mechanism_transition_pilot_gate.v0_2",
+  "status": "prospective_infrastructure_no_current_system",
+  "parent_framework": "development/prospective_mechanism_discrimination_v0_1.json",
+  "purpose": "burn a frozen pilot partition only to determine whether contemporary-colonization and rescue/persistence transition lanes are separately estimable",
+  "input_surface": {
+    "columns_exactly": [
+      "partition_unit",
+      "block",
+      "z_t",
+      "z_t1"
+    ],
+    "topology_columns_allowed": false,
+    "environment_columns_allowed": false,
+    "genetic_columns_allowed": false,
+    "prediction_columns_allowed": false,
+    "effect_columns_allowed": false
+  },
+  "dynamic_lane_semantics": {
+    "M1_contemporary_colonization": {
+      "target_transition": "0_to_1",
+      "training_non_event": "0_to_0",
+      "heldout_eligibility": "rows beginning at z_t=0"
+    },
+    "M2_rescue_persistence": {
+      "target_transition": "1_to_0",
+      "training_non_event": "1_to_1",
+      "heldout_eligibility": "rows beginning at z_t=1"
+    }
+  },
+  "block_estimability": {
+    "design": "leave-one-frozen-block-out within burned pilot partition",
+    "M1_requires": [
+      "minimum heldout rows beginning at 0",
+      "minimum training 0_to_1 events",
+      "minimum training 0_to_0 non-events"
+    ],
+    "M2_requires": [
+      "minimum heldout rows beginning at 1",
+      "minimum training 1_to_0 events",
+      "minimum training 1_to_1 non-events"
+    ],
+    "lane_qualification": "number of estimable blocks must reach that lane's prospectively frozen minimum"
+  },
+  "independence_rules": [
+    "M1 qualification cannot rescue M2 non-estimability",
+    "M2 qualification cannot rescue M1 non-estimability",
+    "partial qualification is reported explicitly",
+    "a non-estimable lane counts as neither support nor refutation"
+  ],
+  "pilot_evidence_boundary": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "confirmatory_response_authorized": false,
+    "successful_next_action": "freeze_separate_confirmatory_mechanism_protocol_only"
+  },
+  "current_systems": []
+}
