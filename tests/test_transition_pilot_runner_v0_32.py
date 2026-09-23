@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import csv
 import json
+
+import pytest
 from pathlib import Path
 
 from scripts.run_transition_pilot_v0_32 import run
@@ -86,3 +88,27 @@ def test_collapsed_pilot_stops_without_effect(tmp_path: Path):
     assert out["status"]=="stop_endpoint_variation"
     assert out["effect_size"] is None
     assert out["predictive_denominator_contribution"]==0
+
+def test_extra_column_is_rejected_from_burned_pilot_surface(tmp_path: Path):
+    p=tmp_path/"protocol.json"; c=tmp_path/"pilot.csv"
+    write_json(p,protocol())
+    with c.open("w", newline="", encoding="utf-8") as handle:
+        writer=csv.writer(handle)
+        writer.writerow(["partition_unit","block","target","confirmatory_target"])
+        writer.writerow(["pilot-A","A",1,0])
+
+    with pytest.raises(ValueError, match="header must be exactly"):
+        run(p,c)
+
+
+def test_reordered_columns_are_rejected_from_frozen_surface(tmp_path: Path):
+    p=tmp_path/"protocol.json"; c=tmp_path/"pilot.csv"
+    write_json(p,protocol())
+    with c.open("w", newline="", encoding="utf-8") as handle:
+        writer=csv.writer(handle)
+        writer.writerow(["block","partition_unit","target"])
+        writer.writerow(["A","pilot-A",1])
+
+    with pytest.raises(ValueError, match="header must be exactly"):
+        run(p,c)
+
