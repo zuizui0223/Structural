@@ -35,6 +35,9 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
             "status": "invalid_or_unqualified_protocol",
             "reasons": list(pre.reasons),
             "protocol_fingerprint": pre.protocol_fingerprint,
+            "effect_size": None,
+            "prediction_score": None,
+            "predictive_denominator_contribution": 0,
         }
 
     pilot_units = set(protocol.pilot_partition)
@@ -64,6 +67,7 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
                     "pilot_consumed": True,
                     "effect_size": None,
                     "prediction_score": None,
+                    "predictive_denominator_contribution": 0,
                 }
             if unit not in pilot_units:
                 return 2, {
@@ -74,6 +78,7 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
                     "pilot_consumed": True,
                     "effect_size": None,
                     "prediction_score": None,
+                    "predictive_denominator_contribution": 0,
                 }
             seen_units.add(unit)
             observations.append(PilotObservation(block=block, target=parse_target(row.get("target",""))))
@@ -88,6 +93,7 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
             "pilot_consumed": True,
             "effect_size": None,
             "prediction_score": None,
+            "predictive_denominator_contribution": 0,
         }
 
     audit = audit_transition_pilot(
