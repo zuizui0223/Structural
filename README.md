@@ -132,7 +132,7 @@ v0.40 freezes the v0.31-v0.39 admission machinery. The live queue staying empty 
 
 v0.41 converges all current-status pointers: the authoritative empirical registry is v0.29 with no active candidates, the live v0.38 queue is empty, v0.40 freezes admission infrastructure, and TTF remains a later independent transferability layer. Older candidate-triage files are historical snapshots rather than current instructions.
 
-A separate post-outcome ecology lane now uses only frozen outputs for hypothesis generation. `docs/EXPLORATORY_ECOLOGY_V0_1.md` tests where residual configuration information is concentrated across species breadth, extreme isolation and response state. It is explicitly non-confirmatory and does not change the frozen paper. Its main fresh output is a prospectively frozen extreme-isolation × topology hypothesis for a future independent panel.
+A separate post-outcome ecology lane uses only frozen outputs for hypothesis generation. `docs/EXPLORATORY_ECOLOGY_V0_2.md` now shows that the residual topology signal is best described as an **isolation-regime switch**: range breadth makes topology increasingly redundant in ordinary source-rich settings, but that redundancy relaxes in the mainland-remote tail, especially for true presences. The lane remains explicitly non-confirmatory and does not change the frozen paper. Its fresh output is `development/prospective_extreme_isolation_topology_hypothesis_v0_2.json`, which freezes a 75% predictor-only isolation threshold, 70/80% non-rescuing robustness checks, source-breadth moderation and presence-penalty attenuation for a future independent panel.
 
 ## Current state
 
