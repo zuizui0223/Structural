@@ -87,8 +87,8 @@ def test_m1_authorization_cannot_open_state1_rows(tmp_path: Path):
 
     code, out = record("m1", response)
 
-    assert code == 1
-    assert out["status"] == "invalid_input"
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_response_surface"
     assert "may contain only z_t=0 rows" in out["reason"]
 
 
@@ -102,7 +102,8 @@ def test_m2_authorization_cannot_open_state0_rows(tmp_path: Path):
 
     code, out = record("m2", response)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_response_surface"
     assert "may contain only z_t=1 rows" in out["reason"]
 
 
@@ -116,7 +117,8 @@ def test_unauthorized_partition_is_rejected(tmp_path: Path):
 
     code, out = record("m1", response)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_response_surface"
     assert "unauthorized partition units" in out["reason"]
 
 
@@ -136,7 +138,8 @@ def test_m3_pair_not_frozen_at_qualification_is_rejected(tmp_path: Path):
 
     code, out = record("m3", response)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_response_surface"
     assert "pair not frozen at qualification" in out["reason"]
 
 
@@ -150,7 +153,8 @@ def test_m4_unit_not_in_environment_matrix_is_rejected(tmp_path: Path):
 
     code, out = record("m4", response)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_response_surface"
     assert "not in frozen environment matrix" in out["reason"]
 
 
@@ -225,7 +229,8 @@ def test_extra_response_column_is_rejected(tmp_path: Path):
 
     code, out = record("m4", response)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_response_surface"
     assert "header must be exactly" in out["reason"]
 
 
