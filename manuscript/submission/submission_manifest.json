@@ -121,5 +121,7 @@
     "the original conditional-concordance and C-R3 log-loss increment are one common effect size",
     "EOG-WF Layer A or Layer B endpoint results are additional replications of this paper"
   ],
-  "release_preflight": "manuscript/submission/release_preflight_v0_1_0.json"
+  "release_preflight": "manuscript/submission/release_preflight_v0_1_0.json",
+  "release_candidate_verifier": "manuscript/submission/release_candidate_verifier_v0_2.json",
+  "release_candidate_verifier_command": "python scripts/verify_release_candidate_v0_2.py --package-dir build/structural_submission_v2 --allow-hold"
 }
