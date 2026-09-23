@@ -1,0 +1,9 @@
+partition_unit,block,target
+pilot-window,A,1
+pilot-window,A,0
+pilot-window,A,1
+pilot-window,A,0
+pilot-window,B,0
+pilot-window,B,0
+pilot-window,B,1
+pilot-window,B,0
