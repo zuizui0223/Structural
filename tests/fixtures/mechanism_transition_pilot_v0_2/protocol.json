@@ -1,0 +1,55 @@
+{
+  "protocol_id": "synthetic-mechanism-pilot-v0.2",
+  "system_id": "synthetic-independent-system",
+  "source_commit_or_data_fingerprint": "synthetic-source-sha256",
+  "structural_admission_protocol_fingerprint": "synthetic-v031-fingerprint",
+  "response_firewall_state": "response_sealed",
+  "spatial_units": "synthetic patches",
+  "time_axis_if_dynamic": "t0,t1",
+  "extreme_isolation_metric": "synthetic predictor-only isolation",
+  "extreme_isolation_threshold_rule": "upper 25% of predictor-only isolation distribution",
+  "generic_connectivity_definition": "species-independent synthetic graph connectivity",
+  "source_conditioned_connectivity_definition": "same graph conditioned on permitted training sources",
+  "smallest_graph_scale": 10,
+  "source_definition": "outer-training occupied units only",
+  "strong_reference_predictors": ["habitat", "area", "nearest_source", "generic_connectivity"],
+  "enriched_environment_predictors_if_M4": ["habitat_pc1", "habitat_pc2"],
+  "colonization_transition_definition_if_M1": "z_t=0 and z_t1=1",
+  "extinction_transition_definition_if_M2": "z_t=1 and z_t1=0",
+  "transition_event_minima_if_dynamic": {
+    "minimum_0_to_1": 2,
+    "minimum_1_to_0": 2
+  },
+  "detection_model_if_needed": "synthetic repeated-detection model",
+  "genetic_estimand_and_null_if_M3": "source affinity beyond geographic distance and habitat similarity",
+  "local_holdout_design": "leave-one-pilot-block-out",
+  "spatial_transfer_design": "synthetic blocked units",
+  "mechanism_lanes_authorized": [
+    "M1_contemporary_colonization",
+    "M2_rescue_persistence",
+    "M3_historical_colonization_legacy",
+    "M4_environmental_proxy"
+  ],
+  "response_access_authorized": false,
+  "mechanism_pilot_partition": ["pilot-A"],
+  "mechanism_confirmatory_partition": ["confirm-B"],
+  "dynamic_estimability": {
+    "minimum_test_rows": {
+      "M1_contemporary_colonization": 2,
+      "M2_rescue_persistence": 2
+    },
+    "minimum_train_transition_counts": {
+      "0_to_0": 2,
+      "0_to_1": 2,
+      "1_to_0": 2,
+      "1_to_1": 2
+    },
+    "minimum_estimable_blocks": {
+      "M1_contemporary_colonization": 2,
+      "M2_rescue_persistence": 2
+    }
+  },
+  "mechanism_pilot_response_accessed": false,
+  "mechanism_confirmatory_response_accessed": false,
+  "mechanism_pilot_used_for_effect_estimation": false
+}
