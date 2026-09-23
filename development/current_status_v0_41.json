@@ -56,11 +56,12 @@
     "docs/CONFIRMATORY_ADMISSION_FREEZE_V0_40.md"
   ],
   "post_outcome_exploratory_ecology": {
-    "path": "development/exploratory_ecology_v0_2.json",
-    "previous": "development/exploratory_ecology_v0_1.json",
+    "path": "development/exploratory_ecology_v0_3.json",
+    "previous": "development/exploratory_ecology_v0_2.json",
     "role": "hypothesis_generation_only",
     "counts_as_confirmatory_evidence": false,
     "changes_frozen_paper": false,
-    "fresh_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_2.json"
+    "fresh_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "source_artifact_retention": "development/exploratory_source_artifact_retention_20260923.json"
   }
 }

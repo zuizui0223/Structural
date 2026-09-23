@@ -1,0 +1,63 @@
+{
+  "schema": "structural.prospective_ecology_hypothesis.extreme_isolation_topology.v0_3",
+  "status": "fresh_hypothesis_frozen_from_post_outcome_discovery_not_yet_tested",
+  "supersedes": "development/prospective_extreme_isolation_topology_hypothesis_v0_2.json",
+  "discovery_sources_may_not_count_as_confirmation": true,
+  "candidate_selection_by_discovery_effect_direction": false,
+  "primary_hypothesis": {
+    "name": "extreme_isolation_topology_regime_switch",
+    "statement": "After a strong ecological reference is supplied, the incremental held-out effect of a species-conditioned structural coordinate is more favourable in the upper 25% of a response-independent isolation distribution than in the remaining eligible units.",
+    "extreme_isolation_rule": "upper 25% of the frozen eligible-unit isolation distribution computed from predictor-only data before response access",
+    "primary_contrast": "mean candidate-minus-reference held-out loss in extreme-isolation units minus mean candidate-minus-reference held-out loss in non-extreme units",
+    "favourable_direction": "negative",
+    "unchanged_from_v0_2": true,
+    "threshold_retuning_after_response": false
+  },
+  "predeclared_robustness": {
+    "thresholds": [0.70, 0.80],
+    "role": "directional sensitivity only; 0.75 remains primary",
+    "success_rule": "robustness thresholds cannot rescue a failed 0.75 primary"
+  },
+  "secondary_source_decoupling_hypothesis": {
+    "name": "source_conditioned_excess_connectivity",
+    "statement": "Within extreme-isolation units, topology increment is more favourable when source-conditioned connectivity exceeds the generic species-independent connectivity representation already present in the reference.",
+    "required_definitions": {
+      "generic_connectivity": "one response-independent species-independent connectivity/stepping representation frozen before response access",
+      "source_conditioned_connectivity": "the same graph/operator conditioned only on outer-training or otherwise prospectively permitted focal-species sources",
+      "excess_state": "source_conditioned_connectivity > generic_connectivity"
+    },
+    "primary_role": false,
+    "may_not_rescue_failed_extreme_isolation_primary": true
+  },
+  "secondary_multihop_hypothesis": {
+    "name": "multi_hop_source_path",
+    "statement": "Source-conditioned topology is most informative when the focal unit is connected to an occupied source through a multi-hop path even though direct source distance exceeds the smallest frozen graph scale.",
+    "definition": "connected at the smallest frozen graph scale AND nearest permitted source distance > that scale",
+    "smallest_scale_must_be_frozen_before_response": true,
+    "may_not_choose_scale_after_response": true,
+    "primary_role": false
+  },
+  "secondary_state_diagnostic": {
+    "name": "presence_penalty_attenuation",
+    "observed_state_is_post_outcome_diagnostic_only": true,
+    "not_a_deployable_predictor": true,
+    "not_a_primary_success_gate": true
+  },
+  "transfer_requirement": {
+    "local_interpolation": "predeclared heldout-unit design",
+    "spatial_transfer": "separate predeclared spatial-block design",
+    "cross_origin_generalization": "requires same-direction primary extreme-isolation contrast in independently admitted island and fragmentation systems under spatial transfer",
+    "source_decoupling_generalization": "requires a system-specific generic-vs-source-conditioned connectivity pair frozen before response access; island mainland stepping and habitat-fragment connectivity need not share the same operator",
+    "local_only_support_is_insufficient": true
+  },
+  "anti_selection": [
+    "do not change the 0.75 primary threshold after future response access",
+    "do not choose a generic-connectivity metric after seeing source-conditioned outcomes",
+    "do not choose the smallest graph scale after seeing multi-hop subgroup outcomes",
+    "do not use source-decoupling or multi-hop secondaries to rescue a failed primary",
+    "do not select taxa, sites or systems using candidate-minus-reference direction",
+    "do not count A-Islands or Tanzania discovery statistics as future confirmation"
+  ],
+  "current_confirmatory_systems": [],
+  "confirmatory_response_authorized": false
+}

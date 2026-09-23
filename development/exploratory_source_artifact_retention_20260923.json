@@ -1,0 +1,48 @@
+{
+  "schema": "structural.exploratory_source_artifact_retention.v0_1",
+  "status": "verified_private_backups_final_public_archive_pending",
+  "verified_on": "2026-09-23",
+  "backup_provider": "Google Drive",
+  "backup_folder": "Structural release retention",
+  "public_or_doi_archive": false,
+  "artifacts": [
+    {
+      "role": "A-Islands original authoritative benchmark",
+      "source_repository": "zuizui0223/eog",
+      "workflow_run_id": 31251171516,
+      "artifact_id": 9020090309,
+      "file_name": "aislands-authoritative-benchmark.zip",
+      "size_bytes": 166042,
+      "sha256": "31ff22edf214b48ae99fa8a5510e0e2752b6787dbe6e22602bada0ec96398501",
+      "actions_expires_at": "2026-11-06T09:42:46Z",
+      "drive_roundtrip_sha256_verified": true
+    },
+    {
+      "role": "A-Islands frozen isolation contract and geometry",
+      "source_repository": "zuizui0223/eog",
+      "workflow_run_id": 31559937383,
+      "artifact_id": 9127369257,
+      "file_name": "aislands-isolation-adequacy-contract.zip",
+      "size_bytes": 177070,
+      "sha256": "e1c2c6b80187ecae3a031170759a7a1cbbe2848b227c45b04837127acdc2556a",
+      "actions_expires_at": "2026-11-10T03:23:47Z",
+      "drive_roundtrip_sha256_verified": true
+    },
+    {
+      "role": "Tanzania frozen held-out current-flow versus EOG result",
+      "source_repository": "zuizui0223/eog",
+      "workflow_run_id": 31432646901,
+      "artifact_id": 9079948365,
+      "file_name": "tanzania-heldout-current-flow-eog-result.zip",
+      "size_bytes": 781776,
+      "sha256": "6f05cb4987300b78c627bb201a2c0da31d8e4a21a7aee83a658de0758f66d4d5",
+      "actions_expires_at": "2026-11-08T21:11:06Z",
+      "drive_roundtrip_sha256_verified": true
+    }
+  ],
+  "boundary": {
+    "private_backup_is_not_final_release_archive": true,
+    "frozen_scientific_results_changed": false,
+    "final_public_archive_still_required": true
+  }
+}
