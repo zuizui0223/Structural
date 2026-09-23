@@ -1,0 +1,43 @@
+{
+  "schema": "structural.transition_pilot_result.v0_32",
+  "status": "qualified_for_new_confirmatory_protocol",
+  "protocol_fingerprint": "def335af364183f05562e18ffb432a7ff123c00e9477b2822fcb85885abaf29d",
+  "pilot_partition": ["pilot-window"],
+  "confirmatory_partition_opened": false,
+  "confirmatory_response_row_count_seen": 0,
+  "pilot_consumed": true,
+  "applicable_rows": 8,
+  "positive": 4,
+  "negative": 4,
+  "non_estimable": 0,
+  "total_blocks": 2,
+  "estimable_blocks": 2,
+  "minimum_estimable_blocks": 2,
+  "block_audits": [
+    {
+      "block": "A",
+      "test_rows": 4,
+      "test_positive": 2,
+      "test_negative": 2,
+      "train_rows": 4,
+      "train_positive": 2,
+      "train_negative": 2,
+      "estimable": true,
+      "reasons": []
+    },
+    {
+      "block": "B",
+      "test_rows": 4,
+      "test_positive": 2,
+      "test_negative": 2,
+      "train_rows": 4,
+      "train_positive": 2,
+      "train_negative": 2,
+      "estimable": true,
+      "reasons": []
+    }
+  ],
+  "effect_size": null,
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0
+}
