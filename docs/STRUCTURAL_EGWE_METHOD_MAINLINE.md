@@ -615,6 +615,10 @@ The admission verifier no longer trusts the pilot's stored `estimable` booleans.
 
 Admission is now bound to the burned evidence itself, not only to its summary JSON. Each queue entry must include the raw pilot CSV and its SHA-256. CI reruns the v0.32 pilot runner from the frozen protocol and that exact CSV; the full replayed result must equal the committed pilot-result object before the v0.37 arithmetic verifier and v0.33 freeze gate are evaluated. An internally coherent but fabricated pilot-result JSON therefore cannot enter the queue.
 
+### v0.39 closed burned-pilot surface
+
+The replayed pilot CSV now has one exact schema: `partition_unit, block, target`. Extra or reordered columns are a STOP, preventing unused fields from carrying confirmatory outcomes, fitted effects or other post-outcome information through the burned-pilot artifact. All runner exits also explicitly preserve the nonpredictive evidence ceiling: null effect size, null prediction score and zero predictive-denominator contribution.
+
 ## TTF as the outer transferability layer
 
 Structural and EGWE stop at a different inferential level from TTF.

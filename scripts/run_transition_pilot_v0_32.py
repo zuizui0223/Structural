@@ -35,6 +35,9 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
             "status": "invalid_or_unqualified_protocol",
             "reasons": list(pre.reasons),
             "protocol_fingerprint": pre.protocol_fingerprint,
+            "effect_size": None,
+            "prediction_score": None,
+            "predictive_denominator_contribution": 0,
         }
 
     pilot_units = set(protocol.pilot_partition)
@@ -46,10 +49,11 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
         reader = csv.DictReader(handle)
         if reader.fieldnames is None:
             raise ValueError("pilot CSV has no header")
-        required = {"partition_unit", "block", "target"}
-        missing = sorted(required - set(reader.fieldnames))
-        if missing:
-            raise ValueError("missing pilot CSV columns: " + ", ".join(missing))
+        required = ["partition_unit", "block", "target"]
+        if reader.fieldnames != required:
+            raise ValueError(
+                "pilot CSV header must be exactly: " + ", ".join(required)
+            )
 
         for row in reader:
             unit = (row.get("partition_unit") or "").strip()
@@ -63,6 +67,7 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
                     "pilot_consumed": True,
                     "effect_size": None,
                     "prediction_score": None,
+                    "predictive_denominator_contribution": 0,
                 }
             if unit not in pilot_units:
                 return 2, {
@@ -73,6 +78,7 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
                     "pilot_consumed": True,
                     "effect_size": None,
                     "prediction_score": None,
+                    "predictive_denominator_contribution": 0,
                 }
             seen_units.add(unit)
             observations.append(PilotObservation(block=block, target=parse_target(row.get("target",""))))
@@ -87,6 +93,7 @@ def run(protocol_path: Path, pilot_csv: Path) -> tuple[int, dict]:
             "pilot_consumed": True,
             "effect_size": None,
             "prediction_score": None,
+            "predictive_denominator_contribution": 0,
         }
 
     audit = audit_transition_pilot(
@@ -149,6 +156,7 @@ def main() -> int:
             "reason": str(exc),
             "effect_size": None,
             "prediction_score": None,
+            "predictive_denominator_contribution": 0,
         }
 
     text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
