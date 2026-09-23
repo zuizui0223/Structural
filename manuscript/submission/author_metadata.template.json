@@ -5,8 +5,12 @@
     {
       "name": "<AUTHOR_NAME>",
       "orcid": "<ORCID_OR_EMPTY>",
-      "affiliation_ids": ["<AFFILIATION_ID>"],
-      "credit_roles": ["<AUTHOR_APPROVED_CREDIT_ROLE>"],
+      "affiliation_ids": [
+        "<AFFILIATION_ID>"
+      ],
+      "credit_roles": [
+        "<AUTHOR_APPROVED_CREDIT_ROLE>"
+      ],
       "corresponding_author": false
     }
   ],
@@ -47,7 +51,9 @@
   "generative_ai_disclosure": {
     "reviewed_by_all_authors": false,
     "live_journal_policy_checked": false,
-    "final_statement": "<FINAL_JOURNAL_COMPLIANT_DISCLOSURE>"
+    "final_statement": "<FINAL_JOURNAL_COMPLIANT_DISCLOSURE>",
+    "elsevier_wide_policy_rechecked_on": "2026-09-23",
+    "journal_specific_guide_checked": false
   },
   "release_metadata": {
     "creator_order_confirmed": false,
