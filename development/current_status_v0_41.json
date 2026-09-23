@@ -125,6 +125,17 @@
       "confirmatory_response_authorized": false,
       "mechanism_claim_authorized": false,
       "successful_next_action": "run_separate_lane_response_authorization_gate_only"
+    },
+    "response_authorization_gate": {
+      "path": "development/mechanism_response_authorization_gate_v0_6.json",
+      "runner": "scripts/authorize_mechanism_response_v0_6.py",
+      "status": "synthetic_only_no_current_system",
+      "requires_git_tracked_v0_5_receipt": true,
+      "requires_exact_raw_replay": true,
+      "authorization_scope": "one_lane_one_exact_response_partition_single_use",
+      "mechanism_claim_authorized": false,
+      "ttf_handoff_authorized": false,
+      "successful_next_action": "open_exact_response_partition_once_then_record_access_before_scoring"
     }
   }
 }

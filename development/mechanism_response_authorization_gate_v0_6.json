@@ -1,0 +1,36 @@
+{
+  "schema": "structural.mechanism_response_authorization_gate.v0_6",
+  "status": "prospective_infrastructure_no_current_system",
+  "parent_gate": "development/mechanism_confirmatory_freeze_gate_v0_5.json",
+  "purpose": "authorize one-time access to exactly one frozen mechanism lane response partition only after a committed v0.5 freeze receipt is reproduced exactly from raw inputs",
+  "requirements": [
+    "v0.5 freeze receipt exists inside repository and is git-tracked",
+    "v0.5 freeze is recomputed from raw Structural/mechanism inputs",
+    "stored freeze receipt equals the recomputed receipt exactly",
+    "stored receipt remains response-sealed",
+    "stored receipt does not authorize a mechanism claim",
+    "stored receipt next action is the separate response-authorization gate",
+    "response partition is nonempty and frozen"
+  ],
+  "authorization_scope": {
+    "single_lane_only": true,
+    "single_use": true,
+    "exact_response_partition_only": true,
+    "may_change_protocol_after_authorization": false,
+    "may_change_scoring_rule_after_authorization": false,
+    "may_open_other_mechanism_lane": false
+  },
+  "successful_status": "confirmatory_mechanism_response_access_authorized_once",
+  "successful_output": {
+    "confirmatory_response_authorized": true,
+    "mechanism_claim_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "ttf_handoff_authorized": false
+  },
+  "successful_next_action": "open_exact_response_partition_once_then_record_access_before_scoring",
+  "synthetic_ci_authorization_counts_as_empirical_evidence": false,
+  "current_systems": []
+}
