@@ -72,6 +72,25 @@ Canonical retention receipt:
 
 `validation/aislands_isolation_adequacy_20260812/artifact_retention_receipt_20260923.json`
 
+## Deterministic final archive bundle
+
+The repository now has one canonical archive assembly path:
+
+```bash
+python scripts/build_release_bundle_v0_1.py \
+  --submission-package build/structural_submission_v2
+```
+
+CI runs this in incomplete staging mode and requires an explicit HOLD with the four external raw artifacts listed as missing.
+
+For the final DOI/public archive, run the same builder with the round-trip-verified retained ZIPs and `--require-complete`. The builder verifies each external artifact against the committed byte size and SHA-256, snapshots all Git-tracked repository files at the exact candidate commit, embeds the verified submission package, writes a complete bundle manifest, and emits a deterministic ZIP plus an external receipt carrying the bundle SHA-256.
+
+A successful bundle build is still not release authorization. The separate release-ready receipt, final tag, DOI publication and GitHub Release remain later gates.
+
+Canonical contract:
+
+`manuscript/submission/release_bundle_contract_v0_1.json`
+
 ## DOI-first release sequence after the remaining gates clear
 
 The DOI-first sequence remains appropriate **only after the island result and journal route are frozen**; both are now frozen. The remaining gates are author metadata, author approvals and submission-day live-policy checks.
