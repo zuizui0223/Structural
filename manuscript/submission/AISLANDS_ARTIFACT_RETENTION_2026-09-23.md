@@ -47,11 +47,15 @@ The embedded execution provenance also matches the committed Structural provenan
 
 ## Retention risk
 
-The raw authoritative artifact is **not yet preserved outside GitHub Actions**.
+The raw authoritative artifact is now preserved outside GitHub Actions as a **private Google Drive backup** under the dedicated `Structural release retention` folder.
 
-GitHub reports an expiration time of **2026-11-10T04:42:52Z**.
+The uploaded file reports the same size as the source artifact: **36,856,265 bytes**. It was then downloaded back from Drive and independently rehashed; the SHA-256 again matched exactly:
 
-Therefore the final archive workflow must preserve this exact verified ZIP, or preserve equivalent verified members while retaining the ZIP digest and member hashes, before the Actions artifact expires.
+`59363bc82924e74445ad10a1d9732511e9bd5bcd056bef17ac89166f45b8355e`
+
+This mitigates the GitHub Actions expiry risk before **2026-11-10T04:42:52Z**.
+
+The Drive copy is a retention backup, **not the final DOI/public archive**. The eventual release archive must still include this exact verified ZIP, or equivalent verified members retaining the declared hashes, and that final archive copy must be checked before the raw-authoritative-outcome archive item is marked complete.
 
 This is an archive/reproducibility requirement. It does not reopen or rerun the scientific analysis.
 
