@@ -1,0 +1,33 @@
+{
+  "schema": "structural.mechanism_confirmatory_protocol.v0_5",
+  "status": "response_sealed_confirmatory_protocol_draft",
+  "system_id": "synthetic-ci-only",
+  "parent_binding_mode": "bind_from_replayed_v0_4_admission_at_freeze",
+  "response_firewall_state": "response_sealed",
+  "response_partition": [
+    "confirm-B"
+  ],
+  "local_holdout_design": "predeclared local heldout blocks",
+  "spatial_transfer_design": "predeclared spatial-block transfer",
+  "reference_definition": "original strong reference plus frozen enriched habitat/environment predictors",
+  "candidate_definition": "enriched reference plus the same frozen source-conditioned topology coordinate",
+  "scoring_rule": "compare topology heldout loss increment under original versus enriched reference without changing partitions or topology operator",
+  "uncertainty_rule": "predeclared block-aware uncertainty with no post-outcome resampling changes",
+  "success_rule": "environmental-proxy explanation is supported only if enriched reference improves heldout prediction and the frozen topology increment collapses according to the predeclared proxy rule",
+  "secondary_diagnostics": [],
+  "confirmatory_response_accessed": false,
+  "protocol_selected_after_response": false,
+  "mechanism_claim_authorized": false,
+  "protocol_id": "synthetic-M4-confirmatory-v0.5",
+  "mechanism_lane": "M4_environmental_proxy",
+  "primary_estimand": "change in incremental topology information after the frozen enriched non-topological environment reference",
+  "lane_specific": {
+    "enriched_predictors": [
+      "habitat_pc1",
+      "habitat_pc2"
+    ],
+    "proxy_decision_rule": "topology increment moves to the predeclared practically-null interval while enriched reference improves heldout loss",
+    "confirmatory_response_accessed": false,
+    "predictors_selected_after_response": false
+  }
+}

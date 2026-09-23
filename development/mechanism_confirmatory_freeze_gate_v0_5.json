@@ -1,0 +1,69 @@
+{
+  "schema": "structural.mechanism_confirmatory_freeze_gate.v0_5",
+  "status": "prospective_infrastructure_no_current_system",
+  "parent_gate": "development/mechanism_admission_gate_v0_4.json",
+  "purpose": "freeze one response-sealed confirmatory protocol for exactly one mechanism lane that was independently admitted by v0.4",
+  "common_protocol_fields": [
+    "protocol_id",
+    "system_id",
+    "mechanism_lane",
+    "parent_binding_mode",
+    "response_firewall_state",
+    "response_partition",
+    "local_holdout_design",
+    "spatial_transfer_design",
+    "primary_estimand",
+    "reference_definition",
+    "candidate_definition",
+    "scoring_rule",
+    "uncertainty_rule",
+    "success_rule",
+    "secondary_diagnostics",
+    "lane_specific",
+    "confirmatory_response_accessed",
+    "protocol_selected_after_response",
+    "mechanism_claim_authorized"
+  ],
+  "lane_semantics": {
+    "M1_contemporary_colonization": {
+      "transition_target": "0_to_1",
+      "transition_non_event": "0_to_0",
+      "pilot_minima_bound": true
+    },
+    "M2_rescue_persistence": {
+      "transition_target": "1_to_0",
+      "transition_non_event": "1_to_1",
+      "pilot_minima_bound": true
+    },
+    "M3_historical_colonization_legacy": {
+      "source_comparison": "graph_connected_vs_alternative",
+      "genetic_outcome_must_remain_unopened_at_freeze": true
+    },
+    "M4_environmental_proxy": {
+      "enriched_predictors_must_match_parent_exactly": true,
+      "confirmatory_response_must_remain_unopened_at_freeze": true
+    }
+  },
+  "binding": {
+    "replay_v0_4_parent_admission": true,
+    "lane_must_be_in_parent_eligible_lanes": true,
+    "system_id_must_match_parent": true,
+    "parent_mechanism_protocol_fingerprint_must_match": true,
+    "parent_structural_protocol_fingerprint_must_match": true,
+    "qualification_raw_input_hashes_recorded": true,
+    "parent_fingerprints_copied_by_hand": false,
+    "parent_fingerprints_bound_from_replayed_v0_4_admission": true
+  },
+  "output_ceiling": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "confirmatory_response_authorized": false,
+    "mechanism_claim_authorized": false,
+    "ttf_handoff_authorized": false
+  },
+  "successful_status": "frozen_confirmatory_mechanism_protocol_response_still_sealed",
+  "successful_next_action": "run_separate_lane_response_authorization_gate_only",
+  "current_systems": []
+}
