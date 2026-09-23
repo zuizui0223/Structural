@@ -1,0 +1,31 @@
+{
+  "schema": "structural.mechanism_confirmatory_protocol.v0_5",
+  "status": "response_sealed_confirmatory_protocol_draft",
+  "system_id": "synthetic-ci-only",
+  "parent_binding_mode": "bind_from_replayed_v0_4_admission_at_freeze",
+  "response_firewall_state": "response_sealed",
+  "response_partition": [
+    "confirm-B"
+  ],
+  "local_holdout_design": "predeclared local heldout blocks",
+  "spatial_transfer_design": "predeclared spatial-block transfer",
+  "reference_definition": "geographic distance + habitat similarity + frozen nuisance structure",
+  "candidate_definition": "reference plus frozen graph-connected versus alternative source relation",
+  "scoring_rule": "predeclared genetic source-affinity contrast under the frozen geographic/environmental null",
+  "uncertainty_rule": "predeclared block-aware uncertainty with no post-outcome resampling changes",
+  "success_rule": "graph-connected source affinity must exceed the frozen alternative-source expectation under the local design and survive the predeclared geographic/spatial null",
+  "secondary_diagnostics": [],
+  "confirmatory_response_accessed": false,
+  "protocol_selected_after_response": false,
+  "mechanism_claim_authorized": false,
+  "protocol_id": "synthetic-M3-confirmatory-v0.5",
+  "mechanism_lane": "M3_historical_colonization_legacy",
+  "primary_estimand": "genetic affinity to graph-connected sources beyond geographic and environmental null structure",
+  "lane_specific": {
+    "genetic_outcome": "synthetic source-affinity statistic",
+    "genetic_null": "geographic distance and habitat similarity null with predeclared population-structure nuisance terms",
+    "geographic_control": "predeclared geographic-distance control",
+    "source_comparison": "graph_connected_vs_alternative",
+    "genetic_outcome_accessed": false
+  }
+}
