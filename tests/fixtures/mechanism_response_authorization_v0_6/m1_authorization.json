@@ -1,7 +1,7 @@
 {
   "schema": "structural.mechanism_response_authorization.v0_6",
   "status": "confirmatory_mechanism_response_access_authorized_once",
-  "authorization_id": "7323c1155f15ca8cd5b9cb188952fb25b81b5ca9df4946d385e94525fbeb5f2d",
+  "authorization_id": "c33780d77821804fb059701dd0a15fc85de2b964df2bf93cb48852b831744b5e",
   "authorization_scope": "read_exact_frozen_response_partition_for_this_lane_protocol_only",
   "confirmatory_response_authorized": true,
   "counts_as_empirical_evidence": false,
@@ -23,5 +23,9 @@
   "single_use": true,
   "synthetic_ci_authorization": true,
   "system_id": "synthetic-ci-only",
-  "ttf_handoff_authorized": false
+  "ttf_handoff_authorized": false,
+  "scoring_receipt_path": "tests/fixtures/mechanism_scoring_input_v0_8/m1_scoring_receipt.json",
+  "scoring_receipt_sha256": "15e02611df50857877b4b0b554946847321327d2065c2ccff86e1b5c89cf8a63",
+  "scoring_input_file_sha256": "d46940a2b422b880a67cd2fa10b5acff962ee29655af5931ece9aaffb81c258d",
+  "scoring_input_key_set_sha256": "c3a85b397cbad51126eb144abbfb73e3c9a1798e97036743aae8a374b56a6f74"
 }
