@@ -351,7 +351,15 @@ def validate_intake(intake: dict) -> tuple[int, dict]:
             file_audit=file_audit,
         )
 
-    if decision.status is TriageStatus.PENDING:
+    static_non_temporal_design = (
+        decision.status is TriageStatus.PENDING
+        and tuple(decision.reasons)
+        == ("single_time_slice_requires_non_temporal_endpoint_design",)
+        and M1 not in lanes
+        and M2 not in lanes
+    )
+
+    if decision.status is TriageStatus.PENDING and not static_non_temporal_design:
         return 2, _zero_receipt(
             status="HOLD_pending_response_blind_metadata",
             intake=intake,
@@ -369,8 +377,16 @@ def validate_intake(intake: dict) -> tuple[int, dict]:
         "source_version": source_version,
         "source_fingerprint": source_fingerprint,
         "intake_fingerprint": fingerprint,
-        "freshness_triage_status": decision.status.value,
-        "freshness_triage_reasons": [],
+        "freshness_triage_status": (
+            TriageStatus.ADVANCE_TO_SCHEMA_AUDIT.value
+            if static_non_temporal_design
+            else decision.status.value
+        ),
+        "freshness_triage_reasons": (
+            ["non_temporal_endpoint_permitted_for_non_dynamic_lanes"]
+            if static_non_temporal_design
+            else []
+        ),
         "file_audit": file_audit,
         "requested_mechanism_lanes": lanes,
         "response_blind_data_support": support,
