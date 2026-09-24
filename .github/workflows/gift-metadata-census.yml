@@ -103,8 +103,8 @@ jobs:
           assert x["response_values_accessed"] is False
           assert x["species_composition_endpoint_called"] is False
           assert x["n_final_archipelagos"] >= 12
-          assert x["pilot_archipelago_count"] == 4
-          assert x["confirmatory_archipelago_count"] == x["n_final_archipelagos"] - 4
+          assert x["pilot_archipelago_count"] == 3
+          assert x["confirmatory_archipelago_count"] == x["n_final_archipelagos"] - 3
           assert len(x["universe_fingerprint"]) == 64
           assert x["extreme_rules"]["primary_unchanged_from_prospective_v0_3"] is True
           support=x["h1_support_counts"]
@@ -115,7 +115,7 @@ jobs:
           confirm_lists=set()
           pilot_ids=set(x["pilot_archipelagos"])
           for g in x["groups"]:
-              assert g["n_islands"] >= 12
+              assert g["n_islands"] >= 16
               assert len(g["block_sizes"]) == 4
               assert sum(g["block_sizes"]) == g["n_islands"]
               target = pilot_lists if g["archipelago_id"] in pilot_ids else confirm_lists
