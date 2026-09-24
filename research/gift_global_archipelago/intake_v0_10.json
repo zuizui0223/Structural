@@ -1,0 +1,84 @@
+{
+  "schema": "structural.independent_system_intake.v0_10",
+  "status": "response_sealed_intake_draft",
+  "system_id": "gift_global_archipelago_panel_v1",
+  "source_id": "GIFT extended API + A-Islands geometry-only closed-system exclusion",
+  "source_version": "GIFT-3.2",
+  "source_fingerprint": "8030a3318226bac6735b920d4d71dc168b0379af5fcccd8f6388664d8e7d7091",
+  "origin": "prospective_global_archipelago_panel_independent_of_structural_outcomes",
+  "is_prior_closed_system": false,
+  "response_firewall_state": "response_sealed",
+  "response_values_accessed": false,
+  "source_files": [
+    {
+      "file_id": "gift3.2_response_blind_metadata_surface",
+      "sha256": "c7375c078c95b42496babb6497da1817b7be5c50542436b79d4151f243bbd48e",
+      "role": "safe_metadata",
+      "opened": true,
+      "hash_semantics": "canonical fingerprint of versioned GIFT metadata tables and response-surface identifiers"
+    },
+    {
+      "file_id": "aislands_closed_system_geometry_exclusion_receipt",
+      "sha256": "ac3a6ae7d49350b3d908119458c0e710be90e9efec38ccb9665988e1a9a1f644",
+      "role": "geometry",
+      "opened": true,
+      "hash_semantics": "geometry-only exclusion receipt; A-Islands species_data.csv was not requested"
+    },
+    {
+      "file_id": "gift3.2_species_hash_partition_receipt",
+      "sha256": "6d5d1e5f701a2cec48c95a8f274ace00f476cdbb7bf406d8587a3d7fc4228328",
+      "role": "safe_metadata",
+      "opened": true,
+      "hash_semantics": "global work_ID metadata only; no island distribution values"
+    },
+    {
+      "file_id": "gift3.2_native_angiosperm_distribution_surface",
+      "sha256": "b58116ad0f44cfe395086a0e5e799f0b62df5ad1dfd712ffbdfed9874af61d99",
+      "role": "response",
+      "opened": false,
+      "hash_semantics": "SHA-256 of unopened eligible list/entity/ref/taxon/subset response-surface manifest, not species-composition bytes"
+    }
+  ],
+  "freshness_metadata": {
+    "temporal_replication": "no",
+    "immutable_source_identity": "yes",
+    "spatial_unit_id_documented": "yes",
+    "coordinates_or_geometry_documented": "yes",
+    "outcome_file_separable": "yes",
+    "operator_semantics_declarable": "yes",
+    "connectivity_question_already_published": "no",
+    "response_result_seen_by_project": "no"
+  },
+  "selection_firewall": {
+    "candidate_hunt_active": false,
+    "system_selected_using_response_direction": false,
+    "system_selected_using_connectivity_result": false,
+    "mechanism_lanes_selected_using_response_direction": false,
+    "graph_scale_selected_using_response_direction": false,
+    "endpoint_selected_using_response_direction": false,
+    "published_effect_direction_used_for_selection": false
+  },
+  "requested_mechanism_lanes": [
+    "M4_environmental_proxy"
+  ],
+  "response_blind_data_support": {
+    "temporal_transition_metadata_available": false,
+    "genetic_sampling_metadata_available": false,
+    "environment_predictor_metadata_available": true
+  },
+  "hypothesis_bindings": {
+    "structural_partition_contract": "development/transition_pilot_protocol_contract_v0_31.json",
+    "ecological_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "mechanism_framework": "development/prospective_mechanism_discrimination_v0_1.json"
+  },
+  "study_specific_frozen_state": {
+    "eligible_archipelago_rule": "full non-null GIFT archipelago path with >=12 eligible islands after conservative closed-system archipelago exclusion",
+    "eligible_archipelagos_before_response": 24,
+    "isolation_metric": "GIFT dist",
+    "primary_extreme_rule": "within each archipelago, upper 25% by dist; ties broken deterministically by entity_ID",
+    "pilot_species_rule": "SHA256('GIFT3.2|<work_ID>|structural-gift-pilot-v1') first_64_bits mod 5 == 0",
+    "confirmatory_species_rule": "same hash rule, buckets 1-4",
+    "pilot_species_count": 70746,
+    "confirmatory_species_count": 281385
+  }
+}
