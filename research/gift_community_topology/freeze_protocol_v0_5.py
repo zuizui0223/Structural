@@ -289,7 +289,12 @@ def main():
             "quantile_method":"numpy.quantile method=linear",
         },
         "H1_primary":{
-            "per_clade_model_columns":h1_cols,
+            "per_clade_model_columns":{
+                clade:clade_audits[clade]["columns"] for clade in CLADES
+            },
+            "per_clade_dropped_constant_columns":{
+                clade:clade_audits[clade]["dropped_constant"] for clade in CLADES
+            },
             "per_clade_target_column":"step_gain_x_extreme",
             "per_clade_estimand":"change in the richness association with standardized step-isolation gain in the global upper-25% mainland-isolation regime versus remaining islands, estimated separately with clade-specific reference slopes and archipelago fixed effects",
             "pooled_estimand":"equal-weight mean of the Angiospermae, Pteridophyta, and Gymnospermae per-clade target coefficients within each whole-archipelago bootstrap replicate",
@@ -324,7 +329,7 @@ def main():
         "forbidden_after_response":[
             "change common island panel","reintroduce any prior-pilot archipelago",
             "change global q75 isolation threshold","change scale-free step-isolation definition",
-            "change reference predictor set or checklist-effort control","change frozen continuous scaling",
+            "change response-independent per-clade retained/dropped design columns","change reference predictor set or checklist-effort control","change frozen continuous scaling",
             "change log1p richness response","change fixed-effect absorption",
             "change bootstrap unit/repetitions/seed/rank filter or accepted draw set","change clade-specific fitting or equal-clade weighting","change H1 or H3 estimand/sign",
             "reintroduce H2 or any geology moderator","select clades by outcome direction",
