@@ -13,7 +13,18 @@
     "zip_sha256": "c666c58a920e34ee72fae695f4a74691294dd4ed169a1e9121e95aa9a3b78ae7",
     "retention_days": 90,
     "independently_redownloaded_and_sha256_verified": true,
-    "final_public_archive_pending": true
+    "final_public_archive_pending": true,
+    "durable_backup": {
+      "provider": "Google Drive",
+      "folder": "Structural release retention",
+      "folder_id": "1LcCirqDqs_1eEtLNgcenzEBmNK2bIwmb",
+      "file_id": "1I7INQSzU073gGv9l3bmLSH6G7QEbK7ar",
+      "file_name": "gift-community-topology-weighted-one-shot-v0-1.zip",
+      "size_bytes": 5008108,
+      "roundtrip_sha256": "c666c58a920e34ee72fae695f4a74691294dd4ed169a1e9121e95aa9a3b78ae7",
+      "roundtrip_sha256_verified": true,
+      "shared": false
+    }
   },
   "frozen_design": {
     "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
