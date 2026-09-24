@@ -111,6 +111,29 @@ jobs:
           assert x["prediction_score"] is None
           print("GIFT_INTAKE_PASS")
           PY
+      - name: Freeze predictor-complete archipelago universe
+        env:
+          GIFT_VERSION: "3.2"
+        run: python research/gift_global_archipelago/freeze_analysis_universe_v0_1.py | tee gift_analysis_universe.json
+      - name: Assert final universe is response sealed
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_analysis_universe.json"))
+          assert x["response_values_accessed"] is False
+          assert x["species_composition_endpoint_called"] is False
+          assert x["n_final_archipelagos"] >= 12
+          assert x["pilot_archipelago_count"] == 4
+          assert x["confirmatory_archipelago_count"] == x["n_final_archipelagos"] - 4
+          assert len(x["universe_fingerprint"]) == 64
+          for g in x["groups"]:
+              assert g["n_islands"] >= 12
+              assert g["q75_extreme_n"] >= 3
+              assert len(g["block_sizes"]) == 4
+              assert sum(g["block_sizes"]) == g["n_islands"]
+          print("FINAL_UNIVERSE_FROZEN", x["n_final_archipelagos"], x["n_final_islands"])
+          print("PILOT_ARCHIPELAGOS", x["pilot_archipelagos"])
+          PY
       - name: Audit exact M4 climate layer metadata
         env:
           GIFT_VERSION: "3.2"
