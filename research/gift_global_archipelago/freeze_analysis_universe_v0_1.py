@@ -58,7 +58,7 @@ MISC_VARS = [
     "longitude", "latitude",
     "arch_lvl_1", "arch_lvl_2", "arch_lvl_3",
 ]
-MIN_ARCHIPELAGO_ISLANDS = 20
+MIN_ARCHIPELAGO_ISLANDS = 16
 N_SPATIAL_BLOCKS = 4
 
 
@@ -358,19 +358,18 @@ def main() -> int:
         ],
         key=lambda row: (row["n_islands"], row["archipelago_id"]),
     )
-    if len(extreme_only) < 2 or not mixed_regime or not nonextreme_only:
+    if not extreme_only or not mixed_regime or not nonextreme_only:
         raise RuntimeError(
-            "response-blind pilot cannot cover two extreme-only, one paired, and one non-extreme-only archipelago"
+            "response-blind pilot cannot cover extreme-only, paired, and non-extreme-only archipelago regimes"
         )
 
     # The checklist API exposes complete list contents, so evidence partitions
     # are disjoint archipelago/list surfaces. Pilot selection is geometry-only:
-    # two extreme-only groups, one paired group, and one non-extreme-only group.
-    # This leaves any additional paired group(s) available for the non-rescuing
-    # paired H1 sensitivity.
+    # one extreme-only, one paired, and one non-extreme-only group. Three
+    # burned systems are enough to test the support gate while preserving
+    # independent confirmatory archipelagos in both H1 regimes.
     pilot_ids = {
         extreme_only[0]["archipelago_id"],
-        extreme_only[1]["archipelago_id"],
         mixed_regime[0]["archipelago_id"],
         nonextreme_only[0]["archipelago_id"],
     }
@@ -450,7 +449,7 @@ def main() -> int:
         "partition_rule": {
             "axis": "archipelago/list_ID response surface",
             "reason": "GIFT checklist API exposes complete list contents and has no server-side work_ID response filter; strict pilot/confirmatory sealing therefore requires disjoint list surfaces",
-            "pilot_selection": "geometry-only: two smallest extreme-only q75 contributors + smallest paired-regime q75 contributor + smallest non-extreme-only q75 contributor; ties by archipelago_id",
+            "pilot_selection": "geometry-only: smallest extreme-only q75 contributor + smallest paired-regime q75 contributor + smallest non-extreme-only q75 contributor; ties by archipelago_id"
             "selection_uses_response": False,
             "pilot_effect_estimation_allowed": False,
         },
