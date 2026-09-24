@@ -286,6 +286,7 @@ def main():
             "bootstrap_seed":BOOTSTRAP_SEED,
             "bootstrap_design":bootstrap_design,
             "interval_quantiles":[0.025,0.975],
+            "quantile_method":"numpy.quantile method=linear",
         },
         "H1_primary":{
             "per_clade_model_columns":h1_cols,
