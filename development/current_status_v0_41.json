@@ -173,5 +173,19 @@
       "ttf_handoff_authorized": false,
       "claim_adjudication_separate": true
     }
+  },
+  "independent_system_intake": {
+    "path": "development/independent_system_intake_contract_v0_10.json",
+    "runner": "scripts/validate_independent_system_intake_v0_10.py",
+    "status": "ready_no_current_system",
+    "logical_position": "before_v0_31_partition_freeze",
+    "reuses_existing_fresh_candidate_triage": true,
+    "candidate_hunt_active": false,
+    "known_closed_systems_may_reenter": false,
+    "current_systems": [],
+    "successful_action": "construct_v0_31_partition_protocol_only",
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "mechanism_response_authorized": false
   }
 }
