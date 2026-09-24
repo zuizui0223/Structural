@@ -1,0 +1,41 @@
+{
+  "schema": "structural.mechanism_response_access_receipt.v0_7",
+  "status": "confirmatory_mechanism_response_access_recorded",
+  "system_id": "synthetic-ci-only",
+  "mechanism_lane": "M1_contemporary_colonization",
+  "protocol_id": "synthetic-M1-confirmatory-v0.5",
+  "protocol_fingerprint": "efb809353d4da0eca9c7704fca4f519918abd54e623787c3e35ab75e7ecbdae7",
+  "authorization_id": "c33780d77821804fb059701dd0a15fc85de2b964df2bf93cb48852b831744b5e",
+  "authorization_receipt_path": "tests/fixtures/mechanism_response_authorization_v0_6/m1_authorization.json",
+  "authorization_receipt_sha256": "f3bca0fcbb494dcaadaa59392b96ce97460912fdafac2e223659abe7160e0360",
+  "scoring_receipt_path": "tests/fixtures/mechanism_scoring_input_v0_8/m1_scoring_receipt.json",
+  "scoring_receipt_sha256": "15e02611df50857877b4b0b554946847321327d2065c2ccff86e1b5c89cf8a63",
+  "scoring_input_file_sha256": "d46940a2b422b880a67cd2fa10b5acff962ee29655af5931ece9aaffb81c258d",
+  "scoring_input_key_set_sha256": "c3a85b397cbad51126eb144abbfb73e3c9a1798e97036743aae8a374b56a6f74",
+  "response_partition": [
+    "confirm-B"
+  ],
+  "response_file_sha256": "13cfe9a06db59eab15232c76270bb62b6e7d3edc7a54cdf5baa2c93a5fd2c10c",
+  "response_audit": {
+    "surface": "dynamic_transition_response",
+    "row_count": 4,
+    "outcome_nonmissing_rows": 4,
+    "outcome_missing_rows": 0,
+    "blocks": 2,
+    "units": 4,
+    "eligible_start_state": 0
+  },
+  "response_access_consumed": true,
+  "confirmatory_response_authorized": false,
+  "scoring_authorized": true,
+  "mechanism_claim_authorized": false,
+  "effect_size": null,
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "mechanism_claim_contribution": 0,
+  "ttf_handoff_authorized": false,
+  "synthetic_ci_access": true,
+  "counts_as_empirical_evidence": false,
+  "access_id": "2d1d98e48c966049308638a74d9c030572b85d60ea5addc27e27703544975915",
+  "next_action": "run_frozen_lane_scoring_only"
+}
