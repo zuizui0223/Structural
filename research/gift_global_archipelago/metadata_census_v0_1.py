@@ -38,7 +38,7 @@ def endpoint(query: str, *, version: str | None = VERSION) -> str:
 
 
 def fetch(query: str, *, version: str | None = VERSION):
-    url = endpoint(query, version=version)
+    url = VERSIONS_URL if query == "versions" else endpoint(query, version=version)
     req = Request(url, headers={"User-Agent": "Structural-GIFT-metadata-census/0.1"})
     with urlopen(req, timeout=180) as response:
         raw = response.read()
