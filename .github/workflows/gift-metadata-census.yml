@@ -1,0 +1,31 @@
+name: GIFT response-blind metadata census
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/gift_global_archipelago/**"
+      - ".github/workflows/gift-metadata-census.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run GIFT 3.1 response-blind metadata census
+        run: python research/gift_global_archipelago/metadata_census_v0_1.py | tee gift_metadata_census.json
+      - name: Assert species composition stayed sealed
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_metadata_census.json"))
+          assert x["response_values_accessed"] is False
+          assert x["species_composition_endpoint_called"] is False
+          print("RESPONSE_SEALED_OK")
+          PY
