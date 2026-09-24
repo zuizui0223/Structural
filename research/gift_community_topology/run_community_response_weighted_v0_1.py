@@ -51,7 +51,7 @@ def as01(value):
     except (TypeError,ValueError):
         return None
 
-def fetch_checklist(clade:str,list_id:str,taxon_id:str,attempts:int=5):
+def fetch_checklist(clade:str,list_id:str,taxon_id:str,attempts:int=8):
     params={
         "query":"checklists",
         "listid":str(list_id),
@@ -77,11 +77,11 @@ def fetch_checklist(clade:str,list_id:str,taxon_id:str,attempts:int=5):
                 "bytes":len(raw),
                 "sha256":hashlib.sha256(raw).hexdigest(),
                 "rows":len(rows),
-            }
+            },raw
         except (HTTPError,URLError,TimeoutError,json.JSONDecodeError) as exc:
             last=exc
             if attempt+1<attempts:
-                time.sleep(2**attempt)
+                time.sleep(min(2**attempt,30))
     raise RuntimeError(f"failed checklist query {clade} list {list_id}: {last}")
 
 def raw_predictors(island):
@@ -254,7 +254,9 @@ def main()->int:
     ap.add_argument("--protocol",type=Path,required=True)
     ap.add_argument("--lock",type=Path,required=True)
     ap.add_argument("--raw-output",type=Path,required=True)
+    ap.add_argument("--cache-dir",type=Path,required=True)
     args=ap.parse_args()
+    args.cache_dir.mkdir(parents=True,exist_ok=True)
 
     panel=load(args.panel); protocol=load(args.protocol); lock=load(args.lock)
     if lock.get("schema")!=LOCK_SCHEMA:
@@ -320,7 +322,12 @@ def main()->int:
         }
         for fut in as_completed(futures):
             key=futures[fut]
-            results[key]=fut.result()
+            rows,receipt,raw=fut.result()
+            results[key]=(rows,receipt)
+            clade,lid,taxon=key
+            cache_name=f"{clade}__list_{lid}__taxon_{taxon}.json"
+            cache_path=args.cache_dir/cache_name
+            cache_path.write_bytes(raw)
 
     if set(results)!=set(query_map):
         raise RuntimeError("not every frozen checklist query returned")
@@ -443,6 +450,7 @@ def main()->int:
         },
         "raw_response":{
             "rows":len(raw_rows),
+            "cached_query_files":len(list(args.cache_dir.glob("*.json"))),
             "sha256":sha(raw_rows),
             "source_receipts_sha256":sha(source_receipts),
             "species_names_reported":False,
