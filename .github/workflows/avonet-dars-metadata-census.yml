@@ -29,7 +29,15 @@ jobs:
           assert x["response_values_accessed"] is False
           assert x["dars_species_matrix_bytes_opened"] is False
           assert x["true_island_response_surface"]["content_opened"] is False
-          assert x["response_blind_predictor_surface"]["content_opened"] is False
+          pred=x["response_blind_predictor_surface"]["predictor_content"]
+          assert pred["content_opened"] is True
+          assert pred["role"].startswith("response-independent")
+          assert pred["missing_iso"] == 0
+          assert pred["missing_mean_dist"] == 0
+          gid=x["global_island_database_schema"]
+          assert gid["feature_values_opened"] is False
+          assert gid["geometry_values_opened"] is False
+          assert isinstance(gid["feature_count"], int) and gid["feature_count"] > 0
           assert x["avonet_or_trait_surface"]["trait_values_opened"] is False
           assert x["readme_contract"]["presence_absence_matrix_declared"] is True
           assert x["readme_contract"]["predictors_declared"] is True
@@ -38,6 +46,8 @@ jobs:
           print(
               "AVONET_DARS_RESPONSE_SEALED",
               x["true_island_response_surface"]["csv_file_count"],
+              pred["type_counts"]["Type_V_fine"],
+              gid["feature_count"],
               x["source_fingerprint"],
           )
           PY
