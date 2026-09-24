@@ -1,0 +1,77 @@
+name: GIFT community topology pre-response freeze
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/gift_community_topology/**"
+      - ".github/workflows/gift-community-topology.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gift-community-topology-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install predictor-only dependencies
+        run: python -m pip install pyshp shapely numpy
+      - name: Freeze common three-clade predictor panel
+        run: |
+          python research/gift_community_topology/freeze_common_panel_v0_1.py \
+            --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
+            | tee gift_community_panel.json
+      - name: Assert community response remains sealed
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_community_panel.json"))
+          assert x["status"] == "FROZEN_PREDICTOR_PANEL_RESPONSE_SEALED"
+          assert x["species_composition_endpoint_called"] is False
+          assert x["response_values_accessed"] is False
+          assert x["targets"] == ["Angiospermae","Pteridophyta","Gymnospermae"]
+          assert all(v["opened"] is False for v in x["response_surfaces"].values())
+          assert x["n_final_archipelagos"] >= 10
+          assert x["n_final_islands"] >= 100
+          assert len(x["panel_fingerprint"]) == 64
+          print("COMMUNITY_PANEL_FROZEN", x["n_final_archipelagos"], x["n_final_islands"], x["support"], x["panel_fingerprint"])
+          PY
+      - name: Freeze community topology protocol
+        run: |
+          python research/gift_community_topology/freeze_protocol_v0_1.py \
+            --panel gift_community_panel.json \
+            --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
+            | tee gift_community_protocol.json
+      - name: Assert predictor-only estimability before response
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_community_protocol.json"))
+          assert x["status"] == "QUALIFIED_TO_OPEN_COMMUNITY_RESPONSE"
+          assert x["response_values_accessed"] is False
+          assert x["response_open_authorized"] is True
+          assert all(x["pre_response_gates"].values())
+          assert x["H1_primary"]["prediction"].startswith("positive")
+          assert x["H2_primary"]["prediction"].startswith("negative")
+          assert x["H3_primary"]["prediction"].startswith("negative")
+          assert len(x["protocol_fingerprint"]) == 64
+          print("COMMUNITY_PROTOCOL_QUALIFIED", x["protocol_fingerprint"])
+          print("MATRIX_AUDITS", x["pre_response_matrix_audits"])
+          PY
+      - name: Assert CI has no checklist response query
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          wf=Path(".github/workflows/gift-community-topology.yml").read_text()
+          assert "query=checklists" not in wf
+          assert "open_community_response" not in wf
+          print("NO_COMMUNITY_RESPONSE_ACCESS_IN_FREEZE_CI")
+          PY
