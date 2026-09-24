@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import pytest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,3 +29,9 @@ def test_explicit_one_questionable_flags_are_positive():
     assert module.flag_is_explicitly_true(1) is True
     assert module.flag_is_explicitly_true("1") is True
     assert module.flag_is_explicitly_true(1.0) is True
+
+
+def test_terminal_receipt_disables_network_pilot_reaccess():
+    assert module.TERMINAL_RECEIPT.is_file()
+    with pytest.raises(RuntimeError, match="terminally closed"):
+        module.main()
