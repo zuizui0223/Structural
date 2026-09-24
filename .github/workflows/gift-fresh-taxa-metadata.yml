@@ -54,4 +54,46 @@ jobs:
               assert x["support_class_counts"].get("paired",0) >= 1
               print("FRESH_UNIVERSE_OK", x["taxon_name"], x["n_final_archipelagos"], x["n_final_islands"], x["support_class_counts"], x["universe_fingerprint"])
           PY
+      - name: Build and validate Pteridophyta intake
+        run: |
+          python research/gift_fresh_taxa/build_intake_v0_1.py --universe pteridophyta_universe.json > pteridophyta_intake.json
+          python scripts/validate_independent_system_intake_v0_10.py pteridophyta_intake.json > pteridophyta_intake_receipt.json
+      - name: Build and validate Gymnospermae intake
+        run: |
+          python research/gift_fresh_taxa/build_intake_v0_1.py --universe gymnospermae_universe.json > gymnospermae_intake.json
+          python scripts/validate_independent_system_intake_v0_10.py gymnospermae_intake.json > gymnospermae_intake_receipt.json
+      - name: Assert both fresh intakes pass without response access
+        run: |
+          python - <<'PY'
+          import json
+          for name in ("pteridophyta","gymnospermae"):
+              x=json.load(open(f"{name}_intake_receipt.json"))
+              assert x["status"] == "eligible_to_construct_v0_31_partition_protocol"
+              assert x["pilot_response_authorized"] is False
+              assert x["confirmatory_response_authorized"] is False
+              assert x["mechanism_response_authorized"] is False
+              print("FRESH_INTAKE_PASS", name, x["intake_fingerprint"])
+          PY
+      - name: Freeze both taxon protocols
+        run: |
+          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe pteridophyta_universe.json --intake-receipt pteridophyta_intake_receipt.json > pteridophyta_protocol.json
+          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe gymnospermae_universe.json --intake-receipt gymnospermae_intake_receipt.json > gymnospermae_protocol.json
+      - name: Assert both protocols are response sealed and disjoint
+        run: |
+          python - <<'PY'
+          import json
+          for name in ("pteridophyta","gymnospermae"):
+              x=json.load(open(f"{name}_protocol.json"))
+              assert x["status"] == "FROZEN_BEFORE_PILOT_RESPONSE"
+              assert x["response_values_accessed"] is False
+              assert x["pilot_response_opened"] is False
+              assert x["confirmatory_response_opened"] is False
+              assert x["pilot_selection"]["list_overlap"] == 0
+              assert len(x["pilot_selection"]["pilot_archipelagos"]) == 3
+              assert x["burned_pilot"]["models_allowed"] is False
+              assert x["burned_pilot"]["effect_sizes_allowed"] is False
+              assert x["confirmatory_response_authorized"] is False
+              assert len(x["protocol_fingerprint"]) == 64
+              print("FRESH_PROTOCOL_FROZEN", name, x["pilot_selection"]["pilot_archipelagos"], x["protocol_fingerprint"])
+          PY
 
