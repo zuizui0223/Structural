@@ -1,7 +1,7 @@
 {
   "schema": "structural.mechanism_response_authorization.v0_6",
   "status": "confirmatory_mechanism_response_access_authorized_once",
-  "authorization_id": "ab48d9381c348fec26d2037c56f203decf4f1d3114e601faa39454536beb1f70",
+  "authorization_id": "37ddbf15856116f2895c3f6df1603beee2bc710cd40d0bde2ae5836035a1acc8",
   "authorization_scope": "read_exact_frozen_response_partition_for_this_lane_protocol_only",
   "confirmatory_response_authorized": true,
   "counts_as_empirical_evidence": false,
@@ -23,5 +23,9 @@
   "single_use": true,
   "synthetic_ci_authorization": true,
   "system_id": "synthetic-ci-only",
-  "ttf_handoff_authorized": false
+  "ttf_handoff_authorized": false,
+  "scoring_receipt_path": "tests/fixtures/mechanism_scoring_input_v0_8/m2_scoring_receipt.json",
+  "scoring_receipt_sha256": "b99bb55284658a0a66e02044fc13d2629e18158130cafcfda2e181d773305c21",
+  "scoring_input_file_sha256": "7bbcd0bb67230d8e49aa14899e2d703b65fefb48cf4c95b8f422e4846ca0edd7",
+  "scoring_input_key_set_sha256": "f53e31060d481ead8583886a3fc22204fadfd6f2986149ffef55b598cf4fd18c"
 }
