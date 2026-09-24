@@ -73,6 +73,14 @@ def eligible_rows(lists,taxonomy,target_name,scope):
 def main():
     lists,lists_meta=fetch("lists")
     taxonomy,tax_meta=fetch("taxonomy")
+    species_rows=[]
+    species_meta=[]
+    for start in range(0,600000,100000):
+        page,meta=fetch("species",startat=start)
+        species_rows.extend(page)
+        species_meta.append(meta)
+        if len(page)<100000:
+            break
     arch={}
     arch_meta={}
     for var in ("arch_lvl_1","arch_lvl_2","arch_lvl_3","dist","GMMC"):
@@ -113,9 +121,20 @@ def main():
                 "gmmc_complete":g_non==len(ids),
             })
         g_rows.sort(key=lambda x:(-x["n_islands"],x["archipelago_path"]))
+        left,right=float(t["lft"]),float(t["rgt"])
+        genus_ids={
+            s(row["taxon_ID"]) for row in taxonomy
+            if s(row.get("taxon_lvl"))=="genus"
+            and float(row["lft"])>=left and float(row["rgt"])<=right
+        }
+        global_work_ids={
+            int(row["work_ID"]) for row in species_rows
+            if s(row.get("genus_ID")) in genus_ids
+        }
         results[target]={
             "available":True,
             "taxon_ID":s(t["taxon_ID"]),
+            "global_taxonomic_work_ids":len(global_work_ids),
             "eligible_individual_islands":len(island_ids),
             "archipelagos_with_any_island":len(g_rows),
             "archipelagos_by_minimum_island_count":{
@@ -136,6 +155,7 @@ def main():
         "source_tables":{
             "lists":lists_meta,
             "taxonomy":tax_meta,
+            "species_metadata_pages":species_meta,
             "environment":arch_meta,
         },
         "results":results,
