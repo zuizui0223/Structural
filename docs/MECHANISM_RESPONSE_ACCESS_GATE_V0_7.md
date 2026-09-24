@@ -10,7 +10,7 @@ v0.7 **consumes** that authorization and records exactly which response file was
 
 The v0.6 authorization receipt must be Git-tracked.
 
-v0.7 replays v0.6 from the tracked v0.5 receipt and all raw qualification inputs.
+v0.7 replays v0.6 from the tracked v0.5 protocol-freeze receipt **and** tracked v0.8 scoring-input receipt, together with the raw qualification and scoring-input files.
 
 The stored v0.6 receipt must match the replay exactly.
 
@@ -60,6 +60,7 @@ The receipt records:
 
 - authorization id and authorization-receipt SHA-256;
 - protocol fingerprint;
+- v0.8 scoring receipt and scoring-input SHA-256;
 - exact response partition;
 - response-file SHA-256;
 - row/support audit;
