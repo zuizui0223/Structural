@@ -214,3 +214,26 @@ def test_response_firewall_must_start_sealed():
 
     assert code == 2
     assert out["status"] == "STOP_response_firewall_not_sealed"
+
+
+def test_static_M4_only_system_can_advance_without_temporal_replication():
+    x = load()
+    x["freshness_metadata"]["temporal_replication"] = "no"
+    x["requested_mechanism_lanes"] = ["M4_environmental_proxy"]
+    x["response_blind_data_support"] = {
+        "temporal_transition_metadata_available": False,
+        "genetic_sampling_metadata_available": False,
+        "environment_predictor_metadata_available": True,
+    }
+
+    code, out = validate_intake(x)
+
+    assert code == 0
+    assert out["status"] == "eligible_to_construct_v0_31_partition_protocol"
+    assert out["freshness_triage_status"] == "advance_to_schema_audit"
+    assert out["freshness_triage_reasons"] == [
+        "non_temporal_endpoint_permitted_for_non_dynamic_lanes"
+    ]
+    assert out["v0_31_protocol_construction_authorized"] is True
+    assert out["pilot_response_authorized"] is False
+    assert out["confirmatory_response_authorized"] is False
