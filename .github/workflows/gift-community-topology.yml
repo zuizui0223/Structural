@@ -107,6 +107,31 @@ jobs:
           print("COMMUNITY_PROTOCOL_QUALIFIED", x["protocol_fingerprint"])
           print("MATRIX_AUDITS", x["pre_response_matrix_audits"])
           PY
+      - name: Replay committed pre-response lock
+        run: |
+          python - <<'PY'
+          import json
+          lock=json.load(open("research/gift_community_topology/pre_response_lock_v0_5.json"))
+          panel=json.load(open("gift_community_panel.json"))
+          protocol=json.load(open("gift_community_protocol.json"))
+          assert lock["schema"] == "structural.gift_community_topology_pre_response_lock.v0_5"
+          assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_RESPONSE"
+          assert lock["response_values_accessed"] is False
+          assert lock["species_composition_endpoint_called"] is False
+          assert lock["pre_response_green_commit"] == "a39ede01f36ea22f95aa014c3291c3224b5bd343"
+          assert lock["panel_fingerprint"] == panel["panel_fingerprint"]
+          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"]
+          assert lock["bootstrap"]["accepted_draws_sha256"] == protocol["model"]["bootstrap_design"]["accepted_draws_sha256"]
+          assert lock["bootstrap"]["candidate_draws_attempted"] == protocol["model"]["bootstrap_design"]["candidate_draws_attempted"]
+          for clade,meta in panel["response_surfaces"].items():
+              assert meta["opened"] is False
+              assert lock["response_surface_sha256"][clade] == meta["surface_sha256"]
+              assert lock["response_surface_query_counts"][clade] == meta["row_count"]
+          assert lock["authorization"]["one_shot_community_response_authorized"] is True
+          assert lock["authorization"]["H2_response_analysis_authorized"] is False
+          assert lock["authorization"]["post_response_retuning_authorized"] is False
+          print("COMMUNITY_PRE_RESPONSE_LOCK_REPLAY_OK", lock["protocol_fingerprint"])
+          PY
       - name: Assert CI has no checklist response query
         run: |
           python - <<'PY'
