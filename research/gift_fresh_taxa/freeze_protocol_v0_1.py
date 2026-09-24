@@ -15,8 +15,9 @@ def sha(x):return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(",",":"
 def rank(taxon,g):
     return hashlib.sha256(f"{taxon}|{g['archipelago_id']}|{SALT}".encode()).hexdigest()
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--universe",type=Path,required=True);ap.add_argument("--intake-receipt",type=Path,required=True);args=ap.parse_args()
-    u=json.loads(args.universe.read_text()); rec=json.loads(args.intake_receipt.read_text()); taxon=u["taxon_name"]
+    ap=argparse.ArgumentParser();ap.add_argument("--universe",type=Path,required=True);ap.add_argument("--intake-receipt",type=Path,required=True);ap.add_argument("--geology-crosswalk",type=Path,required=True);args=ap.parse_args()
+    u=json.loads(args.universe.read_text()); rec=json.loads(args.intake_receipt.read_text()); geo=json.loads(args.geology_crosswalk.read_text()); taxon=u["taxon_name"]
+    if geo.get("universe_fingerprint")!=u["universe_fingerprint"] or geo.get("response_values_accessed") is not False:raise RuntimeError("geology crosswalk drift")
     if u["universe_fingerprint"]!=EXPECTED[taxon]:raise RuntimeError("universe drift")
     if rec.get("status")!="eligible_to_construct_v0_31_partition_protocol":raise RuntimeError("intake did not pass")
     if rec.get("pilot_response_authorized") is not False:raise RuntimeError("intake already authorizes response")
@@ -67,7 +68,7 @@ def main():
         "comparison_model":"deterministic L2 logistic, lambda=1, training-only standardization, no tuning, same 5/5 class gate",
       },
       "H1":{"primary_rule":"global upper 25% of frozen eligible islands by GIFT dist","estimand":"archipelago-clustered difference in C-R3 heldout loss: extreme minus non-extreme","favourable_direction":"negative","q70_q80":"non-rescuing sensitivities"},
-      "H2":{"moderator":"archipelago GMMC-connected fraction","prediction":"topology increment becomes less favourable as historical mainland connection increases","claim_ceiling":"history moderator, not colonization/persistence mechanism"},
+      "H2":{"primary_moderator":"archipelago GMMC-connected fraction","prediction":"topology increment becomes less favourable as historical mainland connection increases","external_geology_secondary":{"source":"Roeble et al. 2024 Supplementary Data 3","crosswalk_fingerprint":geo["crosswalk_fingerprint"],"quantitative_geology_eligible_all":geo["quantitative_geology_eligible_all"],"rule":"direct oceanic-island fraction when >=80% of GIFT entity_IDs are typed","cannot_rescue_primary":True},"claim_ceiling":"history moderator, not colonization/persistence mechanism"},
       "cross_taxon_secondary":{"authorized_only_if_both_taxa_pass_independently":True,"estimand":"Pteridophyta H1 contrast minus Gymnospermae H1 contrast","prediction":"positive (weaker topology dependence in spore-dispersed Pteridophyta)","cannot_rescue_either_taxon_primary":True},
       "forbidden_after_pilot":["change q75","change radii","weaken R3","change 5/5 gate","change 30-species archipelago pass threshold","change pilot membership","open confirmatory response after failed pilot"],
       "confirmatory_response_authorized":False,
