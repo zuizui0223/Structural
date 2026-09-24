@@ -157,7 +157,7 @@ jobs:
           assert x["pilot_response_opened"] is False
           assert x["confirmatory_response_opened"] is False
           assert x["graph_operator"]["primary_radii_km"] == [25.0,50.0,125.0,250.0]
-          assert "global upper 25%" in x["isolation_hypothesis"]["primary_rule"]
+          assert "complete frozen eligible-island universe" in x["isolation_hypothesis"]["primary_rule"]
           assert x["evidence_partition"]["pilot_confirmatory_list_overlap"] == 0
           assert x["burned_pilot_gate"]["effect_sizes_allowed"] is False
           assert x["burned_pilot_gate"]["prediction_scores_allowed"] is False
