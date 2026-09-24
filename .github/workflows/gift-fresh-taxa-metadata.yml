@@ -179,7 +179,9 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           workflow=Path(".github/workflows/gift-fresh-taxa-metadata.yml").read_text()
-          assert "run_burned_pilot_v0_1.py" not in workflow
-          assert "query=checklists" not in workflow
+          pilot_runner="run_"+"burned_pilot_v0_1.py"
+          checklist_query="query"+"=checklists"
+          assert pilot_runner not in workflow
+          assert checklist_query not in workflow
           print("NO_FRESH_RESPONSE_REOPEN_PATH_IN_CI")
           PY
