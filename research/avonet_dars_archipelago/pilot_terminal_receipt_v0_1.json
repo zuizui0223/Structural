@@ -14,7 +14,8 @@
   "confirmatory_surface_fingerprint": "d466e1520c0ec5a9d0de1ba793d8817b2bbcaceac5f6f9564a84f260755a9cba",
   "response_access": {
     "pilot_response_opened": true,
-    "pilot_matrix_queries_completed": 1,
+    "unique_pilot_matrix_surfaces_opened": 1,
+    "pilot_matrix_http_queries_total": 2,
     "pilot_datasets_opened": [
       "Azeria(2004)_noAliens.csv"
     ],
@@ -49,6 +50,21 @@
     "species_rows_before_blank_separator": 35,
     "interpretation": "the frozen parser treated every row before the two terminal metadata rows as a species row; the opened DARs matrix contains a blank separator row immediately before Area (ha), so the frozen schema contract fails"
   },
+  "duplicate_access_incident": {
+    "cause": "committing the terminal receipt while PR #81 was still open retriggered the pull-request one-shot workflow before the PR closure took effect",
+    "run_id": 36070710978,
+    "job_id": 107870754167,
+    "artifact_id": 10838231321,
+    "artifact_zip_sha256": "4d70d65d18148efa71bc7ad727466b6c295da8219db7800c992ec10bea66db36",
+    "artifact_zip_size_bytes": 18624,
+    "same_already_opened_dataset_only": true,
+    "dataset": "Azeria(2004)_noAliens.csv",
+    "same_failure": "blank species row label",
+    "new_unique_response_surfaces_opened": 0,
+    "remaining_pilot_surfaces_opened": 0,
+    "confirmatory_surfaces_opened": 0,
+    "scientific_information_added": false
+  },
   "evidence_ceiling": {
     "pilot_estimability_adjudicated": false,
     "pilot_pass": null,
@@ -59,5 +75,5 @@
   },
   "terminal_rule": "response access was consumed on the first frozen pilot matrix; do not modify the parser and continue, do not query the remaining four pilot matrices, do not query any confirmatory matrix, and do not retune HWI, endpoint requirements, partition, q75 or confirmatory panel under v0.1",
   "permitted_next_step": "preserve and validate this terminal receipt; any future bird test must use a genuinely fresh response surface and a newly pre-response-validated matrix parser",
-  "terminal_receipt_sha256": "691b68b36fa463b9d5becae9e66cd51edd1bbe99f877670a702ae2dc17ecfd19"
+  "terminal_receipt_sha256": "fc9aa28a1169001964a0c21f43406b58820d03812777bc911c8a4c6f028d4ca9"
 }
