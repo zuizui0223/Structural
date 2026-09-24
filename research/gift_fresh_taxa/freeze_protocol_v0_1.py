@@ -42,8 +42,14 @@ def main():
         "confirmatory_archipelagos":[g["archipelago_id"] for g in confirm],
         "pilot_list_set_sha256":sha(p_lists),"confirmatory_list_set_sha256":sha(c_lists),"list_overlap":0,
       },
+      "data_quality_boundary":{
+        "reference_filter":"only GIFT references with checklist=1 and unrestricted access",
+        "complete_scope_interpretation":"complete_taxon and complete_floristic indicate intended scope, not guaranteed exhaustive detection",
+        "suit_geo_limitation":"GIFT documents that obvious-incompleteness suit_geo auditing was conducted mainly for native angiosperms",
+        "absence_claim":"0 means no unambiguous native record in the declared curated checklist union for that island; it is not asserted to be a perfect biological absence",
+      },
       "response_semantics":{
-        "endpoint":f"native {taxon} island incidence",
+        "endpoint":f"native {taxon} checklist incidence",
         "query":f"checklists listid=<frozen pilot/confirmatory list> taxonid={u['taxon_ID']} filter=native namesmatched=0",
         "presence":"native=1 and questionable!=1 and quest_native!=1",
         "uncertain":"native=1 and (questionable=1 or quest_native=1)",
