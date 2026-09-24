@@ -309,6 +309,52 @@ def main() -> int:
         frac = pos - lo
         return values[lo] * (1 - frac) + values[hi] * frac
 
+    threshold_values = {
+        "q70": empirical_quantile(distances, 0.70),
+        "q75": empirical_quantile(distances, 0.75),
+        "q80": empirical_quantile(distances, 0.80),
+    }
+    prospective_h1 = {}
+    for label, threshold in threshold_values.items():
+        rows = []
+        for path, island_ids in hierarchy_groups.items():
+            usable = [
+                eid for eid in island_ids
+                if env_maps["dist"].get(eid) not in (None, "")
+            ]
+            extreme = sum(float(env_maps["dist"][eid]) >= threshold for eid in usable)
+            non_extreme = len(usable) - extreme
+            rows.append({
+                "archipelago_path": list(path),
+                "n_islands": len(island_ids),
+                "n_dist_nonmissing": len(usable),
+                "n_extreme": extreme,
+                "n_non_extreme": non_extreme,
+            })
+        rows.sort(key=lambda row: (-row["n_islands"], row["archipelago_path"]))
+        prospective_h1[label] = {
+            "threshold_km": threshold,
+            "groups_ge_8_with_both_regimes_min2": sum(
+                row["n_islands"] >= 8
+                and row["n_extreme"] >= 2
+                and row["n_non_extreme"] >= 2
+                for row in rows
+            ),
+            "groups_ge_12_with_both_regimes_min3": sum(
+                row["n_islands"] >= 12
+                and row["n_extreme"] >= 3
+                and row["n_non_extreme"] >= 3
+                for row in rows
+            ),
+            "groups_ge_12_with_both_regimes_min5": sum(
+                row["n_islands"] >= 12
+                and row["n_extreme"] >= 5
+                and row["n_non_extreme"] >= 5
+                for row in rows
+            ),
+            "top_groups": rows[:60],
+        }
+
     summary = {
         "schema": "structural.gift_archipelago_metadata_census.v0_1",
         "response_values_accessed": False,
@@ -355,11 +401,12 @@ def main() -> int:
         "isolation_metadata_diagnostic": {
             "metric": "GIFT dist = coast-to-coast distance to nearest mainland, excluding Antarctica",
             "n_nonmissing": len(distances),
-            "q70_km": empirical_quantile(distances, 0.70),
-            "q75_km": empirical_quantile(distances, 0.75),
-            "q80_km": empirical_quantile(distances, 0.80),
+            "q70_km": threshold_values["q70"],
+            "q75_km": threshold_values["q75"],
+            "q80_km": threshold_values["q80"],
             "threshold_role": "diagnostic only until closed-system exclusions and final predictor-only universe are frozen",
         },
+        "prospective_h1_archipelago_estimability_diagnostic": prospective_h1,
         "archipelago_overlap_diagnostic": {},
         "canonical_smallest_parent_diagnostic": {},
         "gift_archipelago_level_diagnostic": {},
