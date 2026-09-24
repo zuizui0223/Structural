@@ -145,31 +145,32 @@ def main():
             row={
                 **base,
                 "clade":clade,
-                "fern":1.0 if clade=="Pteridophyta" else 0.0,
                 "log1p_list_count":math.log1p(list_count),
             }
             row["step_gain_x_extreme"]=row["step_isolation_gain_log"]*row["extreme"]
-            row["step_gain_x_fern"]=row["step_isolation_gain_log"]*row["fern"]
-            row["extreme_x_fern"]=row["extreme"]*row["fern"]
-            row["step_gain_x_extreme_x_fern"]=row["step_gain_x_extreme"]*row["fern"]
             rows.append(row)
 
     # Checklist union effort is response-independent but clade-specific.
-    list_vals=np.asarray([row["log1p_list_count"] for row in rows],dtype=float)
-    list_mu=float(list_vals.mean()); list_sd=float(list_vals.std(ddof=0))
-    if list_sd<=1e-12:
-        raise RuntimeError("log1p_list_count is globally constant")
-    scaling["log1p_list_count"]={"mean":list_mu,"sd":list_sd}
-    for row in rows:
-        row["log1p_list_count"]=(row["log1p_list_count"]-list_mu)/list_sd
+    list_scaling={}
+    for clade in CLADES:
+        subset=[row for row in rows if row["clade"]==clade]
+        vals=np.asarray([row["log1p_list_count"] for row in subset],dtype=float)
+        mu=float(vals.mean()); sd=float(vals.std(ddof=0))
+        if sd<=1e-12:
+            raise RuntimeError(f"log1p_list_count is constant within {clade}")
+        list_scaling[clade]={"mean":mu,"sd":sd}
+        for row in subset:
+            row["log1p_list_count"]=(row["log1p_list_count"]-mu)/sd
+    scaling["log1p_list_count_by_clade"]=list_scaling
 
     h1_cols=list(REFERENCE_COLS)+[
         "step_isolation_gain_log","extreme","step_gain_x_extreme"
     ]
-    h3_cols=h1_cols+[
-        "step_gain_x_fern","extreme_x_fern","step_gain_x_extreme_x_fern"
-    ]
-    audits={"H1":matrix_audit(rows,h1_cols),"H3":matrix_audit(rows,h3_cols)}
+    clade_audits={
+        clade:matrix_audit([row for row in rows if row["clade"]==clade],h1_cols)
+        for clade in CLADES
+    }
+    audits={"H1_by_clade":clade_audits}
 
     support=panel["support"]
     gates={
@@ -178,10 +179,14 @@ def main():
         "minimum_nonextreme_archipelagos":support["archipelagos_with_nonextreme"]>=5,
         "step_support_extreme":support["extreme_step_isolation_gain_nonzero_islands"]>=20,
         "step_support_nonextreme":support["nonextreme_step_isolation_gain_nonzero_islands"]>=20,
-        "H1_full_rank":audits["H1"]["full_rank"] and audits["H1"]["condition"]<=MAX_CONDITION,
-        "H1_target_retained":"step_gain_x_extreme" in audits["H1"]["columns"],
-        "H3_full_rank":audits["H3"]["full_rank"] and audits["H3"]["condition"]<=MAX_CONDITION,
-        "H3_target_retained":"step_gain_x_extreme_x_fern" in audits["H3"]["columns"],
+        "all_clade_H1_models_full_rank":all(
+            audit["full_rank"] and audit["condition"]<=MAX_CONDITION
+            for audit in clade_audits.values()
+        ),
+        "all_clade_H1_targets_retained":all(
+            "step_gain_x_extreme" in audit["columns"]
+            for audit in clade_audits.values()
+        ),
     }
     qualified=all(gates.values())
 
@@ -216,7 +221,7 @@ def main():
         "model":{
             "family":"ordinary least squares on log1p(native richness)",
             "hyperparameter_tuning":"none",
-            "archipelago_clade_fixed_intercepts":"absorbed by exact within-group demeaning",
+            "archipelago_fixed_intercepts":"within each clade model, absorbed by exact within-archipelago demeaning",
             "inference_unit":"archipelago",
             "bootstrap":"resample whole archipelagos with replacement, retaining every island and all three clades, then refit exact frozen model",
             "bootstrap_replicates":BOOTSTRAP_REPS,
@@ -224,11 +229,13 @@ def main():
             "interval_quantiles":[0.025,0.975],
         },
         "H1_primary":{
-            "model_columns":h1_cols,
-            "target_column":"step_gain_x_extreme",
-            "estimand":"change in the richness association with standardized step-isolation gain in the global upper-25% mainland-isolation regime versus the remaining islands",
+            "per_clade_model_columns":h1_cols,
+            "per_clade_target_column":"step_gain_x_extreme",
+            "per_clade_estimand":"change in the richness association with standardized step-isolation gain in the global upper-25% mainland-isolation regime versus remaining islands, estimated separately with clade-specific reference slopes and archipelago fixed effects",
+            "pooled_estimand":"equal-weight mean of the Angiospermae, Pteridophyta, and Gymnospermae per-clade target coefficients within each whole-archipelago bootstrap replicate",
             "prediction":"positive",
-            "success_rule":"whole-archipelago bootstrap 95% interval excludes 0 on the positive side",
+            "success_rule":"whole-archipelago bootstrap 95% interval for the equal-clade mean excludes 0 on the positive side",
+            "clade_specific_coefficients":"reported as secondary components; none alone can rescue a failed equal-clade H1",
         },
         "H2":{
             "status":"TERMINAL_PRE_RESPONSE_NON_ESTIMABLE_NOT_TESTED",
@@ -237,13 +244,12 @@ def main():
             "cannot_be_reintroduced_after_response":True,
         },
         "H3_primary":{
-            "model_columns":h3_cols,
-            "target_column":"step_gain_x_extreme_x_fern",
-            "fern_indicator":"Pteridophyta=1; Angiospermae/Gymnospermae=0",
-            "estimand":"difference between ferns and seed plants in the H1 extreme-isolation step-gain association",
+            "uses_same_per_clade_H1_models":True,
+            "estimand":"Pteridophyta step_gain_x_extreme coefficient minus the equal-weight mean of Angiospermae and Gymnospermae coefficients within the same whole-archipelago bootstrap replicate",
             "prediction":"negative",
             "success_rule":"whole-archipelago bootstrap 95% interval excludes 0 on the negative side",
-            "secondary":"report exact H1 model separately by each clade; cannot rescue pooled H3",
+            "rationale":"clade-specific H1 fits allow climate, area, checklist effort and all other reference slopes to differ freely among clades; H3 compares only the frozen topology-by-extreme coefficient",
+            "cannot_rescue_H1":True,
         },
         "pre_response_matrix_audits":audits,
         "pre_response_gates":gates,
@@ -253,13 +259,14 @@ def main():
             {"version":"v0.2","result":"H1/H3 estimable; H2 STOP","reason":"GMMC H2 target constant","response_opened":False},
             {"version":"v0.3","result":"H1/H3 estimable; H2 STOP","reason":"direct island-type H2 aliased","response_opened":False},
             {"version":"v0.4","result":"H1/H3 estimable; H2 terminal STOP","reason":"cleaned-archipelago geology H2 remained non-estimable","response_opened":False},
+            {"version":"v0.5-final","result":"H1/H3 reparameterized before response","reason":"fit identical H1 model separately by clade so all reference slopes are clade-specific; H1 is equal-clade mean and H3 is fern minus mean seed-plants coefficient","response_opened":False},
         ],
         "forbidden_after_response":[
             "change common island panel","reintroduce any prior-pilot archipelago",
             "change global q75 isolation threshold","change scale-free step-isolation definition",
             "change reference predictor set or checklist-effort control","change frozen continuous scaling",
             "change log1p richness response","change fixed-effect absorption",
-            "change bootstrap unit/repetitions/seed","change H1 or H3 estimand/sign",
+            "change bootstrap unit/repetitions/seed","change clade-specific fitting or equal-clade weighting","change H1 or H3 estimand/sign",
             "reintroduce H2 or any geology moderator","select clades by outcome direction",
         ],
         "response_open_authorized":qualified,
