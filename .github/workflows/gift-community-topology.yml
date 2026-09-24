@@ -89,11 +89,15 @@ jobs:
           assert x["H1_primary"]["prediction"].startswith("positive")
           assert x["H2"]["status"] == "TERMINAL_PRE_RESPONSE_NON_ESTIMABLE_NOT_TESTED"
           assert x["H2"]["cannot_be_reintroduced_after_response"] is True
-          assert x["pre_response_gates"]["H1_target_retained"] is True
-          assert x["pre_response_gates"]["H3_target_retained"] is True
+          assert x["pre_response_gates"]["all_clade_H1_models_full_rank"] is True
+          assert x["pre_response_gates"]["all_clade_H1_targets_retained"] is True
+          assert set(x["pre_response_matrix_audits"]["H1_by_clade"]) == {
+              "Angiospermae","Pteridophyta","Gymnospermae"
+          }
           assert x["H1_primary"]["prediction"] == "positive"
           assert x["H3_primary"]["prediction"] == "negative"
           assert x["H3_primary"]["prediction"].startswith("negative")
+          assert x["H3_primary"]["uses_same_per_clade_H1_models"] is True
           assert len(x["protocol_fingerprint"]) == 64
           print("COMMUNITY_PROTOCOL_QUALIFIED", x["protocol_fingerprint"])
           print("MATRIX_AUDITS", x["pre_response_matrix_audits"])
