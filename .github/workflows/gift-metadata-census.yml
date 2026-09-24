@@ -155,12 +155,36 @@ jobs:
           assert len(x["sheets"]) >= 1
           print("ROEBLE_GEOLOGY_AUDIT_OK", x["xlsx_sha256"], [s["title"] for s in x["sheets"]])
           PY
+      - name: Freeze Roeble geology crosswalk
+        run: |
+          python research/gift_global_archipelago/freeze_roeble_geology_crosswalk_v0_1.py \
+            --universe gift_analysis_universe.json \
+            | tee gift_roeble_geology_crosswalk.json
+      - name: Assert geology crosswalk stayed pre-response
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_roeble_geology_crosswalk.json"))
+          assert x["status"] == "FROZEN_BEFORE_PILOT_RESPONSE"
+          assert x["response_values_accessed"] is False
+          assert x["gift_species_composition_accessed"] is False
+          assert len(x["crosswalk_fingerprint"]) == 64
+          print(
+              "ROEBLE_CROSSWALK_FROZEN",
+              x["confirmatory_quantitative_geology_eligible"],
+              x["confirmatory_pure_continental"],
+              x["confirmatory_pure_oceanic"],
+              x["confirmatory_mixed"],
+              x["geology_h2_fraction_slope_estimable"],
+          )
+          PY
       - name: Freeze GIFT macro-study protocol before pilot response
         run: |
           python research/gift_global_archipelago/freeze_study_protocol_v0_1.py \
             --universe gift_analysis_universe.json \
             --intake-receipt gift_intake_receipt.json \
             --environment-audit gift_environment_reference_audit.json \
+            --geology-crosswalk gift_roeble_geology_crosswalk.json \
             | tee gift_study_protocol.json
       - name: Assert study protocol remains pre-response
         run: |
@@ -176,7 +200,12 @@ jobs:
           assert x["evidence_partition"]["pilot_confirmatory_list_overlap"] == 0
           assert x["burned_pilot_gate"]["effect_sizes_allowed"] is False
           assert x["burned_pilot_gate"]["prediction_scores_allowed"] is False
-          assert x["H2_primary"]["external_geological_type_secondary"]["status"].startswith("secondary_not_authorized")
+          geo=x["H2_primary"]["external_geological_type_secondary"]
+          assert geo["status"] in {
+              "confirmatory_secondary_authorized_pre_response",
+              "pre_response_nonestimable_secondary",
+          }
+          assert len(geo["crosswalk_fingerprint"]) == 64
           assert len(x["protocol_fingerprint"]) == 64
           print("STUDY_PROTOCOL_FROZEN", x["protocol_fingerprint"])
           PY
