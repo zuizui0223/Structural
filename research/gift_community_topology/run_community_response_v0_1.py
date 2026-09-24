@@ -149,17 +149,22 @@ def demean_clade(rows,columns):
     for i,label in enumerate(labels):
         groups[label].append(i)
     Xc=X.copy(); yc=y.copy()
+    weights=np.zeros(len(rows),dtype=float)
     for idxs in groups.values():
         idx=np.asarray(idxs,dtype=int)
         Xc[idx,:]-=X[idx,:].mean(axis=0,keepdims=True)
         yc[idx]-=y[idx].mean()
-    if np.linalg.matrix_rank(Xc,tol=1e-10)!=Xc.shape[1]:
-        raise RuntimeError("full response design lost rank despite frozen predictor audit")
+        weights[idx]=1.0/len(idxs)
+    root=np.sqrt(weights)
+    Xw=Xc*root[:,None]
+    yw=yc*root
+    if np.linalg.matrix_rank(Xw,tol=1e-10)!=Xw.shape[1]:
+        raise RuntimeError("weighted response design lost rank despite frozen predictor audit")
     blocks={}
     for arch,idxs in groups.items():
         idx=np.asarray(idxs,dtype=int)
-        blocks[arch]=(Xc[idx,:],yc[idx])
-    return Xc,yc,blocks
+        blocks[arch]=(Xw[idx,:],yw[idx])
+    return Xw,yw,blocks
 
 def beta_from_xy(X,y):
     beta,_,rank,_=np.linalg.lstsq(X,y,rcond=None)
