@@ -15,12 +15,13 @@ def sha(x):return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(",",":"
 def rank(taxon,g):
     return hashlib.sha256(f"{taxon}|{g['archipelago_id']}|{SALT}".encode()).hexdigest()
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--universe",type=Path,required=True);ap.add_argument("--intake-receipt",type=Path,required=True);ap.add_argument("--geology-crosswalk",type=Path,required=True);args=ap.parse_args()
-    u=json.loads(args.universe.read_text()); rec=json.loads(args.intake_receipt.read_text()); geo=json.loads(args.geology_crosswalk.read_text()); taxon=u["taxon_name"]
+    ap=argparse.ArgumentParser();ap.add_argument("--universe",type=Path,required=True);ap.add_argument("--selection-receipt",type=Path,required=True);ap.add_argument("--geology-crosswalk",type=Path,required=True);args=ap.parse_args()
+    u=json.loads(args.universe.read_text()); sel=json.loads(args.selection_receipt.read_text()); geo=json.loads(args.geology_crosswalk.read_text()); taxon=u["taxon_name"]
     if geo.get("universe_fingerprint")!=u["universe_fingerprint"] or geo.get("response_values_accessed") is not False:raise RuntimeError("geology crosswalk drift")
     if u["universe_fingerprint"]!=EXPECTED[taxon]:raise RuntimeError("universe drift")
-    if rec.get("status")!="eligible_to_construct_v0_31_partition_protocol":raise RuntimeError("intake did not pass")
-    if rec.get("pilot_response_authorized") is not False:raise RuntimeError("intake already authorizes response")
+    if sel.get("status")!="FROZEN_RESPONSE_BLIND_CANDIDATE_SELECTION":raise RuntimeError("candidate selection not frozen")
+    if sel.get("species_composition_endpoint_called") is not False:raise RuntimeError("candidate selection opened response")
+    if taxon not in sel.get("selected_taxa",[]):raise RuntimeError(f"{taxon} not selected by frozen metadata rule")
     by={}
     for g in u["groups"]:by.setdefault(g["support_class"],[]).append(g)
     required=("extreme_only","paired","nonextreme_only")
@@ -33,9 +34,10 @@ def main():
     if set(p_lists)&set(c_lists):raise RuntimeError("list response surfaces overlap")
     protocol={
       "schema":"structural.gift_fresh_taxon_protocol.v0_1","status":"FROZEN_BEFORE_PILOT_RESPONSE",
+      "study_family":"response-blind two-clade macro-study; not Structural v0.10 independent-system confirmation",
       "gift_version":"3.2","taxon_name":taxon,"taxon_ID":u["taxon_ID"],
       "response_values_accessed":False,"pilot_response_opened":False,"confirmatory_response_opened":False,
-      "parent_intake_fingerprint":rec["intake_fingerprint"],"universe_fingerprint":u["universe_fingerprint"],
+      "candidate_selection_fingerprint":sel["selection_fingerprint"],"universe_fingerprint":u["universe_fingerprint"],
       "pilot_selection":{
         "rule":f"one archipelago per support class chosen by lowest SHA256('<taxon>|<archipelago_id>|{SALT}')",
         "selection_uses_response":False,"pilot_archipelagos":[g["archipelago_id"] for g in pilot],
