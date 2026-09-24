@@ -41,7 +41,7 @@ from metadata_census_v0_1 import (
 AIS_RECORD = "10775810"
 AIS_FILES = {
     "A-Island_shape.shp": "5d79c86181abd3db43690e0832962ca518339b350465c5d87bb066695711d251",
-    "A-Island_shape.shx": "3d5a60a0057cf4476a25ae2e69fc12146a082f82dc3c8b798300544026312d4d",
+    "A-Island_shape.shx": "3d5a60a0057cf4476a25ae2e69fc12146a082f82dc9c8b798300544026312d4d",
     "A-Island_shape.dbf": "75210dad46b516a3ff93168e9569910169dd5f0c946da4666970792d46b5e4ee",
     "A-Island_shape.prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4",
 }
@@ -289,6 +289,14 @@ def main() -> int:
         if len(ids) >= MIN_ARCHIPELAGO_ISLANDS
     }
 
+    frozen_island_ids = sorted(
+        {eid for ids in groups.values() for eid in ids},
+        key=int,
+    )
+    global_q75 = set(rank_tail(frozen_island_ids, misc["dist"], 0.25))
+    global_q70 = set(rank_tail(frozen_island_ids, misc["dist"], 0.30))
+    global_q80 = set(rank_tail(frozen_island_ids, misc["dist"], 0.20))
+
     group_rows = []
     for path, ids in sorted(groups.items()):
         gmmc = [int(float(misc["GMMC"][eid])) for eid in ids]
@@ -296,9 +304,9 @@ def main() -> int:
         blocks, block_sizes = mst_blocks(
             ids, misc["longitude"], misc["latitude"], N_SPATIAL_BLOCKS
         )
-        q75 = rank_tail(ids, misc["dist"], 0.25)
-        q70 = rank_tail(ids, misc["dist"], 0.30)
-        q80 = rank_tail(ids, misc["dist"], 0.20)
+        q75 = [eid for eid in ids if eid in global_q75]
+        q70 = [eid for eid in ids if eid in global_q70]
+        q80 = [eid for eid in ids if eid in global_q80]
         island_rows = []
         for eid in ids:
             island_rows.append({
@@ -320,6 +328,7 @@ def main() -> int:
             "block_sizes": block_sizes,
             "q75_extreme_n": len(q75),
             "q75_nonextreme_n": len(ids) - len(q75),
+            "h1_geometry_eligible": len(q75) >= 3 and (len(ids) - len(q75)) >= 3,
             "membership_sha256": sha(ids),
             "list_id_set_sha256": sha(sorted(
                 {lid for eid in ids for lid in lists_by_entity[eid]},
@@ -328,23 +337,32 @@ def main() -> int:
             "islands": island_rows,
         })
 
-    by_bin = defaultdict(list)
-    for row in group_rows:
-        by_bin[row["history_bin"]].append(row)
-    for rows in by_bin.values():
-        rows.sort(key=lambda row: (row["n_islands"], row["archipelago_id"]))
+    h1_groups = [row for row in group_rows if row["h1_geometry_eligible"]]
+    if len(h1_groups) < 8:
+        raise RuntimeError("fewer than 8 response-blind H1-geometry-eligible archipelagos")
 
-    if len(by_bin["low_GMMC"]) < 2 or not by_bin["mid_GMMC"] or not by_bin["high_GMMC"]:
-        raise RuntimeError("insufficient response-blind GMMC strata for burned pilot")
-
-    pilot_ids = {
-        by_bin["low_GMMC"][0]["archipelago_id"],
-        by_bin["low_GMMC"][1]["archipelago_id"],
-        by_bin["mid_GMMC"][0]["archipelago_id"],
-        by_bin["high_GMMC"][0]["archipelago_id"],
-    }
+    # GIFT checklist responses can only be requested by list_ID/ref_ID, not
+    # server-filtered by work_ID. Therefore the strict evidence firewall is
+    # archipelago/list based: opening pilot lists cannot expose any
+    # confirmatory-archipelago species composition.
+    ordered = sorted(
+        h1_groups,
+        key=lambda row: (row["gmmc_connected_fraction"], row["n_islands"], row["archipelago_id"]),
+    )
+    targets = (0.125, 0.375, 0.625, 0.875)
+    selected_idx = []
+    for target in targets:
+        idx = round((len(ordered) - 1) * target)
+        if idx not in selected_idx:
+            selected_idx.append(idx)
+    if len(selected_idx) != 4:
+        raise RuntimeError("archipelago pilot stratification did not produce four disjoint groups")
+    pilot_ids = {ordered[idx]["archipelago_id"] for idx in selected_idx}
     pilot = [row for row in group_rows if row["archipelago_id"] in pilot_ids]
     confirmatory = [row for row in group_rows if row["archipelago_id"] not in pilot_ids]
+    h1_confirmatory = [
+        row for row in confirmatory if row["h1_geometry_eligible"]
+    ]
 
     all_final_islands = sorted(
         [i["entity_ID"] for row in group_rows for i in row["islands"]],
@@ -383,9 +401,10 @@ def main() -> int:
         },
         "isolation_metric": "GIFT dist",
         "extreme_rules": {
-            "primary_q75": "top ceil(0.25*n) islands by dist within archipelago; entity_ID tie-break",
-            "sensitivity_q70": "top ceil(0.30*n) islands by dist within archipelago; entity_ID tie-break",
-            "sensitivity_q80": "top ceil(0.20*n) islands by dist within archipelago; entity_ID tie-break",
+            "primary_q75": "top ceil(0.25*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break",
+            "sensitivity_q70": "top ceil(0.30*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break; cannot rescue q75",
+            "sensitivity_q80": "top ceil(0.20*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break; cannot rescue q75",
+            "primary_unchanged_from_prospective_v0_3": true,
         },
         "spatial_holdout": {
             "blocks_per_archipelago": N_SPATIAL_BLOCKS,
@@ -399,13 +418,22 @@ def main() -> int:
         },
         "n_final_archipelagos": len(group_rows),
         "n_final_islands": len(all_final_islands),
+        "n_h1_geometry_eligible_archipelagos": len(h1_groups),
+        "n_h1_confirmatory_archipelagos": len(h1_confirmatory),
+        "global_extreme_counts": {
+            "q75": len(global_q75),
+            "q70": len(global_q70),
+            "q80": len(global_q80),
+        },
         "final_island_set_sha256": sha(all_final_islands),
         "response_surface_manifest_sha256": sha(response_surface),
         "groups": group_rows,
         "partition_rule": {
-            "axis": "archipelago",
-            "pilot_selection": "among final groups: two smallest low_GMMC (fraction<=0.25), one smallest mid_GMMC (0.25<fraction<0.75), one smallest high_GMMC (fraction>=0.75); tie by archipelago_id",
+            "axis": "archipelago/list_ID response surface",
+            "reason": "GIFT checklist API exposes complete list contents and has no server-side work_ID response filter; strict pilot/confirmatory sealing therefore requires disjoint list surfaces",
+            "pilot_selection": "among response-blind H1-geometry-eligible archipelagos sorted by GMMC fraction, select deterministic positions nearest 12.5%, 37.5%, 62.5%, 87.5%; ties resolved by n_islands then archipelago_id",
             "selection_uses_response": False,
+            "pilot_effect_estimation_allowed": False,
         },
         "pilot_archipelagos": [row["archipelago_id"] for row in pilot],
         "confirmatory_archipelagos": [row["archipelago_id"] for row in confirmatory],
