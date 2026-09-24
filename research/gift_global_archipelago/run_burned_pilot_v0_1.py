@@ -47,6 +47,14 @@ def as01(value):
     except (TypeError,ValueError):
         return None
 
+def flag_is_explicitly_true(value):
+    """Questionable flags are active only when explicitly equal to 1.
+
+    Missing flag values are unflagged, not evidence that an occurrence/native
+    assignment is questionable.
+    """
+    return as01(value) == 1
+
 def main()->int:
     p=argparse.ArgumentParser()
     p.add_argument("--universe",type=Path,required=True)
@@ -123,7 +131,11 @@ def main()->int:
             raw_records.append((
                 lid,eid,wid,native,questionable,quest_native
             ))
-            if native==1 and questionable==0 and quest_native==0:
+            if (
+                native==1
+                and not flag_is_explicitly_true(row.get("questionable"))
+                and not flag_is_explicitly_true(row.get("quest_native"))
+            ):
                 present[eid].add(wid)
             elif native==1:
                 uncertain[eid].add(wid)
