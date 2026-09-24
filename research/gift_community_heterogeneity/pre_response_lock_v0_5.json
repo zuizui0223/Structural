@@ -1,0 +1,68 @@
+{
+  "schema": "structural.gift_community_topology_pre_response_lock.v0_5",
+  "status": "FROZEN_QUALIFIED_BEFORE_RESPONSE",
+  "gift_version": "3.2",
+  "pre_response_green_commit": "c08a4e816b6e586f8c0b2d3efdd2af5eb15e3676",
+  "pre_response_workflow_run_id": 35992316526,
+  "pre_response_job_id": 107609067426,
+  "response_values_accessed": false,
+  "species_composition_endpoint_called": false,
+  "prior_one_shot_pr_77_response_opened": false,
+  "prior_one_shot_pr_77_failure": "pre-query bootstrap lock guard; no checklist query executed",
+  "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+  "protocol_fingerprint": "6529dbd74d845dfdbecf614177376c80d690445f4cf6f9eb8c5fb654c03f54e1",
+  "response_surface_sha256": {
+    "Angiospermae": "ed5b33afd7885a6ba7212ac13ca33978fbd180f0b38b9093493f3a859e7e8f6c",
+    "Pteridophyta": "f75c4c5be876d2fcd902e9f56455a7ce281fd97310d5048747fdcdc2efd04604",
+    "Gymnospermae": "addb3e01371df39961f367980f3510148e5cd7c2908774f49de36bd21a32881b"
+  },
+  "response_surface_query_counts": {
+    "Angiospermae": 555,
+    "Pteridophyta": 510,
+    "Gymnospermae": 538
+  },
+  "frozen_panel": {
+    "archipelagos": 24,
+    "islands": 386,
+    "extreme_islands": 97,
+    "nonextreme_islands": 289,
+    "extreme_step_isolation_gain_nonzero_islands": 89,
+    "nonextreme_step_isolation_gain_nonzero_islands": 205
+  },
+  "frozen_design": {
+    "estimator": "archipelago-equal WLS; every archipelago total weight=1 within clade",
+    "analysis_response_transform": "clade-wise z(log1p(native richness)) across the full 386-island panel before archipelago fixed-effect demeaning",
+    "per_clade_rows": 386,
+    "per_clade_columns": 16,
+    "condition_numbers": {
+      "Angiospermae": 47.75298919642848,
+      "Pteridophyta": 47.69526670220935,
+      "Gymnospermae": 47.86203901955117
+    },
+    "dropped_constant_columns": {
+      "Angiospermae": [],
+      "Pteridophyta": [],
+      "Gymnospermae": []
+    }
+  },
+  "bootstrap": {
+    "requested_replicates": 10000,
+    "accepted_replicates": 10000,
+    "candidate_draws_attempted": 15599,
+    "seed": 20260924,
+    "rng": "numpy.default_rng(PCG64)",
+    "accepted_draws_sha256": "2aeebc05347847523e91066457c3fce0ccae422a0a6a71be348faa6a24f2d04d",
+    "quantile_method": "numpy.quantile method=linear"
+  },
+  "hypotheses": {
+    "H1": "authorized under frozen weighted/clade-standardized v0.5 definition",
+    "H2": "TERMINAL_PRE_RESPONSE_NON_ESTIMABLE_NOT_TESTED",
+    "H3": "authorized under frozen weighted/clade-standardized v0.5 definition"
+  },
+  "authorization": {
+    "one_shot_community_response_authorized": true,
+    "H2_response_analysis_authorized": false,
+    "post_response_retuning_authorized": false,
+    "prior_pilot_archipelagos_may_reenter": false
+  }
+}
