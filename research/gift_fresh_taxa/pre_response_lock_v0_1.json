@@ -1,0 +1,59 @@
+{
+  "schema": "structural.gift_fresh_taxa_pre_response_lock.v0_1",
+  "status": "FROZEN_PRE_RESPONSE_NO_SPECIES_COMPOSITION_OPENED",
+  "pre_response_green_commit": "2cf51fb3c60de20c41b2dffcc785cb34cfd3cd92",
+  "gift_version": "3.2",
+  "candidate_selection_fingerprint": "3e7c2785cbffd5a65c9a67b5b9b7137843afe383db2703bf6e12b3bebcace0cb",
+  "selected_taxa": [
+    "Pteridophyta",
+    "Gymnospermae"
+  ],
+  "excluded_taxa": [
+    "Bryophyta"
+  ],
+  "response_values_accessed": false,
+  "angiosperm_pilot_response_reused": false,
+  "systems": {
+    "Pteridophyta": {
+      "universe_fingerprint": "62824026e819a3f07a642f4babe6a28a2a58d9bf29594ad9fbb572f7fdf60adc",
+      "geology_crosswalk_fingerprint": "2b98c32fbdf1acbc4637d9bfec81aaa7fe24ed1af31931e3a9d0111d4d39a374",
+      "protocol_fingerprint": "a7f7f3ffb5a0b9c4f6234b4af9bf5446f31a0bf230401f9687cb202689cd4794",
+      "n_archipelagos": 9,
+      "n_islands": 295,
+      "support_class_counts": {
+        "extreme_only": 2,
+        "nonextreme_only": 4,
+        "paired": 3
+      },
+      "pilot_archipelagos": [
+        "New Zealand / North Island New Zealand",
+        "Kuril'skiye",
+        "Agean and Southern Greece Islands / Cyclades"
+      ]
+    },
+    "Gymnospermae": {
+      "universe_fingerprint": "42d018ac6713f2b4f72b29f6c27817b60ba8853696a3508ca5a6fa1e1f22ef49",
+      "geology_crosswalk_fingerprint": "2c07803f1f5251195ee96137fee8685995cc92b91866515f91fe9bd9c361e578",
+      "protocol_fingerprint": "c9a128cc44d5232295e1a6f884aff8de926b25083a424734ba5fe283b843fb37",
+      "n_archipelagos": 10,
+      "n_islands": 318,
+      "support_class_counts": {
+        "extreme_only": 2,
+        "nonextreme_only": 6,
+        "paired": 2
+      },
+      "pilot_archipelagos": [
+        "New Zealand / North Island New Zealand",
+        "Japan",
+        "Kuril'skiye"
+      ]
+    }
+  },
+  "boundary": {
+    "pilot_response_authorized_by_this_file": false,
+    "confirmatory_response_authorized": false,
+    "pilot_must_be_spent_only_after_exact_replay": true,
+    "each_taxon_pilot_adjudicated_independently": true,
+    "cross_taxon_secondary_requires_both_taxon_pilots_to_pass": true
+  }
+}
