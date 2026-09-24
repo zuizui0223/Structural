@@ -39,8 +39,15 @@ def endpoint(query: str, *, version: str | None = VERSION) -> str:
     return BASE + f"index{suffix}.php?" + urlencode({"query": query})
 
 
-def fetch(query: str, *, version: str | None = VERSION):
-    url = VERSIONS_URL if query == "versions" else endpoint(query, version=version)
+def fetch(query: str, *, version: str | None = VERSION, extra: dict | None = None):
+    if query == "versions":
+        url = VERSIONS_URL
+    else:
+        suffix = "" if version is None else version
+        params = {"query": query}
+        if extra:
+            params.update(extra)
+        url = BASE + f"index{suffix}.php?" + urlencode(params)
     req = Request(url, headers={"User-Agent": "Structural-GIFT-metadata-census/0.1"})
     with urlopen(req, timeout=180) as response:
         raw = response.read()
@@ -150,6 +157,13 @@ def main() -> int:
 
     overlap, overlap_meta = fetch("overlap")
     env_misc, env_misc_meta = fetch("env_misc")
+    selected_env_values = {}
+    for var in ("area", "dist", "SLMP", "GMMC", "arch_lvl_1", "arch_lvl_2", "arch_lvl_3"):
+        rows, meta = fetch("geoentities_env_misc", extra={"envvar": var})
+        selected_env_values[var] = {
+            "meta": meta,
+            "sample": rows[:8],
+        }
     env_keywords = ("arch", "geolog", "origin", "gmmc", "glacial", "dist", "slmp", "area", "age", "latitude", "longitude")
     selected_env_misc = [
         row for row in env_misc
@@ -213,6 +227,7 @@ def main() -> int:
             "env_misc": env_misc_meta,
         },
         "selected_environment_metadata": selected_env_misc,
+        "selected_environment_value_audit": selected_env_values,
         "angiospermae_taxon_id": s(target.get("taxon_ID")),
         "eligible_entities_including_restricted": len(entities_all),
         "eligible_entities_public_only": len(entities_public),
