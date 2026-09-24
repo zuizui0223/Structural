@@ -280,8 +280,11 @@ def main()->int:
         raise RuntimeError("protocol response authorization absent")
     if protocol["H2"].get("status")!="TERMINAL_PRE_RESPONSE_NON_ESTIMABLE_NOT_TESTED":
         raise RuntimeError("H2 terminal boundary drift")
-    if lock.get("bootstrap_draws_sha256")!=protocol["model"]["bootstrap_design"]["accepted_draws_sha256"]:
+    lock_bootstrap=lock.get("bootstrap",{})
+    if lock_bootstrap.get("accepted_draws_sha256")!=protocol["model"]["bootstrap_design"]["accepted_draws_sha256"]:
         raise RuntimeError("bootstrap draw-set drift")
+    if int(lock_bootstrap.get("candidate_draws_attempted",-1))!=int(protocol["model"]["bootstrap_design"]["candidate_draws_attempted"]):
+        raise RuntimeError("bootstrap attempted-draw count drift")
     for clade in CLADES:
         if panel["response_surfaces"][clade]["surface_sha256"]!=lock["response_surface_sha256"][clade]:
             raise RuntimeError(f"response surface drift for {clade}")
