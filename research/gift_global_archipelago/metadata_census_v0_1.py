@@ -362,7 +362,72 @@ def main() -> int:
         },
         "archipelago_overlap_diagnostic": {},
         "canonical_smallest_parent_diagnostic": {},
+        "gift_archipelago_level_diagnostic": {},
     }
+
+    # Native GIFT archipelago hierarchy diagnostic. This is preferred over
+    # polygon containment because it is an explicit response-independent field
+    # authored in GIFT itself.
+    for level in ("arch_lvl_1", "arch_lvl_2", "arch_lvl_3"):
+        groups = defaultdict(list)
+        for island_id in sorted(public_islands):
+            group = env_value_maps[level].get(island_id)
+            if group is None or not s(group).strip():
+                continue
+            groups[s(group).strip()].append(island_id)
+
+        rows = []
+        for group, island_ids in groups.items():
+            dists = [
+                f(env_value_maps["dist"].get(i))
+                for i in island_ids
+                if env_value_maps["dist"].get(i) not in (None, "")
+            ]
+            gmmc = [
+                i(env_value_maps["GMMC"].get(island_id))
+                for island_id in island_ids
+                if env_value_maps["GMMC"].get(island_id) not in (None, "")
+            ]
+            rows.append({
+                "archipelago": group,
+                "n_eligible_islands": len(island_ids),
+                "dist_complete": len(dists),
+                "dist_min_km": min(dists) if dists else None,
+                "dist_max_km": max(dists) if dists else None,
+                "gmmc_complete": len(gmmc),
+                "gmmc_connected_n": sum(v == 1 for v in gmmc),
+                "gmmc_disconnected_n": sum(v == 0 for v in gmmc),
+                "gmmc_connected_fraction": (
+                    sum(v == 1 for v in gmmc) / len(gmmc)
+                    if gmmc else None
+                ),
+            })
+        rows.sort(key=lambda row: (-row["n_eligible_islands"], row["archipelago"]))
+        summary["gift_archipelago_level_diagnostic"][level] = {
+            "groups_with_at_least_one_eligible_island": len(rows),
+            "groups_by_minimum_island_count": {
+                str(k): sum(row["n_eligible_islands"] >= k for row in rows)
+                for k in (4, 8, 12, 20, 30)
+            },
+            "eligible_islands_assigned": sum(row["n_eligible_islands"] for row in rows),
+            "groups_ge_12_with_complete_dist": sum(
+                row["n_eligible_islands"] >= 12
+                and row["dist_complete"] == row["n_eligible_islands"]
+                for row in rows
+            ),
+            "groups_ge_12_with_complete_gmmc": sum(
+                row["n_eligible_islands"] >= 12
+                and row["gmmc_complete"] == row["n_eligible_islands"]
+                for row in rows
+            ),
+            "groups_ge_12_with_both_gmmc_states": sum(
+                row["n_eligible_islands"] >= 12
+                and row["gmmc_connected_n"] > 0
+                and row["gmmc_disconnected_n"] > 0
+                for row in rows
+            ),
+            "top_groups": rows[:50],
+        }
 
     for th in thresholds:
         parents = memberships[th]
