@@ -5,7 +5,7 @@ import argparse, hashlib, json
 from pathlib import Path
 
 EXPECTED={
-    "Pteridophyta":"177b41f45b7bc06b4ec3a79fcbec3b12422bb7db3de06650c2527c7189290f37",
+    "Pteridophyta":"62824026e819a3f07a642f4babe6a28a2a58d9bf29594ad9fbb572f7fdf60adc",
     "Gymnospermae":"42d018ac6713f2b4f72b29f6c27817b60ba8853696a3508ca5a6fa1e1f22ef49",
 }
 def sha(x):
