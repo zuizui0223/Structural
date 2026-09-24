@@ -5,6 +5,7 @@
   "purpose": "consume one tracked v0.6 lane authorization by binding it to one exact response file and recording access before any scoring",
   "requirements": [
     "v0.6 authorization receipt is git-tracked",
+    "v0.6 authorization itself is bound to a tracked v0.8 scoring-input receipt and raw scoring-input SHA",
     "v0.6 authorization is reproduced exactly from v0.5/raw inputs",
     "authorization is single-use and unconsumed",
     "response contains only the exact authorized partition",
@@ -53,7 +54,8 @@
     "prediction_score": null,
     "predictive_denominator_contribution": 0,
     "mechanism_claim_contribution": 0,
-    "ttf_handoff_authorized": false
+    "ttf_handoff_authorized": false,
+    "scoring_input_binding_preserved": true
   },
   "successful_next_action": "run_frozen_lane_scoring_only",
   "current_systems": []

@@ -375,6 +375,8 @@ def access_id(
 def record_access(
     lane_protocol_path: Path,
     authorization_receipt_path: Path,
+    scoring_receipt_path: Path,
+    scoring_input_csv: Path,
     response_csv: Path,
     mechanism_protocol_path: Path,
     structural_queue_path: Path,
@@ -416,6 +418,8 @@ def record_access(
     auth_code, recomputed = authorize_response(
         lane_protocol_path,
         freeze_path,
+        scoring_receipt_path,
+        scoring_input_csv,
         mechanism_protocol_path,
         structural_queue_path,
         transition_pilot_csv=transition_pilot_csv,
@@ -424,6 +428,7 @@ def record_access(
         environment_csv=environment_csv,
         allow_synthetic_structural_queue=allow_synthetic_structural_queue,
         require_tracked_receipt=True,
+        require_tracked_scoring_receipt=True,
     )
     if auth_code != 0:
         return 2, {
@@ -527,6 +532,10 @@ def record_access(
         "authorization_receipt_sha256": sha256_file(
             authorization_receipt_path
         ),
+        "scoring_receipt_path": stored["scoring_receipt_path"],
+        "scoring_receipt_sha256": stored["scoring_receipt_sha256"],
+        "scoring_input_file_sha256": stored["scoring_input_file_sha256"],
+        "scoring_input_key_set_sha256": stored["scoring_input_key_set_sha256"],
         "response_partition": partitions,
         "response_file_sha256": response_sha,
         "response_audit": audit,
@@ -561,6 +570,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("lane_protocol", type=Path)
     parser.add_argument("authorization_receipt", type=Path)
+    parser.add_argument("scoring_receipt", type=Path)
+    parser.add_argument("scoring_input_csv", type=Path)
     parser.add_argument("response_csv", type=Path)
     parser.add_argument("mechanism_protocol", type=Path)
     parser.add_argument("structural_queue", type=Path)
@@ -569,13 +580,20 @@ def main() -> int:
     parser.add_argument("--genetic-pairs", type=Path)
     parser.add_argument("--environment", type=Path)
     parser.add_argument("--allow-synthetic-structural-queue", action="store_true")
+    parser.add_argument("--allow-untracked-synthetic-authorization", action="store_true")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+
+    if args.allow_untracked_synthetic_authorization and not args.allow_synthetic_structural_queue:
+        print("untracked authorization is allowed only for synthetic CI", file=sys.stderr)
+        return 1
 
     try:
         code, payload = record_access(
             args.lane_protocol,
             args.authorization_receipt,
+            args.scoring_receipt,
+            args.scoring_input_csv,
             args.response_csv,
             args.mechanism_protocol,
             args.structural_queue,
@@ -584,7 +602,7 @@ def main() -> int:
             genetic_pairs_csv=args.genetic_pairs,
             environment_csv=args.environment,
             allow_synthetic_structural_queue=args.allow_synthetic_structural_queue,
-            require_tracked_authorization=True,
+            require_tracked_authorization=not args.allow_untracked_synthetic_authorization,
         )
     except (
         OSError,

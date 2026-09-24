@@ -4,15 +4,17 @@
 
 v0.5 freezes an immutable confirmatory protocol for one eligible mechanism lane.
 
-v0.6 is the first gate allowed to authorize opening that lane's confirmatory response.
+v0.8 then freezes the actual response-blind scoring inputs: prediction surfaces for M1/M2/M4 or the exact pair-weighting design for M3.
+
+v0.6 is the first gate allowed to authorize opening that lane's confirmatory response, and it now requires **both** receipts to replay exactly.
 
 It does **not** calculate the mechanism result.
 
-## Committed freeze receipt required
+## Committed protocol and scoring receipts required
 
-A v0.5 receipt must already be committed to the repository.
+Both the v0.5 protocol-freeze receipt and the v0.8 scoring-input receipt must already be committed to the repository.
 
-v0.6 refuses an untracked receipt.
+v0.6 refuses either untracked receipt.
 
 This gives a reviewable checkpoint between:
 
@@ -21,9 +23,9 @@ This gives a reviewable checkpoint between:
 
 ## Exact replay
 
-v0.6 reruns the entire v0.5 freeze from raw inputs.
+v0.6 reruns both the v0.5 protocol freeze and the v0.8 scoring-input freeze from raw inputs.
 
-The committed receipt must equal the recomputed receipt exactly.
+Both committed receipts must equal the recomputed receipts exactly, and the raw scoring-input file SHA-256 must match v0.8.
 
 That binds response access to the already reviewed:
 
@@ -35,7 +37,9 @@ That binds response access to the already reviewed:
 - reference and candidate;
 - scoring rule;
 - uncertainty rule;
-- success rule.
+- success rule;
+- the exact response-blind prediction / scoring-input file;
+- the exact scoring unit or source-pair set.
 
 Editing any of those after receipt commit breaks replay and stops authorization.
 

@@ -2,15 +2,16 @@
   "schema": "structural.mechanism_response_authorization_gate.v0_6",
   "status": "prospective_infrastructure_no_current_system",
   "parent_gate": "development/mechanism_confirmatory_freeze_gate_v0_5.json",
-  "purpose": "authorize one-time access to exactly one frozen mechanism lane response partition only after a committed v0.5 freeze receipt is reproduced exactly from raw inputs",
+  "purpose": "authorize one-time access to exactly one frozen mechanism lane response partition only after both the committed v0.5 protocol-freeze receipt and committed v0.8 response-blind scoring-input receipt replay exactly",
   "requirements": [
     "v0.5 freeze receipt exists inside repository and is git-tracked",
-    "v0.5 freeze is recomputed from raw Structural/mechanism inputs",
-    "stored freeze receipt equals the recomputed receipt exactly",
-    "stored receipt remains response-sealed",
-    "stored receipt does not authorize a mechanism claim",
-    "stored receipt next action is the separate response-authorization gate",
-    "response partition is nonempty and frozen"
+    "v0.5 freeze is recomputed exactly from raw Structural/mechanism inputs",
+    "v0.8 scoring-input receipt exists inside repository and is git-tracked",
+    "v0.8 scoring-input freeze is recomputed exactly from the raw scoring-input file",
+    "v0.8 protocol fingerprint and response partition equal the v0.5 freeze",
+    "raw scoring-input SHA-256 equals the committed v0.8 receipt",
+    "response remains unopened",
+    "mechanism claim remains unauthorized"
   ],
   "authorization_scope": {
     "single_lane_only": true,
@@ -18,7 +19,8 @@
     "exact_response_partition_only": true,
     "may_change_protocol_after_authorization": false,
     "may_change_scoring_rule_after_authorization": false,
-    "may_open_other_mechanism_lane": false
+    "may_open_other_mechanism_lane": false,
+    "scoring_inputs_may_change_after_authorization": false
   },
   "successful_status": "confirmatory_mechanism_response_access_authorized_once",
   "successful_output": {
@@ -32,5 +34,9 @@
   },
   "successful_next_action": "open_exact_response_partition_once_then_record_access_before_scoring",
   "synthetic_ci_authorization_counts_as_empirical_evidence": false,
-  "current_systems": []
+  "current_systems": [],
+  "parent_gates": [
+    "development/mechanism_confirmatory_freeze_gate_v0_5.json",
+    "development/mechanism_scoring_input_freeze_gate_v0_8.json"
+  ]
 }
