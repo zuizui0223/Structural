@@ -580,13 +580,8 @@ def main() -> int:
     parser.add_argument("--genetic-pairs", type=Path)
     parser.add_argument("--environment", type=Path)
     parser.add_argument("--allow-synthetic-structural-queue", action="store_true")
-    parser.add_argument("--allow-untracked-synthetic-authorization", action="store_true")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-
-    if args.allow_untracked_synthetic_authorization and not args.allow_synthetic_structural_queue:
-        print("untracked authorization is allowed only for synthetic CI", file=sys.stderr)
-        return 1
 
     try:
         code, payload = record_access(
@@ -602,7 +597,7 @@ def main() -> int:
             genetic_pairs_csv=args.genetic_pairs,
             environment_csv=args.environment,
             allow_synthetic_structural_queue=args.allow_synthetic_structural_queue,
-            require_tracked_authorization=not args.allow_untracked_synthetic_authorization,
+            require_tracked_authorization=True,
         )
     except (
         OSError,

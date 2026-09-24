@@ -150,7 +150,8 @@
       "scoring_authorized_after_access_record": true,
       "mechanism_claim_authorized": false,
       "successful_next_action": "run_frozen_lane_scoring_only",
-      "replays_v0_8_bound_authorization": true
+      "replays_v0_8_bound_authorization": true,
+      "synthetic_untracked_authorization_allowed": false
     },
     "scoring_input_freeze_gate": {
       "path": "development/mechanism_scoring_input_freeze_gate_v0_8.json",
