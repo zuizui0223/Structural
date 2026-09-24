@@ -291,6 +291,11 @@ def main()->int:
                     query_map[key]=eid
     for clade in CLADES:
         expected_query_counts[clade]=sum(key[0]==clade for key in query_map)
+        if expected_query_counts[clade] != int(lock["response_surface_query_counts"][clade]):
+            raise RuntimeError(
+                f"frozen query-count drift for {clade}: "
+                f"{expected_query_counts[clade]} != {lock['response_surface_query_counts'][clade]}"
+            )
 
     results={}
     with ThreadPoolExecutor(max_workers=4) as pool:
