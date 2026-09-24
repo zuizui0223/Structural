@@ -4,7 +4,7 @@
   "system_id": "gift_global_archipelago_panel_v1",
   "source_id": "GIFT extended API + A-Islands geometry-only closed-system exclusion",
   "source_version": "GIFT-3.2",
-  "source_fingerprint": "8030a3318226bac6735b920d4d71dc168b0379af5fcccd8f6388664d8e7d7091",
+  "source_fingerprint": "ebd4fbbde0ccb658df722e081a868cc0c032a1b8812f809e451258decb62f051",
   "origin": "prospective_global_archipelago_panel_independent_of_structural_outcomes",
   "is_prior_closed_system": false,
   "response_firewall_state": "response_sealed",
@@ -23,13 +23,6 @@
       "role": "geometry",
       "opened": true,
       "hash_semantics": "geometry-only exclusion receipt; A-Islands species_data.csv was not requested"
-    },
-    {
-      "file_id": "gift3.2_species_hash_partition_receipt",
-      "sha256": "6d5d1e5f701a2cec48c95a8f274ace00f476cdbb7bf406d8587a3d7fc4228328",
-      "role": "safe_metadata",
-      "opened": true,
-      "hash_semantics": "global work_ID metadata only; no island distribution values"
     },
     {
       "file_id": "gift3.2_native_angiosperm_distribution_surface",
@@ -72,13 +65,12 @@
     "mechanism_framework": "development/prospective_mechanism_discrimination_v0_1.json"
   },
   "study_specific_frozen_state": {
-    "eligible_archipelago_rule": "full non-null GIFT archipelago path with >=12 eligible islands after conservative closed-system archipelago exclusion",
-    "eligible_archipelagos_before_response": 24,
+    "eligible_archipelago_rule": "full non-null GIFT archipelago path with >=12 eligible islands after conservative closed-system archipelago exclusion and predictor-completeness filtering",
     "isolation_metric": "GIFT dist",
-    "primary_extreme_rule": "within each archipelago, upper 25% by dist; ties broken deterministically by entity_ID",
-    "pilot_species_rule": "SHA256('GIFT3.2|<work_ID>|structural-gift-pilot-v1') first_64_bits mod 5 == 0",
-    "confirmatory_species_rule": "same hash rule, buckets 1-4",
-    "pilot_species_count": 70746,
-    "confirmatory_species_count": 281385
+    "primary_extreme_rule": "global upper 25% across the final eligible-island universe; deterministic entity_ID tie-break; q70/q80 are non-rescuing sensitivity only",
+    "response_access_granularity": "GIFT checklist API is list_ID/ref_ID scoped and does not server-filter by work_ID",
+    "pilot_confirmatory_firewall": "disjoint archipelago/list_ID surfaces; opening pilot lists must not expose any confirmatory-archipelago checklist",
+    "pilot_role": "estimability only; no effect size, model comparison score, or H1/H2/H3 result may be computed",
+    "confirmatory_response_authorized": false
   }
 }
