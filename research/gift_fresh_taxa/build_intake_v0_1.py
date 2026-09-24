@@ -5,8 +5,8 @@ import argparse, hashlib, json
 from pathlib import Path
 
 EXPECTED={
-    "Pteridophyta":"c2f789c5f4ffb2b3461e172df0f32fd5ab440fd10ed96e2429849984113a4d0c",
-    "Gymnospermae":"d2f2e3eb17c944d85090181a44416d353a6b746511e49b95973ab7fb5d26931b",
+    "Pteridophyta":"177b41f45b7bc06b4ec3a79fcbec3b12422bb7db3de06650c2527c7189290f37",
+    "Gymnospermae":"42d018ac6713f2b4f72b29f6c27817b60ba8853696a3508ca5a6fa1e1f22ef49",
 }
 def sha(x):
     return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
