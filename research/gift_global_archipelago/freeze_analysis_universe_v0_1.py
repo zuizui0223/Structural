@@ -109,63 +109,47 @@ def haversine_km(lon1, lat1, lon2, lat2):
     return 2 * r * math.asin(min(1.0, math.sqrt(x)))
 
 
-class DSU:
-    def __init__(self, nodes):
-        self.p = {n: n for n in nodes}
-    def find(self, x):
-        while self.p[x] != x:
-            self.p[x] = self.p[self.p[x]]
-            x = self.p[x]
-        return x
-    def union(self, a, b):
-        a, b = self.find(a), self.find(b)
-        if a == b:
-            return False
-        if int(a) > int(b):
-            a, b = b, a
-        self.p[b] = a
-        return True
+def balanced_spatial_blocks(ids, lon, lat, k=N_SPATIAL_BLOCKS):
+    """Deterministic balanced spatial blocks along the archipelago's main geodesic axis.
 
-
-def mst_blocks(ids, lon, lat, k=N_SPATIAL_BLOCKS):
+    Find the farthest island pair response-blind, order islands by signed
+    distance contrast to the pair, then split that order into k contiguous
+    blocks differing in size by at most one. With n>=16 and k=4 every heldout
+    block has >=4 islands.
+    """
     ids = sorted(ids, key=int)
     if len(ids) < k:
         raise RuntimeError("archipelago smaller than spatial block count")
-    edges = []
+
+    pairs = []
     for i, a in enumerate(ids):
         for b in ids[i + 1:]:
             d = haversine_km(float(lon[a]), float(lat[a]), float(lon[b]), float(lat[b]))
-            edges.append((d, int(a), int(b), a, b))
-    edges.sort()
-    dsu = DSU(ids)
-    mst = []
-    for edge in edges:
-        if dsu.union(edge[3], edge[4]):
-            mst.append(edge)
-            if len(mst) == len(ids) - 1:
-                break
-    if len(mst) != len(ids) - 1:
-        raise RuntimeError("MST construction failed")
-    cut = set((e[3], e[4]) for e in sorted(mst, reverse=True)[: k - 1])
-    dsu2 = DSU(ids)
-    for e in mst:
-        if (e[3], e[4]) not in cut:
-            dsu2.union(e[3], e[4])
-    groups = defaultdict(list)
+            pairs.append((d, -int(a), -int(b), a, b))
+    _, _, _, a, b = max(pairs)
+
+    scored = []
     for eid in ids:
-        groups[dsu2.find(eid)].append(eid)
-    comps = sorted(
-        (sorted(v, key=int) for v in groups.values()),
-        key=lambda members: int(members[0]),
-    )
-    if len(comps) != k:
-        raise RuntimeError(f"expected {k} MST blocks, got {len(comps)}")
+        da = haversine_km(float(lon[eid]), float(lat[eid]), float(lon[a]), float(lat[a]))
+        db = haversine_km(float(lon[eid]), float(lat[eid]), float(lon[b]), float(lat[b]))
+        scored.append((da - db, int(eid), eid))
+    ordered = [eid for _, _, eid in sorted(scored)]
+
+    base, rem = divmod(len(ordered), k)
+    sizes = [base + (1 if idx < rem else 0) for idx in range(k)]
     out = {}
-    for idx, members in enumerate(comps, start=1):
+    cursor = 0
+    for idx, size in enumerate(sizes, start=1):
+        members = ordered[cursor:cursor + size]
+        cursor += size
         for eid in members:
             out[eid] = f"B{idx}"
-    return out, [len(m) for m in comps]
-
+    if cursor != len(ordered) or min(sizes) < 1:
+        raise RuntimeError("balanced spatial block construction failed")
+    return out, sizes, {
+        "axis_endpoints": [a, b],
+        "axis_length_km": haversine_km(float(lon[a]), float(lat[a]), float(lon[b]), float(lat[b])),
+    }
 
 def rank_tail(ids, dist, fraction):
     ids = sorted(ids, key=lambda eid: (-float(dist[eid]), int(eid)))
@@ -301,7 +285,7 @@ def main() -> int:
     for path, ids in sorted(groups.items()):
         gmmc = [int(float(misc["GMMC"][eid])) for eid in ids]
         frac = sum(gmmc) / len(gmmc)
-        blocks, block_sizes = mst_blocks(
+        blocks, block_sizes, block_axis = balanced_spatial_blocks(
             ids, misc["longitude"], misc["latitude"], N_SPATIAL_BLOCKS
         )
         q75 = [eid for eid in ids if eid in global_q75]
@@ -326,6 +310,7 @@ def main() -> int:
             "gmmc_connected_fraction": frac,
             "history_bin": history_bin(frac),
             "block_sizes": block_sizes,
+            "block_axis": block_axis,
             "q75_extreme_n": len(q75),
             "q75_nonextreme_n": len(ids) - len(q75),
             "h1_extreme_contributor": len(q75) >= 3,
@@ -420,7 +405,7 @@ def main() -> int:
         },
         "spatial_holdout": {
             "blocks_per_archipelago": N_SPATIAL_BLOCKS,
-            "algorithm": "great-circle complete graph -> deterministic Kruskal MST -> cut the three longest MST edges; ties by entity_ID; components labelled by smallest entity_ID",
+            "algorithm": "deterministic balanced geodesic-axis blocks: choose farthest island pair by great-circle distance (entity_ID tie-break), order islands by signed distance contrast to the pair, split into four contiguous equal-count blocks; block sizes differ by at most one",
         },
         "closed_system_exclusion": {
             "rule": "exclude entire GIFT archipelago path if any predictor-complete member centroid is covered by verified A-Islands v1.0 polygon",
