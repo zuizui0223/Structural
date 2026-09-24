@@ -150,6 +150,8 @@ That final access gate is now executable as `development/mechanism_response_auth
 
 Response access itself is now recorded through `development/mechanism_response_access_gate_v0_7.json`. The recorder requires a git-tracked v0.6 authorization, replays it exactly, restricts M1 to state-0 rows and M2 to state-1 rows, restricts M3 to prequalified focal/source pairs and M4 to units in the frozen environment matrix, then binds the opened response SHA-256 into an access receipt. Only that receipt authorizes the next frozen-scoring stage; no mechanism claim is made at access time.
 
+Frozen scoring is now executable through `development/mechanism_frozen_scoring_gate_v0_9.json`. It exact-replays the tracked v0.7 access receipt and joins only the v0.8 scoring inputs to the SHA-bound response: M1/M2 emit candidate-minus-reference transition log-loss, M3 emits the frozen-weight connected-minus-alternative genetic contrast, and M4 emits the original/enriched reference/topology loss components. Numeric scoring still does not authorize a mechanism claim; spatial-transfer/null/practical-equivalence adjudication remains separate.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.
