@@ -6,7 +6,7 @@ This freezes:
 - conservative A-Islands-contaminated archipelago removal;
 - current-environment reference completeness;
 - within-archipelago q75/q70/q80 isolation ranks;
-- deterministic 4-block spatial MST holdout labels;
+- deterministic balanced 4-block spatial holdout labels;
 - a metadata-stratified burned-pilot/confirmatory archipelago split.
 
 No GIFT species-composition endpoint is called.
