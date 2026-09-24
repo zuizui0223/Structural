@@ -270,6 +270,7 @@ def main():
         "response_semantics":{
             "unit":"island x clade",
             "response":"native species richness = unique work_ID count with >=1 unambiguous native record across the frozen eligible list union",
+            "analysis_response_transform":"for each clade separately, compute log1p(native richness) on all frozen common-panel islands, then z-standardize using that clade's full-panel mean and population SD (ddof=0); fail closed if SD<=1e-12; only then apply archipelago fixed-effect demeaning",
             "unambiguous_native":"native=1 AND questionable!=1 AND quest_native!=1",
             "uncertain_records":"native rows with questionable=1 or quest_native=1 are excluded from richness",
             "duplicate_work_ID_across_lists":"count once per island x clade",
@@ -285,7 +286,7 @@ def main():
             "interaction_order":"construct interactions after frozen continuous z-scaling, before fixed-effect demeaning",
         },
         "model":{
-            "family":"archipelago-equal weighted least squares on log1p(native richness)",
+            "family":"archipelago-equal weighted least squares on clade-standardized log1p(native richness)",
             "hyperparameter_tuning":"none",
             "archipelago_fixed_intercepts":"within each clade model, absorbed by exact within-archipelago demeaning",
             "observation_weights":"within each clade, every island in archipelago g has weight 1/n_g so every archipelago contributes total weight 1 to the point estimate",
@@ -305,7 +306,7 @@ def main():
                 clade:clade_audits[clade]["dropped_constant"] for clade in CLADES
             },
             "per_clade_target_column":"step_gain_x_extreme",
-            "per_clade_estimand":"change in the richness association with standardized step-isolation gain in the global upper-25% mainland-isolation regime versus remaining islands, estimated separately with clade-specific reference slopes and archipelago fixed effects",
+            "per_clade_estimand":"change in clade-standardized log1p-richness association with standardized step-isolation gain in the global upper-25% mainland-isolation regime versus remaining islands, estimated separately with clade-specific reference slopes and archipelago fixed effects",
             "pooled_estimand":"equal-weight mean of the Angiospermae, Pteridophyta, and Gymnospermae per-clade target coefficients within each whole-archipelago bootstrap replicate",
             "prediction":"positive",
             "success_rule":"whole-archipelago bootstrap 95% interval for the equal-clade mean excludes 0 on the positive side",
@@ -339,7 +340,7 @@ def main():
             "change common island panel","reintroduce any prior-pilot archipelago",
             "change global q75 isolation threshold","change scale-free step-isolation definition",
             "change response-independent per-clade retained/dropped design columns","change reference predictor set or checklist-effort control","change frozen continuous scaling",
-            "change log1p richness response","change fixed-effect absorption",
+            "change clade-wise log1p-richness z standardization","change fixed-effect absorption",
             "change per-archipelago total weight=1 rule","change bootstrap unit/repetitions/seed/rank filter or accepted draw set","change clade-specific fitting or equal-clade weighting","change H1 or H3 estimand/sign",
             "reintroduce H2 or any geology moderator","select clades by outcome direction",
         ],
