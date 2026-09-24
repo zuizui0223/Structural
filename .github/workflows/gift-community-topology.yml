@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install predictor-only dependencies
-        run: python -m pip install pyshp shapely numpy openpyxl
+        run: python -m pip install pyshp shapely numpy
       - name: Replay v0.1 predictor-only STOP boundary
         run: |
           python - <<'PY'
@@ -56,49 +56,43 @@ jobs:
           assert len(x["panel_fingerprint"]) == 64
           print("COMMUNITY_PANEL_FROZEN", x["n_final_archipelagos"], x["n_final_islands"], x["support"], x["panel_fingerprint"])
           PY
-      - name: Freeze external geology moderator
-        run: |
-          python research/gift_community_topology/freeze_roeble_geology_v0_2.py \
-            --panel gift_community_panel.json \
-            | tee gift_community_geology.json
-      - name: Assert geology moderator is response blind
+      - name: Replay terminal H2 pre-response closure
         run: |
           python - <<'PY'
           import json
-          x=json.load(open("gift_community_geology.json"))
-          assert x["schema"] == "structural.gift_community_roeble_geology.v0_2"
-          assert x["status"] == "FROZEN_BEFORE_COMMUNITY_RESPONSE"
+          x=json.load(open("research/gift_community_topology/pre_response_h2_stop_v0_4.json"))
+          assert x["status"] == "H2_TERMINAL_PRE_RESPONSE_NON_ESTIMABLE"
           assert x["response_values_accessed"] is False
-          assert x["gift_species_composition_accessed"] is False
-          assert x["continuous_H2_support"] is True
-          assert x["eligible_archipelagos"] >= 6
-          assert x["oceanic_fraction_min"] < x["oceanic_fraction_max"]
-          assert len(x["crosswalk_fingerprint"]) == 64
-          print("COMMUNITY_GEOLOGY_FROZEN", x["eligible_archipelagos"], x["pure_continental"], x["pure_oceanic"], x["mixed"], x["crosswalk_fingerprint"])
+          assert x["species_composition_endpoint_called"] is False
+          assert x["terminal_boundary"]["H2_will_not_be_tested_in_this_dataset"] is True
+          assert x["terminal_boundary"]["H2_cannot_be_rescued_by_post_response_analysis"] is True
+          assert x["terminal_boundary"]["H1_H3_may_proceed_under_unchanged_pre_response_definitions"] is True
+          print("H2_TERMINAL_PRE_RESPONSE_CLOSURE_OK")
           PY
-      - name: Freeze v0.3 community step-isolation protocol
+      - name: Freeze final H1 H3 community protocol v0.5
         run: |
-          python research/gift_community_topology/freeze_protocol_v0_4.py \
+          python research/gift_community_topology/freeze_protocol_v0_5.py \
             --panel gift_community_panel.json \
             --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
-            --geology-crosswalk gift_community_geology.json \
+            --h2-terminal research/gift_community_topology/pre_response_h2_stop_v0_4.json \
             | tee gift_community_protocol.json
       - name: Assert predictor-only estimability before response
         run: |
           python - <<'PY'
           import json
           x=json.load(open("gift_community_protocol.json"))
-          assert x["schema"] == "structural.gift_community_topology_protocol.v0_4"
+          assert x["schema"] == "structural.gift_community_topology_protocol.v0_5"
           assert x["status"] == "QUALIFIED_TO_OPEN_COMMUNITY_RESPONSE"
           assert x["response_values_accessed"] is False
           assert x["response_open_authorized"] is True
           assert all(x["pre_response_gates"].values())
           assert x["H1_primary"]["prediction"].startswith("positive")
-          assert x["pre_response_predecessor"]["response_values_accessed_in_v0_1_v0_2_or_v0_3"] is False
+          assert x["H2"]["status"] == "TERMINAL_PRE_RESPONSE_NON_ESTIMABLE_NOT_TESTED"
+          assert x["H2"]["cannot_be_reintroduced_after_response"] is True
           assert x["pre_response_gates"]["H1_target_retained"] is True
-          assert x["pre_response_gates"]["H2_target_retained"] is True
           assert x["pre_response_gates"]["H3_target_retained"] is True
-          assert x["H2_primary"]["prediction"].startswith("positive")
+          assert x["H1_primary"]["prediction"] == "positive"
+          assert x["H3_primary"]["prediction"] == "negative"
           assert x["H3_primary"]["prediction"].startswith("negative")
           assert len(x["protocol_fingerprint"]) == 64
           print("COMMUNITY_PROTOCOL_QUALIFIED", x["protocol_fingerprint"])
