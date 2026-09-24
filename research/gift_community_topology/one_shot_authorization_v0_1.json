@@ -1,0 +1,30 @@
+{
+  "schema": "structural.gift_community_topology_one_shot_authorization.v0_1",
+  "status": "AUTHORIZED_FOR_EXACT_ONE_SHOT_RESPONSE",
+  "issued_after_pre_response_green_run": 35992316526,
+  "pre_response_lock_commit": "47c9b1dda228b0601af6bc816ded4882aa3b7156",
+  "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+  "protocol_fingerprint": "6529dbd74d845dfdbecf614177376c80d690445f4cf6f9eb8c5fb654c03f54e1",
+  "runner_path": "research/gift_community_topology/run_community_response_weighted_v0_1.py",
+  "runner_git_blob_sha": "91b0d759ae9936c1ff4e6028b448b1e712b22bf8",
+  "response_values_accessed": false,
+  "response_surfaces": {
+    "Angiospermae": {
+      "query_count": 555,
+      "sha256": "ed5b33afd7885a6ba7212ac13ca33978fbd180f0b38b9093493f3a859e7e8f6c"
+    },
+    "Pteridophyta": {
+      "query_count": 510,
+      "sha256": "f75c4c5be876d2fcd902e9f56455a7ce281fd97310d5048747fdcdc2efd04604"
+    },
+    "Gymnospermae": {
+      "query_count": 538,
+      "sha256": "addb3e01371df39961f367980f3510148e5cd7c2908774f49de36bd21a32881b"
+    }
+  },
+  "bootstrap_draws_sha256": "2aeebc05347847523e91066457c3fce0ccae422a0a6a71be348faa6a24f2d04d",
+  "H2_authorized": false,
+  "post_response_retuning_authorized": false,
+  "execution_rule": "exact lock replay + exact runner blob + exact response surfaces; any mismatch stops before checklist query",
+  "rerun_rule": "do not rerun after any checklist query succeeds; preserve artifact and close execution PR"
+}
