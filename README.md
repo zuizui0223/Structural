@@ -152,6 +152,8 @@ Response access itself is now recorded through `development/mechanism_response_a
 
 Frozen scoring is now executable through `development/mechanism_frozen_scoring_gate_v0_9.json`. It exact-replays the tracked v0.7 access receipt and joins only the v0.8 scoring inputs to the SHA-bound response: M1/M2 emit candidate-minus-reference transition log-loss, M3 emits the frozen-weight connected-minus-alternative genetic contrast, and M4 emits the original/enriched reference/topology loss components. Numeric scoring still does not authorize a mechanism claim; spatial-transfer/null/practical-equivalence adjudication remains separate.
 
+A new independent system now enters through `development/independent_system_intake_contract_v0_10.json`, before v0.31. The intake reuses the existing metadata-only fresh-candidate triage, fingerprints source/version/files, forbids reopening known closed systems, requires response and unknown files to remain unopened, and permits mechanism lanes only from response-blind metadata support. A clean intake authorizes only construction of a v0.31 partition protocol; it does not open pilot or confirmatory responses. There is still no current empirical system.
+
 ## Current state
 
 Science and presentation are closed. Remaining work is author/admin/release/live-policy only: author metadata and declarations, tagged release, archived DOI, release-fingerprint replay, and submission-day *Ecological Informatics* checks.
