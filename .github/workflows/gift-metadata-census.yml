@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install geometry-only exclusion dependencies
-        run: python -m pip install pyshp shapely
+        run: python -m pip install pyshp shapely openpyxl
       - name: Run response-blind GIFT 3.2 metadata census
         env:
           GIFT_VERSION: "3.2"
@@ -141,6 +141,19 @@ jobs:
           assert x["species_composition_accessed"] is False
           assert len(x["candidate_layers"]) > 0
           print("M4_METADATA_AUDIT_OK", len(x["candidate_layers"]))
+          PY
+      - name: Audit Roeble geology crosswalk source
+        run: python research/gift_global_archipelago/audit_roeble_geology_crosswalk_v0_1.py | tee roeble_geology_audit.json
+      - name: Assert geology audit stayed response-blind
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("roeble_geology_audit.json"))
+          assert x["gift_species_composition_accessed"] is False
+          assert x["structural_outcome_accessed"] is False
+          assert len(x["xlsx_sha256"]) == 64
+          assert len(x["sheets"]) >= 1
+          print("ROEBLE_GEOLOGY_AUDIT_OK", x["xlsx_sha256"], [s["title"] for s in x["sheets"]])
           PY
       - name: Freeze GIFT macro-study protocol before pilot response
         run: |
