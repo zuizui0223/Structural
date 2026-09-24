@@ -46,16 +46,18 @@ jobs:
         run: |
           python - <<'PY'
           import json, subprocess
-          auth=json.load(open("research/avonet_dars_archipelago/pilot_authorization_v0_1.json"))
+          auth=json.load(open("research/avonet_dars_archipelago/pilot_authorization_v0_2.json"))
           lock=json.load(open("research/avonet_dars_archipelago/pre_response_lock_v0_1.json"))
           census=json.load(open("avonet_dars_metadata_census.json"))
           part=json.load(open("avonet_dars_partition.json"))
           trait=json.load(open("avonet_hwi_predictor.json"))
           protocol=json.load(open("avonet_dars_hwi_protocol.json"))
 
-          assert auth["schema"] == "structural.avonet_dars_hwi_pilot_authorization.v0_1"
+          assert auth["schema"] == "structural.avonet_dars_hwi_pilot_authorization.v0_2"
           assert auth["status"] == "AUTHORIZED_FOR_EXACT_BURNED_PILOT"
           assert auth["response_values_accessed"] is False
+          assert auth["scientific_design_changed"] is False
+          assert auth["failed_prequery_response_queries"] == 0
           observed_blob=subprocess.check_output(
               ["git","hash-object",auth["runner_path"]],text=True
           ).strip()
@@ -140,7 +142,7 @@ jobs:
             avonet_hwi_predictor.json
             avonet_dars_hwi_protocol.json
             research/avonet_dars_archipelago/pre_response_lock_v0_1.json
-            research/avonet_dars_archipelago/pilot_authorization_v0_1.json
+            research/avonet_dars_archipelago/pilot_authorization_v0_2.json
           retention-days: 90
       - name: Adjudicate burned pilot
         run: |
