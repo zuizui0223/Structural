@@ -114,7 +114,7 @@ jobs:
       - name: Freeze predictor-complete archipelago universe
         env:
           GIFT_VERSION: "3.2"
-        run: python research/gift_global_archipelago/freeze_analysis_universe_v0_1.py | tee gift_analysis_universe.json
+        run: python research/gift_global_archipelago/freeze_analysis_universe_v0_1.py --exclusion-json gift_aislands_exclusion.json | tee gift_analysis_universe.json
       - name: Assert final universe is response sealed
         run: |
           python - <<'PY'
