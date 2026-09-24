@@ -158,8 +158,10 @@ def main() -> int:
     overlap, overlap_meta = fetch("overlap")
     env_misc, env_misc_meta = fetch("env_misc")
     selected_env_values = {}
+    env_maps = {}
     for var in ("area", "dist", "SLMP", "GMMC", "arch_lvl_1", "arch_lvl_2", "arch_lvl_3"):
         rows, meta = fetch("geoentities_env_misc", extra={"envvar": var})
+        env_maps[var] = {s(row.get("entity_ID")): row.get(var) for row in rows}
         selected_env_values[var] = {
             "meta": meta,
             "sample": rows[:8],
@@ -202,6 +204,67 @@ def main() -> int:
     def class_counts(entities):
         return dict(sorted(Counter(v["entity_class"] for v in entities.values()).items()))
 
+    # Standardized response-blind archipelago hierarchy from GIFT itself.
+    # The tuple path is used instead of the terminal name alone to avoid
+    # collisions between identically named subgroups in different parents.
+    hierarchy_groups = defaultdict(set)
+    hierarchy_path_by_island = {}
+    for eid in sorted(public_islands):
+        levels = tuple(
+            s(env_maps[var].get(eid)).strip()
+            for var in ("arch_lvl_1", "arch_lvl_2", "arch_lvl_3")
+            if env_maps[var].get(eid) not in (None, "")
+        )
+        if not levels:
+            continue
+        hierarchy_groups[levels].add(eid)
+        hierarchy_path_by_island[eid] = levels
+
+    hierarchy_counts = sorted(
+        (len(children), path) for path, children in hierarchy_groups.items()
+    )
+    hierarchy_by_min = {
+        str(k): sum(n >= k for n, _ in hierarchy_counts)
+        for k in (4, 8, 12, 20, 30)
+    }
+    hierarchy_top = []
+    for n, path in sorted(hierarchy_counts, reverse=True)[:60]:
+        children = hierarchy_groups[path]
+        gmmc = [
+            env_maps["GMMC"].get(eid)
+            for eid in children
+            if env_maps["GMMC"].get(eid) is not None
+        ]
+        gmmc_set = sorted(set(gmmc))
+        if gmmc_set == [1]:
+            historical_connection_class = "all_LGM_connected"
+        elif gmmc_set == [0]:
+            historical_connection_class = "all_LGM_disconnected"
+        elif gmmc_set:
+            historical_connection_class = "mixed_LGM_connection"
+        else:
+            historical_connection_class = "unknown"
+        hierarchy_top.append({
+            "archipelago_path": list(path),
+            "n_eligible_individual_islands": n,
+            "historical_connection_class": historical_connection_class,
+            "gmmc_nonmissing": len(gmmc),
+        })
+
+    distances = sorted(
+        float(env_maps["dist"][eid])
+        for eid in public_islands
+        if env_maps["dist"].get(eid) is not None
+    )
+    def empirical_quantile(values, p):
+        if not values:
+            return None
+        pos = (len(values) - 1) * p
+        lo = int(pos)
+        hi = min(lo + 1, len(values) - 1)
+        frac = pos - lo
+        return values[lo] * (1 - frac) + values[hi] * frac
+
     summary = {
         "schema": "structural.gift_archipelago_metadata_census.v0_1",
         "response_values_accessed": False,
@@ -234,6 +297,22 @@ def main() -> int:
         "entity_class_counts_including_restricted": class_counts(entities_all),
         "entity_class_counts_public_only": class_counts(entities_public),
         "individual_public_islands": len(public_islands),
+        "gift_archipelago_hierarchy_diagnostic": {
+            "rule": "group by full non-null (arch_lvl_1, arch_lvl_2, arch_lvl_3) path; no response data used",
+            "assigned_individual_islands": len(hierarchy_path_by_island),
+            "unassigned_individual_islands": len(public_islands - set(hierarchy_path_by_island)),
+            "groups_with_at_least_one_island": len(hierarchy_groups),
+            "groups_by_minimum_island_count": hierarchy_by_min,
+            "top_groups": hierarchy_top,
+        },
+        "isolation_metadata_diagnostic": {
+            "metric": "GIFT dist = coast-to-coast distance to nearest mainland, excluding Antarctica",
+            "n_nonmissing": len(distances),
+            "q70_km": empirical_quantile(distances, 0.70),
+            "q75_km": empirical_quantile(distances, 0.75),
+            "q80_km": empirical_quantile(distances, 0.80),
+            "threshold_role": "diagnostic only until closed-system exclusions and final predictor-only universe are frozen",
+        },
         "archipelago_overlap_diagnostic": {},
         "canonical_smallest_parent_diagnostic": {},
     }
