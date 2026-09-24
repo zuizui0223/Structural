@@ -371,7 +371,7 @@ def main() -> int:
     for level in ("arch_lvl_1", "arch_lvl_2", "arch_lvl_3"):
         groups = defaultdict(list)
         for island_id in sorted(public_islands):
-            group = env_value_maps[level].get(island_id)
+            group = env_maps[level].get(island_id)
             if group is None or not s(group).strip():
                 continue
             groups[s(group).strip()].append(island_id)
@@ -379,14 +379,14 @@ def main() -> int:
         rows = []
         for group, island_ids in groups.items():
             dists = [
-                f(env_value_maps["dist"].get(i))
+                f(env_maps["dist"].get(i))
                 for i in island_ids
-                if env_value_maps["dist"].get(i) not in (None, "")
+                if env_maps["dist"].get(i) not in (None, "")
             ]
             gmmc = [
-                i(env_value_maps["GMMC"].get(island_id))
+                i(env_maps["GMMC"].get(island_id))
                 for island_id in island_ids
-                if env_value_maps["GMMC"].get(island_id) not in (None, "")
+                if env_maps["GMMC"].get(island_id) not in (None, "")
             ]
             rows.append({
                 "archipelago": group,
