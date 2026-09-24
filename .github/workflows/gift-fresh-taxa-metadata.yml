@@ -1,0 +1,34 @@
+name: GIFT fresh-taxon metadata census
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/gift_fresh_taxa/**"
+      - ".github/workflows/gift-fresh-taxa-metadata.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Census untouched taxonomic response surfaces
+        run: python research/gift_fresh_taxa/metadata_candidate_census_v0_1.py | tee gift_fresh_taxa_metadata.json
+      - name: Assert response stayed sealed
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_fresh_taxa_metadata.json"))
+          assert x["angiosperm_response_reused"] is False
+          assert x["species_composition_endpoint_called"] is False
+          assert len(x["census_fingerprint"]) == 64
+          print("FRESH_TAXA_METADATA_ONLY_OK", x["census_fingerprint"])
+          for k,v in x["results"].items():
+              print(k, v.get("eligible_individual_islands"), v.get("archipelagos_by_minimum_island_count"))
+          PY
