@@ -79,3 +79,66 @@ jobs:
               x["partition_fingerprint"],
           )
           PY
+      - name: Install predictor-only numerical dependency
+        run: python -m pip install numpy
+      - name: Freeze AVONET HWI predictor
+        run: |
+          python research/avonet_dars_archipelago/freeze_hwi_predictor_v0_1.py \
+            | tee avonet_hwi_predictor.json
+      - name: Assert trait predictor opened without response
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("avonet_hwi_predictor.json"))
+          assert x["status"] == "PREDICTOR_OPEN_RESPONSE_SEALED"
+          assert x["response_values_accessed"] is False
+          assert x["dars_species_matrices_opened"] is False
+          assert x["columns"]["HWI"] == "Hand-Wing Index"
+          assert x["HWI_nonmissing"] > 9000
+          assert x["HWI_missing"] >= 0
+          assert len(x["trait_fingerprint"]) == 64
+          print("AVONET_HWI_PREDICTOR_FROZEN", x["rows"], x["HWI_nonmissing"], x["trait_fingerprint"])
+          PY
+      - name: Freeze HWI occupancy protocol before bird response
+        run: |
+          python research/avonet_dars_archipelago/freeze_hwi_occupancy_protocol_v0_1.py \
+            --census avonet_dars_metadata_census.json \
+            --partition avonet_dars_partition.json \
+            --trait avonet_hwi_predictor.json \
+            | tee avonet_dars_hwi_protocol.json
+      - name: Assert bird protocol response-sealed and estimable
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("avonet_dars_hwi_protocol.json"))
+          assert x["status"] == "FROZEN_BEFORE_BURNED_PILOT_RESPONSE"
+          assert x["response_values_accessed"] is False
+          assert x["pilot_response_opened"] is False
+          assert x["confirmatory_response_opened"] is False
+          assert x["second_stage"]["design_audit"]["full_rank"] is True
+          assert x["second_stage"]["design_audit"]["condition"] < 20
+          assert x["nonrescuing_sensitivity"]["design_audit"]["full_rank"] is True
+          assert x["second_stage"]["cell_counts"] == {
+              "Oceanic|nonextreme":4,
+              "Oceanic|extreme":4,
+              "C.Shelf|nonextreme":7,
+              "C.Shelf|extreme":1,
+          }
+          b=x["second_stage"]["bootstrap"]
+          assert b["replicates"] == 10000
+          assert len(b["accepted_draws_sha256"]) == 64
+          assert x["burned_pilot_gate"]["effect_or_rho_computation_allowed"] is False
+          assert x["pilot_response_authorized"] is False
+          assert x["confirmatory_response_authorized"] is False
+          assert len(x["protocol_fingerprint"]) == 64
+          print("BIRD_HWI_PROTOCOL_FROZEN", x["protocol_fingerprint"], b)
+          PY
+      - name: Assert metadata CI contains no bird matrix fetch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          wf=Path(".github/workflows/avonet-dars-metadata-census.yml").read_text()
+          assert "run_burned_pilot" not in wf
+          assert "open_confirmatory" not in wf
+          print("BIRD_RESPONSE_REMAINS_SEALED")
+          PY
