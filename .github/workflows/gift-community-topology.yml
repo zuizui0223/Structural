@@ -24,9 +24,20 @@ jobs:
           python-version: "3.12"
       - name: Install predictor-only dependencies
         run: python -m pip install pyshp shapely numpy
-      - name: Freeze common three-clade predictor panel
+      - name: Replay v0.1 predictor-only STOP boundary
         run: |
-          python research/gift_community_topology/freeze_common_panel_v0_1.py \
+          python - <<'PY'
+          import json
+          x=json.load(open("research/gift_community_topology/pre_response_stop_v0_1.json"))
+          assert x["status"] == "STOP_PRE_RESPONSE_NON_ESTIMABLE"
+          assert x["response_values_accessed"] is False
+          assert x["species_composition_endpoint_called"] is False
+          assert x["extreme_topology_gain_nonzero_islands"] == 0
+          print("V0_1_PRE_RESPONSE_STOP_REPLAY_OK", x["panel_fingerprint"])
+          PY
+      - name: Freeze v0.2 common three-clade predictor panel
+        run: |
+          python research/gift_community_topology/freeze_common_panel_v0_2.py \
             --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
             | tee gift_community_panel.json
       - name: Assert community response remains sealed
@@ -34,6 +45,7 @@ jobs:
           python - <<'PY'
           import json
           x=json.load(open("gift_community_panel.json"))
+          assert x["schema"] == "structural.gift_community_topology_panel.v0_2"
           assert x["status"] == "FROZEN_PREDICTOR_PANEL_RESPONSE_SEALED"
           assert x["species_composition_endpoint_called"] is False
           assert x["response_values_accessed"] is False
@@ -44,9 +56,9 @@ jobs:
           assert len(x["panel_fingerprint"]) == 64
           print("COMMUNITY_PANEL_FROZEN", x["n_final_archipelagos"], x["n_final_islands"], x["support"], x["panel_fingerprint"])
           PY
-      - name: Freeze community topology protocol
+      - name: Freeze v0.2 community step-isolation protocol
         run: |
-          python research/gift_community_topology/freeze_protocol_v0_1.py \
+          python research/gift_community_topology/freeze_protocol_v0_2.py \
             --panel gift_community_panel.json \
             --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
             | tee gift_community_protocol.json
@@ -55,11 +67,13 @@ jobs:
           python - <<'PY'
           import json
           x=json.load(open("gift_community_protocol.json"))
+          assert x["schema"] == "structural.gift_community_topology_protocol.v0_2"
           assert x["status"] == "QUALIFIED_TO_OPEN_COMMUNITY_RESPONSE"
           assert x["response_values_accessed"] is False
           assert x["response_open_authorized"] is True
           assert all(x["pre_response_gates"].values())
           assert x["H1_primary"]["prediction"].startswith("positive")
+          assert x["pre_response_predecessor"]["response_values_accessed_in_v0_1"] is False
           assert x["H2_primary"]["prediction"].startswith("negative")
           assert x["H3_primary"]["prediction"].startswith("negative")
           assert len(x["protocol_fingerprint"]) == 64
