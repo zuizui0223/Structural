@@ -1,0 +1,67 @@
+{
+  "schema": "structural.independent_system_intake.v0_10",
+  "status": "response_sealed_intake_draft",
+  "system_id": "synthetic_future_independent_system",
+  "source_id": "synthetic-doi-or-release-id",
+  "source_version": "v1.0",
+  "source_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "origin": "independent_island_or_fragment_network",
+  "is_prior_closed_system": false,
+  "response_firewall_state": "response_sealed",
+  "response_values_accessed": false,
+  "source_files": [
+    {
+      "file_id": "metadata.csv",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "role": "safe_metadata",
+      "opened": true
+    },
+    {
+      "file_id": "geometry.gpkg",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "role": "geometry",
+      "opened": true
+    },
+    {
+      "file_id": "response.csv",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "role": "response",
+      "opened": false
+    }
+  ],
+  "freshness_metadata": {
+    "temporal_replication": "yes",
+    "immutable_source_identity": "yes",
+    "spatial_unit_id_documented": "yes",
+    "coordinates_or_geometry_documented": "yes",
+    "outcome_file_separable": "yes",
+    "operator_semantics_declarable": "yes",
+    "connectivity_question_already_published": "no",
+    "response_result_seen_by_project": "no"
+  },
+  "selection_firewall": {
+    "candidate_hunt_active": false,
+    "system_selected_using_response_direction": false,
+    "system_selected_using_connectivity_result": false,
+    "mechanism_lanes_selected_using_response_direction": false,
+    "graph_scale_selected_using_response_direction": false,
+    "endpoint_selected_using_response_direction": false,
+    "published_effect_direction_used_for_selection": false
+  },
+  "requested_mechanism_lanes": [
+    "M1_contemporary_colonization",
+    "M2_rescue_persistence",
+    "M3_historical_colonization_legacy",
+    "M4_environmental_proxy"
+  ],
+  "response_blind_data_support": {
+    "temporal_transition_metadata_available": true,
+    "genetic_sampling_metadata_available": true,
+    "environment_predictor_metadata_available": true
+  },
+  "hypothesis_bindings": {
+    "structural_partition_contract": "development/transition_pilot_protocol_contract_v0_31.json",
+    "ecological_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "mechanism_framework": "development/prospective_mechanism_discrimination_v0_1.json"
+  }
+}

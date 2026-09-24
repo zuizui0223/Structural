@@ -1,0 +1,61 @@
+{
+  "schema": "structural.independent_system_intake_contract.v0_10",
+  "status": "prospective_infrastructure_no_current_system",
+  "purpose": "admit only independently arriving response-sealed systems into v0.31 protocol construction without reopening closed candidates or using outcome direction for system/lane selection",
+  "logical_position": "before v0.31 partition freeze",
+  "inherits_existing_fresh_triage": "src/structural/candidate_triage.py",
+  "required_identity": [
+    "system_id",
+    "source_id",
+    "source_version",
+    "source_fingerprint",
+    "origin"
+  ],
+  "response_firewall": {
+    "state": "response_sealed",
+    "response_values_accessed": false,
+    "response_and_unknown_files_must_remain_unopened": true,
+    "source_files_sha256_role_manifest_required": true
+  },
+  "selection_firewall": {
+    "candidate_hunt_active": false,
+    "system_selected_using_response_direction": false,
+    "system_selected_using_connectivity_result": false,
+    "mechanism_lanes_selected_using_response_direction": false,
+    "graph_scale_selected_using_response_direction": false,
+    "endpoint_selected_using_response_direction": false,
+    "published_effect_direction_used_for_selection": false
+  },
+  "closed_systems_may_reenter": false,
+  "known_closed_system_ids": [
+    "usgs_pnw_montane_ponds_2012_2013",
+    "usgs_rmnp_amphibian_surveys_1986_2022",
+    "great_lakes_frog_2011_2023",
+    "hungary_amphibian_100_ponds_2023"
+  ],
+  "mechanism_lane_support": {
+    "M1_contemporary_colonization": "requires temporal transition metadata",
+    "M2_rescue_persistence": "requires temporal transition metadata",
+    "M3_historical_colonization_legacy": "requires genetic sampling metadata",
+    "M4_environmental_proxy": "requires environmental predictor metadata"
+  },
+  "frozen_hypothesis_bindings": {
+    "structural_partition_contract": "development/transition_pilot_protocol_contract_v0_31.json",
+    "ecological_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "mechanism_framework": "development/prospective_mechanism_discrimination_v0_1.json"
+  },
+  "successful_status": "eligible_to_construct_v0_31_partition_protocol",
+  "successful_next_action": "construct_v0_31_partition_protocol_only",
+  "successful_output_ceiling": {
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "mechanism_response_authorized": false,
+    "mechanism_claim_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "ttf_handoff_authorized": false
+  },
+  "current_systems": []
+}
