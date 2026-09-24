@@ -1,0 +1,106 @@
+name: GIFT hierarchical v2 pilot feasibility
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/gift_hierarchical_v2/**"
+      - ".github/workflows/gift-hierarchical-v2.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  feasibility:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install model dependencies
+        run: python -m pip install numpy scikit-learn
+      - name: Download frozen Pteridophyta v1 pilot artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p frozen/pteridophyta
+          gh run download 35981369583 \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name gift-pteridophyta-burned-pilot-v0-1 \
+            --dir frozen/pteridophyta
+      - name: Download frozen Gymnospermae v1 pilot artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p frozen/gymnospermae
+          gh run download 35981369583 \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name gift-gymnospermae-burned-pilot-v0-1 \
+            --dir frozen/gymnospermae
+      - name: Run Pteridophyta hierarchical feasibility only
+        run: |
+          set +e
+          python research/gift_hierarchical_v2/develop_feasibility_v0_2.py \
+            --raw frozen/pteridophyta/pteridophyta_pilot_raw.csv \
+            --universe frozen/pteridophyta/pteridophyta_universe.json \
+            --protocol frozen/pteridophyta/pteridophyta_protocol.json \
+            --terminal research/gift_hierarchical_v2/pteridophyta_terminal_receipt_v0_1.json \
+            | tee pteridophyta_hierarchical_feasibility.json
+          rc=${PIPESTATUS[0]}
+          echo "PTERIDOPHYTA_HIER_RC=${rc}" >> "${GITHUB_ENV}"
+          exit 0
+      - name: Run Gymnospermae hierarchical feasibility only
+        run: |
+          set +e
+          python research/gift_hierarchical_v2/develop_feasibility_v0_2.py \
+            --raw frozen/gymnospermae/gymnospermae_pilot_raw.csv \
+            --universe frozen/gymnospermae/gymnospermae_universe.json \
+            --protocol frozen/gymnospermae/gymnospermae_protocol.json \
+            --terminal research/gift_hierarchical_v2/gymnospermae_terminal_receipt_v0_1.json \
+            | tee gymnospermae_hierarchical_feasibility.json
+          rc=${PIPESTATUS[0]}
+          echo "GYMNOSPERMAE_HIER_RC=${rc}" >> "${GITHUB_ENV}"
+          exit 0
+      - name: Verify v2 evidence ceiling
+        run: |
+          python - <<'PY'
+          import json
+          for name in ("pteridophyta","gymnospermae"):
+              x=json.load(open(f"{name}_hierarchical_feasibility.json"))
+              assert x["development_data"] == "frozen v1 burned-pilot response only"
+              assert x["confirmatory_response_opened"] is False
+              assert x["confirmatory_query_count"] == 0
+              assert x["model_family"]["effect_direction_inspected"] is False
+              assert x["model_family"]["loss_difference_computed"] is False
+              assert x["effect_size"] is None
+              assert x["prediction_score"] is None
+              assert x["predictive_denominator_contribution"] == 0
+              assert x["confirmatory_response_authorized"] is False
+              assert len(x["receipt_sha256"]) == 64
+              print("HIERARCHICAL_V2_FEASIBILITY", x["taxon_name"], x["status"], x["receipt_sha256"])
+          PY
+      - name: Preserve v2 feasibility receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-hierarchical-v2-feasibility
+          path: |
+            pteridophyta_hierarchical_feasibility.json
+            gymnospermae_hierarchical_feasibility.json
+          retention-days: 90
+      - name: Summarize feasibility without effect direction
+        run: |
+          python - <<'PY'
+          import json
+          for name in ("pteridophyta","gymnospermae"):
+              x=json.load(open(f"{name}_hierarchical_feasibility.json"))
+              print("TAXON",x["taxon_name"],x["status"])
+              for a in x["archipelago_audits"]:
+                  print(" ",a["archipelago_id"],"support=",a["support_class"],
+                        "valid_folds=",a["valid_folds"],"pass=",a["archipelago_pass"])
+                  for f in a["folds"]:
+                      print("   ",f["block"],"species=",f.get("train_species"),
+                            "train_rows=",f.get("train_rows"),"test_rows=",f.get("test_rows"),
+                            "eog=",f.get("candidate_eog_retained"),"valid=",f.get("valid"))
+          PY
