@@ -58,6 +58,7 @@ jobs:
           PY
       - name: Open frozen community response and score H1 H3 once
         run: |
+          set -o pipefail
           python research/gift_community_topology/run_community_response_v0_1.py \
             --panel gift_community_panel.json \
             --protocol gift_community_protocol.json \
