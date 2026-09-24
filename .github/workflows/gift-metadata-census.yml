@@ -53,3 +53,20 @@ jobs:
           assert len(x["receipt_sha256"]) == 64
           print("GEOMETRY_ONLY_EXCLUSION_OK", x["excluded_gift_entity_count"])
           PY
+      - name: Freeze species hash pilot-confirmatory split
+        env:
+          GIFT_VERSION: "3.2"
+        run: python research/gift_global_archipelago/freeze_species_partition_v0_1.py | tee gift_species_partition.json
+      - name: Assert species partition is response-blind
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_species_partition.json"))
+          assert x["species_distribution_accessed"] is False
+          assert x["n_pilot_work_ids"] > 0
+          assert x["n_confirmatory_work_ids"] > 0
+          assert x["pilot_predictive_denominator_contribution"] == 0
+          assert x["confirmatory_response_authorized"] is False
+          assert len(x["assignment_sha256"]) == 64
+          print("SPECIES_PARTITION_FROZEN", x["n_pilot_work_ids"], x["n_confirmatory_work_ids"])
+          PY
