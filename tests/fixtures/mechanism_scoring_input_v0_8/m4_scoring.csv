@@ -1,0 +1,7 @@
+partition_unit,block,unit_id,p_original_reference,p_original_topology,p_enriched_reference,p_enriched_topology
+confirm-B,A,U1,0.55,0.68,0.64,0.66
+confirm-B,A,U2,0.40,0.32,0.30,0.29
+confirm-B,B,U3,0.50,0.65,0.62,0.63
+confirm-B,B,U4,0.45,0.35,0.34,0.33
+confirm-B,C,U5,0.52,0.66,0.63,0.64
+confirm-B,C,U6,0.38,0.30,0.29,0.28

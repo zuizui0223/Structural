@@ -1,0 +1,5 @@
+partition_unit,block,unit_id,p_reference,p_candidate
+confirm-B,A,P1,0.30,0.50
+confirm-B,A,P2,0.55,0.45
+confirm-B,B,P3,0.35,0.60
+confirm-B,B,P4,0.60,0.50
