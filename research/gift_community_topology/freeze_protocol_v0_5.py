@@ -76,6 +76,62 @@ def matrix_audit(rows,columns):
         "full_rank":rank==X.shape[1],
     }
 
+def demeaned_design(rows,columns):
+    arr=np.asarray([[row[c] for c in columns] for row in rows],dtype=float)
+    out=arr.copy()
+    groups=group_indices(rows)
+    for idxs in groups.values():
+        idx=np.asarray(idxs,dtype=int)
+        out[idx,:]-=arr[idx,:].mean(axis=0,keepdims=True)
+    keep=np.std(out,axis=0)>1e-12
+    kept=[c for c,k in zip(columns,keep) if k]
+    return out[:,keep], kept, [row["archipelago_id"] for row in rows]
+
+def freeze_bootstrap_draws(rows,h1_cols,clade_audits):
+    archipelagos=sorted({row["archipelago_id"] for row in rows})
+    by_clade={}
+    for clade in CLADES:
+        sub=[row for row in rows if row["clade"]==clade]
+        X,kept,labels=demeaned_design(sub,h1_cols)
+        if kept!=clade_audits[clade]["columns"]:
+            raise RuntimeError(f"design-column replay drift for {clade}")
+        blocks={}
+        for arch in archipelagos:
+            idx=[i for i,label in enumerate(labels) if label==arch]
+            blocks[arch]=X[np.asarray(idx,dtype=int),:]
+        by_clade[clade]=blocks
+
+    rng=np.random.default_rng(BOOTSTRAP_SEED)
+    accepted=[]
+    attempted=0
+    max_attempts=BOOTSTRAP_REPS*10
+    while len(accepted)<BOOTSTRAP_REPS and attempted<max_attempts:
+        attempted+=1
+        draw=[archipelagos[int(i)] for i in rng.integers(0,len(archipelagos),size=len(archipelagos))]
+        valid=True
+        for clade in CLADES:
+            X=np.vstack([by_clade[clade][arch] for arch in draw])
+            if np.linalg.matrix_rank(X,tol=1e-10)!=X.shape[1]:
+                valid=False
+                break
+        if valid:
+            accepted.append(draw)
+    if len(accepted)!=BOOTSTRAP_REPS:
+        raise RuntimeError(
+            f"could freeze only {len(accepted)} full-rank bootstrap draws after {attempted} attempts"
+        )
+    return {
+        "archipelagos":archipelagos,
+        "requested_replicates":BOOTSTRAP_REPS,
+        "accepted_replicates":len(accepted),
+        "candidate_draws_attempted":attempted,
+        "rank_filter":"accept a response-independent whole-archipelago resample only when the frozen H1 design is full column rank for all three clade-specific models",
+        "rng":"numpy.default_rng(PCG64)",
+        "seed":BOOTSTRAP_SEED,
+        "accepted_draws_sha256":sha(accepted),
+        "accepted_draws_replay_rule":"re-run the exact candidate-draw sequence from the frozen seed and predictor-only rank filter; use the first 10,000 accepted draws in order",
+    }
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--panel",type=Path,required=True)
@@ -171,6 +227,7 @@ def main():
         for clade in CLADES
     }
     audits={"H1_by_clade":clade_audits}
+    bootstrap_design=freeze_bootstrap_draws(rows,h1_cols,clade_audits)
 
     support=panel["support"]
     gates={
@@ -187,6 +244,7 @@ def main():
             "step_gain_x_extreme" in audit["columns"]
             for audit in clade_audits.values()
         ),
+        "bootstrap_draw_set_complete":bootstrap_design["accepted_replicates"]==BOOTSTRAP_REPS,
     }
     qualified=all(gates.values())
 
@@ -223,9 +281,10 @@ def main():
             "hyperparameter_tuning":"none",
             "archipelago_fixed_intercepts":"within each clade model, absorbed by exact within-archipelago demeaning",
             "inference_unit":"archipelago",
-            "bootstrap":"resample whole archipelagos with replacement, retaining every island and all three clades, then refit exact frozen model",
+            "bootstrap":"use the exact response-independent whole-archipelago draw sequence frozen below; each accepted draw retains every island for each sampled archipelago and is full-rank for all three clade models",
             "bootstrap_replicates":BOOTSTRAP_REPS,
             "bootstrap_seed":BOOTSTRAP_SEED,
+            "bootstrap_design":bootstrap_design,
             "interval_quantiles":[0.025,0.975],
         },
         "H1_primary":{
@@ -266,7 +325,7 @@ def main():
             "change global q75 isolation threshold","change scale-free step-isolation definition",
             "change reference predictor set or checklist-effort control","change frozen continuous scaling",
             "change log1p richness response","change fixed-effect absorption",
-            "change bootstrap unit/repetitions/seed","change clade-specific fitting or equal-clade weighting","change H1 or H3 estimand/sign",
+            "change bootstrap unit/repetitions/seed/rank filter or accepted draw set","change clade-specific fitting or equal-clade weighting","change H1 or H3 estimand/sign",
             "reintroduce H2 or any geology moderator","select clades by outcome direction",
         ],
         "response_open_authorized":qualified,
