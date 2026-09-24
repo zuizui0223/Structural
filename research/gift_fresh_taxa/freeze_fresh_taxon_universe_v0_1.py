@@ -118,11 +118,19 @@ def tail(ids,dist,f):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument("--taxon-name",required=True);args=ap.parse_args()
     taxon=args.taxon_name
-    lists,lm=fetch("lists"); taxonomy,tm=fetch("taxonomy")
+    lists,lm=fetch("lists"); taxonomy,tm=fetch("taxonomy"); references,rm=fetch("references")
+    checklist_refs=set()
+    for rr in references:
+        try: checklist=int(float(rr.get("checklist")))
+        except (TypeError,ValueError): checklist=None
+        try: restricted=int(float(rr.get("restricted")))
+        except (TypeError,ValueError): restricted=0
+        if checklist==1 and restricted!=1:
+            checklist_refs.add(s(rr.get("ref_ID")))
     wide,target=eligible(lists,taxonomy,taxon,NATIVE_SCOPE_WIDE)
     comp,_=eligible(lists,taxonomy,taxon,NATIVE_SCOPE_COMPLETE)
     compids={s(r["entity_ID"]) for r in comp}
-    sel=[r for r in wide if s(r["entity_ID"]) in compids and s(r.get("entity_class"))=="Island"]
+    sel=[r for r in wide if s(r["entity_ID"]) in compids and s(r.get("entity_class"))=="Island" and s(r.get("ref_ID")) in checklist_refs]
     islands={s(r["entity_ID"]) for r in sel}
     lists_by=defaultdict(set)
     for r in sel:lists_by[s(r["entity_ID"])].add(s(r["list_ID"]))
@@ -180,12 +188,13 @@ def main():
         "status":"RESPONSE_SEALED_PREDICTOR_UNIVERSE",
         "gift_version":VERSION,"taxon_name":taxon,"taxon_ID":s(target["taxon_ID"]),
         "species_composition_endpoint_called":False,"response_values_accessed":False,
-        "filters":{"complete_taxon":True,"complete_floristic":True,"native_indicated":True,"suit_geo":True,"public_only":True,"minimum_archipelago_islands":MIN_ARCHIPELAGO_ISLANDS},
+        "filters":{"complete_taxon":True,"complete_floristic":True,"native_indicated":True,"suit_geo":True,"public_only":True,"reference_checklist_flag_required":True,"minimum_archipelago_islands":MIN_ARCHIPELAGO_ISLANDS},
+        "checklist_quality_boundary":"reference checklist=1 is required; GIFT complete_taxon/complete_floristic encode intended taxonomic/floristic scope, not proof that every species is observed; suit_geo obvious-incompleteness auditing was developed mainly for native angiosperms",
         "closed_aislands_exclusion":{"exact_overlap_islands":len(overlap),"contaminated_archipelago_paths":[list(x) for x in sorted(contaminated)],"geometry":ais},
         "extreme_rule":{"primary":"global upper 25% of final eligible islands by GIFT dist","q70_nonrescuing":len(q70),"q75":len(q75),"q80_nonrescuing":len(q80)},
         "n_final_archipelagos":len(grows),"n_final_islands":len(final_ids),"support_class_counts":dict(sorted(sc.items())),
         "groups":grows,
-        "source_sha256":{"lists":lm["sha256"],"taxonomy":tm["sha256"],"misc":{k:v["sha256"] for k,v in mm.items()},"climate":{k:v["sha256"] for k,v in cm.items()}},
+        "source_sha256":{"lists":lm["sha256"],"taxonomy":tm["sha256"],"references":rm["sha256"],"misc":{k:v["sha256"] for k,v in mm.items()},"climate":{k:v["sha256"] for k,v in cm.items()}},
     }
     payload["universe_fingerprint"]=sha({
         "taxon_name":taxon,"filters":payload["filters"],"closed":payload["closed_aislands_exclusion"],
