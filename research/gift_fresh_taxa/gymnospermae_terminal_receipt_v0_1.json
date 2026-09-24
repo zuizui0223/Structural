@@ -1,0 +1,88 @@
+{
+  "schema": "structural.gift_fresh_taxon_burned_pilot_terminal.v0_1",
+  "status": "TERMINAL_STOP_NON_ESTIMABLE",
+  "taxon_name": "Gymnospermae",
+  "gift_version": "3.2",
+  "pre_response_green_commit": "2cf51fb3c60de20c41b2dffcc785cb34cfd3cd92",
+  "pilot_execution_commit": "380dd76e626fdfa4ec9b22ea0b28945cd80927a0",
+  "pilot_run_id": 35981369583,
+  "pilot_artifact_id": 10800472771,
+  "pilot_artifact_zip_sha256": "aed0667b491fe25ed4f83336c69f266900a7eabd552899a119b49873c80a28e9",
+  "pilot_artifact_zip_size_bytes": 12591,
+  "pilot_artifact_expires_at": "2026-12-23T09:27:44Z",
+  "candidate_selection_fingerprint": "3e7c2785cbffd5a65c9a67b5b9b7137843afe383db2703bf6e12b3bebcace0cb",
+  "universe_fingerprint": "42d018ac6713f2b4f72b29f6c27817b60ba8853696a3508ca5a6fa1e1f22ef49",
+  "protocol_fingerprint": "c9a128cc44d5232295e1a6f884aff8de926b25083a424734ba5fe283b843fb37",
+  "pilot_receipt_sha256": "1792f3a9013e0a4a0d121c5210dd6e0b2bba9d0242476832421631c7c6dbfd2c",
+  "raw_response_row_count": 451,
+  "raw_response_sha256": "5b590d2e45f21125eb64c200f787892b0f84573741d2a7f39e8889e7461723b3",
+  "pilot_list_set_sha256": "e0a04d1bc056361c09c015026abb2e12c61eae7ce995f55d83ce6c710fa2e3bc",
+  "confirmatory_list_set_sha256": "a29183afd99dea3eb796ce39fea9b3c06826f5ec69d7a2dc3fcfe77d5172e2c9",
+  "species_archipelago_pairs_checked": 71,
+  "species_archipelago_pairs_estimable": 17,
+  "archipelago_audits": [
+    {
+      "archipelago_id": "Japan",
+      "archipelago_pass": false,
+      "estimable_species": 14,
+      "fold_pass_count_histogram": {
+        "0": 19,
+        "1": 1,
+        "2": 3,
+        "3": 4,
+        "4": 10
+      },
+      "n_islands": 38,
+      "q75_extreme_islands": 10,
+      "q75_nonextreme_islands": 28,
+      "species_with_presence": 37,
+      "support_class": "paired"
+    },
+    {
+      "archipelago_id": "Kuril'skiye",
+      "archipelago_pass": false,
+      "estimable_species": 2,
+      "fold_pass_count_histogram": {
+        "0": 11,
+        "2": 1,
+        "3": 1,
+        "4": 1
+      },
+      "n_islands": 24,
+      "q75_extreme_islands": 0,
+      "q75_nonextreme_islands": 24,
+      "species_with_presence": 14,
+      "support_class": "nonextreme_only"
+    },
+    {
+      "archipelago_id": "New Zealand / North Island New Zealand",
+      "archipelago_pass": false,
+      "estimable_species": 1,
+      "fold_pass_count_histogram": {
+        "0": 18,
+        "1": 1,
+        "4": 1
+      },
+      "n_islands": 22,
+      "q75_extreme_islands": 22,
+      "q75_nonextreme_islands": 0,
+      "species_with_presence": 20,
+      "support_class": "extreme_only"
+    }
+  ],
+  "pass_rule": "at least 2 of 3 pilot archipelagos pass, with >=1 passing extreme contributor and >=1 passing non-extreme contributor",
+  "pilot_pass": false,
+  "response_access": {
+    "pilot_response_opened": true,
+    "confirmatory_response_opened": false,
+    "confirmatory_list_query_count": 0,
+    "model_fits": 0,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0
+  },
+  "confirmatory_response_authorized": false,
+  "cross_taxon_secondary_authorized": false,
+  "terminal_rule": "do not retune q75, graph radii, R3, class gates, 30-species archipelago threshold or pilot membership; do not open confirmatory lists under this protocol version",
+  "terminal_receipt_sha256": "75e88f7313ec04cb138055833e9bd623f4e2590ed1eee458db5d45139bf41141"
+}
