@@ -1,0 +1,32 @@
+{
+  "schema": "structural.mechanism_scoring_input_freeze_receipt.v0_8",
+  "status": "mechanism_scoring_inputs_frozen_before_response",
+  "system_id": "synthetic-ci-only",
+  "mechanism_lane": "M4_environmental_proxy",
+  "protocol_id": "synthetic-M4-confirmatory-v0.5",
+  "protocol_fingerprint": "ce9713013c6541df336a8b8e1cea473e7e25240689cfba8adf54dede9b3938ee",
+  "freeze_receipt_path": "tests/fixtures/mechanism_confirmatory_freeze_v0_5/m4_receipt.json",
+  "freeze_receipt_sha256": "2deca4946ce5ab44fced478d7920e5d19fb3e1d628ed3586cfec24a9c36b6586",
+  "scoring_input_file_sha256": "622327857f59a88306707c7097b2d887be88449565646380a52e3b6a19c8b808",
+  "scoring_input_audit": {
+    "surface": "frozen_environmental_proxy_prediction_surface",
+    "row_count": 6,
+    "unit_count": 6,
+    "block_count": 3,
+    "key_set_sha256": "1c796332eb78e0d19c2692ea144f841d6964ea73954fb0b27742c6c7cb462b71"
+  },
+  "response_partition": [
+    "confirm-B"
+  ],
+  "scoring_input_frozen": true,
+  "confirmatory_response_authorized": false,
+  "mechanism_claim_authorized": false,
+  "effect_size": null,
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "mechanism_claim_contribution": 0,
+  "ttf_handoff_authorized": false,
+  "synthetic_ci_freeze": true,
+  "counts_as_empirical_evidence": false,
+  "next_action": "run_v0_6_response_authorization_only"
+}
