@@ -387,34 +387,50 @@ def freeze_scoring_input(
 
     lane = stored["mechanism_lane"]
     partitions = stored["response_partition"]
-    if lane in {M1, M2}:
-        audit = _audit_dynamic(
-            scoring_input_csv,
-            response_partition=partitions,
-        )
-    elif lane == M3:
-        if genetic_pairs_csv is None:
-            raise MechanismScoringInputFreezeError(
-                "M3 scoring input freeze requires frozen genetic pairs"
+    try:
+        if lane in {M1, M2}:
+            audit = _audit_dynamic(
+                scoring_input_csv,
+                response_partition=partitions,
             )
-        audit = _audit_m3(
-            scoring_input_csv,
-            genetic_pairs_csv=genetic_pairs_csv,
-        )
-    elif lane == M4:
-        if environment_csv is None:
-            raise MechanismScoringInputFreezeError(
-                "M4 scoring input freeze requires frozen environment matrix"
+        elif lane == M3:
+            if genetic_pairs_csv is None:
+                raise MechanismScoringInputFreezeError(
+                    "M3 scoring input freeze requires frozen genetic pairs"
+                )
+            audit = _audit_m3(
+                scoring_input_csv,
+                genetic_pairs_csv=genetic_pairs_csv,
             )
-        audit = _audit_m4(
-            scoring_input_csv,
-            response_partition=partitions,
-            environment_csv=environment_csv,
-        )
-    else:
-        raise MechanismScoringInputFreezeError(
-            f"unknown mechanism lane: {lane}"
-        )
+        elif lane == M4:
+            if environment_csv is None:
+                raise MechanismScoringInputFreezeError(
+                    "M4 scoring input freeze requires frozen environment matrix"
+                )
+            audit = _audit_m4(
+                scoring_input_csv,
+                response_partition=partitions,
+                environment_csv=environment_csv,
+            )
+        else:
+            raise MechanismScoringInputFreezeError(
+                f"unknown mechanism lane: {lane}"
+            )
+    except MechanismScoringInputFreezeError as exc:
+        return 2, {
+            "schema": SCHEMA,
+            "status": "STOP_invalid_or_unauthorized_scoring_input",
+            "mechanism_lane": lane,
+            "reason": str(exc),
+            "scoring_input_frozen": False,
+            "confirmatory_response_authorized": False,
+            "mechanism_claim_authorized": False,
+            "effect_size": None,
+            "prediction_score": None,
+            "predictive_denominator_contribution": 0,
+            "mechanism_claim_contribution": 0,
+            "ttf_handoff_authorized": False,
+        }
 
     scoring_sha = sha256_file(scoring_input_csv)
     receipt = {
