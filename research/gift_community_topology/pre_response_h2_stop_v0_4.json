@@ -1,0 +1,28 @@
+{
+  "schema": "structural.gift_community_topology_pre_response_h2_stop.v0_4",
+  "status": "H2_TERMINAL_PRE_RESPONSE_NON_ESTIMABLE",
+  "response_values_accessed": false,
+  "species_composition_endpoint_called": false,
+  "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+  "cleaned_archipelago_geology_crosswalk_fingerprint": "d878feff577979dc40c54f4ddf24f4e3670cb6f4e6bcb81a81b6ef02c9507518",
+  "geology_support": {
+    "eligible_archipelagos": 17,
+    "pure_continental": 6,
+    "pure_oceanic": 10,
+    "mixed": 1
+  },
+  "H1_status": "pre_response_estimable_and_unchanged",
+  "H2_status": "terminal_non_estimable_before_response",
+  "H3_status": "pre_response_estimable_and_unchanged",
+  "reason": "after four response-blind formulations, the geological-history H2 interaction remains aliased with the global extreme-isolation structure under the declared archipelago-clustered design; further moderator/threshold retuning is prohibited",
+  "attempted_response_blind_H2_formulations": [
+    "v0.2 GIFT GMMC historical mainland connection",
+    "v0.3 direct island-level Roeble oceanic fraction with >=80% typed coverage",
+    "v0.4 Roeble cleaned-archipelago oceanic fraction via exact entity_ID matching"
+  ],
+  "terminal_boundary": {
+    "H2_will_not_be_tested_in_this_dataset": true,
+    "H2_cannot_be_rescued_by_post_response_analysis": true,
+    "H1_H3_may_proceed_under_unchanged_pre_response_definitions": true
+  }
+}
