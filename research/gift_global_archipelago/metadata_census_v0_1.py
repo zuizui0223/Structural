@@ -16,7 +16,7 @@ from urllib.request import Request, urlopen
 
 BASE = "https://gift.uni-goettingen.de/api/extended/"
 VERSIONS_URL = "https://gift.uni-goettingen.de/api/index.php?query=versions"
-VERSION = "3.1"
+VERSION = os.environ.get("GIFT_VERSION", "3.1")
 TARGET_TAXON = "Angiospermae"
 ENTITY_CLASSES = {"Island", "Island Group", "Island Part"}
 PRIMARY_CHILD_CLASS = "Island"
