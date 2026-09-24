@@ -163,6 +163,7 @@ def main():
         e=sum(eid in q75 for eid in ids); ne=len(ids)-e
         grows.append({
             "archipelago_id":" / ".join(path),"archipelago_path":list(path),"n_islands":len(ids),
+            "entity_ids":ids,
             "q75_extreme_n":e,"q75_nonextreme_n":ne,
             "support_class":"paired" if e>=3 and ne>=3 else "extreme_only" if e>=3 else "nonextreme_only" if ne>=3 else "neither",
             "gmmc_connected_fraction":sum(int(float(misc["GMMC"][eid])) for eid in ids)/len(ids),
