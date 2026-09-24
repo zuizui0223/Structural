@@ -167,7 +167,7 @@ def beta_from_xy(X,y):
         raise RuntimeError("OLS design rank failure")
     return beta
 
-def replay_bootstrap(protocol,clade_blocks,columns):
+def replay_bootstrap(protocol,clade_blocks,columns_by_clade):
     frozen=protocol["model"]["bootstrap_design"]
     archipelagos=frozen["archipelagos"]
     reps=int(frozen["accepted_replicates"])
@@ -179,7 +179,11 @@ def replay_bootstrap(protocol,clade_blocks,columns):
     h3=[]
     attempted=0
     max_attempts=reps*10
-    target_index=columns.index(protocol["H1_primary"]["per_clade_target_column"])
+    target_column=protocol["H1_primary"]["per_clade_target_column"]
+    target_index={
+        clade:columns_by_clade[clade].index(target_column)
+        for clade in CLADES
+    }
 
     while len(accepted)<reps and attempted<max_attempts:
         attempted+=1
@@ -202,7 +206,7 @@ def replay_bootstrap(protocol,clade_blocks,columns):
         accepted.append(draw)
         cb={}
         for clade in CLADES:
-            b=beta_from_xy(matrices[clade],vectors[clade])[target_index]
+            b=beta_from_xy(matrices[clade],vectors[clade])[target_index[clade]]
             cb[clade]=float(b)
             betas[clade].append(float(b))
         h1.append(float(sum(cb.values())/3.0))
@@ -351,23 +355,25 @@ def main()->int:
             }
 
     model_rows=build_model_rows(panel,protocol,richness)
-    columns=protocol["H1_primary"]["per_clade_model_columns"]
+    columns_by_clade=protocol["H1_primary"]["per_clade_model_columns"]
     target=protocol["H1_primary"]["per_clade_target_column"]
-    target_index=columns.index(target)
 
     point={}
     blocks={}
     for clade in CLADES:
+        columns=columns_by_clade[clade]
+        if target not in columns:
+            raise RuntimeError(f"frozen H1 target missing from {clade} design")
         X,y,b=demean_clade(model_rows[clade],columns)
         beta=beta_from_xy(X,y)
-        point[clade]=float(beta[target_index])
+        point[clade]=float(beta[columns.index(target)])
         blocks[clade]=b
 
     h1_point=float(sum(point.values())/3.0)
     h3_point=float(
         point["Pteridophyta"]-(point["Angiospermae"]+point["Gymnospermae"])/2.0
     )
-    boot=replay_bootstrap(protocol,blocks,columns)
+    boot=replay_bootstrap(protocol,blocks,columns_by_clade)
     h1_ci=interval(boot["H1_bootstrap"])
     h3_ci=interval(boot["H3_bootstrap"])
     clade_ci={
