@@ -417,7 +417,7 @@ def main() -> int:
             "primary_q75": "top ceil(0.25*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break",
             "sensitivity_q70": "top ceil(0.30*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break; cannot rescue q75",
             "sensitivity_q80": "top ceil(0.20*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break; cannot rescue q75",
-            "primary_unchanged_from_prospective_v0_3": true,
+            "primary_unchanged_from_prospective_v0_3": True,
         },
         "spatial_holdout": {
             "blocks_per_archipelago": N_SPATIAL_BLOCKS,
