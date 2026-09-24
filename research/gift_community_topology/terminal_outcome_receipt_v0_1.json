@@ -127,5 +127,17 @@
     "threshold_or_predictor_redefinition_authorized": false,
     "permitted_next_step": "interpret the frozen null/uncertain outcome or start a genuinely new study with a new question/data source; do not rescue H1/H3 in this response surface"
   },
-  "terminal_receipt_sha256": "44c7484ae3ff2aff2d422f2a1da213ec4dbb947ae47b643eccdeff158d4124ab"
+  "terminal_receipt_sha256": "529377bce44894977b0fd4a507b587e69e22a2e99708c5a7b7440a337407fa99",
+  "durable_backup": {
+    "provider": "Google Drive",
+    "folder_name": "Structural release retention",
+    "folder_id": "1LcCirqDqs_1eEtLNgcenzEBmNK2bIwmb",
+    "file_id": "1tgBB7sxT1L35XJ-Rr4WEsMtdu-_eDtpl",
+    "file_name": "gift-community-topology-weighted-one-shot-v0-1.zip",
+    "size_bytes": 5008108,
+    "sha256": "c666c58a920e34ee72fae695f4a74691294dd4ed169a1e9121e95aa9a3b78ae7",
+    "drive_roundtrip_sha256_verified": true,
+    "created_time": "2026-09-24T11:36:06.311Z",
+    "public_or_doi_archive": false
+  }
 }
