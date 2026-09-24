@@ -140,3 +140,28 @@ jobs:
           assert len(x["candidate_layers"]) > 0
           print("M4_METADATA_AUDIT_OK", len(x["candidate_layers"]))
           PY
+      - name: Freeze GIFT macro-study protocol before pilot response
+        run: |
+          python research/gift_global_archipelago/freeze_study_protocol_v0_1.py \
+            --universe gift_analysis_universe.json \
+            --intake-receipt gift_intake_receipt.json \
+            --environment-audit gift_environment_reference_audit.json \
+            | tee gift_study_protocol.json
+      - name: Assert study protocol remains pre-response
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_study_protocol.json"))
+          assert x["status"] == "FROZEN_BEFORE_PILOT_RESPONSE"
+          assert x["response_values_accessed"] is False
+          assert x["pilot_response_opened"] is False
+          assert x["confirmatory_response_opened"] is False
+          assert x["graph_operator"]["primary_radii_km"] == [25.0,50.0,125.0,250.0]
+          assert "global upper 25%" in x["isolation_hypothesis"]["primary_rule"]
+          assert x["evidence_partition"]["pilot_confirmatory_list_overlap"] == 0
+          assert x["burned_pilot_gate"]["effect_sizes_allowed"] is False
+          assert x["burned_pilot_gate"]["prediction_scores_allowed"] is False
+          assert x["H2_primary"]["external_geological_type_secondary"]["status"].startswith("secondary_not_authorized")
+          assert len(x["protocol_fingerprint"]) == 64
+          print("STUDY_PROTOCOL_FROZEN", x["protocol_fingerprint"])
+          PY
