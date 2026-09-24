@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+"""Freeze the final H1/H3-only GIFT community protocol before response access.
+
+H2 is terminally non-estimable from response-blind design checks and is not
+tested in this dataset. H1 and H3 are unchanged from the first scale-free
+step-isolation protocol that made them estimable.
+"""
+from __future__ import annotations
+
+import argparse, hashlib, json, math
+from pathlib import Path
+import numpy as np
+
+CLADES=("Angiospermae","Pteridophyta","Gymnospermae")
+REFERENCE_COLS=(
+    "bio1","bio5","bio6","bio12","bio15",
+    "log_area","log1p_dist","SLMP","GMMC",
+    "log1p_nearest_other","surrounding_island_pressure","surrounding_landmass_pressure",
+)
+MAX_CONDITION=1e8
+BOOTSTRAP_REPS=10000
+BOOTSTRAP_SEED=20260924
+
+def sha(x):
+    return hashlib.sha256(
+        json.dumps(x,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+    ).hexdigest()
+
+def load(path):
+    x=json.loads(Path(path).read_text())
+    if not isinstance(x,dict):raise RuntimeError(f"{path} must contain object")
+    return x
+
+def raw_predictors(island):
+    clim=island["climate"]
+    return {
+        "bio1":float(clim["wc2.0_bio_30s_01"]),
+        "bio5":float(clim["wc2.0_bio_30s_05"]),
+        "bio6":float(clim["wc2.0_bio_30s_06"]),
+        "bio12":float(clim["wc2.0_bio_30s_12"]),
+        "bio15":float(clim["wc2.0_bio_30s_15"]),
+        "log_area":math.log(max(float(island["area_km2"]),1e-12)),
+        "log1p_dist":math.log1p(float(island["dist_km"])),
+        "SLMP":float(island["SLMP"]),
+        "GMMC":float(island["GMMC"]),
+        "log1p_nearest_other":math.log1p(float(island["nearest_other_island_km"])),
+        "surrounding_island_pressure":float(island["surrounding_island_pressure"]),
+        "surrounding_landmass_pressure":float(island["surrounding_landmass_pressure"]),
+    }
+
+def group_indices(rows):
+    groups={}
+    for i,row in enumerate(rows):
+        groups.setdefault((row["archipelago_id"],row["clade"]),[]).append(i)
+    return groups
+
+def matrix_audit(rows,columns):
+    arr=np.asarray([[row[c] for c in columns] for row in rows],dtype=float)
+    out=arr.copy()
+    for idxs in group_indices(rows).values():
+        idx=np.asarray(idxs,dtype=int)
+        out[idx,:]-=arr[idx,:].mean(axis=0,keepdims=True)
+    keep=np.std(out,axis=0)>1e-12
+    kept=[c for c,k in zip(columns,keep) if k]
+    dropped=[c for c,k in zip(columns,keep) if not k]
+    X=out[:,keep]
+    if X.shape[1]==0:
+        return {"rows":len(rows),"columns":[],"dropped_constant":dropped,"rank":0,"n_columns":0,"condition":None,"full_rank":False}
+    rank=int(np.linalg.matrix_rank(X,tol=1e-10))
+    sv=np.linalg.svd(X,compute_uv=False)
+    condition=float(sv[0]/sv[-1]) if sv[-1]>1e-15 else float("inf")
+    return {
+        "rows":len(rows),"columns":kept,"dropped_constant":dropped,
+        "rank":rank,"n_columns":int(X.shape[1]),"condition":condition,
+        "full_rank":rank==X.shape[1],
+    }
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--panel",type=Path,required=True)
+    ap.add_argument("--prior-exclusions",type=Path,required=True)
+    ap.add_argument("--h2-terminal",type=Path,required=True)
+    a=ap.parse_args()
+
+    panel=load(a.panel); prior=load(a.prior_exclusions); h2=load(a.h2_terminal)
+
+    if panel.get("schema")!="structural.gift_community_topology_panel.v0_2":
+        raise RuntimeError("unexpected panel schema")
+    if panel.get("response_values_accessed") is not False or panel.get("species_composition_endpoint_called") is not False:
+        raise RuntimeError("community response already opened")
+    if tuple(panel.get("targets",()))!=CLADES:
+        raise RuntimeError("clade set drift")
+    if any(v.get("opened") for v in panel["response_surfaces"].values()):
+        raise RuntimeError("a response surface is already marked opened")
+    if prior.get("response_values_used") is not False:
+        raise RuntimeError("prior pilot responses entered predictor design")
+    if h2.get("status")!="H2_TERMINAL_PRE_RESPONSE_NON_ESTIMABLE":
+        raise RuntimeError("H2 terminal boundary missing")
+    if h2.get("response_values_accessed") is not False:
+        raise RuntimeError("H2 boundary is post-response")
+    if h2.get("panel_fingerprint")!=panel["panel_fingerprint"]:
+        raise RuntimeError("H2 boundary panel drift")
+    if h2["terminal_boundary"].get("H1_H3_may_proceed_under_unchanged_pre_response_definitions") is not True:
+        raise RuntimeError("H1/H3 continuation not authorized by H2 terminal boundary")
+
+    unique=[]
+    for g in panel["groups"]:
+        for island in g["islands"]:
+            p=raw_predictors(island)
+            unique.append({
+                "archipelago_id":g["archipelago_id"],
+                "entity_ID":str(island["entity_ID"]),
+                **p,
+                "step_isolation_gain_log":float(island["step_isolation_gain_log"]),
+                "extreme":float(bool(island["extreme_q75"])),
+            })
+
+    continuous=[
+        "bio1","bio5","bio6","bio12","bio15",
+        "log_area","log1p_dist","SLMP",
+        "log1p_nearest_other","surrounding_island_pressure",
+        "surrounding_landmass_pressure","step_isolation_gain_log",
+    ]
+    scaling={}
+    for col in continuous:
+        vals=np.asarray([row[col] for row in unique],dtype=float)
+        mu=float(vals.mean()); sd=float(vals.std(ddof=0))
+        if sd<=1e-12:raise RuntimeError(f"globally constant predictor: {col}")
+        scaling[col]={"mean":mu,"sd":sd}
+        for row in unique:row[col]=(row[col]-mu)/sd
+
+    rows=[]
+    for base in unique:
+        for clade in CLADES:
+            row={**base,"clade":clade,"fern":1.0 if clade=="Pteridophyta" else 0.0}
+            row["step_gain_x_extreme"]=row["step_isolation_gain_log"]*row["extreme"]
+            row["step_gain_x_fern"]=row["step_isolation_gain_log"]*row["fern"]
+            row["extreme_x_fern"]=row["extreme"]*row["fern"]
+            row["step_gain_x_extreme_x_fern"]=row["step_gain_x_extreme"]*row["fern"]
+            rows.append(row)
+
+    h1_cols=list(REFERENCE_COLS)+[
+        "step_isolation_gain_log","extreme","step_gain_x_extreme"
+    ]
+    h3_cols=h1_cols+[
+        "step_gain_x_fern","extreme_x_fern","step_gain_x_extreme_x_fern"
+    ]
+    audits={"H1":matrix_audit(rows,h1_cols),"H3":matrix_audit(rows,h3_cols)}
+
+    support=panel["support"]
+    gates={
+        "minimum_archipelagos":support["archipelagos"]>=10,
+        "minimum_extreme_archipelagos":support["archipelagos_with_extreme"]>=5,
+        "minimum_nonextreme_archipelagos":support["archipelagos_with_nonextreme"]>=5,
+        "step_support_extreme":support["extreme_step_isolation_gain_nonzero_islands"]>=20,
+        "step_support_nonextreme":support["nonextreme_step_isolation_gain_nonzero_islands"]>=20,
+        "H1_full_rank":audits["H1"]["full_rank"] and audits["H1"]["condition"]<=MAX_CONDITION,
+        "H1_target_retained":"step_gain_x_extreme" in audits["H1"]["columns"],
+        "H3_full_rank":audits["H3"]["full_rank"] and audits["H3"]["condition"]<=MAX_CONDITION,
+        "H3_target_retained":"step_gain_x_extreme_x_fern" in audits["H3"]["columns"],
+    }
+    qualified=all(gates.values())
+
+    protocol={
+        "schema":"structural.gift_community_topology_protocol.v0_5",
+        "status":"QUALIFIED_TO_OPEN_COMMUNITY_RESPONSE" if qualified else "STOP_PRE_RESPONSE_NON_ESTIMABLE",
+        "study_family":"fresh community-level global island-biogeography study",
+        "gift_version":"3.2",
+        "clades":list(CLADES),
+        "panel_fingerprint":panel["panel_fingerprint"],
+        "prior_response_exclusion_receipt_sha256":sha(prior),
+        "h2_terminal_receipt_sha256":sha(h2),
+        "response_values_accessed":False,
+        "response_surfaces":panel["response_surfaces"],
+        "response_semantics":{
+            "unit":"island x clade",
+            "response":"native species richness = unique work_ID count with >=1 unambiguous native record across the frozen eligible list union",
+            "unambiguous_native":"native=1 AND questionable!=1 AND quest_native!=1",
+            "uncertain_records":"native rows with questionable=1 or quest_native=1 are excluded from richness",
+            "duplicate_work_ID_across_lists":"count once per island x clade",
+            "zero_richness":"allowed only when all frozen lists for that island x clade return zero unambiguous native work_IDs",
+        },
+        "predictor_semantics":{
+            "reference_predictors":list(REFERENCE_COLS),
+            "frozen_continuous_scaling":scaling,
+            "step_isolation_gain_log":panel["step_isolation_gain_definition"],
+            "extreme_isolation":panel["extreme_rule"],
+            "fixed_effect_absorption":"demean outcome and each final design column within archipelago x clade",
+            "interaction_order":"construct interactions after frozen continuous z-scaling, before fixed-effect demeaning",
+        },
+        "model":{
+            "family":"ordinary least squares on log1p(native richness)",
+            "hyperparameter_tuning":"none",
+            "archipelago_clade_fixed_intercepts":"absorbed by exact within-group demeaning",
+            "inference_unit":"archipelago",
+            "bootstrap":"resample whole archipelagos with replacement, retaining every island and all three clades, then refit exact frozen model",
+            "bootstrap_replicates":BOOTSTRAP_REPS,
+            "bootstrap_seed":BOOTSTRAP_SEED,
+            "interval_quantiles":[0.025,0.975],
+        },
+        "H1_primary":{
+            "model_columns":h1_cols,
+            "target_column":"step_gain_x_extreme",
+            "estimand":"change in the richness association with standardized step-isolation gain in the global upper-25% mainland-isolation regime versus the remaining islands",
+            "prediction":"positive",
+            "success_rule":"whole-archipelago bootstrap 95% interval excludes 0 on the positive side",
+        },
+        "H2":{
+            "status":"TERMINAL_PRE_RESPONSE_NON_ESTIMABLE_NOT_TESTED",
+            "terminal_receipt":"research/gift_community_topology/pre_response_h2_stop_v0_4.json",
+            "claim":"none; geological-history moderation is not estimated from this dataset",
+            "cannot_be_reintroduced_after_response":True,
+        },
+        "H3_primary":{
+            "model_columns":h3_cols,
+            "target_column":"step_gain_x_extreme_x_fern",
+            "fern_indicator":"Pteridophyta=1; Angiospermae/Gymnospermae=0",
+            "estimand":"difference between ferns and seed plants in the H1 extreme-isolation step-gain association",
+            "prediction":"negative",
+            "success_rule":"whole-archipelago bootstrap 95% interval excludes 0 on the negative side",
+            "secondary":"report exact H1 model separately by each clade; cannot rescue pooled H3",
+        },
+        "pre_response_matrix_audits":audits,
+        "pre_response_gates":gates,
+        "max_condition_number":MAX_CONDITION,
+        "pre_response_history":[
+            {"version":"v0.1","result":"STOP","reason":"fixed-radius topology gain had zero support in all global-extreme islands","response_opened":False},
+            {"version":"v0.2","result":"H1/H3 estimable; H2 STOP","reason":"GMMC H2 target constant","response_opened":False},
+            {"version":"v0.3","result":"H1/H3 estimable; H2 STOP","reason":"direct island-type H2 aliased","response_opened":False},
+            {"version":"v0.4","result":"H1/H3 estimable; H2 terminal STOP","reason":"cleaned-archipelago geology H2 remained non-estimable","response_opened":False},
+        ],
+        "forbidden_after_response":[
+            "change common island panel","reintroduce any prior-pilot archipelago",
+            "change global q75 isolation threshold","change scale-free step-isolation definition",
+            "change reference predictor set","change frozen continuous scaling",
+            "change log1p richness response","change fixed-effect absorption",
+            "change bootstrap unit/repetitions/seed","change H1 or H3 estimand/sign",
+            "reintroduce H2 or any geology moderator","select clades by outcome direction",
+        ],
+        "response_open_authorized":qualified,
+    }
+    protocol["protocol_fingerprint"]=sha(protocol)
+    print(json.dumps(protocol,indent=2,sort_keys=True))
+    return 0 if qualified else 2
+
+if __name__=="__main__":
+    raise SystemExit(main())
