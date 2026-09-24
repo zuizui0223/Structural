@@ -94,25 +94,49 @@ def main():
     if any(v.get("opened") for v in panel["response_surfaces"].values()):
         raise RuntimeError("response surface already opened")
 
-    # Build a predictor-only replicated row set on the exact common island panel.
-    island_rows=[]
+    # Freeze predictor scaling on unique islands before clade replication.
+    unique=[]
     for g in panel["groups"]:
         for island in g["islands"]:
             p=raw_predictors(island)
-            for clade in CLADES:
-                row={
-                    "archipelago_id":g["archipelago_id"],
-                    "entity_ID":island["entity_ID"],
-                    "clade":clade,
-                    **p,
-                    "topology_gain":float(island["topology_gain"]),
-                    "extreme":float(bool(island["extreme_q75"])),
-                    "fern":1.0 if clade=="Pteridophyta" else 0.0,
-                }
-                row["topology_x_extreme"]=row["topology_gain"]*row["extreme"]
-                row["topology_x_extreme_x_GMMC"]=row["topology_x_extreme"]*row["GMMC"]
-                row["topology_x_extreme_x_fern"]=row["topology_x_extreme"]*row["fern"]
-                island_rows.append(row)
+            unique.append({
+                "archipelago_id":g["archipelago_id"],
+                "entity_ID":island["entity_ID"],
+                **p,
+                "topology_gain":float(island["topology_gain"]),
+                "extreme":float(bool(island["extreme_q75"])),
+            })
+
+    continuous=[
+        "bio1","bio5","bio6","bio12","bio15",
+        "log_area","log1p_dist","SLMP",
+        "log1p_nearest_other","surrounding_island_pressure",
+        "surrounding_landmass_pressure","topology_gain",
+    ]
+    scaling={}
+    for col in continuous:
+        values=np.asarray([row[col] for row in unique],dtype=float)
+        mu=float(values.mean()); sd=float(values.std(ddof=0))
+        if sd<=1e-12:
+            raise RuntimeError(f"predictor is globally constant before response: {col}")
+        scaling[col]={"mean":mu,"sd":sd}
+        for row in unique:
+            row[col]=(row[col]-mu)/sd
+
+    # Construct interactions only after the frozen z transform. Binary GMMC,
+    # extreme and fern indicators remain unscaled.
+    island_rows=[]
+    for base in unique:
+        for clade in CLADES:
+            row={
+                **base,
+                "clade":clade,
+                "fern":1.0 if clade=="Pteridophyta" else 0.0,
+            }
+            row["topology_x_extreme"]=row["topology_gain"]*row["extreme"]
+            row["topology_x_extreme_x_GMMC"]=row["topology_x_extreme"]*row["GMMC"]
+            row["topology_x_extreme_x_fern"]=row["topology_x_extreme"]*row["fern"]
+            island_rows.append(row)
 
     h1_cols=list(REFERENCE_COLS)+["topology_gain","extreme","topology_x_extreme"]
     h2_cols=h1_cols+["topology_x_extreme_x_GMMC"]
@@ -156,10 +180,11 @@ def main():
         },
         "predictor_semantics":{
             "reference_predictors":list(REFERENCE_COLS),
+            "frozen_continuous_scaling":scaling,
             "topology_gain":panel["topology_gain_definition"],
             "extreme_isolation":panel["extreme_rule"],
             "fixed_effect_absorption":"demean outcome and every design column within each archipelago x clade group before OLS",
-            "continuous_scaling":"z-standardize continuous predictor columns across unique islands using predictor-only panel means/SD before fixed-effect demeaning; GMMC/extreme/fern indicators remain 0/1",
+            "continuous_scaling":"z-standardize continuous base predictors across unique islands using the frozen means/SD above; construct topology interactions after scaling; GMMC/extreme/fern remain 0/1; then demean every final design column within archipelago x clade",
         },
         "model":{
             "family":"ordinary least squares on log1p(native richness)",
