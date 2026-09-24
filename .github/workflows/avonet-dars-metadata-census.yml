@@ -51,3 +51,31 @@ jobs:
               x["source_fingerprint"],
           )
           PY
+      - name: Freeze response-blind bird archipelago partition
+        run: |
+          python research/avonet_dars_archipelago/freeze_partition_v0_1.py \
+            --census avonet_dars_metadata_census.json \
+            | tee avonet_dars_partition.json
+      - name: Assert balanced confirmatory H2 panel
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("avonet_dars_partition.json"))
+          assert x["status"] == "RESPONSE_SEALED_PARTITIONS_FROZEN"
+          assert x["response_values_accessed"] is False
+          assert x["response_matrix_content_opened"] is False
+          assert x["pilot_selection"]["pilot_count"] == 5
+          assert x["confirmatory_counts"]["total"] == 16
+          assert x["confirmatory_counts"]["Oceanic"] == 8
+          assert x["confirmatory_counts"]["C.Shelf"] == 8
+          assert x["confirmatory_counts"]["extreme_q75"] >= 2
+          assert x["confirmatory_counts"]["nonextreme_q75"] >= 8
+          assert x["pilot_response_authorized"] is False
+          assert x["confirmatory_response_authorized"] is False
+          print(
+              "BIRD_PARTITION_FROZEN",
+              [r["dataset"] for r in x["pilot"]],
+              x["confirmatory_counts"],
+              x["partition_fingerprint"],
+          )
+          PY
