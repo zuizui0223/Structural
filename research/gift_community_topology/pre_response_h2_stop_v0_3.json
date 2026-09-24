@@ -1,0 +1,35 @@
+{
+  "schema": "structural.gift_community_topology_pre_response_h2_stop.v0_3",
+  "status": "PARTIAL_PRE_RESPONSE_QUALIFICATION_H2_ALIASED",
+  "response_values_accessed": false,
+  "species_composition_endpoint_called": false,
+  "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+  "geology_crosswalk_fingerprint": "e1171923bc1a2d7c17961d9a5853b2998e5dc9adf40df3c820b709be30f045ff",
+  "geology_support": {
+    "eligible_archipelagos": 14,
+    "pure_continental": 4,
+    "pure_oceanic": 9,
+    "mixed": 1
+  },
+  "H1": {
+    "full_rank": true,
+    "target_retained": true
+  },
+  "H2": {
+    "target_retained": true,
+    "full_rank": false,
+    "dropped_constant": [
+      "extreme",
+      "extreme_x_oceanic"
+    ],
+    "rank": 15,
+    "n_columns": 16,
+    "interpretation": "direct >=80% island-type crosswalk leaves geological moderator structure aliased with the global extreme-regime slope under archipelago x clade fixed effects"
+  },
+  "H3": {
+    "full_rank": true,
+    "target_retained": true
+  },
+  "disposition": "do not open response under v0.3",
+  "final_pre_response_crosswalk_attempt": "use Roeble et al. cleaned archipelago grouping via exact entity_ID matches, because the published source explicitly defines geological type at that refined archipelago level"
+}
