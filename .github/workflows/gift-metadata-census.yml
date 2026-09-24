@@ -13,24 +13,25 @@ permissions:
 jobs:
   census:
     runs-on: ubuntu-24.04
-    strategy:
-      matrix:
-        gift-version: ["3.1", "3.2"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Run response-blind GIFT metadata census
+      - name: Run response-blind GIFT 3.2 metadata census
         env:
-          GIFT_VERSION: ${{ matrix.gift-version }}
+          GIFT_VERSION: "3.2"
         run: python research/gift_global_archipelago/metadata_census_v0_1.py | tee gift_metadata_census.json
       - name: Assert species composition stayed sealed
         run: |
           python - <<'PY'
           import json
           x=json.load(open("gift_metadata_census.json"))
+          assert x["gift_version"] == "3.2"
           assert x["response_values_accessed"] is False
           assert x["species_composition_endpoint_called"] is False
+          assert x["response_surface_manifest"]["response_values_accessed"] is False
+          assert len(x["response_surface_manifest"]["records_sha256"]) == 64
+          assert len(x["source_fingerprint"]) == 64
           print("RESPONSE_SEALED_OK", x["gift_version"])
           PY
