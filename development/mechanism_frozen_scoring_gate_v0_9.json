@@ -1,0 +1,30 @@
+{
+  "schema": "structural.mechanism_frozen_scoring_gate.v0_9",
+  "status": "prospective_infrastructure_no_current_system",
+  "purpose": "execute only the already-frozen lane metric after exact replay of the tracked v0.7 access receipt; scoring is separated from mechanism-claim adjudication",
+  "requirements": [
+    "git-tracked v0.7 response-access receipt",
+    "exact v0.7 replay through tracked v0.6 and v0.8 receipts",
+    "raw response SHA-256 equals the access receipt",
+    "raw scoring-input SHA-256 equals the access receipt",
+    "scoring and response key sets match exactly",
+    "missing outcomes remain missing and are excluded without imputation"
+  ],
+  "lane_metrics": {
+    "M1_contemporary_colonization": "mean candidate-minus-reference log loss for nonmissing 0_to_1 outcomes; negative is favourable",
+    "M2_rescue_persistence": "mean candidate-minus-reference log loss for nonmissing 1_to_0 extinction outcomes; negative is favourable",
+    "M3_historical_colonization_legacy": "frozen-weight graph-connected minus alternative genetic-value contrast",
+    "M4_environmental_proxy": "change in topology log-loss increment after enriched environment relative to the original reference"
+  },
+  "claim_boundary": {
+    "scoring_may_produce_numeric_metric": true,
+    "mechanism_claim_authorized_by_scoring": false,
+    "M1_M2_require_separate_spatial_transfer_for_portable_claim": true,
+    "M3_requires_predeclared_geographic_spatial_null_adjudication": true,
+    "M4_requires_machine_frozen_practical_null_and_spatial_transfer": true,
+    "ttf_handoff_authorized": false
+  },
+  "successful_status": "scored_confirmatory_mechanism_lane_no_claim_adjudication",
+  "non_estimable_status": "confirmatory_mechanism_lane_non_estimable_after_response",
+  "current_systems": []
+}
