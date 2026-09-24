@@ -64,9 +64,10 @@ def main()->int:
         raise RuntimeError("bird lock not qualified")
     if lock.get("response_values_accessed") is not False:
         raise RuntimeError("bird lock already records response access")
-    if lock.get("pilot_response_authorized") is not True:
+    authorization=lock.get("authorization",{})
+    if authorization.get("pilot_response_authorized") is not True:
         raise RuntimeError("bird lock does not authorize exact pilot response")
-    if lock.get("confirmatory_response_authorized") is not False:
+    if authorization.get("confirmatory_response_authorized") is not False:
         raise RuntimeError("bird lock unexpectedly authorizes confirmatory response")
     if protocol.get("protocol_fingerprint")!=lock.get("protocol_fingerprint"):
         raise RuntimeError("protocol fingerprint drift")
