@@ -251,8 +251,13 @@ def main()->int:
         raise RuntimeError("pre-response lock is not qualified")
     if lock.get("response_values_accessed") is not False:
         raise RuntimeError("lock already records response access")
-    if lock.get("response_open_authorized") is not True:
+    authorization=lock.get("authorization",{})
+    if authorization.get("one_shot_community_response_authorized") is not True:
         raise RuntimeError("lock does not authorize one-shot response access")
+    if authorization.get("H2_response_analysis_authorized") is not False:
+        raise RuntimeError("lock unexpectedly authorizes H2")
+    if authorization.get("post_response_retuning_authorized") is not False:
+        raise RuntimeError("lock unexpectedly authorizes post-response retuning")
     if panel.get("panel_fingerprint")!=lock.get("panel_fingerprint"):
         raise RuntimeError("panel fingerprint drift")
     if protocol.get("protocol_fingerprint")!=lock.get("protocol_fingerprint"):
