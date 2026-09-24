@@ -1,0 +1,81 @@
+{
+  "schema": "structural.avonet_dars_hwi_pre_response_lock.v0_1",
+  "status": "FROZEN_QUALIFIED_BEFORE_PILOT_RESPONSE",
+  "dars_repository": "txm676/DARs",
+  "dars_commit": "8b381ff26e3d6f4da17730dda0c5ab7dbad12eed",
+  "pre_response_green_commit": "09b4956184a0874caac1f7cc446d4ef63dfc8fb6",
+  "pre_response_workflow_run_id": 36015536611,
+  "pre_response_job_id": 107686971699,
+  "response_values_accessed": false,
+  "species_presence_absence_matrices_opened": false,
+  "source_fingerprint": "fe9f7bf3f09980e55a1a0f9d4cdbc2435a5bcd2b3c50a69d33b9c5d4f8c82af3",
+  "partition_fingerprint": "4fdb982d70f5517596c288c3c2059dc69218edf1845a13e8e1a7c085b3547e43",
+  "trait_fingerprint": "dbcf6de6295b8354153d4f6ee8659a4b40e2ab81931f12844a347e53b7c787c0",
+  "protocol_fingerprint": "cbb5d05a813f6ea963f9f42c8ed645d8052ccf4f6a53932a9084df998d037d4f",
+  "trait_predictor": {
+    "path": "Data/Species_datasets/Traits_all_species_PublVer.csv",
+    "git_blob_sha": "f6ef8e15c51396706167f5847f138fce8be2b3ce",
+    "sha256": "b0ca57649e1f92cb944e2d8678cbcbb660e236f710d2b7a8d34e1b9d84f72268",
+    "rows": 9993,
+    "HWI_nonmissing": 9993,
+    "HWI_missing": 0,
+    "HWI_column": "Hand-Wing Index"
+  },
+  "pilot_surface": {
+    "dataset_count": 5,
+    "fingerprint": "65f4c4f9e370d2fd9a1ced6aaf9e2dd6e4c342a3b6c3d0d48b8277dd9d26f1a6",
+    "datasets": [
+      "Azeria(2004)_noAliens.csv",
+      "Baiser et al (2017) Hawaii Birds_current_noAliens.csv",
+      "Bengtson&Bloch(1983)BirdsBreeding.csv",
+      "OConnell et al (2020) Wakatobi.csv",
+      "Simberloff & Martin (1991) Haida Gwaii.csv"
+    ]
+  },
+  "confirmatory_surface": {
+    "dataset_count": 16,
+    "fingerprint": "d466e1520c0ec5a9d0de1ba793d8817b2bbcaceac5f6f9564a84f260755a9cba",
+    "Oceanic": 8,
+    "C_Shelf": 8,
+    "extreme_q75": 5,
+    "nonextreme_q75": 11,
+    "opened": false
+  },
+  "endpoint_minimum_requirements": {
+    "islands": 8,
+    "HWI_matched_species": 20,
+    "HWI_match_coverage": 0.8,
+    "variable_occupancy_species": 15,
+    "distinct_occupancy_fractions": 4,
+    "unique_HWI_values": 10
+  },
+  "second_stage": {
+    "design_rank": 4,
+    "design_columns": 4,
+    "condition_number": 3.8371023694921327,
+    "cell_counts": {
+      "Oceanic|nonextreme": 4,
+      "Oceanic|extreme": 4,
+      "C.Shelf|nonextreme": 7,
+      "C.Shelf|extreme": 1
+    },
+    "H1_prediction": "positive",
+    "H2_prediction": "positive",
+    "q75_by_type_interaction_authorized": false
+  },
+  "bootstrap": {
+    "replicates": 10000,
+    "seed": 20260924,
+    "rng": "numpy.default_rng(PCG64)",
+    "candidate_draws_attempted": 10053,
+    "accepted_draws_sha256": "9e80598fb6ee16558d28faf76e7c2defa7dd0e3eeb65f668d9025f5c6e9a5d78",
+    "quantile_method": "numpy.quantile method=linear"
+  },
+  "authorization": {
+    "pilot_response_authorized": true,
+    "confirmatory_response_authorized": false,
+    "pilot_rho_computation_authorized": false,
+    "pilot_model_fit_authorized": false,
+    "post_pilot_retuning_authorized": false
+  }
+}
