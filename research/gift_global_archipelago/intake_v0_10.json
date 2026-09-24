@@ -65,7 +65,7 @@
     "mechanism_framework": "development/prospective_mechanism_discrimination_v0_1.json"
   },
   "study_specific_frozen_state": {
-    "eligible_archipelago_rule": "full non-null GIFT archipelago path with >=12 eligible islands after conservative closed-system archipelago exclusion and predictor-completeness filtering",
+    "eligible_archipelago_rule": "full non-null GIFT archipelago path with >=20 eligible islands after conservative closed-system archipelago exclusion and predictor-completeness filtering",
     "isolation_metric": "GIFT dist",
     "primary_extreme_rule": "global upper 25% across the final eligible-island universe; deterministic entity_ID tie-break; q70/q80 are non-rescuing sensitivity only",
     "response_access_granularity": "GIFT checklist API is list_ID/ref_ID scoped and does not server-filter by work_ID",
