@@ -87,8 +87,8 @@ def test_dynamic_scoring_surface_rejects_target_column(tmp_path: Path):
 
     code, out = freeze_lane("m1", path)
 
-    assert code == 1
-    assert out["status"] == "invalid_input"
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "header must be exactly" in out["reason"]
 
 
@@ -108,7 +108,8 @@ def test_dynamic_probability_boundaries_are_rejected(tmp_path: Path):
 
     code, out = freeze_lane("m1", path)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "strictly between 0 and 1" in out["reason"]
 
 
@@ -128,7 +129,8 @@ def test_dynamic_scoring_partition_must_equal_response_partition(tmp_path: Path)
 
     code, out = freeze_lane("m2", path)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "partitions must equal frozen response partition exactly" in out["reason"]
 
 
@@ -150,7 +152,8 @@ def test_m3_scoring_design_cannot_drop_frozen_pair(tmp_path: Path):
 
     code, out = freeze_lane("m3", path)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "exact frozen pair set" in out["reason"]
 
 
@@ -177,7 +180,8 @@ def test_m3_scoring_design_cannot_add_unfrozen_pair(tmp_path: Path):
 
     code, out = freeze_lane("m3", path)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "unfrozen pair" in out["reason"]
 
 
@@ -203,7 +207,8 @@ def test_m3_weight_must_be_positive_and_response_blind(tmp_path: Path):
 
     code, out = freeze_lane("m3", path)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "finite and >0" in out["reason"]
 
 
@@ -225,7 +230,8 @@ def test_m4_scoring_input_rejects_unknown_unit(tmp_path: Path):
 
     code, out = freeze_lane("m4", path)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "not in frozen environment matrix" in out["reason"]
 
 
@@ -248,7 +254,8 @@ def test_m4_scoring_surface_rejects_target_or_post_response_column(tmp_path: Pat
 
     code, out = freeze_lane("m4", path)
 
-    assert code == 1
+    assert code == 2
+    assert out["status"] == "STOP_invalid_or_unauthorized_scoring_input"
     assert "header must be exactly" in out["reason"]
 
 
