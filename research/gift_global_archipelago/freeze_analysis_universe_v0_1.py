@@ -413,7 +413,7 @@ def main() -> int:
         },
         "isolation_metric": "GIFT dist",
         "extreme_rules": {
-            "primary_q75": "top ceil(0.25*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break",
+            "primary_q75": "global upper 25%: top ceil(0.25*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break",
             "sensitivity_q70": "top ceil(0.30*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break; cannot rescue q75",
             "sensitivity_q80": "top ceil(0.20*N) islands by GIFT dist across the complete frozen eligible-island universe; entity_ID tie-break; cannot rescue q75",
             "primary_unchanged_from_prospective_v0_3": True,
