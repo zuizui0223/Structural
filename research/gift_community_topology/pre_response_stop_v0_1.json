@@ -1,0 +1,18 @@
+{
+  "schema": "structural.gift_community_topology_pre_response_stop.v0_1",
+  "status": "STOP_PRE_RESPONSE_NON_ESTIMABLE",
+  "response_values_accessed": false,
+  "species_composition_endpoint_called": false,
+  "panel_fingerprint": "cf2a6f863a6e953ae8f8257358662748684a1f00f9ed4d25c64d3b1d80d9aa98",
+  "n_archipelagos": 24,
+  "n_islands": 386,
+  "extreme_islands": 97,
+  "nonextreme_islands": 289,
+  "topology_gain_nonzero_islands": 44,
+  "extreme_topology_gain_nonzero_islands": 0,
+  "nonextreme_topology_gain_nonzero_islands": 44,
+  "failed_design": "fixed 25/50/125/250 km component-to-mainland topology gain",
+  "reason": "candidate structural predictor is identically zero throughout the global upper-25% mainland-isolation regime, so H1/H2/H3 are not estimable before response access",
+  "disposition": "do not open response under v0.1; preserve as predictor-only failed design",
+  "permitted_next_step": "new pre-response protocol may use a biologically defined scale-free topology metric because no response values have been accessed"
+}
