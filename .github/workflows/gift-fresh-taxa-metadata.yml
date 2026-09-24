@@ -33,7 +33,7 @@ jobs:
               print(k, v.get("eligible_individual_islands"), v.get("archipelagos_by_minimum_island_count"))
           PY
       - name: Install geometry dependencies
-        run: python -m pip install pyshp shapely
+        run: python -m pip install pyshp shapely openpyxl
       - name: Freeze Pteridophyta predictor universe
         run: python research/gift_fresh_taxa/freeze_fresh_taxon_universe_v0_1.py --taxon-name Pteridophyta | tee pteridophyta_universe.json
       - name: Freeze Gymnospermae predictor universe
@@ -53,6 +53,22 @@ jobs:
               assert x["support_class_counts"].get("nonextreme_only",0) >= 1
               assert x["support_class_counts"].get("paired",0) >= 1
               print("FRESH_UNIVERSE_OK", x["taxon_name"], x["n_final_archipelagos"], x["n_final_islands"], x["support_class_counts"], x["universe_fingerprint"])
+          PY
+      - name: Freeze Pteridophyta geology crosswalk
+        run: python research/gift_fresh_taxa/freeze_geology_crosswalk_v0_1.py --universe pteridophyta_universe.json > pteridophyta_geology.json
+      - name: Freeze Gymnospermae geology crosswalk
+        run: python research/gift_fresh_taxa/freeze_geology_crosswalk_v0_1.py --universe gymnospermae_universe.json > gymnospermae_geology.json
+      - name: Assert geology crosswalks are response blind
+        run: |
+          python - <<'PY'
+          import json
+          for name in ("pteridophyta","gymnospermae"):
+              x=json.load(open(f"{name}_geology.json"))
+              assert x["status"] == "FROZEN_BEFORE_PILOT_RESPONSE"
+              assert x["response_values_accessed"] is False
+              assert x["gift_species_composition_accessed"] is False
+              assert len(x["crosswalk_fingerprint"]) == 64
+              print("FRESH_GEOLOGY_FROZEN", name, x["quantitative_geology_eligible_all"], x["crosswalk_fingerprint"])
           PY
       - name: Build and validate Pteridophyta intake
         run: |
@@ -76,8 +92,8 @@ jobs:
           PY
       - name: Freeze both taxon protocols
         run: |
-          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe pteridophyta_universe.json --intake-receipt pteridophyta_intake_receipt.json > pteridophyta_protocol.json
-          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe gymnospermae_universe.json --intake-receipt gymnospermae_intake_receipt.json > gymnospermae_protocol.json
+          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe pteridophyta_universe.json --intake-receipt pteridophyta_intake_receipt.json --geology-crosswalk pteridophyta_geology.json > pteridophyta_protocol.json
+          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe gymnospermae_universe.json --intake-receipt gymnospermae_intake_receipt.json --geology-crosswalk gymnospermae_geology.json > gymnospermae_protocol.json
       - name: Assert both protocols are response sealed and disjoint
         run: |
           python - <<'PY'
