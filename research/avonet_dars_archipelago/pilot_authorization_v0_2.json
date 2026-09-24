@@ -1,0 +1,29 @@
+{
+  "schema": "structural.avonet_dars_hwi_pilot_authorization.v0_2",
+  "status": "AUTHORIZED_FOR_EXACT_BURNED_PILOT",
+  "supersedes": "research/avonet_dars_archipelago/pilot_authorization_v0_1.json",
+  "supersession_reason": "pre-query implementation correction only: runner read pilot/confirmatory authorization at the lock top level instead of lock.authorization; failed run 36016099994 stopped before any pilot matrix query",
+  "failed_prequery_run_id": 36016099994,
+  "failed_prequery_response_queries": 0,
+  "pre_response_lock_commit": "4920bf37bf9e69d921cdf4ab73a835d8d5b6405a",
+  "source_fingerprint": "fe9f7bf3f09980e55a1a0f9d4cdbc2435a5bcd2b3c50a69d33b9c5d4f8c82af3",
+  "partition_fingerprint": "4fdb982d70f5517596c288c3c2059dc69218edf1845a13e8e1a7c085b3547e43",
+  "trait_fingerprint": "dbcf6de6295b8354153d4f6ee8659a4b40e2ab81931f12844a347e53b7c787c0",
+  "protocol_fingerprint": "cbb5d05a813f6ea963f9f42c8ed645d8052ccf4f6a53932a9084df998d037d4f",
+  "runner_path": "research/avonet_dars_archipelago/run_hwi_burned_pilot_v0_1.py",
+  "runner_git_blob_sha": "f6d730742a23ba6aaad70cfa764be1f0aa26009c",
+  "pilot_surface_fingerprint": "65f4c4f9e370d2fd9a1ced6aaf9e2dd6e4c342a3b6c3d0d48b8277dd9d26f1a6",
+  "confirmatory_surface_fingerprint": "d466e1520c0ec5a9d0de1ba793d8817b2bbcaceac5f6f9564a84f260755a9cba",
+  "response_values_accessed": false,
+  "scientific_design_changed": false,
+  "authorization": {
+    "pilot_matrix_queries": 5,
+    "confirmatory_matrix_queries": 0,
+    "rho_computation": false,
+    "model_fits": 0,
+    "effect_size": null,
+    "confirmatory_response": false
+  },
+  "execution_rule": "replay exact census, partition, HWI predictor, protocol and committed lock; verify corrected runner blob; only then open the same 5 frozen pilot matrices",
+  "rerun_rule": "this is the sole permitted retry because the prior run opened zero matrix responses; after any pilot matrix query succeeds, do not rerun"
+}
