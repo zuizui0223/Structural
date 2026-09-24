@@ -152,6 +152,7 @@ def main() -> int:
     thresholds = (0.90, 0.95, 0.99)
     memberships = {th: defaultdict(set) for th in thresholds}
     multi_parent = {th: defaultdict(set) for th in thresholds}
+    parent_candidates = {th: defaultdict(dict) for th in thresholds}
 
     for row in overlap:
         e1, e2 = s(row.get("entity1")), s(row.get("entity2"))
@@ -161,8 +162,10 @@ def main() -> int:
         c1, c2 = s(r1.get("entity_class")), s(r2.get("entity_class"))
         if c1 == PRIMARY_CHILD_CLASS and c2 == PRIMARY_PARENT_CLASS:
             child, parent, cover = e1, e2, f(row.get("overlap12", 0))
+            parent_area = f(row.get("area2", 0))
         elif c2 == PRIMARY_CHILD_CLASS and c1 == PRIMARY_PARENT_CLASS:
             child, parent, cover = e2, e1, f(row.get("overlap21", 0))
+            parent_area = f(row.get("area1", 0))
         else:
             continue
         if child not in public_islands:
@@ -171,6 +174,7 @@ def main() -> int:
             if cover >= th:
                 memberships[th][parent].add(child)
                 multi_parent[th][child].add(parent)
+                parent_candidates[th][child][parent] = parent_area
 
     def class_counts(entities):
         return dict(sorted(Counter(v["entity_class"] for v in entities.values()).items()))
@@ -205,6 +209,7 @@ def main() -> int:
         "entity_class_counts_public_only": class_counts(entities_public),
         "individual_public_islands": len(public_islands),
         "archipelago_overlap_diagnostic": {},
+        "canonical_smallest_parent_diagnostic": {},
     }
 
     for th in thresholds:
@@ -219,6 +224,8 @@ def main() -> int:
             top.append({
                 "entity_ID": pid,
                 "geo_entity": s(rr.get("geo_entity")),
+                "entity_type": s(rr.get("entity_type")),
+                "country": s(rr.get("country")),
                 "n_eligible_individual_islands": n,
             })
         summary["archipelago_overlap_diagnostic"][str(th)] = {
@@ -228,6 +235,42 @@ def main() -> int:
             "unassigned_individual_islands": len(public_islands - assigned),
             "islands_with_multiple_parent_groups": sum(len(v) > 1 for v in child_to_parents.values()),
             "top_groups": top,
+        }
+
+        # Response-blind canonicalization diagnostic:
+        # every individual island is assigned to exactly one containing Island Group,
+        # choosing the smallest-area parent at the same overlap threshold. Ties use
+        # entity_ID, making the rule deterministic without inspecting species data.
+        canonical = defaultdict(set)
+        for child, candidates in parent_candidates[th].items():
+            if not candidates:
+                continue
+            parent = min(candidates, key=lambda pid: (candidates[pid], pid))
+            canonical[parent].add(child)
+        canonical_counts = sorted((len(children), pid) for pid, children in canonical.items())
+        canonical_by_min = {
+            str(k): sum(n >= k for n, _ in canonical_counts)
+            for k in (4, 8, 12, 20, 30)
+        }
+        canonical_top = []
+        for n, pid in sorted(canonical_counts, reverse=True)[:40]:
+            rr = region_by_id.get(pid, {})
+            canonical_top.append({
+                "entity_ID": pid,
+                "geo_entity": s(rr.get("geo_entity")),
+                "entity_type": s(rr.get("entity_type")),
+                "country": s(rr.get("country")),
+                "n_assigned_individual_islands": n,
+            })
+        canonical_assigned = set().union(*canonical.values()) if canonical else set()
+        summary["canonical_smallest_parent_diagnostic"][str(th)] = {
+            "rule": "among containing Island Group polygons, assign each Island to the minimum parent area; tie-break by entity_ID",
+            "groups_with_at_least_one_assigned_island": len(canonical),
+            "groups_by_minimum_island_count": canonical_by_min,
+            "assigned_individual_islands": len(canonical_assigned),
+            "unassigned_individual_islands": len(public_islands - canonical_assigned),
+            "islands_with_multiple_assignments_after_resolution": 0,
+            "top_groups": canonical_top,
         }
 
     print(json.dumps(summary, indent=2, sort_keys=True))
