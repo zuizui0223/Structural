@@ -1,0 +1,39 @@
+{
+  "schema": "structural.gift_community_topology_pre_response_h2_stop.v0_2",
+  "status": "PARTIAL_PRE_RESPONSE_QUALIFICATION_H2_NON_ESTIMABLE",
+  "response_values_accessed": false,
+  "species_composition_endpoint_called": false,
+  "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+  "protocol_fingerprint": "7f4fd567e85537ea1cca82c2422cbff952d403d552a244edf620123256ec02b9",
+  "H1": {
+    "full_rank": true,
+    "condition": 48.2355286327226,
+    "target_column": "step_gain_x_extreme",
+    "retained": true
+  },
+  "H2": {
+    "target_column": "step_gain_x_extreme_x_GMMC",
+    "retained": false,
+    "dropped_constant": [
+      "extreme_x_GMMC",
+      "step_gain_x_extreme_x_GMMC"
+    ],
+    "interpretation": "global extreme-isolation islands lack GMMC variation sufficient to identify the requested history interaction"
+  },
+  "H3": {
+    "full_rank": true,
+    "condition": 51.33022475645825,
+    "target_column": "step_gain_x_extreme_x_fern",
+    "retained": true
+  },
+  "support": {
+    "archipelagos": 24,
+    "islands": 386,
+    "extreme_islands": 97,
+    "nonextreme_islands": 289,
+    "extreme_step_isolation_gain_nonzero_islands": 89,
+    "nonextreme_step_isolation_gain_nonzero_islands": 205
+  },
+  "disposition": "do not open response under v0.2 because one declared primary hypothesis is non-estimable",
+  "permitted_next_step": "replace H2 moderator using an external response-independent geological-origin classification frozen before response; H1/H3 definitions remain unchanged"
+}
