@@ -73,6 +73,8 @@ def eligible_rows(lists,taxonomy,target_name,scope):
 def main():
     lists,lists_meta=fetch("lists")
     taxonomy,tax_meta=fetch("taxonomy")
+    references,ref_meta=fetch("references")
+    ref_by={s(r["ref_ID"]):r for r in references}
     species_rows=[]
     species_meta=[]
     for start in range(0,600000,100000):
@@ -131,10 +133,28 @@ def main():
             int(row["work_ID"]) for row in species_rows
             if s(row.get("genus_ID")) in genus_ids
         }
+        ref_ids=sorted({s(r["ref_ID"]) for r in selected})
+        ref_types={}
+        checklist_true=0
+        checklist_false=0
+        for rid in ref_ids:
+            rr=ref_by.get(rid,{})
+            typ=s(rr.get("type")) or "<missing>"
+            ref_types[typ]=ref_types.get(typ,0)+1
+            try:
+                chk=int(float(rr.get("checklist")))
+            except (TypeError,ValueError):
+                chk=None
+            checklist_true+=int(chk==1)
+            checklist_false+=int(chk==0)
         results[target]={
             "available":True,
             "taxon_ID":s(t["taxon_ID"]),
             "global_taxonomic_work_ids":len(global_work_ids),
+            "eligible_reference_count":len(ref_ids),
+            "reference_type_counts":dict(sorted(ref_types.items())),
+            "reference_checklist_true":checklist_true,
+            "reference_checklist_false":checklist_false,
             "eligible_individual_islands":len(island_ids),
             "archipelagos_with_any_island":len(g_rows),
             "archipelagos_by_minimum_island_count":{
@@ -155,6 +175,7 @@ def main():
         "source_tables":{
             "lists":lists_meta,
             "taxonomy":tax_meta,
+            "references":ref_meta,
             "species_metadata_pages":species_meta,
             "environment":arch_meta,
         },
