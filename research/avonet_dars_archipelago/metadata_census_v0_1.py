@@ -6,7 +6,9 @@ It does not download or parse any true-island species presence/absence matrix.
 """
 from __future__ import annotations
 
+import csv
 import hashlib
+import io
 import json
 import re
 from urllib.request import Request, urlopen
@@ -18,6 +20,11 @@ INFO_URL=f"https://raw.githubusercontent.com/{DARS_REPO}/{DARS_COMMIT}/Dataset_i
 README_URL=f"https://raw.githubusercontent.com/{DARS_REPO}/{DARS_COMMIT}/README.md"
 AVONET_ARTICLE_ID=16586228
 AVONET_META_URL=f"https://api.figshare.com/v2/articles/{AVONET_ARTICLE_ID}"
+PREDICTOR_PATH="Data/Predictors/world_clim_all_ETP.csv"
+PREDICTOR_URL=f"https://raw.githubusercontent.com/{DARS_REPO}/{DARS_COMMIT}/{PREDICTOR_PATH}"
+GID_LAYER_URL="https://data-gis.unep-wcmc.org/server/rest/services/Hosted/WCMC031_GID2_OSM_2015/FeatureServer/0"
+GID_META_URL=GID_LAYER_URL+"?f=json"
+GID_COUNT_URL=GID_LAYER_URL+"/query?where=1%3D1&returnCountOnly=true&f=json"
 
 def fetch(url:str):
     req=Request(url,headers={"User-Agent":"Structural-AVONET-DARs-metadata-census/0.1"})
@@ -103,6 +110,54 @@ def main()->int:
             if m:
                 current["n_islands_text"]=int(m.group(1))
 
+    pred_raw,pred_meta=fetch(PREDICTOR_URL)
+    pred_rows=list(csv.DictReader(io.StringIO(pred_raw.decode("utf-8-sig"))))
+    true_names={row["path"].split("/")[-1] for row in true_files}
+    true_predictors=[row for row in pred_rows if row.get("Dataset") in true_names]
+    if len(true_predictors)!=len(true_files):
+        missing=sorted(true_names-{row.get("Dataset") for row in true_predictors})
+        raise RuntimeError("predictor rows missing for true-island files: "+", ".join(missing))
+    type_counts={}
+    for key in ("Type_coarse","Type_V_fine","Type_fine","Type_fine2"):
+        counts={}
+        for row in true_predictors:
+            v=row.get(key,"")
+            counts[v]=counts.get(v,0)+1
+        type_counts[key]=dict(sorted(counts.items()))
+    predictor_summary={
+        "source":pred_meta,
+        "rows":true_predictors,
+        "type_counts":type_counts,
+        "missing_iso":sum(row.get("Iso") in ("","NA",None) for row in true_predictors),
+        "missing_mean_dist":sum(row.get("MeanDist") in ("","NA",None) for row in true_predictors),
+        "content_opened":True,
+        "role":"response-independent archipelago-level predictor metadata only",
+    }
+
+    gid_raw,gid_meta=fetch(GID_META_URL)
+    gid=json.loads(gid_raw)
+    gid_count_raw,gid_count_meta=fetch(GID_COUNT_URL)
+    gid_count=json.loads(gid_count_raw)
+    gid_schema={
+        "service_metadata":gid_meta,
+        "feature_count_metadata":gid_count_meta,
+        "feature_count":gid_count.get("count"),
+        "name":gid.get("name"),
+        "geometryType":gid.get("geometryType"),
+        "objectIdField":gid.get("objectIdField"),
+        "maxRecordCount":gid.get("maxRecordCount"),
+        "fields":[
+            {
+                "name":row.get("name"),
+                "alias":row.get("alias"),
+                "type":row.get("type"),
+            }
+            for row in gid.get("fields",[])
+        ],
+        "feature_values_opened":False,
+        "geometry_values_opened":False,
+    }
+
     av_raw,av_meta=fetch(AVONET_META_URL)
     av=json.loads(av_raw)
     av_files=[
@@ -139,8 +194,9 @@ def main()->int:
         "response_blind_predictor_surface":{
             "files":predictor_files,
             "files_fingerprint":canonical_sha(predictor_files),
-            "content_opened":False,
+            "predictor_content":predictor_summary,
         },
+        "global_island_database_schema":gid_schema,
         "avonet_or_trait_surface":{
             "dars_species_files":species_files,
             "dars_species_files_content_opened":False,
@@ -174,6 +230,9 @@ def main()->int:
         "avonet_version":av.get("version"),
         "avonet_doi":av.get("doi"),
         "avonet_files":av_files,
+        "predictor_content_sha256":pred_meta["sha256"],
+        "gid_schema_sha256":gid_meta["sha256"],
+        "gid_count_sha256":gid_count_meta["sha256"],
     })
     print(json.dumps(payload,indent=2,sort_keys=True))
     return 0
