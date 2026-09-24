@@ -117,6 +117,8 @@ jobs:
           for g in x["groups"]:
               assert g["n_islands"] >= 16
               assert len(g["block_sizes"]) == 4
+              assert min(g["block_sizes"]) >= 4
+              assert max(g["block_sizes"]) - min(g["block_sizes"]) <= 1
               assert sum(g["block_sizes"]) == g["n_islands"]
               target = pilot_lists if g["archipelago_id"] in pilot_ids else confirm_lists
               for island in g["islands"]:
