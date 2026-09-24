@@ -38,13 +38,26 @@ jobs:
             --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
             --h2-terminal research/gift_community_topology/pre_response_h2_stop_v0_4.json \
             > gift_community_protocol.json
-      - name: Verify exact weighted pre-response lock before response access
+      - name: Verify execution authorization and exact weighted pre-response lock
         run: |
           python - <<'PY'
-          import json
+          import json, subprocess
+          auth=json.load(open("research/gift_community_topology/one_shot_authorization_v0_1.json"))
           lock=json.load(open("research/gift_community_topology/pre_response_lock_v0_5.json"))
           panel=json.load(open("gift_community_panel.json"))
           protocol=json.load(open("gift_community_protocol.json"))
+          assert auth["status"] == "AUTHORIZED_FOR_EXACT_ONE_SHOT_RESPONSE"
+          assert auth["response_values_accessed"] is False
+          assert auth["pre_response_lock_commit"] == "47c9b1dda228b0601af6bc816ded4882aa3b7156"
+          observed_blob=subprocess.check_output(
+              ["git","hash-object",auth["runner_path"]], text=True
+          ).strip()
+          assert observed_blob == auth["runner_git_blob_sha"]
+          assert auth["panel_fingerprint"] == panel["panel_fingerprint"]
+          assert auth["protocol_fingerprint"] == protocol["protocol_fingerprint"]
+          assert auth["bootstrap_draws_sha256"] == protocol["model"]["bootstrap_design"]["accepted_draws_sha256"]
+          assert auth["H2_authorized"] is False
+          assert auth["post_response_retuning_authorized"] is False
           assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_RESPONSE"
           assert lock["response_values_accessed"] is False
           assert lock["species_composition_endpoint_called"] is False
