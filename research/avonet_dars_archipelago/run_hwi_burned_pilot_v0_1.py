@@ -35,7 +35,7 @@ def load(path:Path)->dict:
     return x
 
 def fetch_raw(path:str)->bytes:
-    url=f"https://raw.githubusercontent.com/{DARS_REPO}/{DARS_COMMIT}/"+quote(path,safe="/()&,_-. ")
+    url=f"https://raw.githubusercontent.com/{DARS_REPO}/{DARS_COMMIT}/"+quote(path,safe="/")
     req=Request(url,headers={"User-Agent":"Structural-AVONET-DARs-burned-pilot/0.1"})
     with urlopen(req,timeout=180) as response:
         return response.read()
