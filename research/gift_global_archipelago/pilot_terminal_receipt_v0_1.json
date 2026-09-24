@@ -1,0 +1,96 @@
+{
+  "analysis_universe_fingerprint": "dbd9fbb85b6b6adf95fd4c6754284d5562e511f318187b38cb03f7d117c23bf9",
+  "archipelago_audits": [
+    {
+      "archipelago_id": "Agean and Southern Greece Islands / North-west Agaean Sea Islands",
+      "archipelago_pass": true,
+      "estimable_species": 559,
+      "fold_pass_count_histogram": {
+        "0": 1542,
+        "1": 199,
+        "2": 149,
+        "3": 342,
+        "4": 217
+      },
+      "n_islands": 17,
+      "q75_extreme_islands": 0,
+      "q75_nonextreme_islands": 17,
+      "species_with_presence": 2449
+    },
+    {
+      "archipelago_id": "Tuvalu",
+      "archipelago_pass": false,
+      "estimable_species": 5,
+      "fold_pass_count_histogram": {
+        "0": 24,
+        "1": 2,
+        "2": 6,
+        "3": 2,
+        "4": 3
+      },
+      "n_islands": 17,
+      "q75_extreme_islands": 17,
+      "q75_nonextreme_islands": 0,
+      "species_with_presence": 37
+    },
+    {
+      "archipelago_id": "West Indies / Lesser Antilles / Leeward Islands",
+      "archipelago_pass": true,
+      "estimable_species": 569,
+      "fold_pass_count_histogram": {
+        "0": 1499,
+        "1": 75,
+        "2": 198,
+        "3": 229,
+        "4": 340
+      },
+      "n_islands": 23,
+      "q75_extreme_islands": 9,
+      "q75_nonextreme_islands": 14,
+      "species_with_presence": 2341
+    }
+  ],
+  "confirmatory_list_set_sha256": "8bd8d48e7b63f6dbee7d7cfd421dad2e1215c4601fec9190f51465b15beb8a71",
+  "confirmatory_response_authorized": false,
+  "geology_crosswalk_fingerprint": "15dcfb61f2dd2f069d1908c9b93a2edc57e2b3709fd0e2561fe72378099f2002",
+  "geology_h2_pre_response": {
+    "categorical_class_contrast_estimable": false,
+    "mixed": 3,
+    "oceanic_fraction_slope_estimable": true,
+    "pure_continental": 3,
+    "pure_oceanic": 0,
+    "quantitative_geology_eligible_confirmatory_archipelagos": 6
+  },
+  "implementation_correction": {
+    "correct_rule": "for rows returned by filter=native, native=1 is an unambiguous presence unless questionable==1 or quest_native==1; missing flag values are not positive questionable flags",
+    "initial_bug": "missing questionable/quest_native flags were treated as questionable instead of unflagged",
+    "initial_stop_direction_changed": false,
+    "new_response_queries_for_correction": 0,
+    "raw_response_reused_unchanged": true
+  },
+  "pass_rule": "all 3 pilot archipelagos estimable AND at least one passing extreme contributor AND at least one passing non-extreme contributor",
+  "pilot_artifact_id": 10795879443,
+  "pilot_artifact_zip_sha256": "2235f695142f0853aca11bc84f6856ef22f1c201aefd305212f4575c7287347e",
+  "pilot_artifact_zip_size_bytes": 117189,
+  "pilot_list_set_sha256": "f9d39106f351d011fe88466cbaad1e7b48e64e7cd93c03e0a51e8f5d72746f07",
+  "pilot_pass": false,
+  "pilot_run_id": 35971291333,
+  "protocol_fingerprint": "0de95fb8fb3f6b009cbd0eb695ea42a90bb4cdbda24ab3cdb81cce73cb2c7440",
+  "raw_pilot_response_row_count": 30808,
+  "raw_pilot_response_sha256": "6e63a66daae6a0107c9dca2c2336d2cea6a52cf28c6104689dfadd05195930e3",
+  "response_access": {
+    "confirmatory_list_query_count": 0,
+    "confirmatory_response_opened": false,
+    "effect_size": null,
+    "model_fits": 0,
+    "pilot_response_opened": true,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0
+  },
+  "schema": "structural.gift_global_archipelago_burned_pilot_terminal.v0_1",
+  "species_archipelago_pairs_checked": 4827,
+  "species_archipelago_pairs_estimable": 1133,
+  "status": "TERMINAL_STOP_NON_ESTIMABLE",
+  "terminal_receipt_sha256": "114c55c3785770287f8b3c8b7fc9f10426d40481634cf9ba453cdb1ecbbcbc32",
+  "terminal_rule": "do not retune q75, graph radii, R3, class gates, minimum archipelago size or pilot membership; do not open confirmatory lists under this protocol version"
+}
