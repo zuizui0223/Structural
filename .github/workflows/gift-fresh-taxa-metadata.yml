@@ -74,30 +74,30 @@ jobs:
               assert len(x["crosswalk_fingerprint"]) == 64
               print("FRESH_GEOLOGY_FROZEN", name, x["quantitative_geology_eligible_all"], x["crosswalk_fingerprint"])
           PY
-      - name: Build and validate Pteridophyta intake
+      - name: Freeze fresh-taxon candidate selection
         run: |
-          python research/gift_fresh_taxa/build_intake_v0_1.py --universe pteridophyta_universe.json > pteridophyta_intake.json
-          python scripts/validate_independent_system_intake_v0_10.py pteridophyta_intake.json > pteridophyta_intake_receipt.json
-      - name: Build and validate Gymnospermae intake
-        run: |
-          python research/gift_fresh_taxa/build_intake_v0_1.py --universe gymnospermae_universe.json > gymnospermae_intake.json
-          python scripts/validate_independent_system_intake_v0_10.py gymnospermae_intake.json > gymnospermae_intake_receipt.json
-      - name: Assert both fresh intakes pass without response access
+          python research/gift_fresh_taxa/freeze_candidate_selection_v0_1.py \
+            --census gift_fresh_taxa_metadata.json \
+            --pteridophyta-universe pteridophyta_universe.json \
+            --gymnospermae-universe gymnospermae_universe.json \
+            | tee gift_fresh_taxa_selection.json
+      - name: Assert all metadata-qualified taxa are retained
         run: |
           python - <<'PY'
           import json
-          for name in ("pteridophyta","gymnospermae"):
-              x=json.load(open(f"{name}_intake_receipt.json"))
-              assert x["status"] == "eligible_to_construct_v0_31_partition_protocol"
-              assert x["pilot_response_authorized"] is False
-              assert x["confirmatory_response_authorized"] is False
-              assert x["mechanism_response_authorized"] is False
-              print("FRESH_INTAKE_PASS", name, x["intake_fingerprint"])
+          x=json.load(open("gift_fresh_taxa_selection.json"))
+          assert x["status"] == "FROZEN_RESPONSE_BLIND_CANDIDATE_SELECTION"
+          assert x["species_composition_endpoint_called"] is False
+          assert x["angiosperm_pilot_response_used_for_selection"] is False
+          assert x["selected_taxa"] == ["Pteridophyta","Gymnospermae"]
+          assert x["excluded_taxa"] == ["Bryophyta"]
+          assert x["selection_rule"]["all_passing_candidates_retained"] is True
+          print("FRESH_TAXA_SELECTION_FROZEN", x["selection_fingerprint"])
           PY
       - name: Freeze both taxon protocols
         run: |
-          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe pteridophyta_universe.json --intake-receipt pteridophyta_intake_receipt.json --geology-crosswalk pteridophyta_geology.json > pteridophyta_protocol.json
-          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe gymnospermae_universe.json --intake-receipt gymnospermae_intake_receipt.json --geology-crosswalk gymnospermae_geology.json > gymnospermae_protocol.json
+          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe pteridophyta_universe.json --selection-receipt gift_fresh_taxa_selection.json --geology-crosswalk pteridophyta_geology.json > pteridophyta_protocol.json
+          python research/gift_fresh_taxa/freeze_protocol_v0_1.py --universe gymnospermae_universe.json --selection-receipt gift_fresh_taxa_selection.json --geology-crosswalk gymnospermae_geology.json > gymnospermae_protocol.json
       - name: Assert both protocols are response sealed and disjoint
         run: |
           python - <<'PY'
@@ -113,6 +113,8 @@ jobs:
               assert x["burned_pilot"]["models_allowed"] is False
               assert x["burned_pilot"]["effect_sizes_allowed"] is False
               assert x["confirmatory_response_authorized"] is False
+              assert x["study_family"].startswith("response-blind two-clade")
+              assert x["candidate_selection_fingerprint"] == json.load(open("gift_fresh_taxa_selection.json"))["selection_fingerprint"]
               assert len(x["protocol_fingerprint"]) == 64
               print("FRESH_PROTOCOL_FROZEN", name, x["pilot_selection"]["pilot_archipelagos"], x["protocol_fingerprint"])
           PY
