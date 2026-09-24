@@ -1,0 +1,155 @@
+name: AVONET DARs HWI burned pilot one-shot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/avonet_dars_archipelago/**"
+      - ".github/workflows/avonet-dars-hwi-pilot.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: avonet-dars-hwi-pilot-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pilot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen numerical dependency
+        run: python -m pip install numpy
+      - name: Compile response-limited pilot runner
+        run: python -m py_compile research/avonet_dars_archipelago/run_hwi_burned_pilot_v0_1.py
+      - name: Replay response-blind source census
+        run: python research/avonet_dars_archipelago/metadata_census_v0_1.py > avonet_dars_metadata_census.json
+      - name: Replay frozen bird partition
+        run: |
+          python research/avonet_dars_archipelago/freeze_partition_v0_1.py \
+            --census avonet_dars_metadata_census.json \
+            > avonet_dars_partition.json
+      - name: Replay frozen HWI predictor
+        run: python research/avonet_dars_archipelago/freeze_hwi_predictor_v0_1.py > avonet_hwi_predictor.json
+      - name: Replay frozen HWI occupancy protocol
+        run: |
+          python research/avonet_dars_archipelago/freeze_hwi_occupancy_protocol_v0_1.py \
+            --census avonet_dars_metadata_census.json \
+            --partition avonet_dars_partition.json \
+            --trait avonet_hwi_predictor.json \
+            > avonet_dars_hwi_protocol.json
+      - name: Verify exact pilot authorization before response access
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          auth=json.load(open("research/avonet_dars_archipelago/pilot_authorization_v0_1.json"))
+          lock=json.load(open("research/avonet_dars_archipelago/pre_response_lock_v0_1.json"))
+          census=json.load(open("avonet_dars_metadata_census.json"))
+          part=json.load(open("avonet_dars_partition.json"))
+          trait=json.load(open("avonet_hwi_predictor.json"))
+          protocol=json.load(open("avonet_dars_hwi_protocol.json"))
+
+          assert auth["schema"] == "structural.avonet_dars_hwi_pilot_authorization.v0_1"
+          assert auth["status"] == "AUTHORIZED_FOR_EXACT_BURNED_PILOT"
+          assert auth["response_values_accessed"] is False
+          observed_blob=subprocess.check_output(
+              ["git","hash-object",auth["runner_path"]],text=True
+          ).strip()
+          assert observed_blob == auth["runner_git_blob_sha"]
+          assert lock["schema"] == "structural.avonet_dars_hwi_pre_response_lock.v0_1"
+          assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_PILOT_RESPONSE"
+          assert lock["response_values_accessed"] is False
+          assert lock["species_presence_absence_matrices_opened"] is False
+          assert lock["source_fingerprint"] == census["source_fingerprint"] == auth["source_fingerprint"]
+          assert lock["partition_fingerprint"] == part["partition_fingerprint"] == auth["partition_fingerprint"]
+          assert lock["trait_fingerprint"] == trait["trait_fingerprint"] == auth["trait_fingerprint"]
+          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"] == auth["protocol_fingerprint"]
+          assert lock["pilot_surface"]["fingerprint"] == part["response_surface_fingerprints"]["pilot"] == auth["pilot_surface_fingerprint"]
+          assert lock["confirmatory_surface"]["fingerprint"] == part["response_surface_fingerprints"]["confirmatory"] == auth["confirmatory_surface_fingerprint"]
+          assert lock["bootstrap"]["accepted_draws_sha256"] == protocol["second_stage"]["bootstrap"]["accepted_draws_sha256"]
+          assert lock["authorization"]["pilot_response_authorized"] is True
+          assert lock["authorization"]["confirmatory_response_authorized"] is False
+          assert auth["authorization"]["pilot_matrix_queries"] == 5
+          assert auth["authorization"]["confirmatory_matrix_queries"] == 0
+          assert auth["authorization"]["rho_computation"] is False
+          assert auth["authorization"]["model_fits"] == 0
+          print("EXACT_BIRD_PILOT_AUTHORIZATION_OK", protocol["protocol_fingerprint"])
+          PY
+      - name: Spend frozen bird pilot on 5 matrices only
+        shell: bash
+        run: |
+          set +e
+          set -o pipefail
+          python research/avonet_dars_archipelago/run_hwi_burned_pilot_v0_1.py \
+            --partition avonet_dars_partition.json \
+            --protocol avonet_dars_hwi_protocol.json \
+            --trait avonet_hwi_predictor.json \
+            --lock research/avonet_dars_archipelago/pre_response_lock_v0_1.json \
+            --raw-dir avonet_bird_pilot_raw \
+            | tee avonet_bird_pilot_receipt.json
+          rc=${PIPESTATUS[0]}
+          echo "BIRD_PILOT_RC=${rc}" >> "${GITHUB_ENV}"
+          exit 0
+      - name: Verify pilot evidence ceiling before adjudication
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("avonet_bird_pilot_receipt.json"))
+          assert x["schema"] == "structural.avonet_dars_hwi_burned_pilot.v0_1"
+          assert x["response_access"]["pilot_response_opened"] is True
+          assert x["response_access"]["pilot_matrix_queries"] == 5
+          assert x["response_access"]["confirmatory_response_opened"] is False
+          assert x["response_access"]["confirmatory_matrix_queries"] == 0
+          assert x["evidence_ceiling"]["rho_computed"] is False
+          assert x["evidence_ceiling"]["model_fits"] == 0
+          assert x["evidence_ceiling"]["effect_size"] is None
+          assert x["evidence_ceiling"]["prediction_score"] is None
+          assert x["evidence_ceiling"]["predictive_denominator_contribution"] == 0
+          assert len(x["pilot_audits"]) == 5
+          assert len(x["pilot_receipt_sha256"]) == 64
+          for row in x["pilot_audits"]:
+              assert row["rho"] is None
+              assert row["effect_size"] is None
+          print("BIRD_PILOT_EVIDENCE_CEILING_OK", x["status"], x["pilot_receipt_sha256"])
+          for row in x["pilot_audits"]:
+              print(
+                  row["dataset"],
+                  "type=",row["Type_V_fine"],
+                  "islands=",row["n_islands"],
+                  "species=",row["n_species_rows"],
+                  "hwi=",row["HWI_matched_species"],
+                  "coverage=",row["HWI_match_coverage"],
+                  "variable=",row["variable_occupancy_species"],
+                  "pass=",row["dataset_pass"],
+              )
+          PY
+      - name: Preserve burned-pilot response and receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: avonet-dars-hwi-burned-pilot-v0-1
+          path: |
+            avonet_bird_pilot_receipt.json
+            avonet_bird_pilot_raw/
+            avonet_dars_metadata_census.json
+            avonet_dars_partition.json
+            avonet_hwi_predictor.json
+            avonet_dars_hwi_protocol.json
+            research/avonet_dars_archipelago/pre_response_lock_v0_1.json
+            research/avonet_dars_archipelago/pilot_authorization_v0_1.json
+          retention-days: 90
+      - name: Adjudicate burned pilot
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("avonet_bird_pilot_receipt.json"))
+          print("BIRD_BURNED_PILOT", x["status"])
+          if x["status"] != "PILOT_PASS_ESTIMABILITY_ONLY":
+              raise SystemExit(2)
+          assert x["pilot_pass"] is True
+          assert x["confirmatory_response_authorized"] is True
+          PY
