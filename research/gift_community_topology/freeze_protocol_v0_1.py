@@ -134,13 +134,21 @@ def main():
                 "fern":1.0 if clade=="Pteridophyta" else 0.0,
             }
             row["topology_x_extreme"]=row["topology_gain"]*row["extreme"]
+            row["topology_x_GMMC"]=row["topology_gain"]*row["GMMC"]
+            row["extreme_x_GMMC"]=row["extreme"]*row["GMMC"]
             row["topology_x_extreme_x_GMMC"]=row["topology_x_extreme"]*row["GMMC"]
+            row["topology_x_fern"]=row["topology_gain"]*row["fern"]
+            row["extreme_x_fern"]=row["extreme"]*row["fern"]
             row["topology_x_extreme_x_fern"]=row["topology_x_extreme"]*row["fern"]
             island_rows.append(row)
 
     h1_cols=list(REFERENCE_COLS)+["topology_gain","extreme","topology_x_extreme"]
-    h2_cols=h1_cols+["topology_x_extreme_x_GMMC"]
-    h3_cols=h1_cols+["topology_x_extreme_x_fern"]
+    h2_cols=h1_cols+[
+        "topology_x_GMMC","extreme_x_GMMC","topology_x_extreme_x_GMMC"
+    ]
+    h3_cols=h1_cols+[
+        "topology_x_fern","extreme_x_fern","topology_x_extreme_x_fern"
+    ]
     audits={
         "H1":matrix_audit(island_rows,h1_cols),
         "H2":matrix_audit(island_rows,h2_cols),
@@ -204,7 +212,7 @@ def main():
         },
         "H2_primary":{
             "model_columns":h2_cols,
-            "estimand":"coefficient of topology_gain x extreme x GMMC",
+            "estimand":"coefficient of topology_gain x extreme x GMMC in a hierarchical interaction model that also contains topology_gain x GMMC and extreme x GMMC",
             "prediction":"negative: the extreme-isolation topology benefit is weaker on islands connected to mainland at the Last Glacial Maximum",
             "success_rule":"95% archipelago-bootstrap interval excludes 0 on the negative side",
             "claim_ceiling":"historical connection moderator, not direct colonization/extinction mechanism",
@@ -212,7 +220,7 @@ def main():
         "H3_primary":{
             "model_columns":h3_cols,
             "fern_indicator":"Pteridophyta=1; Angiospermae/Gymnospermae=0",
-            "estimand":"coefficient of topology_gain x extreme x fern",
+            "estimand":"coefficient of topology_gain x extreme x fern in a hierarchical interaction model that also contains topology_gain x fern and extreme x fern",
             "prediction":"negative: high-dispersal ferns show weaker dependence on stepping-stone topology than seed plants",
             "success_rule":"95% archipelago-bootstrap interval excludes 0 on the negative side",
             "secondary":"fit exact H1 separately by all three clades; no separate-clade result can rescue H3",
