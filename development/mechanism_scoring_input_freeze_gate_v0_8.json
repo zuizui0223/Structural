@@ -1,0 +1,59 @@
+{
+  "schema": "structural.mechanism_scoring_input_freeze_gate.v0_8",
+  "status": "prospective_infrastructure_no_current_system",
+  "logical_position": "after v0.5 confirmatory protocol freeze and before v0.6 response authorization",
+  "purpose": "freeze all response-blind prediction/scoring inputs needed by each mechanism lane before any confirmatory response can be authorized",
+  "requirements": [
+    "git-tracked v0.5 freeze receipt",
+    "exact v0.5 replay from raw qualification inputs",
+    "confirmatory response still unauthorized",
+    "lane-specific exact scoring-input surface",
+    "exact frozen response partition for M1/M2/M4",
+    "probabilities strictly between 0 and 1",
+    "M3 exact frozen source-pair set with response-blind positive weights"
+  ],
+  "lane_surfaces": {
+    "M1_contemporary_colonization": [
+      "partition_unit",
+      "block",
+      "unit_id",
+      "p_reference",
+      "p_candidate"
+    ],
+    "M2_rescue_persistence": [
+      "partition_unit",
+      "block",
+      "unit_id",
+      "p_reference",
+      "p_candidate"
+    ],
+    "M3_historical_colonization_legacy": [
+      "focal_population",
+      "source_population",
+      "comparison_class",
+      "weight"
+    ],
+    "M4_environmental_proxy": [
+      "partition_unit",
+      "block",
+      "unit_id",
+      "p_original_reference",
+      "p_original_topology",
+      "p_enriched_reference",
+      "p_enriched_topology"
+    ]
+  },
+  "successful_status": "mechanism_scoring_inputs_frozen_before_response",
+  "successful_output": {
+    "scoring_input_frozen": true,
+    "confirmatory_response_authorized": false,
+    "mechanism_claim_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "ttf_handoff_authorized": false
+  },
+  "successful_next_action": "run_v0_6_response_authorization_only",
+  "current_systems": []
+}
