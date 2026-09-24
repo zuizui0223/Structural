@@ -303,6 +303,10 @@ def main() -> int:
                 "extreme_q70": eid in set(q70),
                 "extreme_q80": eid in set(q80),
             })
+        block_assignment = sorted(
+            [(eid, blocks[eid]) for eid in ids],
+            key=lambda row: int(row[0]),
+        )
         group_rows.append({
             "archipelago_id": " / ".join(path),
             "archipelago_path": list(path),
@@ -311,6 +315,7 @@ def main() -> int:
             "history_bin": history_bin(frac),
             "block_sizes": block_sizes,
             "block_axis": block_axis,
+            "spatial_block_assignment_sha256": sha(block_assignment),
             "q75_extreme_n": len(q75),
             "q75_nonextreme_n": len(ids) - len(q75),
             "h1_extreme_contributor": len(q75) >= 3,
@@ -463,6 +468,11 @@ def main() -> int:
         "response_surface_manifest_sha256": payload["response_surface_manifest_sha256"],
         "group_membership": {
             row["archipelago_id"]: row["membership_sha256"] for row in group_rows
+        },
+        "spatial_holdout": payload["spatial_holdout"],
+        "spatial_block_assignments": {
+            row["archipelago_id"]: row["spatial_block_assignment_sha256"]
+            for row in group_rows
         },
         "partition": {
             "pilot": payload["pilot_archipelagos"],
