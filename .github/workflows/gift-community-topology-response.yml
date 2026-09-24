@@ -1,0 +1,105 @@
+name: GIFT community topology one-shot response
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/gift_community_topology/**"
+      - ".github/workflows/gift-community-topology-response.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gift-community-topology-response-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  response:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen analysis dependencies
+        run: python -m pip install pyshp shapely numpy
+      - name: Replay locked predictor panel
+        run: |
+          python research/gift_community_topology/freeze_common_panel_v0_2.py \
+            --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
+            > gift_community_panel.json
+      - name: Replay locked H1 H3 protocol
+        run: |
+          python research/gift_community_topology/freeze_protocol_v0_5.py \
+            --panel gift_community_panel.json \
+            --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
+            --h2-terminal research/gift_community_topology/pre_response_h2_stop_v0_4.json \
+            > gift_community_protocol.json
+      - name: Verify exact pre-response lock before response access
+        run: |
+          python - <<'PY'
+          import json
+          lock=json.load(open("research/gift_community_topology/pre_response_lock_v0_5.json"))
+          panel=json.load(open("gift_community_panel.json"))
+          protocol=json.load(open("gift_community_protocol.json"))
+          assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_RESPONSE"
+          assert lock["response_values_accessed"] is False
+          assert lock["panel_fingerprint"] == panel["panel_fingerprint"]
+          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"]
+          assert lock["bootstrap"]["accepted_draws_sha256"] == protocol["model"]["bootstrap_design"]["accepted_draws_sha256"]
+          assert lock["authorization"]["one_shot_community_response_authorized"] is True
+          assert lock["authorization"]["H2_response_analysis_authorized"] is False
+          for clade,meta in panel["response_surfaces"].items():
+              assert meta["opened"] is False
+              assert lock["response_surface_sha256"][clade] == meta["surface_sha256"]
+              assert lock["response_surface_query_counts"][clade] == meta["row_count"]
+          print("EXACT_PRE_RESPONSE_LOCK_OK", lock["protocol_fingerprint"])
+          PY
+      - name: Open frozen community response and score H1 H3 once
+        run: |
+          python research/gift_community_topology/run_community_response_v0_1.py \
+            --panel gift_community_panel.json \
+            --protocol gift_community_protocol.json \
+            --lock research/gift_community_topology/pre_response_lock_v0_5.json \
+            --raw-output gift_community_raw_response.csv \
+            | tee gift_community_outcome.json
+      - name: Validate outcome evidence boundary
+        run: |
+          python - <<'PY'
+          import json
+          out=json.load(open("gift_community_outcome.json"))
+          lock=json.load(open("research/gift_community_topology/pre_response_lock_v0_5.json"))
+          assert out["status"] == "ONE_SHOT_COMMUNITY_RESPONSE_SCORED"
+          assert out["panel_fingerprint"] == lock["panel_fingerprint"]
+          assert out["protocol_fingerprint"] == lock["protocol_fingerprint"]
+          assert out["response_access"]["species_composition_opened"] is True
+          assert out["response_access"]["all_frozen_surfaces_queried"] is True
+          assert out["response_access"]["query_count_by_clade"] == lock["response_surface_query_counts"]
+          assert out["response_access"]["prior_pilot_archipelagos_queried"] is False
+          assert out["H2"]["status"] == "NOT_TESTED_TERMINAL_PRE_RESPONSE_NON_ESTIMABLE"
+          assert out["H2"]["estimate"] is None
+          assert out["bootstrap"]["accepted_replicates"] == 10000
+          assert out["bootstrap"]["accepted_draws_sha256"] == lock["bootstrap"]["accepted_draws_sha256"]
+          assert len(out["H1_primary"]["bootstrap_95_ci"]) == 2
+          assert len(out["H3_primary"]["bootstrap_95_ci"]) == 2
+          assert isinstance(out["H1_primary"]["supported"], bool)
+          assert isinstance(out["H3_primary"]["supported"], bool)
+          assert len(out["outcome_fingerprint"]) == 64
+          print("COMMUNITY_OUTCOME_VALID", out["outcome_fingerprint"])
+          print("H1", out["H1_primary"])
+          print("H3", out["H3_primary"])
+          print("RICHNESS", out["richness"])
+          PY
+      - name: Preserve one-shot response artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-community-topology-one-shot-v0-1
+          path: |
+            gift_community_outcome.json
+            gift_community_raw_response.csv
+            gift_community_panel.json
+            gift_community_protocol.json
+            research/gift_community_topology/pre_response_lock_v0_5.json
+          retention-days: 90
