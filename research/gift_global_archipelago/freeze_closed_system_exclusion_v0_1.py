@@ -134,6 +134,17 @@ def main() -> int:
     excluded_set = set(excluded)
     remaining = island_ids - excluded_set
 
+    contaminated_paths = sorted({
+        paths[eid]
+        for eid in excluded_set
+        if eid in paths
+    })
+    contaminated_path_set = set(contaminated_paths)
+    conservative_remaining = {
+        eid for eid in island_ids
+        if paths.get(eid) not in contaminated_path_set
+    }
+
     def group_counts(ids):
         groups = defaultdict(set)
         for eid in ids:
@@ -183,8 +194,13 @@ def main() -> int:
         "remaining_gift_entity_count": len(remaining),
         "grouping_rule": "full non-null GIFT (arch_lvl_1, arch_lvl_2, arch_lvl_3) path",
         "before_exclusion": group_counts(island_ids),
-        "after_exclusion": group_counts(remaining),
-        "exclusion_rule": "exclude GIFT Island when its GIFT centroid is covered by any verified A-Islands v1.0 shapefile polygon",
+        "after_exact_entity_exclusion": group_counts(remaining),
+        "contaminated_archipelago_paths": [list(path) for path in contaminated_paths],
+        "contaminated_archipelago_path_count": len(contaminated_paths),
+        "conservative_group_remaining_gift_entity_count": len(conservative_remaining),
+        "after_conservative_archipelago_exclusion": group_counts(conservative_remaining),
+        "exclusion_rule": "first identify GIFT Islands whose centroid is covered by verified A-Islands v1.0 geometry; primary panel then removes the full GIFT archipelago path of every overlapping island",
+        "exact_entity_overlap_count": len(excluded_set),
         "exclusion_uses_response_direction": False,
     }
     canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
