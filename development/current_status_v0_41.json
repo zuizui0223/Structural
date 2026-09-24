@@ -135,7 +135,9 @@
       "authorization_scope": "one_lane_one_exact_response_partition_single_use",
       "mechanism_claim_authorized": false,
       "ttf_handoff_authorized": false,
-      "successful_next_action": "open_exact_response_partition_once_then_record_access_before_scoring"
+      "successful_next_action": "open_exact_response_partition_once_then_record_access_before_scoring",
+      "requires_tracked_v0_8_scoring_receipt": true,
+      "requires_exact_raw_scoring_input_replay": true
     },
     "response_access_record_gate": {
       "path": "development/mechanism_response_access_gate_v0_7.json",
@@ -147,7 +149,8 @@
       "response_sha256_bound": true,
       "scoring_authorized_after_access_record": true,
       "mechanism_claim_authorized": false,
-      "successful_next_action": "run_frozen_lane_scoring_only"
+      "successful_next_action": "run_frozen_lane_scoring_only",
+      "replays_v0_8_bound_authorization": true
     },
     "scoring_input_freeze_gate": {
       "path": "development/mechanism_scoring_input_freeze_gate_v0_8.json",
