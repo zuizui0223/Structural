@@ -13,6 +13,7 @@ from urllib.request import Request, urlopen
 
 BASE="https://gift.uni-goettingen.de/api/extended/"
 VERSION="3.2"
+TERMINAL_RECEIPT=Path(__file__).with_name("pilot_terminal_receipt_v0_1.json")
 
 def sha(value)->str:
     return hashlib.sha256(
@@ -56,6 +57,13 @@ def flag_is_explicitly_true(value):
     return as01(value) == 1
 
 def main()->int:
+    if TERMINAL_RECEIPT.is_file():
+        raise RuntimeError(
+            "GIFT burned pilot v0.1 is terminally closed; network response "
+            "re-access is disabled. Validate pilot_terminal_receipt_v0_1.json "
+            "instead."
+        )
+
     p=argparse.ArgumentParser()
     p.add_argument("--universe",type=Path,required=True)
     p.add_argument("--protocol",type=Path,required=True)
