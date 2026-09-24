@@ -98,6 +98,11 @@ jobs:
           assert x["H3_primary"]["prediction"] == "negative"
           assert x["H3_primary"]["prediction"].startswith("negative")
           assert x["H3_primary"]["uses_same_per_clade_H1_models"] is True
+          b=x["model"]["bootstrap_design"]
+          assert b["accepted_replicates"] == 10000
+          assert b["requested_replicates"] == 10000
+          assert len(b["accepted_draws_sha256"]) == 64
+          assert x["pre_response_gates"]["bootstrap_draw_set_complete"] is True
           assert len(x["protocol_fingerprint"]) == 64
           print("COMMUNITY_PROTOCOL_QUALIFIED", x["protocol_fingerprint"])
           print("MATRIX_AUDITS", x["pre_response_matrix_audits"])
