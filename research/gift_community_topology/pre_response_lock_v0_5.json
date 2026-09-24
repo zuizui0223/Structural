@@ -1,64 +1,15 @@
 {
   "schema": "structural.gift_community_topology_pre_response_lock.v0_5",
-  "status": "FROZEN_QUALIFIED_BEFORE_RESPONSE",
-  "gift_version": "3.2",
-  "pre_response_green_commit": "a39ede01f36ea22f95aa014c3291c3224b5bd343",
-  "pre_response_workflow_run_id": 35991083735,
-  "pre_response_job_id": 107605193487,
+  "status": "SUPERSEDED_BEFORE_RESPONSE",
+  "superseded_lock_commit": "116d4a143d84b238581172d7cd19fa193903b708",
+  "superseded_panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+  "superseded_protocol_fingerprint": "0cdef67bb970aaae1ec397d405ff3c7fd6ec69f8ac8e005cf0336bbe3f0f48fd",
   "response_values_accessed": false,
   "species_composition_endpoint_called": false,
-  "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
-  "protocol_fingerprint": "0cdef67bb970aaae1ec397d405ff3c7fd6ec69f8ac8e005cf0336bbe3f0f48fd",
-  "response_surface_sha256": {
-    "Angiospermae": "ed5b33afd7885a6ba7212ac13ca33978fbd180f0b38b9093493f3a859e7e8f6c",
-    "Pteridophyta": "f75c4c5be876d2fcd902e9f56455a7ce281fd97310d5048747fdcdc2efd04604",
-    "Gymnospermae": "addb3e01371df39961f367980f3510148e5cd7c2908774f49de36bd21a32881b"
-  },
-  "response_surface_query_counts": {
-    "Angiospermae": 555,
-    "Pteridophyta": 510,
-    "Gymnospermae": 538
-  },
-  "frozen_panel": {
-    "archipelagos": 24,
-    "islands": 386,
-    "extreme_islands": 97,
-    "nonextreme_islands": 289,
-    "extreme_step_isolation_gain_nonzero_islands": 89,
-    "nonextreme_step_isolation_gain_nonzero_islands": 205
-  },
-  "frozen_design": {
-    "per_clade_rows": 386,
-    "per_clade_columns": 16,
-    "condition_numbers": {
-      "Angiospermae": 50.389702293429174,
-      "Pteridophyta": 49.313874809454774,
-      "Gymnospermae": 50.6189055392676
-    },
-    "dropped_constant_columns": {
-      "Angiospermae": [],
-      "Pteridophyta": [],
-      "Gymnospermae": []
-    }
-  },
-  "bootstrap": {
-    "requested_replicates": 10000,
-    "accepted_replicates": 10000,
-    "candidate_draws_attempted": 15599,
-    "seed": 20260924,
-    "rng": "numpy.default_rng(PCG64)",
-    "accepted_draws_sha256": "2aeebc05347847523e91066457c3fce0ccae422a0a6a71be348faa6a24f2d04d",
-    "quantile_method": "numpy.quantile method=linear"
-  },
-  "hypotheses": {
-    "H1": "authorized under frozen v0.5 definition",
-    "H2": "TERMINAL_PRE_RESPONSE_NON_ESTIMABLE_NOT_TESTED",
-    "H3": "authorized under frozen v0.5 definition"
-  },
+  "reason": "point estimator changed pre-response from island-row-weighted OLS to archipelago-equal WLS (each archipelago total weight=1)",
   "authorization": {
-    "one_shot_community_response_authorized": true,
+    "one_shot_community_response_authorized": false,
     "H2_response_analysis_authorized": false,
-    "post_response_retuning_authorized": false,
-    "prior_pilot_archipelagos_may_reenter": false
+    "post_response_retuning_authorized": false
   }
 }
