@@ -1,0 +1,43 @@
+{
+  "schema": "structural.mechanism_response_access_receipt.v0_7",
+  "status": "confirmatory_mechanism_response_access_recorded",
+  "system_id": "synthetic-ci-only",
+  "mechanism_lane": "M3_historical_colonization_legacy",
+  "protocol_id": "synthetic-M3-confirmatory-v0.5",
+  "protocol_fingerprint": "31690271a3a73d145c0640b87e3a5e48c43cc93ee9ce528fd9d8adb9a527489d",
+  "authorization_id": "b2fbfdaa64199ff50dabdedf9f9fa39a735236183e27976285f15e49e1b2d15c",
+  "authorization_receipt_path": "tests/fixtures/mechanism_response_authorization_v0_6/m3_authorization.json",
+  "authorization_receipt_sha256": "f8b10fa7817b9f24fbe1e12869f4e95f44e01632bcef38891643b5224ba21a03",
+  "scoring_receipt_path": "tests/fixtures/mechanism_scoring_input_v0_8/m3_scoring_receipt.json",
+  "scoring_receipt_sha256": "accfa1203c84080bc17bf7761abf072cad05cb4b732215bbbc7387aa88044b1b",
+  "scoring_input_file_sha256": "75aa8d4fa39a86ad3ed7c2afb1e5ef0dcff209d233d28150d6d272c64bb53d9c",
+  "scoring_input_key_set_sha256": "4217972ea0649083ffca0150372838c515a4c956f03e267916b2445b9c647dc0",
+  "response_partition": [
+    "confirm-B"
+  ],
+  "response_file_sha256": "1a3774521390cf33abbe7152e079ae27c0fcc61c317270f1473ec748d73aaa22",
+  "response_audit": {
+    "surface": "genetic_source_affinity_response",
+    "row_count": 6,
+    "outcome_nonmissing_rows": 6,
+    "outcome_missing_rows": 0,
+    "unique_pairs": 6,
+    "comparison_counts": {
+      "graph_connected": 3,
+      "alternative": 3
+    }
+  },
+  "response_access_consumed": true,
+  "confirmatory_response_authorized": false,
+  "scoring_authorized": true,
+  "mechanism_claim_authorized": false,
+  "effect_size": null,
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "mechanism_claim_contribution": 0,
+  "ttf_handoff_authorized": false,
+  "synthetic_ci_access": true,
+  "counts_as_empirical_evidence": false,
+  "access_id": "9fa77ea4787bff38fd8e2983f90df06ab290622e7b47bd3595288b1b4f5da5a4",
+  "next_action": "run_frozen_lane_scoring_only"
+}
