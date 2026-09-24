@@ -14,7 +14,7 @@ import sys
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-BASE = "https://gift.uni-goettingen.de/api/extended/"
+BASE = "https://gift.uni-goettingen.de/api/extended/"\nVERSIONS_URL = "https://gift.uni-goettingen.de/api/index.php?query=versions"
 VERSION = "3.1"
 TARGET_TAXON = "Angiospermae"
 ENTITY_CLASSES = {"Island", "Island Group", "Island Part"}
