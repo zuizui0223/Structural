@@ -1,0 +1,63 @@
+{
+  "schema": "structural.avonet_dars_hwi_burned_pilot_terminal.v0_1",
+  "status": "TERMINAL_STOP_SCHEMA_MISMATCH_AFTER_RESPONSE_ACCESS",
+  "system_id": "avonet_dars_hwi_archipelago_v0_1",
+  "pilot_run_id": 36070309617,
+  "pilot_job_id": 107869660030,
+  "pilot_artifact_id": 10838400774,
+  "pilot_artifact_zip_sha256": "ed321b3689df596002a26c64e5c3ff9e979392291ae91150ecffb45735c00709",
+  "pilot_artifact_zip_size_bytes": 18624,
+  "protocol_fingerprint": "cbb5d05a813f6ea963f9f42c8ed645d8052ccf4f6a53932a9084df998d037d4f",
+  "partition_fingerprint": "4fdb982d70f5517596c288c3c2059dc69218edf1845a13e8e1a7c085b3547e43",
+  "trait_fingerprint": "dbcf6de6295b8354153d4f6ee8659a4b40e2ab81931f12844a347e53b7c787c0",
+  "pilot_surface_fingerprint": "65f4c4f9e370d2fd9a1ced6aaf9e2dd6e4c342a3b6c3d0d48b8277dd9d26f1a6",
+  "confirmatory_surface_fingerprint": "d466e1520c0ec5a9d0de1ba793d8817b2bbcaceac5f6f9564a84f260755a9cba",
+  "response_access": {
+    "pilot_response_opened": true,
+    "pilot_matrix_queries_completed": 1,
+    "pilot_datasets_opened": [
+      "Azeria(2004)_noAliens.csv"
+    ],
+    "remaining_pilot_matrix_queries": 4,
+    "remaining_pilot_matrices_opened": false,
+    "confirmatory_response_opened": false,
+    "confirmatory_matrix_queries": 0,
+    "rho_computed": false,
+    "model_fits": 0,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0
+  },
+  "failure": {
+    "stage": "pilot schema validation",
+    "dataset": "Azeria(2004)_noAliens.csv",
+    "response_path": "Data/Island_datasets/True_island_datasets/Azeria(2004)_noAliens.csv",
+    "response_blob_sha": "984542f05c5737330e5e913abe5fe5fd72c7d87a",
+    "response_sha256": "f55fbbdf1a8a0708afd10ef71e2d813a0162078544b6d49e8f160761e2eac1c4",
+    "response_bytes": 2933,
+    "error": "blank species row label",
+    "runner_line": 157,
+    "observed_blank_separator_row_1based": 37,
+    "observed_terminal_metadata_rows_1based": [
+      38,
+      39
+    ],
+    "observed_terminal_metadata_labels": [
+      "Area (ha)",
+      "sp.r"
+    ],
+    "species_rows_before_blank_separator": 35,
+    "interpretation": "the frozen parser treated every row before the two terminal metadata rows as a species row; the opened DARs matrix contains a blank separator row immediately before Area (ha), so the frozen schema contract fails"
+  },
+  "evidence_ceiling": {
+    "pilot_estimability_adjudicated": false,
+    "pilot_pass": null,
+    "confirmatory_response_authorized": false,
+    "H1_scored": false,
+    "H2_scored": false,
+    "scientific_effect_claim": null
+  },
+  "terminal_rule": "response access was consumed on the first frozen pilot matrix; do not modify the parser and continue, do not query the remaining four pilot matrices, do not query any confirmatory matrix, and do not retune HWI, endpoint requirements, partition, q75 or confirmatory panel under v0.1",
+  "permitted_next_step": "preserve and validate this terminal receipt; any future bird test must use a genuinely fresh response surface and a newly pre-response-validated matrix parser",
+  "terminal_receipt_sha256": "691b68b36fa463b9d5becae9e66cd51edd1bbe99f877670a702ae2dc17ecfd19"
+}
