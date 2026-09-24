@@ -118,4 +118,30 @@ jobs:
               assert len(x["protocol_fingerprint"]) == 64
               print("FRESH_PROTOCOL_FROZEN", name, x["pilot_selection"]["pilot_archipelagos"], x["protocol_fingerprint"])
           PY
+      - name: Replay committed pre-response lock
+        run: |
+          python - <<'PY'
+          import json
+          lock=json.load(open("research/gift_fresh_taxa/pre_response_lock_v0_1.json"))
+          selection=json.load(open("gift_fresh_taxa_selection.json"))
+          assert lock["status"] == "FROZEN_PRE_RESPONSE_NO_SPECIES_COMPOSITION_OPENED"
+          assert lock["response_values_accessed"] is False
+          assert lock["angiosperm_pilot_response_reused"] is False
+          assert lock["candidate_selection_fingerprint"] == selection["selection_fingerprint"]
+          for key,name in (("Pteridophyta","pteridophyta"),("Gymnospermae","gymnospermae")):
+              u=json.load(open(f"{name}_universe.json"))
+              g=json.load(open(f"{name}_geology.json"))
+              p=json.load(open(f"{name}_protocol.json"))
+              exp=lock["systems"][key]
+              assert exp["universe_fingerprint"] == u["universe_fingerprint"]
+              assert exp["geology_crosswalk_fingerprint"] == g["crosswalk_fingerprint"]
+              assert exp["protocol_fingerprint"] == p["protocol_fingerprint"]
+              assert exp["pilot_archipelagos"] == p["pilot_selection"]["pilot_archipelagos"]
+              assert exp["n_archipelagos"] == u["n_final_archipelagos"]
+              assert exp["n_islands"] == u["n_final_islands"]
+              assert exp["support_class_counts"] == u["support_class_counts"]
+          assert lock["boundary"]["pilot_response_authorized_by_this_file"] is False
+          assert lock["boundary"]["confirmatory_response_authorized"] is False
+          print("PRE_RESPONSE_LOCK_REPLAY_OK", lock["pre_response_green_commit"])
+          PY
 
