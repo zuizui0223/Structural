@@ -16,6 +16,7 @@ REFERENCE_COLS=(
     "bio1","bio5","bio6","bio12","bio15",
     "log_area","log1p_dist","SLMP","GMMC",
     "log1p_nearest_other","surrounding_island_pressure","surrounding_landmass_pressure",
+    "log1p_list_count",
 )
 MAX_CONDITION=1e8
 BOOTSTRAP_REPS=10000
@@ -132,12 +133,35 @@ def main():
     rows=[]
     for base in unique:
         for clade in CLADES:
-            row={**base,"clade":clade,"fern":1.0 if clade=="Pteridophyta" else 0.0}
+            island_source=next(
+                island for g in panel["groups"]
+                if g["archipelago_id"]==base["archipelago_id"]
+                for island in g["islands"]
+                if str(island["entity_ID"])==base["entity_ID"]
+            )
+            list_count=len(island_source["list_ids"][clade])
+            if list_count < 1:
+                raise RuntimeError(f"empty frozen list surface for {base['entity_ID']} {clade}")
+            row={
+                **base,
+                "clade":clade,
+                "fern":1.0 if clade=="Pteridophyta" else 0.0,
+                "log1p_list_count":math.log1p(list_count),
+            }
             row["step_gain_x_extreme"]=row["step_isolation_gain_log"]*row["extreme"]
             row["step_gain_x_fern"]=row["step_isolation_gain_log"]*row["fern"]
             row["extreme_x_fern"]=row["extreme"]*row["fern"]
             row["step_gain_x_extreme_x_fern"]=row["step_gain_x_extreme"]*row["fern"]
             rows.append(row)
+
+    # Checklist union effort is response-independent but clade-specific.
+    list_vals=np.asarray([row["log1p_list_count"] for row in rows],dtype=float)
+    list_mu=float(list_vals.mean()); list_sd=float(list_vals.std(ddof=0))
+    if list_sd<=1e-12:
+        raise RuntimeError("log1p_list_count is globally constant")
+    scaling["log1p_list_count"]={"mean":list_mu,"sd":list_sd}
+    for row in rows:
+        row["log1p_list_count"]=(row["log1p_list_count"]-list_mu)/list_sd
 
     h1_cols=list(REFERENCE_COLS)+[
         "step_isolation_gain_log","extreme","step_gain_x_extreme"
@@ -182,6 +206,7 @@ def main():
         },
         "predictor_semantics":{
             "reference_predictors":list(REFERENCE_COLS),
+            "checklist_effort_control":"z-scored log1p number of frozen eligible list_IDs for each island x clade; metadata-only and fixed before response",
             "frozen_continuous_scaling":scaling,
             "step_isolation_gain_log":panel["step_isolation_gain_definition"],
             "extreme_isolation":panel["extreme_rule"],
@@ -232,7 +257,7 @@ def main():
         "forbidden_after_response":[
             "change common island panel","reintroduce any prior-pilot archipelago",
             "change global q75 isolation threshold","change scale-free step-isolation definition",
-            "change reference predictor set","change frozen continuous scaling",
+            "change reference predictor set or checklist-effort control","change frozen continuous scaling",
             "change log1p richness response","change fixed-effect absorption",
             "change bootstrap unit/repetitions/seed","change H1 or H3 estimand/sign",
             "reintroduce H2 or any geology moderator","select clades by outcome direction",
