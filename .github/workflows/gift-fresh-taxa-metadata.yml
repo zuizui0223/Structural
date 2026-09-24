@@ -32,3 +32,26 @@ jobs:
           for k,v in x["results"].items():
               print(k, v.get("eligible_individual_islands"), v.get("archipelagos_by_minimum_island_count"))
           PY
+      - name: Install geometry dependencies
+        run: python -m pip install pyshp shapely
+      - name: Freeze Pteridophyta predictor universe
+        run: python research/gift_fresh_taxa/freeze_fresh_taxon_universe_v0_1.py --taxon-name Pteridophyta | tee pteridophyta_universe.json
+      - name: Freeze Gymnospermae predictor universe
+        run: python research/gift_fresh_taxa/freeze_fresh_taxon_universe_v0_1.py --taxon-name Gymnospermae | tee gymnospermae_universe.json
+      - name: Assert fresh universes remain response sealed
+        run: |
+          python - <<'PY'
+          import json
+          for path in ("pteridophyta_universe.json","gymnospermae_universe.json"):
+              x=json.load(open(path))
+              assert x["status"] == "RESPONSE_SEALED_PREDICTOR_UNIVERSE"
+              assert x["response_values_accessed"] is False
+              assert x["species_composition_endpoint_called"] is False
+              assert x["n_final_archipelagos"] >= 8
+              assert len(x["universe_fingerprint"]) == 64
+              assert x["support_class_counts"].get("extreme_only",0) >= 1
+              assert x["support_class_counts"].get("nonextreme_only",0) >= 1
+              assert x["support_class_counts"].get("paired",0) >= 1
+              print("FRESH_UNIVERSE_OK", x["taxon_name"], x["n_final_archipelagos"], x["n_final_islands"], x["support_class_counts"], x["universe_fingerprint"])
+          PY
+
