@@ -19,10 +19,9 @@ def norm(x):
     t=str(x).strip().lower()
     return t if t in {"continental","oceanic","mixed"} else None
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--universe",type=Path,required=True);ap.add_argument("--protocol",type=Path,required=True);args=ap.parse_args()
-    u=json.loads(args.universe.read_text());p=json.loads(args.protocol.read_text())
-    if u["response_values_accessed"] is not False or p["response_values_accessed"] is not False:raise RuntimeError("response already opened")
-    if u["universe_fingerprint"]!=p["universe_fingerprint"]:raise RuntimeError("protocol/universe drift")
+    ap=argparse.ArgumentParser();ap.add_argument("--universe",type=Path,required=True);args=ap.parse_args()
+    u=json.loads(args.universe.read_text())
+    if u["response_values_accessed"] is not False:raise RuntimeError("response already opened")
     data=fetch();digest=hashlib.sha256(data).hexdigest()
     if digest!=EXPECTED:raise RuntimeError("Roeble supplement drift")
     wb=load_workbook(io.BytesIO(data),read_only=True,data_only=True);ws=wb[wb.sheetnames[0]]
@@ -37,7 +36,6 @@ def main():
     for eid,vals in by.items():
         pairs={(v["archipelago"],v["island_type"]) for v in vals}
         if len(pairs)==1:canonical[eid]=vals[0]
-    pilots=set(p["pilot_selection"]["pilot_archipelagos"])
     rows=[]
     for g in u["groups"]:
         ids=[]
@@ -49,8 +47,8 @@ def main():
         ids=[str(x) for x in g["entity_ids"]]
         vals=[canonical[eid] for eid in ids if eid in canonical and canonical[eid]["island_type"] in {"continental","oceanic"}]
         frac=(sum(v["island_type"]=="oceanic" for v in vals)/len(vals)) if vals and len(vals)/len(ids)>=0.80 else None
-        rows.append({"archipelago_id":g["archipelago_id"],"partition":"pilot" if g["archipelago_id"] in pilots else "confirmatory","n_islands":len(ids),"typed_islands":len(vals),"direct_oceanic_fraction":frac})
-    conf=[r for r in rows if r["partition"]=="confirmatory" and r["direct_oceanic_fraction"] is not None]
-    out={"schema":"structural.gift_fresh_taxon_geology.v0_1","status":"FROZEN_BEFORE_PILOT_RESPONSE","taxon_name":u["taxon_name"],"source":{"doi":DOI,"xlsx_sha256":digest,"url":URL},"response_values_accessed":False,"gift_species_composition_accessed":False,"archipelagos":rows,"confirmatory_quantitative_geology_eligible":len(conf),"fraction_slope_estimable":len(conf)>=5 and len({r["direct_oceanic_fraction"] for r in conf})>=2,"claim_boundary":"geological-history moderator only; not a demographic mechanism"}
+        rows.append({"archipelago_id":g["archipelago_id"],"n_islands":len(ids),"typed_islands":len(vals),"direct_oceanic_fraction":frac})
+    q=[r for r in rows if r["direct_oceanic_fraction"] is not None]
+    out={"schema":"structural.gift_fresh_taxon_geology.v0_1","status":"FROZEN_BEFORE_PILOT_RESPONSE","taxon_name":u["taxon_name"],"universe_fingerprint":u["universe_fingerprint"],"source":{"doi":DOI,"xlsx_sha256":digest,"url":URL},"response_values_accessed":False,"gift_species_composition_accessed":False,"archipelagos":rows,"quantitative_geology_eligible_all":len(q),"claim_boundary":"geological-history moderator only; not a demographic mechanism"}
     out["crosswalk_fingerprint"]=sha(out);print(json.dumps(out,indent=2,sort_keys=True));return 0
 if __name__=="__main__":raise SystemExit(main())
