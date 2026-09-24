@@ -135,10 +135,17 @@ def build_model_rows(panel,protocol,richness):
                     "log1p_list_count":(
                         math.log1p(list_count)-float(ls["mean"])
                     )/float(ls["sd"]),
-                    "y":math.log1p(int(richness[key]["richness"])),
+                    "y_log":math.log1p(int(richness[key]["richness"])),
                 }
                 row["step_gain_x_extreme"]=row["step_isolation_gain_log"]*row["extreme"]
                 rows[clade].append(row)
+    for clade in CLADES:
+        values=np.asarray([row["y_log"] for row in rows[clade]],dtype=float)
+        mu=float(values.mean()); sd=float(values.std(ddof=0))
+        if sd<=1e-12:
+            raise RuntimeError(f"clade log1p richness is constant: {clade}")
+        for row in rows[clade]:
+            row["y"]=(row["y_log"]-mu)/sd
     return rows
 
 def demean_clade(rows,columns):
@@ -370,6 +377,14 @@ def main()->int:
             }
 
     model_rows=build_model_rows(panel,protocol,richness)
+    response_scaling={}
+    for clade in CLADES:
+        logs=np.asarray([row["y_log"] for row in model_rows[clade]],dtype=float)
+        response_scaling[clade]={
+            "log1p_mean":float(logs.mean()),
+            "log1p_sd":float(logs.std(ddof=0)),
+            "ddof":0,
+        }
     columns_by_clade=protocol["H1_primary"]["per_clade_model_columns"]
     target=protocol["H1_primary"]["per_clade_target_column"]
 
@@ -431,6 +446,7 @@ def main()->int:
         },
         "richness":{
             "rows":len(richness_rows),
+            "analysis_response_scaling_by_clade":response_scaling,
             "sha256":sha(richness_rows),
             "zero_richness_rows":sum(row["richness"]==0 for row in richness_rows),
             "uncertain_only_total":sum(row["uncertain_only_work_ids"] for row in richness_rows),
