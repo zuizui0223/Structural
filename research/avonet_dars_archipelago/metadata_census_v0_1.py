@@ -22,7 +22,7 @@ AVONET_ARTICLE_ID=16586228
 AVONET_META_URL=f"https://api.figshare.com/v2/articles/{AVONET_ARTICLE_ID}"
 PREDICTOR_PATH="Data/Predictors/world_clim_all_ETP.csv"
 PREDICTOR_URL=f"https://raw.githubusercontent.com/{DARS_REPO}/{DARS_COMMIT}/{PREDICTOR_PATH}"
-GID_LAYER_URL="https://data-gis.unep-wcmc.org/server/rest/services/Hosted/WCMC031_GID2_OSM_2015/FeatureServer/0"
+GID_LAYER_URL="https://data-gis.unep-wcmc.org/server/rest/services/Hosted/WCMC031_GID2_OSM_2015/FeatureServer/1"
 GID_META_URL=GID_LAYER_URL+"?f=json"
 GID_COUNT_URL=GID_LAYER_URL+"/query?where=1%3D1&returnCountOnly=true&f=json"
 
