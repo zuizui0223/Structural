@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install predictor-only dependencies
-        run: python -m pip install pyshp shapely numpy
+        run: python -m pip install pyshp shapely numpy openpyxl
       - name: Replay v0.1 predictor-only STOP boundary
         run: |
           python - <<'PY'
@@ -56,24 +56,47 @@ jobs:
           assert len(x["panel_fingerprint"]) == 64
           print("COMMUNITY_PANEL_FROZEN", x["n_final_archipelagos"], x["n_final_islands"], x["support"], x["panel_fingerprint"])
           PY
-      - name: Freeze v0.2 community step-isolation protocol
+      - name: Freeze external geology moderator
         run: |
-          python research/gift_community_topology/freeze_protocol_v0_2.py \
+          python research/gift_community_topology/freeze_roeble_geology_v0_1.py \
+            --panel gift_community_panel.json \
+            | tee gift_community_geology.json
+      - name: Assert geology moderator is response blind
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_community_geology.json"))
+          assert x["status"] == "FROZEN_BEFORE_COMMUNITY_RESPONSE"
+          assert x["response_values_accessed"] is False
+          assert x["gift_species_composition_accessed"] is False
+          assert x["continuous_H2_support"] is True
+          assert x["eligible_archipelagos"] >= 6
+          assert x["oceanic_fraction_min"] < x["oceanic_fraction_max"]
+          assert len(x["crosswalk_fingerprint"]) == 64
+          print("COMMUNITY_GEOLOGY_FROZEN", x["eligible_archipelagos"], x["pure_continental"], x["pure_oceanic"], x["mixed"], x["crosswalk_fingerprint"])
+          PY
+      - name: Freeze v0.3 community step-isolation protocol
+        run: |
+          python research/gift_community_topology/freeze_protocol_v0_3.py \
             --panel gift_community_panel.json \
             --prior-exclusions research/gift_community_topology/prior_response_exclusions_v0_1.json \
+            --geology-crosswalk gift_community_geology.json \
             | tee gift_community_protocol.json
       - name: Assert predictor-only estimability before response
         run: |
           python - <<'PY'
           import json
           x=json.load(open("gift_community_protocol.json"))
-          assert x["schema"] == "structural.gift_community_topology_protocol.v0_2"
+          assert x["schema"] == "structural.gift_community_topology_protocol.v0_3"
           assert x["status"] == "QUALIFIED_TO_OPEN_COMMUNITY_RESPONSE"
           assert x["response_values_accessed"] is False
           assert x["response_open_authorized"] is True
           assert all(x["pre_response_gates"].values())
           assert x["H1_primary"]["prediction"].startswith("positive")
-          assert x["pre_response_predecessor"]["response_values_accessed_in_v0_1"] is False
+          assert x["pre_response_predecessor"]["response_values_accessed_in_v0_1_or_v0_2"] is False
+          assert x["pre_response_gates"]["H1_target_retained"] is True
+          assert x["pre_response_gates"]["H2_target_retained"] is True
+          assert x["pre_response_gates"]["H3_target_retained"] is True
           assert x["H2_primary"]["prediction"].startswith("negative")
           assert x["H3_primary"]["prediction"].startswith("negative")
           assert len(x["protocol_fingerprint"]) == 64
@@ -85,7 +108,9 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           wf=Path(".github/workflows/gift-community-topology.yml").read_text()
-          assert "query=checklists" not in wf
-          assert "open_community_response" not in wf
+          checklist_query="query"+"=checklists"
+          opener="open_"+"community_response"
+          assert checklist_query not in wf
+          assert opener not in wf
           print("NO_COMMUNITY_RESPONSE_ACCESS_IN_FREEZE_CI")
           PY
