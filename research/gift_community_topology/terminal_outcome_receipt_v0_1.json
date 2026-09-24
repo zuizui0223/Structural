@@ -1,0 +1,131 @@
+{
+  "schema": "structural.gift_community_topology_terminal_outcome.v0_1",
+  "status": "ONE_SHOT_COMPLETE_H1_H3_UNSUPPORTED",
+  "execution": {
+    "pull_request": 79,
+    "workflow_run_id": 35992977691,
+    "workflow_job_id": 107611204120,
+    "head_sha": "60135f8a54e9cc95b22bc86cb083f315ebdd7a06",
+    "artifact_id": 10804663234,
+    "artifact_name": "gift-community-topology-weighted-one-shot-v0-1",
+    "artifact_zip_size_bytes": 5008108,
+    "artifact_zip_sha256": "c666c58a920e34ee72fae695f4a74691294dd4ed169a1e9121e95aa9a3b78ae7",
+    "artifact_expires_at": "2026-12-23T11:25:58Z"
+  },
+  "frozen_design": {
+    "pre_response_lock_commit": "47c9b1dda228b0601af6bc816ded4882aa3b7156",
+    "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+    "protocol_fingerprint": "6529dbd74d845dfdbecf614177376c80d690445f4cf6f9eb8c5fb654c03f54e1",
+    "archipelagos": 24,
+    "islands": 386,
+    "estimator": "clade-specific archipelago-equal WLS on clade-standardized log1p native richness",
+    "bootstrap_replicates": 10000,
+    "bootstrap_candidate_draws_attempted": 15599,
+    "bootstrap_draws_sha256": "2aeebc05347847523e91066457c3fce0ccae422a0a6a71be348faa6a24f2d04d"
+  },
+  "response_access": {
+    "species_composition_opened": true,
+    "query_count_total": 1603,
+    "query_count_by_clade": {
+      "Angiospermae": 555,
+      "Pteridophyta": 510,
+      "Gymnospermae": 538
+    },
+    "all_frozen_surfaces_queried": true,
+    "prior_pilot_archipelagos_queried": false,
+    "query_set_sha256": "a0c26a7d86c29ec39f147e4ec1561330e87dcec709b0daa0e6a1536d7853ddcf"
+  },
+  "raw_response": {
+    "rows": 169658,
+    "canonical_sha256": "5b5404c80da580f06f3cc21a53be7be080aebbb84d28cc46a1615119666cbf80",
+    "source_receipts_sha256": "518c57f068853c7895af829f8c5f01669ed63f84b8618027e435a928ff631480",
+    "cached_query_files": 1603,
+    "cached_query_json_files_valid": 1603,
+    "independent_roundtrip_verified": true
+  },
+  "richness": {
+    "rows": 1158,
+    "sha256": "5366f662580f17ce93861013773734816303fc18bd7298383ab13dacf5d01af6",
+    "zero_richness_rows": 330,
+    "uncertain_only_total": 2194,
+    "analysis_response_scaling_by_clade": {
+      "Angiospermae": {
+        "log1p_mean": 4.827553897116191,
+        "log1p_sd": 1.4808664822626416,
+        "ddof": 0
+      },
+      "Pteridophyta": {
+        "log1p_mean": 1.9427736220992058,
+        "log1p_sd": 1.569209941233199,
+        "ddof": 0
+      },
+      "Gymnospermae": {
+        "log1p_mean": 0.5787126021986034,
+        "log1p_sd": 0.7499081569457748,
+        "ddof": 0
+      }
+    }
+  },
+  "H1": {
+    "estimate": 0.25463742860046484,
+    "bootstrap_95_ci": [
+      -0.3803272538873022,
+      0.5090310641958165
+    ],
+    "prediction": "positive",
+    "supported": false,
+    "clade_component_estimates": {
+      "Angiospermae": 0.16485049101401164,
+      "Pteridophyta": 0.04333235713944325,
+      "Gymnospermae": 0.5557294376479397
+    },
+    "clade_component_bootstrap_95_ci": {
+      "Angiospermae": [
+        -0.3052979867580811,
+        0.6320446655306483
+      ],
+      "Pteridophyta": [
+        -0.40497045716265595,
+        0.970263957657215
+      ],
+      "Gymnospermae": [
+        -1.1746565358119034,
+        0.9695045833711288
+      ]
+    }
+  },
+  "H2": {
+    "status": "NOT_TESTED_TERMINAL_PRE_RESPONSE_NON_ESTIMABLE",
+    "estimate": null,
+    "bootstrap_95_ci": null
+  },
+  "H3": {
+    "estimate": -0.31695760719153243,
+    "bootstrap_95_ci": [
+      -0.737217313759504,
+      1.4585690010160217
+    ],
+    "prediction": "negative",
+    "supported": false
+  },
+  "bootstrap": {
+    "H1_estimates_sha256": "bfebf4a229903fef83f9479c388ed3bb98ede5b47876bf42bb49ded054203fdf",
+    "H3_estimates_sha256": "9d348213e513133a91ee6efc84fc118e09cdc2f33fd87fb520a174904fb319b2"
+  },
+  "outcome_fingerprint": "939c6492748f50db80be59eb0ef112fe092479f62d8d57e5157f0c9b6edcbde5",
+  "independent_verification": {
+    "artifact_zip_sha256_matches_github_digest": true,
+    "outcome_fingerprint_recomputed": true,
+    "canonical_raw_response_sha256_recomputed": true,
+    "all_1603_cache_files_parse_as_json_lists": true,
+    "cache_total_rows_equals_raw_rows": true
+  },
+  "terminal_rule": {
+    "rerun_authorized": false,
+    "post_response_retuning_authorized": false,
+    "H2_reintroduction_authorized": false,
+    "threshold_or_predictor_redefinition_authorized": false,
+    "permitted_next_step": "interpret the frozen null/uncertain outcome or start a genuinely new study with a new question/data source; do not rescue H1/H3 in this response surface"
+  },
+  "terminal_receipt_sha256": "44c7484ae3ff2aff2d422f2a1da213ec4dbb947ae47b643eccdeff158d4124ab"
+}
