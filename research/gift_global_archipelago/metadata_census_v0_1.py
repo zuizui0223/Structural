@@ -149,6 +149,15 @@ def main() -> int:
     }
 
     overlap, overlap_meta = fetch("overlap")
+    env_misc, env_misc_meta = fetch("env_misc")
+    env_keywords = ("arch", "geolog", "origin", "gmmc", "glacial", "dist", "slmp", "area", "age", "latitude", "longitude")
+    selected_env_misc = [
+        row for row in env_misc
+        if any(
+            key in (s(row.get("variable")) + " " + s(row.get("description")) + " " + s(row.get("dataset"))).lower()
+            for key in env_keywords
+        )
+    ]
     thresholds = (0.90, 0.95, 0.99)
     memberships = {th: defaultdict(set) for th in thresholds}
     multi_parent = {th: defaultdict(set) for th in thresholds}
@@ -201,7 +210,9 @@ def main() -> int:
             "lists": lists_meta,
             "taxonomy": taxonomy_meta,
             "overlap": overlap_meta,
+            "env_misc": env_misc_meta,
         },
+        "selected_environment_metadata": selected_env_misc,
         "angiospermae_taxon_id": s(target.get("taxon_ID")),
         "eligible_entities_including_restricted": len(entities_all),
         "eligible_entities_public_only": len(entities_public),
