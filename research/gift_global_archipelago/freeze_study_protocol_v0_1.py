@@ -33,11 +33,13 @@ def main() -> int:
     p.add_argument("--universe",type=Path,required=True)
     p.add_argument("--intake-receipt",type=Path,required=True)
     p.add_argument("--environment-audit",type=Path,required=True)
+    p.add_argument("--geology-crosswalk",type=Path,required=True)
     a=p.parse_args()
 
     u=load(a.universe)
     intake=load(a.intake_receipt)
     env=load(a.environment_audit)
+    geology=load(a.geology_crosswalk)
 
     if u.get("response_values_accessed") is not False:
         raise RuntimeError("analysis universe is not response sealed")
@@ -49,6 +51,10 @@ def main() -> int:
         raise RuntimeError("intake unexpectedly authorized pilot response")
     if env.get("species_composition_accessed") is not False:
         raise RuntimeError("environment audit opened response")
+    if geology.get("status") != "FROZEN_BEFORE_PILOT_RESPONSE":
+        raise RuntimeError("geology crosswalk is not frozen pre-response")
+    if geology.get("response_values_accessed") is not False:
+        raise RuntimeError("geology crosswalk opened response")
 
     pilot=set(u["pilot_archipelagos"])
     confirm=set(u["confirmatory_archipelagos"])
@@ -74,6 +80,7 @@ def main() -> int:
         "confirmatory_response_opened":False,
         "parent_intake_fingerprint":intake["intake_fingerprint"],
         "analysis_universe_fingerprint":u["universe_fingerprint"],
+        "geology_crosswalk_fingerprint":geology["crosswalk_fingerprint"],
         "evidence_partition":{
             "axis":"archipelago/list_ID response surface",
             "pilot_archipelagos":sorted(pilot),
@@ -193,8 +200,19 @@ def main() -> int:
             "nonestimable_is_neutral":True,
             "external_geological_type_secondary":{
                 "source":"Roeble et al. 2024 Nature Communications Supplementary Data 3",
+                "source_sha256":geology["source"]["xlsx_sha256"],
+                "crosswalk_fingerprint":geology["crosswalk_fingerprint"],
                 "classes":["continental","oceanic","mixed"],
-                "status":"secondary_not_authorized_until_crosswalk_is_fingerprinted_before_pilot_response",
+                "confirmatory_quantitative_geology_eligible":geology["confirmatory_quantitative_geology_eligible"],
+                "class_contrast_estimable_pre_response":geology["geology_h2_class_contrast_estimable"],
+                "fraction_slope_estimable_pre_response":geology["geology_h2_fraction_slope_estimable"],
+                "status":(
+                    "confirmatory_secondary_authorized_pre_response"
+                    if geology["geology_h2_fraction_slope_estimable"]
+                    else "pre_response_nonestimable_secondary"
+                ),
+                "estimand":"slope of archipelago extreme-regime C-R3 increment on external oceanic fraction; class contrast continental vs oceanic only if >=3 pure confirmatory archipelagos per class",
+                "inference":"whole-archipelago bootstrap; two-sided geological-history heterogeneity test",
                 "role":"tests geological origin beyond the GIFT GMMC history gradient; cannot rescue H2 primary",
             },
         },
