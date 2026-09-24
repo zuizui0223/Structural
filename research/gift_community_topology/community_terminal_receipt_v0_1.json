@@ -1,0 +1,101 @@
+{
+  "schema": "structural.gift_community_topology_terminal_receipt.v0_1",
+  "status": "ONE_SHOT_CLOSED_NO_RETUNING",
+  "executed_on": "2026-09-24",
+  "execution_pr": 79,
+  "execution_commit": "60135f8a54e9cc95b22bc86cb083f315ebdd7a06",
+  "workflow_run_id": 35992977691,
+  "workflow_job_id": 107611204120,
+  "artifact": {
+    "id": 10804663234,
+    "name": "gift-community-topology-weighted-one-shot-v0-1",
+    "zip_size_bytes": 5008108,
+    "zip_sha256": "c666c58a920e34ee72fae695f4a74691294dd4ed169a1e9121e95aa9a3b78ae7",
+    "retention_days": 90,
+    "independently_redownloaded_and_sha256_verified": true,
+    "final_public_archive_pending": true
+  },
+  "frozen_design": {
+    "panel_fingerprint": "7d8c01f6dd36f479106f669f11c0c46aa0c3ff245874b99416f4ad3440393b7b",
+    "protocol_fingerprint": "6529dbd74d845dfdbecf614177376c80d690445f4cf6f9eb8c5fb654c03f54e1",
+    "bootstrap_draws_sha256": "2aeebc05347847523e91066457c3fce0ccae422a0a6a71be348faa6a24f2d04d",
+    "bootstrap_candidate_draws_attempted": 15599,
+    "archipelagos": 24,
+    "islands": 386,
+    "estimator": "archipelago-equal WLS on clade-wise z(log1p(native richness)) with archipelago fixed effects; H1 fitted separately by clade",
+    "H2": "terminally non-estimable before response and not tested"
+  },
+  "response_access": {
+    "checklist_queries_total": 1603,
+    "checklist_queries_by_clade": {
+      "Angiospermae": 555,
+      "Pteridophyta": 510,
+      "Gymnospermae": 538
+    },
+    "query_set_sha256": "a0c26a7d86c29ec39f147e4ec1561330e87dcec709b0daa0e6a1536d7853ddcf",
+    "cached_query_files": 1603,
+    "raw_response_sha256": "5b5404c80da580f06f3cc21a53be7be080aebbb84d28cc46a1615119666cbf80",
+    "richness_sha256": "5366f662580f17ce93861013773734816303fc18bd7298383ab13dacf5d01af6",
+    "prior_pilot_archipelagos_queried": false
+  },
+  "outcome": {
+    "outcome_fingerprint": "939c6492748f50db80be59eb0ef112fe092479f62d8d57e5157f0c9b6edcbde5",
+    "H1": {
+      "estimate": 0.25463742860046484,
+      "bootstrap_95_ci": [
+        -0.3803272538873022,
+        0.5090310641958165
+      ],
+      "prediction": "positive",
+      "supported": false,
+      "clade_components": {
+        "Angiospermae": {
+          "estimate": 0.16485049101401164,
+          "ci": [
+            -0.3052979867580811,
+            0.6320446655306483
+          ]
+        },
+        "Pteridophyta": {
+          "estimate": 0.04333235713944325,
+          "ci": [
+            -0.40497045716265595,
+            0.970263957657215
+          ]
+        },
+        "Gymnospermae": {
+          "estimate": 0.5557294376479397,
+          "ci": [
+            -1.1746565358119034,
+            0.9695045833711288
+          ]
+        }
+      }
+    },
+    "H2": {
+      "status": "NOT_TESTED_TERMINAL_PRE_RESPONSE_NON_ESTIMABLE",
+      "estimate": null,
+      "bootstrap_95_ci": null
+    },
+    "H3": {
+      "estimate": -0.31695760719153243,
+      "bootstrap_95_ci": [
+        -0.737217313759504,
+        1.4585690010160217
+      ],
+      "prediction": "negative",
+      "supported": false
+    },
+    "H1_bootstrap_estimates_sha256": "bfebf4a229903fef83f9479c388ed3bb98ede5b47876bf42bb49ded054203fdf",
+    "H3_bootstrap_estimates_sha256": "9d348213e513133a91ee6efc84fc118e09cdc2f33fd87fb520a174904fb319b2"
+  },
+  "terminal_boundary": {
+    "rerun_authorized": false,
+    "retuning_authorized": false,
+    "weaker_reference_authorized": false,
+    "H2_reintroduction_authorized": false,
+    "result_based_clade_or_archipelago_selection_authorized": false,
+    "permitted_interpretation": "the predeclared global community-level topology-by-extreme-isolation effect and fern-vs-seed-plant contrast were not supported under the frozen reference; intervals remain broad and do not establish equivalence to zero",
+    "next_scientific_use": "provenance/negative evidence only; any new design must be a separately declared study and cannot rescue these tests"
+  }
+}
