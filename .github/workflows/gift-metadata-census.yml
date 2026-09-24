@@ -70,3 +70,44 @@ jobs:
           assert len(x["assignment_sha256"]) == 64
           print("SPECIES_PARTITION_FROZEN", x["n_pilot_work_ids"], x["n_confirmatory_work_ids"])
           PY
+      - name: Cross-check frozen GIFT intake source identity
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          census=json.load(open("gift_metadata_census.json"))
+          exclusion=json.load(open("gift_aislands_exclusion.json"))
+          partition=json.load(open("gift_species_partition.json"))
+          intake=json.load(open("research/gift_global_archipelago/intake_v0_10.json"))
+          payload={
+              "gift_source_fingerprint": census["source_fingerprint"],
+              "exclusion_receipt_sha256": exclusion["receipt_sha256"],
+              "species_partition_receipt_sha256": partition["receipt_sha256"],
+          }
+          observed=hashlib.sha256(
+              json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+          ).hexdigest()
+          assert observed == intake["source_fingerprint"]
+          assert census["response_surface_manifest"]["records_sha256"] == (
+              "b58116ad0f44cfe395086a0e5e799f0b62df5ad1dfd712ffbdfed9874af61d99"
+          )
+          assert exclusion["after_conservative_archipelago_exclusion"]["groups_by_minimum_island_count"]["12"] == 24
+          assert partition["n_pilot_work_ids"] == 70746
+          assert partition["n_confirmatory_work_ids"] == 281385
+          print("INTAKE_SOURCE_IDENTITY_OK", observed)
+          PY
+      - name: Validate GIFT independent-system intake v0.10
+        run: python scripts/validate_independent_system_intake_v0_10.py research/gift_global_archipelago/intake_v0_10.json | tee gift_intake_receipt.json
+      - name: Assert intake authorizes only v0.31 construction
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_intake_receipt.json"))
+          assert x["status"] == "eligible_to_construct_v0_31_partition_protocol"
+          assert x["v0_31_protocol_construction_authorized"] is True
+          assert x["pilot_response_authorized"] is False
+          assert x["confirmatory_response_authorized"] is False
+          assert x["mechanism_response_authorized"] is False
+          assert x["effect_size"] is None
+          assert x["prediction_score"] is None
+          print("GIFT_INTAKE_PASS")
+          PY
