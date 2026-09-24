@@ -1,0 +1,63 @@
+{
+  "schema": "structural.gift_community_prior_response_exclusions.v0_1",
+  "status": "FROZEN_BEFORE_COMMUNITY_RESPONSE",
+  "purpose": "exclude every archipelago whose checklist response was opened in any prior GIFT burned pilot before constructing the fresh community-level response surface",
+  "response_values_used": false,
+  "exclusion_basis": "pilot partition identity only; no pilot effect size or direction exists",
+  "source_experiments": [
+    {
+      "name": "Angiospermae v0.1",
+      "closed_pr": 71,
+      "pilot_run_id": 35971291333,
+      "pilot_artifact_id": 10795879443,
+      "pilot_artifact_zip_sha256": "2235f695142f0853aca11bc84f6856ef22f1c201aefd305212f4575c7287347e",
+      "terminal_receipt_sha256": "114c55c3785770287f8b3c8b7fc9f10426d40481634cf9ba453cdb1ecbbcbc32"
+    },
+    {
+      "name": "Pteridophyta v0.1",
+      "closed_pr": 73,
+      "pilot_run_id": 35981369583,
+      "pilot_artifact_id": 10799944381,
+      "pilot_artifact_zip_sha256": "1b0a14152930153410ae8bad3a7e09ed611025e743e38ae57d28abcd39dadaaa",
+      "terminal_receipt_sha256": "3d313093191530d5d95e5400aefe5171096b66226e2ee858d916e35f240541ce"
+    },
+    {
+      "name": "Gymnospermae v0.1",
+      "closed_pr": 73,
+      "pilot_run_id": 35981369583,
+      "pilot_artifact_id": 10800472771,
+      "pilot_artifact_zip_sha256": "aed0667b491fe25ed4f83336c69f266900a7eabd552899a119b49873c80a28e9",
+      "terminal_receipt_sha256": "75e88f7313ec04cb138055833e9bd623f4e2590ed1eee458db5d45139bf41141"
+    }
+  ],
+  "excluded_archipelago_paths": [
+    [
+      "Agean and Southern Greece Islands",
+      "North-west Agaean Sea Islands"
+    ],
+    [
+      "Tuvalu"
+    ],
+    [
+      "West Indies",
+      "Lesser Antilles",
+      "Leeward Islands"
+    ],
+    [
+      "New Zealand",
+      "North Island New Zealand"
+    ],
+    [
+      "Kuril'skiye"
+    ],
+    [
+      "Agean and Southern Greece Islands",
+      "Cyclades"
+    ],
+    [
+      "Japan"
+    ]
+  ],
+  "confirmatory_surfaces_from_prior_experiments_reused": false,
+  "community_study_response_authorized": false
+}
