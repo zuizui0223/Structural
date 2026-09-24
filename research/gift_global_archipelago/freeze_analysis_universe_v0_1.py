@@ -449,7 +449,7 @@ def main() -> int:
         "partition_rule": {
             "axis": "archipelago/list_ID response surface",
             "reason": "GIFT checklist API exposes complete list contents and has no server-side work_ID response filter; strict pilot/confirmatory sealing therefore requires disjoint list surfaces",
-            "pilot_selection": "geometry-only: smallest extreme-only q75 contributor + smallest paired-regime q75 contributor + smallest non-extreme-only q75 contributor; ties by archipelago_id"
+            "pilot_selection": "geometry-only: smallest extreme-only q75 contributor + smallest paired-regime q75 contributor + smallest non-extreme-only q75 contributor; ties by archipelago_id",
             "selection_uses_response": False,
             "pilot_effect_estimation_allowed": False,
         },
