@@ -1,0 +1,83 @@
+{
+  "schema": "structural.gift_community_topology_post_outcome_diagnostic.v0_1",
+  "status": "EXPLORATORY_NON_RESCUING",
+  "parent_outcome_fingerprint": "939c6492748f50db80be59eb0ef112fe092479f62d8d57e5157f0c9b6edcbde5",
+  "confirmatory_claim_contribution": 0,
+  "design_changes": 0,
+  "richness_sparsity": {
+    "Angiospermae": {
+      "zero_rows": 9,
+      "nonzero_rows": 377,
+      "mean": 279.3860103626943,
+      "median": 140,
+      "q25": 55,
+      "q75": 398,
+      "max": 5380
+    },
+    "Pteridophyta": {
+      "zero_rows": 100,
+      "nonzero_rows": 286,
+      "mean": 22.010362694300518,
+      "median": 6,
+      "q25": 0,
+      "q75": 21.75,
+      "max": 794
+    },
+    "Gymnospermae": {
+      "zero_rows": 221,
+      "nonzero_rows": 165,
+      "mean": 1.5129533678756477,
+      "median": 0,
+      "q25": 0,
+      "q75": 3,
+      "max": 44
+    }
+  },
+  "leave_one_archipelago_out": {
+    "archipelagos": 24,
+    "H1_all_estimates_positive": true,
+    "H1_range": [
+      0.11034896589878063,
+      0.366922633047571
+    ],
+    "H3_all_estimates_negative": true,
+    "H3_range": [
+      -0.42071444268592617,
+      -0.024495660567136382
+    ],
+    "interpretation": "frozen point-estimate directions are not caused by any single archipelago; this is sensitivity only and does not change bootstrap inference"
+  },
+  "frozen_bootstrap_direction_frequency": {
+    "replicates": 10000,
+    "candidate_draws_attempted": 15599,
+    "H1_positive_fraction": 0.85,
+    "H1_median": 0.21532695541569097,
+    "H1_95_interval": [
+      -0.3803272538873028,
+      0.509031064195816
+    ],
+    "H3_negative_fraction": 0.7694,
+    "H3_median": -0.26661752472732425,
+    "H3_95_interval": [
+      -0.7372173137595027,
+      1.4585690010160228
+    ],
+    "unique_archipelagos_per_draw": {
+      "median": 15,
+      "min": 8,
+      "max": 21
+    },
+    "unique_extreme_archipelagos_per_draw": {
+      "median": 6,
+      "min": 1,
+      "max": 9
+    }
+  },
+  "interpretation_boundary": {
+    "supported_statement": "direction is stable to deletion of any single archipelago, but whole-archipelago resampling leaves substantial uncertainty because the effective number of independent extreme-isolation archipelagos is small; Gymnospermae richness is especially sparse",
+    "forbidden_statement": "the hypotheses are supported despite the frozen confidence intervals",
+    "rerun_or_retune_authorized": false,
+    "new_confirmatory_claim_authorized": false
+  },
+  "diagnostic_sha256": "e29205f08b6f026e9eed032838e0bf18f56d098c1eb1be0cb135cc61b0e259b5"
+}
