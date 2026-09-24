@@ -167,7 +167,7 @@ def main() -> int:
             "fold_estimable_rule":"training presence>=5 AND training absence>=5 AND heldout rows>=3",
             "species_archipelago_estimable_rule":"at least 3 of 4 folds estimable",
             "archipelago_estimable_rule":"at least 50 species satisfy species_archipelago_estimable_rule",
-            "pass_rule":"at least 3 of 4 pilot archipelagos estimable AND at least one passing extreme contributor AND at least one passing non-extreme contributor",
+            "pass_rule":"all 3 pilot archipelagos estimable AND at least one passing extreme contributor AND at least one passing non-extreme contributor",
             "failure_rule":"STOP this study protocol version; do not retune thresholds/scales/reference and do not open confirmatory lists",
         },
         "H1_primary":{
