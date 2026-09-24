@@ -111,3 +111,16 @@ jobs:
           assert x["prediction_score"] is None
           print("GIFT_INTAKE_PASS")
           PY
+      - name: Audit exact M4 climate layer metadata
+        env:
+          GIFT_VERSION: "3.2"
+        run: python research/gift_global_archipelago/audit_environment_reference_v0_1.py | tee gift_environment_reference_audit.json
+      - name: Assert climate audit stayed response-blind
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("gift_environment_reference_audit.json"))
+          assert x["species_composition_accessed"] is False
+          assert len(x["candidate_layers"]) > 0
+          print("M4_METADATA_AUDIT_OK", len(x["candidate_layers"]))
+          PY
