@@ -133,6 +133,33 @@ jobs:
           assert len(x["protocol_fingerprint"]) == 64
           print("BIRD_HWI_PROTOCOL_FROZEN", x["protocol_fingerprint"], b)
           PY
+      - name: Replay committed bird pre-response lock
+        run: |
+          python - <<'PY'
+          import json
+          lock=json.load(open("research/avonet_dars_archipelago/pre_response_lock_v0_1.json"))
+          census=json.load(open("avonet_dars_metadata_census.json"))
+          part=json.load(open("avonet_dars_partition.json"))
+          trait=json.load(open("avonet_hwi_predictor.json"))
+          protocol=json.load(open("avonet_dars_hwi_protocol.json"))
+          assert lock["schema"] == "structural.avonet_dars_hwi_pre_response_lock.v0_1"
+          assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_PILOT_RESPONSE"
+          assert lock["response_values_accessed"] is False
+          assert lock["species_presence_absence_matrices_opened"] is False
+          assert lock["source_fingerprint"] == census["source_fingerprint"]
+          assert lock["partition_fingerprint"] == part["partition_fingerprint"]
+          assert lock["trait_fingerprint"] == trait["trait_fingerprint"]
+          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"]
+          assert lock["pilot_surface"]["fingerprint"] == part["response_surface_fingerprints"]["pilot"]
+          assert lock["confirmatory_surface"]["fingerprint"] == part["response_surface_fingerprints"]["confirmatory"]
+          assert lock["bootstrap"]["accepted_draws_sha256"] == protocol["second_stage"]["bootstrap"]["accepted_draws_sha256"]
+          assert lock["bootstrap"]["candidate_draws_attempted"] == protocol["second_stage"]["bootstrap"]["candidate_draws_attempted"]
+          assert lock["authorization"]["pilot_response_authorized"] is True
+          assert lock["authorization"]["confirmatory_response_authorized"] is False
+          assert lock["authorization"]["pilot_rho_computation_authorized"] is False
+          assert lock["authorization"]["pilot_model_fit_authorized"] is False
+          print("BIRD_PRE_RESPONSE_LOCK_REPLAY_OK", lock["protocol_fingerprint"])
+          PY
       - name: Assert metadata CI contains no bird matrix fetch
         run: |
           python - <<'PY'
