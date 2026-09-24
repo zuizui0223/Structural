@@ -328,7 +328,10 @@ def main() -> int:
             "block_sizes": block_sizes,
             "q75_extreme_n": len(q75),
             "q75_nonextreme_n": len(ids) - len(q75),
-            "h1_geometry_eligible": len(q75) >= 3 and (len(ids) - len(q75)) >= 3,
+            "h1_extreme_contributor": len(q75) >= 3,
+            "h1_nonextreme_contributor": (len(ids) - len(q75)) >= 3,
+            "h1_paired_contributor": len(q75) >= 3 and (len(ids) - len(q75)) >= 3,
+            "q75_extreme_fraction": len(q75) / len(ids),
             "membership_sha256": sha(ids),
             "list_id_set_sha256": sha(sorted(
                 {lid for eid in ids for lid in lists_by_entity[eid]},
@@ -337,32 +340,40 @@ def main() -> int:
             "islands": island_rows,
         })
 
-    h1_groups = [row for row in group_rows if row["h1_geometry_eligible"]]
-    if len(h1_groups) < 8:
-        raise RuntimeError("fewer than 8 response-blind H1-geometry-eligible archipelagos")
-
-    # GIFT checklist responses can only be requested by list_ID/ref_ID, not
-    # server-filtered by work_ID. Therefore the strict evidence firewall is
-    # archipelago/list based: opening pilot lists cannot expose any
-    # confirmatory-archipelago species composition.
-    ordered = sorted(
-        h1_groups,
-        key=lambda row: (row["gmmc_connected_fraction"], row["n_islands"], row["archipelago_id"]),
+    extreme_only = sorted(
+        [
+            row for row in group_rows
+            if row["h1_extreme_contributor"] and not row["h1_nonextreme_contributor"]
+        ],
+        key=lambda row: (row["n_islands"], row["archipelago_id"]),
     )
-    targets = (0.125, 0.375, 0.625, 0.875)
-    selected_idx = []
-    for target in targets:
-        idx = round((len(ordered) - 1) * target)
-        if idx not in selected_idx:
-            selected_idx.append(idx)
-    if len(selected_idx) != 4:
-        raise RuntimeError("archipelago pilot stratification did not produce four disjoint groups")
-    pilot_ids = {ordered[idx]["archipelago_id"] for idx in selected_idx}
+    mixed_regime = sorted(
+        [row for row in group_rows if row["h1_paired_contributor"]],
+        key=lambda row: (row["n_islands"], row["archipelago_id"]),
+    )
+    nonextreme_only = sorted(
+        [
+            row for row in group_rows
+            if row["h1_nonextreme_contributor"] and not row["h1_extreme_contributor"]
+        ],
+        key=lambda row: (row["n_islands"], row["archipelago_id"]),
+    )
+    if not extreme_only or len(mixed_regime) < 2 or not nonextreme_only:
+        raise RuntimeError(
+            "response-blind pilot cannot cover extreme-only, paired, and non-extreme-only archipelago regimes"
+        )
+
+    # The checklist API exposes complete list contents, so evidence partitions
+    # are disjoint archipelago/list surfaces. Pilot selection is geometry-only
+    # and deliberately spans the three q75 support regimes.
+    pilot_ids = {
+        extreme_only[0]["archipelago_id"],
+        mixed_regime[0]["archipelago_id"],
+        mixed_regime[1]["archipelago_id"],
+        nonextreme_only[0]["archipelago_id"],
+    }
     pilot = [row for row in group_rows if row["archipelago_id"] in pilot_ids]
     confirmatory = [row for row in group_rows if row["archipelago_id"] not in pilot_ids]
-    h1_confirmatory = [
-        row for row in confirmatory if row["h1_geometry_eligible"]
-    ]
 
     all_final_islands = sorted(
         [i["entity_ID"] for row in group_rows for i in row["islands"]],
@@ -418,8 +429,14 @@ def main() -> int:
         },
         "n_final_archipelagos": len(group_rows),
         "n_final_islands": len(all_final_islands),
-        "n_h1_geometry_eligible_archipelagos": len(h1_groups),
-        "n_h1_confirmatory_archipelagos": len(h1_confirmatory),
+        "h1_support_counts": {
+            "all_extreme_contributors": sum(row["h1_extreme_contributor"] for row in group_rows),
+            "all_nonextreme_contributors": sum(row["h1_nonextreme_contributor"] for row in group_rows),
+            "all_paired_contributors": sum(row["h1_paired_contributor"] for row in group_rows),
+            "confirmatory_extreme_contributors": sum(row["h1_extreme_contributor"] for row in confirmatory),
+            "confirmatory_nonextreme_contributors": sum(row["h1_nonextreme_contributor"] for row in confirmatory),
+            "confirmatory_paired_contributors": sum(row["h1_paired_contributor"] for row in confirmatory),
+        },
         "global_extreme_counts": {
             "q75": len(global_q75),
             "q70": len(global_q70),
@@ -431,7 +448,7 @@ def main() -> int:
         "partition_rule": {
             "axis": "archipelago/list_ID response surface",
             "reason": "GIFT checklist API exposes complete list contents and has no server-side work_ID response filter; strict pilot/confirmatory sealing therefore requires disjoint list surfaces",
-            "pilot_selection": "among response-blind H1-geometry-eligible archipelagos sorted by GMMC fraction, select deterministic positions nearest 12.5%, 37.5%, 62.5%, 87.5%; ties resolved by n_islands then archipelago_id",
+            "pilot_selection": "geometry-only: smallest extreme-only q75 contributor + two smallest paired-regime q75 contributors + smallest non-extreme-only q75 contributor; ties by archipelago_id",
             "selection_uses_response": False,
             "pilot_effect_estimation_allowed": False,
         },
