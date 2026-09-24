@@ -107,8 +107,10 @@ jobs:
           assert x["confirmatory_archipelago_count"] == x["n_final_archipelagos"] - 4
           assert len(x["universe_fingerprint"]) == 64
           assert x["extreme_rules"]["primary_unchanged_from_prospective_v0_3"] is True
-          assert x["n_h1_geometry_eligible_archipelagos"] >= 8
-          assert x["n_h1_confirmatory_archipelagos"] >= 4
+          support=x["h1_support_counts"]
+          assert support["confirmatory_extreme_contributors"] >= 2
+          assert support["confirmatory_nonextreme_contributors"] >= 2
+          assert support["confirmatory_paired_contributors"] >= 1
           pilot_lists=set()
           confirm_lists=set()
           pilot_ids=set(x["pilot_archipelagos"])
