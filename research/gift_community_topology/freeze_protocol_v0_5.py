@@ -58,34 +58,42 @@ def group_indices(rows):
 def matrix_audit(rows,columns):
     arr=np.asarray([[row[c] for c in columns] for row in rows],dtype=float)
     out=arr.copy()
-    for idxs in group_indices(rows).values():
+    groups=group_indices(rows)
+    weights=np.zeros(len(rows),dtype=float)
+    for idxs in groups.values():
         idx=np.asarray(idxs,dtype=int)
         out[idx,:]-=arr[idx,:].mean(axis=0,keepdims=True)
+        weights[idx]=1.0/len(idxs)
     keep=np.std(out,axis=0)>1e-12
     kept=[c for c,k in zip(columns,keep) if k]
     dropped=[c for c,k in zip(columns,keep) if not k]
     X=out[:,keep]
-    if X.shape[1]==0:
+    Xw=X*np.sqrt(weights)[:,None]
+    if Xw.shape[1]==0:
         return {"rows":len(rows),"columns":[],"dropped_constant":dropped,"rank":0,"n_columns":0,"condition":None,"full_rank":False}
-    rank=int(np.linalg.matrix_rank(X,tol=1e-10))
-    sv=np.linalg.svd(X,compute_uv=False)
+    rank=int(np.linalg.matrix_rank(Xw,tol=1e-10))
+    sv=np.linalg.svd(Xw,compute_uv=False)
     condition=float(sv[0]/sv[-1]) if sv[-1]>1e-15 else float("inf")
     return {
         "rows":len(rows),"columns":kept,"dropped_constant":dropped,
-        "rank":rank,"n_columns":int(X.shape[1]),"condition":condition,
-        "full_rank":rank==X.shape[1],
+        "rank":rank,"n_columns":int(Xw.shape[1]),"condition":condition,
+        "full_rank":rank==Xw.shape[1],
+        "archipelago_total_weight":"1.0 per archipelago within clade",
     }
 
 def demeaned_design(rows,columns):
     arr=np.asarray([[row[c] for c in columns] for row in rows],dtype=float)
     out=arr.copy()
     groups=group_indices(rows)
+    weights=np.zeros(len(rows),dtype=float)
     for idxs in groups.values():
         idx=np.asarray(idxs,dtype=int)
         out[idx,:]-=arr[idx,:].mean(axis=0,keepdims=True)
+        weights[idx]=1.0/len(idxs)
     keep=np.std(out,axis=0)>1e-12
     kept=[c for c,k in zip(columns,keep) if k]
-    return out[:,keep], kept, [row["archipelago_id"] for row in rows]
+    weighted=out[:,keep]*np.sqrt(weights)[:,None]
+    return weighted, kept, [row["archipelago_id"] for row in rows]
 
 def freeze_bootstrap_draws(rows,h1_cols,clade_audits):
     archipelagos=sorted({row["archipelago_id"] for row in rows})
@@ -277,11 +285,12 @@ def main():
             "interaction_order":"construct interactions after frozen continuous z-scaling, before fixed-effect demeaning",
         },
         "model":{
-            "family":"ordinary least squares on log1p(native richness)",
+            "family":"archipelago-equal weighted least squares on log1p(native richness)",
             "hyperparameter_tuning":"none",
             "archipelago_fixed_intercepts":"within each clade model, absorbed by exact within-archipelago demeaning",
+            "observation_weights":"within each clade, every island in archipelago g has weight 1/n_g so every archipelago contributes total weight 1 to the point estimate",
             "inference_unit":"archipelago",
-            "bootstrap":"use the exact response-independent whole-archipelago draw sequence frozen below; each accepted draw retains every island for each sampled archipelago and is full-rank for all three clade models",
+            "bootstrap":"use the exact response-independent whole-archipelago draw sequence frozen below; every sampled archipelago copy retains total WLS weight 1 and is full-rank for all three clade models",
             "bootstrap_replicates":BOOTSTRAP_REPS,
             "bootstrap_seed":BOOTSTRAP_SEED,
             "bootstrap_design":bootstrap_design,
@@ -331,7 +340,7 @@ def main():
             "change global q75 isolation threshold","change scale-free step-isolation definition",
             "change response-independent per-clade retained/dropped design columns","change reference predictor set or checklist-effort control","change frozen continuous scaling",
             "change log1p richness response","change fixed-effect absorption",
-            "change bootstrap unit/repetitions/seed/rank filter or accepted draw set","change clade-specific fitting or equal-clade weighting","change H1 or H3 estimand/sign",
+            "change per-archipelago total weight=1 rule","change bootstrap unit/repetitions/seed/rank filter or accepted draw set","change clade-specific fitting or equal-clade weighting","change H1 or H3 estimand/sign",
             "reintroduce H2 or any geology moderator","select clades by outcome direction",
         ],
         "response_open_authorized":qualified,
