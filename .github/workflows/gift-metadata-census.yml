@@ -53,35 +53,16 @@ jobs:
           assert len(x["receipt_sha256"]) == 64
           print("GEOMETRY_ONLY_EXCLUSION_OK", x["excluded_gift_entity_count"])
           PY
-      - name: Freeze species hash pilot-confirmatory split
-        env:
-          GIFT_VERSION: "3.2"
-        run: python research/gift_global_archipelago/freeze_species_partition_v0_1.py | tee gift_species_partition.json
-      - name: Assert species partition is response-blind
-        run: |
-          python - <<'PY'
-          import json
-          x=json.load(open("gift_species_partition.json"))
-          assert x["species_distribution_accessed"] is False
-          assert x["n_pilot_work_ids"] > 0
-          assert x["n_confirmatory_work_ids"] > 0
-          assert x["pilot_predictive_denominator_contribution"] == 0
-          assert x["confirmatory_response_authorized"] is False
-          assert len(x["assignment_sha256"]) == 64
-          print("SPECIES_PARTITION_FROZEN", x["n_pilot_work_ids"], x["n_confirmatory_work_ids"])
-          PY
       - name: Cross-check frozen GIFT intake source identity
         run: |
           python - <<'PY'
           import hashlib, json
           census=json.load(open("gift_metadata_census.json"))
           exclusion=json.load(open("gift_aislands_exclusion.json"))
-          partition=json.load(open("gift_species_partition.json"))
           intake=json.load(open("research/gift_global_archipelago/intake_v0_10.json"))
           payload={
               "gift_source_fingerprint": census["source_fingerprint"],
               "exclusion_receipt_sha256": exclusion["receipt_sha256"],
-              "species_partition_receipt_sha256": partition["receipt_sha256"],
           }
           observed=hashlib.sha256(
               json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
@@ -91,8 +72,7 @@ jobs:
               "b58116ad0f44cfe395086a0e5e799f0b62df5ad1dfd712ffbdfed9874af61d99"
           )
           assert exclusion["after_conservative_archipelago_exclusion"]["groups_by_minimum_island_count"]["12"] == 24
-          assert partition["n_pilot_work_ids"] == 70746
-          assert partition["n_confirmatory_work_ids"] == 281385
+          assert intake["study_specific_frozen_state"]["response_access_granularity"].startswith("GIFT checklist API")
           print("INTAKE_SOURCE_IDENTITY_OK", observed)
           PY
       - name: Validate GIFT independent-system intake v0.10
@@ -126,11 +106,22 @@ jobs:
           assert x["pilot_archipelago_count"] == 4
           assert x["confirmatory_archipelago_count"] == x["n_final_archipelagos"] - 4
           assert len(x["universe_fingerprint"]) == 64
+          assert x["extreme_rules"]["primary_unchanged_from_prospective_v0_3"] is True
+          assert x["n_h1_geometry_eligible_archipelagos"] >= 8
+          assert x["n_h1_confirmatory_archipelagos"] >= 4
+          pilot_lists=set()
+          confirm_lists=set()
+          pilot_ids=set(x["pilot_archipelagos"])
           for g in x["groups"]:
               assert g["n_islands"] >= 12
-              assert g["q75_extreme_n"] >= 3
               assert len(g["block_sizes"]) == 4
               assert sum(g["block_sizes"]) == g["n_islands"]
+              target = pilot_lists if g["archipelago_id"] in pilot_ids else confirm_lists
+              for island in g["islands"]:
+                  target.update(island["list_IDs"])
+          assert pilot_lists
+          assert confirm_lists
+          assert pilot_lists.isdisjoint(confirm_lists)
           print("FINAL_UNIVERSE_FROZEN", x["n_final_archipelagos"], x["n_final_islands"])
           print("PILOT_ARCHIPELAGOS", x["pilot_archipelagos"])
           PY
