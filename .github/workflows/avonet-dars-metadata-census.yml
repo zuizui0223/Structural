@@ -138,7 +138,9 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           wf=Path(".github/workflows/avonet-dars-metadata-census.yml").read_text()
-          assert "run_burned_pilot" not in wf
-          assert "open_confirmatory" not in wf
+          pilot_opener="run_"+"burned_pilot"
+          confirm_opener="open_"+"confirmatory"
+          assert pilot_opener not in wf
+          assert confirm_opener not in wf
           print("BIRD_RESPONSE_REMAINS_SEALED")
           PY
