@@ -14,6 +14,7 @@ No GIFT species-composition endpoint is called.
 from __future__ import annotations
 
 from collections import defaultdict
+import argparse
 import hashlib
 import json
 import math
@@ -181,6 +182,10 @@ def history_bin(frac):
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--exclusion-json", type=Path, required=True)
+    args = parser.parse_args()
+
     if VERSION != "3.2":
         raise RuntimeError(f"analysis universe is frozen for GIFT 3.2, got {VERSION}")
 
@@ -245,17 +250,28 @@ def main() -> int:
         if path:
             path_by_island[eid] = path
 
-    closed_union, ais_meta = aislands_union()
-    exact_overlap = {
-        eid for eid in predictor_complete
-        if closed_union.covers(
-            Point(float(misc["longitude"][eid]), float(misc["latitude"][eid]))
+    exclusion = json.loads(args.exclusion_json.read_text(encoding="utf-8"))
+    if exclusion.get("schema") != "structural.gift_aislands_closed_system_exclusion.v0_1":
+        raise RuntimeError("unexpected closed-system exclusion receipt schema")
+    if exclusion.get("response_values_accessed") is not False:
+        raise RuntimeError("closed-system exclusion receipt is not response blind")
+    if exclusion.get("aislands_species_data_requested") is not False:
+        raise RuntimeError("closed-system exclusion opened A-Islands species data")
+    expected_exclusion_receipt = "ac3a6ae7d49350b3d908119458c0e710be90e9efec38ccb9665988e1a9a1f644"
+    if exclusion.get("receipt_sha256") != expected_exclusion_receipt:
+        raise RuntimeError(
+            "closed-system exclusion receipt drifted: "
+            f"{exclusion.get('receipt_sha256')} != {expected_exclusion_receipt}"
         )
-    }
+    exact_overlap = set(exclusion.get("excluded_gift_entity_ids", []))
     contaminated_paths = {
-        path_by_island[eid]
-        for eid in exact_overlap
-        if eid in path_by_island
+        tuple(path) for path in exclusion.get("contaminated_archipelago_paths", [])
+    }
+    ais_meta = {
+        "receipt_sha256": exclusion["receipt_sha256"],
+        "record_id": exclusion["aislands_record_id"],
+        "polygon_count": exclusion["aislands_geometry_polygon_count"],
+        "geometry_files": exclusion["aislands_geometry_files"],
     }
     clean_islands = {
         eid for eid in predictor_complete
