@@ -17,7 +17,7 @@ from urllib.request import Request, urlopen
 
 BASE = "https://gift.uni-goettingen.de/api/extended/"
 VERSIONS_URL = "https://gift.uni-goettingen.de/api/index.php?query=versions"
-VERSION = os.environ.get("GIFT_VERSION", "3.1")
+VERSION = os.environ.get("GIFT_VERSION", "3.2")
 TARGET_TAXON = "Angiospermae"
 ENTITY_CLASSES = {"Island", "Island Group", "Island Part"}
 PRIMARY_CHILD_CLASS = "Island"
@@ -60,6 +60,13 @@ def fetch(query: str, *, version: str | None = VERSION, extra: dict | None = Non
         "sha256": hashlib.sha256(raw).hexdigest(),
         "rows": len(value),
     }
+
+
+def canonical_sha256(value) -> str:
+    payload = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def s(x) -> str:
@@ -140,6 +147,20 @@ def main() -> int:
     regions, regions_meta = fetch("regions")
     lists, lists_meta = fetch("lists")
     taxonomy, taxonomy_meta = fetch("taxonomy")
+    traits_meta_rows, traits_meta_meta = fetch("traits_meta")
+    trait_keywords = ("dispers", "seed mass", "seed_mass", "fruit")
+    selected_trait_metadata = [
+        row for row in traits_meta_rows
+        if any(
+            key in (
+                s(row.get("Category")) + " "
+                + s(row.get("Trait1")) + " "
+                + s(row.get("Trait2")) + " "
+                + s(row.get("comment"))
+            ).lower()
+            for key in trait_keywords
+        )
+    ]
 
     wide, target = conditional_rows(lists, taxonomy, NATIVE_SCOPE_WIDE)
     complete_floristic, _ = conditional_rows(lists, taxonomy, NATIVE_SCOPE_COMPLETE)
@@ -148,6 +169,29 @@ def main() -> int:
 
     entities_all = unique_entities(selected, public_only=False)
     entities_public = unique_entities(selected, public_only=True)
+
+    response_surface_rows = sorted(
+        {
+            (
+                s(row.get("list_ID")),
+                s(row.get("entity_ID")),
+                s(row.get("ref_ID")),
+                s(row.get("taxon_ID")),
+                s(row.get("subset")),
+            )
+            for row in selected
+            if s(row.get("restricted")) != "1"
+            and s(row.get("entity_class")) == PRIMARY_CHILD_CLASS
+        }
+    )
+    response_surface_manifest = {
+        "role": "unopened_native_angiosperm_checklist_response_surface",
+        "gift_version": VERSION,
+        "record_fields": ["list_ID", "entity_ID", "ref_ID", "taxon_ID", "subset"],
+        "record_count": len(response_surface_rows),
+        "records_sha256": canonical_sha256(response_surface_rows),
+        "response_values_accessed": False,
+    }
 
     region_by_id = {s(r["entity_ID"]): r for r in regions}
     public_islands = {
@@ -288,9 +332,12 @@ def main() -> int:
             "taxonomy": taxonomy_meta,
             "overlap": overlap_meta,
             "env_misc": env_misc_meta,
+            "traits_meta": traits_meta_meta,
         },
         "selected_environment_metadata": selected_env_misc,
         "selected_environment_value_audit": selected_env_values,
+        "selected_trait_metadata": selected_trait_metadata,
+        "response_surface_manifest": response_surface_manifest,
         "angiospermae_taxon_id": s(target.get("taxon_ID")),
         "eligible_entities_including_restricted": len(entities_all),
         "eligible_entities_public_only": len(entities_public),
@@ -377,6 +424,20 @@ def main() -> int:
             "islands_with_multiple_assignments_after_resolution": 0,
             "top_groups": canonical_top,
         }
+
+    summary["source_fingerprint"] = canonical_sha256({
+        "gift_version": VERSION,
+        "target_taxon": TARGET_TAXON,
+        "filters": summary["filters"],
+        "source_table_sha256": {
+            key: value["sha256"] for key, value in summary["source_tables"].items()
+        },
+        "environment_value_sha256": {
+            key: value["meta"]["sha256"]
+            for key, value in summary["selected_environment_value_audit"].items()
+        },
+        "response_surface_manifest_sha256": response_surface_manifest["records_sha256"],
+    })
 
     print(json.dumps(summary, indent=2, sort_keys=True))
     return 0
