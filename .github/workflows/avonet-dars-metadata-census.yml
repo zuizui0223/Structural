@@ -1,0 +1,43 @@
+name: AVONET DARs response-blind census
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/avonet_dars_archipelago/**"
+      - ".github/workflows/avonet-dars-metadata-census.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run response-blind AVONET/DARs source census
+        run: python research/avonet_dars_archipelago/metadata_census_v0_1.py | tee avonet_dars_metadata_census.json
+      - name: Assert species matrices remained sealed
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("avonet_dars_metadata_census.json"))
+          assert x["status"] == "RESPONSE_SEALED_METADATA_ONLY"
+          assert x["response_values_accessed"] is False
+          assert x["dars_species_matrix_bytes_opened"] is False
+          assert x["true_island_response_surface"]["content_opened"] is False
+          assert x["response_blind_predictor_surface"]["content_opened"] is False
+          assert x["avonet_or_trait_surface"]["trait_values_opened"] is False
+          assert x["readme_contract"]["presence_absence_matrix_declared"] is True
+          assert x["readme_contract"]["predictors_declared"] is True
+          assert x["readme_contract"]["avonet_declared"] is True
+          assert len(x["source_fingerprint"]) == 64
+          print(
+              "AVONET_DARS_RESPONSE_SEALED",
+              x["true_island_response_surface"]["csv_file_count"],
+              x["source_fingerprint"],
+          )
+          PY
