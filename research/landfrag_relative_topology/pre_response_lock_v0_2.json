@@ -1,0 +1,80 @@
+{
+  "schema": "structural.landfrag_relative_topology_pre_response_lock.v0_2",
+  "status": "FROZEN_QUALIFIED_BEFORE_MONOLITHIC_ABUNDANCE_ACCESS",
+  "source_repository": "mauriciovancine/landfrag",
+  "source_commit": "5fd540048a6e60c641c9c1d6e7f26e7b5eece137",
+  "pre_response_workflow_run_id": 36141643174,
+  "pre_response_job_id": 108092662676,
+  "response_values_accessed": false,
+  "abundance_file_opened": false,
+  "v0_1": {
+    "status": "STOP_PRE_RESPONSE_REPLICATION_GATE",
+    "response_opened": false,
+    "minimum_geographies": 50
+  },
+  "v0_2_revision": {
+    "per_study_geometry_rules_changed": false,
+    "minimum_geographies": 30,
+    "rationale": "v0.1 50-landscape threshold was metadata-only and not effect-derived; v0.2 retains all stringent study gates and quantifies design precision before response"
+  },
+  "census_fingerprint": "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b",
+  "precision_fingerprint": "5855b47a987f8aca9be838bae7293e4a28baaaaf0d4292dade7e099cd09d7bc3",
+  "protocol_fingerprint": "cf753b3038ff1a59dbc8c7808ca41285d751c5c735d55d60a5c37749036b2ab1",
+  "response_surface": {
+    "path": "data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv",
+    "git_blob_sha": "abfdd21712b7f221207e25e62b623e8a8a901a55",
+    "monolithic_all_studies": true,
+    "opened": false
+  },
+  "panel": {
+    "studies": 38,
+    "geography_clusters": 34,
+    "fragments": 886,
+    "focal_fragments": 784,
+    "multi_study_clusters": {
+      "G005": [
+        "Brosi_2008",
+        "Brosi_2009"
+      ],
+      "G009": [
+        "Ding_2013",
+        "Wang_2012"
+      ],
+      "G016": [
+        "Knapp_2015_a",
+        "Knapp_2015_b"
+      ],
+      "G017": [
+        "Lion_2014",
+        "Lion_2016"
+      ]
+    }
+  },
+  "precision": {
+    "unit_residual_target_se_bound": 0.11757416009658714,
+    "unit_residual_95pct_halfwidth": 0.23044111930185715,
+    "unit_residual_two_sided_alpha05_power80_mde": 0.3293940289586461
+  },
+  "model": {
+    "columns": [
+      "intercept",
+      "z_log_area",
+      "z_log1p_direct_source_isolation",
+      "z_topology_gain",
+      "direct_x_gain"
+    ],
+    "target": "direct_x_gain",
+    "H1_prediction": "positive",
+    "response_qualified_cluster_minimum": 30,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260925,
+    "quantile_method": "numpy.quantile method=linear"
+  },
+  "authorization": {
+    "one_shot_monolithic_abundance_access_authorized": true,
+    "scoring_authorized_only_if_at_least_30_frozen_geography_clusters_survive_response_quality_gates": true,
+    "post_response_geometry_retuning_authorized": false,
+    "post_response_study_selection_by_direction_authorized": false,
+    "rerun_after_any_abundance_bytes_opened": false
+  }
+}
