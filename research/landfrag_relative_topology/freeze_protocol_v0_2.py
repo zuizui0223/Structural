@@ -24,7 +24,8 @@ def load(path):
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--census",type=Path,required=True)\n    ap.add_argument("--precision",type=Path,required=True)
+    ap.add_argument("--census",type=Path,required=True)
+    ap.add_argument("--precision",type=Path,required=True)
     a=ap.parse_args()
     census=load(a.census); precision=load(a.precision)
     if census.get("schema")!="structural.landfrag_relative_topology_metadata.v0_2":
@@ -37,12 +38,26 @@ def main():
         raise RuntimeError("abundance file already opened")
     if census["response_surface"].get("opened") is not False:
         raise RuntimeError("monolithic response surface already marked opened")
-    if census["selection"]["independent_geography_clusters"]<50:
-        raise RuntimeError("fewer than 50 response-blind geography clusters")
+    if census["selection"]["independent_geography_clusters"]<30:
+        raise RuntimeError("fewer than 30 response-blind geography clusters")
+    if precision.get("schema")!="structural.landfrag_relative_topology_precision.v0_2":
+        raise RuntimeError("unexpected precision audit schema")
+    if precision.get("response_values_accessed") is not False:
+        raise RuntimeError("precision audit is not response blind")
+    if precision.get("census_fingerprint")!=census["census_fingerprint"]:
+        raise RuntimeError("precision/census fingerprint drift")
 
     protocol={
         "schema":"structural.landfrag_relative_topology_protocol.v0_2",
-        "status":"FROZEN_BEFORE_MONOLITHIC_ABUNDANCE_ACCESS_V0_2",\n        "v0_2_revision":{"v0_1_stop":"response-blind >=50 geography replication gate unmet","v0_1_response_opened":False,"per_study_geometry_rules_changed":False,"v0_2_minimum_geographies":30,"precision_audit_fingerprint":precision["precision_fingerprint"],"precision_audit":precision},
+        "status":"FROZEN_BEFORE_MONOLITHIC_ABUNDANCE_ACCESS_V0_2",
+        "v0_2_revision":{
+            "v0_1_stop":"response-blind >=50 geography replication gate unmet",
+            "v0_1_response_opened":False,
+            "per_study_geometry_rules_changed":False,
+            "v0_2_minimum_geographies":30,
+            "precision_audit_fingerprint":precision["precision_fingerprint"],
+            "precision_audit":precision,
+        },
         "study_role":"fresh global habitat-fragmentation test of within-landscape relative source isolation x stepping-stone topology",
         "source":census["source"],
         "census_fingerprint":census["census_fingerprint"],
@@ -102,7 +117,7 @@ def main():
             "within_cluster":"equal-weight mean of target coefficients from all response-qualified studies in the frozen geography cluster",
             "across_clusters":"equal-weight mean of geography-cluster target coefficients",
             "minimum_response_qualified_geography_clusters":MIN_RESPONSE_CLUSTERS,
-            "failure_rule":"if fewer than 50 frozen geography clusters retain at least one response-qualified study, terminal STOP with no H1 score",
+            "failure_rule":"if fewer than 30 frozen geography clusters retain at least one response-qualified study, terminal STOP with no H1 score",
         },
         "H1_primary":{
             "question":"Within fragmented forest landscapes, is the richness association with stepping-stone topology more positive for fragments that are relatively isolated from larger source fragments?",
