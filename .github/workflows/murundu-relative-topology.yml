@@ -1,0 +1,38 @@
+name: Murundu relative-topology pre-response lock
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/murundu_relative_topology/**"
+      - ".github/workflows/murundu-relative-topology.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate response-sealed protocol
+        run: |
+          python research/murundu_relative_topology/validate_pre_response_protocol_v0_1.py \
+            | tee murundu_pre_response_validation.json
+      - name: Assert no response access path exists
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=json.load(open("research/murundu_relative_topology/pre_response_protocol_v0_1.json"))
+          assert p["response_firewall"]["workbook_opened"] is False
+          assert p["selection_provenance"]["response_values_accessed"] is False
+          wf=Path(".github/workflows/murundu-relative-topology.yml").read_text()
+          assert "Ecological_Data.xlsx" not in wf
+          assert "datadryad.org/api" not in wf
+          assert "Richness.Trees" not in wf
+          print("MURUNDU_RESPONSE_SEALED")
+          PY
