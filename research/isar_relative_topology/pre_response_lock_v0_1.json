@@ -1,0 +1,137 @@
+{
+  "schema": "structural.isar_relative_topology_pre_response_lock.v0_1",
+  "status": "FROZEN_QUALIFIED_BEFORE_RESPONSE",
+  "source_repository": "chase-lab/ISAR_synthesis",
+  "source_commit": "4b79a9e0c7fc4b29a6efca534d129a4e4da59fc0",
+  "pre_response_green_commit": "4063ee49d148440c59de91a0447578717abb9156",
+  "pre_response_workflow_run_id": 36100037278,
+  "pre_response_job_id": 107960401398,
+  "response_values_accessed": false,
+  "abundance_files_opened": false,
+  "census_fingerprint": "23d726b895845753006c15529871dce89a38e9c93b94d515628a86b5b4a15ec3",
+  "protocol_fingerprint": "2aa38abac0c706d639e34135373188628e9e9ec63846aa6926c892a8b3e0c285",
+  "panel": {
+    "geographic_archipelagos": 10,
+    "studies": 10,
+    "islands": 212,
+    "inference_clusters": [
+      "G06",
+      "G07",
+      "G08",
+      "G09",
+      "G10",
+      "G11",
+      "G12",
+      "G13",
+      "G14",
+      "G15"
+    ]
+  },
+  "response_surfaces": [
+    {
+      "study_ID": "Karger_2014",
+      "cluster": "G06",
+      "path": "data/ISAR_datasets/Karger_2014_data.csv",
+      "geometry_rows_sha256": "12540add66af0bc04d26f9f7c9b6f11a21dc56692f5faab9320459cd45493b10"
+    },
+    {
+      "study_ID": "Kotze_2000",
+      "cluster": "G07",
+      "path": "data/ISAR_datasets/Kotze_2000_data.csv",
+      "geometry_rows_sha256": "66f8ec37650a0661bd5b9cc37ba3aca12952e2fe18fd97241f3a91c546b59586"
+    },
+    {
+      "study_ID": "Pierce_2003",
+      "cluster": "G08",
+      "path": "data/ISAR_datasets/Pierce_2003_data.csv",
+      "geometry_rows_sha256": "53eab633d55109ce8c63acdbc800702bf1bbf43158c42bff7eb3f3441465547a"
+    },
+    {
+      "study_ID": "Puspitasari_2016",
+      "cluster": "G09",
+      "path": "data/ISAR_datasets/Puspitasari_2016_data.csv",
+      "geometry_rows_sha256": "8327ecd8b19ed9718dbf91ad70221e7499e15f6338818e4d2309c51aeb024621"
+    },
+    {
+      "study_ID": "Rocamora_2003",
+      "cluster": "G10",
+      "path": "data/ISAR_datasets/Rocamora_2003_data.csv",
+      "geometry_rows_sha256": "d91604708ef1c7af0e8b77650c576fb660b7370aaef00d3e25243de815fba679"
+    },
+    {
+      "study_ID": "Schilthuizen_2013",
+      "cluster": "G11",
+      "path": "data/ISAR_datasets/Schilthuizen_2013_data.csv",
+      "geometry_rows_sha256": "02bec7d97a6691b8be1f7ca71333f89c981f4780bd1a113499ff1a033e404b2d"
+    },
+    {
+      "study_ID": "Schrader_2019",
+      "cluster": "G12",
+      "path": "data/ISAR_datasets/Schrader_2019_data.csv",
+      "geometry_rows_sha256": "b12571461018c64f13dacdbbb1d0d3d923216f66266623cbe3c43cad187eb488"
+    },
+    {
+      "study_ID": "Waqasakiti_2018",
+      "cluster": "G13",
+      "path": "data/ISAR_datasets/Waqasakiti_2018_data.csv",
+      "geometry_rows_sha256": "55ad7d2d186bdc48fe13adc1e467b43b87b037439300d65d83ebff87db052aca"
+    },
+    {
+      "study_ID": "Werden_2012",
+      "cluster": "G14",
+      "path": "data/ISAR_datasets/Werden_2012_data.csv",
+      "geometry_rows_sha256": "f486c33b25ab38610524cd469369c93b79fe512036e6f105d4b3e9c41fc82abf"
+    },
+    {
+      "study_ID": "Xu_2017",
+      "cluster": "G15",
+      "path": "data/ISAR_datasets/Xu_2017_data.csv",
+      "geometry_rows_sha256": "b1706f6323035822c7026d1c2bcce8f6b4a120ce39f7eca0ac5d40e3fa8bcbb6"
+    }
+  ],
+  "model": {
+    "columns": [
+      "z_log_area",
+      "z_core_distance",
+      "z_relative_isolation",
+      "z_step_gain",
+      "topology_x_relative_isolation"
+    ],
+    "target": "topology_x_relative_isolation",
+    "rank": 5,
+    "condition_number_audit": 2.509446581818098,
+    "estimator": "geographic-archipelago-equal weighted least squares",
+    "study_fixed_effects": true,
+    "H1_prediction": "positive"
+  },
+  "bootstrap": {
+    "replicates": 10000,
+    "seed": 20260925,
+    "rng": "numpy.default_rng(PCG64)",
+    "candidate_draws_attempted": 10000,
+    "accepted_draws_sha256": "26f23f36d94b83bca45749c8ba0527a50bb63a207ac6dd5d73a962738b2bd9ed",
+    "quantile_method": "numpy.quantile method=linear"
+  },
+  "contamination_boundary": {
+    "directly_excluded": [
+      "As_1984",
+      "Choi_2011",
+      "Davidar_2001",
+      "Devy_1998",
+      "Dueser_1979",
+      "Hatteland_2008_data"
+    ],
+    "geographic_cascade_excluded": [
+      "Surendran_Vasudevan_2015_frogs",
+      "Surendran_Vasudevan_2015_lizards"
+    ],
+    "excluded_surfaces_may_reenter": false
+  },
+  "authorization": {
+    "one_shot_fresh_response_authorized": true,
+    "scoring_authorized_only_if_all_10_predeclared_quality_gates_pass": true,
+    "post_response_study_dropping_authorized": false,
+    "post_response_retuning_authorized": false,
+    "rerun_after_any_abundance_file_opened": false
+  }
+}
