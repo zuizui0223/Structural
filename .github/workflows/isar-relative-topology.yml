@@ -90,3 +90,27 @@ jobs:
           assert len(x["protocol_fingerprint"]) == 64
           print("ISAR_PROTOCOL_FROZEN", x["protocol_fingerprint"])
           PY
+      - name: Replay exact pre-response lock
+        run: |
+          python - <<'PY'
+          import json
+          census=json.load(open("isar_relative_topology_census.json"))
+          protocol=json.load(open("isar_relative_topology_protocol.json"))
+          lock=json.load(open("research/isar_relative_topology/pre_response_lock_v0_1.json"))
+          assert lock["schema"] == "structural.isar_relative_topology_pre_response_lock.v0_1"
+          assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_RESPONSE"
+          assert lock["response_values_accessed"] is False
+          assert lock["abundance_files_opened"] is False
+          assert lock["census_fingerprint"] == census["census_fingerprint"] == "23d726b895845753006c15529871dce89a38e9c93b94d515628a86b5b4a15ec3"
+          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"] == "2aa38abac0c706d639e34135373188628e9e9ec63846aa6926c892a8b3e0c285"
+          assert lock["bootstrap"]["accepted_draws_sha256"] == census["design"]["bootstrap"]["accepted_draws_sha256"]
+          assert lock["model"]["target"] == protocol["predictor_model"]["target"]
+          expected={r["study_ID"]:(r["geography_cluster"],r["source_path"]) for r in census["response_surfaces"]}
+          observed={r["study_ID"]:(r["cluster"],r["path"]) for r in lock["response_surfaces"]}
+          assert observed == expected
+          assert lock["authorization"]["one_shot_fresh_response_authorized"] is True
+          assert lock["authorization"]["post_response_study_dropping_authorized"] is False
+          assert lock["authorization"]["post_response_retuning_authorized"] is False
+          assert lock["authorization"]["rerun_after_any_abundance_file_opened"] is False
+          print("ISAR_PRE_RESPONSE_LOCK_REPLAY_OK", lock["protocol_fingerprint"])
+          PY
