@@ -1,0 +1,96 @@
+{
+  "schema": "structural.public_isar_synthesis_response_access_incident.v0_1",
+  "status": "TERMINAL_PROSPECTIVE_EXCLUSION_RESPONSE_EXPOSED_BEFORE_PROTOCOL_FREEZE",
+  "external_source": {
+    "repository": "chase-lab/ISAR_synthesis",
+    "commit": "ea34e60c8b85ae6df6cfaadbdc49398707b63acd",
+    "article": "Synthesis reveals that island species-area relationships emerge from processes beyond passive sampling",
+    "dryad_doi": "10.5061/dryad.pnvx0k6n0"
+  },
+  "intended_study_family": "within-archipelago relative source isolation x stepping-stone topology",
+  "metadata_preflight": {
+    "metadata_file": "data/env_file_UTF-8.csv",
+    "metadata_rows": 644,
+    "true_island_studies_with_metadata": 22,
+    "response_blind_geometry_eligible_studies": 17,
+    "eligibility_rule": [
+      "island_type == True Island",
+      "complete island latitude/longitude and positive area",
+      ">=10 islands with geometry",
+      ">=9 focal islands having at least one strictly larger-area source island",
+      ">=3 islands with positive response-independent minimax stepping-stone gain",
+      "predictor-only five-column matrix full rank: intercept + z(log area) + z(log direct larger-source distance) + z(topology gain) + interaction"
+    ],
+    "eligible_geology_counts": {
+      "volcanic": 14,
+      "continental": 3
+    },
+    "eligible_taxa_counts": {
+      "Plants": 2,
+      "Invertebrates": 4,
+      "Birds": 2,
+      "Beetles": 5,
+      "Herpetofauna": 4
+    },
+    "eligible_studies": [
+      "Schrader_2019",
+      "Xu_2017",
+      "Davidar_2001",
+      "Kotze_2000",
+      "Choi_2011",
+      "Rangasamy_frogs_2014",
+      "Rangasamy_lizards_2014",
+      "Surendran_Vasudevan_2015_frogs",
+      "Surendran_Vasudevan_2015_lizards",
+      "Hatteland_2008_data",
+      "Schilthuizen_2013",
+      "Evans_2016",
+      "Karger_2014",
+      "Devy_1998",
+      "As_1984",
+      "Puspitasari_2016",
+      "Waqasakiti_2018"
+    ],
+    "response_values_used_in_eligibility": false
+  },
+  "incident": {
+    "trigger": "GitHub fetch_commit on the external repository commit was used to obtain response-file identities, but the commit API response included file patches/content for changed response matrices.",
+    "response_directory_families": [
+      "data/ISAR_datasets/ISAR_datasets_N10/",
+      "data/ISAR_datasets/ISAR_datasets_N20/"
+    ],
+    "response_matrix_paths_returned": 68,
+    "N10_matrices_returned": 34,
+    "N20_matrices_returned": 34,
+    "distinct_study_ids": 34,
+    "visible_patch_examples": [
+      "Andrade_2002",
+      "As_1984",
+      "Barun_2010",
+      "Bell_2017",
+      "Borges_2016"
+    ],
+    "protocol_frozen_before_access": false,
+    "response_surface_exposed": true,
+    "outcome_direction_scored": false,
+    "model_fitted": false,
+    "effect_size": null,
+    "prediction_score": null
+  },
+  "evidence_boundary": {
+    "prospective_confirmatory_use_authorized": false,
+    "response_family_may_be_used_to_rescue_structural": false,
+    "metadata_only_design_lessons_may_be_retained": true,
+    "future_analysis_of_this_response_family": "exploratory_only",
+    "fresh_public_system_required_for_prospective_test": true
+  },
+  "scientific_design_lesson": {
+    "source_definition": "for focal island i, source candidates are islands in the same independent study with strictly larger land area",
+    "direct_source_isolation": "great-circle distance from focal island to nearest larger-area island",
+    "stepping_stone_bottleneck": "minimum possible largest inter-island step from focal island to any larger-area source through the complete island network",
+    "topology_gain": "log1p(direct source distance) - log1p(minimax bottleneck distance)",
+    "intended_estimand": "within-archipelago topology_gain x relative direct-source-isolation interaction, aggregated with equal archipelago weight",
+    "reason": "separates within-archipelago topology from between-archipelago absolute isolation/history"
+  },
+  "terminal_rule": "Do not freeze or run a prospective confirmatory protocol on any N10/N20 response matrix from this source. Do not use its response direction to choose thresholds, studies, taxa, topology definition or model. Preserve only the response-blind metadata feasibility lesson."
+}
