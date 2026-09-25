@@ -1,0 +1,122 @@
+name: ISAR relative-topology one-shot response
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/isar_relative_topology/**"
+      - ".github/workflows/isar-relative-topology-one-shot.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: isar-relative-topology-one-shot-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  response:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen numerical dependency
+        run: python -m pip install numpy
+      - name: Compile exact one-shot runner
+        run: python -m py_compile research/isar_relative_topology/run_one_shot_v0_1.py
+      - name: Replay frozen metadata census
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/isar_relative_topology/metadata_census_v0_1.py \
+            --contamination research/isar_relative_topology/response_contamination_v0_1.json \
+            | tee isar_relative_topology_census.json
+      - name: Replay frozen H1 protocol
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/isar_relative_topology/freeze_protocol_v0_1.py \
+            --census isar_relative_topology_census.json \
+            --contamination research/isar_relative_topology/response_contamination_v0_1.json \
+            | tee isar_relative_topology_protocol.json
+      - name: Verify exact one-shot authorization before response
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          census=json.load(open("isar_relative_topology_census.json"))
+          protocol=json.load(open("isar_relative_topology_protocol.json"))
+          lock=json.load(open("research/isar_relative_topology/pre_response_lock_v0_1.json"))
+          auth=json.load(open("research/isar_relative_topology/one_shot_authorization_v0_1.json"))
+          assert auth["schema"] == "structural.isar_relative_topology_one_shot_authorization.v0_1"
+          assert auth["status"] == "AUTHORIZED_FOR_EXACT_ONE_SHOT_RESPONSE"
+          assert auth["response_values_accessed"] is False
+          assert auth["abundance_files_opened"] is False
+          observed=subprocess.check_output(["git","hash-object",auth["runner_path"]],text=True).strip()
+          assert observed == auth["runner_git_blob_sha"] == "df0f247b4852b65ac82d2ac2f08ea4f0eda5d40f"
+          assert census["census_fingerprint"] == lock["census_fingerprint"] == auth["census_fingerprint"]
+          assert protocol["protocol_fingerprint"] == lock["protocol_fingerprint"] == auth["protocol_fingerprint"]
+          assert auth["bootstrap_draws_sha256"] == protocol["bootstrap"]["accepted_draws_sha256"] == lock["bootstrap"]["accepted_draws_sha256"]
+          assert lock["authorization"]["one_shot_fresh_response_authorized"] is True
+          assert lock["authorization"]["post_response_study_dropping_authorized"] is False
+          assert lock["authorization"]["post_response_retuning_authorized"] is False
+          assert lock["authorization"]["rerun_after_any_abundance_file_opened"] is False
+          assert len(census["response_surfaces"]) == auth["authorization"]["exact_fresh_study_count"] == 10
+          assert all(x["opened"] is False for x in census["response_surfaces"])
+          print("EXACT_ISAR_ONE_SHOT_AUTHORIZATION_OK", protocol["protocol_fingerprint"])
+          PY
+      - name: Open ten frozen fresh responses and score H1 once
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/isar_relative_topology/run_one_shot_v0_1.py \
+            --census isar_relative_topology_census.json \
+            --protocol isar_relative_topology_protocol.json \
+            --lock research/isar_relative_topology/pre_response_lock_v0_1.json \
+            --raw-dir isar_relative_topology_raw \
+            | tee isar_relative_topology_outcome.json
+      - name: Validate one-shot evidence boundary
+        run: |
+          python - <<'PY'
+          import json, math
+          x=json.load(open("isar_relative_topology_outcome.json"))
+          assert x["schema"] == "structural.isar_relative_topology_outcome.v0_1"
+          assert x["census_fingerprint"] == "23d726b895845753006c15529871dce89a38e9c93b94d515628a86b5b4a15ec3"
+          assert x["protocol_fingerprint"] == "2aa38abac0c706d639e34135373188628e9e9ec63846aa6926c892a8b3e0c285"
+          assert x["response_access"]["abundance_response_opened"] is True
+          assert x["post_response_retuning_authorized"] is False if "post_response_retuning_authorized" in x else True
+          assert len(x["outcome_fingerprint"]) == 64
+          if x["status"] == "ONE_SHOT_FRESH_RESPONSE_SCORED":
+              assert x["response_access"]["opened_study_count"] == 10
+              assert x["response_access"]["all_frozen_surfaces_opened"] is True
+              assert x["response_access"]["excluded_contaminated_surfaces_opened"] is False
+              assert x["model"]["target"] == "topology_x_relative_isolation"
+              assert x["model"]["rank"] == 5
+              assert math.isfinite(x["H1_primary"]["estimate"])
+              assert len(x["H1_primary"]["bootstrap_95_ci"]) == 2
+              assert isinstance(x["H1_primary"]["supported"], bool)
+              assert x["bootstrap"]["replicates"] == 10000
+              assert x["bootstrap"]["accepted_draws_sha256"] == "26f23f36d94b83bca45749c8ba0527a50bb63a207ac6dd5d73a962738b2bd9ed"
+              assert x["rerun_authorized"] is False
+              print("ISAR_ONE_SHOT_SCORED", x["H1_primary"], x["outcome_fingerprint"])
+          elif x["status"] == "TERMINAL_STOP_RESPONSE_QUALITY":
+              assert x["H1_primary"]["estimate"] is None
+              assert x["H1_primary"]["bootstrap_95_ci"] is None
+              print("ISAR_ONE_SHOT_TERMINAL_STOP", x["failure"], x["outcome_fingerprint"])
+          else:
+              raise AssertionError(x["status"])
+          PY
+      - name: Preserve immutable one-shot response artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: isar-relative-topology-one-shot-v0-1
+          path: |
+            isar_relative_topology_outcome.json
+            isar_relative_topology_raw/
+            isar_relative_topology_census.json
+            isar_relative_topology_protocol.json
+            research/isar_relative_topology/pre_response_lock_v0_1.json
+            research/isar_relative_topology/one_shot_authorization_v0_1.json
+          retention-days: 90
