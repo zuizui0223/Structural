@@ -1,0 +1,22 @@
+{
+  "schema": "structural.isar_relative_topology_one_shot_authorization.v0_1",
+  "status": "AUTHORIZED_FOR_EXACT_ONE_SHOT_RESPONSE",
+  "frozen_design_commit": "486353f934f68f3ed4205de814d7314f76d1cbc7",
+  "census_fingerprint": "23d726b895845753006c15529871dce89a38e9c93b94d515628a86b5b4a15ec3",
+  "protocol_fingerprint": "2aa38abac0c706d639e34135373188628e9e9ec63846aa6926c892a8b3e0c285",
+  "bootstrap_draws_sha256": "26f23f36d94b83bca45749c8ba0527a50bb63a207ac6dd5d73a962738b2bd9ed",
+  "runner_path": "research/isar_relative_topology/run_one_shot_v0_1.py",
+  "runner_git_blob_sha": "df0f247b4852b65ac82d2ac2f08ea4f0eda5d40f",
+  "response_values_accessed": false,
+  "abundance_files_opened": false,
+  "authorization": {
+    "exact_fresh_study_count": 10,
+    "excluded_contaminated_study_count": 8,
+    "response_quality_failure_policy": "terminal stop with no H1 scoring; no study dropping and no rerun",
+    "H1_scoring_if_and_only_if_all_quality_gates_pass": true,
+    "post_response_retuning": false,
+    "rerun_after_response_access": false
+  },
+  "execution_rule": "replay exact metadata census, protocol, and committed pre-response lock; verify exact runner blob; then open only the ten frozen fresh response paths at the frozen source commit exactly once",
+  "evidence_rule": "one-shot output may report only the frozen primary H1 plus response-quality diagnostics; secondary analyses are not part of this execution"
+}
