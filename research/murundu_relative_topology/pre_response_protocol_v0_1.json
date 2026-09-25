@@ -78,7 +78,14 @@
       "minimum_geometry_qualified_plots": 8,
       "minimum_total_geometry_qualified_focal_murundus": 200
     },
-    "failure_rule": "terminal STOP before response column parsing; do not change source rule, topology metric, thresholds, plot membership, or model"
+    "failure_rule": "terminal STOP before response column parsing; do not change source rule, topology metric, thresholds, plot membership, or model",
+    "row_eligibility": {
+      "graph_nodes": "nonmissing Plots, X, Y, Area_Mur_m2 with Area_Mur_m2 > 0",
+      "model_focals": "graph node plus nonmissing Height_Mur with Height_Mur >= 0 and at least one strictly larger-area graph-node source",
+      "source_nodes": "any graph node in same plot with strictly larger Area_Mur_m2; Height_Mur is not required for a source/stepping-stone node",
+      "missing_geometry": "excluded before any response parsing and counted explicitly",
+      "duplicate_coordinates": "permitted; great-circle edge distance may be zero"
+    }
   },
   "response_gate": {
     "primary_taxon": "trees only",
@@ -168,5 +175,5 @@
     "change H1 sign or bootstrap settings",
     "use herbs or termites to rescue H1"
   ],
-  "protocol_fingerprint_unsigned": "812b7e4ed75d62f4c82b0ffa850270b2c62e674e48dbde3bc8f68bd7ad8bca96"
+  "protocol_fingerprint_unsigned": "0091ff58b5f52e29451f7c20626eaa96923505935593710953f7fae294512dc7"
 }
