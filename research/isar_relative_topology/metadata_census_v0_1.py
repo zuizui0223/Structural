@@ -407,6 +407,8 @@ def main()->int:
                 "island_type":sorted({r["island_type"] for r in final[sid]}),
                 "island_type2":sorted({r["island_type2"] for r in final[sid]}),
                 "core_island_code":geometries[sid]["core_island_code"],
+                "island_codes":sorted(r["island_code"] for r in final[sid]),
+                "fixed_proportional":sorted({r["fixed_proportional"] for r in final[sid]}),
                 "nonzero_step_gain_islands":sum(r["step_gain_log"]>1e-12 for r in geometries[sid]["rows"]),
                 "scale":geometries[sid]["scale"],
                 "geometry_rows_sha256":canonical_sha(geometries[sid]["rows"]),
