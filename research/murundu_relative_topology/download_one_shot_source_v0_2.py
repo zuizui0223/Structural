@@ -17,7 +17,7 @@ from urllib.parse import urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-AUTH_SCHEMA="structural.murundu_relative_topology_one_shot_authorization.v0_2"
+AUTH_SCHEMA="structural.murundu_relative_topology_one_shot_authorization.v0_1"
 EXPECTED_PROTOCOL="83b6a2539acc7983bb75648eb6c53a913917d5ea50dffdaefceceb3ac8fb6512"
 FILE_ID=4686245
 MAX_BYTES=1024*1024
@@ -78,7 +78,7 @@ def main()->int:
         raise RuntimeError("Dryad file-id drift")
 
     source=auth.get("source",{})
-    if source.get("identity_mode")!="dryad_doi_version_filename_fileid_manifest_digest":
+    if source.get("identity_mode")!="dryad_doi_version_filename_first_access_hash":
         raise RuntimeError("source identity mode drift")
     if source.get("doi")!="10.5061/dryad.612jm64kr":
         raise RuntimeError("Dryad DOI drift")
