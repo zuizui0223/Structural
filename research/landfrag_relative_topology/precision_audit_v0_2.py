@@ -89,7 +89,34 @@ def main():
         "studies":studies,
         "clusters":clusters,
     }
-    payload["precision_fingerprint"]=sha(payload)
+    fingerprint_core={
+        "schema":"structural.landfrag_relative_topology_precision_identity.v0_2",
+        "census_fingerprint":x["census_fingerprint"],
+        "target":TARGET,
+        "study_count":len(studies),
+        "geography_cluster_count":G,
+        "cluster_membership":{
+            cid:clusters[cid]["studies"] for cid in sorted(clusters)
+        },
+        "algorithm":{
+            "study_variance":"target diagonal of inverse(X'X) under unit residual variance",
+            "within_geography":"perfect positive correlation conservative SE bound for equal-study mean",
+            "across_geography":"independent equal-geography mean",
+            "z975":Z975,
+            "z80":Z80,
+        },
+        "rounded_global_summary_12dp":{
+            "se_bound":round(global_se,12),
+            "halfwidth_95":round(halfwidth,12),
+            "mde_alpha05_power80":round(mde80,12),
+        },
+    }
+    payload["precision_fingerprint_semantics"]={
+        "excludes":"full-precision per-study/per-cluster floating diagnostics because LAPACK/BLAS may differ at machine precision",
+        "includes":"census identity, target, cluster membership, algorithm constants and 12-decimal global design-precision summary",
+    }
+    payload["precision_fingerprint_core"]=fingerprint_core
+    payload["precision_fingerprint"]=sha(fingerprint_core)
     print(json.dumps(payload,indent=2,sort_keys=True))
 
 if __name__=="__main__":
