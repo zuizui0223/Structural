@@ -1,0 +1,51 @@
+name: Murundu Dryad transport diagnostic
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/murundu_relative_topology/diagnose_dryad_transport_v0_1.py"
+      - ".github/workflows/murundu-dryad-transport-diagnostic.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install metadata-only transport dependencies
+        run: python -m pip install requests beautifulsoup4
+      - name: Run response-body-free transport diagnostic
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/murundu_relative_topology/diagnose_dryad_transport_v0_1.py             | tee murundu_dryad_transport_diagnostic.json
+      - name: Assert no workbook body was read
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("murundu_dryad_transport_diagnostic.json"))
+          assert x["schema"] == "structural.murundu_dryad_transport_diagnostic.v0_1"
+          assert x["status"] == "RESPONSE_BODY_UNREAD_TRANSPORT_DIAGNOSTIC"
+          assert x["response_values_accessed"] is False
+          assert x["workbook_bytes_read"] == 0
+          assert x["file_api"]["path"] == "Ecological_Data.xlsx"
+          assert x["file_api"]["id"] == 4686245
+          assert x["file_api"]["digestType"].lower() == "sha-256"
+          assert len(x["file_api"]["digest"]) == 64
+          print("MURUNDU_TRANSPORT_DIAGNOSTIC_OK")
+          print("FILE_API",x["file_api"])
+          print("VERSIONS",x["versions"])
+          print("PROBES",x["header_only_probes"])
+          PY
+      - name: Preserve transport diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: murundu-dryad-transport-diagnostic-v0-1
+          path: murundu_dryad_transport_diagnostic.json
+          retention-days: 90
