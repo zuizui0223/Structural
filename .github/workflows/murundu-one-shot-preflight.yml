@@ -1,0 +1,57 @@
+name: Murundu one-shot code preflight
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/murundu_relative_topology/**"
+      - ".github/workflows/murundu-one-shot-preflight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Replay frozen protocol lock
+        run: |
+          python research/murundu_relative_topology/validate_pre_response_protocol_v0_1.py \
+            | tee murundu_protocol_validation.json
+      - name: Compile one-shot code without executing it
+        run: |
+          python -m py_compile research/murundu_relative_topology/run_one_shot_v0_1.py
+          python -m py_compile research/murundu_relative_topology/download_one_shot_source_v0_1.py
+      - name: Assert one-shot evidence boundary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          protocol=json.load(open("research/murundu_relative_topology/pre_response_protocol_v0_1.json"))
+          assert protocol["protocol_fingerprint_unsigned"] == "83b6a2539acc7983bb75648eb6c53a913917d5ea50dffdaefceceb3ac8fb6512"
+          runner=Path("research/murundu_relative_topology/run_one_shot_v0_1.py").read_text()
+          downloader=Path("research/murundu_relative_topology/download_one_shot_source_v0_1.py").read_text()
+          assert 'PRIMARY_RESPONSE="Richness.Trees"' in runner
+          assert "Richness.HERBs" not in runner
+          assert "Richness.termites" not in runner
+          assert 'EXPECTED_PROTOCOL="83b6a2539acc7983bb75648eb6c53a913917d5ea50dffdaefceceb3ac8fb6512"' in runner
+          assert '"Ecological_Data.xlsx"' in downloader
+          assert '"10.5061/dryad.612jm64kr"' in downloader
+          assert '"2026-04-02"' in downloader
+          assert '"195.16 KB"' in downloader
+          print("MURUNDU_ONE_SHOT_CODE_PREFLIGHT_OK")
+          PY
+      - name: Assert preflight itself cannot open response
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          wf=Path(".github/workflows/murundu-one-shot-preflight.yml").read_text()
+          assert "run_one_shot_v0_1.py --" not in wf
+          assert "download_one_shot_source_v0_1.py --" not in wf
+          assert "actions/download-artifact" not in wf
+          print("NO_RESPONSE_ACCESS_IN_PREFLIGHT")
+          PY
