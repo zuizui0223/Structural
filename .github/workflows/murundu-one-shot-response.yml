@@ -1,0 +1,156 @@
+name: Murundu relative-topology one-shot response
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/murundu_relative_topology/**"
+      - ".github/workflows/murundu-one-shot-response.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: murundu-one-shot-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  response:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen one-shot dependencies
+        run: python -m pip install numpy openpyxl requests beautifulsoup4
+      - name: Replay frozen protocol validation
+        run: |
+          python research/murundu_relative_topology/validate_pre_response_protocol_v0_1.py             | tee murundu_protocol_validation.json
+      - name: Verify exact one-shot authorization and code blobs
+        run: |
+          python - <<'PY'
+          import hashlib, json, subprocess
+          from pathlib import Path
+
+          p=Path("research/murundu_relative_topology/one_shot_authorization_v0_1.json")
+          auth=json.loads(p.read_text())
+          assert auth["schema"] == "structural.murundu_relative_topology_one_shot_authorization.v0_1"
+          assert auth["status"] == "AUTHORIZED_FOR_ONE_SHOT_WORKBOOK_ACCESS"
+          assert auth["response_values_accessed"] is False
+          assert auth["preflight_green_commit"] == "b52b7697931d43f51cc35968630a4066d07aaa58"
+          assert auth["preflight_workflow_run_id"] == 36090453330
+          assert auth["preflight_job_id"] == 107931568754
+          assert auth["protocol_fingerprint"] == "83b6a2539acc7983bb75648eb6c53a913917d5ea50dffdaefceceb3ac8fb6512"
+
+          unsigned=dict(auth)
+          expected=unsigned.pop("authorization_fingerprint")
+          observed=hashlib.sha256(
+              json.dumps(unsigned,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+          ).hexdigest()
+          assert observed == expected == "a7b66501fee7d3f71471f0b4547c53a139701c77478c6133464172333f2daf82"
+
+          for path,key in [
+              (auth["protocol_path"],"protocol_git_blob_sha"),
+              (auth["runner_path"],"runner_git_blob_sha"),
+              (auth["downloader_path"],"downloader_git_blob_sha"),
+          ]:
+              blob=subprocess.check_output(["git","hash-object",path],text=True).strip()
+              assert blob == auth[key], (path,blob,auth[key])
+
+          assert auth["authorization"]["one_shot_workbook_download"] is True
+          assert auth["authorization"]["primary_response_parse_only_after_geometry_pass"] is True
+          assert auth["authorization"]["herb_or_termite_response_parse"] is False
+          assert auth["authorization"]["rerun_after_any_workbook_download"] is False
+          assert auth["authorization"]["post_response_retuning"] is False
+          print("EXACT_MURUNDU_ONE_SHOT_AUTHORIZATION_OK",expected)
+          PY
+      - name: Download frozen Dryad workbook exactly once
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p murundu_one_shot
+          python research/murundu_relative_topology/download_one_shot_source_v0_1.py             --authorization research/murundu_relative_topology/one_shot_authorization_v0_1.json             --output murundu_one_shot/Ecological_Data.xlsx             --receipt murundu_source_access.json             | tee murundu_source_access_stdout.json
+      - name: Execute frozen geometry gate and tree-richness H1 once
+        shell: bash
+        run: |
+          set +e
+          set -o pipefail
+          python research/murundu_relative_topology/run_one_shot_v0_1.py             --xlsx murundu_one_shot/Ecological_Data.xlsx             --protocol research/murundu_relative_topology/pre_response_protocol_v0_1.json             --authorization research/murundu_relative_topology/one_shot_authorization_v0_1.json             | tee murundu_outcome.json
+          rc=${PIPESTATUS[0]}
+          echo "MURUNDU_ONE_SHOT_RC=${rc}" >> "${GITHUB_ENV}"
+          exit 0
+      - name: Validate one-shot evidence boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          source=json.load(open("murundu_source_access.json"))
+          assert source["schema"] == "structural.murundu_relative_topology_source_access.v0_1"
+          assert source["status"] == "ONE_SHOT_WORKBOOK_DOWNLOADED"
+          assert source["response_access"]["workbook_downloaded"] is True
+          assert source["response_access"]["workbook_parsed"] is False
+          assert source["response_access"]["primary_response_column_parsed"] is False
+          assert source["response_access"]["herb_or_termite_response_parsed"] is False
+          assert len(source["download"]["sha256"]) == 64
+          assert source["download"]["bytes"] > 0
+
+          out_path=Path("murundu_outcome.json")
+          assert out_path.exists() and out_path.stat().st_size > 0
+          out=json.load(open(out_path))
+          assert out["schema"] == "structural.murundu_relative_topology_outcome.v0_1"
+          assert out["protocol_fingerprint"] == "83b6a2539acc7983bb75648eb6c53a913917d5ea50dffdaefceceb3ac8fb6512"
+          assert out["response_access"]["workbook_opened"] is True
+          assert out["response_access"]["herb_response_parsed"] is False
+          assert out["response_access"]["termite_response_parsed"] is False
+          assert out["source"]["sha256_first_access"] == source["download"]["sha256"]
+          assert out["source"]["bytes_first_access"] == source["download"]["bytes"]
+          assert len(out["outcome_fingerprint"]) == 64
+
+          allowed={
+              "ONE_SHOT_TOPOLOGY_EXTENSION_SCORED",
+              "TERMINAL_STOP_GEOMETRY_NON_ESTIMABLE",
+              "TERMINAL_STOP_RESPONSE_DESIGN_NON_ESTIMABLE",
+          }
+          assert out["status"] in allowed
+          if out["status"] == "ONE_SHOT_TOPOLOGY_EXTENSION_SCORED":
+              assert out["response_access"]["primary_response_column_parsed"] is True
+              assert out["H1_primary"] is not None
+              assert len(out["H1_primary"]["bootstrap_95_ci"]) == 2
+              assert isinstance(out["H1_primary"]["supported"],bool)
+          elif out["status"] == "TERMINAL_STOP_GEOMETRY_NON_ESTIMABLE":
+              assert out["response_access"]["primary_response_column_parsed"] is False
+              assert out["H1_primary"] is None
+          else:
+              assert out["response_access"]["primary_response_column_parsed"] is True
+              assert out["H1_primary"] is None
+
+          print("MURUNDU_ONE_SHOT_OUTCOME_VALID",out["status"],out["outcome_fingerprint"])
+          print("GEOMETRY",out["geometry_gate"])
+          print("RESPONSE_GATE",out.get("response_gate"))
+          print("H1",out.get("H1_primary"))
+          PY
+      - name: Preserve one-shot source and outcome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: murundu-relative-topology-one-shot-v0-1
+          path: |
+            murundu_one_shot/Ecological_Data.xlsx
+            murundu_source_access.json
+            murundu_source_access_stdout.json
+            murundu_outcome.json
+            murundu_protocol_validation.json
+            research/murundu_relative_topology/pre_response_protocol_v0_1.json
+            research/murundu_relative_topology/one_shot_authorization_v0_1.json
+          retention-days: 90
+      - name: Adjudicate one-shot outcome
+        run: |
+          python - <<'PY'
+          import json
+          out=json.load(open("murundu_outcome.json"))
+          print("MURUNDU_ONE_SHOT",out["status"])
+          if out["status"] != "ONE_SHOT_TOPOLOGY_EXTENSION_SCORED":
+              raise SystemExit(2)
+          PY
