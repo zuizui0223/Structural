@@ -89,12 +89,15 @@
     "per_plot": {
       "minimum_nonmissing_fraction_of_geometry_qualified_focals": 0.9,
       "minimum_nonmissing_rows": 15,
-      "response_sd_gt": 1e-12
+      "response_sd_gt": 1e-12,
+      "full_column_rank_required_after_missing_filter": true,
+      "maximum_condition_number_after_missing_filter": 100,
+      "target_column_must_be_retained": true
     },
     "study_pass": {
       "minimum_response_qualified_plots": 8
     },
-    "failure_rule": "terminal STOP with no H1 estimate; do not loosen response-completeness requirements"
+    "failure_rule": "terminal STOP with no H1 estimate if fewer than 8 plots pass response completeness/design; do not loosen response-completeness or rank requirements"
   },
   "per_plot_model": {
     "family": "ordinary least squares on within-plot z(log1p tree richness)",
@@ -165,5 +168,5 @@
     "change H1 sign or bootstrap settings",
     "use herbs or termites to rescue H1"
   ],
-  "protocol_fingerprint_unsigned": "213fb7515cd62aa3a9e1485895a3668acab8574fbe9d4a4963f9040d7e6ec176"
+  "protocol_fingerprint_unsigned": "812b7e4ed75d62f4c82b0ffa850270b2c62e674e48dbde3bc8f68bd7ad8bca96"
 }
