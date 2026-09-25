@@ -25,7 +25,9 @@ jobs:
       - name: Install predictor-only dependency
         run: python -m pip install numpy
       - name: Run metadata-only geometry census
+        shell: bash
         run: |
+          set -o pipefail
           python research/isar_relative_topology/metadata_census_v0_1.py \
             --contamination research/isar_relative_topology/response_contamination_v0_1.json \
             | tee isar_relative_topology_census.json
