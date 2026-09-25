@@ -92,6 +92,28 @@ jobs:
               "mde80":p["unit_residual_two_sided_alpha05_power80_mde"],
           })
           PY
+      - name: Replay exact v0.2 pre-response lock
+        run: |
+          python - <<'PY'
+          import json
+          census=json.load(open("landfrag_v02_census.json"))
+          precision=json.load(open("landfrag_v02_precision.json"))
+          protocol=json.load(open("landfrag_v02_protocol.json"))
+          lock=json.load(open("research/landfrag_relative_topology/pre_response_lock_v0_2.json"))
+          assert lock["schema"] == "structural.landfrag_relative_topology_pre_response_lock.v0_2"
+          assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_MONOLITHIC_ABUNDANCE_ACCESS"
+          assert lock["response_values_accessed"] is False
+          assert lock["abundance_file_opened"] is False
+          assert lock["census_fingerprint"] == census["census_fingerprint"] == "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b"
+          assert lock["precision_fingerprint"] == precision["precision_fingerprint"] == "5855b47a987f8aca9be838bae7293e4a28baaaaf0d4292dade7e099cd09d7bc3"
+          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"] == "cf753b3038ff1a59dbc8c7808ca41285d751c5c735d55d60a5c37749036b2ab1"
+          assert lock["response_surface"]["git_blob_sha"] == census["response_surface"]["git_blob_sha"] == "abfdd21712b7f221207e25e62b623e8a8a901a55"
+          assert lock["panel"]["geography_clusters"] == census["selection"]["independent_geography_clusters"] == 34
+          assert lock["panel"]["studies"] == census["selection"]["geometry_qualified_studies"] == 38
+          assert lock["authorization"]["one_shot_monolithic_abundance_access_authorized"] is True
+          assert lock["authorization"]["rerun_after_any_abundance_bytes_opened"] is False
+          print("LANDFRAG_V02_LOCK_REPLAY_OK",lock["protocol_fingerprint"])
+          PY
       - name: Assert no abundance access path in freeze
         run: |
           python - <<'PY'
