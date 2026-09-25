@@ -1,0 +1,169 @@
+{
+  "schema": "structural.murundu_relative_topology_protocol.v0_1",
+  "status": "FROZEN_BEFORE_DRYAD_RESPONSE_ACCESS",
+  "study_role": "prospective_topology_extension_not_independent_Structural_confirmation",
+  "selection_provenance": {
+    "dataset_doi": "10.5061/dryad.612jm64kr",
+    "dryad_version_date": "2026-04-02",
+    "dataset_title": "Data and code from: Unravelling the drivers of island species richness in tropical savannas",
+    "primary_file": "Ecological_Data.xlsx",
+    "primary_file_display_size": "195.16 KB",
+    "declared_rows": 373,
+    "declared_plots": [
+      "CM1",
+      "CM2",
+      "CM3",
+      "CM4",
+      "CM5",
+      "CM6",
+      "CM7",
+      "CM8",
+      "CM9",
+      "CM10",
+      "CM11"
+    ],
+    "response_values_accessed": false,
+    "published_information_already_known": "the source article reports weak/no direct-isolation effects on richness; this known result is not the target and prevents counting this study as independent Structural confirmation"
+  },
+  "response_firewall": {
+    "workbook_opened": false,
+    "response_columns_opened": false,
+    "response_matrix_opened": false,
+    "primary_response_column": "Richness.Trees",
+    "no_herb_or_termite_result_can_rescue_primary": true,
+    "one_shot_access_only": true
+  },
+  "spatial_unit": {
+    "unit": "murundu habitat island",
+    "replication_unit": "1-ha plot",
+    "plot_count_declared": 11,
+    "coordinates": [
+      "X",
+      "Y"
+    ],
+    "area": "Area_Mur_m2",
+    "physical_reference_covariates": [
+      "Height_Mur"
+    ],
+    "coordinate_semantics": "decimal-degree murundu centroid coordinates as documented by Dryad README"
+  },
+  "source_topology": {
+    "source_set": "within the same plot, all murundus with strictly larger Area_Mur_m2 than the focal murundu",
+    "largest_ties": "any focal murundu with no strictly larger source is excluded before response scoring",
+    "direct_source_isolation": "great-circle distance in metres to the nearest strictly larger-area murundu within the same plot",
+    "graph": "complete graph of all murundus in the same plot with great-circle inter-murundu distance as edge weight",
+    "minimax_bottleneck": "minimum over all paths from the focal murundu to any strictly larger-area source of the maximum edge length along the path",
+    "topology_gain": "log1p(direct_source_isolation_m) - log1p(minimax_bottleneck_m); constrained nonnegative",
+    "interpretation": "reduction in the hardest movement step provided by intermediate habitat islands; not a dispersal probability"
+  },
+  "geometry_gate": {
+    "uses_response": false,
+    "per_plot": {
+      "minimum_focal_murundus": 15,
+      "minimum_positive_topology_gain": 5,
+      "direct_source_log_sd_gt": 1e-12,
+      "topology_gain_sd_gt": 1e-12,
+      "design_columns": [
+        "intercept",
+        "z_log_area",
+        "z_log1p_height",
+        "z_log1p_direct_source_isolation",
+        "z_topology_gain",
+        "direct_x_gain"
+      ],
+      "full_column_rank_required": true,
+      "maximum_condition_number": 100
+    },
+    "study_pass": {
+      "minimum_geometry_qualified_plots": 8,
+      "minimum_total_geometry_qualified_focal_murundus": 200
+    },
+    "failure_rule": "terminal STOP before response column parsing; do not change source rule, topology metric, thresholds, plot membership, or model"
+  },
+  "response_gate": {
+    "primary_taxon": "trees only",
+    "response": "Richness.Trees",
+    "transform": "within each response-qualified plot, z-standardize log1p(Richness.Trees) using population SD ddof=0",
+    "missing_values": "remain missing and are never converted to zero",
+    "zero_richness": "allowed as observed zero and transformed via log1p",
+    "per_plot": {
+      "minimum_nonmissing_fraction_of_geometry_qualified_focals": 0.9,
+      "minimum_nonmissing_rows": 15,
+      "response_sd_gt": 1e-12
+    },
+    "study_pass": {
+      "minimum_response_qualified_plots": 8
+    },
+    "failure_rule": "terminal STOP with no H1 estimate; do not loosen response-completeness requirements"
+  },
+  "per_plot_model": {
+    "family": "ordinary least squares on within-plot z(log1p tree richness)",
+    "continuous_predictor_scaling": "within each geometry-qualified plot, z-standardize using population SD ddof=0 before interactions",
+    "columns": [
+      "intercept",
+      "z_log_area",
+      "z_log1p_height",
+      "z_log1p_direct_source_isolation",
+      "z_topology_gain",
+      "direct_x_gain"
+    ],
+    "target_column": "direct_x_gain",
+    "hyperparameter_tuning": "none",
+    "row_weighting": "equal within plot",
+    "fit_scope": "one independent model per qualified plot"
+  },
+  "H1_primary": {
+    "question": "Does stepping-stone topology buffer the richness cost of relative source isolation within habitat-island metacommunities?",
+    "estimand": "equal-weight mean across response-qualified plots of the per-plot direct_x_gain coefficient",
+    "prediction": "positive",
+    "success_rule": "95% whole-plot bootstrap interval excludes 0 on the positive side",
+    "bootstrap": {
+      "replicates": 10000,
+      "seed": 20260925,
+      "rng": "numpy.default_rng(PCG64)",
+      "quantile_method": "numpy.quantile method=linear"
+    },
+    "secondary_diagnostics": [
+      "fraction of per-plot target coefficients > 0",
+      "leave-one-plot-out equal-weight mean",
+      "per-plot target coefficients"
+    ],
+    "known_source_article_isolation_result_cannot_enter_success_rule": true
+  },
+  "secondary_nonrescuing": {
+    "direct_source_isolation_coefficient": {
+      "prediction": "negative",
+      "cannot_rescue_H1": true
+    },
+    "topology_gain_main_effect": {
+      "prediction": "positive",
+      "cannot_rescue_H1": true
+    },
+    "herb_or_termite_reanalysis": {
+      "authorized": false,
+      "reason": "new response families require a separate pre-response protocol"
+    }
+  },
+  "claim_boundary": {
+    "allowed": "within-plot habitat-island topology association with tree species richness after area and mound height controls",
+    "not_allowed": [
+      "direct dispersal rate",
+      "colonization probability",
+      "causal rescue mechanism",
+      "independent replication of the frozen Structural C-R3 claim",
+      "post-hoc rescue of GIFT or AVONET results"
+    ]
+  },
+  "forbidden_after_workbook_access": [
+    "change source definition",
+    "change topology metric",
+    "change geometry thresholds",
+    "change response taxon from trees",
+    "change response transform",
+    "drop area or height control after seeing outcome",
+    "change plot qualification using response direction",
+    "change H1 sign or bootstrap settings",
+    "use herbs or termites to rescue H1"
+  ],
+  "protocol_fingerprint_unsigned": "213fb7515cd62aa3a9e1485895a3668acab8574fbe9d4a4963f9040d7e6ec176"
+}
