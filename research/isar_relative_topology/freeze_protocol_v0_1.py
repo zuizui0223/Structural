@@ -11,7 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 
-EXPECTED_CENSUS="7def865c885385629c517f22a7a2fe27ab447a6fec7a99a1150c7ba307f2b84b"
+EXPECTED_CENSUS="23d726b895845753006c15529871dce89a38e9c93b94d515628a86b5b4a15ec3"
 TARGET="topology_x_relative_isolation"
 
 def sha(x):
