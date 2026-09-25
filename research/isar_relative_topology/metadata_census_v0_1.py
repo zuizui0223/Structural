@@ -411,6 +411,7 @@ def main()->int:
                 "fixed_proportional":sorted({r["fixed_proportional"] for r in final[sid]}),
                 "nonzero_step_gain_islands":sum(r["step_gain_log"]>1e-12 for r in geometries[sid]["rows"]),
                 "scale":geometries[sid]["scale"],
+                "geometry_rows":geometries[sid]["rows"],
                 "geometry_rows_sha256":canonical_sha(geometries[sid]["rows"]),
             }
             for sid in sorted(final)
