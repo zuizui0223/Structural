@@ -1,0 +1,69 @@
+name: LandFrag v0.2 one-shot code preflight
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/landfrag_relative_topology/**"
+      - ".github/workflows/landfrag-one-shot-preflight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen numerical dependency
+        run: python -m pip install numpy
+      - name: Compile one-shot runner without executing it
+        run: python -m py_compile research/landfrag_relative_topology/run_one_shot_v0_2.py
+      - name: Replay exact frozen design before code authorization
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/landfrag_relative_topology/metadata_census_v0_2.py > landfrag_v02_census.json
+          python research/landfrag_relative_topology/precision_audit_v0_2.py             --census landfrag_v02_census.json > landfrag_v02_precision.json
+          python research/landfrag_relative_topology/freeze_protocol_v0_2.py             --census landfrag_v02_census.json             --precision landfrag_v02_precision.json > landfrag_v02_protocol.json
+          python - <<'PY'
+          import json
+          census=json.load(open("landfrag_v02_census.json"))
+          precision=json.load(open("landfrag_v02_precision.json"))
+          protocol=json.load(open("landfrag_v02_protocol.json"))
+          lock=json.load(open("research/landfrag_relative_topology/pre_response_lock_v0_2.json"))
+          assert census["census_fingerprint"] == lock["census_fingerprint"] == "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b"
+          assert precision["precision_fingerprint"] == lock["precision_fingerprint"] == "9c7fce34c2b9d027caa489ffbaad436241d518854bd2d6300265470a1e81e638"
+          assert protocol["protocol_fingerprint"] == lock["protocol_fingerprint"] == "102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c"
+          assert lock["response_values_accessed"] is False
+          assert lock["abundance_file_opened"] is False
+          assert lock["response_surface"]["git_blob_sha"] == "abfdd21712b7f221207e25e62b623e8a8a901a55"
+          assert lock["authorization"]["one_shot_monolithic_abundance_access_authorized"] is True
+          assert lock["authorization"]["rerun_after_any_abundance_bytes_opened"] is False
+          print("LANDFRAG_EXACT_LOCK_REPLAY_OK")
+          PY
+      - name: Assert one-shot source and evidence boundary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path("research/landfrag_relative_topology/run_one_shot_v0_2.py").read_text()
+          assert 'ABUNDANCE_PATH="data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv"' in p
+          assert 'ABUNDANCE_BLOB="abfdd21712b7f221207e25e62b623e8a8a901a55"' in p
+          assert 'EXPECTED_PROTOCOL="102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c"' in p
+          assert 'AUTH_SCHEMA="structural.landfrag_relative_topology_one_shot_authorization.v0_2"' in p
+          assert p.count("fetch_raw()") == 1
+          assert "ISAR" not in p
+          assert "GIFT" not in p
+          assert "landfrag_studies_jun2024_metrics" not in p
+          assert '"direct_x_gain"' in p
+          assert '"TERMINAL_STOP_RESPONSE_QUALITY"' in p
+          assert '"ONE_SHOT_LANDFRAG_H1_SCORED"' in p
+          print("LANDFRAG_ONE_SHOT_CODE_PREFLIGHT_OK")
+          PY
+      - name: Record no-response preflight boundary
+        run: |
+          echo "NO_LANDFRAG_ABUNDANCE_ACCESS_IN_PREFLIGHT"
+          echo "Only code compilation, frozen metadata replay and static assertions were executed."
