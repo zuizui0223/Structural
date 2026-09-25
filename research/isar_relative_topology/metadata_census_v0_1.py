@@ -251,7 +251,12 @@ def main()->int:
     raw=fetch_raw(ENV_PATH)
     if git_blob_sha(raw)!=ENV_GIT_BLOB_SHA:
         raise RuntimeError("environment metadata Git blob drift")
-    text=raw.decode("utf-8-sig")
+    try:
+        text=raw.decode("utf-8-sig")
+        source_encoding="utf-8-sig"
+    except UnicodeDecodeError:
+        text=raw.decode("cp1252")
+        source_encoding="cp1252"
     rows=list(csv.DictReader(io.StringIO(text)))
     if len(rows)!=644:
         raise RuntimeError(f"expected 644 metadata rows, got {len(rows)}")
@@ -344,6 +349,7 @@ def main()->int:
             "environment_path":ENV_PATH,
             "environment_git_blob_sha":ENV_GIT_BLOB_SHA,
             "environment_sha256":hashlib.sha256(raw).hexdigest(),
+            "decoded_as":source_encoding,
             "metadata_rows":len(rows),
         },
         "response_values_accessed":False,
