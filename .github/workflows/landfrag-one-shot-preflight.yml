@@ -54,7 +54,7 @@ jobs:
           assert 'ABUNDANCE_BLOB="abfdd21712b7f221207e25e62b623e8a8a901a55"' in p
           assert 'EXPECTED_PROTOCOL="102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c"' in p
           assert 'AUTH_SCHEMA="structural.landfrag_relative_topology_one_shot_authorization.v0_2"' in p
-          assert p.count("fetch_raw()") == 1
+          assert p.count("fetch_raw()") == 2  # definition + exactly one response fetch
           assert "ISAR" not in p
           assert "GIFT" not in p
           assert "landfrag_studies_jun2024_metrics" not in p
