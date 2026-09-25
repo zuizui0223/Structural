@@ -1,0 +1,64 @@
+name: ISAR relative-topology response-blind census
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/isar_relative_topology/**"
+      - ".github/workflows/isar-relative-topology.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: isar-relative-topology-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install predictor-only dependency
+        run: python -m pip install numpy
+      - name: Run metadata-only geometry census
+        run: |
+          python research/isar_relative_topology/metadata_census_v0_1.py \
+            --contamination research/isar_relative_topology/response_contamination_v0_1.json \
+            | tee isar_relative_topology_census.json
+      - name: Assert fresh response remains sealed
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("isar_relative_topology_census.json"))
+          assert x["schema"] == "structural.isar_relative_topology_metadata_census.v0_1"
+          assert x["status"] == "QUALIFIED_RESPONSE_SEALED"
+          assert x["response_values_accessed"] is False
+          assert x["abundance_files_opened"] is False
+          assert x["selection"]["final_geographic_archipelagos"] >= 10
+          assert x["selection"]["final_studies"] >= 10
+          assert x["selection"]["final_islands"] >= 200
+          assert all(x["pre_response_gates"].values())
+          assert x["design"]["rank"] == x["design"]["n_columns"]
+          assert x["design"]["bootstrap"]["replicates"] == 10000
+          assert x["response_open_authorized"] is False
+          assert all(r["opened"] is False for r in x["response_surfaces"])
+          print("ISAR_RESPONSE_SEALED_QUALIFIED", x["census_fingerprint"])
+          print("PANEL", x["selection"])
+          print("DESIGN", x["design"])
+          print("FRESH_SURFACES", [r["study_ID"] for r in x["response_surfaces"]])
+          PY
+      - name: Assert census cannot open abundance matrices
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path("research/isar_relative_topology/metadata_census_v0_1.py").read_text()
+          assert p.count("fetch_raw(") == 2  # definition + the one ENV_PATH call
+          assert "fetch_raw(ENV_PATH)" in p
+          assert 'fetch_raw(r["source_path"])' not in p
+          assert 'fetch_raw(response' not in p
+          print("NO_ABUNDANCE_RESPONSE_ACCESS_PATH")
+          PY
