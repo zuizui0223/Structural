@@ -351,6 +351,7 @@ def main()->int:
             "environment_sha256":hashlib.sha256(raw).hexdigest(),
             "decoded_as":source_encoding,
             "metadata_rows":len(rows),
+            "text_encoding":text_encoding,
         },
         "response_values_accessed":False,
         "abundance_files_opened":False,
