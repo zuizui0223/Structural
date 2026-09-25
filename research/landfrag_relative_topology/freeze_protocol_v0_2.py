@@ -56,7 +56,19 @@ def main():
             "per_study_geometry_rules_changed":False,
             "v0_2_minimum_geographies":30,
             "precision_audit_fingerprint":precision["precision_fingerprint"],
-            "precision_audit":precision,
+            "precision_summary":{
+                "geography_cluster_count":precision["geography_cluster_count"],
+                "global_unit_residual_target_se_bound_12dp":round(
+                    float(precision["global_unit_residual_target_se_bound"]),12
+                ),
+                "unit_residual_95pct_halfwidth_12dp":round(
+                    float(precision["unit_residual_95pct_halfwidth"]),12
+                ),
+                "unit_residual_two_sided_alpha05_power80_mde_12dp":round(
+                    float(precision["unit_residual_two_sided_alpha05_power80_mde"]),12
+                ),
+                "interpretation":precision["interpretation"],
+            },
         },
         "study_role":"fresh global habitat-fragmentation test of within-landscape relative source isolation x stepping-stone topology",
         "source":census["source"],
@@ -157,7 +169,13 @@ def main():
         "response_open_authorized":False,
         "H1_scoring_authorized":False,
     }
-    protocol["protocol_fingerprint"]=sha(protocol)
+    fingerprint_core=dict(protocol)
+    fingerprint_core["protocol_fingerprint_semantics"]={
+        "precision_binding":"stable precision_audit_fingerprint plus 12-decimal global summary; full LAPACK diagnostics live in the separate precision artifact",
+        "response_design_binding":"all response parsing, gates, model columns, target, geography aggregation and bootstrap settings are included",
+    }
+    protocol["protocol_fingerprint_semantics"]=fingerprint_core["protocol_fingerprint_semantics"]
+    protocol["protocol_fingerprint"]=sha(fingerprint_core)
     print(json.dumps(protocol,indent=2,sort_keys=True))
     return 0
 
