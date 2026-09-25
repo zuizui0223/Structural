@@ -73,6 +73,7 @@ def main():
     file_api=f"https://datadryad.org/api/v2/files/{FILE_ID}"
     file_download=f"{file_api}/download"
     dataset_download=f"{dataset_api}/download"
+    stash_file_stream=f"https://datadryad.org/stash/downloads/file_stream/{FILE_ID}"
     api_headers={**common,"Accept":"application/json","X-API-Version":API_VERSION}
 
     dataset=session.get(dataset_api,headers=api_headers,timeout=90)
@@ -143,6 +144,8 @@ def main():
         ("GET",file_download,{**common,"Accept":"application/octet-stream,*/*","X-API-Version":API_VERSION}),
         ("HEAD",ui_url,browser_download_headers),
         ("GET",ui_url,browser_download_headers),
+        ("HEAD",stash_file_stream,browser_download_headers),
+        ("GET",stash_file_stream,browser_download_headers),
         ("HEAD",dataset_download,{**common,"Accept":"application/zip,*/*","X-API-Version":API_VERSION}),
         ("GET",dataset_download,{**common,"Accept":"application/zip,*/*","X-API-Version":API_VERSION}),
     ]:
@@ -175,7 +178,8 @@ def main():
             "files_by_version":files_by_version,
         },
         "file_api":{
-            "id":file_json.get("id"),
+            "id_field":file_json.get("id"),
+            "self_href":(file_json.get("_links",{}).get("self",{}) or {}).get("href"),
             "path":file_json.get("path"),
             "size":file_json.get("size"),
             "mimeType":file_json.get("mimeType"),
