@@ -30,8 +30,11 @@ jobs:
           p=json.load(open("research/murundu_relative_topology/pre_response_protocol_v0_1.json"))
           assert p["response_firewall"]["workbook_opened"] is False
           assert p["selection_provenance"]["response_values_accessed"] is False
-          wf=Path(".github/workflows/murundu-relative-topology.yml").read_text()
-          forbidden=("requests.get(","urlopen(","openpyxl","pandas.read_","read_excel(","curl ","wget ")
-          assert not any(token in wf for token in forbidden)
-          print("MURUNDU_RESPONSE_SEALED")
+          root=Path("research/murundu_relative_topology")
+          files=sorted(p.name for p in root.iterdir() if p.is_file())
+          assert files == [
+              "pre_response_protocol_v0_1.json",
+              "validate_pre_response_protocol_v0_1.py",
+          ], files
+          print("MURUNDU_RESPONSE_SEALED", files)
           PY
