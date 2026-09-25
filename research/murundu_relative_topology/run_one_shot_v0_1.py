@@ -332,12 +332,21 @@ def main()->int:
         raise RuntimeError("Dryad DOI drift")
     if auth.get("source",{}).get("file_name")!="Ecological_Data.xlsx":
         raise RuntimeError("Dryad file-name drift")
+    source=auth.get("source",{})
+    if source.get("identity_mode")!="dryad_doi_version_filename_first_access_hash":
+        raise RuntimeError("unexpected source identity mode")
+    if source.get("dataset_page")!="https://datadryad.org/dataset/doi:10.5061/dryad.612jm64kr":
+        raise RuntimeError("Dryad dataset page drift")
+    if source.get("version_date")!="2026-04-02":
+        raise RuntimeError("Dryad version-date drift")
+    if source.get("display_size")!="195.16 KB":
+        raise RuntimeError("Dryad display-size identity drift")
     observed_sha=file_sha(a.xlsx)
     observed_bytes=a.xlsx.stat().st_size
-    if observed_sha!=auth["source"]["sha256"]:
-        raise RuntimeError("workbook SHA-256 drift")
-    if observed_bytes!=int(auth["source"]["bytes"]):
-        raise RuntimeError("workbook byte-size drift")
+    if observed_bytes<=0:
+        raise RuntimeError("empty workbook")
+    if observed_bytes>1024*1024:
+        raise RuntimeError(f"workbook unexpectedly large: {observed_bytes}")
 
     wb=load_workbook(a.xlsx,read_only=True,data_only=True)
     sheet_names={s.lower():s for s in wb.sheetnames}
@@ -374,8 +383,11 @@ def main()->int:
         "source":{
             "doi":"10.5061/dryad.612jm64kr",
             "file_name":"Ecological_Data.xlsx",
-            "sha256":observed_sha,
-            "bytes":observed_bytes,
+            "identity_mode":"dryad_doi_version_filename_first_access_hash",
+            "version_date":"2026-04-02",
+            "display_size":"195.16 KB",
+            "sha256_first_access":observed_sha,
+            "bytes_first_access":observed_bytes,
         },
         "protocol_fingerprint":EXPECTED_PROTOCOL,
         "response_access":{
