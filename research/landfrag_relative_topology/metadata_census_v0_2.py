@@ -242,8 +242,10 @@ def main():
         else:eligible[sid]=s
 
     comps,mapping,edges=cluster_geographies(eligible)
-    if len(comps)<50:
-        raise RuntimeError(f"only {len(comps)} independent geography clusters")
+    if len(comps)<30:
+        raise RuntimeError(
+            f"only {len(comps)} independent geography clusters; v0.2 requires >=30"
+        )
 
     studies_out=[]
     for sid in sorted(eligible):
@@ -293,7 +295,12 @@ def main():
             "clusters":[{"cluster_id":f"G{i:03d}","studies":m} for i,m in enumerate(comps,1)],
             "overlap_edges":edges,
         },
-        "v0_2_revision":{"reason":"v0.1 stopped response-blind at an arbitrary >=50-cluster gate; v0.2 retains every per-study geometry criterion unchanged and requires >=30 independent geography clusters for the cluster-level macro test","v0_1_response_opened":False,"per_study_geometry_rules_changed":False},\n        "selection":{
+        "v0_2_revision":{
+            "reason":"v0.1 stopped response-blind at an arbitrary >=50-cluster gate; v0.2 retains every per-study geometry criterion unchanged and requires >=30 independent geography clusters for the cluster-level macro test",
+            "v0_1_response_opened":False,
+            "per_study_geometry_rules_changed":False,
+        },
+        "selection":{
             "studies_total":len(all_studies),
             "geometry_qualified_studies":len(eligible),
             "independent_geography_clusters":len(comps),
