@@ -64,3 +64,27 @@ jobs:
           assert 'fetch_raw(response' not in p
           print("NO_ABUNDANCE_RESPONSE_ACCESS_PATH")
           PY
+      - name: Freeze response and H1 protocol
+        run: |
+          python research/isar_relative_topology/freeze_protocol_v0_1.py \
+            --census isar_relative_topology_census.json \
+            --contamination research/isar_relative_topology/response_contamination_v0_1.json \
+            | tee isar_relative_topology_protocol.json
+      - name: Assert protocol remains response sealed
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("isar_relative_topology_protocol.json"))
+          assert x["schema"] == "structural.isar_relative_topology_protocol.v0_1"
+          assert x["status"] == "FROZEN_BEFORE_FRESH_RESPONSE"
+          assert x["response_values_accessed"] is False
+          assert x["geographic_archipelagos"] == 10
+          assert x["islands"] == 212
+          assert x["predictor_model"]["target"] == "topology_x_relative_isolation"
+          assert x["H1_primary"]["prediction"] == "positive"
+          assert x["bootstrap"]["accepted_draws_sha256"] == "26f23f36d94b83bca45749c8ba0527a50bb63a207ac6dd5d73a962738b2bd9ed"
+          assert x["response_open_authorized"] is False
+          assert x["H1_scoring_authorized"] is False
+          assert len(x["protocol_fingerprint"]) == 64
+          print("ISAR_PROTOCOL_FROZEN", x["protocol_fingerprint"])
+          PY
