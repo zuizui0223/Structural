@@ -65,7 +65,9 @@ jobs:
           print("NO_ABUNDANCE_RESPONSE_ACCESS_PATH")
           PY
       - name: Freeze response and H1 protocol
+        shell: bash
         run: |
+          set -o pipefail
           python research/isar_relative_topology/freeze_protocol_v0_1.py \
             --census isar_relative_topology_census.json \
             --contamination research/isar_relative_topology/response_contamination_v0_1.json \
