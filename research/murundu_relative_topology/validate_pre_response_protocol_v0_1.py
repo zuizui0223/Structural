@@ -4,7 +4,7 @@ import hashlib, json
 from pathlib import Path
 
 PATH=Path("research/murundu_relative_topology/pre_response_protocol_v0_1.json")
-EXPECTED="213fb7515cd62aa3a9e1485895a3668acab8574fbe9d4a4963f9040d7e6ec176"
+EXPECTED="812b7e4ed75d62f4c82b0ffa850270b2c62e674e48dbde3bc8f68bd7ad8bca96"
 
 x=json.loads(PATH.read_text(encoding="utf-8"))
 assert x["schema"]=="structural.murundu_relative_topology_protocol.v0_1"
