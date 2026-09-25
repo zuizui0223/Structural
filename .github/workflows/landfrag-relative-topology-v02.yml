@@ -1,0 +1,108 @@
+name: LandFrag relative-topology v0.2 pre-response freeze
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/landfrag_relative_topology/**"
+      - ".github/workflows/landfrag-relative-topology-v02.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: landfrag-relative-topology-v02-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install predictor-only dependency
+        run: python -m pip install numpy
+      - name: Compile response-blind v0.2 scripts
+        run: |
+          python -m py_compile research/landfrag_relative_topology/metadata_census_v0_2.py
+          python -m py_compile research/landfrag_relative_topology/precision_audit_v0_2.py
+          python -m py_compile research/landfrag_relative_topology/freeze_protocol_v0_2.py
+      - name: Run metadata-only v0.2 census
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/landfrag_relative_topology/metadata_census_v0_2.py             | tee landfrag_v02_census.json
+      - name: Assert stringent study gates stayed unchanged
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open("landfrag_v02_census.json"))
+          assert x["schema"] == "structural.landfrag_relative_topology_metadata.v0_2"
+          assert x["status"] == "QUALIFIED_RESPONSE_SEALED_V0_2"
+          assert x["response_values_accessed"] is False
+          assert x["abundance_file_opened"] is False
+          assert x["v0_2_revision"]["v0_1_response_opened"] is False
+          assert x["v0_2_revision"]["per_study_geometry_rules_changed"] is False
+          g=x["geometry_rules"]
+          assert g["minimum_focals"] == 10
+          assert g["minimum_positive_gain"] == 5
+          assert g["maximum_condition_number"] == 100.0
+          assert x["selection"]["independent_geography_clusters"] >= 30
+          assert x["response_surface"]["opened"] is False
+          print("LANDFRAG_V02_CENSUS_OK",x["census_fingerprint"])
+          print("SELECTION",x["selection"])
+          print("MULTI_STUDY_CLUSTERS",[c for c in x["geography_clustering"]["clusters"] if len(c["studies"])>1])
+          PY
+      - name: Run response-blind precision audit
+        run: |
+          python research/landfrag_relative_topology/precision_audit_v0_2.py             --census landfrag_v02_census.json             | tee landfrag_v02_precision.json
+      - name: Freeze v0.2 response and H1 protocol
+        run: |
+          python research/landfrag_relative_topology/freeze_protocol_v0_2.py             --census landfrag_v02_census.json             --precision landfrag_v02_precision.json             | tee landfrag_v02_protocol.json
+      - name: Assert v0.2 remains response sealed
+        run: |
+          python - <<'PY'
+          import json
+          c=json.load(open("landfrag_v02_census.json"))
+          p=json.load(open("landfrag_v02_precision.json"))
+          x=json.load(open("landfrag_v02_protocol.json"))
+          assert p["status"] == "RESPONSE_BLIND_DESIGN_PRECISION_AUDIT"
+          assert p["response_values_accessed"] is False
+          assert p["geography_cluster_count"] == c["selection"]["independent_geography_clusters"]
+          assert x["schema"] == "structural.landfrag_relative_topology_protocol.v0_2"
+          assert x["status"] == "FROZEN_BEFORE_MONOLITHIC_ABUNDANCE_ACCESS_V0_2"
+          assert x["response_values_accessed"] is False
+          assert x["abundance_file_opened"] is False
+          assert x["v0_2_revision"]["per_study_geometry_rules_changed"] is False
+          assert x["geography_aggregation"]["minimum_response_qualified_geography_clusters"] == 30
+          assert x["study_model"]["target"] == "direct_x_gain"
+          assert x["H1_primary"]["prediction"] == "positive"
+          assert x["bootstrap"]["replicates"] == 10000
+          assert x["bootstrap"]["seed"] == 20260925
+          assert x["response_open_authorized"] is False
+          assert x["H1_scoring_authorized"] is False
+          assert len(x["protocol_fingerprint"]) == 64
+          print("LANDFRAG_V02_PROTOCOL_FROZEN",x["protocol_fingerprint"])
+          print("PRECISION",{
+              "clusters":p["geography_cluster_count"],
+              "unit_residual_se":p["global_unit_residual_target_se_bound"],
+              "halfwidth95":p["unit_residual_95pct_halfwidth"],
+              "mde80":p["unit_residual_two_sided_alpha05_power80_mde"],
+          })
+          PY
+      - name: Assert no abundance access path in freeze
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          a=Path("research/landfrag_relative_topology/metadata_census_v0_2.py").read_text()
+          b=Path("research/landfrag_relative_topology/precision_audit_v0_2.py").read_text()
+          c=Path("research/landfrag_relative_topology/freeze_protocol_v0_2.py").read_text()
+          assert a.count("fetch_raw(") == 2
+          assert "fetch_raw(METADATA_PATH)" in a
+          assert "fetch_raw(ABUNDANCE_PATH)" not in a
+          assert "urlopen" not in b
+          assert "urlopen" not in c
+          print("LANDFRAG_RESPONSE_STILL_SEALED")
+          PY
