@@ -420,7 +420,13 @@ def main()->int:
         "pre_response_gates":gates,
         "response_open_authorized":False,
     }
-    payload["census_fingerprint"]=canonical_sha(payload)
+    payload["fingerprint_semantics"]={
+        "identity_excludes":["design.condition_number"],
+        "reason":"SVD condition number is a response-blind numerical audit that can vary at machine-precision across BLAS/LAPACK builds; selection, frozen predictors, rank, bootstrap draw set and response surfaces remain identity-bound",
+    }
+    identity=json.loads(json.dumps(payload))
+    identity["design"].pop("condition_number",None)
+    payload["census_fingerprint"]=canonical_sha(identity)
     print(json.dumps(payload,indent=2,sort_keys=True))
     return 0 if qualified else 2
 
