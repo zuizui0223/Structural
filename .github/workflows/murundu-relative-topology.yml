@@ -31,8 +31,7 @@ jobs:
           assert p["response_firewall"]["workbook_opened"] is False
           assert p["selection_provenance"]["response_values_accessed"] is False
           wf=Path(".github/workflows/murundu-relative-topology.yml").read_text()
-          assert "Ecological_Data.xlsx" not in wf
-          assert "datadryad.org/api" not in wf
-          assert "Richness.Trees" not in wf
+          forbidden=("requests.get(","urlopen(","openpyxl","pandas.read_","read_excel(","curl ","wget ")
+          assert not any(token in wf for token in forbidden)
           print("MURUNDU_RESPONSE_SEALED")
           PY
