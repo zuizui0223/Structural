@@ -1,0 +1,31 @@
+{
+  "schema": "structural.isar_relative_topology_response_contamination.v0_1",
+  "status": "FROZEN_BEFORE_FRESH_RESPONSE",
+  "source_repository": "chase-lab/ISAR_synthesis",
+  "source_commit": "4b79a9e0c7fc4b29a6efca534d129a4e4da59fc0",
+  "response_values_used_for_hypothesis_design": false,
+  "incident": {
+    "description": "An attempted header-only audit requested lines 1-2 from six raw abundance matrices, exposing the first abundance row as well as the header. Those response surfaces are therefore excluded from any prospective test.",
+    "directly_opened_study_ids": [
+      "As_1984",
+      "Choi_2011",
+      "Davidar_2001",
+      "Devy_1998",
+      "Dueser_1979",
+      "Hatteland_2008_data"
+    ],
+    "response_effects_computed": false,
+    "model_fits": 0,
+    "selection_by_effect_direction": false
+  },
+  "geographic_cascade_rule": {
+    "rule": "exclude the entire connected component of metadata-defined study geographies whenever any directly opened study lies in that component; studies are linked when >=80% of the smaller study's island coordinates match after rounding lat/lon to 5 decimals",
+    "threshold_fraction_of_smaller_coordinate_set": 0.8,
+    "coordinate_rounding_decimals": 5
+  },
+  "expected_cascade_exclusions": [
+    "Surendran_Vasudevan_2015_frogs",
+    "Surendran_Vasudevan_2015_lizards"
+  ],
+  "confirmatory_use_of_any_excluded_response": false
+}
