@@ -1,0 +1,48 @@
+{
+  "schema": "structural.murundu_relative_topology_one_shot_authorization.v0_1",
+  "status": "AUTHORIZED_FOR_ONE_SHOT_WORKBOOK_ACCESS",
+  "retry_revision": "transport_v0.2",
+  "supersession_reason": "implementation-only resolver retry after run 36119233163 failed with HTTP 403 before any workbook byte was written",
+  "failed_v01": {
+    "run_id": 36119233163,
+    "job_id": 108020505617,
+    "artifact_id": 10856182031,
+    "artifact_zip_sha256": "baa2ab20bd5ee594e0aad3670bcd509eeb7c8b172b88d9bea76ef6aaed3e8782",
+    "workbook_bytes_downloaded": 0,
+    "workbook_file_present": false,
+    "source_receipt_present": false,
+    "scientific_design_changed": false
+  },
+  "preflight_green_commit": "b52b7697931d43f51cc35968630a4066d07aaa58",
+  "preflight_workflow_run_id": 36090453330,
+  "preflight_job_id": 107931568754,
+  "protocol_fingerprint": "83b6a2539acc7983bb75648eb6c53a913917d5ea50dffdaefceceb3ac8fb6512",
+  "protocol_path": "research/murundu_relative_topology/pre_response_protocol_v0_1.json",
+  "protocol_git_blob_sha": "384231b052f5cc0b2aa3e822c1dc7b64ab9b57d4",
+  "runner_path": "research/murundu_relative_topology/run_one_shot_v0_1.py",
+  "runner_git_blob_sha": "22916248a66e685e36f95efb5c06781511aa7ff1",
+  "downloader_path": "research/murundu_relative_topology/download_one_shot_source_v0_2.py",
+  "downloader_git_blob_sha": "bbd44d1dc751c30a8f81c9dad1bb667de840c49b",
+  "response_values_accessed": false,
+  "source": {
+    "identity_mode": "dryad_doi_version_filename_first_access_hash",
+    "doi": "10.5061/dryad.612jm64kr",
+    "dataset_page": "https://datadryad.org/dataset/doi:10.5061/dryad.612jm64kr",
+    "version_date": "2026-04-02",
+    "file_name": "Ecological_Data.xlsx",
+    "display_size": "195.16 KB",
+    "dryad_file_id": 4686245,
+    "transport_manifest_verification": true
+  },
+  "authorization": {
+    "one_shot_workbook_download": true,
+    "geometry_columns_parse": true,
+    "primary_response_parse_only_after_geometry_pass": true,
+    "primary_response_column": "Richness.Trees",
+    "herb_or_termite_response_parse": false,
+    "rerun_after_any_workbook_download": false,
+    "post_response_retuning": false
+  },
+  "execution_rule": "verify exact protocol/runner/downloader Git blobs; verify landing-page anchor, Dryad file id and anonymous API manifest; attempt frozen transport routes; accept only XLSX bytes matching Dryad manifest size/SHA-256; then run the unchanged frozen geometry/response protocol once; do not rerun after any successful workbook download",
+  "authorization_fingerprint": "9b7964e7b4233349975d84fdc5e72ce5272c270a4f7d21ca617d16e74760a783"
+}
