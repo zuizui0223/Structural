@@ -35,7 +35,7 @@ jobs:
           assert x["response_values_accessed"] is False
           assert x["workbook_bytes_read"] == 0
           assert x["file_api"]["path"] == "Ecological_Data.xlsx"
-          assert x["file_api"]["id"] == 4686245
+          assert x["file_api"]["self_href"] == "/api/v2/files/4686245"
           assert x["file_api"]["digestType"].lower() == "sha-256"
           assert len(x["file_api"]["digest"]) == 64
           print("MURUNDU_TRANSPORT_DIAGNOSTIC_OK")
