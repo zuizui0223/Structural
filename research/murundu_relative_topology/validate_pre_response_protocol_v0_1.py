@@ -4,7 +4,7 @@ import hashlib, json
 from pathlib import Path
 
 PATH=Path("research/murundu_relative_topology/pre_response_protocol_v0_1.json")
-EXPECTED="812b7e4ed75d62f4c82b0ffa850270b2c62e674e48dbde3bc8f68bd7ad8bca96"
+EXPECTED="0091ff58b5f52e29451f7c20626eaa96923505935593710953f7fae294512dc7"
 
 x=json.loads(PATH.read_text(encoding="utf-8"))
 assert x["schema"]=="structural.murundu_relative_topology_protocol.v0_1"
@@ -16,6 +16,7 @@ assert x["response_firewall"]["primary_response_column"]=="Richness.Trees"
 assert x["spatial_unit"]["replication_unit"]=="1-ha plot"
 assert x["spatial_unit"]["plot_count_declared"]==11
 assert x["geometry_gate"]["uses_response"] is False
+assert "Height_Mur is not required" in x["geometry_gate"]["row_eligibility"]["source_nodes"]
 assert x["geometry_gate"]["study_pass"]["minimum_geometry_qualified_plots"]==8
 assert x["H1_primary"]["prediction"]=="positive"
 assert x["H1_primary"]["bootstrap"]["replicates"]==10000
