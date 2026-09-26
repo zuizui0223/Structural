@@ -1,0 +1,40 @@
+{
+  "schema": "structural.atoll_content_blind_inventory_authorization.v0_1",
+  "status": "one_shot_opaque_archive_inventory",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "zenodo_record_id": 18848127,
+  "source_file": {
+    "key": "Steibl_2026_Indo_Pacific_Atolls_Dataset.zip",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content"
+  },
+  "metadata_probe": {
+    "workflow_run_id": 36233298240,
+    "workflow_job_id": 108380395991,
+    "record_api_response_sha256": "02dbe2914efe55fd1f0c64d7e408ffd241c643eb6bd47c502f2bc52c45b19cd7",
+    "data_file_http_requests": 0,
+    "response_values_opened": false
+  },
+  "allowed_operations": [
+    "download exact ZIP bytes from the frozen Zenodo content URL",
+    "verify exact byte size and MD5",
+    "compute whole-ZIP SHA-256",
+    "enumerate ZIP member paths, extensions and uncompressed byte sizes",
+    "compute per-member SHA-256 using opaque byte streams"
+  ],
+  "forbidden_operations": [
+    "decode any member as text",
+    "read CSV headers",
+    "parse JSON, JSON-LD, XML, XLSX, shapefile attributes or tabular values",
+    "inspect vascular-plant species records",
+    "summarize response values",
+    "fit any model",
+    "make any second data-file HTTP request"
+  ],
+  "expected_inventory_schema": "structural.content_blind_inventory.v0_11",
+  "semantic_text_parse_count_expected": 0,
+  "response_value_parse_count_expected": 0,
+  "model_fit_count_expected": 0,
+  "counts_as_empirical_evidence": false
+}
