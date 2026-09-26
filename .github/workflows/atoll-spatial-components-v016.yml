@@ -241,7 +241,7 @@ jobs:
               "response_files_opened":0,
               "response_value_parse_count":0,
               "model_fit_count":0,
-              "counts_as_empirical_evidence":false
+              "counts_as_empirical_evidence":False
           }
           (out/"spatial_summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
           print(json.dumps(summary,indent=2,sort_keys=True))
