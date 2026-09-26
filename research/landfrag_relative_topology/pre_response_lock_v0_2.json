@@ -17,9 +17,9 @@
     "minimum_geographies": 30,
     "rationale": "v0.1 50-landscape threshold was metadata-only and not effect-derived; v0.2 retains all stringent study gates and quantifies design precision before response"
   },
-  "census_fingerprint": "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b",
-  "precision_fingerprint": "9c7fce34c2b9d027caa489ffbaad436241d518854bd2d6300265470a1e81e638",
-  "protocol_fingerprint": "102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c",
+  "census_fingerprint": "fe0b371fd09b75a1dbb818cef95c3f881e65a4234e2d8e01a853ee43157dc052",
+  "precision_fingerprint": "fb0fd46df233561a17a76bbd419c8319bf6ea3b085f506663d8725bbd247744c",
+  "protocol_fingerprint": "551c1c0dc6dd46181bd1e1b0c7abe80c29c734e6a9f1452ae698b2c38104d9aa",
   "response_surface": {
     "path": "data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv",
     "git_blob_sha": "abfdd21712b7f221207e25e62b623e8a8a901a55",
@@ -86,8 +86,21 @@
   "pre_response_hash_generation_run_id": 36142145883,
   "pre_response_hash_generation_job_id": 108094367660,
   "fingerprint_semantics": {
-    "census": "full response-blind geometry/selection identity",
+    "census": "exact source/selection/geography/focal identity plus 12-decimal stable geometry/design digests; excludes full-precision machine tails",
     "precision": "census identity + cluster membership + algorithm constants + 12-decimal global design-precision summary; excludes full LAPACK diagnostic tails",
     "protocol": "full response/scoring protocol bound to stable precision fingerprint and 12-decimal precision summary"
+  },
+  "identity_maintenance": {
+    "status": "RESPONSE_BLIND_STABLE_IDENTITY_REISSUED",
+    "run_id": 36225989156,
+    "job_id": 108360014183,
+    "scientific_design_changed": false,
+    "abundance_response_opened": false,
+    "reason": "full census JSON hash included machine-precision response-blind floating diagnostics; replaced by 12-decimal stable geometry/design digests while retaining exact source, selection, cluster, focal and response-surface identity",
+    "superseded_hashes": {
+      "census_fingerprint": "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b",
+      "precision_fingerprint": "9c7fce34c2b9d027caa489ffbaad436241d518854bd2d6300265470a1e81e638",
+      "protocol_fingerprint": "102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c"
+    }
   }
 }
