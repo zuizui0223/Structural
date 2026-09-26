@@ -1,0 +1,46 @@
+{
+  "schema": "structural.landfrag_relative_topology_one_shot_authorization.v0_2",
+  "status": "AUTHORIZED_FOR_EXACT_ONE_SHOT_ABUNDANCE_ACCESS",
+  "preflight_green_commit": "a58e72708cad161c586280fcb84c6fca31e33ae2",
+  "preflight_workflow_run_id": 36142879588,
+  "preflight_job_id": 108096729307,
+  "response_values_accessed": false,
+  "census_fingerprint": "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b",
+  "precision_fingerprint": "9c7fce34c2b9d027caa489ffbaad436241d518854bd2d6300265470a1e81e638",
+  "protocol_fingerprint": "102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c",
+  "source": {
+    "repository": "mauriciovancine/landfrag",
+    "commit": "5fd540048a6e60c641c9c1d6e7f26e7b5eece137",
+    "path": "data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv",
+    "git_blob_sha": "abfdd21712b7f221207e25e62b623e8a8a901a55",
+    "monolithic_all_studies": true
+  },
+  "code_identity": {
+    "runner_path": "research/landfrag_relative_topology/run_one_shot_v0_2.py",
+    "runner_git_blob_sha": "fbffe3f9952ec96a10fcfe736326b382650480f7",
+    "lock_path": "research/landfrag_relative_topology/pre_response_lock_v0_2.json",
+    "lock_git_blob_sha": "dfdcc7fd62a0237b4e4c97d3d87b54bbb4a91fd4",
+    "protocol_builder_path": "research/landfrag_relative_topology/freeze_protocol_v0_2.py",
+    "protocol_builder_git_blob_sha": "9107ee3beb83f091c9bcdf39b8b939411d51a28c",
+    "census_builder_path": "research/landfrag_relative_topology/metadata_census_v0_2.py",
+    "census_builder_git_blob_sha": "580c9541d5fa173e94641192ba5d522accc8fd14",
+    "precision_builder_path": "research/landfrag_relative_topology/precision_audit_v0_2.py",
+    "precision_builder_git_blob_sha": "81870df1bf1ff6728e06b5b684d9dc8dff4ebbfb"
+  },
+  "frozen_panel": {
+    "studies": 38,
+    "geography_clusters": 34,
+    "fragments": 886,
+    "focal_fragments": 784,
+    "minimum_response_qualified_geography_clusters": 30
+  },
+  "authorization": {
+    "one_shot_monolithic_access": true,
+    "exact_single_fetch": true,
+    "H1_scoring_only_after_frozen_response_quality_gate": true,
+    "post_response_geometry_retuning": false,
+    "post_response_study_selection_by_direction": false,
+    "rerun_after_any_abundance_bytes_opened": false
+  },
+  "execution_rule": "verify exact frozen census/precision/protocol/lock and runner Git blobs; fetch the one frozen monolithic abundance blob once; preserve raw bytes; fail closed on blob/schema/response-quality drift; score only H1 under the frozen model if at least 30 frozen geography clusters survive; never rerun after any abundance bytes are opened"
+}
