@@ -1,18 +1,27 @@
 {
   "schema": "structural.preintake_candidate.indo_pacific_atoll_plants.v0_1",
-  "status": "HOLD_zenodo_record_resolved_file_inventory_not_yet_frozen",
+  "status": "HOLD_v0_11_inventory_complete_v0_12_roles_frozen_safe_metadata_not_yet_opened",
   "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
   "source_identity": {
     "data_article_doi": "10.3389/fenvs.2025.1723851",
     "data_package_doi": "10.71728/senscience.4f2j-8h1k",
     "published": "2026-01-27",
     "license_reported_by_data_article": "ODC-By v1.0",
-    "response_package_downloaded_by_structural": false,
+    "response_package_downloaded_by_structural": true,
     "vascular_plant_response_values_opened_by_structural": false,
     "zenodo_mirror_doi": "10.5281/zenodo.18848127",
     "zenodo_mirror_resolution_basis": "FAIRdata.ai registry resolves Zenodo 10.5281/zenodo.18848127 as IsVersionOf SenScience DOI 10.71728/senscience.4f2j-8h1k",
-    "zenodo_file_list_resolved": false,
-    "zenodo_file_checksums_resolved": false
+    "zenodo_file_list_resolved": true,
+    "zenodo_file_checksums_resolved": true,
+    "archive_sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e",
+    "archive_member_count": 25,
+    "content_blind_inventory": "development/indo_pacific_atoll_archive_inventory_v0_11.json",
+    "file_role_manifest": "development/indo_pacific_atoll_file_roles_v0_12.json",
+    "response_package_download_mode": "opaque_bytes_for_v0_11_content_blind_inventory_only",
+    "data_file_http_requests": 1,
+    "semantic_text_parse_count": 0,
+    "response_value_parse_count": 0,
+    "model_fit_count": 0
   },
   "metadata_only_basis": {
     "total_atolls": 310,
@@ -116,7 +125,7 @@
     "geometry-only radii rule cannot produce four distinct radii",
     "archipelago count cannot support the frozen pilot/confirmatory split minima"
   ],
-  "next_action": "obtain Zenodo record 18848127 file names, sizes and checksums through a metadata-only interface; then run content-blind v0.11 archive inventory without parsing vascular-plant values",
+  "next_action": "validate v0.12 firewall, then open only the predeclared minimal safe metadata/schema subset; do not open any biodiversity response or notebook",
   "v0_11_intake_authorized": false,
   "pilot_response_authorized": false,
   "confirmatory_response_authorized": false,

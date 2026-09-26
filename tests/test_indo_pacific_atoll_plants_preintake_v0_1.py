@@ -17,7 +17,8 @@ def test_atoll_plants_remain_preintake_and_response_sealed():
     x = load(PRE)
 
     assert x["status"].startswith("HOLD_")
-    assert x["source_identity"]["response_package_downloaded_by_structural"] is False
+    assert x["source_identity"]["response_package_downloaded_by_structural"] is True
+    assert x["source_identity"]["response_package_download_mode"] == "opaque_bytes_for_v0_11_content_blind_inventory_only"
     assert x["source_identity"]["vascular_plant_response_values_opened_by_structural"] is False
     assert x["v0_11_intake_authorized"] is False
     assert x["pilot_response_authorized"] is False
@@ -83,8 +84,10 @@ def test_zenodo_record_is_resolved_without_file_or_response_access():
     source = x["source_identity"]
 
     assert source["zenodo_mirror_doi"] == "10.5281/zenodo.18848127"
-    assert source["zenodo_file_list_resolved"] is False
-    assert source["zenodo_file_checksums_resolved"] is False
-    assert source["response_package_downloaded_by_structural"] is False
+    assert source["zenodo_file_list_resolved"] is True
+    assert source["zenodo_file_checksums_resolved"] is True
+    assert source["response_package_downloaded_by_structural"] is True
+    assert source["semantic_text_parse_count"] == 0
+    assert source["response_value_parse_count"] == 0
     assert source["vascular_plant_response_values_opened_by_structural"] is False
-    assert "file names, sizes and checksums" in x["next_action"]
+    assert "minimal safe metadata/schema subset" in x["next_action"]
