@@ -44,14 +44,17 @@ def test_atoll_v031_and_v042_are_bound_before_response():
 
     assert p.status is PilotProtocolStatus.QUALIFIED_TO_OPEN_PILOT
     assert p.protocol_fingerprint == (
-        "0ffd3ced3e09b94bd001ea5dea036253cdd5bf1c0969ebc117431631bdf6a129"
+        "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653"
     )
     assert protocol_fingerprint(protocol) == p.protocol_fingerprint
     assert q.status is ResponseQualityContractStatus.QUALIFIED_TO_OPEN_PILOT
     assert contract_fingerprint(quality) == (
-        "056dffbd219716ae06f2bbe4eac37acb653f524a4bf8fe130d0a04d3b63c084a"
+        "3b8699947b8d192d5a8f5c5b5cde976a7b77547c2ee3e2d927e68846af33fcdb"
     )
 
+    geometry = load(GEOMETRY)
+    assert list(protocol.pilot_partition) == geometry["pilot_block_ids"]
+    assert list(protocol.confirmatory_partition) == geometry["confirmatory_block_ids"]
     assert len(protocol.pilot_partition) == 13
     assert len(protocol.confirmatory_partition) == 50
     assert set(protocol.pilot_partition).isdisjoint(protocol.confirmatory_partition)
