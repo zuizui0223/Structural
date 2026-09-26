@@ -1,0 +1,309 @@
+name: Atoll response-blind geometry freeze v0.14
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  geometry-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build frozen geometry from allowlisted metadata only
+        run: |
+          python - <<'PY'
+          import csv
+          import hashlib
+          import io
+          import json
+          import math
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import zipfile
+
+          ROOT = Path(".")
+          auth = json.loads(Path(
+              "development/indo_pacific_atoll_geometry_freeze_v0_14.json"
+          ).read_text())
+          inv = json.loads(Path(
+              "development/indo_pacific_atoll_archive_inventory_v0_11.json"
+          ).read_text())
+          roles = json.loads(Path(
+              "development/indo_pacific_atoll_file_roles_v0_12.json"
+          ).read_text())
+
+          src = auth["source_archive"]
+          req = Request(
+              src["content_url"],
+              headers={"User-Agent": "Structural-atoll-geometry/0.14"},
+              method="GET",
+          )
+          with urlopen(req, timeout=90) as response:
+              raw = response.read()
+
+          assert len(raw) == src["size_bytes"]
+          assert hashlib.md5(raw).hexdigest() == src["md5"]
+          assert hashlib.sha256(raw).hexdigest() == src["sha256"]
+
+          inv_map = {x["relative_path"]: x for x in inv["entries"]}
+          role_map = {x["relative_path"]: x for x in roles["assignments"]}
+          allow = auth["semantic_open_allowlist"]
+          assert len(allow) == 3
+          for p in allow:
+              assert role_map[p]["role"] == "metadata"
+
+          def qlinear(values, q):
+              xs = sorted(values)
+              assert xs
+              h = (len(xs) - 1) * q
+              lo = math.floor(h)
+              hi = math.ceil(h)
+              if lo == hi:
+                  return xs[lo]
+              frac = h - lo
+              return xs[lo] * (1 - frac) + xs[hi] * frac
+
+          def hav(lat1, lon1, lat2, lon2):
+              r = 6371.0088
+              p1 = math.radians(lat1)
+              p2 = math.radians(lat2)
+              dlat = math.radians(lat2 - lat1)
+              dlon = math.radians(lon2 - lon1)
+              a = (
+                  math.sin(dlat / 2) ** 2
+                  + math.cos(p1) * math.cos(p2) * math.sin(dlon / 2) ** 2
+              )
+              return 2 * r * math.asin(min(1.0, math.sqrt(a)))
+
+          def read_csv(zf, path):
+              member = zf.read(path)
+              assert hashlib.sha256(member).hexdigest() == inv_map[path]["sha256"]
+              text = member.decode("utf-8-sig")
+              rows = list(csv.DictReader(io.StringIO(text)))
+              return rows
+
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              main = read_csv(zf, allow[0])
+              bio = read_csv(zf, allow[1])
+              env = read_csv(zf, allow[2])
+
+          assert len(main) == len(bio) == len(env) == 310
+
+          def by_atoll(rows):
+              out = {}
+              for row in rows:
+                  a = row["atoll"].strip()
+                  assert a and a not in out
+                  out[a] = row
+              return out
+
+          m = by_atoll(main)
+          b = by_atoll(bio)
+          e = by_atoll(env)
+          assert set(m) == set(b) == set(e)
+          atolls = sorted(m)
+
+          numeric_fields = {
+              "lat": (m, "lat"),
+              "long": (m, "long"),
+              "land_area_sqkm": (b, "land_area_sqkm"),
+              "source_nearest_atoll_km": (b, "distance_nearest_atoll_km"),
+              "distance_nearest_high_island_km": (b, "distance_nearest_high_island_km"),
+              "distance_continent_km": (b, "distance_continent_km"),
+              "annual_precipitation_mm": (e, "annual_precipitation_mm"),
+          }
+
+          parsed = {}
+          missing = {}
+          for out_name, (table, col) in numeric_fields.items():
+              parsed[out_name] = {}
+              miss = []
+              for a in atolls:
+                  rawv = table[a][col].strip()
+                  if rawv == "":
+                      miss.append(a)
+                      continue
+                  v = float(rawv)
+                  assert math.isfinite(v)
+                  parsed[out_name][a] = v
+              missing[out_name] = miss
+
+          group_missing = [a for a in atolls if not m[a]["group"].strip()]
+          region_missing = [a for a in atolls if not m[a]["region"].strip()]
+          assert not group_missing
+          assert not region_missing
+          assert all(not v for v in missing.values()), missing
+
+          major = {
+              a: min(
+                  parsed["distance_nearest_high_island_km"][a],
+                  parsed["distance_continent_km"][a],
+              )
+              for a in atolls
+          }
+
+          nearest = {}
+          for a in atolls:
+              best = None
+              for z in atolls:
+                  if a == z:
+                      continue
+                  d = hav(
+                      parsed["lat"][a],
+                      parsed["long"][a],
+                      parsed["lat"][z],
+                      parsed["long"][z],
+                  )
+                  best = d if best is None or d < best else best
+              nearest[a] = best
+
+          nn_values = [nearest[a] for a in atolls]
+          radius_raw = [
+              qlinear(nn_values, q)
+              for q in auth["graph_radius_quantiles"]
+          ]
+          radii = [math.ceil(x) for x in radius_raw]
+          assert all(r > 0 for r in radii)
+          assert all(a < b for a, b in zip(radii, radii[1:])), radii
+
+          primary_q75 = qlinear(list(major.values()), 0.75)
+          q70 = qlinear(list(major.values()), 0.70)
+          q80 = qlinear(list(major.values()), 0.80)
+          source_pressure_scale = qlinear(nn_values, 0.50)
+          assert source_pressure_scale > 0
+
+          # Response-independent group split.
+          groups = sorted({m[a]["group"].strip() for a in atolls})
+          ranked_groups = sorted(
+              groups,
+              key=lambda g: hashlib.sha256(
+                  ("atoll-plants-v1|" + g).encode("utf-8")
+              ).hexdigest(),
+          )
+          pilot_n = math.ceil(0.20 * len(groups))
+          assert pilot_n >= auth["minimum_pilot_groups"]
+          assert len(groups) - pilot_n >= auth["minimum_confirmatory_groups"]
+          pilot_groups = set(ranked_groups[:pilot_n])
+          confirm_groups = set(ranked_groups[pilot_n:])
+
+          # Generic gateway frequency across frozen geometry radii.
+          generic_hits = {a: 0 for a in atolls}
+          for radius in radii:
+              parent = {a: a for a in atolls}
+
+              def find(x):
+                  while parent[x] != x:
+                      parent[x] = parent[parent[x]]
+                      x = parent[x]
+                  return x
+
+              def union(x, y):
+                  rx, ry = find(x), find(y)
+                  if rx != ry:
+                      parent[ry] = rx
+
+              for i, a in enumerate(atolls):
+                  for z in atolls[i + 1:]:
+                      if hav(
+                          parsed["lat"][a],
+                          parsed["long"][a],
+                          parsed["lat"][z],
+                          parsed["long"][z],
+                      ) <= radius:
+                          union(a, z)
+
+              gateway_by_root = {}
+              for a in atolls:
+                  root = find(a)
+                  gateway_by_root[root] = (
+                      gateway_by_root.get(root, False)
+                      or major[a] <= radius
+                  )
+              for a in atolls:
+                  if gateway_by_root[find(a)]:
+                      generic_hits[a] += 1
+
+          design_rows = []
+          for a in atolls:
+              group = m[a]["group"].strip()
+              design_rows.append({
+                  "atoll": a,
+                  "region": m[a]["region"].strip(),
+                  "group": group,
+                  "lat": parsed["lat"][a],
+                  "long": parsed["long"][a],
+                  "annual_precipitation_mm": parsed["annual_precipitation_mm"][a],
+                  "land_area_sqkm": parsed["land_area_sqkm"][a],
+                  "distance_nearest_atoll_km": parsed["source_nearest_atoll_km"][a],
+                  "distance_nearest_high_island_km": parsed["distance_nearest_high_island_km"][a],
+                  "distance_continent_km": parsed["distance_continent_km"][a],
+                  "major_landmass_distance_km": major[a],
+                  "centroid_nearest_neighbor_km": nearest[a],
+                  "generic_gateway_connectivity": generic_hits[a] / len(radii),
+                  "partition": "pilot" if group in pilot_groups else "confirmatory",
+              })
+
+          outdir = Path("build/atoll_geometry_v0_14")
+          outdir.mkdir(parents=True, exist_ok=True)
+          csv_path = outdir / "atoll_response_blind_design.csv"
+          fieldnames = list(design_rows[0])
+          with csv_path.open("w", newline="", encoding="utf-8") as fh:
+              w = csv.DictWriter(fh, fieldnames=fieldnames)
+              w.writeheader()
+              w.writerows(design_rows)
+
+          design_sha = hashlib.sha256(csv_path.read_bytes()).hexdigest()
+          summary = {
+              "schema": "structural.atoll_geometry_result.v0_14",
+              "status": "response_blind_geometry_complete",
+              "source_archive_sha256": src["sha256"],
+              "atoll_count": len(atolls),
+              "group_count": len(groups),
+              "pilot_group_count": len(pilot_groups),
+              "confirmatory_group_count": len(confirm_groups),
+              "pilot_atoll_count": sum(r["partition"] == "pilot" for r in design_rows),
+              "confirmatory_atoll_count": sum(r["partition"] == "confirmatory" for r in design_rows),
+              "pilot_groups": sorted(pilot_groups),
+              "confirmatory_groups": sorted(confirm_groups),
+              "nearest_neighbor_quantiles_km": {
+                  str(q): qlinear(nn_values, q)
+                  for q in auth["graph_radius_quantiles"]
+              },
+              "frozen_graph_radii_km": radii,
+              "source_pressure_scale_km": source_pressure_scale,
+              "major_landmass_distance_quantiles_km": {
+                  "q70": q70,
+                  "q75_primary": primary_q75,
+                  "q80": q80,
+              },
+              "required_missing_counts": {
+                  k: len(v) for k, v in missing.items()
+              },
+              "group_missing_count": len(group_missing),
+              "region_missing_count": len(region_missing),
+              "design_csv_sha256": design_sha,
+              "response_files_opened": 0,
+              "response_value_parse_count": 0,
+              "model_fit_count": 0,
+              "counts_as_empirical_evidence": False,
+          }
+          (outdir / "geometry_summary.json").write_text(
+              json.dumps(summary, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload response-blind geometry only
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoll-response-blind-geometry-v0-14
+          path: |
+            build/atoll_geometry_v0_14/geometry_summary.json
+            build/atoll_geometry_v0_14/atoll_response_blind_design.csv
+          if-no-files-found: error
+          retention-days: 90
