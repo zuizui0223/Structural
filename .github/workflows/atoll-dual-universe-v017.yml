@@ -1,0 +1,227 @@
+name: Atoll response-blind dual universe v0.17
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  geometry:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Freeze graph and model-target universes
+        run: |
+          mkdir -p build/atoll_dual_v017
+          python - <<'PY'
+          import csv, hashlib, io, json, math, zipfile
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          A=json.loads(Path(
+              "development/indo_pacific_atoll_dual_universe_freeze_v0_17.json"
+          ).read_text())
+          INV=json.loads(Path(
+              "development/indo_pacific_atoll_archive_inventory_v0_11.json"
+          ).read_text())
+          imap={x["relative_path"]:x for x in INV["entries"]}
+
+          url=("https://zenodo.org/api/records/18848127/files/"
+               "Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content")
+          with urlopen(Request(url,headers={"User-Agent":"Structural-atoll-dual/0.17"}),timeout=90) as r:
+              raw=r.read()
+          assert hashlib.sha256(raw).hexdigest()==A["source_archive_sha256"]
+
+          prefix="Steibl_2026_Indo_Pacific_Atolls_Dataset/"
+          paths={
+            "main":prefix+"atoll_main_310.csv",
+            "bio":prefix+"atoll_biogeography.csv",
+            "env":prefix+"atoll_environmental.csv",
+          }
+          def rows_from(zf,p):
+              b=zf.read(p); assert hashlib.sha256(b).hexdigest()==imap[p]["sha256"]
+              return list(csv.DictReader(io.StringIO(b.decode("utf-8-sig"))))
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              main,bio,env=(rows_from(zf,paths[k]) for k in ("main","bio","env"))
+          assert len(main)==len(bio)==len(env)==310
+
+          def index(rows):
+              d={}
+              for r in rows:
+                  a=r["atoll"].strip(); assert a and a not in d; d[a]=r
+              return d
+          M,B,E=index(main),index(bio),index(env)
+          assert set(M)==set(B)==set(E)
+          names=sorted(M); assert len(names)==310
+
+          def parse_required(table,a,col,allow_missing=False):
+              s=table[a][col].strip()
+              if not s:
+                  if allow_missing: return None
+                  raise AssertionError(f"missing {col}: {a}")
+              v=float(s); assert math.isfinite(v); return v
+
+          coords={a:(parse_required(M,a,"lat"),parse_required(M,a,"long")) for a in names}
+          land={a:parse_required(B,a,"land_area_sqkm") for a in names}
+          d_atoll={a:parse_required(B,a,"distance_nearest_atoll_km") for a in names}
+          d_high={a:parse_required(B,a,"distance_nearest_high_island_km") for a in names}
+          d_cont={a:parse_required(B,a,"distance_continent_km") for a in names}
+          rain={a:parse_required(E,a,"annual_precipitation_mm",allow_missing=True) for a in names}
+          rain_missing=sorted(a for a,v in rain.items() if v is None)
+          assert rain_missing==sorted(A["model_target_universe"]["response_blind_exclusions_due_to_missing_annual_precipitation"])
+          model_names=sorted(a for a in names if rain[a] is not None)
+          assert len(model_names)==A["model_target_universe"]["expected_count"]
+          major={a:min(d_high[a],d_cont[a]) for a in names}
+
+          def hav(p,q):
+              lat1,lon1=p; lat2,lon2=q; R=6371.0088
+              p1,p2=math.radians(lat1),math.radians(lat2)
+              dl=math.radians(lat2-lat1); dn=math.radians(lon2-lon1)
+              x=math.sin(dl/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dn/2)**2
+              return 2*R*math.asin(min(1.0,math.sqrt(x)))
+
+          distances={}
+          nearest={}
+          for a in names:
+              best=None
+              for z in names:
+                  if a==z: continue
+                  key=tuple(sorted((a,z)))
+                  if key not in distances: distances[key]=hav(coords[a],coords[z])
+                  d=distances[key]; best=d if best is None or d<best else best
+              nearest[a]=best
+
+          def qlinear(vals,q):
+              xs=sorted(vals); h=(len(xs)-1)*q; lo,hi=math.floor(h),math.ceil(h)
+              return xs[lo] if lo==hi else xs[lo]*(hi-h)+xs[hi]*(h-lo)
+
+          nn=list(nearest.values())
+          radii=[math.ceil(qlinear(nn,q)) for q in A["graph_radius_quantiles"]]
+          assert len(set(radii))==4 and all(x>0 for x in radii)
+          assert all(x<y for x,y in zip(radii,radii[1:])),radii
+
+          def components(radius):
+              parent={a:a for a in names}
+              def find(x):
+                  while parent[x]!=x:
+                      parent[x]=parent[parent[x]]; x=parent[x]
+                  return x
+              def union(x,y):
+                  x,y=find(x),find(y)
+                  if x!=y:
+                      if x<y: parent[y]=x
+                      else: parent[x]=y
+              for (a,z),d in distances.items():
+                  if d<=radius: union(a,z)
+              g={}
+              for a in names:g.setdefault(find(a),[]).append(a)
+              return sorted((tuple(sorted(v)) for v in g.values()),key=lambda x:(-len(x),x))
+
+          diagnostics={}
+          qualified=[]
+          model_set=set(model_names)
+          for radius in radii:
+              comps=components(radius)
+              eligible=[c for c in comps if model_set.intersection(c)]
+              largest=len(comps[0])
+              ok=(len(eligible)>=A["minimum_spatial_components"]
+                  and largest/len(names)<=A["maximum_largest_physical_component_fraction"])
+              diagnostics[str(radius)]={
+                  "physical_component_count":len(comps),
+                  "model_target_eligible_component_count":len(eligible),
+                  "largest_physical_component_size":largest,
+                  "largest_physical_component_fraction":largest/len(names),
+                  "qualified_for_partition":ok
+              }
+              if ok: qualified.append(radius)
+          assert qualified,f"no qualifying radius: {diagnostics}"
+          selected=max(qualified)
+          physical_comps=components(selected)
+          selected_comps=[c for c in physical_comps if model_set.intersection(c)]
+
+          blocks=[]
+          for comp in selected_comps:
+              bid="SC_"+hashlib.sha256("|".join(comp).encode()).hexdigest()[:12]
+              rank=hashlib.sha256(("atoll-plants-v1|spatial-component|"+bid).encode()).hexdigest()
+              targets=sorted(model_set.intersection(comp))
+              blocks.append({
+                  "block_id":bid,"rank":rank,"physical_atolls":list(comp),
+                  "physical_count":len(comp),"model_target_atolls":targets,
+                  "model_target_count":len(targets)
+              })
+          blocks.sort(key=lambda x:x["rank"])
+          pilot_n=math.ceil(A["pilot_fraction"]*len(blocks))
+          assert pilot_n>=A["minimum_pilot_blocks"]
+          assert len(blocks)-pilot_n>=A["minimum_confirmatory_blocks"]
+          for i,b in enumerate(blocks):b["partition"]="pilot" if i<pilot_n else "confirmatory"
+
+          generic_hits={a:0 for a in names}
+          for radius in radii:
+              for comp in components(radius):
+                  if any(major[a]<=radius for a in comp):
+                      for a in comp: generic_hits[a]+=1
+
+          block_for={}
+          for b in blocks:
+              for a in b["model_target_atolls"]:
+                  assert a not in block_for; block_for[a]=b
+          assert set(block_for)==model_set
+
+          design=[]
+          for a in model_names:
+              b=block_for[a]
+              design.append({
+                  "atoll":a,"region":M[a]["region"].strip(),"country":M[a]["country"].strip(),
+                  "lat":coords[a][0],"long":coords[a][1],"annual_precipitation_mm":rain[a],
+                  "land_area_sqkm":land[a],"distance_nearest_atoll_km":d_atoll[a],
+                  "distance_nearest_high_island_km":d_high[a],"distance_continent_km":d_cont[a],
+                  "major_landmass_distance_km":major[a],
+                  "centroid_nearest_neighbor_km_all310":nearest[a],
+                  "generic_gateway_connectivity_all310":generic_hits[a]/len(radii),
+                  "spatial_block":b["block_id"],"partition":b["partition"]
+              })
+
+          out=Path("build/atoll_dual_v017")
+          csvp=out/"atoll_model_target_design.csv"
+          with csvp.open("w",newline="",encoding="utf-8") as f:
+              w=csv.DictWriter(f,fieldnames=list(design[0]));w.writeheader();w.writerows(design)
+
+          model_major=[major[a] for a in model_names]
+          summary={
+              "schema":"structural.atoll_dual_universe_result.v0_17",
+              "status":"response_blind_dual_universe_complete",
+              "graph_universe_atolls":len(names),
+              "model_target_universe_atolls":len(model_names),
+              "response_blind_rainfall_exclusions":rain_missing,
+              "frozen_graph_radii_km":radii,
+              "component_diagnostics_by_radius_km":diagnostics,
+              "selected_partition_radius_km":selected,
+              "selected_block_count":len(blocks),
+              "pilot_block_count":pilot_n,
+              "confirmatory_block_count":len(blocks)-pilot_n,
+              "pilot_block_ids":[b["block_id"] for b in blocks[:pilot_n]],
+              "confirmatory_block_ids":[b["block_id"] for b in blocks[pilot_n:]],
+              "block_sizes":[{"block_id":b["block_id"],"physical_count":b["physical_count"],"model_target_count":b["model_target_count"],"partition":b["partition"]} for b in blocks],
+              "source_pressure_scale_km_all310":qlinear(nn,.5),
+              "major_landmass_distance_quantiles_km_model292":{
+                  "q70":qlinear(model_major,.70),"q75_primary":qlinear(model_major,.75),"q80":qlinear(model_major,.80)
+              },
+              "model_target_design_sha256":hashlib.sha256(csvp.read_bytes()).hexdigest(),
+              "response_files_opened":0,"response_value_parse_count":0,"model_fit_count":0,
+              "counts_as_empirical_evidence":False
+          }
+          (out/"dual_universe_summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(summary,indent=2,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atoll-dual-universe-v0-17
+          path: |
+            build/atoll_dual_v017/dual_universe_summary.json
+            build/atoll_dual_v017/atoll_model_target_design.csv
+          if-no-files-found: error
+          retention-days: 90
