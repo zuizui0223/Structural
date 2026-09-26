@@ -1,0 +1,63 @@
+{
+  "schema": "structural.landfrag_relative_topology_one_shot_authorization.v0_2",
+  "status": "AUTHORIZED_FOR_EXACT_ONE_SHOT_ABUNDANCE_ACCESS",
+  "identity_revision": "stable_census_v0_2_maintenance",
+  "failed_prequery_execution": {
+    "pr_number": 94,
+    "run_id": 36225630208,
+    "job_id": 108358986355,
+    "artifact_id": 10900831463,
+    "artifact_zip_sha256": "033d1e6b61d83c5af366c27452bda7b2a7b0b3b4fc253c3a190d1d3ce21b89d0",
+    "abundance_bytes_opened": 0,
+    "raw_abundance_file_present": false,
+    "outcome_present": false,
+    "reason": "authorization stopped at unstable full census fingerprint replay before response fetch"
+  },
+  "stable_identity_maintenance": {
+    "pr_number": 96,
+    "run_id": 36225989156,
+    "job_id": 108360014183,
+    "scientific_design_changed": false,
+    "response_opened": false
+  },
+  "response_values_accessed": false,
+  "census_fingerprint": "fe0b371fd09b75a1dbb818cef95c3f881e65a4234e2d8e01a853ee43157dc052",
+  "precision_fingerprint": "fb0fd46df233561a17a76bbd419c8319bf6ea3b085f506663d8725bbd247744c",
+  "protocol_fingerprint": "551c1c0dc6dd46181bd1e1b0c7abe80c29c734e6a9f1452ae698b2c38104d9aa",
+  "source": {
+    "repository": "mauriciovancine/landfrag",
+    "commit": "5fd540048a6e60c641c9c1d6e7f26e7b5eece137",
+    "path": "data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv",
+    "git_blob_sha": "abfdd21712b7f221207e25e62b623e8a8a901a55",
+    "monolithic_all_studies": true
+  },
+  "code_identity": {
+    "runner_path": "research/landfrag_relative_topology/run_one_shot_v0_2.py",
+    "runner_git_blob_sha": "e91f7b9a200633e756a9163996cbf527516e1e10",
+    "lock_path": "research/landfrag_relative_topology/pre_response_lock_v0_2.json",
+    "lock_git_blob_sha": "746dd0e8c0baefe92b8e7938c72b151382bc1ca3",
+    "census_builder_path": "research/landfrag_relative_topology/metadata_census_v0_2.py",
+    "census_builder_git_blob_sha": "12646f652ffad87827283bc965154f5f350854cb",
+    "precision_builder_path": "research/landfrag_relative_topology/precision_audit_v0_2.py",
+    "precision_builder_git_blob_sha": "81870df1bf1ff6728e06b5b684d9dc8dff4ebbfb",
+    "protocol_builder_path": "research/landfrag_relative_topology/freeze_protocol_v0_2.py",
+    "protocol_builder_git_blob_sha": "9107ee3beb83f091c9bcdf39b8b939411d51a28c"
+  },
+  "frozen_panel": {
+    "studies": 38,
+    "geography_clusters": 34,
+    "fragments": 886,
+    "focal_fragments": 784,
+    "minimum_response_qualified_geography_clusters": 30
+  },
+  "authorization": {
+    "one_shot_monolithic_access": true,
+    "exact_single_fetch": true,
+    "H1_scoring_only_if_frozen_response_quality_passes": true,
+    "post_response_geometry_retuning": false,
+    "post_response_study_selection_by_direction": false,
+    "post_response_landscape_metric_rescue": false,
+    "rerun_after_any_abundance_bytes_opened": false
+  },
+  "execution_rule": "verify stable census/precision/protocol/lock identities and exact builder/runner blobs; fetch the one frozen monolithic abundance blob once; preserve raw bytes before parsing; fail closed on source/schema/response-quality drift; score only the frozen H1 if at least 30 frozen geography clusters survive; never rerun after any abundance bytes are opened"
+}
