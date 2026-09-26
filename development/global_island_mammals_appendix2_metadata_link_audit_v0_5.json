@@ -1,0 +1,25 @@
+{
+  "schema": "structural.global_island_mammals_appendix2_metadata_link_audit.v0_5",
+  "status": "metadata_only_no_file_content",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "dryad_version_id": 299966,
+  "target_path": "Appendix_2-dryad.xlsx",
+  "frozen_sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+  "allowed_requests": [
+    "GET https://datadryad.org/api/v2/versions/299966/files?per_page=100",
+    "GET the Appendix_2 file-object self metadata URL only"
+  ],
+  "forbidden": [
+    "any stash:download request",
+    "any file_stream request",
+    "Appendix_1 content request",
+    "any file bytes"
+  ],
+  "allowed_output": [
+    "top-level scalar metadata keys/values",
+    "all _links relation names and URLs",
+    "nested metadata objects excluding binary content"
+  ],
+  "file_content_requests_expected": 0,
+  "response_values_opened": false
+}
