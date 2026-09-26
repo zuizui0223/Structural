@@ -1,0 +1,71 @@
+name: Atoll group metadata diagnostic
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect response-blind grouping metadata
+        run: |
+          python - <<'PY'
+          import csv, hashlib, io, json, zipfile
+          from collections import Counter
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          auth = json.loads(Path(
+              "development/indo_pacific_atoll_group_diagnostic_v0_14a.json"
+          ).read_text())
+          url = "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content"
+          req = Request(url, headers={"User-Agent": "Structural-group-audit/0.14a"})
+          with urlopen(req, timeout=90) as response:
+              raw = response.read()
+          assert hashlib.sha256(raw).hexdigest() == auth["source_archive_sha256"]
+
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              member = zf.read(auth["source_file"])
+          assert hashlib.sha256(member).hexdigest() == auth["source_file_sha256"]
+
+          rows = list(csv.DictReader(io.StringIO(member.decode("utf-8-sig"))))
+          assert len(rows) == 310
+          missing = [r["atoll"] for r in rows if not (r["group"] or "").strip()]
+          region_missing = Counter(
+              (r["region"] or "").strip()
+              for r in rows if not (r["group"] or "").strip()
+          )
+          groups = sorted({(r["group"] or "").strip() for r in rows if (r["group"] or "").strip()})
+          regions = sorted({(r["region"] or "").strip() for r in rows if (r["region"] or "").strip()})
+
+          result = {
+              "schema": "structural.atoll_group_diagnostic_result.v0_14a",
+              "atoll_count": 310,
+              "group_missing_count": len(missing),
+              "group_missing_atolls": sorted(missing),
+              "group_missing_by_region": dict(sorted(region_missing.items())),
+              "nonblank_group_count": len(groups),
+              "nonblank_region_count": len(regions),
+              "groups": groups,
+              "regions": regions,
+              "response_files_opened": 0,
+              "response_value_parse_count": 0,
+              "model_fit_count": 0
+          }
+          Path("build").mkdir(exist_ok=True)
+          Path("build/atoll_group_diagnostic_v0_14a.json").write_text(
+              json.dumps(result, indent=2, sort_keys=True) + "\n"
+          )
+          print(json.dumps(result, indent=2, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atoll-group-diagnostic-v0-14a
+          path: build/atoll_group_diagnostic_v0_14a.json
+          if-no-files-found: error
+          retention-days: 90
