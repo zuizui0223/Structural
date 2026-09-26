@@ -1,0 +1,36 @@
+{
+  "schema": "structural.global_island_mammals_appendix2_schema_authorization.v0_2",
+  "status": "one_shot_mixed_file_schema_only",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "dryad_version_id": 299966,
+  "file": {
+    "path": "Appendix_2-dryad.xlsx",
+    "size_bytes": 1066391,
+    "sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960"
+  },
+  "allowed_http_requests": [
+    "GET https://datadryad.org/api/v2/versions/299966/files?per_page=100",
+    "GET only the stash:download URL belonging to Appendix_2-dryad.xlsx"
+  ],
+  "forbidden_http_requests": [
+    "Appendix_1_presence_absence.csv download",
+    "mammal_insularity_from_IUCN.csv download",
+    "dataset-wide download endpoint",
+    "any second file-content request"
+  ],
+  "semantic_open_ceiling": {
+    "workbook_sheet_names": true,
+    "first_row_header_cells": true,
+    "data_row_cells": false,
+    "response_derived_richness_values": false,
+    "response_derived_endemism_values": false
+  },
+  "allowed_output": [
+    "workbook sheet names",
+    "worksheet first-row header strings",
+    "sheet dimension/ref if present",
+    "exact mixed-file byte size and SHA-256",
+    "counter proving response matrix content requests = 0"
+  ],
+  "counts_as_empirical_evidence": false
+}
