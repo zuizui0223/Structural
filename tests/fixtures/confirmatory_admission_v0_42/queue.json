@@ -1,0 +1,24 @@
+{
+  "schema": "structural.confirmatory_admission_queue.v0_42",
+  "status": "synthetic_ci_fixture_nonempirical",
+  "entry_count": 1,
+  "entries": [
+    {
+      "system_id": "synthetic-ci-only",
+      "protocol_id": "synthetic-v0_36-pass",
+      "protocol_path": "tests/fixtures/confirmatory_admission_v0_38/protocol.json",
+      "quality_contract_path": "tests/fixtures/confirmatory_admission_v0_42/quality_contract.json",
+      "pilot_input_path": "tests/fixtures/confirmatory_admission_v0_38/pilot.csv",
+      "pilot_input_sha256": "c2a192be7d8c8f5b8fd5cb7e15bc2721f93493296605c325ddb6dd7fc866cd5b",
+      "pilot_result_path": "tests/fixtures/confirmatory_admission_v0_38/pilot_result.json",
+      "admission_receipt_path": "tests/fixtures/confirmatory_admission_v0_42/receipt.json",
+      "protocol_fingerprint": "def335af364183f05562e18ffb432a7ff123c00e9477b2822fcb85885abaf29d",
+      "quality_contract_fingerprint": "82e0ce0e8a46b876e8f749e1cc7fbd6bee3fc39b31044777815ddc7dff9c96d8"
+    }
+  ],
+  "confirmatory_response_authorized": false,
+  "historical_systems_re_adjudicated": false,
+  "counts_as_empirical_evidence": false,
+  "counts_as_confirmatory_system": false,
+  "purpose": "exercise exact v0.32 raw replay plus future-only v0.42 response-quality admission without changing the live empirical denominator"
+}
