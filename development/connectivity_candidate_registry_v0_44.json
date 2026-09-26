@@ -1,0 +1,69 @@
+{
+  "schema": "structural.connectivity_candidate_registry.v0_44",
+  "status": "one_active_response_sealed_empirical_system_corrected_prepilot",
+  "supersedes": "development/connectivity_candidate_registry_v0_43.json",
+  "closed_empirical_lanes": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "evidence_class": "design_exposed_terminal_non_estimable",
+      "target_class_collapse": "positive_dominant",
+      "joint_target_counts": {
+        "positive": 108,
+        "negative": 3
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    },
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022_AMMA_2021_2022",
+      "evidence_class": "system_context_exposed_terminal_non_estimable",
+      "target_class_collapse": "negative_dominant",
+      "joint_target_counts": {
+        "positive": 3,
+        "negative": 66
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    }
+  ],
+  "retired_pre_response_designs": [
+    {
+      "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+      "protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31.json",
+      "protocol_fingerprint": "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653",
+      "reason": "heldout-specific species universe incompatible with v0.32 block-complement arithmetic",
+      "response_accessed": false,
+      "pilot_consumed": false
+    }
+  ],
+  "active_empirical_candidates": [
+    {
+      "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+      "evidence_class": "response_sealed_corrected_prepilot_contracts_frozen",
+      "ecological_hypothesis": "source_pool_handoff_under_extreme_major_landmass_isolation",
+      "geometry_path": "development/indo_pacific_atoll_dual_universe_result_v0_17.json",
+      "v0_31_protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31b.json",
+      "v0_31_protocol_fingerprint": "ee8cccc38fb8f4602e05e97d9d875c5ad8773280460c0dafca36ac03fe5871f5",
+      "v0_42_quality_contract_path": "development/indo_pacific_atoll_response_quality_contract_v0_42b.json",
+      "v0_42_quality_contract_fingerprint": "1b3ad5da960ceac60e594b3ed664a39835e2f49ba1f7d70bfd32ee1c54e28fc6",
+      "pilot_router_contract_path": "development/indo_pacific_atoll_pilot_router_contract_v0_20.json",
+      "fixed_pilot_species_rule": "native code N in at least two distinct frozen pilot spatial blocks",
+      "physical_graph_atolls": 310,
+      "model_target_atolls": 292,
+      "frozen_spatial_blocks": 63,
+      "burned_pilot_blocks": 13,
+      "confirmatory_blocks": 50,
+      "pilot_response_accessed": false,
+      "confirmatory_response_accessed": false,
+      "counts_as_empirical_evidence": false,
+      "confirmatory_eligible": false
+    }
+  ],
+  "invariants": [
+    "A-Islands remains discovery evidence and does not count as confirmation",
+    "the retired atoll v0.18 design opened no response and contributes no evidence",
+    "the corrected burned pilot may define a fixed source-supported species pool but may not compute an effect or predictive score",
+    "confirmatory species/presence remain sealed throughout pilot construction",
+    "a pilot failure consumes only the corrected protocol version and cannot be rescued by threshold, species-rule, or partition changes"
+  ]
+}

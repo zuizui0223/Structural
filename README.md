@@ -101,7 +101,9 @@ Canonical development files:
 - `docs/CONFIRMATORY_ADMISSION_QUEUE_V0_42.md`
 - `docs/CURRENT_STATUS_V0_42.md`
 - `docs/INDO_PACIFIC_ATOLL_PREPILOT_FREEZE_V0_18.md`
+- `docs/INDO_PACIFIC_ATOLL_PREPILOT_FREEZE_V0_20.md`
 - `docs/CURRENT_STATUS_V0_43.md`
+- `docs/CURRENT_STATUS_V0_44.md`
 - `docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md`
 - `docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md`
 - `development/connectivity_adequacy_contract_v0_1.json`
@@ -139,7 +141,7 @@ v0.39 closes that raw evidence surface to exactly `partition_unit, block, target
 
 v0.40 freezes the v0.31-v0.39 admission machinery. The live queue staying empty is now an intended state; further infrastructure work is maintenance-only unless a response-independent failing test demonstrates an implementation defect. The next scientific event is a genuinely new v0.31 protocol, not another round of candidate hunting or gate retuning.
 
-v0.41 converged all current-status pointers at the v0.40 freeze. v0.42 is a later future-only additive extension prompted by a distinct empirical failure mode: response-quality attrition can exhaust the independent held-out blocks before endpoint/class estimability is even the limiting step. It leaves v0.31-v0.40 historical results unchanged, keeps the exact three-column burned-pilot surface, and requires a pre-pilot frozen minimum number of response-qualified blocks. LandFrag remains terminal at 29/30 geographies with H1 unscored; its threshold is not retuned. v0.43 records the first genuinely new response-sealed island system to reach pre-pilot freeze: the Indo-Pacific atoll native-plant test. Confirmatory-eligible systems remain zero.
+v0.41 converged all current-status pointers at the v0.40 freeze. v0.42 is a later future-only additive extension prompted by a distinct empirical failure mode: response-quality attrition can exhaust the independent held-out blocks before endpoint/class estimability is even the limiting step. It leaves v0.31-v0.40 historical results unchanged, keeps the exact three-column burned-pilot surface, and requires a pre-pilot frozen minimum number of response-qualified blocks. LandFrag remains terminal at 29/30 geographies with H1 unscored; its threshold is not retuned. v0.43 recorded the first genuinely new response-sealed island system to reach pre-pilot freeze. A response-blind implementation audit then found that its held-out-specific species universes were incompatible with v0.32 complement arithmetic before any plant response was opened. v0.44 retires that unconsumed design and freezes a corrected endpoint: one common pilot-supported species universe, requiring native occurrence in at least two distinct pilot spatial blocks, is used in every burned-pilot block. Confirmatory-eligible systems remain zero.
 
 A separate post-outcome ecology lane uses only frozen outputs for hypothesis generation and is now **frozen at v0.4**. `docs/EXPLORATORY_ECOLOGY_V0_4.md` shows that insular source decoupling is visible in the strong R3 reference's held-out calibration residual itself, not only in the fitted candidate-C comparison: source-conditioned excess connectivity and multi-hop source paths mark remote states where R3 systematically underpredicts occurrence support after species/island effects and nearest-source distance are accounted for. This remains non-confirmatory and does not change the frozen paper. Same-data threshold/taxon/trait/site mining is closed; the next scientific test is the already-frozen `development/prospective_extreme_isolation_topology_hypothesis_v0_3.json` in an independent prospectively admitted system.
 
@@ -161,11 +163,11 @@ Response access itself is now recorded through `development/mechanism_response_a
 
 Frozen scoring is now executable through `development/mechanism_frozen_scoring_gate_v0_9.json`. It exact-replays the tracked v0.7 access receipt and joins only the v0.8 scoring inputs to the SHA-bound response: M1/M2 emit candidate-minus-reference transition log-loss, M3 emits the frozen-weight connected-minus-alternative genetic contrast, and M4 emits the original/enriched reference/topology loss components. Numeric scoring still does not authorize a mechanism claim; spatial-transfer/null/practical-equivalence adjudication remains separate.
 
-A new independent system still begins by replaying the frozen v0.10 response-sealed intake checks, but the current future bridge is now `development/independent_system_intake_contract_v0_11.json`. A clean v0.11 intake authorizes construction of the v0.31 partition protocol **and then** a v0.42 response-quality contract bound to that exact protocol fingerprint. It does not authorize pilot, confirmatory, or mechanism response access. Historical v0.10 receipts remain reproducible, but newly arriving systems may not use the old `construct_v0_31_partition_protocol_only` action as a route around v0.42. The first current empirical system is now the response-sealed Indo-Pacific atoll native-plant test; it remains pre-pilot and contributes zero empirical confirmation.
+A new independent system still begins by replaying the frozen v0.10 response-sealed intake checks, but the current future bridge is now `development/independent_system_intake_contract_v0_11.json`. A clean v0.11 intake authorizes construction of the v0.31 partition protocol **and then** a v0.42 response-quality contract bound to that exact protocol fingerprint. It does not authorize pilot, confirmatory, or mechanism response access. Historical v0.10 receipts remain reproducible, but newly arriving systems may not use the old `construct_v0_31_partition_protocol_only` action as a route around v0.42. The first current empirical system is the response-sealed Indo-Pacific atoll native-plant test. Its corrected v0.31b/v0.42b contracts remain pre-pilot and contribute zero empirical confirmation; the superseded v0.18 design was retired before response access.
 
 ## Current state
 
-The frozen Structural manuscript and presentation package remain closed. Separately, the post-closure prospective validation programme now has one active response-sealed atoll system at pre-pilot freeze. Submission/release work for the frozen manuscript remains author/admin/live-policy only.
+The frozen Structural manuscript and presentation package remain closed. Separately, the post-closure prospective validation programme now has one active response-sealed atoll system at corrected pre-pilot freeze (v0.44). Submission/release work for the frozen manuscript remains author/admin/live-policy only.
 
 ## Provenance
 

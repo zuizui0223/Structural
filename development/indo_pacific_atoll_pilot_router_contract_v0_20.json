@@ -1,0 +1,67 @@
+{
+  "schema": "structural.indo_pacific_atoll_pilot_router_contract.v0_20",
+  "status": "frozen_before_burned_pilot_response",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "parent_protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31b.json",
+  "parent_protocol_fingerprint": "ee8cccc38fb8f4602e05e97d9d875c5ad8773280460c0dafca36ac03fe5871f5",
+  "quality_contract_path": "development/indo_pacific_atoll_response_quality_contract_v0_42b.json",
+  "dual_universe_result_path": "development/indo_pacific_atoll_dual_universe_result_v0_17.json",
+  "response_member": {
+    "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_plants.csv",
+    "sha256": "9d6b80322d52f447ce94fc5f03e2ff1fad1007386f4bce30c7d4d2b2e82ede6e",
+    "frozen_schema": [
+      "atoll",
+      "species",
+      "presence"
+    ],
+    "allowed_presence_codes": [
+      "N",
+      "I"
+    ]
+  },
+  "confirmatory_firewall": {
+    "routing_key": "atoll only",
+    "confirmatory_rows": "decode only the first CSV field needed to identify atoll/spatial block; species and presence bytes must not be Unicode-decoded, logged, counted by class, summarized, or retained",
+    "excluded_model_target_rows": "same semantic ceiling as confirmatory rows",
+    "pilot_rows": "species and presence may be decoded only after the atoll is proven to belong to a frozen burned-pilot spatial block",
+    "confirmatory_species_values_parsed": 0,
+    "confirmatory_presence_values_parsed": 0
+  },
+  "fixed_pilot_species_universe": {
+    "source": "burned-pilot response only",
+    "eligibility": "species has native presence code N in at least two distinct frozen burned-pilot spatial blocks",
+    "computed_once_before_raw_surface": "yes",
+    "same_species_universe_for_every_heldout_pilot_block": true,
+    "confirmatory_response_may_not_define_species_universe": true,
+    "output_after_pilot": [
+      "sorted species list",
+      "species count",
+      "SHA-256 of newline-delimited sorted species list"
+    ]
+  },
+  "pilot_surface_rule": {
+    "heldout_block": "each frozen pilot spatial block",
+    "catalogue_qualified_atoll": "pilot atoll having at least one plant row in the source dataset, whose source documentation states that included vascular-plant inventories are complete",
+    "target_one": "fixed pilot-supported species has N in held-out catalogue atoll",
+    "target_zero": "fixed pilot-supported species has I or has no row in held-out complete catalogue",
+    "non_estimable": "no catalogue-qualified held-out atoll or empty fixed pilot-supported species universe",
+    "empty_block_encoding": "emit exactly one row with blank target so the frozen partition unit remains visible to v0.32/v0.42",
+    "raw_columns": [
+      "partition_unit",
+      "block",
+      "target"
+    ],
+    "partition_unit_equals_block": true,
+    "row_order": "frozen pilot_partition order; within block sort catalogue atoll then fixed species lexicographically",
+    "species_identifiers_may_appear_in_raw_surface": false
+  },
+  "evidence_ceiling": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_confirmation": false
+  },
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "quality_contract_fingerprint": "1b3ad5da960ceac60e594b3ed664a39835e2f49ba1f7d70bfd32ee1c54e28fc6"
+}

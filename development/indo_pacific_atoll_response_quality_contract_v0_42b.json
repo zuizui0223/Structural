@@ -1,0 +1,9 @@
+{
+  "contract_id": "indo-pacific-atoll-native-plants-quality-v0.42b-20260926",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "parent_protocol_fingerprint": "ee8cccc38fb8f4602e05e97d9d875c5ad8773280460c0dafca36ac03fe5871f5",
+  "minimum_response_qualified_blocks": 3,
+  "response_quality_semantics": "A burned-pilot spatial block is response-qualified only when it contains at least one source-designated complete vascular-plant inventory and retains at least the frozen minimum_test_rows applicable targets under the single fixed pilot-supported species universe. That species universe is defined once from burned-pilot response only as species with native code N in at least two distinct frozen pilot spatial blocks, then applied identically to every pilot block. Atolls missing frozen R0/R1 safe covariates were excluded before response access. Empty catalogues/species support are non-estimable; blocks may not be rescued, merged, substituted, imputed, or have thresholds lowered after pilot opening.",
+  "pilot_response_accessed": false,
+  "confirmatory_response_accessed": false
+}

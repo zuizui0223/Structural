@@ -1,0 +1,65 @@
+{
+  "schema": "structural.current_status.v0_44",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_43.json",
+  "authoritative_empirical_registry": {
+    "path": "development/connectivity_candidate_registry_v0_44.json",
+    "expected_status": "one_active_response_sealed_empirical_system_corrected_prepilot",
+    "expected_active_candidate_ids": [
+      "indo_pacific_atoll_native_vascular_plants_2026"
+    ]
+  },
+  "live_confirmatory_queue": {
+    "path": "development/confirmatory_admission_queue_v0_42.json",
+    "expected_entry_count": 0,
+    "confirmatory_response_authorized": false
+  },
+  "active_empirical_system": {
+    "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+    "stage": "corrected_prepilot_contracts_frozen_response_sealed",
+    "ecological_hypothesis": "source_pool_handoff",
+    "graph_universe_atolls": 310,
+    "model_target_atolls": 292,
+    "frozen_graph_radii_km": [
+      36,
+      58,
+      126,
+      233
+    ],
+    "selected_spatial_partition_radius_km": 233,
+    "burned_pilot_blocks": 13,
+    "confirmatory_blocks": 50,
+    "q75_major_landmass_isolation_km": 775.3375,
+    "fixed_pilot_species_rule": "native N in at least two distinct pilot spatial blocks",
+    "v0_31_protocol_fingerprint": "ee8cccc38fb8f4602e05e97d9d875c5ad8773280460c0dafca36ac03fe5871f5",
+    "v0_42_quality_contract_fingerprint": "1b3ad5da960ceac60e594b3ed664a39835e2f49ba1f7d70bfd32ee1c54e28fc6",
+    "pilot_response_accessed": false,
+    "confirmatory_response_accessed": false,
+    "counts_as_confirmatory_evidence": false
+  },
+  "retired_pre_response_design": {
+    "path": "development/indo_pacific_atoll_retired_prepilot_protocol_v0_19.json",
+    "response_accessed": false,
+    "pilot_consumed": false
+  },
+  "confirmatory_eligible_systems": [],
+  "confirmatory_eligible_count": 0,
+  "next_valid_scientific_event": "merge this corrected pre-pilot freeze CI-green, then authorize exactly one burned-pilot response routing under v0.31b/v0.42b/v0.20; preserve the resulting fixed pilot species list and three-column surface, run v0.32 and v0.42, and keep confirmatory species/presence sealed",
+  "ttf_boundary": {
+    "status": "later_independent_transferability_layer",
+    "may_select_structural_candidates": false,
+    "may_rescue_failed_structural_systems": false,
+    "may_count_burned_pilot_as_transfer_evidence": false,
+    "empirical_denominator_shared_with_structural": false
+  },
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_44.json",
+    "status": "active_corrected_atoll_burned_pilot"
+  },
+  "active_docs": [
+    "docs/AISLANDS_SOURCE_POOL_HANDOFF_V0_1.md",
+    "docs/AISLANDS_ISLAND_BIOGEOGRAPHY_PAPER_V0_1.md",
+    "docs/INDO_PACIFIC_ATOLL_PREPILOT_FREEZE_V0_20.md",
+    "docs/CURRENT_STATUS_V0_44.md"
+  ]
+}
