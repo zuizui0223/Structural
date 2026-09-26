@@ -1,0 +1,33 @@
+{
+  "schema": "structural.atoll_zenodo_metadata_probe_authorization.v0_1",
+  "status": "response_blind_metadata_only",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "zenodo_record_id": 18848127,
+  "zenodo_record_api": "https://zenodo.org/api/records/18848127",
+  "allowed_http_requests": [
+    "GET https://zenodo.org/api/records/18848127"
+  ],
+  "forbidden_http_requests": [
+    "any files[].links.self URL",
+    "any files[].links.content URL",
+    "any /files-archive endpoint",
+    "any SenScience downloadable resource URL"
+  ],
+  "allowed_output_fields": [
+    "record_id",
+    "doi",
+    "conceptdoi",
+    "created",
+    "updated",
+    "metadata.title",
+    "metadata.version",
+    "files[].key",
+    "files[].size",
+    "files[].checksum",
+    "files[].links.self",
+    "files[].links.content"
+  ],
+  "vascular_plant_response_values_may_be_read": false,
+  "data_file_bytes_may_be_downloaded": false,
+  "counts_as_empirical_evidence": false
+}
