@@ -1,0 +1,32 @@
+{
+  "schema": "structural.global_island_mammals_weigelt_safe_source.v0_6",
+  "status": "response_independent_external_source_one_shot",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source": {
+    "doi": "10.5061/dryad.fv94v",
+    "expected_file": "Weigelt_etal_2013_PNAS_islanddata.csv",
+    "legacy_file_id": 85841
+  },
+  "provenance": {
+    "prior_user_repo": "zuizui0223/izu-core",
+    "prior_commit": "c788c740e9e103972ddc8d790829af595c4aa3ec",
+    "prior_script": "scripts/acquire_weigelt_global_island_attributes.py"
+  },
+  "role": "response_independent_physical_bioclimatic_island_data",
+  "allowed_semantic_open": [
+    "all columns and rows of Weigelt_etal_2013_PNAS_islanddata.csv"
+  ],
+  "forbidden": [
+    "global mammal Appendix_1 response matrix request",
+    "global mammal Appendix_2 mixed file request",
+    "global mammal species metadata request"
+  ],
+  "output_ceiling": [
+    "source URL/final URL/content type",
+    "exact bytes/SHA-256",
+    "CSV columns/row count",
+    "ID and coordinate/isolation column availability summary",
+    "no mammal response data"
+  ],
+  "counts_as_empirical_evidence": false
+}
