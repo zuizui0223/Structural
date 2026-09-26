@@ -1,0 +1,258 @@
+name: Atoll response-blind spatial components v0.16
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  geometry-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Freeze geometry and spatial components
+        run: |
+          mkdir -p build/atoll_spatial_v016
+          python - <<'PY'
+          import csv
+          import hashlib
+          import io
+          import json
+          import math
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import zipfile
+
+          auth = json.loads(Path(
+              "development/indo_pacific_atoll_spatial_component_freeze_v0_16.json"
+          ).read_text())
+          src = auth["source_archive"]
+          req = Request(
+              src["content_url"],
+              headers={"User-Agent": "Structural-atoll-spatial/0.16"},
+              method="GET",
+          )
+          with urlopen(req, timeout=90) as response:
+              raw = response.read()
+          assert len(raw) == src["size_bytes"]
+          assert hashlib.md5(raw).hexdigest() == src["md5"]
+          assert hashlib.sha256(raw).hexdigest() == src["sha256"]
+
+          def read_csv(zf, spec):
+              member = zf.read(spec["relative_path"])
+              assert hashlib.sha256(member).hexdigest() == spec["sha256"]
+              return list(csv.DictReader(io.StringIO(member.decode("utf-8-sig"))))
+
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              main = read_csv(zf, auth["safe_members"]["main"])
+              bio = read_csv(zf, auth["safe_members"]["biogeography"])
+              env = read_csv(zf, auth["safe_members"]["environmental"])
+
+          assert len(main) == len(bio) == len(env) == 310
+
+          def by_atoll(rows):
+              out = {}
+              for row in rows:
+                  name = row["atoll"].strip()
+                  assert name and name not in out
+                  out[name] = row
+              return out
+
+          m, b, e = by_atoll(main), by_atoll(bio), by_atoll(env)
+          assert set(m) == set(b) == set(e)
+          atolls = sorted(m)
+
+          fields = {
+              "lat": (m, "lat"),
+              "long": (m, "long"),
+              "land_area_sqkm": (b, "land_area_sqkm"),
+              "distance_nearest_atoll_km": (b, "distance_nearest_atoll_km"),
+              "distance_nearest_high_island_km": (b, "distance_nearest_high_island_km"),
+              "distance_continent_km": (b, "distance_continent_km"),
+              "annual_precipitation_mm": (e, "annual_precipitation_mm"),
+          }
+          parsed = {k: {} for k in fields}
+          missing = {k: [] for k in fields}
+          for key, (table, col) in fields.items():
+              for name in atolls:
+                  v = table[name][col].strip()
+                  if not v:
+                      missing[key].append(name)
+                  else:
+                      f = float(v)
+                      assert math.isfinite(f)
+                      parsed[key][name] = f
+          assert all(not x for x in missing.values()), missing
+
+          def hav(a, z):
+              lat1, lon1 = parsed["lat"][a], parsed["long"][a]
+              lat2, lon2 = parsed["lat"][z], parsed["long"][z]
+              r = 6371.0088
+              p1, p2 = math.radians(lat1), math.radians(lat2)
+              dlat = math.radians(lat2-lat1)
+              dlon = math.radians(lon2-lon1)
+              h = math.sin(dlat/2)**2 + math.cos(p1)*math.cos(p2)*math.sin(dlon/2)**2
+              return 2*r*math.asin(min(1.0, math.sqrt(h)))
+
+          pair_distance = {}
+          nearest = {}
+          for i,a in enumerate(atolls):
+              best = None
+              for z in atolls:
+                  if a == z: continue
+                  key = tuple(sorted((a,z)))
+                  if key not in pair_distance:
+                      pair_distance[key] = hav(a,z)
+                  d = pair_distance[key]
+                  best = d if best is None or d < best else best
+              nearest[a] = best
+
+          def qlinear(values, q):
+              xs=sorted(values); h=(len(xs)-1)*q
+              lo,hi=math.floor(h),math.ceil(h)
+              if lo==hi: return xs[lo]
+              f=h-lo
+              return xs[lo]*(1-f)+xs[hi]*f
+
+          nn=list(nearest.values())
+          radius_raw=[qlinear(nn,q) for q in auth["graph_radius_quantiles"]]
+          radii=[math.ceil(x) for x in radius_raw]
+          assert len(set(radii)) == 4 and all(x>0 for x in radii)
+          assert all(x<y for x,y in zip(radii,radii[1:])), radii
+
+          def components(radius):
+              parent={a:a for a in atolls}
+              def find(x):
+                  while parent[x]!=x:
+                      parent[x]=parent[parent[x]]
+                      x=parent[x]
+                  return x
+              def union(x,y):
+                  rx,ry=find(x),find(y)
+                  if rx!=ry: parent[ry]=rx
+              for (a,z),d in pair_distance.items():
+                  if d <= radius:
+                      union(a,z)
+              groups={}
+              for a in atolls:
+                  groups.setdefault(find(a),[]).append(a)
+              comps=[tuple(sorted(v)) for v in groups.values()]
+              return sorted(comps, key=lambda x:(x[0],len(x),x))
+
+          comp_by_radius={str(r):components(r) for r in radii}
+          counts={str(r):len(comp_by_radius[str(r)]) for r in radii}
+          candidates=[r for r in radii if counts[str(r)] >= auth["partition_rule"]["minimum_total_components"]]
+          if candidates:
+              selected_radius=max(candidates)
+              selected_components=comp_by_radius[str(selected_radius)]
+              selected_kind="spatial_component"
+          else:
+              selected_radius=None
+              countries={}
+              for a in atolls:
+                  c=(m[a].get("country") or "").strip()
+                  assert c
+                  countries.setdefault(c,[]).append(a)
+              selected_components=sorted((tuple(sorted(v)) for v in countries.values()), key=lambda x:(x[0],len(x),x))
+              assert len(selected_components) >= auth["partition_rule"]["minimum_total_components"]
+              selected_kind="country_fallback"
+
+          blocks=[]
+          for comp in selected_components:
+              identity=hashlib.sha256(("\n".join(comp)).encode()).hexdigest()
+              rank=hashlib.sha256(("atoll-plants-v1|spatial-component|"+identity).encode()).hexdigest()
+              blocks.append({"block_id":identity,"rank":rank,"atolls":list(comp),"atoll_count":len(comp)})
+          blocks=sorted(blocks,key=lambda x:x["rank"])
+          pilot_n=math.ceil(auth["partition_assignment"]["pilot_fraction"]*len(blocks))
+          assert pilot_n >= 3 and len(blocks)-pilot_n >= 6
+          for i,row in enumerate(blocks):
+              row["partition"]="pilot" if i<pilot_n else "confirmatory"
+
+          major={a:min(parsed["distance_continent_km"][a],parsed["distance_nearest_high_island_km"][a]) for a in atolls}
+          q70=qlinear(list(major.values()),.70)
+          q75=qlinear(list(major.values()),.75)
+          q80=qlinear(list(major.values()),.80)
+          source_scale=qlinear(nn,.50)
+
+          generic_hits={a:0 for a in atolls}
+          for radius in radii:
+              comps=comp_by_radius[str(radius)]
+              for comp in comps:
+                  gateway=any(major[a] <= radius for a in comp)
+                  if gateway:
+                      for a in comp: generic_hits[a]+=1
+
+          block_for={}
+          for row in blocks:
+              for a in row["atolls"]:
+                  assert a not in block_for
+                  block_for[a]=row
+
+          design=[]
+          for a in atolls:
+              br=block_for[a]
+              design.append({
+                  "atoll":a,
+                  "region":m[a]["region"].strip(),
+                  "country":m[a]["country"].strip(),
+                  "source_group":m[a]["group"].strip(),
+                  "lat":parsed["lat"][a],
+                  "long":parsed["long"][a],
+                  "annual_precipitation_mm":parsed["annual_precipitation_mm"][a],
+                  "land_area_sqkm":parsed["land_area_sqkm"][a],
+                  "distance_nearest_atoll_km":parsed["distance_nearest_atoll_km"][a],
+                  "distance_nearest_high_island_km":parsed["distance_nearest_high_island_km"][a],
+                  "distance_continent_km":parsed["distance_continent_km"][a],
+                  "major_landmass_distance_km":major[a],
+                  "centroid_nearest_neighbor_km":nearest[a],
+                  "generic_gateway_connectivity":generic_hits[a]/len(radii),
+                  "spatial_block_id":br["block_id"],
+                  "partition":br["partition"]
+              })
+
+          out=Path("build/atoll_spatial_v016")
+          csvp=out/"atoll_response_blind_design.csv"
+          with csvp.open("w",newline="",encoding="utf-8") as f:
+              w=csv.DictWriter(f,fieldnames=list(design[0]))
+              w.writeheader(); w.writerows(design)
+
+          summary={
+              "schema":"structural.atoll_spatial_component_result.v0_16",
+              "status":"response_blind_spatial_design_complete",
+              "atoll_count":len(atolls),
+              "required_numeric_missing_counts":{k:len(v) for k,v in missing.items()},
+              "nearest_neighbor_quantiles_km":{str(q):qlinear(nn,q) for q in auth["graph_radius_quantiles"]},
+              "frozen_graph_radii_km":radii,
+              "component_counts_by_radius":counts,
+              "partition_block_kind":selected_kind,
+              "selected_partition_radius_km":selected_radius,
+              "selected_block_count":len(blocks),
+              "pilot_block_count":pilot_n,
+              "confirmatory_block_count":len(blocks)-pilot_n,
+              "pilot_block_ids":[x["block_id"] for x in blocks[:pilot_n]],
+              "confirmatory_block_ids":[x["block_id"] for x in blocks[pilot_n:]],
+              "block_sizes":[{"block_id":x["block_id"],"atoll_count":x["atoll_count"],"partition":x["partition"]} for x in blocks],
+              "source_pressure_scale_km":source_scale,
+              "major_landmass_distance_quantiles_km":{"q70":q70,"q75_primary":q75,"q80":q80},
+              "design_csv_sha256":hashlib.sha256(csvp.read_bytes()).hexdigest(),
+              "response_files_opened":0,
+              "response_value_parse_count":0,
+              "model_fit_count":0,
+              "counts_as_empirical_evidence":false
+          }
+          (out/"spatial_summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(summary,indent=2,sort_keys=True))
+          PY
+
+      - name: Upload response-blind spatial design
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoll-response-blind-spatial-v0-16
+          path: |
+            build/atoll_spatial_v016/spatial_summary.json
+            build/atoll_spatial_v016/atoll_response_blind_design.csv
+          if-no-files-found: error
+          retention-days: 90
