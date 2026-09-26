@@ -1,0 +1,79 @@
+{
+  "schema": "structural.indo_pacific_atoll_burned_pilot_authorization.v0_19",
+  "status": "one_shot_burned_pilot_authorized_after_green_prepilot_freeze",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "parent_main_commit": "0dc1135a7e9a35333698728f475677eb14c41804",
+  "allowed_branch_delta": [
+    "development/indo_pacific_atoll_burned_pilot_authorization_v0_19.json",
+    ".github/workflows/atoll-burned-pilot-one-shot-v019.yml"
+  ],
+  "frozen_git_blobs": {
+    "protocol": "68b9b1b9b83db0b7c0d12bd40ccf8a3965da7683",
+    "quality_contract": "600ed73e3940dde0d954b42e8ff04024141451bb",
+    "router_contract": "68431097e4fbb6464bc543a74810dabf3070fa5d",
+    "dual_universe_result": "7abcc950d69d04a4069558c30e8b896414115c40",
+    "router_code": "0701706393be61887ef165d65c838a9c241e06d2",
+    "v0_32_runner": "4e5bfbe158157f0a360c8569c520cfbd79dd7534"
+  },
+  "frozen_protocol_fingerprint": "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653",
+  "frozen_quality_contract_fingerprint": "3b8699947b8d192d5a8f5c5b5cde976a7b77547c2ee3e2d927e68846af33fcdb",
+  "frozen_model_target_design_sha256": "237c0d5e97ab45f3d71dbed5bc799a24012da62942b296652ea0e1977f79f32b",
+  "source_archive": {
+    "zenodo_record_id": 18848127,
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e"
+  },
+  "response_member": {
+    "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_plants.csv",
+    "sha256": "9d6b80322d52f447ce94fc5f03e2ff1fad1007386f4bce30c7d4d2b2e82ede6e"
+  },
+  "safe_members": {
+    "main": {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_main_310.csv",
+      "sha256": "ef6e289fca1530dcca8e014ac8302a4e99fcb127d6c600b25a94fb50b6479d79"
+    },
+    "biogeography": {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_biogeography.csv",
+      "sha256": "3db3a6349975b1abd90f4dab3edc8402cc8fb92e73a61b6909984b517ad5606d"
+    },
+    "environmental": {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_environmental.csv",
+      "sha256": "a66159d0d6deeeb5166a3e36bf0394a7cfa1386b286c46c8ed883a9143c2c07b"
+    }
+  },
+  "response_firewall": {
+    "routing_field": "atoll",
+    "pilot_fields_semantically_openable": [
+      "atoll",
+      "species",
+      "presence"
+    ],
+    "confirmatory_fields_semantically_openable": [
+      "atoll"
+    ],
+    "confirmatory_species_values_parsed_expected": 0,
+    "confirmatory_presence_values_parsed_expected": 0,
+    "excluded_species_values_parsed_expected": 0,
+    "excluded_presence_values_parsed_expected": 0
+  },
+  "allowed_outputs": [
+    "exact three-column burned-pilot CSV",
+    "v0.32 estimability result",
+    "v0.42 response-quality audit",
+    "execution provenance and router counters"
+  ],
+  "prohibited": [
+    "fit any occurrence model",
+    "compute any effect size",
+    "compute any predictive score",
+    "inspect confirmatory species or presence values",
+    "change partitions, endpoint semantics, graph radii, q75 isolation, or gate thresholds",
+    "rerun after any pilot species/presence value has been semantically opened"
+  ],
+  "raw_source_response_may_be_uploaded": false,
+  "confirmatory_response_authorized": false,
+  "predictive_denominator_contribution": 0,
+  "rerun_authorized": false
+}
