@@ -1,0 +1,91 @@
+{
+  "schema": "structural.aislands_source_pool_handoff.v0_1",
+  "status": "ecological_synthesis_from_frozen_exploratory_outputs",
+  "system": "A-Islands",
+  "changes_frozen_structural_primary": false,
+  "counts_as_confirmatory_evidence": false,
+  "adds_new_same_data_search": false,
+  "central_hypothesis": "As mainland access weakens, ecologically relevant source context shifts from mainland-anchored isolation toward continuity with the occupied insular source network.",
+  "ecological_states": {
+    "mainland_source_rich": "climate, island area, mainland distance and direct/diffuse focal-source context explain most held-out occurrence support; species-conditioned topology is mostly redundant",
+    "remote_and_unlinked": "generic mainland access is weak and no compensating occupied insular source path is present",
+    "remote_but_linked": "generic mainland access is weak but the focal species remains connected to occupied insular sources through the frozen archipelago graph"
+  },
+  "evidence": {
+    "classical_state_absorption": {
+      "R1_minus_R0_narrow": -0.012782,
+      "R1_minus_R0_mid": -0.016106,
+      "R1_minus_R0_wide": -0.013424
+    },
+    "source_saturation": {
+      "prevalence_vs_C_minus_R3_spearman_rho": 0.200661,
+      "prevalence_vs_C_minus_R3_pearson_r": 0.421755,
+      "presence_61_plus_mean_C_minus_R3": 0.019006,
+      "presence_61_plus_favourable_fraction": 0.261364
+    },
+    "breadth_by_mainland_remoteness": {
+      "beta": -0.00267192,
+      "p": 0.0007314,
+      "breadth_by_area_beta": 0.00098145,
+      "breadth_by_area_p": 0.12524
+    },
+    "source_decoupling_state": {
+      "rows": 15225,
+      "nonremote_rows_under_frozen_q75_rule": 0,
+      "species_conditioned_frequency": 1.0,
+      "generic_mainland_step_frequency": 0.75
+    },
+    "reference_gap_remote75": {
+      "excess_connectivity_beta": 0.0725678162,
+      "excess_connectivity_p": 0.00000199801,
+      "source_minus_generic_beta": 0.0888621962,
+      "source_minus_generic_p": 0.00000004887097,
+      "multihop25_beta": 0.0643573462,
+      "multihop25_p": 0.00001167684,
+      "direct_source_within25_beta": 0.0417011971,
+      "direct_source_within25_p": 0.072912
+    },
+    "reference_gap_adjusted_nearest_source": {
+      "excess_connectivity_beta": 0.07391712,
+      "excess_connectivity_p": 0.00368224,
+      "source_minus_generic_beta": 0.21249171,
+      "source_minus_generic_p": 0.0000000001406175,
+      "multihop25_beta": 0.05365973,
+      "multihop25_p": 0.00617951
+    },
+    "multihop_presence_state": {
+      "multihop_n": 3635,
+      "multihop_mean_C_minus_R3": -0.10417904,
+      "multihop_favourable_fraction": 0.77799175,
+      "no_multihop_n": 2538,
+      "no_multihop_mean_C_minus_R3": 0.08102968,
+      "no_multihop_favourable_fraction": 0.35500394,
+      "paired_species_n": 211,
+      "paired_mean_difference": -0.20639260,
+      "paired_wilcoxon_p": 1.6051551447736577e-21
+    },
+    "presence_regime_switch_broadest_quartile": {
+      "near_mean_C_minus_R3": 0.192060,
+      "near_favourable_fraction": 0.336619,
+      "remote_mean_C_minus_R3": 0.016076,
+      "remote_median_C_minus_R3": -0.012301,
+      "remote_favourable_fraction": 0.590178
+    }
+  },
+  "interpretation": [
+    "island area and classical mainland/source isolation dominate ordinary occurrence support",
+    "widespread species show stronger topology redundancy under ordinary conditions, consistent with source saturation",
+    "mainland remoteness rather than island area moderates the residual topology signal",
+    "extreme remoteness creates a split between remote-but-linked and remote-and-unlinked source states",
+    "multi-hop occupied source continuity contains information not reducible to direct nearest-source distance",
+    "the effective source context may shift from mainland access toward archipelago-internal occupied source continuity"
+  ],
+  "claim_ceiling": [
+    "no realized dispersal route is observed",
+    "no contemporary colonization probability is estimated",
+    "no rescue effect or demographic persistence is demonstrated",
+    "no universal mainland-distance threshold is claimed",
+    "no independent confirmation exists yet"
+  ],
+  "next_test": "development/prospective_source_pool_handoff_hypothesis_v0_1.json"
+}
