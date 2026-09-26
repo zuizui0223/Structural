@@ -17,12 +17,13 @@
     "mechanistic_interpretation": "source-network continuity may reflect colonization access, rescue/persistence or historical occupancy connectivity; the primary occurrence analysis does not distinguish these mechanisms"
   },
   "primary_prediction": {
-    "name": "isolation_regime_switch",
+    "name": "extreme_isolation_topology_regime_switch",
     "inherits_exactly_from": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
-    "extreme_isolation_rule": "upper 25% of a frozen response-independent isolation distribution",
-    "contrast": "candidate-minus-strong-reference held-out loss in extreme units minus the same increment in non-extreme units",
+    "extreme_isolation_rule": "upper 25% of the frozen eligible-unit isolation distribution computed from predictor-only data before response access",
+    "contrast": "mean candidate-minus-reference held-out loss in extreme-isolation units minus mean candidate-minus-reference held-out loss in non-extreme units",
     "favourable_direction": "negative",
-    "threshold_retuning_after_response": false
+    "threshold_retuning_after_response": false,
+    "statement": "After a strong ecological reference is supplied, the incremental held-out effect of a species-conditioned structural coordinate is more favourable in the upper 25% of a response-independent isolation distribution than in the remaining eligible units."
   },
   "secondary_predictions": {
     "remote_but_linked_vs_remote_unlinked": {
