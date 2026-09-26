@@ -1,0 +1,58 @@
+{
+  "schema": "structural.response_quality_attrition_gate.v0_42",
+  "status": "future_only_additive_admission_gate",
+  "historical_systems_re_adjudicated": false,
+  "historical_gate_versions_modified": false,
+  "parent_chain": [
+    "v0.31 disjoint pilot/confirmatory partition freeze",
+    "v0.32 burned-pilot estimability execution",
+    "v0.33 confirmatory-protocol freeze gate",
+    "v0.36-v0.40 replay/verifier/freeze infrastructure"
+  ],
+  "purpose": "separate usable-response attrition from endpoint/class-support collapse before a future confirmatory response is spent",
+  "pre_pilot_freeze": {
+    "bind_parent_v0_31_protocol_fingerprint": true,
+    "freeze_minimum_response_qualified_blocks": true,
+    "freeze_system_specific_response_quality_semantics": true,
+    "pilot_response_must_be_unopened": true,
+    "confirmatory_response_must_be_unopened": true,
+    "minimum_response_qualified_blocks_may_not_be_weaker_than_minimum_estimable_blocks": true
+  },
+  "raw_pilot_surface": {
+    "schema_changed": false,
+    "columns": [
+      "partition_unit",
+      "block",
+      "target"
+    ],
+    "response_quality_failure_encoding": "rows failing the prospectively frozen system-specific survey/completeness/effort rules enter the pilot surface with missing/non-estimable target",
+    "extra_quality_columns_allowed": false
+  },
+  "two_stage_block_logic": {
+    "stage_A_response_quality_survival": "held-out block retains at least the frozen minimum_test_rows applicable targets",
+    "stage_B_endpoint_estimability": "existing v0.32 held-out training class-support and test-row gates",
+    "A_failure_status": "stop_response_quality_attrition",
+    "B_failure_status": "stop_endpoint_variation",
+    "one_stage_may_not_rescue_the_other": true
+  },
+  "pilot_output_ceiling": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "confirmatory_response_authorized": false
+  },
+  "successful_action": "freeze_confirmatory_protocol_only_after_both_existing_v0_31_v0_33_chain_and_v0_42_quality_survival_pass",
+  "implementation": {
+    "gate": "src/structural/response_quality_attrition.py",
+    "admission_wrapper": "src/structural/future_admission_v0_42.py",
+    "cli": "scripts/run_future_admission_v0_42.py",
+    "tests": "tests/test_response_quality_attrition_v0_42.py"
+  },
+  "empirical_motivation_boundary": {
+    "landfrag_v0_2_observed_after_freeze": "31 of 38 studies passed study response quality but only 29 independent geographies survived versus a frozen minimum of 30; H1 was not scored",
+    "landfrag_used_to_retune_its_own_threshold": false,
+    "landfrag_reopened": false,
+    "v0_42_applies_to_landfrag": false,
+    "pnw_or_rmnp_reopened": false
+  }
+}
