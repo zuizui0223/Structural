@@ -1,0 +1,48 @@
+{
+  "schema": "structural.atoll_content_blind_inventory_authorization.v0_2",
+  "status": "one_shot_opaque_archive_inventory_retry_after_prebyte_406",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "zenodo_record_id": 18848127,
+  "source_file": {
+    "key": "Steibl_2026_Indo_Pacific_Atolls_Dataset.zip",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content"
+  },
+  "prior_failed_attempt": {
+    "workflow_run_id": 36233407698,
+    "workflow_job_id": 108380699033,
+    "failure": "HTTP_406_NOT_ACCEPTABLE_before_archive_bytes_were_read",
+    "cause": "custom Accept application/octet-stream header",
+    "archive_bytes_read": 0,
+    "inventory_executed": false,
+    "semantic_text_parse_count": 0,
+    "response_value_parse_count": 0,
+    "model_fit_count": 0
+  },
+  "allowed_http_requests": [
+    "one GET to the exact frozen source_file.content_url with User-Agent only and no custom Accept header"
+  ],
+  "allowed_operations": [
+    "read exact ZIP bytes once after successful HTTP response",
+    "verify exact byte size and MD5",
+    "compute whole-ZIP SHA-256",
+    "enumerate ZIP member relative paths, extensions and uncompressed byte sizes",
+    "compute per-member SHA-256 using opaque member byte streams"
+  ],
+  "forbidden_operations": [
+    "make a second data-file HTTP request",
+    "decode any ZIP member as text",
+    "read CSV or TSV headers",
+    "parse JSON, JSON-LD, XML, XLSX, shapefile attributes or tabular values",
+    "inspect vascular-plant species records",
+    "summarize any response values",
+    "fit any model"
+  ],
+  "expected_inventory_schema": "structural.content_blind_inventory.v0_11",
+  "semantic_text_parse_count_expected": 0,
+  "response_value_parse_count_expected": 0,
+  "model_fit_count_expected": 0,
+  "raw_archive_may_be_uploaded_as_artifact": false,
+  "counts_as_empirical_evidence": false
+}
