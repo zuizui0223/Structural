@@ -40,7 +40,7 @@ q70 = 720.81 km and q80 = 900.914 km are sensitivity checks only and may not res
 
 Protocol fingerprint:
 
-`0ffd3ced3e09b94bd001ea5dea036253cdd5bf1c0969ebc117431631bdf6a129`
+`c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653`
 
 The pilot is estimability-only.
 
@@ -75,7 +75,7 @@ A block with no complete held-out catalogue or no applicable training-defined sp
 
 Quality-contract fingerprint:
 
-`056dffbd219716ae06f2bbe4eac37acb653f524a4bf8fe130d0a04d3b63c084a`
+`3b8699947b8d192d5a8f5c5b5cde976a7b77547c2ee3e2d927e68846af33fcdb`
 
 At least 3 burned-pilot spatial blocks must retain at least the frozen minimum test rows.
 
