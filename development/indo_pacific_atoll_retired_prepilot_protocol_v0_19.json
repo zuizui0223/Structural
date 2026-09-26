@@ -1,0 +1,16 @@
+{
+  "schema": "structural.indo_pacific_atoll_retired_prepilot_protocol.v0_19",
+  "status": "retired_before_any_response_access",
+  "retired_protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31.json",
+  "retired_protocol_fingerprint": "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653",
+  "retired_quality_contract_path": "development/indo_pacific_atoll_response_quality_contract_v0_42.json",
+  "retired_quality_contract_fingerprint": "3b8699947b8d192d5a8f5c5b5cde976a7b77547c2ee3e2d927e68846af33fcdb",
+  "reason": "held-out-specific species universes made the raw block rows incompatible with v0.32 complement arithmetic because rows in different blocks represented different endpoint universes",
+  "response_accessed": false,
+  "pilot_consumed": false,
+  "effect_size": null,
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "replacement_protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31b.json",
+  "replacement_router_path": "development/indo_pacific_atoll_pilot_router_contract_v0_20.json"
+}
