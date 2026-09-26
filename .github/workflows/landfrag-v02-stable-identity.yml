@@ -1,0 +1,98 @@
+name: LandFrag v0.2 stable identity maintenance
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/landfrag_relative_topology/**"
+      - ".github/workflows/landfrag-v02-stable-identity.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: landfrag-v02-stable-identity-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stable_identity:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen numerical dependency
+        run: python -m pip install numpy
+      - name: Generate response-blind identity twice
+        shell: bash
+        run: |
+          set -o pipefail
+          for pass in 1 2; do
+            python research/landfrag_relative_topology/metadata_census_v0_2.py > census_${pass}.json
+            python research/landfrag_relative_topology/precision_audit_v0_2.py               --census census_${pass}.json > precision_${pass}.json
+            python research/landfrag_relative_topology/freeze_protocol_v0_2.py               --census census_${pass}.json               --precision precision_${pass}.json > protocol_${pass}.json
+          done
+      - name: Verify deterministic stable identity and unchanged science
+        run: |
+          python - <<'PY'
+          import json
+
+          c1=json.load(open("census_1.json")); c2=json.load(open("census_2.json"))
+          p1=json.load(open("precision_1.json")); p2=json.load(open("precision_2.json"))
+          q1=json.load(open("protocol_1.json")); q2=json.load(open("protocol_2.json"))
+          old=json.load(open("research/landfrag_relative_topology/pre_response_lock_v0_2.json"))
+
+          assert c1["census_fingerprint"] == c2["census_fingerprint"]
+          assert p1["precision_fingerprint"] == p2["precision_fingerprint"]
+          assert q1["protocol_fingerprint"] == q2["protocol_fingerprint"]
+          assert c1["census_fingerprint_semantics"]["scientific_design_changed"] is False
+
+          sel=c1["selection"]
+          assert sel["geometry_qualified_studies"] == old["panel"]["studies"] == 38
+          assert sel["independent_geography_clusters"] == old["panel"]["geography_clusters"] == 34
+          assert sel["qualified_fragments"] == old["panel"]["fragments"] == 886
+          assert sel["qualified_focals"] == old["panel"]["focal_fragments"] == 784
+          assert c1["source"]["abundance_git_blob_sha"] == old["response_surface"]["git_blob_sha"] == "abfdd21712b7f221207e25e62b623e8a8a901a55"
+
+          multi={
+              row["cluster_id"]:row["studies"]
+              for row in c1["geography_clustering"]["clusters"]
+              if len(row["studies"])>1
+          }
+          assert multi == old["panel"]["multi_study_clusters"]
+
+          assert p1["geography_cluster_count"] == 34
+          assert round(float(p1["global_unit_residual_target_se_bound"]),12) == round(float(old["precision"]["unit_residual_target_se_bound"]),12)
+          assert round(float(p1["unit_residual_95pct_halfwidth"]),12) == round(float(old["precision"]["unit_residual_95pct_halfwidth"]),12)
+          assert round(float(p1["unit_residual_two_sided_alpha05_power80_mde"]),12) == round(float(old["precision"]["unit_residual_two_sided_alpha05_power80_mde"]),12)
+
+          assert q1["study_model"]["columns"] == old["model"]["columns"]
+          assert q1["study_model"]["target"] == old["model"]["target"] == "direct_x_gain"
+          assert q1["H1_primary"]["prediction"] == old["model"]["H1_prediction"] == "positive"
+          assert q1["geography_aggregation"]["minimum_response_qualified_geography_clusters"] == old["model"]["response_qualified_cluster_minimum"] == 30
+          assert q1["bootstrap"]["replicates"] == old["model"]["bootstrap_replicates"] == 10000
+          assert q1["bootstrap"]["seed"] == old["model"]["bootstrap_seed"] == 20260925
+          assert q1["bootstrap"]["quantile_method"] == old["model"]["quantile_method"] == "numpy.quantile method=linear"
+
+          print("LANDFRAG_STABLE_IDENTITY_MAINTENANCE_OK")
+          print("NEW_CENSUS",c1["census_fingerprint"])
+          print("NEW_PRECISION",p1["precision_fingerprint"])
+          print("NEW_PROTOCOL",q1["protocol_fingerprint"])
+          print("SELECTION",sel)
+          print("PRECISION",{
+              "se":p1["global_unit_residual_target_se_bound"],
+              "halfwidth":p1["unit_residual_95pct_halfwidth"],
+              "mde":p1["unit_residual_two_sided_alpha05_power80_mde"],
+          })
+          PY
+      - name: Assert abundance response remains unreachable
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path("research/landfrag_relative_topology/metadata_census_v0_2.py").read_text()
+          assert p.count("fetch_raw(") == 2
+          assert "fetch_raw(METADATA_PATH)" in p
+          assert "fetch_raw(ABUNDANCE_PATH)" not in p
+          print("NO_LANDFRAG_ABUNDANCE_ACCESS_IN_IDENTITY_MAINTENANCE")
+          PY
