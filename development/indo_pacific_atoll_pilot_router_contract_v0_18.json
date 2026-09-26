@@ -3,7 +3,7 @@
   "status": "frozen_before_burned_pilot_response",
   "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
   "parent_protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31.json",
-  "parent_protocol_fingerprint": "0ffd3ced3e09b94bd001ea5dea036253cdd5bf1c0969ebc117431631bdf6a129",
+  "parent_protocol_fingerprint": "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653",
   "quality_contract_path": "development/indo_pacific_atoll_response_quality_contract_v0_42.json",
   "dual_universe_result_path": "development/indo_pacific_atoll_dual_universe_result_v0_17.json",
   "response_member": {
