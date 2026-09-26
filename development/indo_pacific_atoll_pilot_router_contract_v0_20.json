@@ -62,5 +62,6 @@
     "counts_as_empirical_confirmation": false
   },
   "pilot_response_authorized": false,
-  "confirmatory_response_authorized": false
+  "confirmatory_response_authorized": false,
+  "quality_contract_fingerprint": "1b3ad5da960ceac60e594b3ed664a39835e2f49ba1f7d70bfd32ee1c54e28fc6"
 }
