@@ -1,0 +1,31 @@
+{
+  "schema": "structural.atoll_partition_axis_audit_authorization.v0_15",
+  "status": "response_blind_safe_metadata_only",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_archive": {
+    "zenodo_record_id": 18848127,
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e"
+  },
+  "safe_member": {
+    "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_main_310.csv",
+    "sha256": "ef6e289fca1530dcca8e014ac8302a4e99fcb127d6c600b25a94fb50b6479d79"
+  },
+  "candidate_axes": ["region", "country", "group"],
+  "minimum_pilot_blocks": 3,
+  "minimum_confirmatory_blocks": 6,
+  "pilot_fraction": 0.20,
+  "allowed_outputs": [
+    "missing count by axis",
+    "distinct nonmissing block count by axis",
+    "sorted block names and atoll counts",
+    "minimum/median/maximum block size",
+    "deterministic pilot/confirmatory feasibility under SHA256 ranking"
+  ],
+  "response_files_may_be_opened": false,
+  "response_values_may_be_read": false,
+  "model_fit_count_expected": 0,
+  "counts_as_empirical_evidence": false
+}
