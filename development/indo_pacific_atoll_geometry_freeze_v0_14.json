@@ -1,0 +1,64 @@
+{
+  "schema": "structural.atoll_geometry_freeze.v0_14",
+  "status": "response_blind_one_shot_geometry_only",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_archive": {
+    "zenodo_record_id": 18848127,
+    "key": "Steibl_2026_Indo_Pacific_Atolls_Dataset.zip",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e",
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content"
+  },
+  "semantic_open_allowlist": [
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_main_310.csv",
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_biogeography.csv",
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_environmental.csv"
+  ],
+  "required_fields": {
+    "atoll_main_310": [
+      "atoll",
+      "region",
+      "group",
+      "lat",
+      "long"
+    ],
+    "atoll_biogeography": [
+      "atoll",
+      "land_area_sqkm",
+      "distance_nearest_atoll_km",
+      "distance_nearest_high_island_km",
+      "distance_continent_km"
+    ],
+    "atoll_environmental": [
+      "atoll",
+      "annual_precipitation_mm"
+    ]
+  },
+  "major_landmass_distance": "min(distance_nearest_high_island_km, distance_continent_km)",
+  "quantile_rule": "linear interpolation on sorted values at index (n-1)*q",
+  "primary_extreme_quantile": 0.75,
+  "sensitivity_quantiles": [
+    0.7,
+    0.8
+  ],
+  "graph_radius_quantiles": [
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "graph_radii_rounding": "ceil to whole kilometres",
+  "graph_universe": "all 310 atolls",
+  "source_pressure_scale": "median centroid nearest-neighbour distance among all 310 atolls",
+  "partition_axis": "group",
+  "partition_hash": "sha256('atoll-plants-v1|' + stripped group name)",
+  "pilot_group_fraction": 0.2,
+  "pilot_group_count_rule": "ceil(0.20 * number_of_unique_groups)",
+  "minimum_pilot_groups": 3,
+  "minimum_confirmatory_groups": 6,
+  "response_files_opened": false,
+  "response_value_parse_count": 0,
+  "model_fit_count": 0,
+  "counts_as_empirical_evidence": false
+}
