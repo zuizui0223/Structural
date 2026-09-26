@@ -1,0 +1,69 @@
+{
+  "schema": "structural.prospective_ecology_hypothesis.source_pool_handoff.v0_1",
+  "status": "fresh_ecological_hypothesis_reframed_from_frozen_aislands_discovery_not_yet_tested",
+  "discovery_sources": [
+    "development/exploratory_ecology_v0_1.json",
+    "development/exploratory_ecology_v0_2.json",
+    "development/exploratory_ecology_v0_3.json",
+    "development/exploratory_ecology_v0_4.json"
+  ],
+  "discovery_sources_may_not_count_as_confirmation": true,
+  "same_data_retuning_forbidden": true,
+  "ecological_model": {
+    "name": "source_pool_handoff",
+    "statement": "The effective source context of island occurrence shifts from mainland-anchored isolation toward archipelago-internal occupied source continuity as mainland access becomes extreme.",
+    "mainland_source_rich_prediction": "after climate, island area, mainland isolation and source proximity are supplied, species-conditioned topology is weak or redundant",
+    "remote_prediction": "within a response-independent extreme-isolation tail, units retaining occupied insular source-network continuity have more occurrence support than equally remote units lacking that continuity",
+    "mechanistic_interpretation": "source-network continuity may reflect colonization access, rescue/persistence or historical occupancy connectivity; the primary occurrence analysis does not distinguish these mechanisms"
+  },
+  "primary_prediction": {
+    "name": "extreme_isolation_topology_regime_switch",
+    "inherits_exactly_from": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "extreme_isolation_rule": "upper 25% of the frozen eligible-unit isolation distribution computed from predictor-only data before response access",
+    "contrast": "mean candidate-minus-reference held-out loss in extreme-isolation units minus mean candidate-minus-reference held-out loss in non-extreme units",
+    "favourable_direction": "negative",
+    "threshold_retuning_after_response": false,
+    "statement": "After a strong ecological reference is supplied, the incremental held-out effect of a species-conditioned structural coordinate is more favourable in the upper 25% of a response-independent isolation distribution than in the remaining eligible units."
+  },
+  "secondary_predictions": {
+    "remote_but_linked_vs_remote_unlinked": {
+      "population": "extreme-isolation units only",
+      "state_definition": "source-conditioned connectivity > generic species-independent connectivity",
+      "prediction": "candidate-minus-reference loss is more favourable in remote-but-linked than remote-and-unlinked units",
+      "may_rescue_failed_primary": false
+    },
+    "multihop_continuity": {
+      "definition": "connected to a permitted occupied source at the smallest frozen graph scale while nearest permitted occupied source distance exceeds that scale",
+      "prediction": "multi-hop source-network state retains occurrence information after nearest-source distance is represented",
+      "smallest_scale_frozen_before_response": true,
+      "may_rescue_failed_primary": false
+    },
+    "source_saturation": {
+      "moderator": "response-blind source/range breadth defined before confirmatory response access",
+      "prediction": "topology is most redundant for broad-source species in mainland-source-rich settings, with redundancy attenuated in extreme-isolation settings",
+      "role": "mechanistic_secondary_not_required_for_primary_success"
+    }
+  },
+  "independent_biological_discrimination": {
+    "contemporary_colonization": "requires repeated occupancy/transition data and predeclared 0_to_1 analysis",
+    "rescue_or_persistence": "requires repeated occupancy and separately predeclared 1_to_0 or 1_to_1 analysis",
+    "historical_occupancy_legacy": "requires independent genetic/source-affinity evidence",
+    "environmental_proxy": "requires response-blind enriched environmental reference",
+    "no_mechanism_may_rescue_failed_structural_primary": true
+  },
+  "cross_system_generalization": {
+    "minimum_requirement": "same-direction primary regime-switch result in at least one independently admitted island system under spatial transfer",
+    "stronger_requirement": "replication across independently admitted island archipelagos with distinct geography and source pools",
+    "fragmentation_analogy": "habitat fragments may test an analogous source-network handoff but are not treated as the same biogeographic process as true islands"
+  },
+  "anti_selection": [
+    "do not select a new system because its known outcome supports source-pool handoff",
+    "do not change the 0.75 extreme-isolation threshold after response access",
+    "do not choose generic connectivity or smallest graph scale after seeing response outcomes",
+    "do not select taxa by favourable A-Islands subgroup behaviour",
+    "do not count A-Islands exploratory statistics as confirmation",
+    "do not infer realized stepping-stone movement from graph paths"
+  ],
+  "current_confirmatory_systems": [],
+  "confirmatory_response_authorized": false
+}
