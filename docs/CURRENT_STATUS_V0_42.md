@@ -49,7 +49,7 @@ System-specific response-quality failures are encoded as missing/non-estimable t
 
 ## Future sequence
 
-    independent-system intake
+    v0.11 response-sealed independent-system intake bridge
       -> v0.31 disjoint partition freeze
       -> v0.42 response-quality contract freeze
       -> v0.39 exact burned-pilot surface
@@ -76,3 +76,10 @@ LandFrag motivates a future design distinction; it does not receive a new analys
 The next event is still not opportunistic candidate hunting.
 
 A genuinely new system must independently become available in a form that can be specified before response access as both a v0.31 protocol and a v0.42 attrition contract. Only then is burning a pilot scientifically justified.
+
+
+## Intake and mechanism integration
+
+The future entrypoint is now v0.11, which replays the frozen v0.10 intake checks and authorizes construction of both required pre-pilot objects: first v0.31, then the v0.42 quality contract bound to the exact v0.31 fingerprint. Intake still authorizes no response access.
+
+Mechanism admission is also bound forward. A newly arriving empirical mechanism system must use the v0.42 Structural live queue as its production parent. The historical v0.38 queue remains usable only for explicit synthetic/provenance replay, so a mechanism lane cannot bypass the response-quality attrition gate.
