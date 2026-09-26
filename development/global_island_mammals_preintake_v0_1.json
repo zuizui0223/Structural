@@ -1,0 +1,145 @@
+{
+  "schema": "structural.preintake_candidate.global_island_mammals.v0_1",
+  "status": "HOLD_exact_dryad_file_identity_and_mixed_metadata_firewall_not_yet_frozen",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_identity": {
+    "dryad_doi": "10.5061/dryad.hmgqnk9j2",
+    "source_article_doi": "10.1098/rspb.2021.1879",
+    "dryad_published": "2023-06-02",
+    "dryad_current_version_updated": "2024-06-17",
+    "analysis_code_zenodo_doi": "10.5281/zenodo.5639591",
+    "structural_prior_use_found": false,
+    "response_file_downloaded_by_structural": false,
+    "response_values_opened_by_structural": false
+  },
+  "public_metadata_basis": {
+    "islands": 5592,
+    "response_matrix": "Appendix_1_presence_absence.csv",
+    "response_matrix_description": "explicit island-by-mammal presence/absence matrix; island ID in rows and mammal species in columns",
+    "island_table": "Appendix_2-dryad.xlsx",
+    "species_insularity_table": "mammal_insularity_from_IUCN.csv",
+    "introduced_species_removed": true,
+    "fully_aquatic_and_marine_semiaquatic_species_removed": true,
+    "human_extinct_native_species_restored": true,
+    "zero_mammal_islands_excluded": true,
+    "environmental_complete_case_filter_already_applied_by_source": true,
+    "realms": 12
+  },
+  "response_domain": {
+    "unit": "island_by_mammal_species",
+    "values": [
+      "0",
+      "1"
+    ],
+    "target_one": "species present in source presence-absence matrix",
+    "target_zero": "species absent in source presence-absence matrix",
+    "categorical_domain_is_explicit_before_response_access": true,
+    "no_post_access_new_code_interpretation": true
+  },
+  "claim_population": {
+    "included": "source-curated islands with at least one mammal species and complete source environmental/realm information",
+    "excluded": "islands with zero mammal species according to source IUCN-derived database",
+    "implication": "results cannot be interpreted as colonization probability of mammal-empty islands"
+  },
+  "temporal_semantics": {
+    "endpoint": "native_or_reconstructed_historical_occupancy_state",
+    "reason": "source matrix restores native species extinct through human activity",
+    "contemporary_colonization_claim_authorized": false,
+    "rescue_effect_claim_authorized": false
+  },
+  "ecological_hypothesis": {
+    "parent": "development/prospective_source_pool_handoff_hypothesis_v0_1.json",
+    "name": "global_mammal_source_pool_handoff",
+    "statement": "Among mammal-occupied islands, species-conditioned continuity with occupied insular sources should retain occurrence information beyond island area, current mainland isolation, past land-bridge isolation, generic island-network context, and direct/diffuse occupied-source proximity, with the incremental information concentrated in the most currently isolated islands.",
+    "A_Islands_counts_as_confirmation": false,
+    "Indo_Pacific_atoll_terminal_stop_counts_as_confirmation": false
+  },
+  "response_independent_reference_template": {
+    "R0": [
+      "zoogeographic_realm",
+      "temperature_mean",
+      "temperature_sd",
+      "precipitation_mean",
+      "precipitation_sd",
+      "elevation_sd"
+    ],
+    "R1_add": [
+      "log_area",
+      "current_isolation_SLMP",
+      "past_isolation_GMMC",
+      "climate_velocity"
+    ],
+    "R2_add": [
+      "response_independent_generic_island_network_context_from_frozen_centroids"
+    ],
+    "R3_add": [
+      "outer_training_nearest_occupied_source_distance",
+      "outer_training_multi_source_pressure"
+    ],
+    "C_add": [
+      "outer_training_species_conditioned_multihop_source_connectivity"
+    ],
+    "primary_predictive_contrast": "C_minus_R3 heldout log loss",
+    "favourable_direction": "negative"
+  },
+  "primary_regime_prediction": {
+    "extreme_isolation_variable": "source Current_isolation / SLMP coding in which larger values represent greater present isolation",
+    "primary_extreme_rule": "upper 25% of frozen model-target current-isolation distribution",
+    "prediction": "C_minus_R3 is more favourable in extreme-current-isolation islands than in non-extreme islands",
+    "q70_q80_sensitivity_may_not_rescue_primary": true
+  },
+  "dispersal_mode_secondary": {
+    "status": "prospective_secondary_requires_external_taxonomy_freeze_before_response",
+    "groups": [
+      "Chiroptera",
+      "non_volant_mammals"
+    ],
+    "prediction": "current source-network continuity should be relatively more informative for bats, whereas past-isolation state should explain a larger share of non-volant occurrence structure",
+    "basis": "source paper reports stronger current-isolation association for bats and stronger past-isolation association for non-volant mammals",
+    "may_not_rescue_failed_primary": true
+  },
+  "required_preintake_firewall": {
+    "Appendix_1_presence_absence.csv": "response",
+    "Appendix_2-dryad.xlsx": "mixed_metadata_plus_response_derived_richness_endemism",
+    "mammal_insularity_from_IUCN.csv": "response_blind_species_metadata_candidate",
+    "README.md": "documentation",
+    "Barreto_et_al_Island_mammal_ProcB.R": "documentation_and_analysis_code_only"
+  },
+  "appendix2_safe_column_intent": [
+    "ID",
+    "Lat_centroid",
+    "Long_centroid",
+    "Area",
+    "Current_isolation",
+    "Past_isolation",
+    "Climate_velocity",
+    "Temperature_mean",
+    "Temperature_sd",
+    "Precipitation_mean",
+    "Precipitation_sd",
+    "Elevation_sd",
+    "bioregion"
+  ],
+  "appendix2_forbidden_response_derived_columns_pattern": [
+    "Richness_*",
+    "SIE_*",
+    "pSIE*"
+  ],
+  "coordinate_provenance": {
+    "code_only_evidence": "published analysis code uses Lat_centroid and Long_centroid from the island analysis object and derives plotting Longitude/Latitude from them",
+    "values_opened": false
+  },
+  "preintake_stop_conditions": [
+    "current Dryad file identities/checksums cannot be frozen without opening response values",
+    "Appendix 2 schema lacks stable island ID or centroid coordinates",
+    "response-derived richness/endemism columns cannot be separated from safe physical/environmental columns by a column firewall",
+    "presence/absence response domain is not exactly binary 0/1 under schema-only validation",
+    "island IDs cannot join Appendix 1 to safe Appendix 2 columns without inspecting response values",
+    "response-independent spatial partition cannot be frozen with enough pilot and confirmatory blocks"
+  ],
+  "next_action": "resolve current Dryad file IDs, byte sizes and checksums metadata-only; schema-open Appendix 2 headers/sheet names only; freeze a column-level mixed-file firewall before reading any island covariate values",
+  "v0_11_intake_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false
+}
