@@ -1,0 +1,175 @@
+name: Global mammals Weigelt safe-source audit v0.6
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  weigelt-safe-source:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve and fetch response-independent Weigelt island table
+        run: |
+          mkdir -p build/global_mammals_weigelt
+          python - <<'PY'
+          import csv
+          import hashlib
+          import io
+          import json
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          A=json.loads(Path(
+              "development/global_island_mammals_weigelt_safe_source_v0_6.json"
+          ).read_text())
+          API="https://datadryad.org/api/v2"
+          DOI=A["source"]["doi"]
+          expected=A["source"]["expected_file"]
+          legacy=A["source"]["legacy_file_id"]
+          headers={
+              "Accept":"application/json",
+              "X-API-Version":"2.1.0",
+              "User-Agent":"Structural-weigelt-safe-source/0.6"
+          }
+
+          def get_json(url):
+              with urllib.request.urlopen(
+                  urllib.request.Request(url,headers=headers),
+                  timeout=60
+              ) as r:
+                  return json.loads(r.read())
+
+          encoded=urllib.parse.quote(f"doi:{DOI}",safe="")
+          ds=get_json(f"{API}/datasets/{encoded}")
+          version_href=ds["_links"]["stash:version"]["href"]
+          if version_href.startswith("/"):
+              version_href="https://datadryad.org"+version_href
+          version=get_json(version_href)
+          vid=version.get("id") or int(version_href.rstrip("/").split("/")[-1])
+          manifest=get_json(f"{API}/versions/{vid}/files?per_page=100")
+          files=manifest["_embedded"]["stash:files"]
+
+          matches=[f for f in files if f.get("path")==expected]
+          assert len(matches)==1
+          meta=matches[0]
+          self_href=meta["_links"]["self"]["href"]
+          fid=int(self_href.rstrip("/").split("/")[-1])
+          assert fid==legacy, (fid,legacy)
+
+          urls=[
+              f"{API}/files/{fid}/download",
+              f"https://datadryad.org/downloads/file_stream/{fid}",
+              f"https://datadryad.org/stash/downloads/file_stream/{fid}"
+          ]
+
+          attempts=[]
+          raw=None
+          selected_url=None
+          for url in urls:
+              req=urllib.request.Request(
+                  url,
+                  headers={
+                      "Accept":"text/csv,*/*",
+                      "User-Agent":"Structural-weigelt-safe-source/0.6"
+                  }
+              )
+              try:
+                  with urllib.request.urlopen(req,timeout=90) as r:
+                      candidate=r.read()
+                      attempts.append({
+                          "url":url,
+                          "status":"retrieved",
+                          "bytes":len(candidate),
+                          "content_type":r.headers.get("Content-Type",""),
+                          "final_url":r.geturl()
+                      })
+                  head=candidate[:1000].decode("utf-8",errors="replace").lower()
+                  if len(candidate)>1000 and "<html" not in head and "," in head:
+                      raw=candidate
+                      selected_url=url
+                      break
+              except urllib.error.HTTPError as exc:
+                  attempts.append({
+                      "url":url,
+                      "status":"blocked",
+                      "http_status":exc.code
+                  })
+              except Exception as exc:
+                  attempts.append({
+                      "url":url,
+                      "status":"blocked",
+                      "error":repr(exc)
+                  })
+
+          if raw is None:
+              out={
+                  "schema":"structural.global_island_mammals_weigelt_safe_source_result.v0_6",
+                  "status":"safe_source_transport_blocked",
+                  "dryad_version_id":vid,
+                  "file_id":fid,
+                  "file_metadata":{
+                      "path":meta.get("path"),
+                      "size":meta.get("size"),
+                      "digest":meta.get("digest"),
+                      "digestType":meta.get("digestType")
+                  },
+                  "download_attempts":attempts,
+                  "global_mammal_response_requests":0,
+                  "counts_as_empirical_evidence":False
+              }
+          else:
+              text=raw.decode("utf-8-sig")
+              reader=csv.DictReader(io.StringIO(text))
+              rows=list(reader)
+              cols=reader.fieldnames or []
+              lower={x.lower():x for x in cols}
+              def find_names(tokens):
+                  return [c for c in cols if any(t in c.lower() for t in tokens)]
+              out={
+                  "schema":"structural.global_island_mammals_weigelt_safe_source_result.v0_6",
+                  "status":"safe_source_retrieved",
+                  "dryad_version_id":vid,
+                  "file_id":fid,
+                  "selected_url":selected_url,
+                  "bytes":len(raw),
+                  "sha256":hashlib.sha256(raw).hexdigest(),
+                  "row_count":len(rows),
+                  "columns":cols,
+                  "candidate_id_columns":find_names(["id"]),
+                  "candidate_coordinate_columns":find_names(["lat","lon","coord","centroid"]),
+                  "candidate_isolation_columns":find_names(["dist","slmp","gmmc"]),
+                  "candidate_climate_columns":find_names(["temp","prec","ccvt","elev"]),
+                  "download_attempts":attempts,
+                  "global_mammal_response_requests":0,
+                  "counts_as_empirical_evidence":False
+              }
+              Path("build/global_mammals_weigelt/Weigelt_etal_2013_PNAS_islanddata.csv").write_bytes(raw)
+
+          p=Path("build/global_mammals_weigelt/source_result.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Assert no mammal response access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_weigelt/source_result.json").read_text())
+          assert x["global_mammal_response_requests"]==0
+          print("response-independent Weigelt source audit complete")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-source-v0-6
+          path: build/global_mammals_weigelt/
+          if-no-files-found: error
+          retention-days: 90
