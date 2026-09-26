@@ -1,0 +1,196 @@
+name: Atoll predictor-complete geometry v0.14c
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build response-blind predictor-complete geometry
+        run: |
+          python - <<'PY'
+          import csv, hashlib, io, json, math, zipfile
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          auth=json.loads(Path("development/indo_pacific_atoll_geometry_freeze_v0_14c.json").read_text())
+          inv=json.loads(Path("development/indo_pacific_atoll_archive_inventory_v0_11.json").read_text())
+          imap={x["relative_path"]:x for x in inv["entries"]}
+          prefix="Steibl_2026_Indo_Pacific_Atolls_Dataset/"
+          paths={"main":prefix+"atoll_main_310.csv","bio":prefix+"atoll_biogeography.csv","env":prefix+"atoll_environmental.csv"}
+          url="https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content"
+          req=Request(url,headers={"User-Agent":"Structural-atoll-geometry/0.14c"})
+          with urlopen(req,timeout=90) as response: raw=response.read()
+          assert hashlib.sha256(raw).hexdigest()=="1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e"
+
+          def read(zf,p):
+              b=zf.read(p); assert hashlib.sha256(b).hexdigest()==imap[p]["sha256"]
+              return list(csv.DictReader(io.StringIO(b.decode("utf-8-sig"))))
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              raw_tables={k:read(zf,p) for k,p in paths.items()}
+          def idx(rows):
+              d={}
+              for r in rows:
+                  a=r["atoll"].strip(); assert a and a not in d; d[a]=r
+              return d
+          M,B,E=idx(raw_tables["main"]),idx(raw_tables["bio"]),idx(raw_tables["env"])
+          all_names=sorted(set(M)&set(B)&set(E)); assert len(all_names)==310
+
+          req_fields=[
+              ("main","lat"),("main","long"),("main","region"),
+              ("bio","land_area_sqkm"),("bio","distance_nearest_atoll_km"),
+              ("bio","distance_nearest_high_island_km"),("bio","distance_continent_km"),
+              ("env","annual_precipitation_mm")
+          ]
+          tables={"main":M,"bio":B,"env":E}
+          excluded={}
+          eligible=[]
+          for a in all_names:
+              miss=[]
+              for t,c in req_fields:
+                  if not (tables[t][a].get(c) or "").strip(): miss.append(c)
+              if miss: excluded[a]=miss
+              else: eligible.append(a)
+          assert eligible and len(eligible)+len(excluded)==310
+
+          def num(t,a,c):
+              v=float(tables[t][a][c]); assert math.isfinite(v); return v
+          coords={a:(num("main",a,"lat"),num("main",a,"long")) for a in eligible}
+          land={a:num("bio",a,"land_area_sqkm") for a in eligible}
+          d_atoll={a:num("bio",a,"distance_nearest_atoll_km") for a in eligible}
+          d_high={a:num("bio",a,"distance_nearest_high_island_km") for a in eligible}
+          d_cont={a:num("bio",a,"distance_continent_km") for a in eligible}
+          rain={a:num("env",a,"annual_precipitation_mm") for a in eligible}
+          major={a:min(d_high[a],d_cont[a]) for a in eligible}
+
+          def hav(p,q):
+              R=6371.0088; p1=math.radians(p[0]); p2=math.radians(q[0])
+              dlat=math.radians(q[0]-p[0]); dlon=math.radians(q[1]-p[1])
+              z=math.sin(dlat/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dlon/2)**2
+              return 2*R*math.asin(min(1.0,math.sqrt(z)))
+
+          dist={}
+          nearest={}
+          for i,a in enumerate(eligible):
+              best=None
+              for z in eligible:
+                  if a==z: continue
+                  key=tuple(sorted((a,z)))
+                  if key not in dist: dist[key]=hav(coords[a],coords[z])
+                  d=dist[key]; best=d if best is None or d<best else best
+              nearest[a]=best
+
+          def qlinear(vals,q):
+              x=sorted(vals); h=(len(x)-1)*q; lo=math.floor(h); hi=math.ceil(h)
+              return x[lo] if lo==hi else x[lo]*(hi-h)+x[hi]*(h-lo)
+
+          nn=list(nearest.values())
+          raw_r=[qlinear(nn,q) for q in auth["graph_radius_quantiles"]]
+          radii=[math.ceil(x) for x in raw_r]
+          assert all(x<y for x,y in zip(radii,radii[1:])), radii
+
+          def comps(radius):
+              parent={a:a for a in eligible}
+              def find(x):
+                  while parent[x]!=x:
+                      parent[x]=parent[parent[x]]; x=parent[x]
+                  return x
+              def union(x,y):
+                  x,y=find(x),find(y)
+                  if x!=y:
+                      if x<y: parent[y]=x
+                      else: parent[x]=y
+              for (a,z),d in dist.items():
+                  if d<=radius: union(a,z)
+              out={}
+              for a in eligible: out.setdefault(find(a),[]).append(a)
+              return sorted((tuple(sorted(v)) for v in out.values()),key=lambda v:(-len(v),v))
+
+          diag={}; qualified=[]
+          rule=auth["spatial_block_rule"]
+          for r in radii:
+              cs=comps(r); largest=len(cs[0])
+              ok=len(cs)>=11 and largest/len(eligible)<=0.5
+              diag[str(r)]={"component_count":len(cs),"largest_size":largest,
+                            "largest_fraction":largest/len(eligible),"qualified":ok}
+              if ok: qualified.append(r)
+          assert qualified, diag
+          selected=max(qualified); cs=comps(selected)
+
+          members={}; block={}
+          for c in cs:
+              bid="SC_"+hashlib.sha256("|".join(c).encode()).hexdigest()[:12]
+              members[bid]=list(c)
+              for a in c: block[a]=bid
+          blocks=sorted(members)
+          ranked=sorted(blocks,key=lambda b:hashlib.sha256(("atoll-plants-v1|spatial-component|"+b).encode()).hexdigest())
+          pilot_n=math.ceil(0.2*len(blocks))
+          assert pilot_n>=3 and len(blocks)-pilot_n>=6
+          pilot=set(ranked[:pilot_n])
+
+          generic={a:0 for a in eligible}
+          for r in radii:
+              for c in comps(r):
+                  if any(major[a]<=r for a in c):
+                      for a in c: generic[a]+=1
+
+          rows=[]
+          for a in eligible:
+              rows.append({
+                  "atoll":a,"region":M[a]["region"].strip(),
+                  "lat":coords[a][0],"long":coords[a][1],
+                  "land_area_sqkm":land[a],"annual_precipitation_mm":rain[a],
+                  "distance_nearest_atoll_km":d_atoll[a],
+                  "distance_nearest_high_island_km":d_high[a],
+                  "distance_continent_km":d_cont[a],
+                  "major_landmass_distance_km":major[a],
+                  "centroid_nearest_neighbor_km":nearest[a],
+                  "generic_gateway_connectivity":generic[a]/len(radii),
+                  "spatial_block":block[a],
+                  "partition":"pilot" if block[a] in pilot else "confirmatory"
+              })
+
+          out=Path("build/atoll_v014c"); out.mkdir(parents=True,exist_ok=True)
+          cp=out/"design.csv"
+          with cp.open("w",newline="",encoding="utf-8") as fh:
+              w=csv.DictWriter(fh,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+
+          result={
+              "schema":"structural.atoll_geometry_result.v0_14c",
+              "status":"response_blind_geometry_complete",
+              "all_atolls":310,"eligible_predictor_complete_atolls":len(eligible),
+              "excluded_atolls":excluded,
+              "nearest_neighbor_quantiles_km":{str(q):qlinear(nn,q) for q in auth["graph_radius_quantiles"]},
+              "frozen_graph_radii_km":radii,
+              "component_diagnostics":diag,
+              "selected_block_radius_km":selected,
+              "spatial_block_count":len(blocks),
+              "largest_block_size":max(map(len,members.values())),
+              "pilot_block_count":pilot_n,
+              "confirmatory_block_count":len(blocks)-pilot_n,
+              "pilot_blocks":sorted(pilot),
+              "confirmatory_blocks":sorted(set(blocks)-pilot),
+              "source_pressure_scale_km":qlinear(nn,0.5),
+              "major_landmass_distance_quantiles_km":{
+                  "q70":qlinear(list(major.values()),0.70),
+                  "q75_primary":qlinear(list(major.values()),0.75),
+                  "q80":qlinear(list(major.values()),0.80)},
+              "design_sha256":hashlib.sha256(cp.read_bytes()).hexdigest(),
+              "response_files_opened":0,"response_value_parse_count":0,
+              "model_fit_count":0,"counts_as_empirical_evidence":False
+          }
+          (out/"summary.json").write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(result,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atoll-predictor-complete-geometry-v0-14c
+          path: build/atoll_v014c/
+          if-no-files-found: error
+          retention-days: 90
