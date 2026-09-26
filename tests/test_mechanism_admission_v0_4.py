@@ -90,7 +90,7 @@ def test_synthetic_structural_queue_requires_explicit_ci_flag(tmp_path: Path):
 
     assert code == 2
     assert out["status"] == "STOP_structural_admission_not_replay_validated"
-    assert "requires --allow-synthetic-structural-queue" in out["reason"]
+    assert "not eligible as a production mechanism parent after v0.42" in out["reason"]
 
 
 def test_mechanism_protocol_must_match_structural_queue_entry(tmp_path: Path):
