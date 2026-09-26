@@ -104,9 +104,12 @@ jobs:
           assert lock["status"] == "FROZEN_QUALIFIED_BEFORE_MONOLITHIC_ABUNDANCE_ACCESS"
           assert lock["response_values_accessed"] is False
           assert lock["abundance_file_opened"] is False
-          assert lock["census_fingerprint"] == census["census_fingerprint"] == "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b"
-          assert lock["precision_fingerprint"] == precision["precision_fingerprint"] == "9c7fce34c2b9d027caa489ffbaad436241d518854bd2d6300265470a1e81e638"
-          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"] == "102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c"
+          assert lock["identity_maintenance"]["status"] == "RESPONSE_BLIND_STABLE_IDENTITY_REISSUED"
+          assert lock["identity_maintenance"]["scientific_design_changed"] is False
+          assert lock["identity_maintenance"]["abundance_response_opened"] is False
+          assert lock["census_fingerprint"] == census["census_fingerprint"] == "fe0b371fd09b75a1dbb818cef95c3f881e65a4234e2d8e01a853ee43157dc052"
+          assert lock["precision_fingerprint"] == precision["precision_fingerprint"] == "fb0fd46df233561a17a76bbd419c8319bf6ea3b085f506663d8725bbd247744c"
+          assert lock["protocol_fingerprint"] == protocol["protocol_fingerprint"] == "551c1c0dc6dd46181bd1e1b0c7abe80c29c734e6a9f1452ae698b2c38104d9aa"
           assert lock["response_surface"]["git_blob_sha"] == census["response_surface"]["git_blob_sha"] == "abfdd21712b7f221207e25e62b623e8a8a901a55"
           assert lock["panel"]["geography_clusters"] == census["selection"]["independent_geography_clusters"] == 34
           assert lock["panel"]["studies"] == census["selection"]["geometry_qualified_studies"] == 38
