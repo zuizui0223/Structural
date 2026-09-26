@@ -96,6 +96,7 @@ Canonical development files:
 - `docs/CONFIRMATORY_ADMISSION_FREEZE_V0_40.md`
 - `docs/CURRENT_STATUS_V0_41.md`
 - `docs/RESPONSE_QUALITY_ATTRITION_GATE_V0_42.md`
+- `docs/INDEPENDENT_SYSTEM_INTAKE_V0_11.md`
 - `docs/CONFIRMATORY_ADMISSION_QUEUE_V0_42.md`
 - `docs/CURRENT_STATUS_V0_42.md`
 - `docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md`
@@ -157,7 +158,7 @@ Response access itself is now recorded through `development/mechanism_response_a
 
 Frozen scoring is now executable through `development/mechanism_frozen_scoring_gate_v0_9.json`. It exact-replays the tracked v0.7 access receipt and joins only the v0.8 scoring inputs to the SHA-bound response: M1/M2 emit candidate-minus-reference transition log-loss, M3 emits the frozen-weight connected-minus-alternative genetic contrast, and M4 emits the original/enriched reference/topology loss components. Numeric scoring still does not authorize a mechanism claim; spatial-transfer/null/practical-equivalence adjudication remains separate.
 
-A new independent system now enters through `development/independent_system_intake_contract_v0_10.json`, before v0.31. The intake reuses the existing metadata-only fresh-candidate triage, fingerprints source/version/files, forbids reopening known closed systems, requires response and unknown files to remain unopened, and permits mechanism lanes only from response-blind metadata support. A clean intake authorizes only construction of a v0.31 partition protocol; it does not open pilot or confirmatory responses. There is still no current empirical system.
+A new independent system still begins by replaying the frozen v0.10 response-sealed intake checks, but the current future bridge is now `development/independent_system_intake_contract_v0_11.json`. A clean v0.11 intake authorizes construction of the v0.31 partition protocol **and then** a v0.42 response-quality contract bound to that exact protocol fingerprint. It does not authorize pilot, confirmatory, or mechanism response access. Historical v0.10 receipts remain reproducible, but newly arriving systems may not use the old `construct_v0_31_partition_protocol_only` action as a route around v0.42. There is still no current empirical system.
 
 ## Current state
 
