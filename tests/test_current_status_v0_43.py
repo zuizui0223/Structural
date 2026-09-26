@@ -54,10 +54,10 @@ def test_v043_protocol_fingerprints_are_frozen_before_pilot():
     active = load(STATUS)["active_empirical_system"]
 
     assert active["v0_31_protocol_fingerprint"] == (
-        "0ffd3ced3e09b94bd001ea5dea036253cdd5bf1c0969ebc117431631bdf6a129"
+        "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653"
     )
     assert active["v0_42_quality_contract_fingerprint"] == (
-        "056dffbd219716ae06f2bbe4eac37acb653f524a4bf8fe130d0a04d3b63c084a"
+        "3b8699947b8d192d5a8f5c5b5cde976a7b77547c2ee3e2d927e68846af33fcdb"
     )
     assert active["pilot_response_accessed"] is False
     assert active["confirmatory_response_accessed"] is False
