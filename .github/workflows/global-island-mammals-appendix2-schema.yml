@@ -1,0 +1,215 @@
+name: Global mammals Appendix2 schema-only audit
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  appendix2-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify schema-only authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "development/global_island_mammals_appendix2_schema_authorization_v0_2.json"
+          ).read_text())
+          assert x["status"]=="one_shot_mixed_file_schema_only"
+          assert x["semantic_open_ceiling"]["data_row_cells"] is False
+          assert x["semantic_open_ceiling"]["response_derived_richness_values"] is False
+          assert x["semantic_open_ceiling"]["response_derived_endemism_values"] is False
+          print("schema-only authorization OK")
+          PY
+
+      - name: Download exact mixed Appendix2 and inspect first-row schema only
+        run: |
+          mkdir -p build/global_mammals_appendix2_schema
+          python - <<'PY'
+          import hashlib
+          import io
+          import json
+          import re
+          import zipfile
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          auth=json.loads(Path(
+              "development/global_island_mammals_appendix2_schema_authorization_v0_2.json"
+          ).read_text())
+          headers={
+              "Accept":"application/json",
+              "X-API-Version":"2.1.0",
+              "User-Agent":"Structural-global-mammals-schema/0.2"
+          }
+
+          manifest_url="https://datadryad.org/api/v2/versions/299966/files?per_page=100"
+          with urlopen(Request(manifest_url,headers=headers),timeout=60) as r:
+              manifest=json.loads(r.read())
+          rows=manifest["_embedded"]["stash:files"]
+          matches=[x for x in rows if x.get("path")==auth["file"]["path"]]
+          assert len(matches)==1
+          fmeta=matches[0]
+          assert fmeta.get("size")==auth["file"]["size_bytes"]
+          assert fmeta.get("digest")==auth["file"]["sha256"]
+          assert fmeta.get("digestType")=="sha-256"
+
+          href=fmeta["_links"]["stash:download"]["href"]
+          if href.startswith("/"):
+              href="https://datadryad.org"+href
+          req=Request(
+              href,
+              headers={"User-Agent":"Structural-global-mammals-schema/0.2"},
+              method="GET"
+          )
+          with urlopen(req,timeout=90) as r:
+              raw=r.read()
+
+          assert len(raw)==auth["file"]["size_bytes"]
+          assert hashlib.sha256(raw).hexdigest()==auth["file"]["sha256"]
+
+          NS_MAIN={"m":"http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+          NS_REL={"r":"http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
+          NS_PKG={"p":"http://schemas.openxmlformats.org/package/2006/relationships"}
+
+          with zipfile.ZipFile(io.BytesIO(raw)) as z:
+              wb=ET.fromstring(z.read("xl/workbook.xml"))
+              relroot=ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))
+              relmap={
+                  rel.attrib["Id"]:rel.attrib["Target"]
+                  for rel in relroot
+              }
+
+              sheets=[]
+              header_refs=[]
+              for sh in wb.findall(".//m:sheets/m:sheet",NS_MAIN):
+                  name=sh.attrib["name"]
+                  rid=sh.attrib["{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id"]
+                  target=relmap[rid].lstrip("/")
+                  if not target.startswith("xl/"):
+                      target="xl/"+target
+
+                  sheet_raw=z.read(target)
+                  dimension=None
+                  first_cells=[]
+
+                  # Parse only until row 1 closes; no data-row cells are interpreted.
+                  context=ET.iterparse(io.BytesIO(sheet_raw),events=("start","end"))
+                  in_row1=False
+                  for event,elem in context:
+                      tag=elem.tag.rsplit("}",1)[-1]
+                      if event=="start" and tag=="dimension":
+                          dimension=elem.attrib.get("ref")
+                      if event=="start" and tag=="row":
+                          rnum=elem.attrib.get("r")
+                          in_row1=(rnum=="1")
+                          if rnum is not None and rnum!="1":
+                              break
+                      elif event=="end" and tag=="c" and in_row1:
+                          cell_ref=elem.attrib.get("r")
+                          ctype=elem.attrib.get("t")
+                          v=elem.find("m:v",NS_MAIN)
+                          inline=elem.find("m:is/m:t",NS_MAIN)
+                          token=None
+                          if ctype=="s" and v is not None:
+                              token=("shared",int(v.text))
+                          elif ctype=="inlineStr" and inline is not None:
+                              token=("inline",inline.text or "")
+                          elif v is not None:
+                              token=("literal",v.text or "")
+                          first_cells.append((cell_ref,token))
+                          elem.clear()
+                      elif event=="end" and tag=="row" and in_row1:
+                          break
+
+                  header_refs.extend(
+                      token[1] for _,token in first_cells
+                      if token and token[0]=="shared"
+                  )
+                  sheets.append({
+                      "name":name,
+                      "target":target,
+                      "dimension":dimension,
+                      "_first_cells":first_cells
+                  })
+
+              # Resolve only shared-string indices actually referenced by row 1.
+              needed=set(header_refs)
+              shared={}
+              if needed:
+                  max_needed=max(needed)
+                  ss_raw=z.read("xl/sharedStrings.xml")
+                  idx=-1
+                  for event,elem in ET.iterparse(io.BytesIO(ss_raw),events=("end",)):
+                      if elem.tag.rsplit("}",1)[-1]=="si":
+                          idx+=1
+                          if idx in needed:
+                              texts=[
+                                  (t.text or "")
+                                  for t in elem.iter()
+                                  if t.tag.rsplit("}",1)[-1]=="t"
+                              ]
+                              shared[idx]="".join(texts)
+                          elem.clear()
+                          if idx>=max_needed and needed.issubset(shared):
+                              break
+
+              for sheet in sheets:
+                  headers=[]
+                  for cell_ref,token in sheet.pop("_first_cells"):
+                      if token is None:
+                          value=None
+                      elif token[0]=="shared":
+                          value=shared[token[1]]
+                      else:
+                          value=token[1]
+                      headers.append({"cell":cell_ref,"header":value})
+                  sheet["headers"]=headers
+
+          out={
+              "schema":"structural.global_island_mammals_appendix2_schema_result.v0_2",
+              "status":"mixed_file_schema_opened_values_sealed",
+              "dryad_version_id":299966,
+              "file_path":auth["file"]["path"],
+              "file_size_bytes":len(raw),
+              "file_sha256":hashlib.sha256(raw).hexdigest(),
+              "sheets":sheets,
+              "file_content_requests":1,
+              "response_matrix_content_requests":0,
+              "data_row_cell_values_emitted":0,
+              "response_derived_values_emitted":0,
+              "counts_as_empirical_evidence":False
+          }
+          p=Path("build/global_mammals_appendix2_schema/schema_result.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Enforce schema-only ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_appendix2_schema/schema_result.json"
+          ).read_text())
+          assert x["response_matrix_content_requests"]==0
+          assert x["data_row_cell_values_emitted"]==0
+          assert x["response_derived_values_emitted"]==0
+          assert x["file_sha256"]=="fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960"
+          print("Appendix2 schema-only ceiling intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-island-mammals-appendix2-schema-v0-2
+          path: build/global_mammals_appendix2_schema/schema_result.json
+          if-no-files-found: error
+          retention-days: 90
