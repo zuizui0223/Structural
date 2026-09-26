@@ -1,0 +1,148 @@
+name: Atoll safe schema audit v0.13
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  safe-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch exact archive and inspect allowlisted metadata only
+        run: |
+          python - <<'PY'
+          import csv
+          import hashlib
+          import io
+          import json
+          import zipfile
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          auth = json.loads(Path(
+              "development/indo_pacific_atoll_safe_schema_audit_v0_13.json"
+          ).read_text())
+          src = auth["source_archive"]
+          req = Request(
+              src["content_url"],
+              headers={"User-Agent": "Structural-safe-schema-audit/0.13"},
+              method="GET",
+          )
+          with urlopen(req, timeout=90) as response:
+              raw = response.read()
+
+          assert len(raw) == src["size_bytes"]
+          assert hashlib.md5(raw).hexdigest() == src["md5"]
+          assert hashlib.sha256(raw).hexdigest() == src["sha256"]
+
+          inventory = json.loads(Path(
+              "development/indo_pacific_atoll_archive_inventory_v0_11.json"
+          ).read_text())
+          roles = json.loads(Path(
+              "development/indo_pacific_atoll_file_roles_v0_12.json"
+          ).read_text())
+          role_map = {x["relative_path"]: x for x in roles["assignments"]}
+          inv_map = {x["relative_path"]: x for x in inventory["entries"]}
+          allow = auth["semantic_open_allowlist"]
+
+          for path in allow:
+              assert path in inv_map
+              assert path in role_map
+              assert role_map[path]["role"] in {"metadata", "safe_schema"}
+
+          denied = [
+              p for p, row in role_map.items()
+              if row["role"] in {"response", "code", "mixed", "unknown"}
+          ]
+          assert not set(allow) & set(denied)
+
+          result = {
+              "schema": "structural.atoll_safe_schema_result.v0_13",
+              "source_sha256": src["sha256"],
+              "semantic_open_allowlist": allow,
+              "safe_semantic_files_opened": 0,
+              "response_files_opened": 0,
+              "code_files_opened": 0,
+              "response_value_parse_count": 0,
+              "model_fit_count": 0,
+              "csv": {},
+              "fair2": {},
+              "kml": {},
+          }
+
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              names = set(zf.namelist())
+              for path in allow:
+                  assert path in names
+                  member = zf.read(path)
+                  assert hashlib.sha256(member).hexdigest() == inv_map[path]["sha256"]
+                  result["safe_semantic_files_opened"] += 1
+
+                  if path.endswith(".csv"):
+                      text = member.decode("utf-8-sig")
+                      reader = csv.reader(io.StringIO(text))
+                      rows = list(reader)
+                      result["csv"][path] = {
+                          "header": rows[0] if rows else [],
+                          "data_row_count": max(0, len(rows) - 1),
+                      }
+
+                  elif path.endswith("fair2.json"):
+                      obj = json.loads(member.decode("utf-8"))
+                      distributions = []
+                      for row in obj.get("distribution", []) if isinstance(obj, dict) else []:
+                          if isinstance(row, dict):
+                              distributions.append({
+                                  "name": row.get("name"),
+                                  "contentUrl": row.get("contentUrl"),
+                                  "encodingFormat": row.get("encodingFormat"),
+                              })
+                      recordsets = []
+                      for rs in obj.get("recordSet", []) if isinstance(obj, dict) else []:
+                          if not isinstance(rs, dict):
+                              continue
+                          fields = []
+                          for field in rs.get("field", []) if isinstance(rs.get("field"), list) else []:
+                              if isinstance(field, dict):
+                                  fields.append({
+                                      "name": field.get("name"),
+                                      "dataType": field.get("dataType"),
+                                      "source": field.get("source"),
+                                  })
+                          recordsets.append({"name": rs.get("name"), "fields": fields})
+                      result["fair2"] = {
+                          "top_level_keys": sorted(obj.keys()) if isinstance(obj, dict) else [],
+                          "distribution": distributions,
+                          "recordSet": recordsets,
+                      }
+
+                  elif path.endswith(".kml"):
+                      root = ET.fromstring(member)
+                      placemarks = root.findall(".//{*}Placemark")
+                      result["kml"] = {"placemark_count": len(placemarks)}
+
+          assert result["safe_semantic_files_opened"] == len(allow)
+          assert result["response_files_opened"] == 0
+          assert result["code_files_opened"] == 0
+          assert result["response_value_parse_count"] == 0
+          assert result["model_fit_count"] == 0
+
+          Path("build").mkdir(exist_ok=True)
+          out = Path("build/atoll_safe_schema_v0_13.json")
+          out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+          print(out.read_text())
+          PY
+
+      - name: Upload filtered safe-schema result only
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoll-safe-schema-v0-13
+          path: build/atoll_safe_schema_v0_13.json
+          if-no-files-found: error
+          retention-days: 90
