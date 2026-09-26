@@ -1,0 +1,168 @@
+name: LandFrag v0.2 stable exact one-shot response
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/landfrag_relative_topology/**"
+      - ".github/workflows/landfrag-one-shot-response-stable-v02.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: landfrag-v02-stable-one-shot-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  response:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen numerical dependency
+        run: python -m pip install numpy
+      - name: Compile exact stable-identity runner
+        run: python -m py_compile research/landfrag_relative_topology/run_one_shot_v0_2.py
+      - name: Replay stable response-blind design
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/landfrag_relative_topology/metadata_census_v0_2.py > landfrag_v02_census.json
+          python research/landfrag_relative_topology/precision_audit_v0_2.py             --census landfrag_v02_census.json > landfrag_v02_precision.json
+          python research/landfrag_relative_topology/freeze_protocol_v0_2.py             --census landfrag_v02_census.json             --precision landfrag_v02_precision.json > landfrag_v02_protocol.json
+      - name: Verify exact stable one-shot authorization and code identity
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          auth=json.load(open("research/landfrag_relative_topology/one_shot_authorization_v0_2.json"))
+          lock=json.load(open("research/landfrag_relative_topology/pre_response_lock_v0_2.json"))
+          census=json.load(open("landfrag_v02_census.json"))
+          precision=json.load(open("landfrag_v02_precision.json"))
+          protocol=json.load(open("landfrag_v02_protocol.json"))
+
+          assert auth["schema"] == "structural.landfrag_relative_topology_one_shot_authorization.v0_2"
+          assert auth["status"] == "AUTHORIZED_FOR_EXACT_ONE_SHOT_ABUNDANCE_ACCESS"
+          assert auth["identity_revision"] == "stable_census_v0_2_maintenance"
+          assert auth["response_values_accessed"] is False
+          assert auth["failed_prequery_execution"]["abundance_bytes_opened"] == 0
+          assert auth["failed_prequery_execution"]["raw_abundance_file_present"] is False
+          assert auth["failed_prequery_execution"]["outcome_present"] is False
+          assert auth["stable_identity_maintenance"]["scientific_design_changed"] is False
+          assert auth["stable_identity_maintenance"]["response_opened"] is False
+
+          assert census["census_fingerprint"] == auth["census_fingerprint"] == lock["census_fingerprint"] == "fe0b371fd09b75a1dbb818cef95c3f881e65a4234e2d8e01a853ee43157dc052"
+          assert precision["precision_fingerprint"] == auth["precision_fingerprint"] == lock["precision_fingerprint"] == "fb0fd46df233561a17a76bbd419c8319bf6ea3b085f506663d8725bbd247744c"
+          assert protocol["protocol_fingerprint"] == auth["protocol_fingerprint"] == lock["protocol_fingerprint"] == "551c1c0dc6dd46181bd1e1b0c7abe80c29c734e6a9f1452ae698b2c38104d9aa"
+
+          assert census["census_fingerprint_semantics"]["scientific_design_changed"] is False
+          assert lock["identity_maintenance"]["status"] == "RESPONSE_BLIND_STABLE_IDENTITY_REISSUED"
+          assert lock["identity_maintenance"]["scientific_design_changed"] is False
+          assert lock["response_values_accessed"] is False
+          assert lock["abundance_file_opened"] is False
+
+          assert auth["source"]["repository"] == "mauriciovancine/landfrag"
+          assert auth["source"]["commit"] == "5fd540048a6e60c641c9c1d6e7f26e7b5eece137"
+          assert auth["source"]["path"] == "data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv"
+          assert auth["source"]["git_blob_sha"] == lock["response_surface"]["git_blob_sha"] == "abfdd21712b7f221207e25e62b623e8a8a901a55"
+
+          for path,key in [
+              (auth["code_identity"]["runner_path"],"runner_git_blob_sha"),
+              (auth["code_identity"]["lock_path"],"lock_git_blob_sha"),
+              (auth["code_identity"]["census_builder_path"],"census_builder_git_blob_sha"),
+              (auth["code_identity"]["precision_builder_path"],"precision_builder_git_blob_sha"),
+              (auth["code_identity"]["protocol_builder_path"],"protocol_builder_git_blob_sha"),
+          ]:
+              observed=subprocess.check_output(["git","hash-object",path],text=True).strip()
+              assert observed == auth["code_identity"][key], (path,observed,auth["code_identity"][key])
+
+          assert auth["authorization"]["one_shot_monolithic_access"] is True
+          assert auth["authorization"]["exact_single_fetch"] is True
+          assert auth["authorization"]["rerun_after_any_abundance_bytes_opened"] is False
+          assert auth["authorization"]["post_response_geometry_retuning"] is False
+          assert auth["authorization"]["post_response_study_selection_by_direction"] is False
+          assert auth["authorization"]["post_response_landscape_metric_rescue"] is False
+          print("EXACT_LANDFRAG_STABLE_ONE_SHOT_AUTHORIZATION_OK")
+          PY
+      - name: Open frozen monolithic LandFrag abundance response exactly once
+        shell: bash
+        run: |
+          set +e
+          set -o pipefail
+          mkdir -p landfrag_one_shot
+          python research/landfrag_relative_topology/run_one_shot_v0_2.py             --census landfrag_v02_census.json             --precision landfrag_v02_precision.json             --protocol landfrag_v02_protocol.json             --lock research/landfrag_relative_topology/pre_response_lock_v0_2.json             --authorization research/landfrag_relative_topology/one_shot_authorization_v0_2.json             --raw-output landfrag_one_shot/landfrag_abundances_jun2024_final_version.csv             | tee landfrag_v02_outcome.json
+          rc=${PIPESTATUS[0]}
+          echo "LANDFRAG_ONE_SHOT_RC=${rc}" >> "${GITHUB_ENV}"
+          exit 0
+      - name: Validate consumed one-shot evidence boundary
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          out_path=Path("landfrag_v02_outcome.json")
+          raw_path=Path("landfrag_one_shot/landfrag_abundances_jun2024_final_version.csv")
+          assert out_path.exists() and out_path.stat().st_size > 0
+          assert raw_path.exists() and raw_path.stat().st_size > 0
+
+          out=json.load(open(out_path))
+          assert out["schema"] == "structural.landfrag_relative_topology_outcome.v0_2"
+          assert out["census_fingerprint"] == "fe0b371fd09b75a1dbb818cef95c3f881e65a4234e2d8e01a853ee43157dc052"
+          assert out["protocol_fingerprint"] == "551c1c0dc6dd46181bd1e1b0c7abe80c29c734e6a9f1452ae698b2c38104d9aa"
+          assert out["response_access"]["monolithic_abundance_opened"] is True
+          assert out["response_access"]["all_LandFrag_response_family_consumed"] is True
+          assert out["evidence_boundary"]["rerun_authorized"] is False
+          assert out["evidence_boundary"]["post_response_retuning_authorized"] is False
+          assert out["source"]["git_blob_sha"] == "abfdd21712b7f221207e25e62b623e8a8a901a55"
+
+          observed=hashlib.sha256(raw_path.read_bytes()).hexdigest()
+          assert observed == out["source"]["sha256"]
+          assert raw_path.stat().st_size == out["source"]["bytes"]
+
+          allowed={
+              "ONE_SHOT_LANDFRAG_H1_SCORED",
+              "TERMINAL_STOP_SOURCE_BLOB_DRIFT",
+              "TERMINAL_STOP_RESPONSE_SCHEMA",
+              "TERMINAL_STOP_RESPONSE_QUALITY",
+          }
+          assert out["status"] in allowed
+          if out["status"] == "ONE_SHOT_LANDFRAG_H1_SCORED":
+              assert out["response_access"]["H1_scored"] is True
+              assert out["H1_primary"] is not None
+              assert len(out["H1_primary"]["bootstrap_95_ci"]) == 2
+              assert isinstance(out["H1_primary"]["supported"],bool)
+              assert out["response_quality"]["qualified_geography_clusters"] >= 30
+          else:
+              assert out["response_access"]["H1_scored"] is False
+              assert out["H1_primary"] is None
+          assert len(out["outcome_fingerprint"]) == 64
+          print("LANDFRAG_STABLE_V02_ONE_SHOT_OUTCOME_VALID",out["status"],out["outcome_fingerprint"])
+          print("RESPONSE_QUALITY",out.get("response_quality"))
+          print("TERMINAL_DETAILS",out.get("terminal_details"))
+          print("H1",out.get("H1_primary"))
+          PY
+      - name: Preserve exact response and one-shot outcome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: landfrag-relative-topology-stable-one-shot-v0-2
+          path: |
+            landfrag_one_shot/landfrag_abundances_jun2024_final_version.csv
+            landfrag_v02_outcome.json
+            landfrag_v02_census.json
+            landfrag_v02_precision.json
+            landfrag_v02_protocol.json
+            research/landfrag_relative_topology/pre_response_lock_v0_2.json
+            research/landfrag_relative_topology/one_shot_authorization_v0_2.json
+          retention-days: 90
+      - name: Adjudicate one-shot result
+        run: |
+          python - <<'PY'
+          import json
+          out=json.load(open("landfrag_v02_outcome.json"))
+          print("LANDFRAG_STABLE_V02_ONE_SHOT",out["status"])
+          if out["status"] != "ONE_SHOT_LANDFRAG_H1_SCORED":
+              raise SystemExit(2)
+          PY
