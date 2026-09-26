@@ -35,9 +35,9 @@ jobs:
           precision=json.load(open("landfrag_v02_precision.json"))
           protocol=json.load(open("landfrag_v02_protocol.json"))
           lock=json.load(open("research/landfrag_relative_topology/pre_response_lock_v0_2.json"))
-          assert census["census_fingerprint"] == lock["census_fingerprint"] == "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b"
-          assert precision["precision_fingerprint"] == lock["precision_fingerprint"] == "9c7fce34c2b9d027caa489ffbaad436241d518854bd2d6300265470a1e81e638"
-          assert protocol["protocol_fingerprint"] == lock["protocol_fingerprint"] == "102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c"
+          assert census["census_fingerprint"] == lock["census_fingerprint"] == "fe0b371fd09b75a1dbb818cef95c3f881e65a4234e2d8e01a853ee43157dc052"
+          assert precision["precision_fingerprint"] == lock["precision_fingerprint"] == "fb0fd46df233561a17a76bbd419c8319bf6ea3b085f506663d8725bbd247744c"
+          assert protocol["protocol_fingerprint"] == lock["protocol_fingerprint"] == "551c1c0dc6dd46181bd1e1b0c7abe80c29c734e6a9f1452ae698b2c38104d9aa"
           assert lock["response_values_accessed"] is False
           assert lock["abundance_file_opened"] is False
           assert lock["response_surface"]["git_blob_sha"] == "abfdd21712b7f221207e25e62b623e8a8a901a55"
@@ -52,7 +52,7 @@ jobs:
           p=Path("research/landfrag_relative_topology/run_one_shot_v0_2.py").read_text()
           assert 'ABUNDANCE_PATH="data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv"' in p
           assert 'ABUNDANCE_BLOB="abfdd21712b7f221207e25e62b623e8a8a901a55"' in p
-          assert 'EXPECTED_PROTOCOL="102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c"' in p
+          assert 'EXPECTED_PROTOCOL="551c1c0dc6dd46181bd1e1b0c7abe80c29c734e6a9f1452ae698b2c38104d9aa"' in p
           assert 'AUTH_SCHEMA="structural.landfrag_relative_topology_one_shot_authorization.v0_2"' in p
           assert p.count("fetch_raw()") == 2  # definition + exactly one response fetch
           assert "ISAR" not in p
