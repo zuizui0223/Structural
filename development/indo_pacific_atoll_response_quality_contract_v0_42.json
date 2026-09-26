@@ -1,0 +1,9 @@
+{
+  "contract_id": "indo-pacific-atoll-native-plants-quality-v0.42-20260926",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "parent_protocol_fingerprint": "0ffd3ced3e09b94bd001ea5dea036253cdd5bf1c0969ebc117431631bdf6a129",
+  "minimum_response_qualified_blocks": 3,
+  "response_quality_semantics": "A burned-pilot spatial block is response-qualified only when the held-out block retains at least the frozen minimum_test_rows applicable species-by-atoll targets after all response-blind target eligibility and source-designated complete-inventory rules are applied. Atolls missing frozen R0/R1 safe covariates were excluded before response access. A block with no catalogue-qualified atoll or no applicable training-defined species is represented as non-estimable and may not be rescued, substituted, imputed, merged, or have its threshold lowered after pilot opening.",
+  "pilot_response_accessed": false,
+  "confirmatory_response_accessed": false
+}
