@@ -1,0 +1,129 @@
+name: Global island mammals Dryad metadata-only probe
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  dryad-metadata:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify metadata-only authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "development/global_island_mammals_dryad_metadata_probe_v0_1.json"
+          ).read_text())
+          assert x["status"]=="response_blind_metadata_only"
+          assert x["response_values_opened"] is False
+          assert all("download" not in req.lower() for req in x["allowed_requests"])
+          print("Dryad metadata-only authorization OK")
+          PY
+
+      - name: Query Dryad metadata endpoints only
+        run: |
+          mkdir -p build/global_mammals_dryad_probe
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+
+          DOI="doi:10.5061/dryad.hmgqnk9j2"
+          BASE="https://datadryad.org/api/v2"
+          enc=quote(DOI,safe="")
+          headers={
+              "Accept":"application/json",
+              "X-API-Version":"2.1.0",
+              "User-Agent":"Structural-global-mammals-metadata-probe/0.1"
+          }
+
+          def get_json(url):
+              req=Request(url,headers=headers,method="GET")
+              with urlopen(req,timeout=60) as r:
+                  return json.loads(r.read())
+
+          dataset=get_json(f"{BASE}/datasets/{enc}")
+          versions=get_json(f"{BASE}/datasets/{enc}/versions")
+          embedded=versions.get("_embedded",{})
+          vrows=embedded.get("stash:versions") or embedded.get("versions") or []
+          assert vrows, versions
+
+          def vnum(x):
+              return int(x.get("versionNumber") or 0)
+          current=max(vrows,key=vnum)
+          vid=current.get("id")
+          if vid is None:
+              href=(current.get("_links",{}).get("self",{}) or {}).get("href","")
+              vid=href.rstrip("/").split("/")[-1]
+          assert str(vid).isdigit(), current
+
+          files=get_json(f"{BASE}/versions/{vid}/files")
+          fembed=files.get("_embedded",{})
+          frows=fembed.get("stash:files") or fembed.get("files") or []
+          assert frows, files
+
+          selected=[]
+          for f in frows:
+              selected.append({
+                  "id":f.get("id"),
+                  "path":f.get("path"),
+                  "size":f.get("size"),
+                  "mimeType":f.get("mimeType"),
+                  "status":f.get("status"),
+                  "digest":f.get("digest"),
+                  "digestType":f.get("digestType")
+              })
+          selected=sorted(selected,key=lambda x:(x["path"] or ""))
+
+          out={
+              "schema":"structural.global_island_mammals_dryad_metadata_result.v0_1",
+              "status":"metadata_only_file_identity_resolved",
+              "dryad_identifier":dataset.get("identifier"),
+              "dataset_version_number":dataset.get("versionNumber"),
+              "dataset_last_modification_date":dataset.get("lastModificationDate"),
+              "selected_version_id":int(vid),
+              "selected_version_number":current.get("versionNumber"),
+              "selected_version_status":current.get("versionStatus"),
+              "selected_version_last_modification_date":current.get("lastModificationDate"),
+              "file_count":len(selected),
+              "files":selected,
+              "file_content_http_requests":0,
+              "response_values_opened":False
+          }
+          p=Path("build/global_mammals_dryad_probe/file_metadata.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Assert response remained sealed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_dryad_probe/file_metadata.json"
+          ).read_text())
+          assert x["file_content_http_requests"]==0
+          assert x["response_values_opened"] is False
+          names={f["path"] for f in x["files"]}
+          assert "Appendix_1_presence_absence.csv" in names
+          assert "Appendix_2-dryad.xlsx" in names
+          assert "mammal_insularity_from_IUCN.csv" in names
+          assert "README.md" in names
+          print(f"metadata-only file identities resolved: {len(names)} files")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-island-mammals-dryad-metadata-v0-1
+          path: build/global_mammals_dryad_probe/file_metadata.json
+          if-no-files-found: error
+          retention-days: 90
