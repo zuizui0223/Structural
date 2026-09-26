@@ -1,0 +1,55 @@
+{
+  "schema": "structural.indo_pacific_atoll_pilot_router_contract.v0_18",
+  "status": "frozen_before_burned_pilot_response",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "parent_protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31.json",
+  "parent_protocol_fingerprint": "0ffd3ced3e09b94bd001ea5dea036253cdd5bf1c0969ebc117431631bdf6a129",
+  "quality_contract_path": "development/indo_pacific_atoll_response_quality_contract_v0_42.json",
+  "dual_universe_result_path": "development/indo_pacific_atoll_dual_universe_result_v0_17.json",
+  "response_member": {
+    "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_plants.csv",
+    "sha256": "9d6b80322d52f447ce94fc5f03e2ff1fad1007386f4bce30c7d4d2b2e82ede6e",
+    "frozen_schema": [
+      "atoll",
+      "species",
+      "presence"
+    ],
+    "allowed_presence_codes": [
+      "N",
+      "I"
+    ]
+  },
+  "confirmatory_firewall": {
+    "routing_key": "atoll only",
+    "confirmatory_rows": "decode only the first CSV field needed to identify atoll/spatial block; species and presence bytes must not be Unicode-decoded, logged, counted by class, summarized, or retained",
+    "excluded_model_target_rows": "same semantic ceiling as confirmatory rows",
+    "pilot_rows": "species and presence may be decoded only after the atoll is proven to belong to a frozen pilot spatial block",
+    "confirmatory_species_values_parsed": 0,
+    "confirmatory_presence_values_parsed": 0
+  },
+  "pilot_surface_rule": {
+    "heldout_block": "each frozen pilot spatial block",
+    "training_species": "species with at least one N record in the other frozen pilot blocks only",
+    "catalogue_qualified_atoll": "pilot atoll having at least one plant row in the source dataset, whose source documentation states that included vascular-plant inventories are complete",
+    "target_one": "training-defined species has N in held-out catalogue atoll",
+    "target_zero": "training-defined species has I or has no row in held-out complete catalogue",
+    "non_estimable": "no catalogue-qualified held-out atoll or no applicable training-defined species",
+    "empty_block_encoding": "emit exactly one row with blank target so the frozen partition unit remains visible to v0.32/v0.42",
+    "raw_columns": [
+      "partition_unit",
+      "block",
+      "target"
+    ],
+    "partition_unit_equals_block": true,
+    "row_order": "frozen pilot_partition order; within block sort catalogue atoll then training species lexicographically",
+    "species_identifiers_may_appear_in_raw_surface": false
+  },
+  "evidence_ceiling": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_confirmation": false
+  },
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false
+}
