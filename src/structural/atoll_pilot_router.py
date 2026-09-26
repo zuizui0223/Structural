@@ -33,6 +33,9 @@ class RoutedPilotSurface:
     excluded_presence_values_parsed: int
     pilot_catalogued_atolls: int
     pilot_blocks_with_catalogues: int
+    pilot_species_universe: tuple[str, ...]
+    pilot_species_universe_count: int
+    pilot_species_universe_sha256: str
     blank_sentinel_blocks: tuple[str, ...]
 
 
@@ -191,27 +194,43 @@ def build_atoll_burned_pilot_surface(
         block = atoll_to_block[atoll]
         block_atolls[block].append(atoll)
 
+    # Freeze one pilot-supported species universe for every held-out block.
+    # A species must have native support in >=2 distinct burned-pilot blocks.
+    # This rule is fixed before pilot response access and avoids both
+    # heldout-specific endpoint drift and single-block source support.
+    native_blocks_by_species: dict[str, set[str]] = {}
+    for atoll, species_map in by_atoll.items():
+        block = atoll_to_block[atoll]
+        for species, code in species_map.items():
+            if code == "N":
+                native_blocks_by_species.setdefault(species, set()).add(block)
+
+    pilot_species_universe = tuple(
+        sorted(
+            species
+            for species, blocks in native_blocks_by_species.items()
+            if len(blocks) >= 2
+        )
+    )
+    pilot_species_universe_sha256 = hashlib.sha256(
+        ("\n".join(pilot_species_universe) + ("\n" if pilot_species_universe else "")).encode(
+            "utf-8"
+        )
+    ).hexdigest()
+
     rows: list[tuple[str, str, str]] = []
     blank_blocks: list[str] = []
 
     for heldout in pilot_order:
-        training_native: set[str] = set()
-        for atoll, species_map in by_atoll.items():
-            if atoll_to_block[atoll] == heldout:
-                continue
-            training_native.update(
-                species for species, code in species_map.items() if code == "N"
-            )
-
         test_atolls = block_atolls[heldout]
-        if not test_atolls or not training_native:
+        if not test_atolls or not pilot_species_universe:
             rows.append((heldout, heldout, ""))
             blank_blocks.append(heldout)
             continue
 
         for atoll in sorted(test_atolls):
             species_map = by_atoll[atoll]
-            for species in sorted(training_native):
+            for species in pilot_species_universe:
                 target = "1" if species_map.get(species) == "N" else "0"
                 rows.append((heldout, heldout, target))
 
@@ -233,5 +252,8 @@ def build_atoll_burned_pilot_surface(
         excluded_presence_values_parsed=0,
         pilot_catalogued_atolls=len(by_atoll),
         pilot_blocks_with_catalogues=sum(bool(v) for v in block_atolls.values()),
+        pilot_species_universe=pilot_species_universe,
+        pilot_species_universe_count=len(pilot_species_universe),
+        pilot_species_universe_sha256=pilot_species_universe_sha256,
         blank_sentinel_blocks=tuple(blank_blocks),
     )
