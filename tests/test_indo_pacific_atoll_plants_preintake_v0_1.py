@@ -76,3 +76,15 @@ def test_current_status_registers_hold_without_promoting_candidate():
     assert pre["response_values_opened"] is False
     assert pre["counts_as_active_empirical_candidate"] is False
     assert pre["counts_as_confirmatory_evidence"] is False
+
+
+def test_zenodo_record_is_resolved_without_file_or_response_access():
+    x = load(PRE)
+    source = x["source_identity"]
+
+    assert source["zenodo_mirror_doi"] == "10.5281/zenodo.18848127"
+    assert source["zenodo_file_list_resolved"] is False
+    assert source["zenodo_file_checksums_resolved"] is False
+    assert source["response_package_downloaded_by_structural"] is False
+    assert source["vascular_plant_response_values_opened_by_structural"] is False
+    assert "file names, sizes and checksums" in x["next_action"]

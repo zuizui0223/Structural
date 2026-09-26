@@ -1,6 +1,6 @@
 {
   "schema": "structural.preintake_candidate.indo_pacific_atoll_plants.v0_1",
-  "status": "HOLD_exact_data_package_identity_and_file_roles_not_yet_frozen",
+  "status": "HOLD_zenodo_record_resolved_file_inventory_not_yet_frozen",
   "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
   "source_identity": {
     "data_article_doi": "10.3389/fenvs.2025.1723851",
@@ -8,7 +8,11 @@
     "published": "2026-01-27",
     "license_reported_by_data_article": "ODC-By v1.0",
     "response_package_downloaded_by_structural": false,
-    "vascular_plant_response_values_opened_by_structural": false
+    "vascular_plant_response_values_opened_by_structural": false,
+    "zenodo_mirror_doi": "10.5281/zenodo.18848127",
+    "zenodo_mirror_resolution_basis": "FAIRdata.ai registry resolves Zenodo 10.5281/zenodo.18848127 as IsVersionOf SenScience DOI 10.71728/senscience.4f2j-8h1k",
+    "zenodo_file_list_resolved": false,
+    "zenodo_file_checksums_resolved": false
   },
   "metadata_only_basis": {
     "total_atolls": 310,
@@ -40,7 +44,10 @@
   "response_independent_isolation": {
     "major_landmass_distance": "minimum(distance_to_nearest_continent, distance_to_nearest_large_volcanic_island)",
     "primary_extreme_rule": "upper 25% of the frozen eligible-atoll major-landmass-distance distribution",
-    "robustness_quantiles": [0.70, 0.80],
+    "robustness_quantiles": [
+      0.7,
+      0.8
+    ],
     "robustness_may_not_rescue_primary": true
   },
   "response_independent_graph_rule": {
@@ -101,7 +108,7 @@
     "minimum_response_qualified_blocks_must_be_frozen_before_pilot": true
   },
   "preintake_stop_conditions": [
-    "exact downloadable data-package identity cannot be resolved",
+    "Zenodo record 18848127 file list/checksums cannot be obtained without opening response content",
     "content-blind archive inventory cannot separate vascular-plant response from safe atoll metadata/geometry",
     "response or unknown file values are exposed before intake freeze",
     "plant inventories are not identifiable as complete atoll inventories",
@@ -109,7 +116,7 @@
     "geometry-only radii rule cannot produce four distinct radii",
     "archipelago count cannot support the frozen pilot/confirmatory split minima"
   ],
-  "next_action": "resolve exact FAIR2 data-package files and checksums content-blind; assign file roles; do not parse vascular-plant records",
+  "next_action": "obtain Zenodo record 18848127 file names, sizes and checksums through a metadata-only interface; then run content-blind v0.11 archive inventory without parsing vascular-plant values",
   "v0_11_intake_authorized": false,
   "pilot_response_authorized": false,
   "confirmatory_response_authorized": false,
