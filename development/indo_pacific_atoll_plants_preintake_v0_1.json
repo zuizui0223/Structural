@@ -1,0 +1,117 @@
+{
+  "schema": "structural.preintake_candidate.indo_pacific_atoll_plants.v0_1",
+  "status": "HOLD_exact_data_package_identity_and_file_roles_not_yet_frozen",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_identity": {
+    "data_article_doi": "10.3389/fenvs.2025.1723851",
+    "data_package_doi": "10.71728/senscience.4f2j-8h1k",
+    "published": "2026-01-27",
+    "license_reported_by_data_article": "ODC-By v1.0",
+    "response_package_downloaded_by_structural": false,
+    "vascular_plant_response_values_opened_by_structural": false
+  },
+  "metadata_only_basis": {
+    "total_atolls": 310,
+    "plant_catalogued_atolls": 125,
+    "plant_occurrence_records": 9430,
+    "plant_species": 1253,
+    "plant_inventory_rule": "only complete atoll vascular-plant inventories are included by the source dataset",
+    "plant_nativeness_status_available": true,
+    "biogeographic_variables_complete_atolls": 310,
+    "descriptive_variables_complete_atolls": 310,
+    "biodiversity_temporal_span": "1894-2025",
+    "portal_unit": "atoll",
+    "individual_islets_not_used_as_response_units": true
+  },
+  "focal_response": {
+    "guild": "vascular_plants",
+    "taxon_scope": "native_only",
+    "unit": "atoll",
+    "endpoint": "species presence versus catalogue-confirmed absence within complete native vascular-plant inventories",
+    "introduced_species_excluded_before_response_access": true,
+    "response_values_may_not_be_opened_until_v0_11_v0_31_v0_42_chain_is_frozen": true
+  },
+  "ecological_hypothesis": {
+    "parent": "development/prospective_source_pool_handoff_hypothesis_v0_1.json",
+    "name": "source_pool_handoff_independent_atoll_test",
+    "statement": "As access to continents or large volcanic islands becomes extreme, native plant occurrence should depend increasingly on continuity with occupied atoll source networks rather than generic mainland/high-island access alone.",
+    "A_Islands_counts_as_confirmation": false
+  },
+  "response_independent_isolation": {
+    "major_landmass_distance": "minimum(distance_to_nearest_continent, distance_to_nearest_large_volcanic_island)",
+    "primary_extreme_rule": "upper 25% of the frozen eligible-atoll major-landmass-distance distribution",
+    "robustness_quantiles": [0.70, 0.80],
+    "robustness_may_not_rescue_primary": true
+  },
+  "response_independent_graph_rule": {
+    "nodes": "eligible catalogued atolls",
+    "edge_metric": "great-circle centroid distance",
+    "radii_rule": "derive four radii before response access from the q25, q50, q75 and q90 distribution of each atoll's nearest-neighbour distance among eligible atolls; round upward to whole kilometres and require four strictly increasing positive radii",
+    "if_radii_not_strictly_increasing": "STOP_before_response",
+    "generic_gateway_state": "for each radius, focal atoll component contains at least one atoll whose distance to a continent or large volcanic island is <= that radius",
+    "generic_connectivity": "fraction of frozen radii with generic_gateway_state=true",
+    "source_conditioned_connectivity": "fraction of the same frozen radii whose focal component contains an outer-training occupied atoll for the focal species",
+    "excess_state": "source_conditioned_connectivity > generic_connectivity",
+    "multihop_state": "source-conditioned connectivity at smallest frozen radius AND nearest outer-training occupied source distance exceeds that radius"
+  },
+  "strong_reference_template": {
+    "R0": [
+      "biogeographic_region",
+      "latitude",
+      "annual_rainfall"
+    ],
+    "R1_add": [
+      "log1p_total_emergent_land_area",
+      "log1p_major_landmass_distance",
+      "log1p_distance_to_nearest_atoll"
+    ],
+    "R2_add": [
+      "log1p_nearest_outer_training_source_distance",
+      "outer_training_multi_source_pressure"
+    ],
+    "R3_add": [
+      "generic_gateway_connectivity"
+    ],
+    "C_add": [
+      "source_conditioned_connectivity"
+    ],
+    "primary_predictive_contrast": "C_minus_R3 heldout log loss",
+    "favourable_direction": "negative"
+  },
+  "source_pressure_rule": {
+    "definition": "sum exp(-distance / s) over outer-training occupied atolls",
+    "s": "median nearest-neighbour distance among eligible atolls computed from safe geometry before response access",
+    "self_source_exclusion": true,
+    "heldout_response_never_used_as_source": true
+  },
+  "spatial_validation_template": {
+    "partition_unit": "source dataset archipelago assignment",
+    "pilot_confirmatory_split_rule": "after safe metadata opening, normalize archipelago names and rank SHA256('atoll-plants-v1|' + archipelago_name); lowest 20% enter burned pilot and remaining 80% confirmatory, with explicit lists frozen before response access",
+    "minimum_pilot_archipelagos": 3,
+    "minimum_confirmatory_archipelagos": 6,
+    "if_minimum_not_met": "STOP_before_response",
+    "heldout_design": "leave-one-archipelago-out within each frozen partition",
+    "species_and_atoll_response_values_forbidden_during_partition_construction": true
+  },
+  "response_quality_template": {
+    "inventory_must_be_complete_according_to_source_dataset": true,
+    "nativeness_status_must_be_resolved": true,
+    "all_R0_R3_response_independent_covariates_must_be_available": true,
+    "post_response_imputation_or_atoll_rescue": false,
+    "minimum_response_qualified_blocks_must_be_frozen_before_pilot": true
+  },
+  "preintake_stop_conditions": [
+    "exact downloadable data-package identity cannot be resolved",
+    "content-blind archive inventory cannot separate vascular-plant response from safe atoll metadata/geometry",
+    "response or unknown file values are exposed before intake freeze",
+    "plant inventories are not identifiable as complete atoll inventories",
+    "required atoll/archipelago identifiers cannot be joined without inspecting response values",
+    "geometry-only radii rule cannot produce four distinct radii",
+    "archipelago count cannot support the frozen pilot/confirmatory split minima"
+  ],
+  "next_action": "resolve exact FAIR2 data-package files and checksums content-blind; assign file roles; do not parse vascular-plant records",
+  "v0_11_intake_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false
+}
