@@ -1,0 +1,58 @@
+{
+  "schema": "structural.atoll_geometry_freeze.v0_14c",
+  "status": "response_blind_predictor_complete_spatial_partition",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "parent_failures": [
+    "v0.14 group partition incomplete",
+    "v0.14b all-310 predictor completeness failed before component construction"
+  ],
+  "eligibility_rule": {
+    "basis": "response_independent_predictor_completeness_only",
+    "required_fields": [
+      "lat",
+      "long",
+      "land_area_sqkm",
+      "distance_nearest_atoll_km",
+      "distance_nearest_high_island_km",
+      "distance_continent_km",
+      "annual_precipitation_mm",
+      "region"
+    ],
+    "missing_required_field_action": "permanent_pre_response_exclusion_no_imputation",
+    "biodiversity_response_may_not_affect_eligibility": true
+  },
+  "graph_radius_quantiles": [
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "graph_radii_rounding": "ceil_km",
+  "spatial_block_rule": {
+    "candidates": "connected components at each of the four frozen graph radii",
+    "select": "largest radius with at least 11 components and largest component <=50% of predictor-complete atolls",
+    "if_none": "STOP_before_response",
+    "block_id": "SC_ + first12 sha256 of sorted member names"
+  },
+  "pilot_split": {
+    "fraction": 0.2,
+    "minimum_pilot_blocks": 3,
+    "minimum_confirmatory_blocks": 6,
+    "rank": "sha256('atoll-plants-v1|spatial-component|' + block_id)"
+  },
+  "isolation": {
+    "definition": "min(distance_nearest_high_island_km,distance_continent_km)",
+    "primary_quantile": 0.75,
+    "sensitivities": [
+      0.7,
+      0.8
+    ]
+  },
+  "source_pressure_scale": "median centroid nearest-neighbour distance in predictor-complete universe",
+  "generic_gateway_rule": "component contains a predictor-complete atoll with major-landmass distance <= current graph radius",
+  "response_files_may_be_opened": false,
+  "response_values_may_be_read": false,
+  "model_fit_count_expected": 0,
+  "country_partition_role": "fallback_only",
+  "counts_as_empirical_evidence": false
+}
