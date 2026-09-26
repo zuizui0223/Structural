@@ -1,0 +1,23 @@
+{
+  "schema": "structural.atoll_group_diagnostic.v0_14a",
+  "status": "response_blind_metadata_only",
+  "source_archive_sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e",
+  "source_file": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_main_310.csv",
+  "source_file_sha256": "ef6e289fca1530dcca8e014ac8302a4e99fcb127d6c600b25a94fb50b6479d79",
+  "allowed_fields": [
+    "atoll",
+    "region",
+    "country",
+    "group"
+  ],
+  "allowed_outputs": [
+    "missing counts and atoll names for region/country/group",
+    "unique region/country/group counts",
+    "group sizes for nonblank groups",
+    "region-by-group completeness counts"
+  ],
+  "response_files_opened": false,
+  "response_value_parse_count": 0,
+  "model_fit_count": 0,
+  "counts_as_empirical_evidence": false
+}
