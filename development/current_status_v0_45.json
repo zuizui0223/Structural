@@ -1,0 +1,55 @@
+{
+  "schema": "structural.current_status.v0_45",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_44.json",
+  "authoritative_empirical_registry": {
+    "path": "development/connectivity_candidate_registry_v0_45.json",
+    "expected_status": "no_active_empirical_candidate_after_atoll_terminal_endpoint_domain_stop",
+    "expected_active_empirical_candidates": []
+  },
+  "live_confirmatory_queue": {
+    "path": "development/confirmatory_admission_queue_v0_42.json",
+    "expected_entry_count": 0,
+    "confirmatory_response_authorized": false
+  },
+  "terminal_atoll_system": {
+    "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+    "result_path": "development/indo_pacific_atoll_terminal_burned_pilot_v0_22.json",
+    "failure_class": "endpoint_value_domain_mismatch",
+    "observed_unfrozen_code": "U",
+    "published_pre_access_codebook": [
+      "N=native",
+      "I=introduced"
+    ],
+    "pilot_response_accessed": true,
+    "confirmatory_response_accessed": false,
+    "confirmatory_species_values_parsed": 0,
+    "confirmatory_presence_values_parsed": 0,
+    "v0_32_completed": false,
+    "v0_42_completed": false,
+    "source_pool_handoff_scored": false,
+    "rerun_authorized": false
+  },
+  "confirmatory_eligible_systems": [],
+  "confirmatory_eligible_count": 0,
+  "ecological_conclusion": "The independent atoll system did not test the source-pool-handoff direction; it terminated when the burned pilot exposed an undocumented response-code state outside the frozen endpoint domain.",
+  "methodological_conclusion": "Fresh island confirmation requires not only response-sealed values but a frozen categorical response domain whose codebook is complete enough for pilot routing.",
+  "next_valid_scientific_event": "a genuinely new response-sealed island system independently enters under the existing source-pool-handoff hypothesis with its full response-value domain frozen before pilot access",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_45.json",
+    "status": "no_active_candidate_after_terminal_atoll_pilot_stop"
+  },
+  "ttf_boundary": {
+    "status": "later_independent_transferability_layer",
+    "may_select_structural_candidates": false,
+    "may_rescue_failed_structural_systems": false,
+    "may_count_burned_pilot_as_transfer_evidence": false,
+    "empirical_denominator_shared_with_structural": false
+  },
+  "active_docs": [
+    "docs/AISLANDS_SOURCE_POOL_HANDOFF_V0_1.md",
+    "docs/AISLANDS_ISLAND_BIOGEOGRAPHY_PAPER_V0_1.md",
+    "docs/INDO_PACIFIC_ATOLL_TERMINAL_V0_22.md",
+    "docs/CURRENT_STATUS_V0_45.md"
+  ]
+}

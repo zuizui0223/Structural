@@ -1,0 +1,80 @@
+{
+  "schema": "structural.connectivity_candidate_registry.v0_45",
+  "status": "no_active_empirical_candidate_after_atoll_terminal_endpoint_domain_stop",
+  "supersedes": "development/connectivity_candidate_registry_v0_44.json",
+  "closed_empirical_lanes": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "evidence_class": "design_exposed_terminal_non_estimable",
+      "target_class_collapse": "positive_dominant",
+      "joint_target_counts": {
+        "positive": 108,
+        "negative": 3
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    },
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022_AMMA_2021_2022",
+      "evidence_class": "system_context_exposed_terminal_non_estimable",
+      "target_class_collapse": "negative_dominant",
+      "joint_target_counts": {
+        "positive": 3,
+        "negative": 66
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    },
+    {
+      "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+      "evidence_class": "fresh_pilot_response_exposed_terminal_endpoint_value_domain_mismatch",
+      "terminal_result_path": "development/indo_pacific_atoll_terminal_burned_pilot_v0_22.json",
+      "pilot_response_accessed": true,
+      "confirmatory_response_accessed": false,
+      "source_pool_handoff_scored": false,
+      "primary_result": "not_scored",
+      "rerun_authorized": false,
+      "replacement_fresh_protocol_on_same_response_authorized": false
+    }
+  ],
+  "active_empirical_candidates": [],
+  "retired_pre_response_designs": [
+    {
+      "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+      "protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31.json",
+      "protocol_fingerprint": "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653",
+      "reason": "heldout-specific species universe incompatible with v0.32 block-complement arithmetic",
+      "response_accessed": false,
+      "pilot_consumed": false
+    }
+  ],
+  "retrospective_or_stop_lane": [
+    {
+      "candidate_id": "great_lakes_frog_2011_2023",
+      "evidence_class": "fresh_stop_response_exposed"
+    },
+    {
+      "candidate_id": "hungary_amphibian_100_ponds_2023",
+      "evidence_class": "fresh_stop_response_exposed_and_geometry_unresolved"
+    },
+    {
+      "candidate_id": "davis_2026_heliconia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "noreen_2016_koompassia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "delnevo_2026_conospermum",
+      "evidence_class": "retrospective_engineering"
+    }
+  ],
+  "invariants": [
+    "A-Islands remains discovery evidence and does not count as confirmation",
+    "the atoll v0.22 pilot is consumed and cannot be rerun or reinterpreted after observing code U",
+    "the atoll terminal stop is neither favourable nor adverse evidence for source-pool handoff",
+    "confirmatory atoll species/presence remained sealed",
+    "no closed system may be rescued into fresh confirmation by changing endpoint semantics after exposure"
+  ]
+}

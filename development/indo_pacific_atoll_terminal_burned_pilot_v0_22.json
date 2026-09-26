@@ -1,0 +1,69 @@
+{
+  "schema": "structural.indo_pacific_atoll_terminal_burned_pilot.v0_22",
+  "status": "terminal_endpoint_value_domain_mismatch_after_pilot_response_access",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_run": {
+    "pull_request": 122,
+    "workflow_run_id": 36244607643,
+    "workflow_job_id": 108411348614,
+    "execution_step_completed": true,
+    "evidence_ceiling_step_failed_after_terminal_receipt": true
+  },
+  "frozen_parent": {
+    "main_commit": "55190a6153f744bb3a000af8652fd22f0b37b7e6",
+    "protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31b.json",
+    "protocol_fingerprint": "ee8cccc38fb8f4602e05e97d9d875c5ad8773280460c0dafca36ac03fe5871f5",
+    "quality_contract_path": "development/indo_pacific_atoll_response_quality_contract_v0_42b.json",
+    "quality_contract_fingerprint": "1b3ad5da960ceac60e594b3ed664a39835e2f49ba1f7d70bfd32ee1c54e28fc6",
+    "fixed_species_rule": "native code N in at least two distinct frozen pilot spatial blocks",
+    "pilot_blocks": 13,
+    "confirmatory_blocks": 50,
+    "design_sha256": "237c0d5e97ab45f3d71dbed5bc799a24012da62942b296652ea0e1977f79f32b"
+  },
+  "observed_terminal_event": {
+    "response_semantic_access_started": true,
+    "pilot_response_accessed": true,
+    "error_type": "AtollPilotRouterError",
+    "error_message": "unexpected presence code in opened pilot row: 'U'",
+    "frozen_allowed_presence_codes": [
+      "N",
+      "I"
+    ],
+    "published_codebook_before_access": "N=native; I=introduced",
+    "observed_code_outside_frozen_domain": "U",
+    "value_domain_reinterpretation_authorized": false
+  },
+  "firewall_outcome": {
+    "confirmatory_response_accessed": false,
+    "confirmatory_species_values_parsed": 0,
+    "confirmatory_presence_values_parsed": 0,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_confirmatory_evidence": false
+  },
+  "incomplete_outputs": {
+    "fixed_pilot_species_universe_completed": false,
+    "exact_three_column_pilot_surface_completed": false,
+    "v0_32_estimability_completed": false,
+    "v0_42_response_quality_completed": false,
+    "confirmatory_admission_evaluated": false
+  },
+  "scientific_interpretation": {
+    "source_pool_handoff_direction_scored": false,
+    "favourable_or_adverse_ecological_evidence": "none",
+    "failure_class": "endpoint_value_domain_mismatch",
+    "statement": "The burned pilot revealed an observed response code outside the predeclared endpoint domain before estimability or response-quality scoring could complete."
+  },
+  "terminal_rules": [
+    "do not reinterpret U after pilot access",
+    "do not change the endpoint domain",
+    "do not rerun this burned pilot",
+    "do not lower thresholds or change partitions/species support",
+    "do not use unused confirmatory response as fresh evidence under a replacement protocol",
+    "the dataset may only be used later as retrospective/exposed engineering or descriptive context"
+  ],
+  "rerun_authorized": false,
+  "replacement_protocol_on_same_response_authorized": false,
+  "confirmatory_response_authorized": false
+}
