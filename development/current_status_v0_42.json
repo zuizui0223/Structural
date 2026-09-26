@@ -1,0 +1,81 @@
+{
+  "schema": "structural.current_status.v0_42",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_41.json",
+  "authoritative_empirical_registry": {
+    "path": "development/connectivity_candidate_registry_v0_29.json",
+    "expected_status": "no_active_empirical_candidate_after_two_terminal_dynamic_tests",
+    "expected_active_empirical_candidates": []
+  },
+  "live_confirmatory_queue": {
+    "path": "development/confirmatory_admission_queue_v0_38.json",
+    "expected_entry_count": 0,
+    "confirmatory_response_authorized": false
+  },
+  "base_admission_infrastructure": {
+    "path": "development/confirmatory_admission_freeze_v0_40.json",
+    "expected_status": "frozen_gate_infrastructure",
+    "frozen_through": "v0.40",
+    "historical_chain_modified": false
+  },
+  "future_only_admission_extension": {
+    "path": "development/response_quality_attrition_gate_v0_42.json",
+    "status": "future_only_additive_admission_gate",
+    "purpose": "separate response-quality attrition from endpoint/class-support collapse before confirmatory protocol construction",
+    "applies_to_historical_systems": false,
+    "changes_v0_31_v0_40_historical_results": false,
+    "confirmatory_response_authorized": false
+  },
+  "closed_dynamic_systems": [
+    "PNW_terminal_non_estimable_endpoint_class_collapse",
+    "RMNP_terminal_non_estimable_endpoint_class_collapse"
+  ],
+  "closed_fragmentation_stress_test": {
+    "system": "LandFrag_v0_2_relative_source_isolation_x_topology",
+    "status": "terminal_response_quality_non_estimable",
+    "geometry_qualified_studies": 38,
+    "response_qualified_studies": 31,
+    "response_qualified_independent_geographies": 29,
+    "frozen_minimum_geographies": 30,
+    "H1_scored": false,
+    "H1_estimate": null,
+    "H1_ci": null,
+    "used_to_revise_its_own_threshold": false,
+    "rerun_authorized": false
+  },
+  "active_empirical_candidates": [],
+  "candidate_hunting_as_primary_objective": false,
+  "next_valid_scientific_event": "a genuinely new system independently arrives; before burned-pilot response access it freezes both a new v0.31 disjoint partition protocol and a v0.42 response-quality attrition contract",
+  "future_admission_sequence": [
+    "independent system intake",
+    "v0.31 disjoint pilot/confirmatory protocol freeze",
+    "v0.42 response-quality attrition contract freeze",
+    "v0.39 exact three-column burned-pilot surface",
+    "v0.32 pilot-only execution",
+    "v0.42 response-quality survival audit",
+    "v0.38 raw replay",
+    "v0.37 independent arithmetic/estimability verification",
+    "v0.33 confirmatory-freeze gate",
+    "freeze separate confirmatory state/reference/connectivity/scoring protocol"
+  ],
+  "failure_mode_separation": {
+    "response_quality_attrition": "too few held-out blocks retain the frozen minimum number of applicable target rows",
+    "endpoint_class_collapse": "response-qualified blocks exist but training positive/negative support fails",
+    "one_may_rescue_the_other": false
+  },
+  "ttf_boundary": {
+    "status": "later_independent_transferability_layer",
+    "may_select_structural_candidates": false,
+    "may_rescue_failed_structural_systems": false,
+    "may_count_burned_pilot_as_transfer_evidence": false,
+    "empirical_denominator_shared_with_structural": false
+  },
+  "active_docs": [
+    "README.md",
+    "docs/STRUCTURAL_EGWE_METHOD_MAINLINE.md",
+    "docs/STRUCTURAL_EGWE_TTF_HANDOFF_V0_34.md",
+    "docs/CONFIRMATORY_ADMISSION_FREEZE_V0_40.md",
+    "docs/RESPONSE_QUALITY_ATTRITION_GATE_V0_42.md",
+    "docs/CURRENT_STATUS_V0_42.md"
+  ]
+}
