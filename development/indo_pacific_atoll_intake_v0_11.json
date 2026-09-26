@@ -1,0 +1,106 @@
+{
+  "schema": "structural.independent_system_intake.v0_10",
+  "status": "response_sealed_intake_draft",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_id": "SenScience 10.71728/senscience.4f2j-8h1k / Zenodo 10.5281/zenodo.18848127",
+  "source_version": "zenodo-record-18848127",
+  "source_fingerprint": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e",
+  "origin": "independent_indo_pacific_atoll_archipelago_network",
+  "is_prior_closed_system": false,
+  "response_firewall_state": "response_sealed",
+  "response_values_accessed": false,
+  "source_files": [
+    {
+      "file_id": "atoll_main_310.csv",
+      "sha256": "ef6e289fca1530dcca8e014ac8302a4e99fcb127d6c600b25a94fb50b6479d79",
+      "role": "safe_metadata",
+      "opened": true
+    },
+    {
+      "file_id": "atoll_biogeography.csv",
+      "sha256": "3db3a6349975b1abd90f4dab3edc8402cc8fb92e73a61b6909984b517ad5606d",
+      "role": "safe_metadata",
+      "opened": true
+    },
+    {
+      "file_id": "atoll_environmental.csv",
+      "sha256": "a66159d0d6deeeb5166a3e36bf0394a7cfa1386b286c46c8ed883a9143c2c07b",
+      "role": "safe_metadata",
+      "opened": true
+    },
+    {
+      "file_id": "atoll_shapefiles.kml",
+      "sha256": "b9737d29ec2082327347a4f53ca429701b4ec91a16b3863f328981d62ac79eae",
+      "role": "geometry",
+      "opened": true
+    },
+    {
+      "file_id": "fair2.json",
+      "sha256": "c64584fffc54bb67919e0a1b49f70fe2c46d52b844d8e805bcefb354942abaed",
+      "role": "safe_metadata",
+      "opened": true
+    },
+    {
+      "file_id": "atoll_diversity_plants.csv",
+      "sha256": "9d6b80322d52f447ce94fc5f03e2ff1fad1007386f4bce30c7d4d2b2e82ede6e",
+      "role": "response",
+      "opened": false
+    },
+    {
+      "file_id": "atoll_diversity_plants_refs.csv",
+      "sha256": "0d6697ebe458e39ebd26d30ab27b5665c5f6fb69ff2e02a925174155b6e7b9cb",
+      "role": "response",
+      "opened": false
+    }
+  ],
+  "freshness_metadata": {
+    "temporal_replication": "no",
+    "immutable_source_identity": "yes",
+    "spatial_unit_id_documented": "yes",
+    "coordinates_or_geometry_documented": "yes",
+    "outcome_file_separable": "yes",
+    "operator_semantics_declarable": "yes",
+    "connectivity_question_already_published": "no",
+    "response_result_seen_by_project": "no"
+  },
+  "selection_firewall": {
+    "candidate_hunt_active": false,
+    "system_selected_using_response_direction": false,
+    "system_selected_using_connectivity_result": false,
+    "mechanism_lanes_selected_using_response_direction": false,
+    "graph_scale_selected_using_response_direction": false,
+    "endpoint_selected_using_response_direction": false,
+    "published_effect_direction_used_for_selection": false
+  },
+  "requested_mechanism_lanes": [
+    "M4_environmental_proxy"
+  ],
+  "response_blind_data_support": {
+    "temporal_transition_metadata_available": false,
+    "genetic_sampling_metadata_available": false,
+    "environment_predictor_metadata_available": true
+  },
+  "hypothesis_bindings": {
+    "structural_partition_contract": "development/transition_pilot_protocol_contract_v0_31.json",
+    "ecological_hypothesis": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "mechanism_framework": "development/prospective_mechanism_discrimination_v0_1.json"
+  },
+  "ecological_hypothesis_refinement": {
+    "path": "development/prospective_source_pool_handoff_hypothesis_v0_1.json",
+    "inherits_frozen_q75_primary": true,
+    "A_Islands_discovery_counts_as_confirmation": false
+  },
+  "predeclared_endpoint": {
+    "unit": "species_by_catalogue_qualified_atoll",
+    "target_1": "plant response row has presence code N",
+    "target_0": "plant response row has presence code I OR focal species row is absent from a source-designated complete vascular-plant inventory",
+    "catalogue_qualification": "source-designated complete vascular-plant inventory; exact qualifying atolls may be learned only at burned-pilot response-quality audit",
+    "introduced_occurrences_are_native_presence": false,
+    "heldout_response_may_not_define_graph_or_partition": true
+  },
+  "predeclared_isolation": {
+    "major_landmass_distance": "min(distance_continent_km, distance_nearest_high_island_km)",
+    "extreme_primary": "upper 25% of frozen eligible-atoll major_landmass_distance",
+    "q70_q80_sensitivity_cannot_rescue_primary": true
+  }
+}
