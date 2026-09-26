@@ -1,0 +1,132 @@
+{
+  "schema": "structural.file_role_manifest.v0_12",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_inventory": "development/indo_pacific_atoll_archive_inventory_v0_11.json",
+  "assignments": [
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_biogeography.csv",
+      "sha256": "3db3a6349975b1abd90f4dab3edc8402cc8fb92e73a61b6909984b517ad5606d",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_arthropods.csv",
+      "sha256": "635be8b64891f679e3758a6b12556ed9dfac65293b86561dc2a09454dc2f9432",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_arthropods_refs.csv",
+      "sha256": "5f3dff404664e6e32226f61b089dfb9fa159a02c95b13796b2ab6b4bc72e2204",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_birds.csv",
+      "sha256": "9c7176137739f80fac5196c4caa6d4145865f28450bed9aa7dae3b4ab9a00a51",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_birds_refs.csv",
+      "sha256": "7fdb4e0391dd53b81fee1f78990a17e2c4f41e165798130d5d014b75f352cf48",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_landcrabs.csv",
+      "sha256": "5b6404c707df6a3dae068183c4ed6169c0627c393308aa8420585d1831f97cfb",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_landcrabs_refs.csv",
+      "sha256": "8a7033ccee0b0202a64dcba83ee4d8878d1da7886b63baa0ecd9e4086a97101f",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_native-mammals.csv",
+      "sha256": "6f176a99b5bacc5b048692492caef69e98b092959d7e86056e36097d6ac48131",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_native-mammals_refs.csv",
+      "sha256": "e3dda6b82070ecc7797282b6c008b1f93b2c43d2b65a95dbbb01b65faf3dccb5",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_plants.csv",
+      "sha256": "9d6b80322d52f447ce94fc5f03e2ff1fad1007386f4bce30c7d4d2b2e82ede6e",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_plants_refs.csv",
+      "sha256": "0d6697ebe458e39ebd26d30ab27b5665c5f6fb69ff2e02a925174155b6e7b9cb",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_reptiles.csv",
+      "sha256": "60a0f1a95f976ce0d8ebf67bdb9316fc0d3d0607e0d1677e7cabdc093172627a",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_reptiles_refs.csv",
+      "sha256": "1e372163096cd581630412fe9770b7f423eff09f414a0d2ee95cfb4d1517c38d",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_environmental.csv",
+      "sha256": "a66159d0d6deeeb5166a3e36bf0394a7cfa1386b286c46c8ed883a9143c2c07b",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_landclassification.csv",
+      "sha256": "fe618c46dafa5086ffeb0f681aa5b310a9f2f2592b2bcc95786d833208ad9ffb",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_main_310.csv",
+      "sha256": "ef6e289fca1530dcca8e014ac8302a4e99fcb127d6c600b25a94fb50b6479d79",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_military_use.csv",
+      "sha256": "fb7a3f9d0b059de64a7da772af40aaf9dc4b4c0f9aa6c1b9d4914e3de9bf48d9",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_oceanographic.csv",
+      "sha256": "adc8846c2ab7b2773d2c51cd1fc3c0dd0fed4071317d01c7c38964eff35f4b08",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_populations.csv",
+      "sha256": "edf64b83d2fa8c7ac9c154904f9118bf7f8150a1fadac57d13a2afa4909ce077",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_reefscape.csv",
+      "sha256": "d8e30a870f3bba2d71355815c28e166b95f3e1535cef201a47b6f3c89f3f749a",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_seabird_population_by_species.csv",
+      "sha256": "1358986b00537852e3541fb864c33b08573f260762973c2f1cde8dc9b4b10a6f",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_seabird_population_totals.csv",
+      "sha256": "633946eda0ed0ea0d7b670fabffb3f0d112a5ce338b542708827bdf66a1cc1ab",
+      "role": "response"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_shapefiles.kml",
+      "sha256": "b9737d29ec2082327347a4f53ca429701b4ec91a16b3863f328981d62ac79eae",
+      "role": "safe_schema"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/fair2.json",
+      "sha256": "c64584fffc54bb67919e0a1b49f70fe2c46d52b844d8e805bcefb354942abaed",
+      "role": "metadata"
+    },
+    {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/notebook.ipynb",
+      "sha256": "dd1ab2295d3b43d78dd4b6e62975b1750236899d87f72a1bd6dc0018378d656a",
+      "role": "code"
+    }
+  ]
+}
