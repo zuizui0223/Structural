@@ -45,7 +45,7 @@
   },
   "active_empirical_candidates": [],
   "candidate_hunting_as_primary_objective": false,
-  "next_valid_scientific_event": "a genuinely new system independently arrives; before burned-pilot response access it freezes both a new v0.31 disjoint partition protocol and a v0.42 response-quality attrition contract",
+  "next_valid_scientific_event": "resolve the exact response-sealed Indo-Pacific atoll plant data-package identity content-blind; if and only if file roles can be frozen without response exposure, construct v0.11 intake, then v0.31 and v0.42 before any burned-pilot response",
   "future_admission_sequence": [
     "v0.11 response-sealed independent system intake bridge",
     "v0.31 disjoint pilot/confirmatory protocol freeze",
@@ -79,7 +79,8 @@
     "docs/CONFIRMATORY_ADMISSION_QUEUE_V0_42.md",
     "docs/CURRENT_STATUS_V0_42.md",
     "docs/INDEPENDENT_SYSTEM_INTAKE_V0_11.md",
-    "docs/MECHANISM_STRUCTURAL_PARENT_V0_42.md"
+    "docs/MECHANISM_STRUCTURAL_PARENT_V0_42.md",
+    "docs/INDO_PACIFIC_ATOLL_PLANTS_PREINTAKE_V0_1.md"
   ],
   "active_priority": {
     "path": "development/structural_active_priority_v0_42.json",
@@ -102,5 +103,15 @@
     "historical_v0_38_production_parent_authorized": false,
     "mechanism_response_authorized": false,
     "mechanism_claim_authorized": false
+  },
+  "hypothesis_driven_preintake_candidate": {
+    "path": "development/indo_pacific_atoll_plants_preintake_v0_1.json",
+    "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+    "status": "HOLD_exact_data_package_identity_and_file_roles_not_yet_frozen",
+    "ecological_hypothesis": "source_pool_handoff",
+    "response_values_opened": false,
+    "counts_as_active_empirical_candidate": false,
+    "counts_as_confirmatory_evidence": false,
+    "next_action": "content-blind FAIR2 data-package inventory and file-role assignment only"
   }
 }
