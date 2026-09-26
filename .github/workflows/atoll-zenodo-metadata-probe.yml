@@ -1,0 +1,124 @@
+name: Atoll Zenodo metadata-only probe
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify probe authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("development/atoll_zenodo_metadata_probe_authorization_v0_1.json")
+          x = json.loads(p.read_text())
+          assert x["status"] == "response_blind_metadata_only"
+          assert x["zenodo_record_id"] == 18848127
+          assert x["vascular_plant_response_values_may_be_read"] is False
+          assert x["data_file_bytes_may_be_downloaded"] is False
+          assert x["allowed_http_requests"] == [
+              "GET https://zenodo.org/api/records/18848127"
+          ]
+          print("authorization OK; exactly one metadata endpoint is allowed")
+          PY
+
+      - name: Fetch Zenodo record metadata only
+        run: |
+          mkdir -p build/atoll_zenodo_metadata_probe
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          url = "https://zenodo.org/api/records/18848127"
+          req = Request(
+              url,
+              headers={
+                  "Accept": "application/json",
+                  "User-Agent": "Structural-metadata-only-probe/0.1",
+              },
+              method="GET",
+          )
+          with urlopen(req, timeout=60) as response:
+              final_url = response.geturl()
+              assert final_url == url, f"unexpected redirect: {final_url}"
+              raw = response.read()
+
+          record = json.loads(raw)
+          assert int(record["id"]) == 18848127
+
+          files = record.get("files")
+          assert isinstance(files, list) and files, "Zenodo record exposes no files"
+
+          out_files = []
+          for row in files:
+              assert isinstance(row, dict)
+              links = row.get("links") or {}
+              out_files.append(
+                  {
+                      "key": row.get("key"),
+                      "size": row.get("size"),
+                      "checksum": row.get("checksum"),
+                      "links": {
+                          "self": links.get("self"),
+                          "content": links.get("content"),
+                      },
+                  }
+              )
+
+          filtered = {
+              "schema": "structural.atoll_zenodo_record_metadata.v0_1",
+              "probe_url": url,
+              "record_id": record.get("id"),
+              "doi": record.get("doi"),
+              "conceptdoi": record.get("conceptdoi"),
+              "created": record.get("created"),
+              "updated": record.get("updated"),
+              "title": (record.get("metadata") or {}).get("title"),
+              "version": (record.get("metadata") or {}).get("version"),
+              "record_api_response_sha256": hashlib.sha256(raw).hexdigest(),
+              "file_count": len(out_files),
+              "files": out_files,
+              "data_file_http_requests": 0,
+              "response_values_opened": False,
+          }
+
+          target = Path("build/atoll_zenodo_metadata_probe/zenodo_record_metadata.json")
+          target.write_text(json.dumps(filtered, indent=2, sort_keys=True) + "\n")
+          print(target.read_text())
+          PY
+
+      - name: Assert no data-file access occurred
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(Path(
+              "build/atoll_zenodo_metadata_probe/zenodo_record_metadata.json"
+          ).read_text())
+          assert x["data_file_http_requests"] == 0
+          assert x["response_values_opened"] is False
+          assert x["file_count"] == len(x["files"]) > 0
+          for row in x["files"]:
+              assert row["key"]
+              assert isinstance(row["size"], int) and row["size"] >= 0
+              assert isinstance(row["checksum"], str) and row["checksum"]
+          print(f"metadata-only probe complete: {x['file_count']} file(s); data bytes read=0")
+          PY
+
+      - name: Upload filtered metadata artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoll-zenodo-record-metadata-v0-1
+          path: build/atoll_zenodo_metadata_probe/zenodo_record_metadata.json
+          if-no-files-found: error
+          retention-days: 90
