@@ -13,7 +13,8 @@
     "router_contract": "0099dcd61a75e7b7e320702ce26488a5206ee2a4",
     "dual_universe_result": "7abcc950d69d04a4069558c30e8b896414115c40",
     "router_code": "e7fe93b0788f35ff3f7a40bbc6ba1493c51ca1e5",
-    "v0_32_runner": "4e5bfbe158157f0a360c8569c520cfbd79dd7534"
+    "v0_32_runner": "4e5bfbe158157f0a360c8569c520cfbd79dd7534",
+    "archive_inventory": "20a3d67624dfc9ba8b2a656e084e5e32a93cbc49"
   },
   "protocol_fingerprint": "ee8cccc38fb8f4602e05e97d9d875c5ad8773280460c0dafca36ac03fe5871f5",
   "quality_contract_fingerprint": "1b3ad5da960ceac60e594b3ed664a39835e2f49ba1f7d70bfd32ee1c54e28fc6",
