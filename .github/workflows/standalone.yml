@@ -29,8 +29,12 @@ jobs:
         run: python scripts/validate_confirmatory_queue_v0_38.py
       - name: Exercise historical non-empty v0.38 queue fixture
         run: python scripts/validate_confirmatory_queue_v0_38.py tests/fixtures/confirmatory_admission_v0_38/queue.json
-      - name: Validate synthetic independent-system intake
+      - name: Validate synthetic historical v0.10 independent-system intake
         run: python scripts/validate_independent_system_intake_v0_10.py tests/fixtures/independent_system_intake_v0_10/valid_intake.json
+      - name: Validate future v0.11 intake bridge to v0.42
+        run: python scripts/validate_independent_system_intake_v0_11.py tests/fixtures/independent_system_intake_v0_10/valid_intake.json
+      - name: Exercise mechanism admission with future v0.42 Structural parent
+        run: python scripts/run_mechanism_admission_v0_4.py tests/fixtures/mechanism_admission_v0_4/protocol.json tests/fixtures/confirmatory_admission_v0_42/queue.json --transition-pilot tests/fixtures/mechanism_transition_pilot_v0_2/pilot.csv --genetic-populations tests/fixtures/mechanism_auxiliary_gate_v0_3/genetic_populations.csv --genetic-pairs tests/fixtures/mechanism_auxiliary_gate_v0_3/genetic_pairs.csv --environment tests/fixtures/mechanism_auxiliary_gate_v0_3/environment.csv --allow-synthetic-structural-queue
       - name: Validate prospective mechanism framework
         run: python scripts/validate_mechanism_protocol_v0_1.py
       - name: Validate synthetic response-sealed mechanism protocol

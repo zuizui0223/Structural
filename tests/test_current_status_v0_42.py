@@ -78,3 +78,47 @@ def test_ttf_boundary_is_unchanged():
     assert ttf["may_rescue_failed_structural_systems"] is False
     assert ttf["may_count_burned_pilot_as_transfer_evidence"] is False
     assert ttf["empirical_denominator_shared_with_structural"] is False
+
+
+def test_current_status_points_to_v011_intake_and_v042_priority():
+    status = load(STATUS)
+
+    intake_cfg = status["independent_system_intake"]
+    intake = load(ROOT / intake_cfg["path"])
+    assert intake["status"] == intake_cfg["status"] == "future_only_bridge_to_v0_42"
+    assert intake_cfg["successful_action"] == (
+        "construct_v0_31_protocol_then_bind_v0_42_quality_contract_only"
+    )
+    assert intake_cfg["pilot_response_authorized"] is False
+    assert intake_cfg["confirmatory_response_authorized"] is False
+
+    priority_cfg = status["active_priority"]
+    priority = load(ROOT / priority_cfg["path"])
+    assert priority["status"] == priority_cfg["status"] == "active_mainline_lock"
+    assert priority["canonical_current_status"] == (
+        "development/current_status_v0_42.json"
+    )
+    assert priority["live_confirmatory_queue"] == (
+        "development/confirmatory_admission_queue_v0_42.json"
+    )
+    assert priority["independent_system_intake"] == (
+        "development/independent_system_intake_contract_v0_11.json"
+    )
+
+
+def test_future_mechanism_parent_requires_v042_queue():
+    status = load(STATUS)
+    parent_cfg = status["mechanism_structural_parent"]
+    parent = load(ROOT / parent_cfg["path"])
+
+    assert parent["status"] == parent_cfg["status"] == "future_only_parent_gate"
+    assert parent_cfg["production_parent_queue"] == (
+        "development/confirmatory_admission_queue_v0_42.json"
+    )
+    assert parent["production_parent_schema"] == (
+        "structural.confirmatory_admission_queue.v0_42"
+    )
+    assert parent["production_v0_38_parent_authorized"] is False
+    assert parent_cfg["historical_v0_38_production_parent_authorized"] is False
+    assert parent_cfg["mechanism_response_authorized"] is False
+    assert parent_cfg["mechanism_claim_authorized"] is False

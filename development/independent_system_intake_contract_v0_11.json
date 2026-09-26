@@ -1,0 +1,34 @@
+{
+  "schema": "structural.independent_system_intake_contract.v0_11",
+  "status": "future_only_bridge_to_v0_42",
+  "supersedes_for_future_intake": "development/independent_system_intake_contract_v0_10.json",
+  "historical_v0_10_modified": false,
+  "purpose": "reuse the frozen response-sealed v0.10 intake checks but require construction of both the v0.31 partition protocol and a v0.42 response-quality contract before any burned-pilot response can open",
+  "logical_position": "after v0.10 intake replay and before any pilot response access",
+  "parent_validator": "scripts/validate_independent_system_intake_v0_10.py",
+  "validator": "scripts/validate_independent_system_intake_v0_11.py",
+  "successful_status": "eligible_to_construct_v0_31_and_v0_42_pre_pilot_contracts",
+  "successful_next_action": "construct_v0_31_protocol_then_bind_v0_42_quality_contract_only",
+  "required_order": [
+    "construct response-sealed v0.31 protocol",
+    "compute exact v0.31 protocol fingerprint",
+    "construct v0.42 quality contract bound to that fingerprint",
+    "freeze minimum response-qualified blocks and response-quality semantics",
+    "only then may a separate authorization consider opening the burned pilot"
+  ],
+  "successful_output_ceiling": {
+    "v0_31_protocol_construction_authorized": true,
+    "v0_42_quality_contract_construction_authorized": true,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "mechanism_response_authorized": false,
+    "mechanism_claim_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "historical_systems_re_adjudicated": false,
+    "ttf_handoff_authorized": false
+  },
+  "current_systems": []
+}

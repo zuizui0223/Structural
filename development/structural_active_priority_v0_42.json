@@ -1,0 +1,43 @@
+{
+  "schema": "structural.active_priority.v0_42",
+  "status": "active_mainline_lock",
+  "supersedes": "development/structural_active_priority_v0_35.json",
+  "historical_v0_35_modified": false,
+  "active_goal": "admit only independently arriving systems that freeze both v0.31 partition semantics and v0.42 response-quality survival before burning a pilot",
+  "current_confirmatory_eligible_systems": [],
+  "current_confirmatory_eligible_count": 0,
+  "required_sequence": [
+    "v0.11 replay response-sealed independent-system intake",
+    "v0.31 freeze disjoint pilot/confirmatory partitions plus endpoint and heldout gates",
+    "v0.42 freeze response-quality semantics and minimum response-qualified blocks bound to the v0.31 fingerprint",
+    "v0.39 preserve exact three-column raw burned-pilot surface",
+    "v0.32 open pilot only and run endpoint/class estimability audit with zero predictive contribution",
+    "v0.42 independently audit response-quality block survival",
+    "v0.38 exact raw replay plus v0.37 arithmetic reconstruction",
+    "v0.33 permit confirmatory-protocol construction only after the full clean pass",
+    "freeze confirmatory state/reference/connectivity/scoring protocol",
+    "only then authorize confirmatory response"
+  ],
+  "failure_modes": {
+    "response_quality_attrition": "v0.42 STOP",
+    "endpoint_class_collapse": "v0.32 STOP",
+    "one_failure_mode_may_rescue_the_other": false
+  },
+  "priority_rules": {
+    "new_candidate_hunting_as_primary_objective": false,
+    "opportunistic_dataset_search": false,
+    "pilot_access_without_v0_31_and_v0_42_pre_freeze": false,
+    "lower_gate_after_pilot_failure": false,
+    "retune_response_quality_after_pilot_failure": false,
+    "use_pilot_as_predictive_evidence": false,
+    "reopen_landfrag": false,
+    "ttf_handoff_is_active_dependency": false
+  },
+  "active_verifier": "v0.42 live queue exact v0.32 raw replay + v0.42 quality receipt + historical v0.37/v0.33 admission checks",
+  "historical_admission_infrastructure_frozen_at": "v0.40",
+  "future_additive_gate": "v0.42",
+  "canonical_current_status": "development/current_status_v0_42.json",
+  "current_empirical_registry": "development/connectivity_candidate_registry_v0_29.json",
+  "live_confirmatory_queue": "development/confirmatory_admission_queue_v0_42.json",
+  "independent_system_intake": "development/independent_system_intake_contract_v0_11.json"
+}

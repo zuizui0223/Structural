@@ -583,7 +583,7 @@ The current Structural development mainline is **gate-first confirmatory admissi
 
 There are no confirmatory-eligible systems at present.
 
-The active objective is not to search rapidly for another biological candidate. The next confirmatory system must first exist as a fully frozen v0.31 disjoint pilot/confirmatory protocol, survive the v0.32 burned-pilot estimability audit, and pass the v0.33 pilot-to-confirmatory freeze gate.
+The active objective is not to search rapidly for another biological candidate. A newly arriving system must first replay the response-sealed v0.11 intake bridge, freeze a v0.31 disjoint pilot/confirmatory protocol, bind a v0.42 response-quality contract to that exact fingerprint before pilot access, survive both the v0.32 endpoint/class estimability audit and the v0.42 response-quality survival audit, and then pass the v0.33 pilot-to-confirmatory freeze gate.
 
 Therefore:
 
@@ -637,6 +637,11 @@ The raw v0.39 pilot surface remains exactly `partition_unit, block, target`. Row
 A future system must therefore freeze both its v0.31 protocol and its v0.42 response-quality contract before pilot access. After v0.32 executes, v0.42 counts response-qualified held-out blocks independently of class support. Both v0.42 survival and the existing v0.32/v0.33 chain must pass. A pass still authorizes only `freeze_confirmatory_protocol_only` and contributes zero predictive evidence.
 
 This extension is not applied retroactively. In particular, LandFrag v0.2 remains a terminal response-quality STOP at 29 independent geographies versus a frozen minimum of 30, with H1 unscored and no threshold relaxation or rerun.
+
+
+### Future mechanism parent after v0.42
+
+Mechanism admission keeps the historical v0.38 Structural queue replayable for synthetic/provenance tests, but it is no longer a production parent for newly arriving systems. Production mechanism admission must resolve its parent system through the v0.42 live queue, including the response-quality contract fingerprint and reproducible v0.42 admission receipt. This prevents a mechanism lane from entering downstream work through a Structural path that predates the attrition gate.
 
 ## TTF as the outer transferability layer
 
