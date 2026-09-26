@@ -31,8 +31,8 @@
     "burned_pilot_blocks": 13,
     "confirmatory_blocks": 50,
     "q75_major_landmass_isolation_km": 775.3375,
-    "v0_31_protocol_fingerprint": "0ffd3ced3e09b94bd001ea5dea036253cdd5bf1c0969ebc117431631bdf6a129",
-    "v0_42_quality_contract_fingerprint": "056dffbd219716ae06f2bbe4eac37acb653f524a4bf8fe130d0a04d3b63c084a",
+    "v0_31_protocol_fingerprint": "c50a1b4689e41f6a40e65691ef9336eaf0a1eb3a5cdeafd1204b6a005c362653",
+    "v0_42_quality_contract_fingerprint": "3b8699947b8d192d5a8f5c5b5cde976a7b77547c2ee3e2d927e68846af33fcdb",
     "pilot_response_accessed": false,
     "confirmatory_response_accessed": false,
     "counts_as_confirmatory_evidence": false
