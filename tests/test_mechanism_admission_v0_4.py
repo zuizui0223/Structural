@@ -10,6 +10,7 @@ from scripts.run_mechanism_admission_v0_4 import run
 ROOT = Path(__file__).resolve().parents[1]
 FIX = ROOT / "tests/fixtures/mechanism_admission_v0_4"
 STRUCTURAL_QUEUE = ROOT / "tests/fixtures/confirmatory_admission_v0_38/queue.json"
+STRUCTURAL_QUEUE_V42 = ROOT / "tests/fixtures/confirmatory_admission_v0_42/queue.json"
 TRANSITION = ROOT / "tests/fixtures/mechanism_transition_pilot_v0_2/pilot.csv"
 GENPOP = ROOT / "tests/fixtures/mechanism_auxiliary_gate_v0_3/genetic_populations.csv"
 GENPAIR = ROOT / "tests/fixtures/mechanism_auxiliary_gate_v0_3/genetic_pairs.csv"
@@ -205,3 +206,52 @@ def test_receipt_hashes_raw_gate_inputs(tmp_path: Path):
         "environment",
     }
     assert all(len(value) == 64 for value in hashes.values())
+
+
+def test_future_v042_structural_queue_is_valid_mechanism_parent(tmp_path: Path):
+    p = tmp_path / "protocol.json"
+    write_json(p, load_protocol())
+
+    code, out = run(
+        p,
+        STRUCTURAL_QUEUE_V42,
+        transition_pilot_csv=TRANSITION,
+        genetic_populations_csv=GENPOP,
+        genetic_pairs_csv=GENPAIR,
+        environment_csv=ENV,
+        allow_synthetic_structural_queue=True,
+    )
+
+    assert code == 0
+    structural = out["structural_admission"]
+    assert structural["queue_schema"] == (
+        "structural.confirmatory_admission_queue.v0_42"
+    )
+    assert structural["structural_generation"] == "future_v0_42"
+    assert len(structural["structural_quality_contract_fingerprint"]) == 64
+    assert out["confirmatory_response_authorized"] is False
+    assert out["mechanism_claim_authorized"] is False
+
+
+def test_historical_v038_cannot_be_used_as_new_production_parent(tmp_path: Path):
+    p = tmp_path / "protocol.json"
+    q = tmp_path / "queue.json"
+    write_json(p, load_protocol())
+
+    historical = json.loads(STRUCTURAL_QUEUE.read_text(encoding="utf-8"))
+    historical["status"] = "active_gate_first_queue_with_raw_pilot_replay"
+    write_json(q, historical)
+
+    code, out = run(
+        p,
+        q,
+        transition_pilot_csv=TRANSITION,
+        genetic_populations_csv=GENPOP,
+        genetic_pairs_csv=GENPAIR,
+        environment_csv=ENV,
+        allow_synthetic_structural_queue=False,
+    )
+
+    assert code == 2
+    assert out["status"] == "STOP_structural_admission_not_replay_validated"
+    assert "not eligible as a production mechanism parent after v0.42" in out["reason"]
