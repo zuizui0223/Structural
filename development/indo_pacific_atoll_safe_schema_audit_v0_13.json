@@ -1,0 +1,37 @@
+{
+  "schema": "structural.atoll_safe_schema_audit.v0_13",
+  "status": "one_shot_safe_schema_only",
+  "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_archive": {
+    "zenodo_record_id": 18848127,
+    "key": "Steibl_2026_Indo_Pacific_Atolls_Dataset.zip",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e",
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content"
+  },
+  "semantic_open_allowlist": [
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_main_310.csv",
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_biogeography.csv",
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_environmental.csv",
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_shapefiles.kml",
+    "Steibl_2026_Indo_Pacific_Atolls_Dataset/fair2.json"
+  ],
+  "allowed_outputs": [
+    "CSV header names",
+    "CSV row counts",
+    "FAIR2 resource names and field names/types",
+    "KML Placemark count",
+    "member SHA verification"
+  ],
+  "forbidden": [
+    "open any atoll_diversity_* file",
+    "open any atoll_seabird_population_* file",
+    "open notebook.ipynb",
+    "emit biodiversity values",
+    "emit environmental or geographic row values",
+    "fit models"
+  ],
+  "response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
