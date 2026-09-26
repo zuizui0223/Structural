@@ -1,0 +1,80 @@
+{
+  "schema": "structural.connectivity_candidate_registry.v0_43",
+  "status": "one_active_response_sealed_empirical_system_pre_pilot",
+  "supersedes": "development/connectivity_candidate_registry_v0_29.json",
+  "closed_empirical_lanes": [
+    {
+      "candidate_id": "usgs_pnw_montane_ponds_2012_2013",
+      "evidence_class": "design_exposed_terminal_non_estimable",
+      "target_class_collapse": "positive_dominant",
+      "joint_target_counts": {
+        "positive": 108,
+        "negative": 3
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    },
+    {
+      "candidate_id": "usgs_rmnp_amphibian_surveys_1986_2022_AMMA_2021_2022",
+      "evidence_class": "system_context_exposed_terminal_non_estimable",
+      "target_class_collapse": "negative_dominant",
+      "joint_target_counts": {
+        "positive": 3,
+        "negative": 66
+      },
+      "model_fit_count": 0,
+      "primary_result": "non_estimable"
+    }
+  ],
+  "active_empirical_candidates": [
+    {
+      "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+      "evidence_class": "response_sealed_v0_11_pass_pre_pilot_contracts_frozen",
+      "source": "SenScience 10.71728/senscience.4f2j-8h1k / Zenodo 10.5281/zenodo.18848127",
+      "ecological_hypothesis": "source_pool_handoff_under_extreme_major_landmass_isolation",
+      "intake_path": "development/indo_pacific_atoll_intake_v0_11.json",
+      "response_blind_geometry_path": "development/indo_pacific_atoll_dual_universe_result_v0_17.json",
+      "v0_31_protocol_path": "development/indo_pacific_atoll_transition_pilot_protocol_v0_31.json",
+      "v0_42_quality_contract_path": "development/indo_pacific_atoll_response_quality_contract_v0_42.json",
+      "pilot_router_contract_path": "development/indo_pacific_atoll_pilot_router_contract_v0_18.json",
+      "physical_graph_atolls": 310,
+      "model_target_atolls": 292,
+      "frozen_spatial_blocks": 63,
+      "burned_pilot_blocks": 13,
+      "confirmatory_blocks": 50,
+      "pilot_response_accessed": false,
+      "confirmatory_response_accessed": false,
+      "counts_as_empirical_evidence": false,
+      "confirmatory_eligible": false
+    }
+  ],
+  "retrospective_or_stop_lane": [
+    {
+      "candidate_id": "great_lakes_frog_2011_2023",
+      "evidence_class": "fresh_stop_response_exposed"
+    },
+    {
+      "candidate_id": "hungary_amphibian_100_ponds_2023",
+      "evidence_class": "fresh_stop_response_exposed_and_geometry_unresolved"
+    },
+    {
+      "candidate_id": "davis_2026_heliconia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "noreen_2016_koompassia",
+      "evidence_class": "retrospective_engineering"
+    },
+    {
+      "candidate_id": "delnevo_2026_conospermum",
+      "evidence_class": "retrospective_engineering"
+    }
+  ],
+  "invariants": [
+    "PNW and RMNP remain terminal and cannot be repaired into scored confirmation",
+    "LandFrag remains terminal response-quality non-estimable and cannot be rerun or rescued",
+    "the atoll system entered independently under the predeclared source-pool-handoff hypothesis and A-Islands does not count as confirmation",
+    "the atoll burned pilot contributes zero predictive evidence",
+    "confirmatory response remains sealed unless the burned pilot passes v0.32 and v0.42 and the replay/freeze chain admits it"
+  ]
+}
