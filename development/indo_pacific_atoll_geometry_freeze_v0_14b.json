@@ -1,0 +1,37 @@
+{
+  "schema": "structural.atoll_geometry_freeze.v0_14b",
+  "status": "response_blind_spatial_component_partition",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_archive_sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e",
+  "spatial_universe": "all_310_atolls_before_response_quality",
+  "rationale": "geometry/isolation thresholds cannot depend on which atolls later survive plant-inventory response quality",
+  "graph_radius_quantiles": [
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "graph_radii_rounding": "ceil_km",
+  "spatial_block_selection_rule": "choose the largest frozen graph radius whose connected-component partition has at least 11 components and whose largest component contains no more than 50 percent of all 310 atolls; STOP if no radius qualifies",
+  "minimum_spatial_components": 11,
+  "maximum_largest_component_fraction": 0.5,
+  "pilot_fraction": 0.2,
+  "minimum_pilot_blocks": 3,
+  "minimum_confirmatory_blocks": 6,
+  "pilot_rank_rule": "sha256('atoll-plants-v1|spatial-component|' + block_id)",
+  "block_id_rule": "'SC_' + first12(sha256('|'.join(sorted(atoll_names))))",
+  "major_landmass_distance": "min(distance_nearest_high_island_km,distance_continent_km)",
+  "primary_extreme_quantile": 0.75,
+  "sensitivity_quantiles": [
+    0.7,
+    0.8
+  ],
+  "source_pressure_scale": "median centroid nearest-neighbour distance among all 310 atolls",
+  "generic_gateway_rule": "at a frozen graph radius, component contains an atoll with major_landmass_distance <= that same radius",
+  "response_files_may_be_opened": false,
+  "response_values_may_be_read": false,
+  "model_fit_count_expected": 0,
+  "country_axis_role": "fallback_only_not_selected_by_this_rule",
+  "group_axis_role": "rejected_for_incompleteness_76_of_310",
+  "counts_as_empirical_evidence": false
+}
