@@ -45,7 +45,7 @@
   },
   "active_empirical_candidates": [],
   "candidate_hunting_as_primary_objective": false,
-  "next_valid_scientific_event": "resolve the file-level physical identity of Zenodo record 18848127 without parsing vascular-plant values; only after v0.11 content-blind inventory and v0.12 file-role freeze may the atoll system enter formal v0.11 intake",
+  "next_valid_scientific_event": "complete the atoll v0.12 file-role firewall and minimal safe metadata/schema audit without opening any biodiversity response; only then decide whether formal v0.11 intake is eligible",
   "future_admission_sequence": [
     "v0.11 response-sealed independent system intake bridge",
     "v0.31 disjoint pilot/confirmatory protocol freeze",
@@ -81,7 +81,8 @@
     "docs/INDEPENDENT_SYSTEM_INTAKE_V0_11.md",
     "docs/MECHANISM_STRUCTURAL_PARENT_V0_42.md",
     "docs/INDO_PACIFIC_ATOLL_PLANTS_PREINTAKE_V0_1.md",
-    "docs/INDO_PACIFIC_ATOLL_PACKAGE_RESOLUTION_V0_1.md"
+    "docs/INDO_PACIFIC_ATOLL_PACKAGE_RESOLUTION_V0_1.md",
+    "docs/INDO_PACIFIC_ATOLL_FILE_ROLE_FIREWALL_V0_12.md"
   ],
   "active_priority": {
     "path": "development/structural_active_priority_v0_42.json",
@@ -108,12 +109,12 @@
   "hypothesis_driven_preintake_candidate": {
     "path": "development/indo_pacific_atoll_plants_preintake_v0_1.json",
     "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
-    "status": "HOLD_zenodo_record_resolved_file_inventory_not_yet_frozen",
+    "status": "HOLD_v0_11_inventory_complete_v0_12_roles_frozen_safe_metadata_not_yet_opened",
     "ecological_hypothesis": "source_pool_handoff",
     "response_values_opened": false,
     "counts_as_active_empirical_candidate": false,
     "counts_as_confirmatory_evidence": false,
-    "next_action": "resolve Zenodo record 18848127 file names, byte sizes and checksums metadata-only, then v0.11 content-blind inventory and v0.12 file-role firewall",
+    "next_action": "validate v0.12 roles then perform minimal safe metadata/schema audit only",
     "zenodo_mirror_doi": "10.5281/zenodo.18848127"
   }
 }
