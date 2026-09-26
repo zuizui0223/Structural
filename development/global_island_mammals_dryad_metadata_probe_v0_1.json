@@ -1,0 +1,26 @@
+{
+  "schema": "structural.global_island_mammals_dryad_metadata_probe.v0_1",
+  "status": "response_blind_metadata_only",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "dryad_doi": "10.5061/dryad.hmgqnk9j2",
+  "api_version": "2.1.0",
+  "allowed_requests": [
+    "GET dataset metadata for encoded DOI",
+    "GET version list for encoded DOI",
+    "GET files metadata for latest published version"
+  ],
+  "forbidden_requests": [
+    "any file download URL",
+    "dataset download endpoint",
+    "Appendix_1_presence_absence.csv content",
+    "Appendix_2-dryad.xlsx content",
+    "mammal_insularity_from_IUCN.csv content"
+  ],
+  "allowed_output_fields": [
+    "dataset identifier/versionNumber/lastModificationDate",
+    "version id/versionNumber/versionStatus/lastModificationDate",
+    "file id/path/size/mimeType/status/digest/digestType"
+  ],
+  "response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
