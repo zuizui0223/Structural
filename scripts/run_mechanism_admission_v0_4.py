@@ -12,8 +12,12 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 from scripts.validate_confirmatory_queue_v0_38 import (  # noqa: E402
-    QueueValidationError,
-    validate_queue,
+    QueueValidationError as HistoricalQueueValidationError,
+    validate_queue as validate_historical_queue,
+)
+from scripts.validate_confirmatory_queue_v0_42 import (  # noqa: E402
+    QueueValidationError as FutureQueueValidationError,
+    validate_queue as validate_future_queue,
 )
 from scripts.validate_mechanism_protocol_v0_1 import (  # noqa: E402
     MechanismProtocolError,
@@ -87,25 +91,66 @@ def _validate_structural_queue(
     protocol: dict,
     allow_synthetic_queue: bool,
 ) -> dict:
-    try:
-        validate_queue(queue_path)
-    except (OSError, ValueError, json.JSONDecodeError, QueueValidationError) as exc:
-        raise MechanismAdmissionError(
-            f"Structural v0.38 queue replay failed: {exc}"
-        ) from exc
-
     queue = load_json(queue_path)
-    if queue.get("schema") != "structural.confirmatory_admission_queue.v0_38":
-        raise MechanismAdmissionError("unexpected Structural queue schema")
+    schema = queue.get("schema")
     status = queue.get("status")
-    if status == "synthetic_ci_fixture_nonempirical":
-        if not allow_synthetic_queue:
+
+    if schema == "structural.confirmatory_admission_queue.v0_42":
+        try:
+            validate_future_queue(queue_path)
+        except (
+            OSError,
+            ValueError,
+            json.JSONDecodeError,
+            FutureQueueValidationError,
+        ) as exc:
             raise MechanismAdmissionError(
-                "synthetic Structural queue requires --allow-synthetic-structural-queue"
+                f"Structural v0.42 queue replay failed: {exc}"
+            ) from exc
+
+        if status == "synthetic_ci_fixture_nonempirical":
+            if not allow_synthetic_queue:
+                raise MechanismAdmissionError(
+                    "synthetic Structural queue requires "
+                    "--allow-synthetic-structural-queue"
+                )
+        elif status != "active_future_queue_with_response_quality_attrition_gate":
+            raise MechanismAdmissionError(
+                f"unexpected Structural v0.42 queue status: {status}"
             )
-    elif status != "active_gate_first_queue_with_raw_pilot_replay":
+
+        receipt_schema = "structural.future_confirmatory_admission_receipt.v0_42"
+        receipt_status = "admitted_to_confirmatory_protocol_queue_v0_42"
+        structural_generation = "future_v0_42"
+
+    elif schema == "structural.confirmatory_admission_queue.v0_38":
+        try:
+            validate_historical_queue(queue_path)
+        except (
+            OSError,
+            ValueError,
+            json.JSONDecodeError,
+            HistoricalQueueValidationError,
+        ) as exc:
+            raise MechanismAdmissionError(
+                f"historical Structural v0.38 queue replay failed: {exc}"
+            ) from exc
+
+        # v0.38 remains replayable provenance, but after v0.42 it is not a
+        # production parent for newly arriving mechanism systems.
+        if status != "synthetic_ci_fixture_nonempirical" or not allow_synthetic_queue:
+            raise MechanismAdmissionError(
+                "historical Structural v0.38 queue is not eligible as a "
+                "production mechanism parent after v0.42"
+            )
+
+        receipt_schema = "structural.confirmatory_admission_receipt.v0_36"
+        receipt_status = "admitted_to_confirmatory_protocol_queue"
+        structural_generation = "historical_v0_38_synthetic_only"
+
+    else:
         raise MechanismAdmissionError(
-            f"unexpected Structural queue status: {status}"
+            f"unexpected Structural queue schema: {schema}"
         )
 
     system_id = protocol["system_id"]
@@ -126,9 +171,9 @@ def _validate_structural_queue(
 
     receipt_path = ROOT / entry["admission_receipt_path"]
     receipt = load_json(receipt_path)
-    if receipt.get("schema") != "structural.confirmatory_admission_receipt.v0_36":
+    if receipt.get("schema") != receipt_schema:
         raise MechanismAdmissionError("unexpected Structural admission receipt schema")
-    if receipt.get("status") != "admitted_to_confirmatory_protocol_queue":
+    if receipt.get("status") != receipt_status:
         raise MechanismAdmissionError("Structural system is not admitted")
     if receipt.get("eligible_action") != "freeze_confirmatory_protocol_only":
         raise MechanismAdmissionError("Structural receipt eligible_action drift")
@@ -140,17 +185,38 @@ def _validate_structural_queue(
         raise MechanismAdmissionError(
             "Structural pilot must contribute zero predictive denominator"
         )
+    if receipt.get("ttf_handoff_authorized") is not False:
+        raise MechanismAdmissionError(
+            "Structural admission must not authorize TTF handoff"
+        )
+
+    quality_fp = entry.get("quality_contract_fingerprint")
+    if schema.endswith("v0_42"):
+        if not isinstance(quality_fp, str) or len(quality_fp) != 64:
+            raise MechanismAdmissionError(
+                "future Structural queue lacks quality-contract fingerprint"
+            )
+        if receipt.get("quality_contract_fingerprint") != quality_fp:
+            raise MechanismAdmissionError(
+                "future Structural quality-contract fingerprint drift"
+            )
+        if receipt.get("historical_systems_re_adjudicated") is not False:
+            raise MechanismAdmissionError(
+                "future Structural receipt re-adjudicates historical systems"
+            )
 
     return {
         "queue_status": status,
+        "queue_schema": schema,
+        "structural_generation": structural_generation,
         "queue_entry_system_id": entry["system_id"],
         "queue_entry_protocol_id": entry["protocol_id"],
         "structural_protocol_fingerprint": entry["protocol_fingerprint"],
+        "structural_quality_contract_fingerprint": quality_fp,
         "structural_receipt_status": receipt["status"],
         "structural_confirmatory_response_authorized": False,
         "synthetic_queue": status == "synthetic_ci_fixture_nonempirical",
     }
-
 
 def _lane_decisions_from_dynamic(result: dict, requested: set[str]) -> dict[str, dict]:
     audits = result.get("lane_audits")
