@@ -1,0 +1,58 @@
+{
+  "schema": "structural.global_island_mammals_dryad_metadata_result.v0_1",
+  "status": "metadata_only_file_identity_resolved",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "dryad_identifier": "doi:10.5061/dryad.hmgqnk9j2",
+  "dataset_version_number": 6,
+  "dataset_last_modification_date": "2024-06-17",
+  "selected_version_id": 299966,
+  "selected_version_number": 6,
+  "selected_version_status": "submitted",
+  "selected_version_last_modification_date": "2024-06-17",
+  "files": [
+    {
+      "path": "Appendix_1_presence_absence.csv",
+      "size": 60486843,
+      "mimeType": "text/csv",
+      "status": "copied",
+      "digestType": "sha-256",
+      "digest": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+      "role": "response"
+    },
+    {
+      "path": "Appendix_2-dryad.xlsx",
+      "size": 1066391,
+      "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "status": "copied",
+      "digestType": "sha-256",
+      "digest": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+      "role": "mixed_safe_predictors_plus_response_derived_summaries"
+    },
+    {
+      "path": "README.md",
+      "size": 8720,
+      "mimeType": "text/markdown",
+      "status": "created",
+      "digestType": "sha-256",
+      "digest": "1766a64daf93e4367fea19e2b395883ac7d6acd29bdc490bfe8131d98fecde68",
+      "role": "documentation"
+    },
+    {
+      "path": "mammal_insularity_from_IUCN.csv",
+      "size": 182298,
+      "mimeType": "text/csv",
+      "status": "copied",
+      "digestType": "sha-256",
+      "digest": "705576b9ddb5de369c8f87e37f5fb47ed83e12e4f9dc6946443630034062f314",
+      "role": "response_blind_species_metadata_candidate"
+    }
+  ],
+  "file_content_http_requests": 0,
+  "response_values_opened": false,
+  "workflow_run_id": 36271023823,
+  "workflow_job_id": 108484869191,
+  "artifact_id": 10915552094,
+  "artifact_sha256": "8cbc307d76e93945b741efe2a80d3f7521a32c0070fcb827ae18da5a0fd67d24",
+  "counts_as_empirical_evidence": false,
+  "eligible_next_action": "Appendix_2 schema-only workbook/sheet/header audit under mixed-file firewall"
+}
