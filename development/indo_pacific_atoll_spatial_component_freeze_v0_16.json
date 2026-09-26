@@ -1,0 +1,76 @@
+{
+  "schema": "structural.atoll_spatial_component_freeze_authorization.v0_16",
+  "status": "response_blind_geometry_only",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_archive": {
+    "zenodo_record_id": 18848127,
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e"
+  },
+  "safe_members": {
+    "main": {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_main_310.csv",
+      "sha256": "ef6e289fca1530dcca8e014ac8302a4e99fcb127d6c600b25a94fb50b6479d79"
+    },
+    "biogeography": {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_biogeography.csv",
+      "sha256": "3db3a6349975b1abd90f4dab3edc8402cc8fb92e73a61b6909984b517ad5606d"
+    },
+    "environmental": {
+      "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_environmental.csv",
+      "sha256": "a66159d0d6deeeb5166a3e36bf0394a7cfa1386b286c46c8ed883a9143c2c07b"
+    }
+  },
+  "required_numeric_fields": [
+    "lat",
+    "long",
+    "land_area_sqkm",
+    "distance_nearest_atoll_km",
+    "distance_nearest_high_island_km",
+    "distance_continent_km",
+    "annual_precipitation_mm"
+  ],
+  "graph_radius_quantiles": [0.25, 0.50, 0.75, 0.90],
+  "graph_radius_rounding": "ceil_to_positive_whole_km",
+  "partition_rule": {
+    "candidate_blocks": "connected components at each frozen graph radius using all 310 atoll centroids",
+    "minimum_total_components": 11,
+    "derivation": "11 is the smallest total block count that permits ceil(20%) pilot blocks >=3 and remaining confirmatory blocks >=6",
+    "selection": "choose the largest/coarsest frozen radius whose component count is at least 11",
+    "fallback_if_no_radius_qualifies": "country",
+    "country_fallback_prevalidated_response_blind": {
+      "block_count": 23,
+      "missing_count": 0,
+      "pilot_blocks": 5,
+      "confirmatory_blocks": 18,
+      "source": "PR 113 v0.15"
+    }
+  },
+  "partition_assignment": {
+    "pilot_fraction": 0.20,
+    "pilot_count": "ceil(0.20 * selected_block_count)",
+    "block_identity": "sha256 of newline-joined sorted atoll names in component",
+    "ranking_key": "sha256('atoll-plants-v1|spatial-component|' + block_identity)",
+    "lowest_ranked_blocks": "pilot",
+    "remaining_blocks": "confirmatory"
+  },
+  "isolation_rule": {
+    "major_landmass_distance": "min(distance_continent_km, distance_nearest_high_island_km)",
+    "primary_quantile": 0.75,
+    "sensitivity_quantiles": [0.70, 0.80]
+  },
+  "source_pressure_scale_rule": "median great-circle centroid nearest-neighbour distance across all 310 atolls",
+  "generic_gateway_connectivity": "at each frozen graph radius, focal component contains an atoll with major_landmass_distance_km <= that radius; score is fraction of four radii",
+  "hard_stops": [
+    "safe table atoll IDs do not match exactly",
+    "any required numeric field missing/nonfinite",
+    "graph radii are not four strictly increasing positive whole-km values",
+    "no graph radius yields at least 11 connected spatial components and country fallback becomes unavailable"
+  ],
+  "response_files_may_be_opened": false,
+  "response_values_may_be_read": false,
+  "model_fit_count_expected": 0,
+  "counts_as_empirical_evidence": false
+}
