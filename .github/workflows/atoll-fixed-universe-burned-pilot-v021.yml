@@ -28,7 +28,7 @@ jobs:
           test "${changed[0]}" = ".github/workflows/atoll-fixed-universe-burned-pilot-v021.yml"
           test "${changed[1]}" = "development/indo_pacific_atoll_burned_pilot_authorization_v0_21.json"
 
-          python - <<'PY'
+          PYTHONPATH=src:. python - <<'PY'
           import json, subprocess
           from pathlib import Path
 
@@ -71,7 +71,7 @@ jobs:
       - name: Execute one-shot burned pilot
         run: |
           mkdir -p build/atoll_burned_pilot_v021
-          python - <<'PY'
+          PYTHONPATH=src:. python - <<'PY'
           from __future__ import annotations
 
           import csv
