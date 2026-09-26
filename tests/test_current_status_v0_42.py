@@ -104,3 +104,21 @@ def test_current_status_points_to_v011_intake_and_v042_priority():
     assert priority["independent_system_intake"] == (
         "development/independent_system_intake_contract_v0_11.json"
     )
+
+
+def test_future_mechanism_parent_requires_v042_queue():
+    status = load(STATUS)
+    parent_cfg = status["mechanism_structural_parent"]
+    parent = load(ROOT / parent_cfg["path"])
+
+    assert parent["status"] == parent_cfg["status"] == "future_only_parent_gate"
+    assert parent_cfg["production_parent_queue"] == (
+        "development/confirmatory_admission_queue_v0_42.json"
+    )
+    assert parent["production_parent_schema"] == (
+        "structural.confirmatory_admission_queue.v0_42"
+    )
+    assert parent["production_v0_38_parent_authorized"] is False
+    assert parent_cfg["historical_v0_38_production_parent_authorized"] is False
+    assert parent_cfg["mechanism_response_authorized"] is False
+    assert parent_cfg["mechanism_claim_authorized"] is False
