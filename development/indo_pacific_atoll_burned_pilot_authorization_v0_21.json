@@ -1,0 +1,51 @@
+{
+  "schema": "structural.indo_pacific_atoll_burned_pilot_authorization.v0_21",
+  "status": "one_shot_corrected_burned_pilot_authorized",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "parent_main_commit": "55190a6153f744bb3a000af8652fd22f0b37b7e6",
+  "allowed_branch_delta": [
+    "development/indo_pacific_atoll_burned_pilot_authorization_v0_21.json",
+    ".github/workflows/atoll-fixed-universe-burned-pilot-v021.yml"
+  ],
+  "frozen_git_blobs": {
+    "protocol": "c7154fda3908484416e3ee7012fb88e289a0dffa",
+    "quality_contract": "891fc4cbc310c6853c1d423e3c5e19953362cf0d",
+    "router_contract": "0099dcd61a75e7b7e320702ce26488a5206ee2a4",
+    "dual_universe_result": "7abcc950d69d04a4069558c30e8b896414115c40",
+    "router_code": "e7fe93b0788f35ff3f7a40bbc6ba1493c51ca1e5",
+    "v0_32_runner": "4e5bfbe158157f0a360c8569c520cfbd79dd7534"
+  },
+  "protocol_fingerprint": "ee8cccc38fb8f4602e05e97d9d875c5ad8773280460c0dafca36ac03fe5871f5",
+  "quality_contract_fingerprint": "1b3ad5da960ceac60e594b3ed664a39835e2f49ba1f7d70bfd32ee1c54e28fc6",
+  "source_archive": {
+    "content_url": "https://zenodo.org/api/records/18848127/files/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip/content",
+    "size_bytes": 1525818,
+    "md5": "3b314df61fd1ae889bab2a545f801a78",
+    "sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e"
+  },
+  "plant_response_member": {
+    "relative_path": "Steibl_2026_Indo_Pacific_Atolls_Dataset/atoll_diversity_plants.csv",
+    "sha256": "9d6b80322d52f447ce94fc5f03e2ff1fad1007386f4bce30c7d4d2b2e82ede6e"
+  },
+  "frozen_model_target_design_sha256": "237c0d5e97ab45f3d71dbed5bc799a24012da62942b296652ea0e1977f79f32b",
+  "pilot_semantic_access": {
+    "atoll_routing_field_all_rows": true,
+    "species_presence_only_for_frozen_pilot_blocks": true,
+    "confirmatory_species_values_parsed_expected": 0,
+    "confirmatory_presence_values_parsed_expected": 0,
+    "fixed_species_support_rule": "native N in at least two distinct frozen pilot spatial blocks"
+  },
+  "output_ceiling": {
+    "fixed_pilot_species_list_and_sha": true,
+    "exact_three_column_pilot_surface": true,
+    "v0_32_estimability_result": true,
+    "v0_42_quality_audit": true,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "confirmatory_response_authorized": false
+  },
+  "raw_source_response_may_be_uploaded": false,
+  "rerun_after_pilot_semantic_access": false,
+  "counts_as_confirmatory_evidence": false
+}
