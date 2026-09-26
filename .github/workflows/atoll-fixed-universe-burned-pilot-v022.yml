@@ -1,0 +1,468 @@
+name: Atoll corrected burned pilot one-shot v0.22
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  burned-pilot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Verify immutable pre-pilot ancestry and code identity
+        run: |
+          set -euo pipefail
+          PARENT=55190a6153f744bb3a000af8652fd22f0b37b7e6
+          git merge-base --is-ancestor "$PARENT" HEAD
+          test "$(git rev-list --count "$PARENT"..HEAD)" -ge 2
+          mapfile -t changed < <(git diff --name-only "$PARENT"..HEAD | sort)
+          printf '%s\n' "${changed[@]}"
+          test "${#changed[@]}" -eq 2
+          test "${changed[0]}" = ".github/workflows/atoll-fixed-universe-burned-pilot-v022.yml"
+          test "${changed[1]}" = "development/indo_pacific_atoll_burned_pilot_authorization_v0_22.json"
+
+          PYTHONPATH=src:. python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          a=json.loads(Path(
+              "development/indo_pacific_atoll_burned_pilot_authorization_v0_22.json"
+          ).read_text())
+          paths={
+              "protocol":"development/indo_pacific_atoll_transition_pilot_protocol_v0_31b.json",
+              "quality_contract":"development/indo_pacific_atoll_response_quality_contract_v0_42b.json",
+              "router_contract":"development/indo_pacific_atoll_pilot_router_contract_v0_20.json",
+              "dual_universe_result":"development/indo_pacific_atoll_dual_universe_result_v0_17.json",
+              "router_code":"src/structural/atoll_pilot_router.py",
+              "v0_32_runner":"scripts/run_transition_pilot_v0_32.py",
+              "archive_inventory":"development/indo_pacific_atoll_archive_inventory_v0_11.json",
+          }
+          for key,path in paths.items():
+              observed=subprocess.check_output(["git","hash-object",path],text=True).strip()
+              expected=a["frozen_git_blobs"][key]
+              assert observed==expected,(key,observed,expected)
+
+          from structural.transition_pilot_protocol import (
+              protocol_from_mapping, protocol_fingerprint, evaluate_transition_pilot_protocol,
+              PilotProtocolStatus,
+          )
+          from structural.response_quality_attrition import (
+              contract_from_mapping, contract_fingerprint,
+              evaluate_response_quality_contract, ResponseQualityContractStatus,
+          )
+          p=protocol_from_mapping(json.loads(Path(paths["protocol"]).read_text()))
+          q=contract_from_mapping(json.loads(Path(paths["quality_contract"]).read_text()))
+          assert protocol_fingerprint(p)==a["protocol_fingerprint"]
+          assert contract_fingerprint(q)==a["quality_contract_fingerprint"]
+          assert evaluate_transition_pilot_protocol(p).status is PilotProtocolStatus.QUALIFIED_TO_OPEN_PILOT
+          assert evaluate_response_quality_contract(protocol=p,contract=q).status is ResponseQualityContractStatus.QUALIFIED_TO_OPEN_PILOT
+          print("immutable pre-pilot identity OK")
+          PY
+          echo "pre-pilot code and contracts are frozen by Git blobs; no runtime pytest dependency required"
+
+      - name: Execute one-shot burned pilot
+        run: |
+          mkdir -p build/atoll_burned_pilot_v022
+          PYTHONPATH=src:. python - <<'PY'
+          from __future__ import annotations
+
+          import csv
+          import hashlib
+          import io
+          import json
+          import math
+          from pathlib import Path
+          import traceback
+          from urllib.request import Request, urlopen
+          import zipfile
+
+          from scripts.run_transition_pilot_v0_32 import run as run_v032
+          from structural.atoll_pilot_router import build_atoll_burned_pilot_surface
+          from structural.response_quality_attrition import (
+              audit_mapping,
+              audit_response_quality_attrition,
+              contract_from_mapping,
+          )
+          from structural.transition_pilot_protocol import protocol_from_mapping
+
+          OUT=Path("build/atoll_burned_pilot_v022")
+          AUTH=Path("development/indo_pacific_atoll_burned_pilot_authorization_v0_22.json")
+          PROTOCOL=Path("development/indo_pacific_atoll_transition_pilot_protocol_v0_31b.json")
+          QUALITY=Path("development/indo_pacific_atoll_response_quality_contract_v0_42b.json")
+          GEOM=Path("development/indo_pacific_atoll_dual_universe_result_v0_17.json")
+          INVENTORY=Path("development/indo_pacific_atoll_archive_inventory_v0_11.json")
+
+          auth=json.loads(AUTH.read_text())
+          protocol_data=json.loads(PROTOCOL.read_text())
+          protocol=protocol_from_mapping(protocol_data)
+          quality=contract_from_mapping(json.loads(QUALITY.read_text()))
+          geom=json.loads(GEOM.read_text())
+          inv=json.loads(INVENTORY.read_text())
+          imap={x["relative_path"]:x for x in inv["entries"]}
+
+          receipt={
+              "schema":"structural.indo_pacific_atoll_burned_pilot_execution.v0_22",
+              "system_id":auth["system_id"],
+              "protocol_fingerprint":auth["protocol_fingerprint"],
+              "quality_contract_fingerprint":auth["quality_contract_fingerprint"],
+              "pilot_response_accessed":False,
+              "confirmatory_response_accessed":False,
+              "confirmatory_species_values_parsed":0,
+              "confirmatory_presence_values_parsed":0,
+              "effect_size":None,
+              "prediction_score":None,
+              "predictive_denominator_contribution":0,
+              "confirmatory_response_authorized":False,
+              "counts_as_confirmatory_evidence":False,
+              "rerun_authorized":False,
+          }
+          response_semantic_started=False
+
+          try:
+              src=auth["source_archive"]
+              req=Request(
+                  src["content_url"],
+                  headers={"User-Agent":"Structural-atoll-burned-pilot/0.21"},
+                  method="GET",
+              )
+              with urlopen(req,timeout=90) as response:
+                  raw=response.read()
+              assert len(raw)==src["size_bytes"]
+              assert hashlib.md5(raw).hexdigest()==src["md5"]
+              assert hashlib.sha256(raw).hexdigest()==src["sha256"]
+              receipt["source_archive_sha256"]=src["sha256"]
+              receipt["source_archive_http_requests"]=1
+
+              prefix="Steibl_2026_Indo_Pacific_Atolls_Dataset/"
+              safe_paths={
+                  "main":prefix+"atoll_main_310.csv",
+                  "bio":prefix+"atoll_biogeography.csv",
+                  "env":prefix+"atoll_environmental.csv",
+              }
+
+              def read_safe_csv(zf,path):
+                  b=zf.read(path)
+                  assert hashlib.sha256(b).hexdigest()==imap[path]["sha256"]
+                  return list(csv.DictReader(io.StringIO(b.decode("utf-8-sig"))))
+
+              with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+                  main=read_safe_csv(zf,safe_paths["main"])
+                  bio=read_safe_csv(zf,safe_paths["bio"])
+                  env=read_safe_csv(zf,safe_paths["env"])
+                  response_path=auth["plant_response_member"]["relative_path"]
+                  response_bytes=zf.read(response_path)
+
+              assert hashlib.sha256(response_bytes).hexdigest()==auth["plant_response_member"]["sha256"]
+              receipt["plant_response_member_sha256"]=auth["plant_response_member"]["sha256"]
+
+              def index(rows):
+                  d={}
+                  for r in rows:
+                      a=r["atoll"].strip()
+                      assert a and a not in d
+                      d[a]=r
+                  return d
+
+              M,B,E=index(main),index(bio),index(env)
+              assert set(M)==set(B)==set(E)
+              names=sorted(M)
+              assert len(names)==310
+
+              def num(table,a,col,required=True):
+                  s=(table[a].get(col) or "").strip()
+                  if not s:
+                      if required:
+                          raise AssertionError(f"missing {col}: {a}")
+                      return None
+                  v=float(s)
+                  assert math.isfinite(v)
+                  return v
+
+              coords={a:(num(M,a,"lat"),num(M,a,"long")) for a in names}
+              land={a:num(B,a,"land_area_sqkm") for a in names}
+              d_atoll={a:num(B,a,"distance_nearest_atoll_km") for a in names}
+              d_high={a:num(B,a,"distance_nearest_high_island_km") for a in names}
+              d_cont={a:num(B,a,"distance_continent_km") for a in names}
+              rain={a:num(E,a,"annual_precipitation_mm",False) for a in names}
+              major={a:min(d_high[a],d_cont[a]) for a in names}
+
+              excluded=sorted(a for a in names if rain[a] is None)
+              assert excluded==geom["response_blind_rainfall_exclusions"]
+              model_names=sorted(a for a in names if rain[a] is not None)
+              assert len(model_names)==292
+              model_set=set(model_names)
+
+              def hav(a,z):
+                  lat1,lon1=coords[a];lat2,lon2=coords[z]
+                  R=6371.0088
+                  p1,p2=math.radians(lat1),math.radians(lat2)
+                  dlat=math.radians(lat2-lat1)
+                  dlon=math.radians(lon2-lon1)
+                  h=math.sin(dlat/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dlon/2)**2
+                  return 2*R*math.asin(min(1.0,math.sqrt(h)))
+
+              distances={}
+              nearest={}
+              for a in names:
+                  best=None
+                  for z in names:
+                      if a==z:
+                          continue
+                      key=tuple(sorted((a,z)))
+                      if key not in distances:
+                          distances[key]=hav(a,z)
+                      d=distances[key]
+                      best=d if best is None or d<best else best
+                  nearest[a]=best
+
+              def qlinear(vals,q):
+                  xs=sorted(vals)
+                  h=(len(xs)-1)*q
+                  lo,hi=math.floor(h),math.ceil(h)
+                  if lo==hi:
+                      return xs[lo]
+                  f=h-lo
+                  return xs[lo]*(1-f)+xs[hi]*f
+
+              nn=list(nearest.values())
+              radii=[math.ceil(qlinear(nn,q)) for q in (0.25,0.50,0.75,0.90)]
+              assert radii==geom["frozen_graph_radii_km"]
+
+              def components(radius):
+                  parent={a:a for a in names}
+                  def find(x):
+                      while parent[x]!=x:
+                          parent[x]=parent[parent[x]]
+                          x=parent[x]
+                      return x
+                  def union(x,y):
+                      rx,ry=find(x),find(y)
+                      if rx!=ry:
+                          if rx<ry:
+                              parent[ry]=rx
+                          else:
+                              parent[rx]=ry
+                  for (a,z),d in distances.items():
+                      if d<=radius:
+                          union(a,z)
+                  groups={}
+                  for a in names:
+                      groups.setdefault(find(a),[]).append(a)
+                  return sorted((tuple(sorted(v)) for v in groups.values()),key=lambda x:(-len(x),x))
+
+              selected=geom["selected_partition_radius_km"]
+              selected_comps=[
+                  c for c in components(selected)
+                  if model_set.intersection(c)
+              ]
+
+              blocks=[]
+              for comp in selected_comps:
+                  bid="SC_"+hashlib.sha256("|".join(comp).encode()).hexdigest()[:12]
+                  rank=hashlib.sha256(
+                      ("atoll-plants-v1|spatial-component|"+bid).encode()
+                  ).hexdigest()
+                  targets=sorted(model_set.intersection(comp))
+                  blocks.append({
+                      "block_id":bid,
+                      "rank":rank,
+                      "physical_atolls":list(comp),
+                      "model_target_atolls":targets,
+                  })
+              blocks.sort(key=lambda x:x["rank"])
+              pilot_n=math.ceil(0.20*len(blocks))
+              for i,b in enumerate(blocks):
+                  b["partition"]="pilot" if i<pilot_n else "confirmatory"
+
+              pilot_ids=[b["block_id"] for b in blocks if b["partition"]=="pilot"]
+              confirm_ids=[b["block_id"] for b in blocks if b["partition"]=="confirmatory"]
+              assert pilot_ids==protocol_data["pilot_partition"]
+              assert confirm_ids==protocol_data["confirmatory_partition"]
+
+              generic_hits={a:0 for a in names}
+              for radius in radii:
+                  for comp in components(radius):
+                      if any(major[a]<=radius for a in comp):
+                          for a in comp:
+                              generic_hits[a]+=1
+
+              atoll_to_block={}
+              block_by_id={b["block_id"]:b for b in blocks}
+              for b in blocks:
+                  for a in b["model_target_atolls"]:
+                      assert a not in atoll_to_block
+                      atoll_to_block[a]=b["block_id"]
+              assert set(atoll_to_block)==model_set
+
+              design=[]
+              for a in model_names:
+                  bid=atoll_to_block[a]
+                  design.append({
+                      "atoll":a,
+                      "region":M[a]["region"].strip(),
+                      "country":M[a]["country"].strip(),
+                      "lat":coords[a][0],
+                      "long":coords[a][1],
+                      "annual_precipitation_mm":rain[a],
+                      "land_area_sqkm":land[a],
+                      "distance_nearest_atoll_km":d_atoll[a],
+                      "distance_nearest_high_island_km":d_high[a],
+                      "distance_continent_km":d_cont[a],
+                      "major_landmass_distance_km":major[a],
+                      "centroid_nearest_neighbor_km_all310":nearest[a],
+                      "generic_gateway_connectivity_all310":generic_hits[a]/len(radii),
+                      "spatial_block":bid,
+                      "partition":block_by_id[bid]["partition"],
+                  })
+
+              buf=io.StringIO(newline="")
+              writer=csv.DictWriter(buf,fieldnames=list(design[0]),lineterminator="\r\n")
+              writer.writeheader()
+              writer.writerows(design)
+              design_bytes=buf.getvalue().encode("utf-8")
+              design_sha=hashlib.sha256(design_bytes).hexdigest()
+              assert design_sha==auth["frozen_model_target_design_sha256"],(design_sha,auth["frozen_model_target_design_sha256"])
+              receipt["recomputed_model_target_design_sha256"]=design_sha
+
+              # From here onward pilot species/presence may be semantically opened.
+              response_semantic_started=True
+              receipt["pilot_response_accessed"]=True
+
+              routed=build_atoll_burned_pilot_surface(
+                  response_csv_bytes=response_bytes,
+                  atoll_to_block=atoll_to_block,
+                  excluded_model_target_atolls=excluded,
+                  pilot_partition=protocol_data["pilot_partition"],
+                  confirmatory_partition=protocol_data["confirmatory_partition"],
+              )
+
+              receipt.update({
+                  "source_response_rows_seen":routed.source_response_rows_seen,
+                  "pilot_response_rows_semantically_parsed":routed.pilot_response_rows_semantically_parsed,
+                  "confirmatory_species_values_parsed":routed.confirmatory_species_values_parsed,
+                  "confirmatory_presence_values_parsed":routed.confirmatory_presence_values_parsed,
+                  "excluded_species_values_parsed":routed.excluded_species_values_parsed,
+                  "excluded_presence_values_parsed":routed.excluded_presence_values_parsed,
+                  "pilot_catalogued_atolls":routed.pilot_catalogued_atolls,
+                  "pilot_blocks_with_catalogues":routed.pilot_blocks_with_catalogues,
+                  "pilot_species_universe_count":routed.pilot_species_universe_count,
+                  "pilot_species_universe_sha256":routed.pilot_species_universe_sha256,
+                  "blank_sentinel_blocks":list(routed.blank_sentinel_blocks),
+                  "raw_pilot_sha256":routed.raw_surface_sha256,
+              })
+              assert routed.confirmatory_species_values_parsed==0
+              assert routed.confirmatory_presence_values_parsed==0
+              assert routed.excluded_species_values_parsed==0
+              assert routed.excluded_presence_values_parsed==0
+
+              pilot_path=OUT/"burned_pilot.csv"
+              pilot_path.write_text(routed.csv_text,encoding="utf-8")
+              (OUT/"pilot_species_universe.json").write_text(
+                  json.dumps({
+                      "schema":"structural.atoll_pilot_species_universe.v0_22",
+                      "species":list(routed.pilot_species_universe),
+                      "species_count":routed.pilot_species_universe_count,
+                      "sha256":routed.pilot_species_universe_sha256,
+                      "support_rule":"native N in at least two distinct frozen pilot spatial blocks",
+                      "confirmatory_response_used":False,
+                      "counts_as_predictive_evidence":False,
+                  },indent=2,sort_keys=True)+"\n"
+              )
+
+              pilot_code,pilot_result=run_v032(PROTOCOL,pilot_path)
+              (OUT/"pilot_result.json").write_text(
+                  json.dumps(pilot_result,indent=2,sort_keys=True)+"\n"
+              )
+
+              qaudit=audit_response_quality_attrition(
+                  protocol=protocol,
+                  contract=quality,
+                  pilot_result=pilot_result,
+              )
+              qmap=audit_mapping(qaudit)
+              (OUT/"quality_audit.json").write_text(
+                  json.dumps(qmap,indent=2,sort_keys=True)+"\n"
+              )
+
+              receipt.update({
+                  "pilot_runner_exit_code":pilot_code,
+                  "pilot_status":pilot_result.get("status"),
+                  "pilot_applicable_rows":pilot_result.get("applicable_rows"),
+                  "pilot_positive":pilot_result.get("positive"),
+                  "pilot_negative":pilot_result.get("negative"),
+                  "pilot_non_estimable":pilot_result.get("non_estimable"),
+                  "pilot_total_blocks":pilot_result.get("total_blocks"),
+                  "pilot_estimable_blocks":pilot_result.get("estimable_blocks"),
+                  "quality_status":qmap["status"],
+                  "response_qualified_blocks":qmap["response_qualified_blocks"],
+                  "minimum_response_qualified_blocks":qmap["minimum_response_qualified_blocks"],
+              })
+
+              qualified=(
+                  pilot_code==0
+                  and pilot_result.get("status")=="qualified_for_new_confirmatory_protocol"
+                  and qmap["status"]=="qualified_response_quality_survival"
+              )
+              receipt["status"]=(
+                  "QUALIFIED_BURNED_PILOT_GATES"
+                  if qualified
+                  else "TERMINAL_STOP_BURNED_PILOT_GATES"
+              )
+
+          except Exception as exc:
+              receipt["status"]=(
+                  "TERMINAL_STOP_AFTER_PILOT_RESPONSE_ACCESS"
+                  if response_semantic_started
+                  else "PRE_RESPONSE_STOP"
+              )
+              receipt["error_type"]=type(exc).__name__
+              receipt["error_message"]=str(exc)
+              receipt["traceback_tail"]=traceback.format_exc().splitlines()[-12:]
+
+          finally:
+              (OUT/"execution_receipt.json").write_text(
+                  json.dumps(receipt,indent=2,sort_keys=True)+"\n"
+              )
+              print(json.dumps(receipt,indent=2,sort_keys=True))
+          PY
+
+      - name: Enforce evidence ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/atoll_burned_pilot_v022/execution_receipt.json")
+          x=json.loads(p.read_text())
+          assert x["effect_size"] is None
+          assert x["prediction_score"] is None
+          assert x["predictive_denominator_contribution"] == 0
+          assert x["confirmatory_response_authorized"] is False
+          assert x["counts_as_confirmatory_evidence"] is False
+          assert x["rerun_authorized"] is False
+          if x["pilot_response_accessed"]:
+              assert x["confirmatory_species_values_parsed"] == 0
+              assert x["confirmatory_presence_values_parsed"] == 0
+              assert x["excluded_species_values_parsed"] == 0
+              assert x["excluded_presence_values_parsed"] == 0
+          print("evidence ceiling intact:",x["status"])
+          PY
+
+      - name: Upload pilot-only evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoll-corrected-burned-pilot-v0-22
+          path: |
+            build/atoll_burned_pilot_v022/execution_receipt.json
+            build/atoll_burned_pilot_v022/burned_pilot.csv
+            build/atoll_burned_pilot_v022/pilot_species_universe.json
+            build/atoll_burned_pilot_v022/pilot_result.json
+            build/atoll_burned_pilot_v022/quality_audit.json
+          if-no-files-found: warn
+          retention-days: 90
