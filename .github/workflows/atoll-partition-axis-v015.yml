@@ -1,0 +1,128 @@
+name: Atoll response-blind partition-axis audit v0.15
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  partition-axis:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Audit safe partition axes only
+        run: |
+          mkdir -p build/atoll_partition_axis_v015
+          python - <<'PY'
+          import csv
+          import hashlib
+          import io
+          import json
+          import math
+          import statistics
+          from collections import Counter
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import zipfile
+
+          auth = json.loads(Path(
+              "development/indo_pacific_atoll_partition_axis_audit_v0_15.json"
+          ).read_text())
+          src = auth["source_archive"]
+          req = Request(
+              src["content_url"],
+              headers={"User-Agent": "Structural-atoll-partition-axis/0.15"},
+              method="GET",
+          )
+          with urlopen(req, timeout=90) as response:
+              raw = response.read()
+
+          assert len(raw) == src["size_bytes"]
+          assert hashlib.md5(raw).hexdigest() == src["md5"]
+          assert hashlib.sha256(raw).hexdigest() == src["sha256"]
+
+          member_path = auth["safe_member"]["relative_path"]
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              member = zf.read(member_path)
+          assert hashlib.sha256(member).hexdigest() == auth["safe_member"]["sha256"]
+
+          rows = list(csv.DictReader(io.StringIO(member.decode("utf-8-sig"))))
+          assert len(rows) == 310
+
+          out = {
+              "schema": "structural.atoll_partition_axis_audit_result.v0_15",
+              "status": "response_blind_partition_axis_audit_complete",
+              "atoll_count": len(rows),
+              "axes": {},
+              "response_files_opened": 0,
+              "response_value_parse_count": 0,
+              "model_fit_count": 0,
+              "counts_as_empirical_evidence": False
+          }
+
+          for axis in auth["candidate_axes"]:
+              missing = [r["atoll"] for r in rows if not (r.get(axis) or "").strip()]
+              counts = Counter(
+                  (r.get(axis) or "").strip()
+                  for r in rows
+                  if (r.get(axis) or "").strip()
+              )
+              sizes = sorted(counts.values())
+              names = sorted(counts)
+              ranked = sorted(
+                  names,
+                  key=lambda x: hashlib.sha256(
+                      ("atoll-plants-v1|" + axis + "|" + x).encode("utf-8")
+                  ).hexdigest(),
+              )
+              pilot_n = math.ceil(auth["pilot_fraction"] * len(names)) if names else 0
+              confirm_n = len(names) - pilot_n
+              feasible = (
+                  not missing
+                  and pilot_n >= auth["minimum_pilot_blocks"]
+                  and confirm_n >= auth["minimum_confirmatory_blocks"]
+              )
+              out["axes"][axis] = {
+                  "missing_count": len(missing),
+                  "missing_atolls": sorted(missing),
+                  "block_count": len(names),
+                  "block_sizes": [{"block": n, "atoll_count": counts[n]} for n in names],
+                  "min_block_size": min(sizes) if sizes else 0,
+                  "median_block_size": statistics.median(sizes) if sizes else 0,
+                  "max_block_size": max(sizes) if sizes else 0,
+                  "pilot_block_count_if_selected": pilot_n,
+                  "confirmatory_block_count_if_selected": confirm_n,
+                  "pilot_blocks_if_selected": ranked[:pilot_n],
+                  "confirmatory_blocks_if_selected": ranked[pilot_n:],
+                  "meets_frozen_split_minima_without_missingness": feasible
+              }
+
+          path = Path("build/atoll_partition_axis_v015/partition_axis_audit.json")
+          path.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n")
+          print(path.read_text())
+          PY
+
+      - name: Assert no response access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(Path(
+              "build/atoll_partition_axis_v015/partition_axis_audit.json"
+          ).read_text())
+          assert x["response_files_opened"] == 0
+          assert x["response_value_parse_count"] == 0
+          assert x["model_fit_count"] == 0
+          print("partition-axis audit response firewall intact")
+          PY
+
+      - name: Upload partition-axis audit only
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoll-partition-axis-audit-v0-15
+          path: build/atoll_partition_axis_v015/partition_axis_audit.json
+          if-no-files-found: error
+          retention-days: 90
