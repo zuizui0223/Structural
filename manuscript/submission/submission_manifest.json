@@ -18,7 +18,7 @@
   "declarations": "manuscript/submission/declarations.md",
   "author_metadata_template": "manuscript/submission/author_metadata.template.json",
   "environment": "manuscript/submission/environment.md",
-  "live_policy_verification": "manuscript/submission/live_policy_verification_2026-09-23.md",
+  "live_policy_verification": "manuscript/submission/live_policy_verification_2026-09-26.md",
   "release_readiness": "manuscript/submission/release_readiness.md",
   "figure_qa": "manuscript/submission/figure_qa.md",
   "repository_visual_qa_receipt": "manuscript/submission/STRUCTURAL_VISUAL_QA_RECEIPT_2026-09-12.md",
@@ -99,6 +99,7 @@
     "complete author_metadata.template.json with author-approved metadata and remove placeholders in the final submission record",
     "confirm author list, affiliations, corresponding author, contribution roles, funding, competing interests, originality and simultaneous-submission statements",
     "approve the generative-AI disclosure with all authors",
+    "adjudicate whether AI-assisted research-code use requires a Methods disclosure under current Elsevier policy",
     "recheck Ecological Informatics live policy on the submission date and confirm article type, limits, figure formats, reference style, data/code requirements and declarations"
   ],
   "non_overlap_with_eog_wf": {
