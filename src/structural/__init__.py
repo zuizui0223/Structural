@@ -13,6 +13,24 @@ from .confirmatory_freeze_gate import (
     evaluate_confirmatory_freeze_gate,
 )
 
+from .future_admission_v0_42 import (
+    FutureAdmissionDecision,
+    FutureAdmissionStatus,
+    evaluate_future_admission_v0_42,
+    future_admission_receipt_mapping,
+)
+
+from .response_quality_attrition import (
+    ResponseQualityAttritionAudit,
+    ResponseQualityAttritionContract,
+    ResponseQualityAuditStatus,
+    ResponseQualityContractDecision,
+    ResponseQualityContractStatus,
+    audit_response_quality_attrition,
+    contract_fingerprint as response_quality_contract_fingerprint,
+    evaluate_response_quality_contract,
+)
+
 from .transition_pilot_protocol import (
     PilotProtocolStatus,
     TransitionPilotProtocol,
@@ -93,6 +111,13 @@ __all__ = [
     "evaluate_confirmatory_admission",
     "ConfirmatoryFreezeDecision",
     "ConfirmatoryFreezeStatus",
+    "FutureAdmissionDecision",
+    "FutureAdmissionStatus",
+    "ResponseQualityAttritionAudit",
+    "ResponseQualityAttritionContract",
+    "ResponseQualityAuditStatus",
+    "ResponseQualityContractDecision",
+    "ResponseQualityContractStatus",
     "PilotProtocolStatus",
     "TransitionPilotProtocol",
     "TransitionPilotProtocolDecision",
@@ -136,6 +161,11 @@ __all__ = [
     "classify_ladder_step",
     "declared_operator_transition",
     "scalar_insufficiency_witness",
+    "evaluate_future_admission_v0_42",
+    "future_admission_receipt_mapping",
+    "audit_response_quality_attrition",
+    "response_quality_contract_fingerprint",
+    "evaluate_response_quality_contract",
     "evaluate_empirical_admission",
     "triage_candidate",
     "evaluate_physical_schema_resolution",

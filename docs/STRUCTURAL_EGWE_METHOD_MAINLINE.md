@@ -623,6 +623,21 @@ The replayed pilot CSV now has one exact schema: `partition_unit, block, target`
 
 The gate-first admission machinery is frozen after v0.39. An empty live queue is now the expected state until a real system independently qualifies. New gate features, threshold relaxation, endpoint rescue and opportunistic candidate replacement are off the mainline. Only response-independent implementation bug fixes that preserve the scientific gate are maintenance-eligible.
 
+### v0.42 future-only response-quality attrition extension
+
+v0.42 does not rewrite the v0.31-v0.40 historical chain or re-adjudicate any closed system. It adds a prospective contract that must be frozen before a future burned pilot opens.
+
+The extension separates two failure modes that the older pilot accounting could conflate:
+
+- **response-quality attrition** — too few held-out blocks retain the frozen minimum number of applicable target rows after system-specific survey/completeness/effort rules;
+- **endpoint/class collapse** — usable response remains, but the held-out training sets fail the already-frozen positive/negative support gates.
+
+The raw v0.39 pilot surface remains exactly `partition_unit, block, target`. Rows failing the prospectively frozen response-quality rules are encoded as missing/non-estimable targets; no extra outcome-bearing quality column is added.
+
+A future system must therefore freeze both its v0.31 protocol and its v0.42 response-quality contract before pilot access. After v0.32 executes, v0.42 counts response-qualified held-out blocks independently of class support. Both v0.42 survival and the existing v0.32/v0.33 chain must pass. A pass still authorizes only `freeze_confirmatory_protocol_only` and contributes zero predictive evidence.
+
+This extension is not applied retroactively. In particular, LandFrag v0.2 remains a terminal response-quality STOP at 29 independent geographies versus a frozen minimum of 30, with H1 unscored and no threshold relaxation or rerun.
+
 ## TTF as the outer transferability layer
 
 Structural and EGWE stop at a different inferential level from TTF.

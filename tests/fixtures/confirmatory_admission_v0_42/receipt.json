@@ -1,0 +1,18 @@
+{
+  "schema": "structural.future_confirmatory_admission_receipt.v0_42",
+  "status": "admitted_to_confirmatory_protocol_queue_v0_42",
+  "gate_versions": ["v0.31", "v0.32", "v0.33", "v0.42"],
+  "system_id": "synthetic-ci-only",
+  "protocol_id": "synthetic-v0_36-pass",
+  "protocol_fingerprint": "def335af364183f05562e18ffb432a7ff123c00e9477b2822fcb85885abaf29d",
+  "quality_contract_fingerprint": "82e0ce0e8a46b876e8f749e1cc7fbd6bee3fc39b31044777815ddc7dff9c96d8",
+  "response_qualified_blocks": 2,
+  "minimum_response_qualified_blocks": 2,
+  "quality_retention_fraction": 1.0,
+  "reasons": [],
+  "eligible_action": "freeze_confirmatory_protocol_only",
+  "confirmatory_response_authorized": false,
+  "predictive_denominator_contribution": 0,
+  "historical_systems_re_adjudicated": false,
+  "ttf_handoff_authorized": false
+}

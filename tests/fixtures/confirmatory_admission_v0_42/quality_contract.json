@@ -1,0 +1,9 @@
+{
+  "contract_id": "synthetic-quality-v0_42-pass",
+  "system_id": "synthetic-ci-only",
+  "parent_protocol_fingerprint": "def335af364183f05562e18ffb432a7ff123c00e9477b2822fcb85885abaf29d",
+  "minimum_response_qualified_blocks": 2,
+  "response_quality_semantics": "synthetic fixture: blank/NA target is non-estimable; all observed target rows are response-qualified",
+  "pilot_response_accessed": false,
+  "confirmatory_response_accessed": false
+}

@@ -21,9 +21,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install test dependency
         run: python -m pip install pytest
-      - name: Validate raw-replay confirmatory admission queue
+      - name: Validate future v0.42 confirmatory admission queue
+        run: python scripts/validate_confirmatory_queue_v0_42.py
+      - name: Exercise non-empty v0.42 queue fixture
+        run: python scripts/validate_confirmatory_queue_v0_42.py tests/fixtures/confirmatory_admission_v0_42/queue.json
+      - name: Validate historical v0.38 raw-replay queue
         run: python scripts/validate_confirmatory_queue_v0_38.py
-      - name: Exercise non-empty raw-replay queue fixture
+      - name: Exercise historical non-empty v0.38 queue fixture
         run: python scripts/validate_confirmatory_queue_v0_38.py tests/fixtures/confirmatory_admission_v0_38/queue.json
       - name: Validate synthetic independent-system intake
         run: python scripts/validate_independent_system_intake_v0_10.py tests/fixtures/independent_system_intake_v0_10/valid_intake.json

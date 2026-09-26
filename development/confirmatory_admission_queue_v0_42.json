@@ -1,0 +1,12 @@
+{
+  "schema": "structural.confirmatory_admission_queue.v0_42",
+  "status": "active_future_queue_with_response_quality_attrition_gate",
+  "entry_count": 0,
+  "entries": [],
+  "confirmatory_response_authorized": false,
+  "historical_systems_re_adjudicated": false,
+  "entry_rule": "every non-empty entry must replay the exact raw burned pilot through v0.32, reproduce the committed pilot result, reproduce the pre-pilot frozen v0.42 quality contract and future admission receipt, and pass both response-quality survival and the existing v0.31-v0.33 admission chain",
+  "eligible_action": "freeze_confirmatory_protocol_only",
+  "pilot_predictive_denominator_contribution": 0,
+  "ttf_handoff_is_dependency": false
+}
