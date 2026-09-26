@@ -35,6 +35,19 @@ def sha(x):
         json.dumps(x,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
     ).hexdigest()
 
+def stable12(x):
+    """Round response-blind numeric diagnostics for cross-BLAS identity hashing."""
+    if isinstance(x,float):
+        y=round(x,12)
+        return 0.0 if y==0 else y
+    if isinstance(x,list):
+        return [stable12(v) for v in x]
+    if isinstance(x,tuple):
+        return [stable12(v) for v in x]
+    if isinstance(x,dict):
+        return {k:stable12(v) for k,v in x.items()}
+    return x
+
 def git_blob_sha(raw:bytes)->str:
     return hashlib.sha1(f"blob {len(raw)}\0".encode()+raw).hexdigest()
 
@@ -261,6 +274,10 @@ def main():
             "frozen_fragment_ids":sorted(f["fragment_id"] for f in s["fragments"]),
             "focal_rows":g["focals"],
             "focal_design_sha256":sha([(r["fragment_id"],r["design"]) for r in g["focals"]]),
+            "stable_geometry_sha256":sha(stable12({
+                "scaling":g["scaling"],
+                "focal_rows":g["focals"],
+            })),
         })
 
     payload={
@@ -317,7 +334,43 @@ def main():
         },
         "response_open_authorized":False,
     }
-    payload["census_fingerprint"]=sha(payload)
+    fingerprint_core={
+        "schema":"structural.landfrag_relative_topology_metadata_identity.v0_2",
+        "source":payload["source"],
+        "geometry_rules":payload["geometry_rules"],
+        "geography_clustering":{
+            "coordinate_rounding_decimals":payload["geography_clustering"]["coordinate_rounding_decimals"],
+            "overlap_threshold_fraction_smaller":payload["geography_clustering"]["overlap_threshold_fraction_smaller"],
+            "clusters":payload["geography_clustering"]["clusters"],
+        },
+        "v0_2_revision":payload["v0_2_revision"],
+        "selection":payload["selection"],
+        "studies":[
+            {
+                "refshort":s["refshort"],
+                "geography_cluster":s["geography_cluster"],
+                "taxa":s["taxa"],
+                "country":s["country"],
+                "climate":s["climate"],
+                "n_fragments":s["n_fragments"],
+                "n_focals":s["n_focals"],
+                "positive_gain":s["positive_gain"],
+                "frozen_fragment_ids":s["frozen_fragment_ids"],
+                "stable_geometry_sha256":s["stable_geometry_sha256"],
+            }
+            for s in payload["studies"]
+        ],
+        "response_surface":payload["response_surface"],
+    }
+    payload["census_fingerprint_semantics"]={
+        "excludes":"full-precision floating diagnostics such as LAPACK condition-number tails and unrounded z-score/design values",
+        "includes":"exact source blobs, geometry rules, geography cluster membership, selection, study/focal identities, 12-decimal stable geometry/design digests, and frozen response-surface identity",
+        "rounding":"all floating values entering each stable_geometry_sha256 are rounded to 12 decimal places; signed zero normalized to 0.0",
+        "scientific_design_changed":False,
+        "maintenance_reason":"pre-query execution showed full census JSON hash drift despite identical response-blind selection and precision summaries",
+    }
+    payload["census_fingerprint_core"]=fingerprint_core
+    payload["census_fingerprint"]=sha(fingerprint_core)
     print(json.dumps(payload,indent=2,sort_keys=True))
     return 0
 
