@@ -1,0 +1,34 @@
+{
+  "schema": "structural.landfrag_relative_topology_one_shot_authorization.v0_2",
+  "status": "AUTHORIZED_FOR_EXACT_ONE_SHOT_ABUNDANCE_ACCESS",
+  "preflight_green_commit": "a58e72708cad161c586280fcb84c6fca31e33ae2",
+  "preflight_workflow_run_id": 36142879588,
+  "preflight_job_id": 108096729307,
+  "census_fingerprint": "8d4ad7a00775a77bef231b2f5842c1dbcbd959315c0410843528c0828db2784b",
+  "precision_fingerprint": "9c7fce34c2b9d027caa489ffbaad436241d518854bd2d6300265470a1e81e638",
+  "protocol_fingerprint": "102b3f7700ac2bc072ee5abb9370c2473cd2473fda44e7d8d79fd2eb9686282c",
+  "lock_path": "research/landfrag_relative_topology/pre_response_lock_v0_2.json",
+  "lock_git_blob_sha": "dfdcc7fd62a0237b4e4c97d3d87b54bbb4a91fd4",
+  "runner_path": "research/landfrag_relative_topology/run_one_shot_v0_2.py",
+  "runner_git_blob_sha": "fbffe3f9952ec96a10fcfe736326b382650480f7",
+  "response_values_accessed": false,
+  "abundance_file_opened": false,
+  "source": {
+    "repository": "mauriciovancine/landfrag",
+    "commit": "5fd540048a6e60c641c9c1d6e7f26e7b5eece137",
+    "path": "data/00_landfrag_metadata/landfrag_abundances_jun2024_final_version.csv",
+    "git_blob_sha": "abfdd21712b7f221207e25e62b623e8a8a901a55",
+    "monolithic_all_studies": true
+  },
+  "authorization": {
+    "one_shot_monolithic_access": true,
+    "score_H1_only_if_at_least_30_frozen_geography_clusters_survive": true,
+    "post_response_geometry_retuning": false,
+    "post_response_study_selection_by_direction": false,
+    "post_response_landscape_metric_rescue": false,
+    "rerun_after_any_abundance_bytes_opened": false
+  },
+  "execution_rule": "start from the exact green preflight commit; permit only this authorization receipt and the one-shot workflow to differ; replay frozen census, precision audit, protocol and lock; verify exact runner and lock Git blobs; fetch the monolithic abundance CSV once; preserve raw bytes and outcome; never rerun after any abundance bytes are opened",
+  "evidence_rule": "H1 is the only primary inferential claim; response-quality diagnostics and frozen secondary non-rescuing summaries may be reported but cannot change selection, gates, direction, model, geography weighting or the H1 conclusion",
+  "authorization_fingerprint": "b9f1b20c7994b3336fac7c03ea7a063345f4f96509107a6080e08bad9a82b6d3"
+}
