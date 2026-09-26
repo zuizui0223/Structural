@@ -1,0 +1,56 @@
+{
+  "schema": "structural.current_status.v0_46",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_45.json",
+  "authoritative_empirical_registry": {
+    "path": "development/connectivity_candidate_registry_v0_45.json",
+    "expected_status": "no_active_empirical_candidate_after_atoll_terminal_endpoint_domain_stop",
+    "expected_active_empirical_candidates": []
+  },
+  "live_confirmatory_queue": {
+    "path": "development/confirmatory_admission_queue_v0_42.json",
+    "expected_entry_count": 0,
+    "confirmatory_response_authorized": false
+  },
+  "hypothesis_driven_preintake_candidate": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "path": "development/global_island_mammals_preintake_v0_1.json",
+    "metadata_result_path": "development/global_island_mammals_dryad_metadata_result_v0_1.json",
+    "status": "HOLD_exact_dryad_file_identity_and_mixed_metadata_firewall_not_yet_frozen",
+    "ecological_hypothesis": "global_mammal_source_pool_handoff",
+    "islands_reported_by_source": 5592,
+    "response_domain": [
+      "0",
+      "1"
+    ],
+    "response_values_opened": false,
+    "counts_as_active_empirical_candidate": false,
+    "counts_as_confirmatory_evidence": false,
+    "next_action": "schema-open Appendix_2 workbook/sheet/header only and freeze a column-level mixed-file firewall"
+  },
+  "terminal_atoll_system": {
+    "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+    "failure_class": "endpoint_value_domain_mismatch",
+    "pilot_response_accessed": true,
+    "confirmatory_response_accessed": false,
+    "source_pool_handoff_scored": false,
+    "rerun_authorized": false
+  },
+  "confirmatory_eligible_systems": [],
+  "confirmatory_eligible_count": 0,
+  "next_valid_scientific_event": "prove that the global mammal island table exposes centroid/isolation/environment columns through a response-blind mixed-file firewall; only after that may formal v0.11 intake be considered",
+  "ttf_boundary": {
+    "status": "later_independent_transferability_layer",
+    "may_select_structural_candidates": false,
+    "may_rescue_failed_structural_systems": false,
+    "may_count_burned_pilot_as_transfer_evidence": false,
+    "empirical_denominator_shared_with_structural": false
+  },
+  "active_docs": [
+    "docs/AISLANDS_SOURCE_POOL_HANDOFF_V0_1.md",
+    "docs/AISLANDS_ISLAND_BIOGEOGRAPHY_PAPER_V0_1.md",
+    "docs/INDO_PACIFIC_ATOLL_TERMINAL_V0_22.md",
+    "docs/GLOBAL_ISLAND_MAMMALS_PREINTAKE_V0_1.md",
+    "docs/CURRENT_STATUS_V0_46.md"
+  ]
+}
