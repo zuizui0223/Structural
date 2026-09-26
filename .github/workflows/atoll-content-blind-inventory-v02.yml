@@ -1,0 +1,125 @@
+name: Atoll one-shot content-blind archive inventory v0.2
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  opaque-inventory-v02:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify exact v0.2 authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(Path(
+              "development/atoll_content_blind_inventory_authorization_v0_2.json"
+          ).read_text())
+          assert x["status"] == "one_shot_opaque_archive_inventory_retry_after_prebyte_406"
+          assert x["prior_failed_attempt"]["archive_bytes_read"] == 0
+          assert x["prior_failed_attempt"]["inventory_executed"] is False
+          src = x["source_file"]
+          assert src["key"] == "Steibl_2026_Indo_Pacific_Atolls_Dataset.zip"
+          assert src["size_bytes"] == 1525818
+          assert src["md5"] == "3b314df61fd1ae889bab2a545f801a78"
+          assert x["semantic_text_parse_count_expected"] == 0
+          assert x["response_value_parse_count_expected"] == 0
+          assert x["model_fit_count_expected"] == 0
+          assert x["raw_archive_may_be_uploaded_as_artifact"] is False
+          print("v0.2 retry authorization OK")
+          PY
+
+      - name: Download exact Zenodo ZIP once with normal request semantics
+        run: |
+          mkdir -p build/atoll_content_blind_v02
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          auth = json.loads(Path(
+              "development/atoll_content_blind_inventory_authorization_v0_2.json"
+          ).read_text())
+          src = auth["source_file"]
+          url = src["content_url"]
+
+          req = Request(
+              url,
+              headers={"User-Agent": "Structural-content-blind-inventory/0.2"},
+              method="GET",
+          )
+          with urlopen(req, timeout=90) as response:
+              raw = response.read()
+
+          assert len(raw) == src["size_bytes"], (
+              f"byte-size mismatch: {len(raw)} != {src['size_bytes']}"
+          )
+          md5 = hashlib.md5(raw).hexdigest()
+          assert md5 == src["md5"], f"MD5 mismatch: {md5}"
+
+          zip_sha = hashlib.sha256(raw).hexdigest()
+          path = Path("build/atoll_content_blind_v02") / src["key"]
+          path.write_bytes(raw)
+
+          provenance = {
+              "schema": "structural.atoll_archive_fetch_provenance.v0_2",
+              "zenodo_record_id": auth["zenodo_record_id"],
+              "source_key": src["key"],
+              "source_size_bytes": len(raw),
+              "source_md5": md5,
+              "source_sha256": zip_sha,
+              "data_file_http_requests": 1,
+              "semantic_text_parse_count": 0,
+              "response_value_parse_count": 0,
+              "model_fit_count": 0,
+              "response_values_opened": False
+          }
+          Path("build/atoll_content_blind_v02/fetch_provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          print(json.dumps(provenance, indent=2, sort_keys=True))
+          PY
+
+      - name: Run existing v0.11 content-blind inventory
+        run: |
+          python scripts/inventory_candidate_archive_v0_11.py             build/atoll_content_blind_v02/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip             --output build/atoll_content_blind_v02/archive_inventory_v0_11.json
+
+      - name: Enforce zero semantic and response parsing
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          inv = json.loads(Path(
+              "build/atoll_content_blind_v02/archive_inventory_v0_11.json"
+          ).read_text())
+          assert inv["status"] == "inventory_complete"
+          assert inv["semantic_text_parse_count"] == 0
+          assert inv["response_value_parse_count"] == 0
+          assert inv["model_fit_count"] == 0
+          assert inv["file_count"] > 0
+          print(
+              f"content-blind inventory complete: {inv['file_count']} members; "
+              "semantic parse=0; response parse=0; model fits=0"
+          )
+          PY
+
+      - name: Remove raw source ZIP before artifact upload
+        if: always()
+        run: rm -f build/atoll_content_blind_v02/Steibl_2026_Indo_Pacific_Atolls_Dataset.zip
+
+      - name: Upload inventory and provenance only
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoll-content-blind-inventory-v0-11-v02
+          path: |
+            build/atoll_content_blind_v02/archive_inventory_v0_11.json
+            build/atoll_content_blind_v02/fetch_provenance.json
+          if-no-files-found: error
+          retention-days: 90
