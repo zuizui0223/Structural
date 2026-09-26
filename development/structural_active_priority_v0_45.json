@@ -1,0 +1,17 @@
+{
+  "schema": "structural.active_priority.v0_45",
+  "status": "no_active_candidate_after_terminal_atoll_pilot_stop",
+  "supersedes": "development/structural_active_priority_v0_44.json",
+  "active_goal": "preserve the consumed atoll pilot as a terminal endpoint-domain stop and wait for an independently available new island system that can enter response-sealed under the already-frozen source-pool-handoff hypothesis",
+  "active_empirical_system": null,
+  "current_confirmatory_eligible_count": 0,
+  "live_confirmatory_queue": "development/confirmatory_admission_queue_v0_42.json",
+  "prohibited": [
+    "rerun Indo-Pacific atoll burned pilot",
+    "reinterpret U as native, introduced, absence, or missing under the consumed protocol",
+    "open or score unused atoll confirmatory response as fresh evidence",
+    "retune endpoint, species support, partitions, graph scales, q75 threshold, or gates",
+    "select a replacement system because its known outcome is favourable"
+  ],
+  "next_valid_scientific_event": "an independently available island system arrives response-sealed and can freeze its full categorical response domain plus v0.31/v0.42 contracts before any response access"
+}
