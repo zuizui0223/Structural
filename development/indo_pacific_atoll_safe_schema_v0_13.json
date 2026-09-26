@@ -1,0 +1,62 @@
+{
+  "schema": "structural.indo_pacific_atoll_safe_schema.v0_13",
+  "status": "safe_metadata_schema_opened_response_sealed",
+  "system_id": "indo_pacific_atoll_native_vascular_plants_2026",
+  "source_archive_sha256": "1f95097bb88caf2eaf3ad8f49d6afb87beab9a747af08d24cfff4903c231444e",
+  "v0_11_inventory_file_count": 25,
+  "v0_12_firewall_frozen": true,
+  "workflow_run_id": 36238430557,
+  "workflow_job_id": 108394374331,
+  "artifact_id": 10904691949,
+  "artifact_sha256": "ecf626bb1e56f3e21e888a5aaf9916661a830461c20a8573afa43e71a923bf1a",
+  "safe_semantic_files_opened": 5,
+  "response_files_opened": 0,
+  "response_value_parse_count": 0,
+  "model_fit_count": 0,
+  "safe_tables": {
+    "atoll_main_310.csv": {
+      "rows": 310,
+      "columns": ["atoll", "region", "country", "group", "lat", "long", "alternative_names"],
+      "sha256": "ef6e289fca1530dcca8e014ac8302a4e99fcb127d6c600b25a94fb50b6479d79"
+    },
+    "atoll_biogeography.csv": {
+      "rows": 310,
+      "columns": ["atoll", "number_islands", "land_area_sqkm", "lagoon_area_sqkm", "outer_perimeter_km", "total_atoll_area_sqkm", "no_channels", "total_width_channels_km", "distance_nearest_atoll_km", "nearest_atoll", "distance_nearest_high_island_km", "nearest_high_island", "distance_continent_km", "nearest_continent"],
+      "sha256": "3db3a6349975b1abd90f4dab3edc8402cc8fb92e73a61b6909984b517ad5606d"
+    },
+    "atoll_environmental.csv": {
+      "rows": 310,
+      "columns": ["atoll", "annual_precipitation_mm", "tropical_storms_50km", "hurricanes_50km", "hurricanes_100km", "hurricanes_200km", "rainfall_anomaly"],
+      "sha256": "a66159d0d6deeeb5166a3e36bf0394a7cfa1386b286c46c8ed883a9143c2c07b"
+    },
+    "atoll_shapefiles.kml": {
+      "placemark_count": 310,
+      "sha256": "b9737d29ec2082327347a4f53ca429701b4ec91a16b3863f328981d62ac79eae"
+    },
+    "fair2.json": {
+      "plant_recordset_fields": ["atoll", "species", "presence"],
+      "plant_reference_fields": ["species", "atoll", "reference", "order", "family", "GBIF_taxon_id", "BOLD_taxon_id", "NCBI_taxon_id"],
+      "sha256": "c64584fffc54bb67919e0a1b49f70fe2c46d52b844d8e805bcefb354942abaed"
+    }
+  },
+  "published_response_semantics": {
+    "source_article_doi": "10.3389/fenvs.2025.1723851",
+    "vascular_plant_inventories_complete_only": true,
+    "presence_code_N": "native",
+    "presence_code_I": "introduced",
+    "response_values_inspected_by_structural": false
+  },
+  "required_safe_fields_present": {
+    "spatial_unit": true,
+    "archipelago_group": true,
+    "latitude_longitude": true,
+    "land_area": true,
+    "nearest_atoll_distance": true,
+    "nearest_high_island_distance": true,
+    "continent_distance": true,
+    "annual_precipitation": true
+  },
+  "eligible_next_action": "formal_v0_11_response_sealed_intake",
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false
+}
