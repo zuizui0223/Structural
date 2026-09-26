@@ -8,7 +8,7 @@
     "expected_active_empirical_candidates": []
   },
   "live_confirmatory_queue": {
-    "path": "development/confirmatory_admission_queue_v0_38.json",
+    "path": "development/confirmatory_admission_queue_v0_42.json",
     "expected_entry_count": 0,
     "confirmatory_response_authorized": false
   },
