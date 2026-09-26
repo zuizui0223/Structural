@@ -36,7 +36,7 @@ Draft disclosure reflecting the actual manuscript-development workflow:
 
 > During the preparation of this work, the authors used ChatGPT (OpenAI) to assist with code review, reproducibility checks, literature triage, manuscript organization, and language editing. After using this service, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
-The declaration must remain distinct from any use of AI as part of the research method. If an AI-assisted method were used to generate or interpret research data, that use would instead require reproducible description in the Methods section.
+The declaration must remain distinct from any use of AI as part of the research method. Elsevier's current policy also explicitly states that AI-assisted writing or editing of research code should be declared in detail in Methods when it forms part of the research process. **AUTHOR CONFIRMATION REQUIRED** to adjudicate whether any Structural research-code assistance requires a separate Methods disclosure; do not infer that decision from Git history or assistant activity alone.
 
 Elsevier's current journal policy distinguishes explanatory images, data visualizations, primary research images and graphical abstracts rather than imposing one blanket rule. AI-assisted explanatory images may be permitted with disclosure; AI-assisted data visualizations may be permitted only when directly derived from underlying data through reproducible methods and documented appropriately; AI tools must not create or alter primary research images that were not directly obtained in the research; and general-purpose generative-AI image tools must not be used for graphical abstracts.
 
