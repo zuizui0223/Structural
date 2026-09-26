@@ -41,6 +41,8 @@ def test_current_author_template_exposes_expected_unresolved_gates():
     assert "funding_statement_incomplete" in blockers
     assert "generative_ai_disclosure_not_approved" in blockers
     assert "journal_specific_guide_not_checked" in blockers
+    assert "ai_research_code_methods_disclosure_not_reviewed" in blockers
+    assert "ai_research_code_methods_statement_incomplete" in blockers
     assert "creator_order_not_confirmed" in blockers
 
 
@@ -92,6 +94,8 @@ def test_fully_approved_synthetic_metadata_has_no_human_policy_blockers():
             "reviewed_by_all_authors": True,
             "live_journal_policy_checked": True,
             "journal_specific_guide_checked": True,
+            "research_code_methods_disclosure_reviewed": True,
+            "research_code_methods_statement": "Not applicable after author review.",
             "final_statement": "Approved disclosure.",
         }
     )

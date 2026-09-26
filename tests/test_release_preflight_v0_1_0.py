@@ -55,6 +55,7 @@ def test_author_and_journal_specific_gates_are_not_falsely_cleared():
     assert metadata["originality_and_submission"]["approved_by_all_authors"] is False
     assert metadata["generative_ai_disclosure"]["reviewed_by_all_authors"] is False
     assert metadata["generative_ai_disclosure"]["journal_specific_guide_checked"] is False
+    assert metadata["generative_ai_disclosure"]["research_code_methods_disclosure_reviewed"] is False
     assert metadata["release_metadata"]["creator_order_confirmed"] is False
     assert metadata["release_metadata"]["software_citation_metadata_approved"] is False
 
@@ -83,4 +84,17 @@ def test_submission_manifest_points_back_to_release_preflight():
     assert (
         manifest["release_preflight"]
         == "manuscript/submission/release_preflight_v0_1_0.json"
+    )
+
+
+def test_current_policy_record_is_latest_refresh():
+    x = load(PREFLIGHT)
+    manifest = load(ROOT / x["submission_manifest"])
+
+    expected = "manuscript/submission/live_policy_verification_2026-09-26.md"
+    assert x["current_policy_record"] == expected
+    assert manifest["live_policy_verification"] == expected
+    assert (
+        "AI-assisted research-code Methods disclosure applicability confirmed"
+        in x["human_or_manual_blockers"]
     )

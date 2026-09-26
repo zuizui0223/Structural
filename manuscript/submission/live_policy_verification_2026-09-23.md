@@ -1,3 +1,6 @@
+> **Historical policy snapshot — superseded for current submission use.**
+> Current policy record: manuscript/submission/live_policy_verification_2026-09-26.md.
+
 # Live journal-policy verification — 2026-09-23
 
 Target: **Ecological Informatics** (Elsevier / ScienceDirect)

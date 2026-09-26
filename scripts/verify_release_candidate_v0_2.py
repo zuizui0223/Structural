@@ -110,6 +110,10 @@ def _human_policy_blockers(metadata: dict) -> list[str]:
         blockers.append("journal_specific_guide_not_checked")
     if ai.get("live_journal_policy_checked") is not True:
         blockers.append("live_journal_policy_gate_not_cleared")
+    if ai.get("research_code_methods_disclosure_reviewed") is not True:
+        blockers.append("ai_research_code_methods_disclosure_not_reviewed")
+    if _contains_placeholder(ai.get("research_code_methods_statement")):
+        blockers.append("ai_research_code_methods_statement_incomplete")
     if _contains_placeholder(ai.get("final_statement")):
         blockers.append("generative_ai_statement_incomplete")
 

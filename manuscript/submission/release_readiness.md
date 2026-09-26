@@ -1,7 +1,7 @@
 # Structural manuscript release readiness
 
 Verification date: **2026-09-12**  
-Live-policy refresh: **2026-09-23** — Elsevier-wide author/AI/highlights guidance rechecked; the journal-specific *Ecological Informatics* Guide for Authors remains blocked by HTTP 403 in automated retrieval and therefore remains a manual submission-day gate.
+Live-policy refresh: **2026-09-26** — Elsevier-wide journal scope, author/AI/highlights guidance rechecked; the journal-specific *Ecological Informatics* Guide for Authors remains blocked by HTTP 403 in automated retrieval and therefore remains a manual submission-day gate.
 
 Repository package version: **0.1.0** (`pyproject.toml`).  
 The candidate first submission archive tag remains **`v0.1.0`**, unless the package version is deliberately changed before release.
@@ -10,7 +10,7 @@ Canonical machine-readable release HOLD:
 
 `manuscript/submission/release_preflight_v0_1_0.json`
 
-The 2026-09-23 preflight status is **HOLD_HUMAN_POLICY_GATES**. It must remain HOLD until author-approved metadata/declarations and the journal-specific manual checks are complete.
+The 2026-09-26 policy refresh leaves the preflight status at **HOLD_HUMAN_POLICY_GATES**. It must remain HOLD until author-approved metadata/declarations and the journal-specific manual checks are complete.
 
 ## Scientific and repository-presentation HOLD — cleared
 
@@ -48,6 +48,7 @@ Do **not** reserve/publish the final Zenodo record or create the final `v0.1.0` 
 - [ ] ethics/permit relevance checked;
 - [ ] originality / simultaneous-submission statement approved;
 - [ ] generative-AI disclosure approved by all authors;
+- [ ] AI-assisted research-code Methods disclosure applicability checked and approved;
 - [ ] current Ecological Informatics Guide for Authors checked on the submission date;
 - [ ] live accepted vector/raster formats, physical-size/DPI requirements and final publisher-rendered preview checked.
 

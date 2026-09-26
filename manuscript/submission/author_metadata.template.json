@@ -52,8 +52,10 @@
     "reviewed_by_all_authors": false,
     "live_journal_policy_checked": false,
     "final_statement": "<FINAL_JOURNAL_COMPLIANT_DISCLOSURE>",
-    "elsevier_wide_policy_rechecked_on": "2026-09-23",
-    "journal_specific_guide_checked": false
+    "elsevier_wide_policy_rechecked_on": "2026-09-26",
+    "journal_specific_guide_checked": false,
+    "research_code_methods_disclosure_reviewed": false,
+    "research_code_methods_statement": "<AUTHOR_APPROVED_METHODS_STATEMENT_OR_NOT_APPLICABLE>"
   },
   "release_metadata": {
     "creator_order_confirmed": false,
