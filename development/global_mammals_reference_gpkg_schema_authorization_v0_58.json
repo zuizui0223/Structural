@@ -1,0 +1,48 @@
+{
+  "schema": "structural.global_mammals_reference_gpkg_schema_authorization.v0_58",
+  "status": "one_shot_response_independent_reference_gpkg_schema_only",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parent_main_commit": "704ed35075239327ce2ee20773e2c65022725745",
+  "safe_mirror_path": "development/global_island_mammals_safe_mirror_v0_56.json",
+  "safe_mirror_git_blob_sha": "0531f9c56575b8c2ce1319c4d2ad66bbd7a101af",
+  "allowed_branch_delta": [
+    "development/global_mammals_reference_gpkg_schema_authorization_v0_58.json",
+    ".github/workflows/global-mammals-reference-gpkg-schema-v058.yml"
+  ],
+  "source_zip": {
+    "download_url": "https://ndownloader.figshare.com/files/46942207",
+    "size_bytes": 2617794182,
+    "md5": "da14f19b12bae704b9df4e5c380b69fd"
+  },
+  "target_member": {
+    "name": "reference.gpkg",
+    "compression_method": 8,
+    "crc32_hex": "ff89b951",
+    "compressed_size": 2288242143,
+    "uncompressed_size": 3859476480,
+    "local_header_offset": 329551200
+  },
+  "allowed_http_reads": [
+    "one small range at the frozen local-header offset",
+    "one exact range covering only the frozen reference.gpkg compressed payload"
+  ],
+  "allowed_semantic_reads": [
+    "SQLite sqlite_master table/view names",
+    "GeoPackage gpkg_contents metadata",
+    "GeoPackage gpkg_geometry_columns metadata",
+    "PRAGMA table_info for user tables",
+    "COUNT(*) only for tables whose names contain islanddata"
+  ],
+  "forbidden_semantic_reads": [
+    "any islanddata row value other than aggregate COUNT(*)",
+    "any latitude/longitude value",
+    "any island area/isolation/climate value",
+    "any geometry blob",
+    "any mountain payload",
+    "any mammal response or Dryad Appendix content"
+  ],
+  "raw_gpkg_may_be_uploaded_as_artifact": false,
+  "mammal_response_requests_expected": 0,
+  "mammal_response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
