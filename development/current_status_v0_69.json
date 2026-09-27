@@ -1,0 +1,53 @@
+{
+  "schema": "structural.current_status.v0_69",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_68.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "safe_geography_complete": true,
+    "response_opened": false
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_spatial_grouping_coordinates_and_habitat_reference_unresolved",
+    "preintake_path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "firewall_path": "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "thesis_safe_table_path": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "primary_taxon": "beetles",
+    "island_universe_count": 42,
+    "island_codes_resolved": 42,
+    "thesis_safe_rows": 42,
+    "additional_current_codes": [],
+    "safe_area_distance_tsf_resolved": 42,
+    "latlong_resolved": 0,
+    "biological_response_opened": false,
+    "counts_as_active_fresh_candidate": false,
+    "v0_11_intake_authorized": false,
+    "core_external_reference_complete": true,
+    "core_external_reference": {
+      "area": "42/42 thesis Table 2.1",
+      "mainland_distance": "42/42 thesis Table 2.1",
+      "time_since_fire": "42/42 thesis Table 2.1",
+      "primary_external_isolation": "log1p(distance_to_mainland_km)",
+      "area_transform": "log10(area_ha + 1)",
+      "disturbance_history": "TSF standardized within frozen 42-island safe universe"
+    }
+  },
+  "ecological_rationale": "The boreal system remains a useful pristine v0.55 test. Independent thesis material now resolves island area, direct mainland distance and time since fire for all 42 islands, so the core external-isolation/disturbance reference no longer depends on blocked Dryad transport. The remaining pre-intake blockers are auditable within-system spatial grouping/geometry and a prospectively safe habitat-structure reference.",
+  "next_valid_scientific_event": "recover response-independent lake membership and/or exact Lat/Long for all 42 islands, plus prospectively safe local habitat structure if available; then freeze the internal-source operator and validation design before v0.11",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_69.json",
+    "status": "boreal_42_island_universe_resolved_partial_safe_attributes_coordinate_hold"
+  }
+}

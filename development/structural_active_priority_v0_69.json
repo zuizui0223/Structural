@@ -1,0 +1,39 @@
+{
+  "schema": "structural.active_priority.v0_69",
+  "status": "boreal_core_external_reference_complete_spatial_habitat_hold",
+  "supersedes": "development/structural_active_priority_v0_68.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "response_opened": false,
+    "further_Dryad_transport_retries_authorized": false
+  },
+  "hypothesis_driven_preintake_candidate": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "preintake_path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "firewall_path": "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "thesis_safe_table_path": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "status": "HOLD_spatial_grouping_coordinates_and_habitat_reference_unresolved",
+    "primary_taxon": "beetles",
+    "island_universe_resolved": 42,
+    "thesis_safe_attribute_rows": 42,
+    "additional_current_codes": [],
+    "response_opened": false,
+    "counts_as_active_fresh_candidate": false,
+    "core_external_reference_complete": true
+  },
+  "active_goal": "freeze a response-independent within-system spatial grouping/internal-source operator and safe habitat reference for the 42-island beetle system; area, mainland distance and TSF are already complete for all 42 without response access",
+  "next_action": "search independent public thesis/article supplements and prior-study metadata for exact island-to-lake membership, exact coordinates, and safe habitat structure; if exact coordinates remain unavailable, consider a prospectively frozen within-lake source-pool design only if lake membership can be audited without biological response",
+  "prohibited": [
+    "digitize approximate coordinates by eye from Figure 2.1",
+    "open beetle, bird, or plant matrices to recover island IDs or safe attributes",
+    "treat the 38-row thesis table as the complete 42-island current study",
+    "advance to v0.11 before all required 42-island geometry/reference fields are response-independently frozen",
+    "retry blocked Dryad content endpoints",
+    "replace the independently recovered mainland-distance variable with blocked buffer5000 merely to preserve an older pre-intake draft",
+    "infer exact Lat/Long by visual digitization of the published map"
+  ]
+}
