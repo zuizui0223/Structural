@@ -1,0 +1,51 @@
+{
+  "schema": "structural.current_status.v0_68",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_65.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "safe_geography_complete": true,
+    "response_opened": false
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_safe_row_values_and_coordinates_transport_unresolved",
+    "preintake_path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "firewall_path": "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "primary_taxon": "beetles",
+    "islands": 42,
+    "required_geometry": [
+      "Island",
+      "Lat",
+      "Long"
+    ],
+    "required_external_state": [
+      "log10area",
+      "buffer5000",
+      "time.since.fire.beetles"
+    ],
+    "documented_column_firewall_frozen": true,
+    "mechanical_header_verification_complete": false,
+    "safe_row_values_opened": false,
+    "biological_response_opened": false,
+    "counts_as_active_fresh_candidate": false,
+    "v0_11_intake_authorized": false
+  },
+  "ecological_rationale": "The boreal candidate remains a strong v0.55 system because fire history and local habitat can be represented before external and internal isolation, but the design must remain below intake until safe geometry/reference rows are auditable without using species matrices.",
+  "next_valid_scientific_event": "obtain the exact 42-island response-independent safe rows/coordinates from an independent public supplement, author repository, prior-study metadata, or exact SHA-matched supplied file; mechanically verify the frozen v0.68 headers and freeze geometry before any biological response access",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_68.json",
+    "status": "boreal_lake_island_documented_firewall_frozen_safe_values_transport_hold"
+  }
+}

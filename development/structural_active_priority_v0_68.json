@@ -1,0 +1,34 @@
+{
+  "schema": "structural.active_priority.v0_68",
+  "status": "boreal_lake_island_documented_firewall_frozen_safe_values_transport_hold",
+  "supersedes": "development/structural_active_priority_v0_65.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "response_opened": false,
+    "further_Dryad_transport_retries_authorized": false
+  },
+  "hypothesis_driven_preintake_candidate": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "preintake_path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "firewall_path": "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "status": "HOLD_safe_row_values_and_coordinates_transport_unresolved",
+    "primary_taxon": "beetles",
+    "response_opened": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "active_goal": "recover the exact 42-island safe rows or an independently auditable coordinate/reference table matching the frozen source identities, then freeze complete-case geometry/reference before any beetle matrix access",
+  "next_action": "search only response-independent public supplements, author repositories, prior-island metadata or exact user-supplied safe files for the 42 Island/Lat/Long/log10area/buffer5000/time-since-fire values; do not retry blocked Dryad content endpoints or open biological matrices",
+  "prohibited": [
+    "retry multiple Dryad file-content endpoints after the v0.67 HTTP 401 stop",
+    "open beetle, bird or plant community matrices to recover island IDs, coordinates, or reference variables",
+    "use response-derived richness/abundance/catch-rate fields in the reference",
+    "use buffer_1 or buffer_10 in the fresh primary because the source paper selected their scales from response slopes",
+    "choose a habitat subset based on beetle outcomes",
+    "choose birds or plants as replacement primary after seeing beetle outcomes",
+    "advance to v0.11 before exact safe-row transport and mechanical header verification"
+  ]
+}
