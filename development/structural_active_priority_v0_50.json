@@ -1,0 +1,20 @@
+{
+  "schema": "structural.active_priority.v0_50",
+  "status": "stress_test_heldout_scoring_ready_but_not_authorized",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "stress_test": "zenodo_318_island_mammals_2024",
+  "achieved": [
+    "65-island stress pilot qualified v0.32 and v0.42",
+    "233-species universe frozen",
+    "R3/C coefficients frozen from pilot only",
+    "56,852 heldout predictions frozen before heldout outcome access"
+  ],
+  "next_action": "authorize one heldout scoring read bound to the frozen preheldout artifact and prediction SHA; score only the already-frozen v0.47 estimands; no model refit",
+  "prohibited": [
+    "refit R3 or C after heldout access",
+    "change q75, species universe, island split, source operator, ridge penalty, estimand, or bootstrap",
+    "count the 318-island result as fresh confirmation",
+    "use result to rescue the pristine 5,592-island HOLD"
+  ]
+}
