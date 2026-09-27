@@ -1,0 +1,150 @@
+{
+  "schema": "structural.preintake_candidate.zenodo_318_island_mammals.v0_1",
+  "status": "HOLD_zenodo_file_identity_and_schema_not_yet_frozen",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "source_identity": {
+    "zenodo_record_doi": "10.5281/zenodo.11220273",
+    "source_article_doi": "10.1111/gcb.17375",
+    "source_title": "Island biodiversity in peril: Anticipating a loss of mammals' functional diversity with future species extinctions",
+    "zenodo_record_id": 11220273,
+    "structural_prior_use_found": false,
+    "response_file_downloaded_by_structural": false,
+    "response_values_opened_by_structural": false
+  },
+  "public_metadata_basis": {
+    "islands": 318,
+    "mammal_species": 1474,
+    "response_file": "Mammal_occurrence_islands.xlsx",
+    "response_description": "presence/absence matrix of mammal species by island with bibliographic sources; islands grouped by zoogeographical region",
+    "safe_mixed_file": "data_models_islands.csv",
+    "safe_mixed_file_description": "island physical/environmental/history variables plus response-derived functional/richness summaries",
+    "island_group_field": "Archipielago",
+    "past_connectivity_field": "Type",
+    "distance_continent_field": "dContinent_km",
+    "distance_larger_landmass_field": "distance_biggerLandmass",
+    "area_field": "Area_km2",
+    "climate_fields": [
+      "Anntemp_promedio",
+      "Annprec_promedio"
+    ],
+    "elevation_field": "Elev_max",
+    "human_footprint_field": "Human_foot"
+  },
+  "ecological_hypothesis": {
+    "parent": "development/prospective_source_pool_handoff_hypothesis_v0_1.json",
+    "name": "archipelago_source_pool_handoff_mammals",
+    "statement": "Among islands with a prospectively valid mammal presence/absence codebook, species occurrence on the most continent-isolated islands should retain information from the occupied source pool on other islands in the same archipelago beyond island area, climate, past land-bridge connectivity, distance to continent, distance to a larger landmass, and response-independent archipelago size.",
+    "A_Islands_counts_as_confirmation": false,
+    "Indo_Pacific_atoll_terminal_counts_as_confirmation": false,
+    "global_5592_mammal_Dryad_hold_counts_as_confirmation": false
+  },
+  "proposed_reference_ladder": {
+    "R0": [
+      "zoogeographic_region_or_equivalent_source_group_if_schema_safe",
+      "mean_annual_temperature",
+      "mean_annual_precipitation",
+      "maximum_elevation"
+    ],
+    "R1_add": [
+      "log1p_island_area",
+      "log1p_distance_to_continent",
+      "log1p_distance_to_nearest_larger_landmass",
+      "past_land_bridge_connectivity"
+    ],
+    "R2_add": [
+      "response_independent_number_of_eligible_islands_in_archipelago"
+    ],
+    "R3_add": [
+      "training_only_global_species_occupancy_breadth"
+    ],
+    "C_add": [
+      "training_only_within_archipelago_occupied_source_fraction"
+    ],
+    "primary_predictive_contrast": "C_minus_R3 heldout log loss",
+    "favourable_direction": "negative"
+  },
+  "primary_regime_prediction": {
+    "isolation_variable": "dContinent_km",
+    "primary_extreme_rule": "upper 25% of frozen response-independent eligible-island distance-to-continent distribution",
+    "prediction": "C_minus_R3 is more favourable in the extreme-isolation tail than outside it",
+    "q70_q80_sensitivity_may_not_rescue_primary": true
+  },
+  "secondary_predictions": {
+    "past_connectivity": {
+      "moderator": "Type",
+      "prediction": "within-archipelago source support is stronger for islands lacking recent land-bridge connection to a continent",
+      "may_not_rescue_primary": true
+    },
+    "dispersal_mode": {
+      "status": "HOLD_until_species_identity_and_order_or_trait_metadata_can_be_frozen_without_response_outcomes",
+      "groups": [
+        "Chiroptera",
+        "non_volant_mammals"
+      ],
+      "prediction": "current archipelago source-pool support is relatively stronger for bats; past connectivity has relatively greater explanatory importance for non-volant mammals",
+      "may_not_rescue_primary": true
+    }
+  },
+  "proposed_partition_rule": {
+    "unit": "island",
+    "grouping": "Archipielago",
+    "eligible_archipelago_rule": "at least 4 safe-metadata islands before response access",
+    "split_rule": "within each eligible archipelago, rank islands by SHA256('mammal-source-pool-v1|' + archipelago + '|' + island_id); assign max(2,ceil(20%)) to pilot provided at least 2 confirmatory islands remain",
+    "heldout_design": "leave-one-island-out within each frozen pilot or confirmatory partition",
+    "reason": "candidate source-pool feature requires other islands from the same archipelago to remain available as training sources",
+    "response_values_forbidden_during_split": true
+  },
+  "source_pool_operator": {
+    "fixed_species_universe_rule": "must be frozen after response schema/domain validation and before any pilot response access; must be identical across held-out islands to preserve v0.32 complement arithmetic",
+    "candidate": "fraction of other training islands in the focal island's archipelago occupied by the focal species",
+    "breadth_conditioner": "fraction of all other training islands occupied by the focal species",
+    "heldout_island_response_used_as_source": false
+  },
+  "mixed_file_firewall_intent": {
+    "file": "data_models_islands.csv",
+    "safe_columns": [
+      "ID",
+      "Archipielago",
+      "Type",
+      "protected_percentageI_VI",
+      "dContinent_km",
+      "Anntemp_promedio",
+      "Annprec_promedio",
+      "Area_km2",
+      "Elev_max",
+      "Human_foot",
+      "distance_biggerLandmass"
+    ],
+    "forbidden_response_derived_columns": [
+      "SppRich",
+      "Thre_sp",
+      "Island_FRic",
+      "Island_Red",
+      "SES_FRic",
+      "SES_FRed",
+      "SR"
+    ],
+    "column_firewall_must_be_frozen_before_any_data_row_is_opened": true
+  },
+  "response_schema_requirements": [
+    "exact workbook sheet names frozen before response-value access",
+    "island ID field and mapping to data_models_islands.ID established schema-only",
+    "presence/absence value domain completely enumerated before pilot",
+    "introduced/native status semantics frozen if represented",
+    "bibliographic/source columns separated from occurrence values",
+    "no unexpected categorical response code may be interpreted after pilot access"
+  ],
+  "preintake_stop_conditions": [
+    "Zenodo file identities/checksums cannot be resolved metadata-only",
+    "safe mixed-file columns cannot be separated from response-derived columns before row-value access",
+    "response workbook schema cannot establish a complete occurrence-value domain before pilot",
+    "response island IDs cannot be joined to safe island metadata without opening occurrence values",
+    "too few archipelagos have at least four response-independent eligible islands",
+    "the same fixed species universe cannot be applied across pilot heldout islands"
+  ],
+  "next_action": "resolve exact Zenodo file names, byte sizes and checksums metadata-only; then schema-open data_models_islands.csv header only and response workbook workbook/sheet/header structure only",
+  "v0_11_intake_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false
+}
