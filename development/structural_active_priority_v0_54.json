@@ -1,0 +1,37 @@
+{
+  "schema": "structural.active_priority.v0_54",
+  "status": "stress_test_complete_primary_handoff_unsupported_no_active_fresh_system",
+  "supersedes": "development/structural_active_priority_v0_50.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "completed_stress_test": {
+    "candidate_id": "zenodo_318_island_mammals_2024",
+    "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "heldout_response_consumed": true,
+    "primary_supported": false,
+    "primary_point": 0.04545173576685289,
+    "primary_ci_95": [
+      -0.0031904317577055308,
+      0.08835839946973478
+    ],
+    "counts_as_fresh_confirmation": false
+  },
+  "pristine_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_safe_island_covariate_transport_unresolved",
+    "response_opened": false
+  },
+  "active_goal": "preserve the completed stress result without rescue mining; advance island biogeography only through response-independent resolution of a pristine held system or a genuinely new prospectively frozen island system",
+  "next_action": "resolve safe geography for the pristine 5,592-island mammal HOLD without opening its response, or admit a new island system under a next-generation hypothesis frozen before response access",
+  "prohibited": [
+    "rerun the 318-island heldout score",
+    "refit R3 or C on heldout outcomes",
+    "change q75 isolation threshold",
+    "change fixed species universe",
+    "change within-archipelago source operator",
+    "change bootstrap",
+    "mine archipelagos, taxa, dispersal groups, or alternative thresholds to rescue the unsupported primary",
+    "promote the 318-island stress result into the fresh confirmatory denominator",
+    "reinterpret the atoll U code and rerun the atoll pilot"
+  ]
+}
