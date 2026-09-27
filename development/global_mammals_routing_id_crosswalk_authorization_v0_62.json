@@ -1,0 +1,78 @@
+{
+  "schema": "structural.global_mammals_routing_id_crosswalk_authorization.v0_62",
+  "status": "one_shot_routing_metadata_only_crosswalk_retry_public_file_stream",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parent_main_commit": "69d3a45dc13c8eed06f1b1a8e517c8b17f0c2f0e",
+  "allowed_branch_delta": [
+    "development/global_mammals_routing_id_crosswalk_authorization_v0_62.json",
+    ".github/workflows/global-mammals-routing-id-crosswalk-v062.yml"
+  ],
+  "frozen_git_blobs": {
+    "safe_rows_result": "93edb90f78bdd2d1eecfeb63e66f0b5e61c722e4",
+    "dryad_metadata_result": "2ca5ee2c4e97a4edcb4bfc4597dd3819492f5f95"
+  },
+  "safe_rows_artifact": {
+    "workflow_run_id": 36316161135,
+    "artifact_id": 10930234623,
+    "artifact_name": "global-mammals-weigelt-safe-rows-v0-60",
+    "artifact_sha256": "467c8d5edc5514ac75107ede7752038497f606fcf7aa42f085269c9a8cd93b31",
+    "csv_name": "weigelt_islanddata_safe_v0_60.csv",
+    "csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "rows": 17883
+  },
+  "mammal_response_source": {
+    "dryad_version_id": 299966,
+    "path": "Appendix_1_presence_absence.csv",
+    "size_bytes": 60486843,
+    "sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "source_reported_islands": 5592
+  },
+  "routing_semantics": {
+    "semantic_open": "first CSV field of header and each data record only",
+    "species_header_fields_semantically_opened": 0,
+    "species_occurrence_cells_semantically_opened": 0,
+    "expected_data_records": 5592,
+    "id_normalization": "strip surrounding whitespace; if the routing value matches nonnegative integer or integer-with-only-zero-decimal syntax, canonicalize to base-10 integer string; otherwise retain exact stripped UTF-8 string",
+    "join_target": "Weigelt safe CSV id",
+    "join_rule": "exact canonical-ID membership only",
+    "forbidden_fallbacks": [
+      "island-name fuzzy matching",
+      "coordinate nearest-neighbour matching",
+      "archipelago-assisted matching",
+      "manual outcome-informed matching"
+    ]
+  },
+  "allowed_outputs": [
+    "routing first-field header",
+    "raw routing ID strings and canonical IDs",
+    "record/unique/duplicate counts",
+    "exact and canonical membership counts against Weigelt id",
+    "unmatched routing IDs",
+    "routing-ID crosswalk CSV",
+    "response-file SHA verification receipt"
+  ],
+  "response_file_bytes_may_be_downloaded": true,
+  "species_headers_may_be_decoded": false,
+  "occurrence_values_may_be_decoded": false,
+  "model_fit_count_expected": 0,
+  "v0_11_intake_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "prior_failed_attempt": {
+    "pull_request": 152,
+    "workflow_run_id": 36316852189,
+    "workflow_job_id": 108613065216,
+    "failure": "HTTP 401 from /api/v2/files/{id}/download before response bytes",
+    "response_file_bytes_read": 0,
+    "routing_ids_decoded": 0,
+    "species_headers_decoded": 0,
+    "occurrence_values_decoded": 0
+  },
+  "transport": {
+    "metadata_endpoint": "https://datadryad.org/api/v2/versions/299966/files",
+    "data_endpoint_template": "https://datadryad.org/downloads/file_stream/{file_id}",
+    "allowed_data_requests": 1,
+    "fallback_urls_forbidden": true
+  }
+}
