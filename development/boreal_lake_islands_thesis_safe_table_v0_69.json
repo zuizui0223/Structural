@@ -1,0 +1,347 @@
+{
+  "schema": "structural.boreal_lake_islands_thesis_safe_table.v0_69",
+  "status": "partial_independent_response_free_safe_table_38_of_42",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "source": {
+    "title": "Managing Fire Mosaics for Biodiversity",
+    "author": "Aaron John Bell",
+    "year": 2024,
+    "repository": "University of Saskatchewan HARVEST",
+    "handle": "https://hdl.handle.net/10388/16093",
+    "table": "Table 2.1",
+    "table_description": "Study islands in the Churchill River watershed, island characteristics, source of fire history information, and species richness",
+    "response_independent_fields_persisted": [
+      "Island",
+      "Area (ha)",
+      "Distance to ML (km)",
+      "TSF",
+      "Source"
+    ],
+    "response_derived_fields_present_in_source_but_not_persisted": [
+      "S beetles",
+      "S plants",
+      "S birds"
+    ],
+    "tsf_semantics": "years since fire standardized to fixed year 2020 in the thesis table",
+    "table_rows_visible_in_index": 38,
+    "last_visible_row": "SK"
+  },
+  "rows": [
+    {
+      "island": "BB",
+      "area_ha": 6.3,
+      "distance_to_mainland_km": 0.35,
+      "tsf_2020_years": 5,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "BC",
+      "area_ha": 23.3,
+      "distance_to_mainland_km": 1.76,
+      "tsf_2020_years": 215,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "BS",
+      "area_ha": 350.4,
+      "distance_to_mainland_km": 0.27,
+      "tsf_2020_years": 75,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "BT",
+      "area_ha": 1.8,
+      "distance_to_mainland_km": 0.69,
+      "tsf_2020_years": 5,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "CC",
+      "area_ha": 21.1,
+      "distance_to_mainland_km": 0.14,
+      "tsf_2020_years": 176,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "CD",
+      "area_ha": 3.2,
+      "distance_to_mainland_km": 3.87,
+      "tsf_2020_years": 179,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "CG",
+      "area_ha": 1.6,
+      "distance_to_mainland_km": 0.24,
+      "tsf_2020_years": 113,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "DF",
+      "area_ha": 38.3,
+      "distance_to_mainland_km": 0.34,
+      "tsf_2020_years": 5,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "DN",
+      "area_ha": 29.1,
+      "distance_to_mainland_km": 0.11,
+      "tsf_2020_years": 14,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "DS",
+      "area_ha": 101,
+      "distance_to_mainland_km": 0.21,
+      "tsf_2020_years": 180,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "EB",
+      "area_ha": 13.8,
+      "distance_to_mainland_km": 0.27,
+      "tsf_2020_years": 5,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "EI",
+      "area_ha": 2.9,
+      "distance_to_mainland_km": 0.15,
+      "tsf_2020_years": 76,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "EL",
+      "area_ha": 10,
+      "distance_to_mainland_km": 6.94,
+      "tsf_2020_years": 115,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "FD",
+      "area_ha": 35.7,
+      "distance_to_mainland_km": 0.07,
+      "tsf_2020_years": 14,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "HF",
+      "area_ha": 11.8,
+      "distance_to_mainland_km": 0.88,
+      "tsf_2020_years": 1,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "HI",
+      "area_ha": 35,
+      "distance_to_mainland_km": 0.02,
+      "tsf_2020_years": 39,
+      "fire_history_source": "Landsat + maps"
+    },
+    {
+      "island": "HU",
+      "area_ha": 1.2,
+      "distance_to_mainland_km": 3.15,
+      "tsf_2020_years": 10,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "IL",
+      "area_ha": 19.8,
+      "distance_to_mainland_km": 0.45,
+      "tsf_2020_years": 25,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "IS",
+      "area_ha": 5.9,
+      "distance_to_mainland_km": 0.33,
+      "tsf_2020_years": 25,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "JO",
+      "area_ha": 130.2,
+      "distance_to_mainland_km": 6.58,
+      "tsf_2020_years": 111,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "KA",
+      "area_ha": 3.9,
+      "distance_to_mainland_km": 2.1,
+      "tsf_2020_years": 125,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "KC",
+      "area_ha": 3.4,
+      "distance_to_mainland_km": 1.23,
+      "tsf_2020_years": 69,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "KP",
+      "area_ha": 2.7,
+      "distance_to_mainland_km": 0.14,
+      "tsf_2020_years": 39,
+      "fire_history_source": "Landsat + maps"
+    },
+    {
+      "island": "KR",
+      "area_ha": 4.5,
+      "distance_to_mainland_km": 0.07,
+      "tsf_2020_years": 39,
+      "fire_history_source": "Landsat + maps"
+    },
+    {
+      "island": "LQ",
+      "area_ha": 26.9,
+      "distance_to_mainland_km": 7.03,
+      "tsf_2020_years": 164,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "MI",
+      "area_ha": 1.2,
+      "distance_to_mainland_km": 2.5,
+      "tsf_2020_years": 1,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "MN",
+      "area_ha": 1.7,
+      "distance_to_mainland_km": 0.15,
+      "tsf_2020_years": 38,
+      "fire_history_source": "Landsat + maps"
+    },
+    {
+      "island": "MT",
+      "area_ha": 7.5,
+      "distance_to_mainland_km": 0.38,
+      "tsf_2020_years": 134,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "NH",
+      "area_ha": 11.3,
+      "distance_to_mainland_km": 0.23,
+      "tsf_2020_years": 25,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "NV",
+      "area_ha": 16.8,
+      "distance_to_mainland_km": 1.84,
+      "tsf_2020_years": 129,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "NW",
+      "area_ha": 53.9,
+      "distance_to_mainland_km": 1.72,
+      "tsf_2020_years": 216,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "OS",
+      "area_ha": 4,
+      "distance_to_mainland_km": 0.16,
+      "tsf_2020_years": 5,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "PP",
+      "area_ha": 9.4,
+      "distance_to_mainland_km": 0.15,
+      "tsf_2020_years": 14,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "PR",
+      "area_ha": 1,
+      "distance_to_mainland_km": 0.17,
+      "tsf_2020_years": 14,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "QC",
+      "area_ha": 10.5,
+      "distance_to_mainland_km": 0.04,
+      "tsf_2020_years": 82,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "SF",
+      "area_ha": 131,
+      "distance_to_mainland_km": 0.18,
+      "tsf_2020_years": 14,
+      "fire_history_source": "Landsat"
+    },
+    {
+      "island": "SG",
+      "area_ha": 47.7,
+      "distance_to_mainland_km": 7.9,
+      "tsf_2020_years": 231,
+      "fire_history_source": "Dendro"
+    },
+    {
+      "island": "SK",
+      "area_ha": 4.8,
+      "distance_to_mainland_km": 0.06,
+      "tsf_2020_years": 14,
+      "fire_history_source": "Landsat"
+    }
+  ],
+  "row_count": 38,
+  "unique_island_count": 38,
+  "source_article_population": {
+    "current_article_reports_islands": 42,
+    "thesis_safe_rows_recovered": 38,
+    "unresolved_safe_rows": 4,
+    "article_explicitly_mentions_additional_code_not_in_thesis_table": [
+      "TB"
+    ],
+    "unresolved_other_codes_not_inferred": true
+  },
+  "completeness": {
+    "area_ha": true,
+    "distance_to_mainland_km": true,
+    "tsf_2020_years": true,
+    "fire_history_source": true,
+    "latitude": false,
+    "longitude": false
+  },
+  "observed_safe_ranges_38_only": {
+    "area_ha": [
+      1,
+      350.4
+    ],
+    "distance_to_mainland_km": [
+      0.02,
+      7.9
+    ],
+    "tsf_2020_years": [
+      1,
+      231
+    ]
+  },
+  "reconciliation_notes": [
+    "The 2026 article reports 42 study islands, so this 38-row thesis table is explicitly partial and must not be treated as the full current study universe.",
+    "The 2026 article reports island area up to 380.7 ha whereas the recovered thesis rows max at 350.4 ha, independently confirming that at least one current-study island is absent from this thesis table.",
+    "The article text explicitly names TB in addition to NW when discussing old-tree sensitivity; TB is not present in the 38-row thesis table.",
+    "No missing island code or value may be guessed, interpolated, inferred from biological richness, or reconstructed from the biological matrices."
+  ],
+  "biological_response_firewall": {
+    "beetle_matrix_opened": false,
+    "bird_matrix_opened": false,
+    "plant_matrix_opened": false,
+    "richness_values_from_thesis_persisted": false,
+    "counts_as_empirical_evidence": false,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "next_gate": "recover the remaining four current-study island identities/area/distance/TSF and all 42 plot-center Lat/Long from response-independent public sources; then mechanically reconcile Island codes before geometry freeze"
+}
