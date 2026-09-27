@@ -1,0 +1,32 @@
+{
+  "schema": "structural.active_priority.v0_65",
+  "status": "boreal_lake_island_preintake_safe_schema_only",
+  "supersedes": "development/structural_active_priority_v0_64.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "response_opened": false,
+    "further_Dryad_transport_retries_authorized": false
+  },
+  "hypothesis_driven_preintake_candidate": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "status": "HOLD_safe_metadata_schema_and_transport_not_yet_frozen",
+    "primary_taxon": "beetles",
+    "response_opened": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "active_goal": "determine response-blind feasibility of the 42-island beetle dual-isolation test by freezing safe metadata columns, complete-case target universe and geometry before any species matrix access",
+  "next_action": "open safe-file schema/values only under a frozen firewall; STOP if Lat/Long, fire-history and habitat reference cannot be separated from response-derived summaries or safely transported",
+  "prohibited": [
+    "open beetle, bird or plant community matrices before formal v0.11/v0.31/v0.42 contracts",
+    "choose birds or plants as replacement primary after seeing beetle outcomes",
+    "treat fixed-plot detection as complete whole-island occupancy",
+    "omit fire history or habitat reference merely to increase source-pool signal",
+    "use response to define spatial partitions or graph scales",
+    "resume Dryad transport retries for the separate 5,592-island mammal HOLD"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "structural.current_status.v0_65",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_64.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "transport_hold_path": "development/global_mammals_transport_hold_v0_64.json",
+    "safe_geography_complete": true,
+    "response_opened": false
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "preintake_path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "metadata_result_path": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "status": "HOLD_safe_metadata_schema_and_transport_not_yet_frozen",
+    "system": "42 true boreal lake islands across six lakes in northern Saskatchewan",
+    "primary_taxon": "beetles",
+    "primary_matrix_reported": "42 islands x 466 species, explicit 0/1",
+    "secondary_taxa": [
+      "birds",
+      "vascular_plants"
+    ],
+    "endpoint_scope": "standardized 30x30m local island-plot assemblage occurrence, not complete whole-island occupancy",
+    "response_values_opened": false,
+    "counts_as_active_fresh_candidate": false,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "ecological_rationale": "This system can test v0.55 in a disturbance-structured true-island setting because fire history, area, mainland isolation and habitat amount can be represented before asking whether internal occupied-source geometry adds heldout information.",
+  "next_valid_scientific_event": "freeze safe metadata schemas/column roles and response-independent geometry for the boreal lake-island system without opening any species matrix; only a clean response-sealed design may advance to v0.11",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_65.json",
+    "status": "boreal_lake_island_preintake_safe_schema_only"
+  }
+}
