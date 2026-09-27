@@ -1,0 +1,52 @@
+{
+  "schema": "structural.global_mammals_weigelt_safe_rows_authorization.v0_60",
+  "status": "one_shot_response_independent_safe_row_extraction",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parent_main_commit": "d6d65e7484ad38eb54cbfd0058da795aa8b88cc4",
+  "allowed_branch_delta": [
+    "development/global_mammals_weigelt_safe_rows_authorization_v0_60.json",
+    ".github/workflows/global-mammals-weigelt-safe-rows-v060.yml"
+  ],
+  "frozen_git_blobs": {
+    "safe_column_firewall": "d904f7fb7a4fc546fa8a0ea72f646b64e4b4442a",
+    "safe_mirror": "0531f9c56575b8c2ce1319c4d2ad66bbd7a101af"
+  },
+  "source": {
+    "download_url": "https://ndownloader.figshare.com/files/46942207",
+    "zip_size_bytes": 2617794182,
+    "target_member": "reference.gpkg",
+    "local_header_offset": 329551200,
+    "compression_method": 8,
+    "compressed_size": 2288242143,
+    "uncompressed_size": 3859476480,
+    "crc32_hex": "ff89b951",
+    "expected_gpkg_sha256": "23aa124cfa0a4bb170df5a672ee0b50672c0de900cd8829046fc8ecae16d7f13"
+  },
+  "extraction": {
+    "source_table": "islanddata",
+    "row_order": "ORDER BY id",
+    "safe_columns_from": "development/global_mammals_weigelt_safe_column_firewall_v0_59.json",
+    "expected_rows": 17883,
+    "required_unique_nonnull_id": true,
+    "output_columns_must_equal_frozen_safe_columns": true
+  },
+  "allowed_outputs": [
+    "compact safe islanddata CSV with frozen safe columns only",
+    "safe-table SHA-256",
+    "row count and distinct ID count",
+    "null counts by safe column",
+    "numeric min/max by safe numeric column",
+    "execution/provenance receipt"
+  ],
+  "forbidden": [
+    "SELECT any column not in the v0.59 safe-column list",
+    "read geom",
+    "read sr*/pam*/upgma*/pca*/buffer/modeled_t",
+    "make any mammal response request",
+    "open any mammal occurrence value",
+    "fit any ecological model"
+  ],
+  "mammal_response_requests_expected": 0,
+  "mammal_response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
