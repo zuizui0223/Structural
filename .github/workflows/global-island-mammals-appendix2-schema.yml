@@ -1,0 +1,184 @@
+name: Global island mammals Appendix2 schema-only probe
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  appendix2-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify header-only authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "development/global_island_mammals_appendix2_schema_probe_v0_2.json"
+          ).read_text())
+          assert x["status"]=="mixed_file_header_only_before_column_firewall"
+          assert x["response_values_opened"] is False
+          assert all("row >=2" not in s for s in x["allowed_semantic_reads"])
+          print("Appendix2 header-only authorization OK")
+          PY
+
+      - name: Download exact Appendix2 and parse row-1 schema only
+        run: |
+          mkdir -p build/global_mammals_appendix2_schema
+          python - <<'PY'
+          import hashlib, html, io, json, re, zipfile
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import xml.etree.ElementTree as ET
+
+          auth=json.loads(Path(
+              "development/global_island_mammals_appendix2_schema_probe_v0_2.json"
+          ).read_text())
+          spec=auth["file"]
+          req=Request(
+              spec["download_url"],
+              headers={"User-Agent":"Structural-global-mammals-schema/0.2"},
+              method="GET",
+          )
+          with urlopen(req,timeout=90) as r:
+              raw=r.read()
+          assert len(raw)==spec["size_bytes"],(len(raw),spec["size_bytes"])
+          assert hashlib.sha256(raw).hexdigest()==spec["sha256"]
+
+          NS_MAIN="{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+          NS_REL="{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+          NS_PKG="{http://schemas.openxmlformats.org/package/2006/relationships}"
+
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              names=set(zf.namelist())
+              assert "xl/workbook.xml" in names
+              assert "xl/_rels/workbook.xml.rels" in names
+
+              wb=ET.fromstring(zf.read("xl/workbook.xml"))
+              rels=ET.fromstring(zf.read("xl/_rels/workbook.xml.rels"))
+              relmap={
+                  r.attrib["Id"]:r.attrib["Target"]
+                  for r in rels.findall(NS_PKG+"Relationship")
+              }
+
+              shared_bytes=zf.read("xl/sharedStrings.xml") if "xl/sharedStrings.xml" in names else None
+              shared_cache={}
+
+              def selected_shared(indices):
+                  if not indices:
+                      return {}
+                  assert shared_bytes is not None
+                  wanted=set(indices)
+                  out={}
+                  # Scan each <si> byte block, but parse/decode only requested indices.
+                  blocks=re.findall(br"<si(?:\s[^>]*)?>.*?</si>",shared_bytes,flags=re.S)
+                  for i in sorted(wanted):
+                      assert i < len(blocks)
+                      node=ET.fromstring(blocks[i])
+                      text="".join(t.text or "" for t in node.iter(NS_MAIN+"t"))
+                      out[i]=text
+                  return out
+
+              sheets=[]
+              for s in wb.find(NS_MAIN+"sheets"):
+                  sname=s.attrib["name"]
+                  rid=s.attrib[NS_REL+"id"]
+                  target=relmap[rid].lstrip("/")
+                  if not target.startswith("xl/"):
+                      target="xl/"+target
+                  xmlb=zf.read(target)
+
+                  # Dimension is schema metadata only.
+                  root_start=xmlb[:min(len(xmlb),20000)]
+                  dm=re.search(br"<dimension[^>]*ref=\"([^\"]+)\"",root_start)
+                  dimension=dm.group(1).decode("ascii") if dm else None
+
+                  # Extract row r=1 only. Never parse row >=2.
+                  m=re.search(br"<row\b[^>]*\br=\"1\"[^>]*>.*?</row>",xmlb,flags=re.S)
+                  assert m is not None, f"sheet {sname} has no explicit row 1"
+                  row1=m.group(0)
+                  assert b'r="2"' not in row1
+
+                  cell_blocks=re.findall(br"<c\b[^>]*>.*?</c>|<c\b[^>]*/>",row1,flags=re.S)
+                  cells=[]
+                  shared_indices=[]
+                  preliminary=[]
+                  for cb in cell_blocks:
+                      head=cb.split(b">",1)[0]+b">"
+                      rm=re.search(br'\br=\"([^\"]+)\"',head)
+                      tm=re.search(br'\bt=\"([^\"]+)\"',head)
+                      ref=rm.group(1).decode("ascii") if rm else None
+                      ctype=tm.group(1).decode("ascii") if tm else None
+                      vm=re.search(br"<v>(.*?)</v>",cb,flags=re.S)
+                      inline=re.search(br"<is>.*?<t[^>]*>(.*?)</t>.*?</is>",cb,flags=re.S)
+                      if ctype=="s":
+                          assert vm
+                          idx=int(vm.group(1))
+                          shared_indices.append(idx)
+                          preliminary.append((ref,ctype,idx,None))
+                      elif ctype=="inlineStr":
+                          assert inline
+                          val=html.unescape(inline.group(1).decode("utf-8"))
+                          preliminary.append((ref,ctype,None,val))
+                      else:
+                          # Header cells must be textual; fail rather than decode numeric/data content.
+                          raise AssertionError(f"non-text header cell in {sname} {ref}: type={ctype!r}")
+
+                  smap=selected_shared(shared_indices)
+                  for ref,ctype,idx,val in preliminary:
+                      if ctype=="s":
+                          val=smap[idx]
+                      cells.append({"cell":ref,"type":ctype,"header":val})
+
+                  sheets.append({
+                      "sheet_name":sname,
+                      "worksheet_path":target,
+                      "dimension":dimension,
+                      "header_count":len(cells),
+                      "headers":cells,
+                      "rows_ge_2_semantically_parsed":0
+                  })
+
+          out={
+              "schema":"structural.global_island_mammals_appendix2_schema_result.v0_2",
+              "status":"appendix2_header_only_schema_complete",
+              "file_sha256":spec["sha256"],
+              "sheet_count":len(sheets),
+              "sheets":sheets,
+              "worksheet_rows_ge_2_semantically_parsed":0,
+              "island_covariate_values_opened":0,
+              "response_derived_values_opened":0,
+              "presence_absence_response_opened":False,
+              "counts_as_empirical_evidence":False
+          }
+          p=Path("build/global_mammals_appendix2_schema/appendix2_schema.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Enforce mixed-file response firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_appendix2_schema/appendix2_schema.json"
+          ).read_text())
+          assert x["worksheet_rows_ge_2_semantically_parsed"]==0
+          assert x["island_covariate_values_opened"]==0
+          assert x["response_derived_values_opened"]==0
+          assert x["presence_absence_response_opened"] is False
+          print("Appendix2 header-only firewall intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-island-mammals-appendix2-schema-v0-2
+          path: build/global_mammals_appendix2_schema/appendix2_schema.json
+          if-no-files-found: error
+          retention-days: 90
