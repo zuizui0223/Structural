@@ -1,0 +1,108 @@
+name: Boreal lake islands Dryad metadata-only probe v0.65
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Query Dryad metadata only
+        run: |
+          mkdir -p build/boreal_lake_v065
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+
+          A=json.loads(Path(
+              "development/boreal_lake_islands_dryad_metadata_probe_v0_65.json"
+          ).read_text())
+          assert A["status"]=="response_blind_metadata_only"
+          base="https://datadryad.org/api/v2"
+          doi="doi:"+A["dryad_doi"]
+          enc=quote(doi,safe="")
+          headers={
+              "Accept":"application/json",
+              "X-API-Version":"2.1.0",
+              "User-Agent":"Structural-boreal-lake-metadata/0.65",
+          }
+
+          def get(url):
+              req=Request(url,headers=headers,method="GET")
+              with urlopen(req,timeout=60) as r:
+                  return json.loads(r.read())
+
+          dataset=get(f"{base}/datasets/{enc}")
+          versions=get(f"{base}/datasets/{enc}/versions")
+          emb=versions.get("_embedded") or {}
+          rows=emb.get("stash:versions") or emb.get("versions") or []
+          assert rows
+          current=max(rows,key=lambda x:int(x.get("versionNumber") or 0))
+          vid=current.get("id")
+          if vid is None:
+              href=((current.get("_links") or {}).get("self") or {}).get("href","")
+              assert href
+              vid=int(href.rstrip("/").split("/")[-1])
+          files=get(f"{base}/versions/{vid}/files")
+          femb=files.get("_embedded") or {}
+          frows=femb.get("stash:files") or femb.get("files") or []
+          assert frows
+
+          selected=[]
+          for x in frows:
+              selected.append({
+                  "path":x.get("path"),
+                  "size":x.get("size"),
+                  "digest":x.get("digest"),
+                  "digestType":x.get("digestType"),
+                  "mimeType":x.get("mimeType"),
+                  "status":x.get("status"),
+                  "self_href":((x.get("_links") or {}).get("self") or {}).get("href"),
+              })
+          names={x["path"] for x in selected}
+          for expected in A["required_file_names"]:
+              assert expected in names,expected
+
+          out={
+              "schema":"structural.boreal_lake_islands_dryad_metadata_result.v0_65",
+              "status":"metadata_only_file_identity_resolved",
+              "dryad_identifier":dataset.get("identifier"),
+              "dataset_version_number":dataset.get("versionNumber"),
+              "selected_version_id":int(vid),
+              "selected_version_number":current.get("versionNumber"),
+              "file_count":len(selected),
+              "files":sorted(selected,key=lambda x:x["path"] or ""),
+              "file_content_requests":0,
+              "response_values_opened":False,
+              "counts_as_empirical_evidence":False
+          }
+          p=Path("build/boreal_lake_v065/file_metadata.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Enforce metadata-only ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/boreal_lake_v065/file_metadata.json").read_text())
+          assert x["file_content_requests"]==0
+          assert x["response_values_opened"] is False
+          print(f"metadata-only identities resolved: {x['file_count']} files")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: boreal-lake-islands-dryad-metadata-v0-65
+          path: build/boreal_lake_v065/file_metadata.json
+          if-no-files-found: error
+          retention-days: 90
