@@ -1,0 +1,63 @@
+{
+  "schema": "structural.global_mammals_id_only_crosswalk_authorization.v0_61",
+  "status": "one_shot_routing_id_only_before_any_occurrence_value_access",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parent_main_commit": "69d3a45dc13c8eed06f1b1a8e517c8b17f0c2f0e",
+  "allowed_branch_delta": [
+    "development/global_mammals_id_only_crosswalk_authorization_v0_61.json",
+    ".github/workflows/global-mammals-id-crosswalk-v061.yml"
+  ],
+  "safe_weigelt_artifact": {
+    "workflow_run_id": 36316161135,
+    "artifact_id": 10930234623,
+    "artifact_name": "global-mammals-weigelt-safe-rows-v0-60",
+    "artifact_sha256": "467c8d5edc5514ac75107ede7752038497f606fcf7aa42f085269c9a8cd93b31",
+    "csv_name": "weigelt_islanddata_safe_v0_60.csv",
+    "csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "row_count": 17883,
+    "distinct_id_count": 17883
+  },
+  "mammal_response_identity": {
+    "dryad_doi": "10.5061/dryad.hmgqnk9j2",
+    "version_id": 299966,
+    "version_number": 6,
+    "path": "Appendix_1_presence_absence.csv",
+    "size_bytes": 60486843,
+    "sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "source_reported_islands": 5592,
+    "expected_routing_header": "id_spatial_island"
+  },
+  "allowed_semantic_reads": [
+    "the first CSV field of the header row only",
+    "the first CSV field of each mammal data row only",
+    "safe Weigelt id and already-open response-independent safe fields for exact matched IDs only"
+  ],
+  "forbidden_semantic_reads": [
+    "any species header after the first CSV field",
+    "any 0/1 mammal occurrence value",
+    "any species name from the response matrix",
+    "any response-derived richness or diversity value"
+  ],
+  "success_conditions": [
+    "exact response bytes match frozen size and SHA-256",
+    "routing header equals id_spatial_island",
+    "exactly 5592 nonblank unique routing IDs are decoded",
+    "all 5592 routing IDs are exact members of the 17883 Weigelt id set",
+    "no outcome or species header value is decoded"
+  ],
+  "permitted_outputs": [
+    "routing row count",
+    "distinct routing ID count",
+    "duplicate routing IDs",
+    "matched/unmatched Weigelt ID counts and unmatched IDs",
+    "matched safe-field null counts",
+    "matched archip and name-coordinate completeness counts",
+    "crosswalk SHA-256"
+  ],
+  "occurrence_values_opened_expected": 0,
+  "species_headers_opened_expected": 0,
+  "counts_as_empirical_evidence": false,
+  "v0_11_intake_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false
+}
