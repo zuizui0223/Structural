@@ -1,0 +1,127 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_safe_design_authorization.v0_8",
+  "status": "response_blind_safe_metadata_and_routing_metadata_only",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "files": {
+    "island_metadata": {
+      "key": "data_models_islands.csv",
+      "url": "https://zenodo.org/api/records/11220273/files/data_models_islands.csv/content",
+      "size_bytes": 40604,
+      "md5": "d6bba6528668ced1189f4ae344d0e3e2",
+      "headers": [
+        "ID",
+        "SppRich",
+        "Thre_sp",
+        "Island_FRic",
+        "Island_Red",
+        "SES_FRic",
+        "SES_Red",
+        "Archipielago",
+        "Type",
+        "protected_percentageI_VI",
+        "dContinent_km",
+        "Anntemp_promedio",
+        "Annprec_promedio",
+        "Area_km2",
+        "Elev_max",
+        "SR",
+        "Human_foot",
+        "distance_biggerLandmass"
+      ],
+      "allowed_columns": [
+        "ID",
+        "Archipielago",
+        "Type",
+        "dContinent_km",
+        "Anntemp_promedio",
+        "Annprec_promedio",
+        "Area_km2",
+        "Elev_max",
+        "distance_biggerLandmass"
+      ],
+      "forbidden_columns": [
+        "SppRich",
+        "Thre_sp",
+        "Island_FRic",
+        "Island_Red",
+        "SES_FRic",
+        "SES_Red",
+        "SR"
+      ],
+      "unused_safe_columns": [
+        "protected_percentageI_VI",
+        "Human_foot"
+      ]
+    },
+    "occurrence_workbook": {
+      "key": "Mammal_occurrence_islands.xlsx",
+      "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+      "size_bytes": 1401342,
+      "md5": "be781f82fb6417a8447d8d10045e35ad",
+      "sheet": "occurrence",
+      "dimension": "A1:BDU322",
+      "metadata_headers": [
+        "ID",
+        "Island",
+        "Island_group"
+      ],
+      "species_header_count": 1474,
+      "species_headers_sha256": "1a23562c1397beed83c5c8a7fe2aaccbb94ff39206bec3864c3af82317184a6d",
+      "data_rows": [
+        5,
+        322
+      ]
+    }
+  },
+  "endpoint_documentation": {
+    "source_description": "presence/absence of mammal species by island",
+    "source_analysis_code_presence_rule": "which(isla==1)",
+    "frozen_allowed_occurrence_values": [
+      0,
+      1
+    ],
+    "occurrence_values_may_be_read": false
+  },
+  "required_model_target_safe_fields": [
+    "ID",
+    "Archipielago",
+    "Type",
+    "dContinent_km",
+    "Anntemp_promedio",
+    "Annprec_promedio",
+    "Area_km2",
+    "Elev_max",
+    "distance_biggerLandmass",
+    "Island_group"
+  ],
+  "archipelago_eligibility": {
+    "minimum_safe_metadata_islands": 4,
+    "response_values_used": false
+  },
+  "pilot_split": {
+    "rule": "within each eligible Archipielago, rank ID by SHA256('mammal-source-pool-v1|' + Archipielago + '|' + ID)",
+    "pilot_count": "max(2, ceil(0.20*n_archipelago))",
+    "confirmatory_minimum_per_archipelago": 2
+  },
+  "isolation": {
+    "primary": "upper 25% of dContinent_km among response-independent eligible islands",
+    "sensitivity": [
+      "q70",
+      "q80"
+    ],
+    "sensitivity_may_not_rescue_primary": true
+  },
+  "allowed_semantic_reads": [
+    "data_models_islands header",
+    "data_models_islands allowed_columns only",
+    "occurrence workbook rows 5-322 columns A:C only",
+    "shared-string entries referenced by occurrence A:C only"
+  ],
+  "forbidden_semantic_reads": [
+    "data_models_islands forbidden_columns values",
+    "occurrence workbook columns D:BDU rows 5-322",
+    "any species presence/absence value"
+  ],
+  "occurrence_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
