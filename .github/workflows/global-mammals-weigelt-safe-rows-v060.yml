@@ -1,0 +1,267 @@
+name: Global mammals Weigelt safe rows v0.60
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  safe-rows:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify immutable firewall and two-file delta
+        run: |
+          set -euo pipefail
+          parent="d6d65e7484ad38eb54cbfd0058da795aa8b88cc4"
+          git merge-base --is-ancestor "$parent" HEAD
+          mapfile -t changed < <(git diff --name-only "$parent"...HEAD | sort)
+          test "${#changed[@]}" -eq 2
+          test "${changed[0]}" = ".github/workflows/global-mammals-weigelt-safe-rows-v060.yml"
+          test "${changed[1]}" = "development/global_mammals_weigelt_safe_rows_authorization_v0_60.json"
+
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          A=json.loads(Path(
+              "development/global_mammals_weigelt_safe_rows_authorization_v0_60.json"
+          ).read_text())
+          assert A["status"]=="one_shot_response_independent_safe_row_extraction"
+          for path,key in [
+              ("development/global_mammals_weigelt_safe_column_firewall_v0_59.json","safe_column_firewall"),
+              ("development/global_island_mammals_safe_mirror_v0_56.json","safe_mirror"),
+          ]:
+              observed=subprocess.check_output(
+                  ["git","rev-parse",f"HEAD:{path}"],text=True
+              ).strip()
+              assert observed==A["frozen_git_blobs"][key],(path,observed,A["frozen_git_blobs"][key])
+
+          fw=json.loads(Path(
+              "development/global_mammals_weigelt_safe_column_firewall_v0_59.json"
+          ).read_text())
+          assert fw["status"]=="safe_columns_frozen_before_row_value_access"
+          assert fw["row_values_opened_so_far"]==0
+          assert fw["mammal_response_opened"] is False
+          assert len(fw["safe_columns"])==23
+          assert set(fw["safe_columns"]).isdisjoint(set(fw["forbidden_columns"]))
+          print("immutable v0.59 firewall identity OK")
+          PY
+
+      - name: Stream reference.gpkg and extract frozen safe columns only
+        run: |
+          mkdir -p build/global_mammals_weigelt_v060
+          python - <<'PY'
+          import binascii
+          import csv
+          import hashlib
+          import json
+          import math
+          import sqlite3
+          import struct
+          import zlib
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          ROOT=Path(".")
+          OUT=Path("build/global_mammals_weigelt_v060")
+          A=json.loads((ROOT/"development/global_mammals_weigelt_safe_rows_authorization_v0_60.json").read_text())
+          FW=json.loads((ROOT/"development/global_mammals_weigelt_safe_column_firewall_v0_59.json").read_text())
+          src=A["source"]
+          url=src["download_url"]
+          gpkg=OUT/"reference.gpkg"
+
+          def open_range(start,end):
+              req=Request(
+                  url,
+                  headers={
+                      "Range":f"bytes={start}-{end}",
+                      "User-Agent":"Structural-Weigelt-safe-rows/0.60",
+                  },
+                  method="GET",
+              )
+              r=urlopen(req,timeout=120)
+              assert getattr(r,"status",None)==206,(getattr(r,"status",None),r.headers.get("Content-Range"))
+              return r
+
+          local=src["local_header_offset"]
+          with open_range(local,local+65535) as r:
+              hb=r.read()
+          assert hb[:4]==b"PK\x03\x04"
+          (
+              sig,ver_need,flag,method,mtime,mdate,crc_local,
+              comp_local,uncomp_local,name_len,extra_len
+          )=struct.unpack("<4s5H3L2H",hb[:30])
+          assert sig==b"PK\x03\x04"
+          assert method==src["compression_method"]
+          name=hb[30:30+name_len].decode("utf-8" if flag & 0x800 else "cp437")
+          assert name==src["target_member"],(name,src["target_member"])
+          payload_start=local+30+name_len+extra_len
+          payload_end=payload_start+src["compressed_size"]-1
+
+          dec=zlib.decompressobj(-15)
+          sha=hashlib.sha256()
+          crc=0
+          comp_seen=0
+          uncomp_seen=0
+          with open_range(payload_start,payload_end) as r, gpkg.open("wb") as fout:
+              while True:
+                  chunk=r.read(8*1024*1024)
+                  if not chunk:
+                      break
+                  comp_seen+=len(chunk)
+                  data=dec.decompress(chunk)
+                  if data:
+                      fout.write(data)
+                      sha.update(data)
+                      crc=binascii.crc32(data,crc)
+                      uncomp_seen+=len(data)
+              tail=dec.flush()
+              if tail:
+                  fout.write(tail)
+                  sha.update(tail)
+                  crc=binascii.crc32(tail,crc)
+                  uncomp_seen+=len(tail)
+
+          assert comp_seen==src["compressed_size"]
+          assert uncomp_seen==src["uncompressed_size"]
+          assert f"{crc & 0xffffffff:08x}"==src["crc32_hex"]
+          assert sha.hexdigest()==src["expected_gpkg_sha256"]
+
+          safe=list(FW["safe_columns"])
+          forbidden=set(FW["forbidden_columns"])
+          assert set(safe).isdisjoint(forbidden)
+          assert A["extraction"]["output_columns_must_equal_frozen_safe_columns"] is True
+
+          con=sqlite3.connect(f"file:{gpkg}?mode=ro",uri=True)
+          con.execute("PRAGMA query_only=ON")
+          actual=[row[1] for row in con.execute('PRAGMA table_info("islanddata")')]
+          assert set(safe) <= set(actual)
+
+          quoted=",".join('"'+c.replace('"','""')+'"' for c in safe)
+          sql=f'SELECT {quoted} FROM "islanddata" ORDER BY "id"'
+          cur=con.execute(sql)
+
+          csv_path=OUT/"weigelt_islanddata_safe_v0_60.csv"
+          h=hashlib.sha256()
+          null_counts={c:0 for c in safe}
+          numeric_cols=[
+              "id","name_id","name_long","name_lat","no_names","name_dist",
+              "area","dist","slmp","gmmc","elev","temp","vart","ccvt","prec","varp"
+          ]
+          minmax={c:{"min":None,"max":None} for c in numeric_cols}
+          row_count=0
+          ids=set()
+
+          # Write to an in-memory line buffer per row only; never load the full table.
+          with csv_path.open("w",newline="",encoding="utf-8") as fout:
+              writer=csv.writer(fout,lineterminator="\n")
+              header_line=",".join(safe)+"\n"
+              fout.write(header_line)
+              h.update(header_line.encode("utf-8"))
+              for row in cur:
+                  row_count+=1
+                  d=dict(zip(safe,row))
+                  iid=d["id"]
+                  assert iid is not None
+                  assert iid not in ids,f"duplicate id {iid}"
+                  ids.add(iid)
+                  for c,v in d.items():
+                      if v is None:
+                          null_counts[c]+=1
+                  for c in numeric_cols:
+                      v=d[c]
+                      if v is None:
+                          continue
+                      fv=float(v)
+                      assert math.isfinite(fv)
+                      mm=minmax[c]
+                      mm["min"]=fv if mm["min"] is None or fv<mm["min"] else mm["min"]
+                      mm["max"]=fv if mm["max"] is None or fv>mm["max"] else mm["max"]
+
+                  # Use csv module for exact escaping, then hash exact emitted bytes.
+                  import io
+                  buf=io.StringIO(newline="")
+                  bw=csv.writer(buf,lineterminator="\n")
+                  bw.writerow(row)
+                  line=buf.getvalue()
+                  fout.write(line)
+                  h.update(line.encode("utf-8"))
+
+          con.close()
+          assert row_count==A["extraction"]["expected_rows"]
+          assert len(ids)==row_count
+          safe_sha=h.hexdigest()
+          actual_sha=hashlib.sha256(csv_path.read_bytes()).hexdigest()
+          assert safe_sha==actual_sha
+
+          receipt={
+              "schema":"structural.global_mammals_weigelt_safe_rows_result.v0_60",
+              "status":"safe_islanddata_rows_extracted",
+              "source_gpkg_sha256":src["expected_gpkg_sha256"],
+              "source_table":"islanddata",
+              "safe_columns":safe,
+              "safe_column_count":len(safe),
+              "row_count":row_count,
+              "distinct_id_count":len(ids),
+              "safe_csv_sha256":safe_sha,
+              "safe_csv_bytes":csv_path.stat().st_size,
+              "null_counts":null_counts,
+              "numeric_minmax":minmax,
+              "forbidden_columns_opened":0,
+              "geometry_values_opened":0,
+              "mammal_response_requests":0,
+              "mammal_response_values_opened":False,
+              "counts_as_empirical_evidence":False
+          }
+          (OUT/"safe_rows_receipt.json").write_text(
+              json.dumps(receipt,indent=2,sort_keys=True)+"\n"
+          )
+          print(json.dumps({
+              "status":receipt["status"],
+              "row_count":row_count,
+              "distinct_id_count":len(ids),
+              "safe_csv_sha256":safe_sha,
+              "safe_csv_bytes":receipt["safe_csv_bytes"],
+              "null_counts":null_counts,
+              "numeric_minmax":minmax,
+              "forbidden_columns_opened":0,
+              "geometry_values_opened":0,
+              "mammal_response_requests":0
+          },indent=2,sort_keys=True))
+
+          gpkg.unlink()
+          PY
+
+      - name: Enforce safe-row extraction boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_weigelt_v060/safe_rows_receipt.json"
+          ).read_text())
+          assert x["status"]=="safe_islanddata_rows_extracted"
+          assert x["safe_column_count"]==23
+          assert x["row_count"]==17883
+          assert x["distinct_id_count"]==17883
+          assert x["forbidden_columns_opened"]==0
+          assert x["geometry_values_opened"]==0
+          assert x["mammal_response_requests"]==0
+          assert x["mammal_response_values_opened"] is False
+          print("safe-row extraction boundary intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-rows-v0-60
+          path: |
+            build/global_mammals_weigelt_v060/weigelt_islanddata_safe_v0_60.csv
+            build/global_mammals_weigelt_v060/safe_rows_receipt.json
+          if-no-files-found: error
+          retention-days: 90
