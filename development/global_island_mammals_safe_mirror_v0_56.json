@@ -1,0 +1,83 @@
+{
+  "schema": "structural.global_island_mammals_safe_mirror.v0_56",
+  "status": "figshare_weigelt_mirror_resolved_reference_gpkg_extraction_pending",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "pristine_mammal_response": {
+    "dryad_doi": "10.5061/dryad.hmgqnk9j2",
+    "presence_absence_file": "Appendix_1_presence_absence.csv",
+    "response_opened": false,
+    "response_requests_from_figshare_probes": 0
+  },
+  "mirror_source": {
+    "doi": "10.21942/uva.22788464.v5",
+    "article_id": 22788464,
+    "version": 5,
+    "title": "Island, archipelago, plate, mountain and point labeling dataset",
+    "license": "CC BY 4.0",
+    "public_description": "reference.gpkg contains the Weigelt et al. 2013 islanddata point table without modifications, together with island/archipelago reference geography",
+    "source_file": {
+      "name": "labs.zip",
+      "file_id": 46942207,
+      "size_bytes": 2617794182,
+      "md5": "da14f19b12bae704b9df4e5c380b69fd",
+      "download_url": "https://ndownloader.figshare.com/files/46942207"
+    }
+  },
+  "metadata_probe": {
+    "pull_request": 145,
+    "workflow_run_id": 36313473915,
+    "workflow_job_id": 108603693272,
+    "artifact_id": 10930195674,
+    "file_content_requests": 0,
+    "mammal_response_requests": 0
+  },
+  "zip_directory_probe": {
+    "pull_request": 146,
+    "workflow_run_id": 36313647760,
+    "workflow_job_id": 108604164980,
+    "artifact_id": 10930011372,
+    "artifact_sha256": "bd12b54c4a3ac034d95289f2cca58404ac5d96bb83889e2b75f409b90a40bd77",
+    "total_zip_metadata_bytes_read": 131462,
+    "local_member_payload_bytes_read": 0,
+    "decompressed_payload_bytes_read": 0,
+    "central_directory_offset": 2617793770,
+    "central_directory_size": 390,
+    "entry_count": 4
+  },
+  "reference_gpkg": {
+    "member_name": "reference.gpkg",
+    "compression_method": 8,
+    "compression_name": "deflate",
+    "crc32_hex": "ff89b951",
+    "compressed_size": 2288242143,
+    "uncompressed_size": 3859476480,
+    "local_header_offset": 329551200,
+    "payload_bytes_read_so_far": 0,
+    "decompressed_bytes_read_so_far": 0
+  },
+  "mountains_gpkg": {
+    "member_name": "mountains.gpkg",
+    "compression_method": 8,
+    "crc32_hex": "f2c160f4",
+    "compressed_size": 329550879,
+    "uncompressed_size": 487370752,
+    "local_header_offset": 0,
+    "payload_bytes_read_so_far": 0
+  },
+  "intended_safe_extraction": {
+    "target_member": "reference.gpkg",
+    "reason": "recover response-independent Weigelt islanddata and reference island/archipelago geometry without opening mammal outcomes",
+    "full_labs_zip_download_required": false,
+    "exact_member_range_can_be_derived_from_local_header": true,
+    "mammal_response_access_authorized": false,
+    "next_gate": "one-shot response-independent reference.gpkg member extraction and islanddata schema/safe-column audit"
+  },
+  "evidence_boundary": {
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "mammal_response_opened": false,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  }
+}
