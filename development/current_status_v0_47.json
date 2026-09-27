@@ -1,0 +1,58 @@
+{
+  "schema": "structural.current_status.v0_47",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_46.json",
+  "authoritative_fresh_empirical_registry": {
+    "path": "development/connectivity_candidate_registry_v0_45.json",
+    "expected_status": "no_active_empirical_candidate_after_atoll_terminal_endpoint_domain_stop",
+    "expected_active_empirical_candidates": []
+  },
+  "live_confirmatory_queue": {
+    "path": "development/confirmatory_admission_queue_v0_42.json",
+    "expected_entry_count": 0,
+    "confirmatory_response_authorized": false
+  },
+  "pristine_preintake_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "path": "development/global_island_mammals_preintake_v0_1.json",
+    "status": "HOLD_safe_island_covariate_transport_unresolved",
+    "islands_reported_by_source": 5592,
+    "raw_presence_absence_response_opened": false,
+    "counts_as_active_empirical_candidate": false,
+    "counts_as_confirmatory_evidence": false,
+    "reason": "current Dryad Appendix_2 mixed-file transport is blocked; response-independent centroid/isolation covariates cannot yet be frozen without opening forbidden summaries"
+  },
+  "independent_stress_test": {
+    "registry_path": "development/independent_stress_test_registry_v0_47.json",
+    "candidate_id": "zenodo_318_island_mammals_2024",
+    "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+    "design_was_frozen_before_summary_exposure": true,
+    "raw_species_occurrence_matrix_opened": false,
+    "pilot_islands": 65,
+    "heldout_islands": 244,
+    "q75_dContinent_km": 1124.41,
+    "pilot_protocol_fingerprint": "98dd81e471f165303503f88fc02ce6b22c624ea9c2b9a72a635869d047fdba9f",
+    "quality_contract_fingerprint": "9b6b61c927ae6e5246821781bb842edcf98dd8dd57d5b63246ba5aeb98f57c2a",
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false
+  },
+  "terminal_atoll_system": {
+    "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+    "failure_class": "endpoint_value_domain_mismatch",
+    "pilot_response_accessed": true,
+    "confirmatory_response_accessed": false,
+    "source_pool_handoff_scored": false,
+    "rerun_authorized": false
+  },
+  "fresh_confirmatory_eligible_systems": [],
+  "fresh_confirmatory_eligible_count": 0,
+  "next_valid_scientific_event": "merge the v0.47 stress-test pre-pilot freeze CI-green, then execute exactly one response-firewalled pilot opening of the 65 frozen islands in the 318-island mammal matrix; never count that lane as fresh confirmation. Independently keep the 5,592-island mammal system response-sealed until safe geography becomes available.",
+  "active_docs": [
+    "docs/AISLANDS_SOURCE_POOL_HANDOFF_V0_1.md",
+    "docs/AISLANDS_ISLAND_BIOGEOGRAPHY_PAPER_V0_1.md",
+    "docs/INDO_PACIFIC_ATOLL_TERMINAL_V0_22.md",
+    "docs/GLOBAL_ISLAND_MAMMALS_PREINTAKE_V0_1.md",
+    "docs/ZENODO_318_MAMMAL_STRESS_TEST_V0_47.md",
+    "docs/CURRENT_STATUS_V0_47.md"
+  ]
+}
