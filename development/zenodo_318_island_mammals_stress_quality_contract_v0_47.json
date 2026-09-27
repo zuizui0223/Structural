@@ -1,0 +1,9 @@
+{
+  "contract_id": "zenodo-318-mammal-stress-quality-v0.47-20260927",
+  "system_id": "zenodo_318_island_mammals_2024_stress",
+  "parent_protocol_fingerprint": "98dd81e471f165303503f88fc02ce6b22c624ea9c2b9a72a635869d047fdba9f",
+  "minimum_response_qualified_blocks": 3,
+  "response_quality_semantics": "A pilot island is response-qualified only if the fixed pilot-supported species universe yields at least minimum_test_rows exact binary occurrence targets on that island. Any unexpected occurrence value outside 0/1, missing frozen pilot island, schema drift, or inability to build the common species universe is a terminal stress-test STOP. No island, species, threshold, or partition may be rescued or changed after occurrence access.",
+  "pilot_response_accessed": false,
+  "confirmatory_response_accessed": false
+}

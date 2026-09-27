@@ -1,0 +1,36 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_evidence_class.v0_47",
+  "status": "design_frozen_response_summary_exposed_independent_stress_test",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "raw_species_occurrence_matrix_opened": false,
+  "species_occurrence_values_opened": 0,
+  "exposure": {
+    "occurred_after_safe_design_freeze": true,
+    "occurred_before_species_support_rule_and_pilot_protocol_freeze": true,
+    "exposed_material": "public preview of island-level response-derived summary columns in data_models_islands.csv",
+    "exposed_columns": [
+      "SppRich",
+      "Thre_sp",
+      "Island_FRic",
+      "Island_Red",
+      "SES_FRic",
+      "SES_Red",
+      "SR"
+    ],
+    "did_not_expose": "the 1,474-species occurrence matrix values",
+    "scientific_consequence": "system is not pristine fresh confirmation and may not enter the fresh confirmatory denominator"
+  },
+  "protected_pre_exposure_design": {
+    "safe_design_sha256": "d35a583b9b5fd6b5073db11f25ec9584796ba463f19ac5498b9a41d21aa387db",
+    "eligible_archipelagos": 8,
+    "eligible_islands": 309,
+    "pilot_islands": 65,
+    "confirmatory_islands": 244,
+    "q75_dContinent_km": 1124.41,
+    "reference_ladder_predeclared": true,
+    "primary_source_pool_handoff_prediction_predeclared": true
+  },
+  "permitted_use": "independent design-frozen heldout stress test only",
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false
+}

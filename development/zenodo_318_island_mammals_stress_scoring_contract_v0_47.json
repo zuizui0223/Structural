@@ -1,0 +1,77 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_stress_scoring_contract.v0_47",
+  "status": "frozen_before_raw_species_occurrence_access",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "training_partition": "65 frozen pilot islands only",
+  "heldout_partition": "244 frozen confirmatory islands only",
+  "species_universe": "species with occurrence=1 on at least two distinct frozen pilot islands; fixed after pilot and identical for every scoring island",
+  "target": "exact binary species occurrence 0/1",
+  "reference_models": {
+    "R0": [
+      "intercept",
+      "Archipielago categorical fixed effects",
+      "z_Anntemp_promedio",
+      "z_Annprec_promedio",
+      "z_Elev_max"
+    ],
+    "R1_add": [
+      "z_log1p_Area_km2",
+      "z_log1p_dContinent_km",
+      "z_log1p_distance_biggerLandmass",
+      "Type_Isolated"
+    ],
+    "R3_add": [
+      "pilot_global_occupancy_logit"
+    ],
+    "C_add": [
+      "pilot_within_archipelago_source_logit",
+      "pilot_within_archipelago_source_logit_x_extreme_q75"
+    ]
+  },
+  "transformations": {
+    "continuous_standardization": "pilot-island mean and population SD; zero SD is terminal STOP",
+    "occupancy_smoothing": "Jeffreys: (k+0.5)/(n+1), then logit",
+    "pilot_global_occupancy": "for a pilot training row, exclude the focal island; for a confirmatory row, use all 65 pilot islands",
+    "within_archipelago_source": "for a pilot training row, exclude the focal pilot island from numerator/denominator; for a confirmatory row, use all pilot islands in the same frozen archipelago",
+    "extreme_q75": "dContinent_km >= 1124.41"
+  },
+  "fitting": {
+    "model": "binary logistic regression by deterministic IRLS",
+    "ridge_lambda": 1,
+    "penalized_coefficients": "all non-intercept coefficients including categorical effects",
+    "max_iterations": 100,
+    "convergence_tolerance": 1e-8,
+    "probability_clip": [
+      1e-12,
+      0.999999999999
+    ]
+  },
+  "primary_estimand": "mean(C_minus_R3 heldout log loss | extreme_q75) minus mean(C_minus_R3 heldout log loss | non_extreme)",
+  "primary_prediction": "negative",
+  "primary_support_rule": "primary point estimate < 0 and archipelago-cluster bootstrap 95% upper confidence limit < 0",
+  "secondary_estimands": [
+    "mean C_minus_R3 heldout log loss among extreme_q75 islands; predicted negative",
+    "overall mean C_minus_R3 heldout log loss; descriptive only",
+    "Type-specific C_minus_R3 contrast; exploratory secondary and cannot rescue primary"
+  ],
+  "uncertainty": {
+    "bootstrap_unit": "Archipielago",
+    "replicates": 10000,
+    "seed": 20260927,
+    "quantile_method": "linear",
+    "invalid_replicate_rule": "discard replicate only if it contains no extreme or no non-extreme heldout island; report accepted count"
+  },
+  "no_post_occurrence_changes": [
+    "species support threshold",
+    "pilot/confirmatory island membership",
+    "q75 threshold",
+    "reference predictors",
+    "source-pool operator",
+    "model penalty",
+    "primary estimand",
+    "bootstrap rule"
+  ],
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false
+}
