@@ -1,0 +1,44 @@
+{
+  "schema": "structural.current_status.v0_59",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_56.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_before_any_future_fresh_system_response"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_safe_weigelt_row_extraction_and_id_crosswalk_pending",
+    "raw_presence_absence_response_opened": false,
+    "response_requests": 0,
+    "reference_gpkg_schema_path": "development/global_mammals_reference_gpkg_schema_result_v0_58.json",
+    "safe_column_firewall_path": "development/global_mammals_weigelt_safe_column_firewall_v0_59.json",
+    "reference_gpkg_sha256": "23aa124cfa0a4bb170df5a672ee0b50672c0de900cd8829046fc8ecae16d7f13",
+    "islanddata_rows": 17883,
+    "safe_island_id_column": "id",
+    "safe_coordinates": [
+      "name_long",
+      "name_lat"
+    ],
+    "safe_external_isolation": [
+      "dist",
+      "slmp",
+      "gmmc"
+    ],
+    "next_blocker": "extract only the frozen safe islanddata columns, then audit whether mammal routing ID id_spatial_island matches Weigelt id without decoding any 0/1 species-response cell"
+  },
+  "completed_318_mammal_stress": {
+    "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "response_consumed": true,
+    "primary_remote_amplification_supported": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "next_valid_scientific_event": "one-shot extraction of the v0.59 Weigelt safe columns followed by response-value-blind routing-ID crosswalk; mammal 0/1 matrix values must remain sealed",
+  "ecological_conclusion": "The dual-isolation hypothesis is prospectively frozen. The pristine 5,592-island system now has an independently auditable global island geography source and a frozen safe-column firewall, but it has not yet entered v0.11 intake."
+}
