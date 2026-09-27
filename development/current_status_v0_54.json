@@ -1,0 +1,65 @@
+{
+  "schema": "structural.current_status.v0_54",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_51.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_safe_island_covariate_transport_unresolved",
+    "islands_reported_by_source": 5592,
+    "raw_presence_absence_response_opened": false,
+    "counts_as_active_empirical_candidate": false,
+    "counts_as_confirmatory_evidence": false
+  },
+  "completed_independent_stress_test": {
+    "candidate_id": "zenodo_318_island_mammals_2024",
+    "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+    "pilot_status": "qualified_65_of_65",
+    "heldout_status": "scored_244_islands_once",
+    "species_count": 233,
+    "scored_rows": 56852,
+    "primary_prediction": "negative extreme-minus-nonextreme C_minus_R3",
+    "primary_point": 0.04545173576685289,
+    "primary_ci_95": [
+      -0.0031904317577055308,
+      0.08835839946973478
+    ],
+    "primary_supported": false,
+    "overall_descriptive_C_minus_R3": -0.0896429472299821,
+    "extreme_descriptive_C_minus_R3": -0.055926700616046134,
+    "nonextreme_descriptive_C_minus_R3": -0.10137843638289902,
+    "heldout_response_consumed": true,
+    "rerun_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false
+  },
+  "terminal_atoll_system": {
+    "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+    "failure_class": "endpoint_value_domain_mismatch",
+    "pilot_response_accessed": true,
+    "confirmatory_response_accessed": false,
+    "source_pool_handoff_scored": false,
+    "rerun_authorized": false
+  },
+  "ecological_synthesis": {
+    "path": "development/source_pool_handoff_cross_system_synthesis_v0_54.json",
+    "conclusion": "Occupied insular source pools can be informative, but extreme mainland/continent isolation is not supported as a universal amplifier of that information.",
+    "A_Islands_status": "discovery_only",
+    "mammal_stress_status": "independent_stress_primary_unsupported"
+  },
+  "next_valid_scientific_event": "do not mine or rerun the completed 318-island stress test. Either resolve the pristine 5,592-island mammal safe-geography HOLD without opening its response, or wait for another genuinely response-sealed island system to test a prospectively frozen next-generation source-pool hypothesis.",
+  "active_docs": [
+    "docs/AISLANDS_SOURCE_POOL_HANDOFF_V0_1.md",
+    "docs/AISLANDS_ISLAND_BIOGEOGRAPHY_PAPER_V0_1.md",
+    "docs/INDO_PACIFIC_ATOLL_TERMINAL_V0_22.md",
+    "docs/GLOBAL_ISLAND_MAMMALS_PREINTAKE_V0_1.md",
+    "docs/ZENODO_318_MAMMAL_STRESS_RESULT_V0_54.md",
+    "docs/SOURCE_POOL_HANDOFF_CROSS_SYSTEM_V0_54.md",
+    "docs/CURRENT_STATUS_V0_54.md"
+  ]
+}
