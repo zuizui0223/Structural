@@ -1,0 +1,151 @@
+name: Global mammals Figshare ZIP directory audit v0.57
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  zip-directory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read ZIP central directory only
+        run: |
+          mkdir -p build/global_mammals_figshare_v057
+          python - <<'PY'
+          import json, struct
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          A=json.loads(Path(
+              "development/global_mammals_figshare_zip_directory_probe_v0_57.json"
+          ).read_text())
+          src=A["source"]
+          size=src["size_bytes"]
+          url=src["download_url"]
+
+          requests=[]
+
+          def range_get(start,end):
+              req=Request(
+                  url,
+                  headers={
+                      "Range":f"bytes={start}-{end}",
+                      "User-Agent":"Structural-Figshare-ZIP-directory/0.57",
+                  },
+                  method="GET",
+              )
+              with urlopen(req,timeout=90) as r:
+                  status=getattr(r,"status",None)
+                  data=r.read()
+                  content_range=r.headers.get("Content-Range")
+              requests.append({
+                  "start":start,"end":end,"status":status,
+                  "bytes_received":len(data),"content_range":content_range
+              })
+              assert status==206,(status,content_range,len(data))
+              assert len(data)==end-start+1,(len(data),end-start+1)
+              return data
+
+          tail_len=min(131072,size)
+          tail_start=size-tail_len
+          tail=range_get(tail_start,size-1)
+          sig=b"PK\x05\x06"
+          pos=tail.rfind(sig)
+          assert pos>=0,"EOCD not found in frozen tail range"
+          eocd=tail[pos:pos+22]
+          assert len(eocd)>=22
+          (
+              signature,disk_no,cd_disk,disk_entries,total_entries,
+              cd_size,cd_offset,comment_len
+          )=struct.unpack("<4s4H2LH",eocd)
+          assert signature==sig
+          assert disk_no==0 and cd_disk==0
+          assert disk_entries==total_entries
+          assert cd_offset!=0xFFFFFFFF and cd_size!=0xFFFFFFFF, "Zip64 central directory not supported by v0.57"
+          assert total_entries>0
+          assert cd_offset+cd_size<=size
+
+          cd=range_get(cd_offset,cd_offset+cd_size-1)
+          entries=[]
+          i=0
+          while i<len(cd):
+              assert cd[i:i+4]==b"PK\x01\x02",("bad central header",i,cd[i:i+4])
+              fixed=cd[i:i+46]
+              vals=struct.unpack("<4s6H3L5H2L",fixed)
+              (
+                  _sig,ver_made,ver_need,flag,method,mtime,mdate,
+                  crc32,comp_size,uncomp_size,
+                  name_len,extra_len,comment_len,disk_start,
+                  int_attr,ext_attr,local_offset
+              )=vals
+              j=i+46
+              name_b=cd[j:j+name_len]
+              extra=cd[j+name_len:j+name_len+extra_len]
+              comment=cd[j+name_len+extra_len:j+name_len+extra_len+comment_len]
+              assert comp_size!=0xFFFFFFFF and uncomp_size!=0xFFFFFFFF and local_offset!=0xFFFFFFFF, "Zip64 entry not supported by v0.57"
+              encoding="utf-8" if flag & 0x800 else "cp437"
+              name=name_b.decode(encoding)
+              entries.append({
+                  "name":name,
+                  "compression_method":method,
+                  "crc32_hex":f"{crc32:08x}",
+                  "compressed_size":comp_size,
+                  "uncompressed_size":uncomp_size,
+                  "local_header_offset":local_offset,
+                  "general_purpose_flag":flag,
+                  "extra_length":extra_len,
+                  "comment_length":comment_len
+              })
+              i=j+name_len+extra_len+comment_len
+          assert i==len(cd)
+          assert len(entries)==total_entries
+
+          out={
+              "schema":"structural.global_mammals_figshare_zip_directory_result.v0_57",
+              "status":"zip_directory_only_complete",
+              "source_file_name":src["file_name"],
+              "source_size_bytes":size,
+              "central_directory_offset":cd_offset,
+              "central_directory_size":cd_size,
+              "entry_count":total_entries,
+              "entries":entries,
+              "http_range_requests":requests,
+              "total_payload_bytes_read":sum(x["bytes_received"] for x in requests),
+              "local_file_payload_bytes_read":0,
+              "decompressed_payload_bytes_read":0,
+              "mammal_response_requests":0,
+              "mammal_response_values_opened":False,
+              "counts_as_empirical_evidence":False
+          }
+          p=Path("build/global_mammals_figshare_v057/zip_directory.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Enforce directory-only ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_figshare_v057/zip_directory.json"
+          ).read_text())
+          assert x["local_file_payload_bytes_read"]==0
+          assert x["decompressed_payload_bytes_read"]==0
+          assert x["mammal_response_requests"]==0
+          assert x["mammal_response_values_opened"] is False
+          assert x["entry_count"]==len(x["entries"])>0
+          print("ZIP directory-only ceiling intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-figshare-zip-directory-v0-57
+          path: build/global_mammals_figshare_v057/zip_directory.json
+          if-no-files-found: error
+          retention-days: 90
