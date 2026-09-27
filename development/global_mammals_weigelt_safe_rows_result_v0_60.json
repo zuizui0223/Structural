@@ -1,0 +1,108 @@
+{
+  "schema": "structural.global_mammals_weigelt_safe_rows_result.v0_60",
+  "status": "safe_islanddata_rows_extracted",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "execution": {
+    "pull_request": 150,
+    "workflow_run_id": 36316161135,
+    "workflow_job_id": 108611151749,
+    "artifact_id": 10930234623,
+    "artifact_sha256": "467c8d5edc5514ac75107ede7752038497f606fcf7aa42f085269c9a8cd93b31"
+  },
+  "source": {
+    "gpkg_sha256": "23aa124cfa0a4bb170df5a672ee0b50672c0de900cd8829046fc8ecae16d7f13",
+    "table": "islanddata",
+    "firewall_path": "development/global_mammals_weigelt_safe_column_firewall_v0_59.json"
+  },
+  "output": {
+    "safe_columns": [
+      "id",
+      "countryiso",
+      "country",
+      "archip",
+      "island",
+      "gazetteer",
+      "name_id",
+      "name_long",
+      "name_lat",
+      "no_names",
+      "name_dist",
+      "name_meth",
+      "name_alt",
+      "area",
+      "dist",
+      "slmp",
+      "gmmc",
+      "elev",
+      "temp",
+      "vart",
+      "ccvt",
+      "prec",
+      "varp"
+    ],
+    "safe_column_count": 23,
+    "row_count": 17883,
+    "distinct_id_count": 17883,
+    "csv_bytes": 2325047,
+    "csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af"
+  },
+  "null_counts": {
+    "id": 0,
+    "countryiso": 0,
+    "country": 0,
+    "archip": 6587,
+    "island": 6337,
+    "gazetteer": 6337,
+    "name_id": 0,
+    "name_long": 6337,
+    "name_lat": 6337,
+    "no_names": 0,
+    "name_dist": 6337,
+    "name_meth": 6337,
+    "name_alt": 16205,
+    "area": 0,
+    "dist": 0,
+    "slmp": 0,
+    "gmmc": 0,
+    "elev": 0,
+    "temp": 0,
+    "vart": 0,
+    "ccvt": 0,
+    "prec": 0,
+    "varp": 0
+  },
+  "complete_core_external_reference_fields": [
+    "id",
+    "countryiso",
+    "country",
+    "area",
+    "dist",
+    "slmp",
+    "gmmc",
+    "elev",
+    "temp",
+    "vart",
+    "ccvt",
+    "prec",
+    "varp"
+  ],
+  "incomplete_optional_network_fields": {
+    "archip_missing": 6587,
+    "name_long_missing": 6337,
+    "name_lat_missing": 6337
+  },
+  "ecological_design_consequence": {
+    "external_isolation_reference": "can be defined over all 17,883 Weigelt rows because area/dist/slmp/gmmc/elevation/climate fields are complete",
+    "archipelago_permeability": "cannot be assumed complete globally; any use of archip or name coordinates requires a prospectively frozen response-independent eligibility rule",
+    "mammal_test_population": "not yet known because mammal routing-ID crosswalk has not been opened"
+  },
+  "evidence_boundary": {
+    "forbidden_columns_opened": 0,
+    "geometry_values_opened": 0,
+    "mammal_response_requests": 0,
+    "mammal_response_values_opened": false,
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "next_action": "open only the mammal response routing ID field and test exact set membership against Weigelt id; do not decode species headers or any 0/1 occurrence cell"
+}
