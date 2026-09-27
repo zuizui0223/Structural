@@ -1,0 +1,106 @@
+{
+  "schema": "structural.global_mammals_transport_hold.v0_64",
+  "status": "HOLD_exact_response_bytes_transport_blocked_after_final_pre_response_retry",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scientific_state": {
+    "prospective_hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "safe_weigelt_rows": "development/global_mammals_weigelt_safe_rows_result_v0_60.json",
+    "safe_weigelt_rows_count": 17883,
+    "safe_weigelt_distinct_ids": 17883,
+    "safe_weigelt_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "external_isolation_reference_complete": true,
+    "mammal_test_population_not_yet_crosswalked": true,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "response_identity": {
+    "dryad_doi": "10.5061/dryad.hmgqnk9j2",
+    "version_id": 299966,
+    "version_number": 6,
+    "path": "Appendix_1_presence_absence.csv",
+    "size_bytes": 60486843,
+    "sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "source_reported_islands": 5592,
+    "documented_join": "Appendix 1 row/island IDs correspond to the ID column in Appendix 2",
+    "biological_response_values_opened": false
+  },
+  "frozen_id_crosswalk_semantics": {
+    "semantic_open": "first CSV field of header and each data row only",
+    "species_header_fields_semantically_opened": 0,
+    "species_occurrence_cells_semantically_opened": 0,
+    "expected_data_records": 5592,
+    "id_normalization": "strip surrounding whitespace; if the routing value matches nonnegative integer or integer-with-only-zero-decimal syntax, canonicalize to base-10 integer string; otherwise retain exact stripped UTF-8 string",
+    "join_target": "Weigelt safe CSV id",
+    "join_rule": "exact canonical-ID membership only",
+    "forbidden_fallbacks": [
+      "island-name fuzzy matching",
+      "coordinate nearest-neighbour matching",
+      "archipelago-assisted matching",
+      "manual outcome-informed matching"
+    ]
+  },
+  "transport_attempts": [
+    {
+      "version": "v0.61",
+      "pull_request": 152,
+      "workflow_run_id": 36316852189,
+      "workflow_job_id": 108613065216,
+      "endpoint": "/api/v2/files/{id}/download",
+      "result": "HTTP_401_before_response_bytes",
+      "response_bytes_read": 0,
+      "routing_ids_decoded": 0,
+      "species_headers_decoded": 0,
+      "occurrence_values_decoded": 0
+    },
+    {
+      "version": "v0.62",
+      "pull_request": 154,
+      "workflow_run_id": 36317017233,
+      "workflow_job_id": 108613526642,
+      "endpoint": "/downloads/file_stream/{id}",
+      "result": "HTTP_403_before_response_bytes",
+      "response_bytes_read": 0,
+      "routing_ids_decoded": 0,
+      "species_headers_decoded": 0,
+      "occurrence_values_decoded": 0
+    },
+    {
+      "version": "v0.63",
+      "pull_request": 155,
+      "workflow_run_id": 36317236569,
+      "workflow_job_id": 108614144132,
+      "endpoint": "/stash/downloads/file_stream/{id}",
+      "result": "HTTP_403_before_response_bytes",
+      "response_bytes_read": 0,
+      "routing_ids_decoded": 0,
+      "species_headers_decoded": 0,
+      "occurrence_values_decoded": 0
+    }
+  ],
+  "final_transport_rule": {
+    "further_Dryad_endpoint_retries_authorized": false,
+    "alternate_exact_byte_source_may_resume": true,
+    "resume_only_if": [
+      "candidate bytes are exactly 60486843 bytes",
+      "candidate SHA-256 equals 32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+      "source provenance is independently auditable or the exact file is explicitly supplied without semantic preprocessing"
+    ],
+    "resume_action": "run the already-frozen ID-only semantic crosswalk; do not redesign or relax matching",
+    "if_exact_bytes_unavailable": "remain HOLD or move to a different genuinely new response-sealed island system"
+  },
+  "public_mirror_search": {
+    "exact_current_matrix_alternate_mirror_found": false,
+    "figshare_supplementary_collection_identified": true,
+    "figshare_supplement_is_not_an_exact_current_Appendix_1_mirror": true,
+    "note": "The publisher/PMC record cites both Figshare supplementary material and Dryad, but no independently verifiable mirror of the frozen 2024 Appendix_1_presence_absence.csv bytes was identified."
+  },
+  "evidence_boundary": {
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "response_bytes_read_across_transport_attempts": 0,
+    "routing_ids_decoded_across_transport_attempts": 0,
+    "species_headers_decoded_across_transport_attempts": 0,
+    "occurrence_values_decoded_across_transport_attempts": 0
+  }
+}

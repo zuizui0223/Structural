@@ -1,0 +1,26 @@
+{
+  "schema": "structural.active_priority.v0_64",
+  "status": "dual_isolation_hypothesis_frozen_pristine_mammal_transport_hold",
+  "supersedes": "development/structural_active_priority_v0_55.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "pristine_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "transport_hold_path": "development/global_mammals_transport_hold_v0_64.json",
+    "safe_geography_complete": true,
+    "response_opened": false,
+    "routing_ids_opened": false,
+    "further_Dryad_transport_retries_authorized": false
+  },
+  "active_goal": "preserve the pristine 5,592-island mammal system without endpoint or transport improvisation; resume only from exact frozen Appendix_1 bytes or move to another independently response-sealed island system",
+  "next_action": "wait for an independently auditable exact-byte route to the frozen Appendix_1 file or identify a new v0.55-compatible response-sealed island system",
+  "prohibited": [
+    "retry additional Dryad URL variants",
+    "use the older 2023 response version as a silent substitute for the frozen 2024 matrix",
+    "fuzzy-match routing IDs to Weigelt geography",
+    "open species headers or occurrence values merely to solve transport",
+    "promote the completed 318-island stress result into fresh confirmation",
+    "change the v0.55 primary because the pristine system is transport-blocked"
+  ]
+}

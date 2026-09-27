@@ -1,0 +1,41 @@
+{
+  "schema": "structural.current_status.v0_64",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_60.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "transport_hold_path": "development/global_mammals_transport_hold_v0_64.json",
+    "safe_geography_complete": true,
+    "Weigelt_safe_rows": 17883,
+    "Weigelt_safe_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "core_external_reference_complete": true,
+    "mammal_response_bytes_read": 0,
+    "routing_ids_decoded": 0,
+    "species_headers_decoded": 0,
+    "occurrence_values_decoded": 0,
+    "further_Dryad_transport_retries_authorized": false
+  },
+  "completed_318_mammal_stress": {
+    "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "response_consumed": true,
+    "primary_remote_amplification_supported": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "ecological_conclusion": "The next fresh island-biogeography test is conceptually and geographically ready on the predictor side: global external isolation is frozen for 17,883 Weigelt islands, and v0.55 separates external from species-specific internal source isolation. The 5,592-island mammal response remains pristine because the exact current response bytes could not be transported; the hypothesis therefore remains untested.",
+  "next_valid_scientific_event": "obtain the exact frozen 2024 Appendix_1 response bytes through an independently auditable source and execute only the frozen ID crosswalk, or admit a different genuinely new v0.55-compatible island system",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_64.json",
+    "status": "dual_isolation_hypothesis_frozen_pristine_mammal_transport_hold"
+  }
+}
