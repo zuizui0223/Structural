@@ -14,52 +14,64 @@ The v0.55 dual-isolation hypothesis remains untested by fresh evidence.
 
 The boreal beetle route remains pristine and below v0.11.
 
-The important advance is that the **current 42-island identity universe is now response-independently resolved**.
+The important advance is now larger than simple island-identity recovery.
 
-Bell 2024 thesis Table 2.1 supplies 38 safe island rows.
+Bell's 2024 thesis Table 2.1 independently supplies the **complete 42-island core external state**:
 
-Four additional current-study island codes are identified from the same thesis map:
+- island identity: 42/42;
+- area: 42/42;
+- direct distance to mainland: 42/42;
+- TSF standardized to 2020: 42/42;
+- fire-history source: 42/42.
 
-**SR, TB, WD, WF**
+No beetle, bird, or plant matrix was used.
 
-The union gives exactly 42 island codes.
+## Reference consequence
 
-## Safe-data coverage
+The fresh design no longer needs blocked `buffer5000` as its required external-isolation variable.
 
-For 38 islands:
+Before response access, v0.69 freezes:
 
-- area resolved;
-- distance to mainland resolved;
-- TSF resolved.
+    log10(area_ha + 1)
+    log1p(distance_to_mainland_km)
+    z(TSF)
 
-For all 42:
+as the core area / external-isolation / disturbance-history state.
 
-- identity resolved.
+This is especially important because the source article reports a positive association between island isolation and time since fire. Disturbance history therefore belongs in the strong reference before any internal-source effect is interpreted.
 
-Still unresolved:
+## What remains unresolved
 
-- area / distance / TSF for SR, TB, WD, WF;
-- exact Lat/Long for all 42.
+The blocker is now **internal spatial structure**, not external island state.
 
-No biological matrix has been opened.
+Still needed:
 
-## Why this matters
+- an auditable 42-island lake-membership crosswalk and/or exact per-island coordinates;
+- a prospectively safe local habitat-structure reference if independently available.
 
-The candidate is no longer blocked by uncertainty about which islands belong to the study.
+Exact coordinates are not digitized by eye from the published map.
 
-It is blocked only by a small, explicit response-independent geography gap.
+## Possible response-independent route
 
-That is a much cleaner pre-intake state.
+If exact coordinates remain unavailable but lake membership is independently recoverable, a future pre-response design may use lake identity as the physical grouping and define C as training-only within-lake occupied-source support.
+
+That operator is not yet frozen.
+
+It may be adopted only before any beetle response is opened and only with complete auditable island-to-lake membership.
+
+## Other systems
+
+The pristine 5,592-island mammal system remains on v0.64 transport HOLD with response bytes still zero.
+
+The completed 318-island mammal stress test remains consumed and non-fresh.
 
 ## Next valid event
 
-Recover those missing safe attributes and coordinates from an auditable public source.
+Recover response-independently:
 
-Do not:
+1. the full 42-island lake-membership crosswalk and/or exact coordinates;
+2. prospectively safe local habitat structure if available.
 
-- infer them from Figure 2.1 by eye;
-- use species matrices for routing;
-- substitute response-derived richness or abundance;
-- proceed with 38 islands as though they were the full 42.
+Then freeze the v0.55 internal-source operator and validation split before v0.11.
 
-Only a complete response-independent geometry/reference can proceed to v0.11.
+Do not open biological matrices to solve those design questions.
