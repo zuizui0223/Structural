@@ -1,0 +1,284 @@
+name: Global mammals reference.gpkg schema-only extraction v0.58
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  reference-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify immutable mirror identity and two-file delta
+        run: |
+          set -euo pipefail
+          parent="704ed35075239327ce2ee20773e2c65022725745"
+          git merge-base --is-ancestor "$parent" HEAD
+          mapfile -t changed < <(git diff --name-only "$parent"...HEAD | sort)
+          test "${#changed[@]}" -eq 2
+          test "${changed[0]}" = ".github/workflows/global-mammals-reference-gpkg-schema-v058.yml"
+          test "${changed[1]}" = "development/global_mammals_reference_gpkg_schema_authorization_v0_58.json"
+
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          A=json.loads(Path(
+              "development/global_mammals_reference_gpkg_schema_authorization_v0_58.json"
+          ).read_text())
+          assert A["status"]=="one_shot_response_independent_reference_gpkg_schema_only"
+          assert A["parent_main_commit"]=="704ed35075239327ce2ee20773e2c65022725745"
+          observed=subprocess.check_output(
+              ["git","rev-parse","HEAD:development/global_island_mammals_safe_mirror_v0_56.json"],
+              text=True
+          ).strip()
+          assert observed==A["safe_mirror_git_blob_sha"],(observed,A["safe_mirror_git_blob_sha"])
+
+          mirror=json.loads(Path(A["safe_mirror_path"]).read_text())
+          ref=mirror["reference_gpkg"]
+          for key in ["member_name","compression_method","crc32_hex","compressed_size","uncompressed_size","local_header_offset"]:
+              expected={
+                  "member_name":A["target_member"]["name"],
+                  "compression_method":A["target_member"]["compression_method"],
+                  "crc32_hex":A["target_member"]["crc32_hex"],
+                  "compressed_size":A["target_member"]["compressed_size"],
+                  "uncompressed_size":A["target_member"]["uncompressed_size"],
+                  "local_header_offset":A["target_member"]["local_header_offset"],
+              }[key]
+              assert ref[key]==expected,(key,ref[key],expected)
+          assert mirror["pristine_mammal_response"]["response_opened"] is False
+          print("immutable safe-mirror identity OK")
+          PY
+
+      - name: Stream exact reference.gpkg member and inspect schema only
+        run: |
+          mkdir -p build/global_mammals_reference_v058
+          python - <<'PY'
+          import binascii
+          import hashlib
+          import json
+          import os
+          import sqlite3
+          import struct
+          import zlib
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          A=json.loads(Path(
+              "development/global_mammals_reference_gpkg_schema_authorization_v0_58.json"
+          ).read_text())
+          src=A["source_zip"]
+          target=A["target_member"]
+          url=src["download_url"]
+          outdir=Path("build/global_mammals_reference_v058")
+          gpkg=outdir/"reference.gpkg"
+
+          http_requests=[]
+
+          def open_range(start,end):
+              req=Request(
+                  url,
+                  headers={
+                      "Range":f"bytes={start}-{end}",
+                      "User-Agent":"Structural-reference-gpkg-schema/0.58",
+                  },
+                  method="GET",
+              )
+              r=urlopen(req,timeout=120)
+              status=getattr(r,"status",None)
+              cr=r.headers.get("Content-Range")
+              http_requests.append({
+                  "start":start,"end":end,"status":status,"content_range":cr
+              })
+              assert status==206,(status,cr)
+              return r
+
+          # Read only enough of the local header to derive exact member payload start.
+          local=target["local_header_offset"]
+          with open_range(local,local+65535) as r:
+              header_bytes=r.read()
+          assert header_bytes[:4]==b"PK\x03\x04"
+          fixed=header_bytes[:30]
+          (
+              sig,ver_need,flag,method,mtime,mdate,crc_local,
+              comp_local,uncomp_local,name_len,extra_len
+          )=struct.unpack("<4s5H3L2H",fixed)
+          assert sig==b"PK\x03\x04"
+          assert method==target["compression_method"]
+          name=header_bytes[30:30+name_len].decode("utf-8" if flag & 0x800 else "cp437")
+          assert name==target["name"],(name,target["name"])
+          payload_start=local+30+name_len+extra_len
+          payload_end=payload_start+target["compressed_size"]-1
+          assert payload_end < src["size_bytes"]
+
+          # Stream raw DEFLATE payload directly to the GeoPackage. Do not retain the
+          # compressed member or the full labs.zip.
+          decomp=zlib.decompressobj(-15)
+          sha=hashlib.sha256()
+          crc=0
+          compressed_seen=0
+          uncompressed_seen=0
+          with open_range(payload_start,payload_end) as r, gpkg.open("wb") as fout:
+              while True:
+                  chunk=r.read(8*1024*1024)
+                  if not chunk:
+                      break
+                  compressed_seen += len(chunk)
+                  data=decomp.decompress(chunk)
+                  if data:
+                      fout.write(data)
+                      sha.update(data)
+                      crc=binascii.crc32(data,crc)
+                      uncompressed_seen += len(data)
+              tail=decomp.flush()
+              if tail:
+                  fout.write(tail)
+                  sha.update(tail)
+                  crc=binascii.crc32(tail,crc)
+                  uncompressed_seen += len(tail)
+
+          assert compressed_seen==target["compressed_size"],(
+              compressed_seen,target["compressed_size"]
+          )
+          assert uncompressed_seen==target["uncompressed_size"],(
+              uncompressed_seen,target["uncompressed_size"]
+          )
+          assert f"{crc & 0xffffffff:08x}"==target["crc32_hex"],(
+              f"{crc & 0xffffffff:08x}",target["crc32_hex"]
+          )
+          gpkg_sha=sha.hexdigest()
+
+          con=sqlite3.connect(f"file:{gpkg}?mode=ro",uri=True)
+          con.execute("PRAGMA query_only=ON")
+
+          tables=[
+              {"name":name,"type":typ}
+              for name,typ in con.execute(
+                  "SELECT name,type FROM sqlite_master "
+                  "WHERE type IN ('table','view') ORDER BY type,name"
+              )
+          ]
+
+          def rows_if_exists(sql):
+              try:
+                  return [list(r) for r in con.execute(sql)]
+              except sqlite3.OperationalError:
+                  return []
+
+          gpkg_contents=rows_if_exists(
+              "SELECT table_name,data_type,identifier,srs_id "
+              "FROM gpkg_contents ORDER BY table_name"
+          )
+          gpkg_geometry=rows_if_exists(
+              "SELECT table_name,column_name,geometry_type_name,srs_id,z,m "
+              "FROM gpkg_geometry_columns ORDER BY table_name,column_name"
+          )
+
+          system_prefixes=("gpkg_","rtree_","sqlite_")
+          user_tables=[
+              x["name"] for x in tables
+              if x["type"]=="table" and not x["name"].startswith(system_prefixes)
+          ]
+          schemas={}
+          for table in user_tables:
+              q='"'+table.replace('"','""')+'"'
+              schemas[table]=[
+                  {
+                      "cid":row[0],
+                      "name":row[1],
+                      "type":row[2],
+                      "notnull":bool(row[3]),
+                      "default":row[4],
+                      "pk":bool(row[5]),
+                  }
+                  for row in con.execute(f"PRAGMA table_info({q})")
+              ]
+
+          islanddata_counts={}
+          for table in user_tables:
+              if "islanddata" in table.lower():
+                  q='"'+table.replace('"','""')+'"'
+                  islanddata_counts[table]=int(
+                      con.execute(f"SELECT COUNT(*) FROM {q}").fetchone()[0]
+                  )
+
+          con.close()
+
+          result={
+              "schema":"structural.global_mammals_reference_gpkg_schema_result.v0_58",
+              "status":"reference_gpkg_schema_only_complete",
+              "source":{
+                  "doi":"10.21942/uva.22788464.v5",
+                  "member_name":target["name"],
+                  "compressed_size":target["compressed_size"],
+                  "uncompressed_size":target["uncompressed_size"],
+                  "crc32_hex":target["crc32_hex"],
+                  "reference_gpkg_sha256":gpkg_sha,
+                  "payload_start":payload_start,
+                  "payload_end":payload_end,
+                  "http_range_requests":http_requests,
+                  "full_labs_zip_downloaded":False,
+                  "compressed_member_retained":False,
+              },
+              "sqlite":{
+                  "tables_and_views":tables,
+                  "gpkg_contents":gpkg_contents,
+                  "gpkg_geometry_columns":gpkg_geometry,
+                  "user_tables":user_tables,
+                  "table_schemas":schemas,
+                  "islanddata_row_counts":islanddata_counts,
+                  "row_values_semantically_opened":0,
+                  "geometry_values_opened":0,
+              },
+              "mammal_response_requests":0,
+              "mammal_response_values_opened":False,
+              "counts_as_empirical_evidence":False,
+          }
+          p=outdir/"reference_gpkg_schema.json"
+          p.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
+          print(json.dumps({
+              "status":result["status"],
+              "reference_gpkg_sha256":gpkg_sha,
+              "user_tables":user_tables,
+              "gpkg_contents":gpkg_contents,
+              "gpkg_geometry_columns":gpkg_geometry,
+              "islanddata_row_counts":islanddata_counts,
+              "row_values_semantically_opened":0,
+              "geometry_values_opened":0,
+              "mammal_response_requests":0,
+          },indent=2,sort_keys=True))
+
+          # Do not upload the 3.86-GB GeoPackage.
+          gpkg.unlink()
+          PY
+
+      - name: Enforce schema-only ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_reference_v058/reference_gpkg_schema.json"
+          ).read_text())
+          assert x["status"]=="reference_gpkg_schema_only_complete"
+          assert x["source"]["full_labs_zip_downloaded"] is False
+          assert x["source"]["compressed_member_retained"] is False
+          assert x["sqlite"]["row_values_semantically_opened"]==0
+          assert x["sqlite"]["geometry_values_opened"]==0
+          assert x["mammal_response_requests"]==0
+          assert x["mammal_response_values_opened"] is False
+          print("reference.gpkg schema-only ceiling intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-reference-gpkg-schema-v0-58
+          path: build/global_mammals_reference_v058/reference_gpkg_schema.json
+          if-no-files-found: error
+          retention-days: 90
