@@ -1,0 +1,99 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_heldout_score_authorization.v0_53",
+  "status": "one_shot_heldout_stress_scoring_retry_after_pre_response_shallow_checkout_failure",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "parent_main_commit": "c88e9aa876e359d1e7b989fd66b1afa658d1fb7f",
+  "allowed_branch_delta": [
+    "development/zenodo_318_island_mammals_heldout_score_authorization_v0_53.json",
+    ".github/workflows/zenodo-318-mammal-heldout-score-v053.yml"
+  ],
+  "frozen_git_blobs": {
+    "scoring_gate": "3275578898e9fcbfd19ee80afc31aaf9d978801d",
+    "preheldout_result": "5c81a5369a92159c001d209b6ce5347dd74959d1",
+    "safe_design": "953b132b77b92986ed64ef2374aa38851ae30eef",
+    "stress_scoring_contract": "ca2bb6b6e0ae0fd7b414ef663c4a793c5d1f3393",
+    "heldout_scorer_code": "6071f8f43f4dddf27842392beeb718f9dc6e6e77"
+  },
+  "preheldout_artifact": {
+    "workflow_run_id": 36308503357,
+    "artifact_id": 10928370884,
+    "artifact_sha256": "8297a3d579b0f648f9098b8f28e537f6ff7c655888c7615804b382d9e09415f6",
+    "artifact_name": "zenodo-318-mammal-preheldout-freeze-v0-50",
+    "members": {
+      "compact_pilot.json": "ff079eded747a85faccb509f7ae78b8b5f8754a365da65d9009d9880509aaa85",
+      "preheldout_model_freeze.json": "f5d3f7bc6b67a533d06e568801540cf33b3abdbd219c7631e5027e4bae21b2ad",
+      "heldout_prediction_surface.csv": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9"
+    }
+  },
+  "response_source": {
+    "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+    "size_bytes": 1401342,
+    "md5": "be781f82fb6417a8447d8d10045e35ad",
+    "sha256": "590e0e59db83cb2be3ddab075ce79dbc2517b5487cb9d2f9e2f726475f19a1cc",
+    "sheet": "occurrence",
+    "dimension": "A1:BDU322",
+    "species_headers_sha256": "1a23562c1397beed83c5c8a7fe2aaccbb94ff39206bec3864c3af82317184a6d",
+    "full_species_columns": 1474
+  },
+  "scoring_population": {
+    "heldout_islands": 244,
+    "fixed_species": 233,
+    "expected_scored_rows": 56852,
+    "fixed_species_universe_sha256": "7284ef6616bba91a5b3643e5aa5e2120fa3862869858cd5371d67a83130b71ff",
+    "prediction_surface_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9"
+  },
+  "scoring_rule": {
+    "primary_estimand": "mean(C_minus_R3 log loss | dContinent>=1124.41) - mean(C_minus_R3 log loss | dContinent<1124.41)",
+    "primary_prediction": "negative",
+    "support_rule": "point estimate < 0 and archipelago-cluster bootstrap 95% upper confidence limit < 0",
+    "bootstrap_unit": "Archipielago",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260927,
+    "rng": "python.random.Random (MT19937)",
+    "quantile_method": "linear"
+  },
+  "response_firewall": {
+    "semantically_open": "column A island ID for all rows plus only the fixed 233 species cells on the 244 frozen heldout islands",
+    "remain_sealed": "occurrence cells on 65 pilot islands, 9 out-of-scope islands, and all 1241 non-focal species columns",
+    "pilot_occurrence_values_parsed_expected": 0,
+    "out_of_scope_occurrence_values_parsed_expected": 0,
+    "nonfixed_species_occurrence_values_parsed_expected": 0
+  },
+  "permitted_outputs": [
+    "heldout outcome surface SHA-256 and target counts",
+    "frozen R3/C heldout log-loss summaries",
+    "frozen primary extreme-minus-nonextreme contrast",
+    "10,000-replicate frozen archipelago-cluster bootstrap interval",
+    "Type-specific descriptive C-minus-R3 summaries",
+    "execution receipt"
+  ],
+  "prohibited": [
+    "model fit or refit",
+    "prediction surface modification",
+    "species universe modification",
+    "heldout island modification",
+    "q75 threshold modification",
+    "reference/candidate predictor modification",
+    "bootstrap modification",
+    "opening pilot or out-of-scope occurrence cells during heldout scoring",
+    "opening nonfixed species occurrence cells",
+    "counting the result as fresh confirmation",
+    "rerun after heldout occurrence access begins"
+  ],
+  "heldout_response_authorized": true,
+  "rerun_authorized": false,
+  "refit_authorized": false,
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false,
+  "prior_failed_attempt": {
+    "pull_request": 141,
+    "workflow_run_id": 36311042928,
+    "workflow_job_id": 108596893098,
+    "failure": "shallow checkout lacked frozen parent commit for ancestry verification",
+    "heldout_workbook_requests": 0,
+    "heldout_response_accessed": false,
+    "heldout_occurrence_values_parsed": 0,
+    "score_computed": false
+  }
+}
