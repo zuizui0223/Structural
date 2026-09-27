@@ -1,0 +1,28 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_metadata_probe.v0_1",
+  "status": "response_blind_metadata_only",
+  "record_id": 11220273,
+  "api_url": "https://zenodo.org/api/records/11220273",
+  "allowed_http_requests": [
+    "GET https://zenodo.org/api/records/11220273"
+  ],
+  "forbidden_http_requests": [
+    "any files[].links.content or files[].links.self URL"
+  ],
+  "allowed_output_fields": [
+    "id",
+    "doi",
+    "conceptdoi",
+    "created",
+    "updated",
+    "metadata.title",
+    "metadata.version",
+    "files[].key",
+    "files[].size",
+    "files[].checksum",
+    "files[].links.self",
+    "files[].links.content"
+  ],
+  "response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
