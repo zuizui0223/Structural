@@ -4,90 +4,85 @@
 
 The current boreal study uses **42 islands**.
 
-Without opening any beetle, bird, or plant matrix, the island identity universe can now be reconstructed exactly from independent public thesis/article material.
+Without opening any beetle, bird, or plant matrix, Bell's 2024 thesis Table 2.1 supplies all 42 island codes together with response-independent:
 
-Bell's 2024 thesis Table 2.1 provides 38 island rows with response-independent:
-
-- island code;
 - island area;
 - distance to mainland;
 - time since fire standardized to 2020;
 - fire-history source.
 
-The same thesis Figure 2.1 shows four additional current-study island labels absent from Table 2.1:
+The species-richness columns printed in the same source table are deliberately discarded and are not persisted in Structural.
 
-- **SR**
-- **TB**
-- **WD**
-- **WF**
+The machine-readable safe table is:
 
-The union is exactly 42 unique island codes.
+    development/boreal_lake_islands_thesis_safe_rows_v0_69.csv
 
-The 2026 article independently reports 42 study islands and explicitly mentions TB, providing an additional cross-source check.
+## Complete core external state
 
-No community matrix was used to recover the island universe.
+Coverage is now:
 
-## Safe attributes currently available
+- island identity: **42 / 42**
+- area: **42 / 42**
+- distance to mainland: **42 / 42**
+- TSF: **42 / 42**
+- fire-history source: **42 / 42**
+- exact latitude/longitude: **0 / 42**
 
-For **38 / 42** islands, v0.69 records:
+The recovered raw ranges are:
 
-- area (ha);
-- distance to mainland (km);
-- TSF in 2020;
-- fire-history source.
+- area: **1.0–350.4 ha**
+- mainland distance: **0.02–7.90 km**
+- TSF: **1–231 years**
 
-Species richness columns visible in the thesis table were deliberately discarded and are not stored in the v0.69 object.
+No biological matrix was used.
 
-## Why the four extra islands are not filled in
+## Prospective external reference
 
-The four current-study codes SR, TB, WD, and WF are real members of the 42-island universe, but their safe attributes have not yet been recovered from an independent source.
+Because direct mainland distance is independently available for every island, v0.69 prospectively replaces inaccessible `buffer5000` as the **required** external-isolation variable.
 
-Their:
+The frozen transforms are:
 
-- area;
-- mainland distance;
-- TSF;
-- latitude;
-- longitude
+    log_area = log10(area_ha + 1)
+    external_isolation = log1p(distance_to_mainland_km)
+    disturbance_history = z(TSF)
 
-remain unresolved.
+computed only from the frozen 42-island safe table.
 
-Nothing may be inferred from the beetle/bird/plant matrices, from response-derived richness, or by eyeballing Figure 2.1.
+`buffer5000` may later be added only if its exact response-independent bytes become independently available; it is not required for fresh eligibility.
 
-## Cross-source completeness check
+This is a pre-response design refinement, not a response-driven substitution.
 
-The 38-row thesis subset has maximum area **350.4 ha**.
+## Why TSF must remain in the strong reference
 
-The 2026 article reports the full 42-island range extending to roughly **380.7 ha**.
+The source study explicitly reports that time since fire and isolation are positively correlated.
 
-That mismatch is useful: it independently demonstrates that Table 2.1 is not the full current 42-island sample and prevents accidental promotion of the 38-row table to the contemporary universe.
+Therefore a source-pool signal cannot be interpreted cleanly unless disturbance history is already represented in the reference.
 
-## Current geometry state
+v0.69 makes that requirement practical because TSF is complete for all 42 islands independently of the biological matrices.
 
-Island identity:
+## What is still unresolved
 
-- **42 / 42 resolved**
+The remaining blockers are no longer the classical island-state variables.
 
-Area / mainland distance / TSF:
+Still unresolved:
 
-- **38 / 42 resolved**
+1. exact island-to-lake membership in a machine-readable auditable table and/or exact per-island latitude/longitude;
+2. a prospectively safe local habitat-structure reference, if one can be recovered independently.
 
-Exact plot-center latitude/longitude:
+No exact coordinates are inferred by visually digitizing the published map.
 
-- **0 / 42 resolved in the frozen Structural safe table**
+## Spatial-design consequence
 
-The original source metadata are documented to contain Lat/Long, but Dryad content transport returned HTTP 401 before any safe-file bytes.
+If exact coordinates remain unavailable but island-to-lake membership can be recovered response-independently, a future protocol may freeze a **within-lake internal source-pool operator** instead of inventing a geographic graph:
 
-## Next gate
+- lake identity is response-independent;
+- within-lake source fraction is training-only;
+- global occupied breadth belongs in R3;
+- within-lake occupied source support belongs in C;
+- the same operator is used for all heldout islands;
+- lake membership and pilot/confirmatory allocation must be frozen before beetle response access.
 
-Before v0.11 intake, recover response-independently:
-
-1. SR / TB / WD / WF area;
-2. SR / TB / WD / WF mainland distance;
-3. SR / TB / WD / WF TSF;
-4. exact Lat/Long for all 42 islands.
-
-Then mechanically reconcile the full 42-code universe and only then freeze spatial graph scales and pilot/confirmatory blocks.
+That design is not yet authorized. It becomes eligible only if the full 42-island lake-membership crosswalk is independently auditable.
 
 ## Response boundary
 
@@ -97,4 +92,4 @@ Still unopened:
 - bird matrix;
 - plant matrix.
 
-v0.69 is predictor/provenance work only and contributes zero empirical evidence.
+v0.69 remains predictor/provenance work only and contributes zero empirical evidence.
