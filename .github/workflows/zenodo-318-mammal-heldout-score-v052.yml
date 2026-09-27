@@ -1,0 +1,281 @@
+name: Zenodo 318 mammal heldout stress score v0.52
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  heldout-score:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: src:.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify immutable scorer ancestry and two-file delta
+        run: |
+          set -euo pipefail
+          parent="c88e9aa876e359d1e7b989fd66b1afa658d1fb7f"
+          git merge-base --is-ancestor "$parent" HEAD
+          mapfile -t changed < <(git diff --name-only "$parent"...HEAD | sort)
+          test "${#changed[@]}" -eq 2
+          test "${changed[0]}" = ".github/workflows/zenodo-318-mammal-heldout-score-v052.yml"
+          test "${changed[1]}" = "development/zenodo_318_island_mammals_heldout_score_authorization_v0_52.json"
+
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          A=json.loads(Path(
+              "development/zenodo_318_island_mammals_heldout_score_authorization_v0_52.json"
+          ).read_text())
+          assert A["parent_main_commit"]=="c88e9aa876e359d1e7b989fd66b1afa658d1fb7f"
+          expected={
+              "development/zenodo_318_island_mammals_heldout_scoring_gate_v0_51.json":
+                  A["frozen_git_blobs"]["scoring_gate"],
+              "development/zenodo_318_island_mammals_preheldout_freeze_result_v0_50.json":
+                  A["frozen_git_blobs"]["preheldout_result"],
+              "development/zenodo_318_island_mammals_safe_design_result_v0_47.json":
+                  A["frozen_git_blobs"]["safe_design"],
+              "development/zenodo_318_island_mammals_stress_scoring_contract_v0_47.json":
+                  A["frozen_git_blobs"]["stress_scoring_contract"],
+              "src/structural/zenodo_318_mammal_heldout_scorer.py":
+                  A["frozen_git_blobs"]["heldout_scorer_code"],
+          }
+          for path,sha in expected.items():
+              observed=subprocess.check_output(
+                  ["git","rev-parse",f"HEAD:{path}"],text=True
+              ).strip()
+              assert observed==sha,(path,observed,sha)
+
+          gate=json.loads(Path(
+              "development/zenodo_318_island_mammals_heldout_scoring_gate_v0_51.json"
+          ).read_text())
+          result=json.loads(Path(
+              "development/zenodo_318_island_mammals_preheldout_freeze_result_v0_50.json"
+          ).read_text())
+          design=json.loads(Path(
+              "development/zenodo_318_island_mammals_safe_design_result_v0_47.json"
+          ).read_text())
+          assert gate["status"]=="scoring_implementation_frozen_heldout_response_not_yet_authorized"
+          assert gate["preheldout_artifact"]["artifact_id"]==A["preheldout_artifact"]["artifact_id"]
+          assert gate["preheldout_artifact"]["heldout_prediction_surface_sha256"]==A["scoring_population"]["prediction_surface_sha256"]
+          assert result["model_freeze"]["heldout_prediction_surface_sha256"]==A["scoring_population"]["prediction_surface_sha256"]
+          assert len(design["confirmatory_island_ids"])==A["scoring_population"]["heldout_islands"]
+          assert gate["frozen_scoring_population"]["fixed_species"]==A["scoring_population"]["fixed_species"]
+          assert gate["frozen_scoring_population"]["expected_scored_rows"]==A["scoring_population"]["expected_scored_rows"]
+          assert gate["heldout_response_authorized"] is False
+          assert A["heldout_response_authorized"] is True
+          assert A["rerun_authorized"] is False
+          assert A["refit_authorized"] is False
+          print("immutable heldout scoring identities OK")
+          PY
+
+      - name: Download exact preheldout artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: zenodo-318-mammal-preheldout-freeze-v0-50
+          path: build/preheldout
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 36308503357
+
+      - name: Verify preheldout artifact members
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          A=json.loads(Path(
+              "development/zenodo_318_island_mammals_heldout_score_authorization_v0_52.json"
+          ).read_text())
+          root=Path("build/preheldout")
+          for name,expected in A["preheldout_artifact"]["members"].items():
+              p=root/name
+              assert p.is_file(),name
+              observed=hashlib.sha256(p.read_bytes()).hexdigest()
+              assert observed==expected,(name,observed,expected)
+
+          compact=json.loads((root/"compact_pilot.json").read_text())
+          species=compact["species"]
+          assert len(species)==A["scoring_population"]["fixed_species"]
+          species_sha=hashlib.sha256(
+              ("\n".join(species)+"\n").encode("utf-8")
+          ).hexdigest()
+          assert species_sha==A["scoring_population"]["fixed_species_universe_sha256"]
+
+          pred=(root/"heldout_prediction_surface.csv").read_text()
+          assert hashlib.sha256(pred.encode("utf-8")).hexdigest()==A["scoring_population"]["prediction_surface_sha256"]
+          assert len(pred.splitlines())-1==A["scoring_population"]["expected_scored_rows"]
+          print("preheldout artifact members and fixed species universe OK")
+          PY
+
+      - name: Execute one-shot heldout stress scoring
+        id: score
+        run: |
+          mkdir -p build/heldout_score_v052
+          python - <<'PY'
+          import hashlib, json, traceback
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          from structural.zenodo_318_mammal_heldout_scorer import (
+              extract_heldout_outcomes,
+              score_frozen_predictions,
+          )
+
+          ROOT=Path(".")
+          OUT=Path("build/heldout_score_v052")
+          PRE=Path("build/preheldout")
+          A=json.loads((ROOT/"development/zenodo_318_island_mammals_heldout_score_authorization_v0_52.json").read_text())
+          gate=json.loads((ROOT/"development/zenodo_318_island_mammals_heldout_scoring_gate_v0_51.json").read_text())
+          design=json.loads((ROOT/"development/zenodo_318_island_mammals_safe_design_result_v0_47.json").read_text())
+          compact=json.loads((PRE/"compact_pilot.json").read_text())
+          species=compact["species"]
+          heldout=[str(x) for x in design["confirmatory_island_ids"]]
+
+          receipt={
+              "schema":"structural.zenodo_318_island_mammals_heldout_score_execution.v0_52",
+              "status":"NOT_STARTED",
+              "candidate_id":A["candidate_id"],
+              "evidence_class":A["evidence_class"],
+              "parent_main_commit":A["parent_main_commit"],
+              "prediction_surface_sha256":A["scoring_population"]["prediction_surface_sha256"],
+              "fixed_species_universe_sha256":A["scoring_population"]["fixed_species_universe_sha256"],
+              "heldout_response_accessed":False,
+              "heldout_islands_opened":0,
+              "heldout_occurrence_values_parsed":0,
+              "pilot_occurrence_values_parsed_during_heldout_scoring":0,
+              "out_of_scope_occurrence_values_parsed":0,
+              "nonfixed_species_occurrence_values_parsed":0,
+              "model_refit_count":0,
+              "counts_as_fresh_confirmation":False,
+              "counts_as_primary_confirmatory_evidence":False,
+              "rerun_authorized":False,
+              "error_type":None,
+              "error_message":None,
+              "traceback_tail":[],
+          }
+
+          response_started=False
+          exit_code=0
+          try:
+              src=A["response_source"]
+              req=Request(
+                  src["url"],
+                  headers={"User-Agent":"Structural-zenodo-318-heldout-score/0.52"},
+                  method="GET",
+              )
+              with urlopen(req,timeout=90) as response:
+                  raw=response.read()
+              assert len(raw)==src["size_bytes"],(len(raw),src["size_bytes"])
+              assert hashlib.md5(raw).hexdigest()==src["md5"]
+              assert hashlib.sha256(raw).hexdigest()==src["sha256"]
+
+              # From this point onward, heldout response access is consumed.
+              response_started=True
+              receipt["heldout_response_accessed"]=True
+              receipt["source_workbook_sha256"]=src["sha256"]
+
+              outcomes=extract_heldout_outcomes(
+                  workbook_bytes=raw,
+                  heldout_island_ids=heldout,
+                  fixed_species=species,
+                  expected_species_headers_sha256=src["species_headers_sha256"],
+                  expected_species_count=src["full_species_columns"],
+                  expected_sheet_dimension=src["dimension"],
+                  first_data_row=5,
+                  last_data_row=322,
+              )
+              receipt.update({
+                  "heldout_islands_opened":outcomes.heldout_islands_opened,
+                  "heldout_occurrence_values_parsed":outcomes.heldout_occurrence_values_parsed,
+                  "pilot_occurrence_values_parsed_during_heldout_scoring":
+                      outcomes.sealed_nonheldout_occurrence_values_parsed,
+                  "out_of_scope_occurrence_values_parsed":
+                      outcomes.sealed_nonheldout_occurrence_values_parsed,
+                  "nonfixed_species_occurrence_values_parsed":0,
+                  "heldout_outcome_surface_sha256":outcomes.sha256,
+                  "occurrence_rows_seen":outcomes.occurrence_rows_seen,
+              })
+              assert outcomes.heldout_islands_opened==A["scoring_population"]["heldout_islands"]
+              assert outcomes.heldout_occurrence_values_parsed==A["scoring_population"]["expected_scored_rows"]
+              assert outcomes.sealed_nonheldout_occurrence_values_parsed==0
+
+              prediction_csv=(PRE/"heldout_prediction_surface.csv").read_text()
+              score=score_frozen_predictions(
+                  prediction_csv=prediction_csv,
+                  expected_prediction_sha256=A["scoring_population"]["prediction_surface_sha256"],
+                  outcomes=outcomes,
+                  heldout_order=heldout,
+                  fixed_species=species,
+                  bootstrap_replicates=A["scoring_rule"]["bootstrap_replicates"],
+                  bootstrap_seed=A["scoring_rule"]["bootstrap_seed"],
+              )
+              assert score["scored_rows"]==A["scoring_population"]["expected_scored_rows"]
+              assert score["heldout_islands"]==A["scoring_population"]["heldout_islands"]
+              assert score["species_count"]==A["scoring_population"]["fixed_species"]
+              assert score["counts_as_fresh_confirmation"] is False
+              assert score["counts_as_primary_confirmatory_evidence"] is False
+
+              score_text=json.dumps(score,indent=2,sort_keys=True)+"\n"
+              (OUT/"stress_score.json").write_text(score_text)
+              receipt["stress_score_sha256"]=hashlib.sha256(score_text.encode("utf-8")).hexdigest()
+              receipt["status"]="SCORED_HELDOUT_STRESS_TEST"
+              receipt["primary_supported"]=score["primary_supported"]
+              receipt["primary_extreme_minus_nonextreme"]=score["primary_extreme_minus_nonextreme"]
+              receipt["primary_ci_95_low"]=score["bootstrap"]["ci_95_low"]
+              receipt["primary_ci_95_high"]=score["bootstrap"]["ci_95_high"]
+              receipt["overall_mean_C_minus_R3_log_loss"]=score["overall_mean_C_minus_R3_log_loss"]
+              receipt["mean_C_minus_R3_log_loss_extreme_q75"]=score["mean_C_minus_R3_log_loss_extreme_q75"]
+              receipt["mean_C_minus_R3_log_loss_nonextreme"]=score["mean_C_minus_R3_log_loss_nonextreme"]
+          except Exception as exc:
+              exit_code=2
+              receipt["status"]=(
+                  "TERMINAL_STOP_AFTER_HELDOUT_RESPONSE_ACCESS"
+                  if response_started
+                  else "PRE_RESPONSE_STOP"
+              )
+              receipt["error_type"]=type(exc).__name__
+              receipt["error_message"]=str(exc)
+              receipt["traceback_tail"]=traceback.format_exc().splitlines()[-15:]
+
+          receipt_text=json.dumps(receipt,indent=2,sort_keys=True)+"\n"
+          (OUT/"execution_receipt.json").write_text(receipt_text)
+          print(receipt_text,end="")
+          raise SystemExit(exit_code)
+          PY
+
+      - name: Enforce evidence boundary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/heldout_score_v052/execution_receipt.json")
+          assert p.is_file(),"execution receipt missing"
+          x=json.loads(p.read_text())
+          assert x["rerun_authorized"] is False
+          assert x["model_refit_count"]==0
+          assert x["counts_as_fresh_confirmation"] is False
+          assert x["counts_as_primary_confirmatory_evidence"] is False
+          if x["heldout_response_accessed"]:
+              assert x["pilot_occurrence_values_parsed_during_heldout_scoring"]==0
+              assert x["out_of_scope_occurrence_values_parsed"]==0
+              assert x["nonfixed_species_occurrence_values_parsed"]==0
+          print("heldout scoring evidence boundary intact")
+          PY
+
+      - name: Upload heldout stress evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-318-mammal-heldout-stress-score-v0-52
+          path: |
+            build/heldout_score_v052/execution_receipt.json
+            build/heldout_score_v052/stress_score.json
+          if-no-files-found: warn
+          retention-days: 90
