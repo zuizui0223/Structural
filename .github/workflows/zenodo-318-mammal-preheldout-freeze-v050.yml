@@ -203,7 +203,7 @@ jobs:
               extreme_threshold=q75,
               probability_clip=tuple(scoring["fitting"]["probability_clip"]),
           )
-          prediction_rows=predictions.count("\\n")-1
+          prediction_rows=predictions.count("\n")-1
           assert prediction_rows==244*233==56852
           prediction_sha=sha256_text(predictions)
 
@@ -220,7 +220,7 @@ jobs:
               "counts_as_fresh_confirmation":False,
           }
           (out/"compact_pilot.json").write_text(
-              json.dumps(compact_obj,indent=2,sort_keys=True)+"\\n"
+              json.dumps(compact_obj,indent=2,sort_keys=True)+"\n"
           )
 
           freeze={
@@ -271,7 +271,7 @@ jobs:
               "counts_as_primary_confirmatory_evidence":False,
           }
           (out/"preheldout_model_freeze.json").write_text(
-              json.dumps(freeze,indent=2,sort_keys=True)+"\\n"
+              json.dumps(freeze,indent=2,sort_keys=True)+"\n"
           )
           (out/"heldout_prediction_surface.csv").write_text(predictions)
 
