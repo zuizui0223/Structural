@@ -1,0 +1,29 @@
+{
+  "schema": "structural.current_status.v0_51",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_50.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_safe_island_covariate_transport_unresolved",
+    "raw_presence_absence_response_opened": false
+  },
+  "mammal_stress_test": {
+    "candidate_id": "zenodo_318_island_mammals_2024",
+    "pilot_status": "qualified_65_of_65",
+    "species_count": 233,
+    "heldout_islands": 244,
+    "preheldout_prediction_surface_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9",
+    "heldout_scoring_gate_path": "development/zenodo_318_island_mammals_heldout_scoring_gate_v0_51.json",
+    "heldout_response_accessed": false,
+    "heldout_response_authorized": false,
+    "scorer_frozen": true,
+    "model_refit_authorized": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "next_valid_scientific_event": "after v0.51 is merged CI-green, create a two-file one-shot authorization/workflow that opens the 244 heldout islands once, scores only the frozen prediction surface and bootstrap, and then permanently closes the stress response regardless of outcome"
+}

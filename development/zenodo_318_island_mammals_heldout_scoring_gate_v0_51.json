@@ -1,0 +1,82 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_heldout_scoring_gate.v0_51",
+  "status": "scoring_implementation_frozen_heldout_response_not_yet_authorized",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "parent_preheldout_result": "development/zenodo_318_island_mammals_preheldout_freeze_result_v0_50.json",
+  "preheldout_artifact": {
+    "workflow_run_id": 36308503357,
+    "workflow_job_id": 108589735569,
+    "artifact_id": 10928370884,
+    "artifact_sha256": "8297a3d579b0f648f9098b8f28e537f6ff7c655888c7615804b382d9e09415f6",
+    "detailed_freeze_json_sha256": "f5d3f7bc6b67a533d06e568801540cf33b3abdbd219c7631e5027e4bae21b2ad",
+    "compact_pilot_sha256": "ff079eded747a85faccb509f7ae78b8b5f8754a365da65d9009d9880509aaa85",
+    "heldout_prediction_surface_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9",
+    "heldout_prediction_rows": 56852
+  },
+  "response_source": {
+    "record_doi": "10.5281/zenodo.11220273",
+    "file": "Mammal_occurrence_islands.xlsx",
+    "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+    "size_bytes": 1401342,
+    "md5": "be781f82fb6417a8447d8d10045e35ad",
+    "sha256": "590e0e59db83cb2be3ddab075ce79dbc2517b5487cb9d2f9e2f726475f19a1cc",
+    "sheet": "occurrence",
+    "dimension": "A1:BDU322",
+    "species_headers_sha256": "1a23562c1397beed83c5c8a7fe2aaccbb94ff39206bec3864c3af82317184a6d",
+    "full_species_columns": 1474
+  },
+  "frozen_scoring_population": {
+    "heldout_islands": 244,
+    "fixed_species": 233,
+    "expected_scored_rows": 56852,
+    "fixed_species_universe_sha256": "7284ef6616bba91a5b3643e5aa5e2120fa3862869858cd5371d67a83130b71ff",
+    "target_domain": [
+      "0",
+      "1"
+    ]
+  },
+  "response_firewall": {
+    "semantically_open": "column A island ID for all data rows; fixed 233 species occurrence cells only when island is one of the 244 frozen heldout IDs",
+    "remain_sealed": "occurrence cells on 65 pilot islands, 9 out-of-scope islands, and 1,241 non-focal species columns on all rows",
+    "pilot_occurrence_values_parsed_during_heldout_scoring": 0,
+    "out_of_scope_occurrence_values_parsed": 0,
+    "nonfixed_species_occurrence_values_parsed": 0
+  },
+  "scoring_implementation": {
+    "scorer_path": "src/structural/zenodo_318_mammal_heldout_scorer.py",
+    "scorer_git_blob_sha": "6071f8f43f4dddf27842392beeb718f9dc6e6e77",
+    "model_refit_allowed": false,
+    "prediction_surface_must_match_frozen_sha": true,
+    "row_pair_set_must_equal_244x233_cartesian_product": true
+  },
+  "primary": {
+    "estimand": "mean(C_minus_R3 log loss | dContinent>=1124.41) - mean(C_minus_R3 log loss | dContinent<1124.41)",
+    "prediction": "negative",
+    "support_rule": "point < 0 and archipelago-cluster bootstrap 95% upper limit < 0"
+  },
+  "bootstrap": {
+    "unit": "Archipielago",
+    "expected_cluster_count": 8,
+    "replicates": 10000,
+    "seed": 20260927,
+    "rng": "python.random.Random (MT19937)",
+    "sampling": "sample exactly 8 archipelago labels with replacement per replicate; include every scored row in each sampled cluster with multiplicity",
+    "invalid_replicate": "discard only if sampled clusters contain no extreme or no non-extreme scored rows",
+    "quantiles": [
+      0.025,
+      0.975
+    ],
+    "quantile_method": "linear"
+  },
+  "secondary": [
+    "mean C_minus_R3 log loss among extreme_q75 islands",
+    "overall mean C_minus_R3 log loss",
+    "mean C_minus_R3 log loss by Type; cannot rescue primary"
+  ],
+  "heldout_response_authorized": false,
+  "refit_authorized": false,
+  "rerun_after_heldout_access_authorized": false,
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false
+}

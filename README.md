@@ -105,6 +105,7 @@ Canonical development files:
 - `docs/CURRENT_STATUS_V0_43.md`
 - `docs/CURRENT_STATUS_V0_44.md`
 - `docs/CURRENT_STATUS_V0_50.md`
+- `docs/CURRENT_STATUS_V0_51.md`
 - `docs/INDO_PACIFIC_ATOLL_TERMINAL_V0_22.md`
 - `docs/CURRENT_STATUS_V0_45.md`
 - `docs/GLOBAL_ISLAND_MAMMALS_PREINTAKE_V0_1.md`
@@ -174,7 +175,7 @@ A new independent system still begins by replaying the frozen v0.10 response-sea
 
 ## Current state
 
-The frozen Structural manuscript and presentation package remain closed. The post-closure prospective validation programme still has no fresh confirmatory-eligible system. The 5,592-island mammal dataset remains pristine and response-sealed in pre-intake HOLD because safe island-covariate transport is unresolved. Separately, the Zenodo 318-island mammal system is now at v0.50: its 65-island pilot passed v0.32/v0.42, a 233-species universe is fixed, and R3/C predictions for all 244 heldout islands are frozen before heldout outcome access. Exactly one stress-test scoring read is the next valid event; regardless of result, it cannot enter the fresh confirmatory denominator. Submission/release work for the frozen manuscript remains author/admin/live-policy only.
+The frozen Structural manuscript and presentation package remain closed. The post-closure prospective validation programme still has no fresh confirmatory-eligible system. The 5,592-island mammal dataset remains pristine and response-sealed in pre-intake HOLD because safe island-covariate transport is unresolved. Separately, the Zenodo 318-island mammal system is now at v0.51: its 65-island pilot passed v0.32/v0.42, a 233-species universe is fixed, R3/C predictions for all 244 heldout islands are frozen before outcome access, and the no-refit heldout scorer/bootstrap implementation is now frozen. Exactly one stress-test scoring read is the next valid event; regardless of result, it cannot enter the fresh confirmatory denominator. Submission/release work for the frozen manuscript remains author/admin/live-policy only.
 
 ## Provenance
 
