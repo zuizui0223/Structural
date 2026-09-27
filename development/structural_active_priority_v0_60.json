@@ -1,0 +1,22 @@
+{
+  "schema": "structural.active_priority.v0_60",
+  "status": "pristine_global_mammal_safe_geography_ready_ID_crosswalk_next",
+  "supersedes": "development/structural_active_priority_v0_55.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis_path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "pristine_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "safe_rows_result": "development/global_mammals_weigelt_safe_rows_result_v0_60.json",
+    "response_opened": false,
+    "next_gate": "ID-only crosswalk"
+  },
+  "next_action": "read only the routing island-ID field from the frozen 5,592-island response file and compare it to Weigelt id; species headers and 0/1 cells remain sealed",
+  "prohibited": [
+    "decode any mammal species occurrence value during the ID crosswalk",
+    "use response prevalence or richness to repair unmatched island IDs",
+    "use fuzzy/name/coordinate matching after seeing species outcomes",
+    "assume archip or coordinates are complete because external-isolation fields are complete",
+    "promote the system into v0.11 until the routing-ID crosswalk and response-independent eligibility universe are frozen"
+  ]
+}
