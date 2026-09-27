@@ -1,0 +1,28 @@
+{
+  "schema": "structural.global_island_mammals_appendix2_schema_probe.v0_2",
+  "status": "mixed_file_header_only_before_column_firewall",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "dryad_version_id": 299966,
+  "file": {
+    "path": "Appendix_2-dryad.xlsx",
+    "file_stream_id": 3242157,
+    "download_url": "https://datadryad.org/downloads/file_stream/3242157",
+    "size_bytes": 1066391,
+    "sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960"
+  },
+  "allowed_semantic_reads": [
+    "OOXML workbook sheet names and relationships",
+    "worksheet dimension metadata",
+    "row 1 cell references/types only",
+    "shared-string entries referenced by row 1 only"
+  ],
+  "forbidden_semantic_reads": [
+    "any worksheet row >=2 cell value",
+    "any richness/SIE/pSIE value",
+    "any physical/environmental island value",
+    "any island ID value",
+    "any response matrix content"
+  ],
+  "response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
