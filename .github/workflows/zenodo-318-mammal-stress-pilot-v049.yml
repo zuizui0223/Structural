@@ -48,7 +48,7 @@ jobs:
           A=json.loads(Path(
               "development/zenodo_318_island_mammals_stress_pilot_authorization_v0_49.json"
           ).read_text())
-          assert A["status"]=="one_shot_stress_pilot_authorized_nonfresh_evidence"
+          assert A["status"]=="one_shot_stress_pilot_retry_after_pre_response_import_failure"
           assert A["counts_as_fresh_confirmation"] is False
           assert A["heldout_response_authorized"] is False
           assert A["rerun_authorized"] is False
