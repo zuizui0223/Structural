@@ -1,0 +1,33 @@
+{
+  "schema": "structural.source_pool_handoff_cross_system_synthesis.v0_54",
+  "status": "post_outcome_ecological_synthesis_not_new_confirmatory_test",
+  "systems": {
+    "A_Islands": {
+      "evidence_class": "frozen exploratory discovery",
+      "result": "remote-tail source-network decoupling generated the source-pool-handoff hypothesis",
+      "counts_as_confirmation": false
+    },
+    "Indo_Pacific_atoll_plants": {
+      "evidence_class": "fresh pilot exposed terminal endpoint-domain mismatch",
+      "result": "hypothesis not scored",
+      "counts_as_confirmation": false
+    },
+    "Zenodo_318_island_mammals": {
+      "evidence_class": "independent design-frozen stress test; response-summary exposed before species protocol freeze",
+      "result": "within-archipelago source information improved heldout log loss descriptively overall and in both regimes, but extreme-isolation amplification primary was unsupported",
+      "primary_supported": false,
+      "counts_as_fresh_confirmation": false
+    }
+  },
+  "ecological_update": {
+    "rejected_as_universal": "Extreme mainland/continent isolation is not supported as a universal switch that amplifies the value of occupied insular source pools.",
+    "retained": "Species-conditioned occupied source pools can contain heldout occurrence information beyond strong island-state and global occupancy-breadth references.",
+    "revised_interpretation": "Source-pool relevance appears context-dependent rather than governed by remoteness alone; archipelago structure, taxon dispersal mode, history, or source saturation may determine when source-network information is strongest."
+  },
+  "next_fresh_hypothesis_boundary": {
+    "may_not_redefine_mammal_stress_primary": true,
+    "may_not_mine_318_island_subgroups_to_rescue_handoff": true,
+    "future_test_must_be_new_response_sealed_system": true,
+    "candidate_future_question": "Does source-pool importance depend jointly on dispersal mode and archipelago permeability rather than monotonically on mainland isolation?"
+  }
+}
