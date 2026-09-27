@@ -1,0 +1,317 @@
+name: Zenodo 318 mammal stress burned pilot v0.49
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  stress-pilot:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: src:.
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify immutable pre-pilot ancestry and code identity
+        run: |
+          set -euo pipefail
+          PARENT=f9720df61e5bec5a8772563274fda622ab6846b5
+          test "$(git merge-base "$PARENT" HEAD)" = "$PARENT"
+          mapfile -t changed < <(git diff --name-only "$PARENT"...HEAD | sort)
+          test "${#changed[@]}" -eq 2
+          test "${changed[0]}" = ".github/workflows/zenodo-318-mammal-stress-pilot-v049.yml"
+          test "${changed[1]}" = "development/zenodo_318_island_mammals_stress_pilot_authorization_v0_49.json"
+
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          from structural.response_quality_attrition import (
+              ResponseQualityContractStatus,
+              contract_fingerprint,
+              contract_from_mapping,
+              evaluate_response_quality_contract,
+          )
+          from structural.transition_pilot_protocol import (
+              PilotProtocolStatus,
+              evaluate_transition_pilot_protocol,
+              protocol_fingerprint,
+              protocol_from_mapping,
+          )
+
+          A=json.loads(Path(
+              "development/zenodo_318_island_mammals_stress_pilot_authorization_v0_49.json"
+          ).read_text())
+          assert A["status"]=="one_shot_stress_pilot_authorized_nonfresh_evidence"
+          assert A["counts_as_fresh_confirmation"] is False
+          assert A["heldout_response_authorized"] is False
+          assert A["rerun_authorized"] is False
+
+          paths={
+              "protocol":"development/zenodo_318_island_mammals_stress_pilot_protocol_v0_47.json",
+              "quality_contract":"development/zenodo_318_island_mammals_stress_quality_contract_v0_47.json",
+              "safe_design":"development/zenodo_318_island_mammals_safe_design_result_v0_47.json",
+              "scoring_contract":"development/zenodo_318_island_mammals_stress_scoring_contract_v0_47.json",
+              "evidence_class":"development/zenodo_318_island_mammals_evidence_class_v0_47.json",
+              "router_code":"src/structural/zenodo_318_mammal_pilot_router.py",
+              "v0_32_runner":"scripts/run_transition_pilot_v0_32.py",
+          }
+          parent=A["parent_main_commit"]
+          for key,path in paths.items():
+              observed=subprocess.check_output(
+                  ["git","rev-parse",f"{parent}:{path}"],text=True
+              ).strip()
+              assert observed==A["frozen_git_blobs"][key],(key,observed,A["frozen_git_blobs"][key])
+
+          p=protocol_from_mapping(json.loads(Path(paths["protocol"]).read_text()))
+          q=contract_from_mapping(json.loads(Path(paths["quality_contract"]).read_text()))
+          assert protocol_fingerprint(p)==A["protocol_fingerprint"]
+          assert contract_fingerprint(q)==A["quality_contract_fingerprint"]
+          assert evaluate_transition_pilot_protocol(p).status is PilotProtocolStatus.QUALIFIED_TO_OPEN_PILOT
+          assert evaluate_response_quality_contract(protocol=p,contract=q).status is ResponseQualityContractStatus.QUALIFIED_TO_OPEN_PILOT
+
+          design=json.loads(Path(paths["safe_design"]).read_text())
+          assert design["safe_design_sha256"]==A["safe_design_sha256"]
+          assert len(design["pilot_island_ids"])==A["pilot_rule"]["pilot_islands"]==65
+          assert len(design["confirmatory_island_ids"])==A["pilot_rule"]["heldout_islands"]==244
+          assert design["occurrence_values_opened_at_design_freeze"]==0
+
+          evidence=json.loads(Path(paths["evidence_class"]).read_text())
+          assert evidence["raw_species_occurrence_matrix_opened"] is False
+          assert evidence["counts_as_fresh_confirmation"] is False
+
+          scoring=json.loads(Path(paths["scoring_contract"]).read_text())
+          assert scoring["counts_as_fresh_confirmation"] is False
+          assert scoring["counts_as_primary_confirmatory_evidence"] is False
+          print("immutable stress-pilot identity OK")
+          PY
+
+      - name: Execute one-shot stress pilot
+        run: |
+          mkdir -p build/zenodo_318_mammal_stress_pilot_v049
+          python - <<'PY'
+          import hashlib
+          import json
+          import traceback
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          from scripts.run_transition_pilot_v0_32 import run as run_v032
+          from structural.response_quality_attrition import (
+              audit_mapping,
+              audit_response_quality_attrition,
+              contract_from_mapping,
+          )
+          from structural.transition_pilot_protocol import protocol_from_mapping
+          from structural.zenodo_318_mammal_pilot_router import (
+              build_zenodo_318_mammal_stress_pilot_surface,
+          )
+
+          OUT=Path("build/zenodo_318_mammal_stress_pilot_v049")
+          AUTH=Path("development/zenodo_318_island_mammals_stress_pilot_authorization_v0_49.json")
+          PROTOCOL=Path("development/zenodo_318_island_mammals_stress_pilot_protocol_v0_47.json")
+          QUALITY=Path("development/zenodo_318_island_mammals_stress_quality_contract_v0_47.json")
+          DESIGN=Path("development/zenodo_318_island_mammals_safe_design_result_v0_47.json")
+
+          auth=json.loads(AUTH.read_text())
+          protocol_data=json.loads(PROTOCOL.read_text())
+          protocol=protocol_from_mapping(protocol_data)
+          quality=contract_from_mapping(json.loads(QUALITY.read_text()))
+          design=json.loads(DESIGN.read_text())
+
+          receipt={
+              "schema":"structural.zenodo_318_island_mammals_stress_pilot_execution.v0_48",
+              "status":"NOT_STARTED",
+              "evidence_class":auth["evidence_class"],
+              "protocol_fingerprint":auth["protocol_fingerprint"],
+              "quality_contract_fingerprint":auth["quality_contract_fingerprint"],
+              "safe_design_sha256":auth["safe_design_sha256"],
+              "pilot_response_accessed":False,
+              "heldout_response_accessed":False,
+              "heldout_occurrence_values_parsed":0,
+              "out_of_scope_occurrence_values_parsed":0,
+              "effect_size":None,
+              "prediction_score":None,
+              "predictive_denominator_contribution":0,
+              "counts_as_fresh_confirmation":False,
+              "counts_as_primary_confirmatory_evidence":False,
+              "heldout_response_authorized":False,
+              "rerun_authorized":False,
+          }
+
+          semantic_started=False
+          try:
+              src=auth["source_workbook"]
+              req=Request(
+                  src["url"],
+                  headers={"User-Agent":"Structural-zenodo-318-mammal-stress-pilot/0.48"},
+                  method="GET",
+              )
+              with urlopen(req,timeout=90) as response:
+                  raw=response.read()
+              assert len(raw)==src["size_bytes"],(len(raw),src["size_bytes"])
+              assert hashlib.md5(raw).hexdigest()==src["md5"]
+              receipt["source_workbook_size_bytes"]=len(raw)
+              receipt["source_workbook_md5"]=src["md5"]
+              receipt["source_workbook_sha256"]=hashlib.sha256(raw).hexdigest()
+
+              semantic_started=True
+              receipt["pilot_response_accessed"]=True
+
+              routed=build_zenodo_318_mammal_stress_pilot_surface(
+                  workbook_bytes=raw,
+                  pilot_island_ids=design["pilot_island_ids"],
+                  confirmatory_island_ids=design["confirmatory_island_ids"],
+                  expected_sheet_dimension=src["dimension"],
+                  expected_species_headers_sha256=src["species_headers_sha256"],
+                  expected_species_count=src["species_header_count"],
+                  first_data_row=5,
+                  last_data_row=322,
+                  minimum_species_support_islands=2,
+              )
+
+              receipt.update({
+                  "pilot_species_universe_count":routed.pilot_species_universe_count,
+                  "pilot_species_universe_sha256":routed.pilot_species_universe_sha256,
+                  "pilot_islands_opened":routed.pilot_islands_opened,
+                  "pilot_occurrence_values_parsed":routed.pilot_occurrence_values_parsed,
+                  "heldout_occurrence_values_parsed":routed.confirmatory_occurrence_values_parsed,
+                  "out_of_scope_occurrence_values_parsed":routed.excluded_occurrence_values_parsed,
+                  "occurrence_rows_seen":routed.occurrence_rows_seen,
+                  "raw_pilot_sha256":routed.raw_surface_sha256,
+              })
+              assert routed.pilot_islands_opened==65
+              assert routed.confirmatory_occurrence_values_parsed==0
+              assert routed.excluded_occurrence_values_parsed==0
+
+              pilot_path=OUT/"burned_pilot.csv"
+              pilot_path.write_text(routed.csv_text,encoding="utf-8")
+              (OUT/"pilot_species_universe.json").write_text(
+                  json.dumps({
+                      "schema":"structural.zenodo_318_mammal_pilot_species_universe.v0_48",
+                      "support_rule":"occurrence=1 on at least two distinct frozen pilot islands",
+                      "species_count":routed.pilot_species_universe_count,
+                      "sha256":routed.pilot_species_universe_sha256,
+                      "species":list(routed.pilot_species_universe),
+                      "heldout_response_used":False,
+                      "counts_as_fresh_confirmation":False,
+                  },indent=2,sort_keys=True)+"\n",
+                  encoding="utf-8",
+              )
+
+              pilot_code,pilot_result=run_v032(PROTOCOL,pilot_path)
+              (OUT/"pilot_result.json").write_text(
+                  json.dumps(pilot_result,indent=2,sort_keys=True)+"\n",
+                  encoding="utf-8",
+              )
+
+              qaudit=audit_response_quality_attrition(
+                  protocol=protocol,
+                  contract=quality,
+                  pilot_result=pilot_result,
+              )
+              qmap=audit_mapping(qaudit)
+              (OUT/"quality_audit.json").write_text(
+                  json.dumps(qmap,indent=2,sort_keys=True)+"\n",
+                  encoding="utf-8",
+              )
+
+              receipt.update({
+                  "pilot_runner_exit_code":pilot_code,
+                  "pilot_status":pilot_result.get("status"),
+                  "pilot_applicable_rows":pilot_result.get("applicable_rows"),
+                  "pilot_positive":pilot_result.get("positive"),
+                  "pilot_negative":pilot_result.get("negative"),
+                  "pilot_non_estimable":pilot_result.get("non_estimable"),
+                  "pilot_total_blocks":pilot_result.get("total_blocks"),
+                  "pilot_estimable_blocks":pilot_result.get("estimable_blocks"),
+                  "quality_status":qmap["status"],
+                  "response_qualified_blocks":qmap["response_qualified_blocks"],
+                  "minimum_response_qualified_blocks":qmap["minimum_response_qualified_blocks"],
+              })
+
+              qualified=(
+                  pilot_code==0
+                  and pilot_result.get("status")=="qualified_for_new_confirmatory_protocol"
+                  and qmap["status"]=="qualified_response_quality_survival"
+              )
+              receipt["status"]=(
+                  "QUALIFIED_STRESS_PILOT_GATES"
+                  if qualified
+                  else "TERMINAL_STOP_STRESS_PILOT_GATES"
+              )
+          except Exception as exc:
+              receipt["status"]=(
+                  "TERMINAL_STOP_AFTER_STRESS_PILOT_RESPONSE_ACCESS"
+                  if semantic_started
+                  else "PRE_RESPONSE_STOP"
+              )
+              receipt["error_type"]=type(exc).__name__
+              receipt["error_message"]=str(exc)
+              receipt["traceback_tail"]=traceback.format_exc().splitlines()[-12:]
+
+          (OUT/"execution_receipt.json").write_text(
+              json.dumps(receipt,indent=2,sort_keys=True)+"\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(receipt,indent=2,sort_keys=True))
+          PY
+
+      - name: Enforce evidence ceiling
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/zenodo_318_mammal_stress_pilot_v049/execution_receipt.json")
+          assert p.is_file(), "execution receipt missing"
+          x=json.loads(p.read_text())
+          assert x["effect_size"] is None
+          assert x["prediction_score"] is None
+          assert x["predictive_denominator_contribution"]==0
+          assert x["heldout_response_authorized"] is False
+          assert x["counts_as_fresh_confirmation"] is False
+          assert x["counts_as_primary_confirmatory_evidence"] is False
+          assert x["rerun_authorized"] is False
+          if x["pilot_response_accessed"]:
+              assert x.get("heldout_occurrence_values_parsed",0)==0
+              assert x.get("out_of_scope_occurrence_values_parsed",0)==0
+          print("stress-pilot evidence ceiling intact")
+          PY
+
+      - name: Upload pilot-only stress evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-318-mammal-stress-pilot-v0-48
+          path: |
+            build/zenodo_318_mammal_stress_pilot_v049/execution_receipt.json
+            build/zenodo_318_mammal_stress_pilot_v049/burned_pilot.csv
+            build/zenodo_318_mammal_stress_pilot_v049/pilot_species_universe.json
+            build/zenodo_318_mammal_stress_pilot_v049/pilot_result.json
+            build/zenodo_318_mammal_stress_pilot_v049/quality_audit.json
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Adjudicate one-shot stress pilot
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          p=Path("build/zenodo_318_mammal_stress_pilot_v049/execution_receipt.json")
+          if not p.is_file():
+              raise SystemExit(1)
+          x=json.loads(p.read_text())
+          if x["status"]=="QUALIFIED_STRESS_PILOT_GATES":
+              print("QUALIFIED_STRESS_PILOT_GATES")
+              raise SystemExit(0)
+          print(x["status"])
+          raise SystemExit(2)
+          PY
