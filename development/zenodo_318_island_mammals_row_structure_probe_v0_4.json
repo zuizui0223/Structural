@@ -1,0 +1,18 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_row_structure_probe.v0_4",
+  "status": "occurrence_sheet_cell_structure_only",
+  "file": {
+    "key": "Mammal_occurrence_islands.xlsx",
+    "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+    "size_bytes": 1401342,
+    "md5": "be781f82fb6417a8447d8d10045e35ad"
+  },
+  "allowed_output": [
+    "first 12 physical row numbers in occurrence sheet",
+    "cell reference list and cell type for those rows",
+    "cell counts only"
+  ],
+  "cell_values_may_be_decoded": false,
+  "rows_semantically_parsed": 0,
+  "response_values_opened": false
+}
