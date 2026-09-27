@@ -1,0 +1,76 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_heldout_scoring_authorization.v0_52",
+  "status": "one_shot_heldout_stress_scoring_authorized",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "parent_main_commit": "c88e9aa876e359d1e7b989fd66b1afa658d1fb7f",
+  "allowed_branch_delta": [
+    ".github/workflows/zenodo-318-mammal-heldout-score-v052.yml",
+    "development/zenodo_318_island_mammals_heldout_scoring_authorization_v0_52.json"
+  ],
+  "frozen_git_blobs": {
+    "scorer": "6071f8f43f4dddf27842392beeb718f9dc6e6e77",
+    "heldout_scoring_gate": "3275578898e9fcbfd19ee80afc31aaf9d978801d",
+    "scoring_contract": "ca2bb6b6e0ae0fd7b414ef663c4a793c5d1f3393",
+    "safe_design_result": "953b132b77b92986ed64ef2374aa38851ae30eef",
+    "preheldout_result": "5c81a5369a92159c001d209b6ce5347dd74959d1"
+  },
+  "preheldout_artifact": {
+    "workflow_run_id": 36308503357,
+    "workflow_job_id": 108589735569,
+    "artifact_id": 10928370884,
+    "artifact_name": "zenodo-318-mammal-preheldout-freeze-v0-50",
+    "artifact_sha256": "8297a3d579b0f648f9098b8f28e537f6ff7c655888c7615804b382d9e09415f6",
+    "compact_pilot_sha256": "ff079eded747a85faccb509f7ae78b8b5f8754a365da65d9009d9880509aaa85",
+    "detailed_freeze_sha256": "f5d3f7bc6b67a533d06e568801540cf33b3abdbd219c7631e5027e4bae21b2ad",
+    "prediction_surface_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9",
+    "prediction_rows": 56852
+  },
+  "response_source": {
+    "doi": "10.5281/zenodo.11220273",
+    "file": "Mammal_occurrence_islands.xlsx",
+    "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+    "size_bytes": 1401342,
+    "md5": "be781f82fb6417a8447d8d10045e35ad",
+    "sha256": "590e0e59db83cb2be3ddab075ce79dbc2517b5487cb9d2f9e2f726475f19a1cc",
+    "species_headers_sha256": "1a23562c1397beed83c5c8a7fe2aaccbb94ff39206bec3864c3af82317184a6d",
+    "full_species_columns": 1474,
+    "fixed_scored_species": 233,
+    "heldout_islands": 244
+  },
+  "frozen_scoring": {
+    "prediction_surface_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9",
+    "primary": "mean(C_minus_R3 log loss | extreme_q75) - mean(C_minus_R3 log loss | non_extreme)",
+    "prediction": "negative",
+    "support_rule": "point < 0 and bootstrap 95% upper limit < 0",
+    "bootstrap_unit": "Archipielago",
+    "bootstrap_clusters": 8,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260927,
+    "rng": "python.random.Random (MT19937)",
+    "quantile_method": "linear"
+  },
+  "response_firewall": {
+    "decode_for_routing": "island ID column A on all 318 data rows",
+    "decode_outcomes": "only the 233 frozen species columns on the 244 frozen heldout islands",
+    "pilot_occurrence_values_parsed_expected": 0,
+    "out_of_scope_occurrence_values_parsed_expected": 0,
+    "nonfixed_species_occurrence_values_parsed_expected": 0,
+    "raw_workbook_may_be_uploaded": false,
+    "canonical_outcome_surface_may_be_uploaded": false
+  },
+  "allowed_outputs": [
+    "aggregate frozen stress score JSON",
+    "execution receipt with response-access counters",
+    "heldout outcome surface SHA-256 only"
+  ],
+  "prohibited": [
+    "fit or refit any model",
+    "change predictions or prediction SHA",
+    "change species universe, heldout islands, q75, reference, source operator, estimand, bootstrap, or support rule",
+    "upload raw workbook or heldout outcome matrix",
+    "rerun after workbook bytes are read, regardless of support result or technical failure"
+  ],
+  "rerun_after_response_access_authorized": false,
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false
+}
