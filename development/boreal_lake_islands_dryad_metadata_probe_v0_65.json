@@ -1,0 +1,27 @@
+{
+  "schema": "structural.boreal_lake_islands_dryad_metadata_probe.v0_65",
+  "status": "response_blind_metadata_only",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "dryad_doi": "10.5061/dryad.tdz08kq78",
+  "allowed_requests": [
+    "GET Dryad dataset metadata",
+    "GET Dryad version list",
+    "GET file metadata for the latest published version"
+  ],
+  "forbidden_requests": [
+    "any Dryad file download or file-stream URL",
+    "any beetle/bird/plant matrix content"
+  ],
+  "required_file_names": [
+    "alpha_diversity_ALL_islands.csv",
+    "beetles_speciesmatrix_presenceabsence.csv",
+    "borealbirds_speciesmatrix_presenceabsence.csv",
+    "vascularplants_speciesmatrix_presenceabsence.csv",
+    "RDA_environmental_variables.csv",
+    "island_isolation.csv",
+    "island_logarea.csv",
+    "README.md"
+  ],
+  "response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
