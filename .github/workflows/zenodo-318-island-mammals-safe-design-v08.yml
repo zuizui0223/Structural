@@ -1,0 +1,310 @@
+name: Zenodo 318 mammal response-blind safe design v0.8
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  safe-design:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build safe island design without occurrence values
+        run: |
+          mkdir -p build/zenodo_318_mammal_safe_design_v08
+          python - <<'PY'
+          import csv, hashlib, html, io, json, math, re, statistics, zipfile
+          from collections import Counter, defaultdict
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import xml.etree.ElementTree as ET
+
+          A=json.loads(Path(
+              "development/zenodo_318_island_mammals_safe_design_authorization_v0_8.json"
+          ).read_text())
+          assert A["status"]=="response_blind_safe_metadata_and_routing_metadata_only"
+
+          def fetch(spec):
+              req=Request(spec["url"],headers={"User-Agent":"Structural-zenodo-318-safe-design/0.8"},method="GET")
+              with urlopen(req,timeout=90) as r:
+                  raw=r.read()
+              assert len(raw)==spec["size_bytes"],(len(raw),spec["size_bytes"])
+              assert hashlib.md5(raw).hexdigest()==spec["md5"]
+              return raw
+
+          def iter_csv_records_bytes(raw):
+              rec=[]; field=bytearray(); quoted=False; i=0
+              while i<len(raw):
+                  b=raw[i]
+                  if quoted:
+                      if b==34:
+                          if i+1<len(raw) and raw[i+1]==34:
+                              field.append(34); i+=2; continue
+                          quoted=False; i+=1; continue
+                      field.append(b); i+=1; continue
+                  if b==34 and not field:
+                      quoted=True; i+=1; continue
+                  if b==44:
+                      rec.append(bytes(field)); field.clear(); i+=1; continue
+                  if b==10:
+                      if field.endswith(b"\r"): del field[-1:]
+                      rec.append(bytes(field)); field.clear()
+                      yield tuple(rec); rec=[]; i+=1; continue
+                  field.append(b); i+=1
+              if quoted: raise AssertionError("unterminated CSV quote")
+              if field or rec:
+                  if field.endswith(b"\r"): del field[-1:]
+                  rec.append(bytes(field)); yield tuple(rec)
+
+          meta_spec=A["files"]["island_metadata"]
+          raw_meta=fetch(meta_spec)
+          recs=iter_csv_records_bytes(raw_meta)
+          header=next(recs)
+          if header[0].startswith(b"\xef\xbb\xbf"):
+              header=(header[0][3:],)+header[1:]
+          headers=[x.decode("utf-8") for x in header]
+          assert headers==meta_spec["headers"],headers
+          idx={h:i for i,h in enumerate(headers)}
+          safe_cols=meta_spec["allowed_columns"]+meta_spec["unused_safe_columns"]
+          forbidden=set(meta_spec["forbidden_columns"])
+          assert set(headers)==set(safe_cols)|forbidden
+
+          safe_rows=[]
+          forbidden_values_decoded=0
+          for rec in recs:
+              if not rec or rec==(b"",): continue
+              assert len(rec)==len(headers)
+              row={}
+              for h in safe_cols:
+                  row[h]=rec[idx[h]].decode("utf-8").strip()
+              safe_rows.append(row)
+          assert forbidden_values_decoded==0
+          assert len(safe_rows)==318
+
+          # Response routing metadata: decode A:C only, never D:BDU.
+          rsp_spec=A["files"]["occurrence_workbook"]
+          raw_xlsx=fetch(rsp_spec)
+          MAIN="{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+          REL="{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+          PKG="{http://schemas.openxmlformats.org/package/2006/relationships}"
+
+          with zipfile.ZipFile(io.BytesIO(raw_xlsx)) as zf:
+              wb=ET.fromstring(zf.read("xl/workbook.xml"))
+              rels=ET.fromstring(zf.read("xl/_rels/workbook.xml.rels"))
+              relmap={r.attrib["Id"]:r.attrib["Target"] for r in rels.findall(PKG+"Relationship")}
+              xmlb=None
+              for s in wb.find(MAIN+"sheets"):
+                  if s.attrib["name"]==rsp_spec["sheet"]:
+                      target=relmap[s.attrib[REL+"id"]].lstrip("/")
+                      if not target.startswith("xl/"): target="xl/"+target
+                      xmlb=zf.read(target); break
+              assert xmlb is not None
+              dm=re.search(br'<dimension[^>]*ref="([^"]+)"',xmlb[:20000])
+              assert dm and dm.group(1).decode("ascii")==rsp_spec["dimension"]
+
+              shared=zf.read("xl/sharedStrings.xml")
+              blocks=re.findall(br"<si(?:\s[^>]*)?>.*?</si>",shared,flags=re.S)
+              cache={}
+              def svalue(idx):
+                  if idx not in cache:
+                      node=ET.fromstring(blocks[idx])
+                      cache[idx]="".join(
+                          (el.text or "") for el in node.iter()
+                          if el.tag.rsplit("}",1)[-1]=="t"
+                      )
+                  return cache[idx]
+
+              def col_letters(ref):
+                  m=re.match(r"([A-Z]+)",ref)
+                  assert m
+                  return m.group(1)
+
+              routing=[]
+              occurrence_cells_decoded=0
+              for rn in range(rsp_spec["data_rows"][0],rsp_spec["data_rows"][1]+1):
+                  m=re.search(
+                      rb'<row\b[^>]*\br="'+str(rn).encode()+rb'"[^>]*>.*?</row>',
+                      xmlb,flags=re.S
+                  )
+                  assert m is not None,rn
+                  rowb=m.group(0)
+                  vals={}
+                  for cb in re.findall(br"<c\b[^>]*>.*?</c>|<c\b[^>]*/>",rowb,flags=re.S):
+                      head=cb.split(b">",1)[0]+b">"
+                      rm=re.search(br'\br="([^"]+)"',head)
+                      assert rm
+                      ref=rm.group(1).decode("ascii")
+                      col=col_letters(ref)
+                      if col not in {"A","B","C"}:
+                          # Deliberately do not inspect cell type or value.
+                          continue
+                      tm=re.search(br'\bt="([^"]+)"',head)
+                      typ=tm.group(1).decode("ascii") if tm else None
+                      vm=re.search(br"<v>(.*?)</v>",cb,flags=re.S)
+                      inline=re.search(br"<is>.*?<t[^>]*>(.*?)</t>.*?</is>",cb,flags=re.S)
+                      if typ=="s":
+                          assert vm; val=svalue(int(vm.group(1)))
+                      elif typ=="inlineStr":
+                          assert inline; val=html.unescape(inline.group(1).decode("utf-8"))
+                      elif typ in (None,"str"):
+                          val=html.unescape(vm.group(1).decode("utf-8")) if vm else ""
+                      else:
+                          raise AssertionError((rn,ref,typ))
+                      vals[col]=val.strip()
+                  assert set(vals)=={"A","B","C"},(rn,vals)
+                  routing.append({"ID":vals["A"],"Island":vals["B"],"Island_group":vals["C"]})
+              assert len(routing)==318
+              assert occurrence_cells_decoded==0
+
+          # Exact ID join.
+          safe_by_id={}
+          for row in safe_rows:
+              rid=row["ID"]
+              assert rid and rid not in safe_by_id
+              safe_by_id[rid]=row
+          route_by_id={}
+          for row in routing:
+              rid=row["ID"]
+              assert rid and rid not in route_by_id
+              route_by_id[rid]=row
+          assert set(safe_by_id)==set(route_by_id),(len(safe_by_id),len(route_by_id),sorted(set(safe_by_id)^set(route_by_id))[:10])
+
+          required=A["required_model_target_safe_fields"]
+          joined=[]
+          missing=Counter()
+          for rid in sorted(safe_by_id,key=lambda x:(int(x) if x.isdigit() else 10**12,x)):
+              m=safe_by_id[rid]; r=route_by_id[rid]
+              row={**m,**r}
+              for h in required:
+                  if not row.get(h,"").strip(): missing[h]+=1
+              joined.append(row)
+
+          # Complete safe-model universe under prospectively required fields.
+          eligible=[
+              row for row in joined
+              if all(row.get(h,"").strip() for h in required)
+          ]
+          by_arch=defaultdict(list)
+          for row in eligible:
+              by_arch[row["Archipielago"]].append(row)
+
+          eligible_arch={
+              a:rows for a,rows in by_arch.items()
+              if len(rows)>=A["archipelago_eligibility"]["minimum_safe_metadata_islands"]
+          }
+          model_rows=[r for a,rows in eligible_arch.items() for r in rows]
+
+          def rank(row):
+              payload="mammal-source-pool-v1|"+row["Archipielago"]+"|"+row["ID"]
+              return hashlib.sha256(payload.encode()).hexdigest()
+
+          pilot=[]; confirm=[]
+          split_summary=[]
+          for arch in sorted(eligible_arch):
+              rows=sorted(eligible_arch[arch],key=rank)
+              n=len(rows)
+              pn=max(2,math.ceil(0.20*n))
+              assert n-pn>=A["pilot_split"]["confirmatory_minimum_per_archipelago"],(arch,n,pn)
+              for row in rows[:pn]:
+                  pilot.append(row["ID"])
+              for row in rows[pn:]:
+                  confirm.append(row["ID"])
+              split_summary.append({
+                  "archipelago":arch,"eligible_islands":n,
+                  "pilot_islands":pn,"confirmatory_islands":n-pn
+              })
+
+          assert set(pilot).isdisjoint(confirm)
+          assert len(pilot)+len(confirm)==len(model_rows)
+
+          dists=[float(r["dContinent_km"]) for r in model_rows]
+          def qlinear(vals,q):
+              xs=sorted(vals); h=(len(xs)-1)*q
+              lo,hi=math.floor(h),math.ceil(h)
+              if lo==hi:return xs[lo]
+              f=h-lo
+              return xs[lo]*(1-f)+xs[hi]*f
+
+          design_rows=[]
+          for row in model_rows:
+              design_rows.append({
+                  "ID":row["ID"],
+                  "Island":row["Island"],
+                  "Island_group":row["Island_group"],
+                  "Archipielago":row["Archipielago"],
+                  "Type":row["Type"],
+                  "dContinent_km":row["dContinent_km"],
+                  "Anntemp_promedio":row["Anntemp_promedio"],
+                  "Annprec_promedio":row["Annprec_promedio"],
+                  "Area_km2":row["Area_km2"],
+                  "Elev_max":row["Elev_max"],
+                  "distance_biggerLandmass":row["distance_biggerLandmass"],
+                  "archipelago_eligible_island_count":len(eligible_arch[row["Archipielago"]]),
+                  "partition":"pilot" if row["ID"] in set(pilot) else "confirmatory"
+              })
+          design_rows=sorted(design_rows,key=lambda r:(r["Archipielago"],int(r["ID"]) if r["ID"].isdigit() else 10**12,r["ID"]))
+
+          out=Path("build/zenodo_318_mammal_safe_design_v08")
+          csvp=out/"safe_island_design.csv"
+          with csvp.open("w",newline="",encoding="utf-8") as f:
+              w=csv.DictWriter(f,fieldnames=list(design_rows[0]))
+              w.writeheader(); w.writerows(design_rows)
+
+          summary={
+              "schema":"structural.zenodo_318_island_mammals_safe_design_result.v0_8",
+              "status":"response_blind_safe_design_complete",
+              "source_islands":318,
+              "routing_metadata_rows":len(routing),
+              "safe_metadata_rows":len(safe_rows),
+              "exact_ID_join":True,
+              "required_field_missing_counts":dict(sorted(missing.items())),
+              "complete_required_field_islands":len(eligible),
+              "eligible_archipelago_count":len(eligible_arch),
+              "eligible_model_target_islands":len(model_rows),
+              "pilot_island_count":len(pilot),
+              "confirmatory_island_count":len(confirm),
+              "pilot_ids":sorted(pilot,key=lambda x:(int(x) if x.isdigit() else 10**12,x)),
+              "confirmatory_ids":sorted(confirm,key=lambda x:(int(x) if x.isdigit() else 10**12,x)),
+              "archipelago_splits":split_summary,
+              "dContinent_quantiles_km":{
+                  "q70":qlinear(dists,.70),
+                  "q75_primary":qlinear(dists,.75),
+                  "q80":qlinear(dists,.80)
+              },
+              "safe_design_sha256":hashlib.sha256(csvp.read_bytes()).hexdigest(),
+              "forbidden_metadata_values_decoded":0,
+              "occurrence_values_opened":0,
+              "response_rows_D_to_BDU_semantically_parsed":0,
+              "counts_as_empirical_evidence":False
+          }
+          (out/"safe_design_summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(summary,indent=2,sort_keys=True))
+          PY
+
+      - name: Enforce response firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/zenodo_318_mammal_safe_design_v08/safe_design_summary.json"
+          ).read_text())
+          assert x["exact_ID_join"] is True
+          assert x["forbidden_metadata_values_decoded"]==0
+          assert x["occurrence_values_opened"]==0
+          assert x["response_rows_D_to_BDU_semantically_parsed"]==0
+          print("safe-design firewall intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-318-island-mammals-safe-design-v0-8
+          path: |
+            build/zenodo_318_mammal_safe_design_v08/safe_design_summary.json
+            build/zenodo_318_mammal_safe_design_v08/safe_island_design.csv
+          if-no-files-found: error
+          retention-days: 90
