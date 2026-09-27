@@ -1,0 +1,126 @@
+name: Zenodo 318 mammal response schema rows 1-2-4
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  response-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decode only schema rows 1, 2 and 4
+        run: |
+          mkdir -p build/zenodo_318_response_schema_v05
+          python - <<'PY'
+          import hashlib, html, io, json, re, zipfile
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import xml.etree.ElementTree as ET
+
+          A=json.loads(Path(
+              "development/zenodo_318_island_mammals_response_schema_probe_v0_5.json"
+          ).read_text())
+          req=Request(A["file"]["url"],headers={"User-Agent":"Structural-zenodo-318-response-schema/0.5"},method="GET")
+          with urlopen(req,timeout=90) as r:
+              raw=r.read()
+          assert len(raw)==A["file"]["size_bytes"]
+          assert hashlib.md5(raw).hexdigest()==A["file"]["md5"]
+
+          MAIN="{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+          REL="{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+          PKG="{http://schemas.openxmlformats.org/package/2006/relationships}"
+
+          with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+              wb=ET.fromstring(zf.read("xl/workbook.xml"))
+              rels=ET.fromstring(zf.read("xl/_rels/workbook.xml.rels"))
+              relmap={r.attrib["Id"]:r.attrib["Target"] for r in rels.findall(PKG+"Relationship")}
+              xmlb=None
+              for s in wb.find(MAIN+"sheets"):
+                  if s.attrib["name"]=="occurrence":
+                      target=relmap[s.attrib[REL+"id"]].lstrip("/")
+                      if not target.startswith("xl/"): target="xl/"+target
+                      xmlb=zf.read(target)
+                      break
+              assert xmlb is not None
+
+              dm=re.search(br"<dimension[^>]*ref=\"([^\"]+)\"",xmlb[:20000])
+              assert dm and dm.group(1).decode("ascii")==A["expected_sheet_dimension"]
+              assert not re.search(br'<row\b[^>]*\br=\"3\"',xmlb)
+              assert re.search(br'<row\b[^>]*\br=\"5\"',xmlb)
+              assert A["last_data_row"]-A["first_data_row"]+1==A["source_reported_islands"]
+
+              shared=zf.read("xl/sharedStrings.xml") if "xl/sharedStrings.xml" in zf.namelist() else None
+              blocks=re.findall(br"<si(?:\s[^>]*)?>.*?</si>",shared,flags=re.S) if shared else []
+              cache={}
+
+              def svalue(idx):
+                  if idx not in cache:
+                      node=ET.fromstring(blocks[idx])
+                      cache[idx]="".join(t.text or "" for t in node.iter(MAIN+"t"))
+                  return cache[idx]
+
+              def decode_row(n):
+                  m=re.search(
+                      rb'<row\b[^>]*\br=\"'+str(n).encode()+rb'\"[^>]*>.*?</row>',
+                      xmlb,flags=re.S
+                  )
+                  assert m is not None,n
+                  rb=m.group(0)
+                  out=[]
+                  for cb in re.findall(br"<c\b[^>]*>.*?</c>|<c\b[^>]*/>",rb,flags=re.S):
+                      head=cb.split(b">",1)[0]+b">"
+                      rm=re.search(br'\br=\"([^\"]+)\"',head)
+                      tm=re.search(br'\bt=\"([^\"]+)\"',head)
+                      ref=rm.group(1).decode("ascii") if rm else None
+                      typ=tm.group(1).decode("ascii") if tm else None
+                      vm=re.search(br"<v>(.*?)</v>",cb,flags=re.S)
+                      inline=re.search(br"<is>.*?<t[^>]*>(.*?)</t>.*?</is>",cb,flags=re.S)
+                      if typ=="s":
+                          assert vm
+                          val=svalue(int(vm.group(1)))
+                      elif typ=="inlineStr":
+                          assert inline
+                          val=html.unescape(inline.group(1).decode("utf-8"))
+                      elif typ in (None,"str"):
+                          val=html.unescape(vm.group(1).decode("utf-8")) if vm else ""
+                      else:
+                          raise AssertionError((n,ref,typ))
+                      out.append({"cell":ref,"type":typ,"value":val})
+                  return out
+
+              rows={str(n):decode_row(n) for n in A["schema_rows"]}
+
+          out={
+              "schema":"structural.zenodo_318_island_mammals_response_schema_result.v0_5",
+              "status":"response_schema_rows_1_2_4_opened",
+              "sheet_dimension":A["expected_sheet_dimension"],
+              "source_reported_islands":A["source_reported_islands"],
+              "schema_rows":rows,
+              "row3_present":False,
+              "row5_present":True,
+              "rows_5_to_322_semantically_parsed":0,
+              "occurrence_values_opened":0,
+              "counts_as_empirical_evidence":False
+          }
+          p=Path("build/zenodo_318_response_schema_v05/schema_rows.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(json.dumps({
+              "status":out["status"],
+              "row_counts":{k:len(v) for k,v in rows.items()},
+              "row3_present":False,
+              "row5_present":True,
+              "rows_5_to_322_semantically_parsed":0
+          },indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-318-island-mammals-response-schema-v0-5
+          path: build/zenodo_318_response_schema_v05/schema_rows.json
+          if-no-files-found: error
+          retention-days: 90
