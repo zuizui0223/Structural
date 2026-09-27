@@ -1,0 +1,87 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_stress_pilot_authorization.v0_49",
+  "status": "one_shot_stress_pilot_retry_after_pre_response_import_failure",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "parent_main_commit": "f9720df61e5bec5a8772563274fda622ab6846b5",
+  "allowed_branch_delta": [
+    ".github/workflows/zenodo-318-mammal-stress-pilot-v049.yml",
+    "development/zenodo_318_island_mammals_stress_pilot_authorization_v0_49.json"
+  ],
+  "frozen_git_blobs": {
+    "protocol": "e399f4a85b06eee5510c833231dd6f65759cf463",
+    "quality_contract": "c38fdde582470182d2f37850f74e9d2e56f98503",
+    "safe_design": "953b132b77b92986ed64ef2374aa38851ae30eef",
+    "scoring_contract": "ca2bb6b6e0ae0fd7b414ef663c4a793c5d1f3393",
+    "evidence_class": "86abd50dcbd55b1095d580029687df4440fe730f",
+    "router_code": "69c1248bb65d6ce6b5c970e0d4c25a94419a9831",
+    "v0_32_runner": "4e5bfbe158157f0a360c8569c520cfbd79dd7534"
+  },
+  "protocol_fingerprint": "98dd81e471f165303503f88fc02ce6b22c624ea9c2b9a72a635869d047fdba9f",
+  "quality_contract_fingerprint": "9b6b61c927ae6e5246821781bb842edcf98dd8dd57d5b63246ba5aeb98f57c2a",
+  "safe_design_sha256": "d35a583b9b5fd6b5073db11f25ec9584796ba463f19ac5498b9a41d21aa387db",
+  "source_workbook": {
+    "key": "Mammal_occurrence_islands.xlsx",
+    "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+    "size_bytes": 1401342,
+    "md5": "be781f82fb6417a8447d8d10045e35ad",
+    "sheet": "occurrence",
+    "dimension": "A1:BDU322",
+    "species_header_count": 1474,
+    "species_headers_sha256": "1a23562c1397beed83c5c8a7fe2aaccbb94ff39206bec3864c3af82317184a6d"
+  },
+  "pilot_rule": {
+    "pilot_islands": 65,
+    "heldout_islands": 244,
+    "fixed_species_support": "occurrence=1 on at least two distinct frozen pilot islands",
+    "raw_surface_columns": [
+      "partition_unit",
+      "block",
+      "target"
+    ],
+    "effect_size_allowed": false,
+    "prediction_score_allowed": false
+  },
+  "semantic_firewall": {
+    "decode_for_all_rows": [
+      "ID routing cell A"
+    ],
+    "decode_only_for_pilot_rows": [
+      "species occurrence cells D:BDU"
+    ],
+    "heldout_occurrence_values_parsed_expected": 0,
+    "out_of_scope_occurrence_values_parsed_expected": 0
+  },
+  "allowed_outputs": [
+    "fixed pilot species-universe receipt",
+    "exact three-column burned-pilot CSV",
+    "v0.32 estimability result",
+    "v0.42 response-quality audit",
+    "execution receipt"
+  ],
+  "prohibited": [
+    "fit R3 or C",
+    "compute source-pool-handoff effect",
+    "decode heldout occurrence cells",
+    "change species support threshold",
+    "change pilot/heldout island membership",
+    "change q75 threshold",
+    "change scoring contract",
+    "rerun after pilot occurrence semantic access"
+  ],
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false,
+  "heldout_response_authorized": false,
+  "rerun_authorized": false,
+  "prior_failed_attempt": {
+    "pull_request": 137,
+    "workflow_run_id": 36307055222,
+    "workflow_job_id": 108585651188,
+    "failure": "ModuleNotFoundError: No module named 'structural' in immutable identity step",
+    "response_execution_step_ran": false,
+    "source_workbook_request_count": 0,
+    "pilot_occurrence_values_opened": 0,
+    "heldout_occurrence_values_opened": 0
+  },
+  "execution_only_change": "set PYTHONPATH=src:. at workflow job level",
+  "scientific_identity_changed": false
+}
