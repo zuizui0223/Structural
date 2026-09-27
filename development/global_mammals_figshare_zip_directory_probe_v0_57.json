@@ -1,0 +1,34 @@
+{
+  "schema": "structural.global_mammals_figshare_zip_directory_probe.v0_57",
+  "status": "response_independent_zip_directory_only",
+  "source": {
+    "doi": "10.21942/uva.22788464.v5",
+    "file_id": 46942207,
+    "file_name": "labs.zip",
+    "size_bytes": 2617794182,
+    "md5": "da14f19b12bae704b9df4e5c380b69fd",
+    "download_url": "https://ndownloader.figshare.com/files/46942207"
+  },
+  "allowed_http_reads": [
+    "one tail byte-range sufficient to locate ZIP end-of-central-directory",
+    "one exact central-directory byte-range"
+  ],
+  "forbidden": [
+    "full archive download",
+    "local file payload byte-range",
+    "decompression of reference.gpkg or mountains.gpkg",
+    "any mammal response request"
+  ],
+  "allowed_output": [
+    "ZIP entry names",
+    "compression method",
+    "CRC32",
+    "compressed size",
+    "uncompressed size",
+    "local header offset",
+    "central directory offset/size"
+  ],
+  "mammal_response_requests_expected": 0,
+  "mammal_response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
