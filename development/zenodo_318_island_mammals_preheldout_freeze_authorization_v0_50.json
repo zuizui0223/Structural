@@ -1,0 +1,103 @@
+{
+  "schema": "structural.zenodo_318_mammal_preheldout_freeze_authorization.v0_50",
+  "status": "pilot_evidence_bound_preheldout_model_freeze",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "parent_main_commit": "f9720df61e5bec5a8772563274fda622ab6846b5",
+  "pilot_evidence": {
+    "workflow_run_id": 36307181996,
+    "workflow_job_id": 108586004885,
+    "artifact_id": 10927547114,
+    "artifact_zip_sha256": "a78ee6cc18b7d276c1896ad0354e7e87f7d7a738520164e8a25333fdb2366b94",
+    "execution_receipt_sha256": "531341a6249f0e675dbec86d3563bc83cf2d0f4525803369d39777b95196c300",
+    "burned_pilot_sha256": "bc6ef8156c441788894533ddc491dc8351cf70976cb34231b313c9181650682d",
+    "species_universe_json_sha256": "fa81518bc034b9e510616d1e416d71680a9727f96749286412ea1421b6f55f30",
+    "pilot_result_sha256": "66c510de4ffe9810dc5d0051f3ae441ee40e333f0ac527db769c1f1fd3e70691",
+    "quality_audit_sha256": "6806be569f0a1a0f4621878cde48c67a5a8d1ce5e75c7738f3b53adf4ed82619",
+    "species_count": 233,
+    "species_universe_sha256": "7284ef6616bba91a5b3643e5aa5e2120fa3862869858cd5371d67a83130b71ff",
+    "pilot_islands": 65,
+    "heldout_occurrence_values_parsed": 0
+  },
+  "safe_design": {
+    "workflow_run_id": 36296726405,
+    "workflow_job_id": 108556836262,
+    "artifact_id": 10924730119,
+    "artifact_zip_sha256": "a5a54c04f7909b85fc7bfd50a8834629e59429628977836ccaa1977344cf8fa4",
+    "safe_design_csv_sha256": "d35a583b9b5fd6b5073db11f25ec9584796ba463f19ac5498b9a41d21aa387db",
+    "safe_design_summary_sha256": "8be8d2fb89211f7de98e6a9bdbe829c36d6fb154385b13efe6a856bd128818e7",
+    "eligible_islands": 309,
+    "pilot_islands": 65,
+    "heldout_islands": 244,
+    "q75_dContinent_km": 1124.41
+  },
+  "frozen_parent_git_blobs": {
+    "pilot_protocol": "e399f4a85b06eee5510c833231dd6f65759cf463",
+    "quality_contract": "c38fdde582470182d2f37850f74e9d2e56f98503",
+    "safe_design_result": "953b132b77b92986ed64ef2374aa38851ae30eef",
+    "scoring_contract": "ca2bb6b6e0ae0fd7b414ef663c4a793c5d1f3393"
+  },
+  "model_code_blob_sha": "4606dde6650dead94a30c4dc45fd1b129956002d",
+  "execution_environment": {
+    "os": "ubuntu-24.04",
+    "python": "3.12",
+    "numpy": "2.3.5"
+  },
+  "categorical_encoding": {
+    "Archipielago": "full one-hot, sorted lexicographic levels, all 8 levels retained",
+    "Type": "Type_Isolated=1 for exact Isolated, 0 for exact Connected"
+  },
+  "standardization": "pilot-island mean and population SD; log1p before standardization for Area_km2, dContinent_km, distance_biggerLandmass",
+  "fit_algorithm": {
+    "model": "pooled binary logistic regression over island x fixed-species rows",
+    "irls_start": "all coefficients zero",
+    "ridge_lambda": 1,
+    "penalty": "all non-intercept coefficients, including all archipelago indicators",
+    "max_iterations": 100,
+    "convergence": "max(abs(delta_beta)) <= 1e-8",
+    "solve": "numpy.linalg.solve on positive penalized information matrix",
+    "probability_clip": [
+      1e-12,
+      0.999999999999
+    ]
+  },
+  "source_metrics": {
+    "smoothing": "Jeffreys (k+0.5)/(n+1), then logit",
+    "pilot_global": "exclude focal pilot island for training rows",
+    "pilot_archipelago": "exclude focal pilot island for training rows",
+    "heldout_global": "all 65 pilot islands",
+    "heldout_archipelago": "all pilot islands in focal frozen archipelago"
+  },
+  "heldout_prediction_surface": {
+    "rows": 56852,
+    "order": "frozen 244 heldout island IDs, then frozen 233 species order",
+    "columns": [
+      "island_id",
+      "species",
+      "p_R3_hex",
+      "p_C_hex",
+      "extreme_q75",
+      "archipelago",
+      "type"
+    ],
+    "probabilities": "IEEE-754 float.hex after frozen probability clipping",
+    "outcome_values_used": false
+  },
+  "allowed_outputs": [
+    "lossless compact pilot matrix",
+    "transform specification",
+    "pilot-derived source counts",
+    "R3 and C coefficient vectors in IEEE-754 hex",
+    "IRLS convergence metadata",
+    "heldout prediction surface and SHA-256",
+    "preheldout freeze receipt"
+  ],
+  "prohibited": [
+    "open any heldout occurrence value",
+    "compute heldout log loss or C-minus-R3 effect",
+    "interpret pilot coefficient signs as ecological evidence",
+    "change frozen scoring contract, q75, species universe, island split, ridge penalty, source operator, or primary estimand"
+  ],
+  "heldout_response_authorized": false,
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false
+}
