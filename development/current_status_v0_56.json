@@ -1,0 +1,40 @@
+{
+  "schema": "structural.current_status.v0_56",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_55.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "completed_318_mammal_stress": {
+    "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "primary_remote_amplification_supported": false,
+    "response_consumed": true,
+    "counts_as_fresh_confirmation": false
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "remote_amplification_is_required": false,
+    "status": "frozen_before_any_future_fresh_system_response"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_reference_gpkg_safe_geography_extraction_pending",
+    "response_opened": false,
+    "response_matrix_requests": 0,
+    "safe_mirror_path": "development/global_island_mammals_safe_mirror_v0_56.json",
+    "safe_mirror_resolved": true,
+    "safe_mirror_member": "reference.gpkg",
+    "safe_mirror_member_compressed_bytes": 2288242143,
+    "safe_mirror_member_uncompressed_bytes": 3859476480,
+    "remaining_blocker": "extract and audit response-independent islanddata/crosswalk from reference.gpkg without opening mammal response"
+  },
+  "ecological_conclusion": "External mainland/continent isolation and species-specific internal source isolation remain distinct prospective axes. The pristine 5,592-island mammal system is still untested but its response-independent Weigelt geography now has an auditable public mirror.",
+  "next_valid_scientific_event": "one-shot response-independent extraction of Figshare reference.gpkg, followed by schema-only islanddata/crosswalk audit; mammal presence-absence response must remain sealed",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_55.json",
+    "status": "dual_isolation_hypothesis_frozen_no_active_fresh_system"
+  }
+}
