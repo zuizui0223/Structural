@@ -1,0 +1,165 @@
+{
+  "schema": "structural.boreal_lake_islands_documented_column_firewall.v0_68",
+  "status": "frozen_from_public_documentation_safe_row_values_unopened",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parent_preintake": "development/boreal_lake_islands_preintake_v0_65.json",
+  "evidence_sources": [
+    {
+      "source": "Dryad README",
+      "doi": "10.5061/dryad.tdz08kq78",
+      "role": "documents exact/near-exact variable names and semantics"
+    },
+    {
+      "source": "Ecological Applications article",
+      "doi": "10.1002/eap.70218",
+      "role": "documents 42-island design, isolation construction, fire-history context and response-selected habitat-amount scales"
+    }
+  ],
+  "mechanical_header_verification": {
+    "completed": false,
+    "reason": "Dryad safe-file download endpoint returned HTTP 401 before any safe-file byte in v0.67",
+    "safe_file_bytes_read": 0,
+    "biological_response_bytes_read": 0,
+    "rule": "when exact safe bytes become available, every required/allowlisted field must be matched to the documented header before any data row is semantically opened; unknown or ambiguous spelling is a pre-response STOP"
+  },
+  "files": {
+    "alpha_diversity_ALL_islands.csv": {
+      "role": "mixed_safe_metadata",
+      "required_safe_columns": [
+        "Island",
+        "Lat",
+        "Long",
+        "log10area",
+        "buffer5000",
+        "time.since.fire.beetles"
+      ],
+      "optional_documented_safe_columns": [
+        "year.burned",
+        "fire.stdev",
+        "fire.stdev.stand",
+        "time.since.fire.plants",
+        "time.since.fire.birds",
+        "buffer_1",
+        "buffer_10"
+      ],
+      "forbidden_response_derived_columns": [
+        "beetle.richness",
+        "bird.richness",
+        "plant.richness",
+        "beetle.msom.richness",
+        "bird.msom.richness"
+      ],
+      "special_rules": {
+        "buffer_1": "documented but not automatically admissible to the fresh primary because the source study selected habitat-amount scales from richness-response slopes",
+        "buffer_10": "documented but not automatically admissible to the fresh primary because the source study selected habitat-amount scales from richness-response slopes",
+        "fire.stdev": "may be used only if mechanically verified and complete enough under the frozen response-blind rule; source model-selection subset must not determine inclusion",
+        "fire.stdev.stand": "same restriction as fire.stdev"
+      }
+    },
+    "RDA_environmental_variables.csv": {
+      "role": "mixed_safe_habitat",
+      "required_routing_column": [
+        "Island"
+      ],
+      "documented_safe_exact_columns": [
+        "log10area",
+        "buffer5000",
+        "time.since.fire.beetles",
+        "time.since.fire.plants",
+        "time.since.fire.birds",
+        "charcoal.yes",
+        "charcoal.no",
+        "Basal.area",
+        "deciduous.canopy.cover.percent.a.d",
+        "deciduous.understory.cover.percent.a.d",
+        "conifer.canopy.cover.perecent.a.d",
+        "conifer.understory.canopy.percent.a.d",
+        "total.cwd.volume"
+      ],
+      "documented_safe_family_patterns": [
+        "cwd.dc1",
+        "cwd.dc2",
+        "cwd.dc3",
+        "cwd.dc4",
+        "cwd.dc5"
+      ],
+      "forbidden_response_derived_columns": [
+        "plant.richness",
+        "frugivore.abund",
+        "insectivore.abund",
+        "Bird.abundance",
+        "Beetle.catch.rate"
+      ],
+      "unknown_columns_rule": "any header not prospectively classified above remains closed until a new response-independent documentation-only revision; row values must not be inspected to decide its role"
+    },
+    "island_isolation.csv": {
+      "role": "safe_metadata",
+      "documented_columns": [
+        "Island",
+        "buffer5000"
+      ],
+      "semantics": "buffer5000 is proportion water in the 5-km island buffer; 1 means completely surrounded by water / stronger external isolation"
+    },
+    "island_logarea.csv": {
+      "role": "safe_metadata",
+      "documented_columns": [
+        "Island",
+        "log10area"
+      ],
+      "semantics": "log10(area+1)"
+    },
+    "time_since_fire_beetles.csv": {
+      "role": "safe_metadata",
+      "documented_columns": [
+        "Island",
+        "TSF"
+      ],
+      "semantics": "beetle-relevant estimated years since fire; exact Island header must be mechanically verified before row access"
+    }
+  },
+  "biological_response_files_closed": [
+    "beetles_speciesmatrix_presenceabsence.csv",
+    "borealbirds_speciesmatrix_presenceabsence.csv",
+    "vascularplants_speciesmatrix_presenceabsence.csv",
+    "vascularplants_speciesmatrix_presenceabsence_RDA.csv"
+  ],
+  "primary_design_requirements": {
+    "routing_and_geometry_required": [
+      "Island",
+      "Lat",
+      "Long"
+    ],
+    "external_state_required": [
+      "log10area",
+      "buffer5000",
+      "time.since.fire.beetles"
+    ],
+    "habitat_reference_rule": {
+      "pool": "only prospectively allowlisted response-independent RDA habitat-structure columns",
+      "inclusion": "columns mechanically verified and nonmissing on all 42 eligible islands; no outcome-based subset selection",
+      "transformation": "z-standardize from safe values only, then deterministic PCA if at least 2 habitat columns survive",
+      "pca_rule": "retain the smallest number of PCs whose cumulative variance is at least 80%; if exactly one complete habitat variable survives, use it directly",
+      "hard_stop": "if no prospectively safe habitat-structure variable beyond area/isolation/fire history is complete on all 42 islands, STOP before biological response rather than selecting a post hoc surrogate"
+    },
+    "response_selected_habitat_scale_rule": "buffer_1/buffer_10 may not enter the fresh primary solely because the source paper selected those scales from species-richness slopes",
+    "spatial_geometry_rule": "Lat/Long only; graph scale and pilot/confirmatory split must be frozen before biological response access",
+    "species_universe_rule": "beetle species present on at least two frozen pilot islands after burned-pilot access; same fixed universe for all heldout islands"
+  },
+  "transport_state": {
+    "safe_file_transport_status": "HOLD_HTTP_401",
+    "v0_66_failure": "relative URL wrapper bug before safe-file content",
+    "v0_67_failure": "resolved API download URL returned HTTP 401 before safe-file content",
+    "further_blind_Dryad_endpoint_retries_authorized": false,
+    "resume_condition": "exact safe metadata bytes become available through an independently auditable source or exact user-supplied file matching the frozen SHA-256"
+  },
+  "response_firewall": {
+    "safe_row_values_opened": false,
+    "beetle_response_opened": false,
+    "bird_response_opened": false,
+    "plant_response_opened": false,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
