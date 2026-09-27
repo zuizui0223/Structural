@@ -1,0 +1,36 @@
+{
+  "schema": "structural.current_status.v0_60",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_59.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_before_any_future_fresh_system_response"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_mammal_routing_ID_crosswalk_pending",
+    "raw_presence_absence_response_opened": false,
+    "response_occurrence_values_opened": 0,
+    "safe_rows_result_path": "development/global_mammals_weigelt_safe_rows_result_v0_60.json",
+    "Weigelt_safe_rows": 17883,
+    "Weigelt_safe_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "core_external_reference_complete": true,
+    "archipelago_complete": false,
+    "coordinates_complete": false,
+    "next_blocker": "semantic-open only the mammal routing-ID field from Appendix_1 and test exact join to Weigelt id while keeping every species occurrence value sealed"
+  },
+  "completed_318_mammal_stress": {
+    "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "response_consumed": true,
+    "primary_remote_amplification_supported": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "ecological_conclusion": "The v0.55 dual-isolation hypothesis remains untested. Safe global external-isolation geography is now fully available for the pristine 5,592-island mammal system, but internal-source/permeability eligibility cannot be defined until the response routing IDs are joined and the incomplete archipelago/coordinate fields are handled prospectively.",
+  "next_valid_scientific_event": "ID-only mammal routing crosswalk; no species header or 0/1 occurrence value may be decoded"
+}
