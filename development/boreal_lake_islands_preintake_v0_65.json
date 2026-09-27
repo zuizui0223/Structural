@@ -1,0 +1,190 @@
+{
+  "schema": "structural.preintake_candidate.boreal_lake_island_beetles.v0_65",
+  "status": "HOLD_safe_metadata_schema_and_transport_not_yet_frozen",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "source_identity": {
+    "dryad_doi": "10.5061/dryad.tdz08kq78",
+    "source_article_doi": "10.1002/eap.70218",
+    "source_title": "Pyrodiversity of boreal lake islands begets biodiversity of beetles, plants, and birds",
+    "dryad_published": "2026-01-23",
+    "structural_prior_use_found": false,
+    "response_values_opened_by_structural": false,
+    "dryad_version_id": 422440,
+    "dryad_version_number": 7,
+    "file_content_requests": 0
+  },
+  "study_system": {
+    "region": "Lac la Ronge region, northern Saskatchewan, Canada",
+    "true_lake_islands": 42,
+    "lakes": 6,
+    "sampling_years": "2019-2022",
+    "standardized_plot": "one 30 x 30 m plot per island, at least 15 m from shoreline",
+    "area_range_ha": [
+      1,
+      350.4
+    ],
+    "mainland_isolation_range_km": [
+      0.1,
+      7.9
+    ],
+    "time_since_fire_range_years": "1-231+"
+  },
+  "endpoint_scope": {
+    "primary_taxon": "beetles",
+    "primary_reason": "largest prospectively known complete 42-island binary community matrix (466 species), chosen for support rather than observed effect direction",
+    "primary_file": "beetles_speciesmatrix_presenceabsence.csv",
+    "primary_species_count_reported": 466,
+    "primary_island_count_reported": 42,
+    "response_domain": [
+      "0",
+      "1"
+    ],
+    "target_one": "species detected in the standardized island sampling assemblage",
+    "target_zero": "species not detected in the standardized island sampling assemblage",
+    "whole_island_occupancy_claim_authorized": false,
+    "colonization_claim_authorized": false,
+    "endpoint_interpretation": "observed local insular assemblage occurrence under standardized sampling, not complete whole-island occupancy"
+  },
+  "secondary_taxa": [
+    {
+      "taxon": "birds",
+      "file": "borealbirds_speciesmatrix_presenceabsence.csv",
+      "species_count_reported": 54,
+      "island_count_reported": 42,
+      "role": "directional secondary replication under the identical frozen island split",
+      "may_rescue_primary": false
+    },
+    {
+      "taxon": "vascular_plants",
+      "file": "vascularplants_speciesmatrix_presenceabsence.csv",
+      "species_count_reported": 101,
+      "island_count_reported": 42,
+      "known_missing_response": "island BS contains empty plant cells because it burned before vascular-plant survey",
+      "role": "secondary replication with response-quality missingness handled prospectively",
+      "may_rescue_primary": false
+    }
+  ],
+  "v0_55_binding": {
+    "parent": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "primary_question": "Does species-conditioned internal occupied-source continuity improve heldout beetle occurrence prediction beyond fire/history/habitat, external isolation, generic island geometry, global occupancy breadth and direct/diffuse source proximity?",
+    "external_isolation": "buffer5000, with source documentation defining 1 as no land within the 5-km buffer and therefore stronger isolation",
+    "internal_source_isolation": "training-only species-conditioned occupied-source geometry among the 42 island sampling sites",
+    "extreme_isolation_interaction_required": false
+  },
+  "response_independent_safe_files": {
+    "alpha_diversity_ALL_islands.csv": {
+      "role": "mixed_safe_metadata_candidate",
+      "intended_safe_columns": [
+        "Island",
+        "Lat",
+        "Long",
+        "log10area",
+        "buffer5000",
+        "time.since.fire.beetles",
+        "time.since.fire.plants",
+        "time.since.fire.birds",
+        "buffer_1",
+        "buffer_10",
+        "year.burned",
+        "fire.stdev",
+        "fire.stdev.stand"
+      ],
+      "forbidden_patterns": [
+        "*richness*",
+        "*msom.richness*"
+      ]
+    },
+    "RDA_environmental_variables.csv": {
+      "role": "mixed_safe_habitat_candidate",
+      "intended_safe_predictor_families": [
+        "time-since-fire",
+        "basal area",
+        "coarse woody debris",
+        "deciduous/conifer canopy and understory cover",
+        "other non-biotic habitat structure"
+      ],
+      "forbidden_response_derived_fields": [
+        "plant.richness",
+        "frugivore.abund",
+        "insectivore.abund",
+        "Bird.abundance",
+        "Beetle.catch.rate"
+      ]
+    },
+    "island_isolation.csv": {
+      "role": "safe_metadata_candidate",
+      "expected_semantics": "island ID plus buffer5000 isolation"
+    },
+    "island_logarea.csv": {
+      "role": "safe_metadata_candidate",
+      "expected_semantics": "island ID plus log10(area+1)"
+    }
+  },
+  "reference_template": {
+    "R0": [
+      "time_since_fire_beetles",
+      "prospectively_allowlisted local habitat structure variables that are complete enough to use without post-response imputation"
+    ],
+    "R1_add": [
+      "log10area",
+      "buffer5000 external isolation",
+      "taxon-relevant surrounding habitat amount where complete"
+    ],
+    "R2_add": [
+      "response-independent generic spatial/network context from frozen Lat/Long"
+    ],
+    "R3_add": [
+      "training-only global occupied breadth",
+      "training-only nearest occupied source distance",
+      "training-only diffuse multi-source pressure"
+    ],
+    "C_add": [
+      "training-only species-conditioned multi-hop/internal source continuity not reducible to R3"
+    ],
+    "primary_contrast": "C_minus_R3 heldout log loss",
+    "favourable_direction": "negative",
+    "support_rule": "point estimate < 0 and frozen spatial-cluster bootstrap 95% upper confidence limit < 0"
+  },
+  "geometry_and_partition_template": {
+    "nodes": "response-independent island sampling-site coordinates",
+    "graph_radii": "q25/q50/q75/q90 of nearest-neighbour distances, rounded upward under a frozen deterministic rule",
+    "spatial_blocks": "connected components at the coarsest frozen radius retaining enough independent target-populated blocks",
+    "minimum_pilot_blocks": 3,
+    "minimum_confirmatory_blocks": 6,
+    "split": "deterministic SHA-ranked 20% pilot / 80% confirmatory by frozen spatial block",
+    "response_values_may_not_define_geometry_or_split": true,
+    "if_no_geometry_support": "STOP_before_response; no administrative fallback chosen after inspecting outcomes"
+  },
+  "fixed_species_rule_template": {
+    "primary_beetles": "after pilot access only, include species observed on at least two distinct pilot islands; use the same fixed species universe for every heldout island",
+    "reason": "preserve v0.32 complement arithmetic and avoid heldout-specific species selection",
+    "confirmatory_occurrences_may_not_define_species_universe": true
+  },
+  "prospective_secondary_moderators": {
+    "dispersal_mode": {
+      "design": "compare taxon-specific source-pool increments across birds, beetles and plants only after each taxon's own frozen estimability gate",
+      "interpretation": "higher mobility may increase the relevance of present internal source context",
+      "may_rescue_primary": false
+    },
+    "archipelago_permeability": {
+      "source": "Lat/Long geometry only",
+      "may_rescue_primary": false
+    },
+    "source_saturation": {
+      "source": "training-only occupied breadth",
+      "may_rescue_primary": false
+    }
+  },
+  "known_claim_boundaries": [
+    "fixed-area plot occurrence is not complete whole-island occupancy",
+    "cross-sectional occurrence cannot identify contemporary colonization, extinction, or rescue",
+    "fire history/habitat must be represented in the reference before source-pool interpretation",
+    "the primary beetle endpoint cannot be replaced by birds or plants after seeing outcomes"
+  ],
+  "next_action": "schema-open only the frozen safe/mixed metadata files needed for island geometry, fire history and habitat reference; do not open beetle/bird/plant matrices; if public transport cannot deliver safe files, remain HOLD rather than using response or outcome-derived substitutes",
+  "v0_11_intake_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "metadata_result_path": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json"
+}
