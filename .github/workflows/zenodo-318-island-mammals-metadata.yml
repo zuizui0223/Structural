@@ -1,0 +1,97 @@
+name: Zenodo 318 island mammals metadata-only probe
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Zenodo record metadata only
+        run: |
+          mkdir -p build/zenodo_318_mammals_metadata
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          auth=json.loads(Path(
+              "development/zenodo_318_island_mammals_metadata_probe_v0_1.json"
+          ).read_text())
+          assert auth["status"]=="response_blind_metadata_only"
+          url=auth["api_url"]
+          req=Request(
+              url,
+              headers={"Accept":"application/json","User-Agent":"Structural-zenodo-318-mammals/0.1"},
+              method="GET",
+          )
+          with urlopen(req,timeout=60) as r:
+              assert r.geturl()==url
+              raw=r.read()
+          x=json.loads(raw)
+          assert int(x["id"])==11220273
+
+          files=[]
+          for f in x.get("files",[]):
+              links=f.get("links") or {}
+              files.append({
+                  "key":f.get("key"),
+                  "size":f.get("size"),
+                  "checksum":f.get("checksum"),
+                  "links":{"self":links.get("self"),"content":links.get("content")}
+              })
+          assert files
+
+          out={
+              "schema":"structural.zenodo_318_island_mammals_metadata_result.v0_1",
+              "status":"metadata_only_file_identity_resolved",
+              "record_id":x.get("id"),
+              "doi":x.get("doi"),
+              "conceptdoi":x.get("conceptdoi"),
+              "created":x.get("created"),
+              "updated":x.get("updated"),
+              "title":(x.get("metadata") or {}).get("title"),
+              "version":(x.get("metadata") or {}).get("version"),
+              "record_api_sha256":hashlib.sha256(raw).hexdigest(),
+              "file_count":len(files),
+              "files":sorted(files,key=lambda z:z["key"] or ""),
+              "data_file_http_requests":0,
+              "response_values_opened":False
+          }
+          p=Path("build/zenodo_318_mammals_metadata/metadata.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Assert required files exist and response remains sealed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/zenodo_318_mammals_metadata/metadata.json").read_text())
+          assert x["data_file_http_requests"]==0
+          assert x["response_values_opened"] is False
+          names={r["key"] for r in x["files"]}
+          for n in [
+              "Mammal_occurrence_islands.xlsx",
+              "data_models_islands.csv",
+              "Functional_space_analysis.R",
+              "mixed_models_islands.R",
+              "traits_matrix.csv",
+          ]:
+              assert n in names,n
+          print(f"resolved {len(names)} Zenodo files; response bytes read=0")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-318-island-mammals-metadata-v0-1
+          path: build/zenodo_318_mammals_metadata/metadata.json
+          if-no-files-found: error
+          retention-days: 90
