@@ -1,0 +1,317 @@
+name: Zenodo 318 mammal pre-heldout model freeze v0.50
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preheldout-freeze:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: src:.
+      GH_TOKEN: \${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install frozen numerical dependency
+        run: python -m pip install --disable-pip-version-check numpy==2.3.5
+
+      - name: Verify authorization and frozen identities
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          from structural.transition_pilot_protocol import protocol_from_mapping, protocol_fingerprint
+          from structural.response_quality_attrition import contract_from_mapping, contract_fingerprint
+
+          A=json.loads(Path(
+              "development/zenodo_318_island_mammals_preheldout_freeze_authorization_v0_50.json"
+          ).read_text())
+          assert A["status"]=="pilot_evidence_bound_preheldout_model_freeze"
+          assert A["heldout_response_authorized"] is False
+
+          parent=A["parent_main_commit"]
+          paths={
+              "pilot_protocol":"development/zenodo_318_island_mammals_stress_pilot_protocol_v0_47.json",
+              "quality_contract":"development/zenodo_318_island_mammals_stress_quality_contract_v0_47.json",
+              "safe_design_result":"development/zenodo_318_island_mammals_safe_design_result_v0_47.json",
+              "scoring_contract":"development/zenodo_318_island_mammals_stress_scoring_contract_v0_47.json",
+          }
+          for key,path in paths.items():
+              observed=subprocess.check_output(
+                  ["git","rev-parse",f"{parent}:{path}"],text=True
+              ).strip()
+              assert observed==A["frozen_parent_git_blobs"][key],(key,observed)
+
+          model_blob=subprocess.check_output(
+              ["git","rev-parse","HEAD:src/structural/zenodo_318_mammal_stress_model.py"],
+              text=True
+          ).strip()
+          assert model_blob==A["model_code_blob_sha"],(model_blob,A["model_code_blob_sha"])
+
+          p=protocol_from_mapping(json.loads(Path(paths["pilot_protocol"]).read_text()))
+          q=contract_from_mapping(json.loads(Path(paths["quality_contract"]).read_text()))
+          assert protocol_fingerprint(p)=="98dd81e471f165303503f88fc02ce6b22c624ea9c2b9a72a635869d047fdba9f"
+          assert contract_fingerprint(q)=="9b6b61c927ae6e5246821781bb842edcf98dd8dd57d5b63246ba5aeb98f57c2a"
+          print("pre-heldout identities OK")
+          PY
+
+      - name: Prepare artifact directories
+        run: mkdir -p build/preheldout/input/pilot build/preheldout/input/safe build/preheldout/output
+
+      - name: Download exact qualified pilot artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: zenodo-318-mammal-stress-pilot-v0-48
+          path: build/preheldout/input/pilot
+          github-token: ${{ github.token }}
+          repository: zuizui0223/Structural
+          run-id: 36307181996
+
+      - name: Download exact response-blind safe-design artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: zenodo-318-island-mammals-safe-design-v0-8
+          path: build/preheldout/input/safe
+          github-token: ${{ github.token }}
+          repository: zuizui0223/Structural
+          run-id: 36296726405
+
+      - name: Verify every downloaded artifact member by SHA-256
+        run: |
+          set -euo pipefail
+          echo "531341a6249f0e675dbec86d3563bc83cf2d0f4525803369d39777b95196c300  build/preheldout/input/pilot/execution_receipt.json" | sha256sum -c -
+          echo "bc6ef8156c441788894533ddc491dc8351cf70976cb34231b313c9181650682d  build/preheldout/input/pilot/burned_pilot.csv" | sha256sum -c -
+          echo "fa81518bc034b9e510616d1e416d71680a9727f96749286412ea1421b6f55f30  build/preheldout/input/pilot/pilot_species_universe.json" | sha256sum -c -
+          echo "66c510de4ffe9810dc5d0051f3ae441ee40e333f0ac527db769c1f1fd3e70691  build/preheldout/input/pilot/pilot_result.json" | sha256sum -c -
+          echo "6806be569f0a1a0f4621878cde48c67a5a8d1ce5e75c7738f3b53adf4ed82619  build/preheldout/input/pilot/quality_audit.json" | sha256sum -c -
+          echo "d35a583b9b5fd6b5073db11f25ec9584796ba463f19ac5498b9a41d21aa387db  build/preheldout/input/safe/safe_island_design.csv" | sha256sum -c -
+          echo "8be8d2fb89211f7de98e6a9bdbe829c36d6fb154385b13efe6a856bd128818e7  build/preheldout/input/safe/safe_design_summary.json" | sha256sum -c -
+
+      - name: Fit frozen R3 and C and generate heldout predictions without outcomes
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import numpy as np
+
+          from structural.zenodo_318_mammal_stress_model import (
+              build_and_fit,
+              float_hex_mapping,
+              matrix_bitstrings,
+              matrix_from_bitstrings,
+              parse_burned_pilot,
+              parse_safe_design,
+              prediction_surface,
+              raw_surface_text,
+              sha256_text,
+          )
+
+          root=Path("build/preheldout")
+          pilot_dir=root/"input/pilot"
+          safe_dir=root/"input/safe"
+          out=root/"output"
+
+          protocol=json.loads(Path(
+              "development/zenodo_318_island_mammals_stress_pilot_protocol_v0_47.json"
+          ).read_text())
+          scoring=json.loads(Path(
+              "development/zenodo_318_island_mammals_stress_scoring_contract_v0_47.json"
+          ).read_text())
+          design=json.loads(Path(
+              "development/zenodo_318_island_mammals_safe_design_result_v0_47.json"
+          ).read_text())
+          receipt=json.loads((pilot_dir/"execution_receipt.json").read_text())
+          species_obj=json.loads((pilot_dir/"pilot_species_universe.json").read_text())
+          pilot_result=json.loads((pilot_dir/"pilot_result.json").read_text())
+          quality=json.loads((pilot_dir/"quality_audit.json").read_text())
+
+          assert receipt["status"]=="QUALIFIED_STRESS_PILOT_GATES"
+          assert receipt["heldout_occurrence_values_parsed"]==0
+          assert receipt["out_of_scope_occurrence_values_parsed"]==0
+          assert receipt["effect_size"] is None
+          assert receipt["prediction_score"] is None
+          assert pilot_result["status"]=="qualified_for_new_confirmatory_protocol"
+          assert pilot_result["estimable_blocks"]==65
+          assert quality["status"]=="qualified_response_quality_survival"
+          assert quality["response_qualified_blocks"]==65
+
+          species=species_obj["species"]
+          assert len(species)==233
+          assert species_obj["sha256"]=="7284ef6616bba91a5b3643e5aa5e2120fa3862869858cd5371d67a83130b71ff"
+
+          safe_text=(safe_dir/"safe_island_design.csv").read_text()
+          safe_rows=parse_safe_design(safe_text)
+          pilot_order=protocol["pilot_partition"]
+          heldout_order=protocol["confirmatory_partition"]
+          assert pilot_order==design["pilot_island_ids"]
+          assert heldout_order==design["confirmatory_island_ids"]
+
+          burned=(pilot_dir/"burned_pilot.csv").read_text()
+          matrix=parse_burned_pilot(
+              burned,pilot_order=pilot_order,species=species
+          )
+          compact=matrix_bitstrings(matrix,pilot_order=pilot_order)
+          rebuilt=matrix_from_bitstrings(
+              compact,pilot_order=pilot_order,species_count=len(species)
+          )
+          rebuilt_surface=raw_surface_text(rebuilt,pilot_order=pilot_order)
+          assert sha256_text(rebuilt_surface)=="bc6ef8156c441788894533ddc491dc8351cf70976cb34231b313c9181650682d"
+
+          q75=design["dContinent_quantiles_km"]["q75_primary"]
+          assert q75==1124.41
+
+          fit1=build_and_fit(
+              matrix=matrix,
+              safe_rows=safe_rows,
+              pilot_order=pilot_order,
+              extreme_threshold=q75,
+          )
+          fit2=build_and_fit(
+              matrix=matrix,
+              safe_rows=safe_rows,
+              pilot_order=pilot_order,
+              extreme_threshold=q75,
+          )
+          transform,metrics,r3,c=fit1
+          transform2,metrics2,r32,c2=fit2
+          assert float_hex_mapping(transform)==float_hex_mapping(transform2)
+          assert metrics==metrics2
+          assert [x.hex() for x in r3.coefficients]==[x.hex() for x in r32.coefficients]
+          assert [x.hex() for x in c.coefficients]==[x.hex() for x in c2.coefficients]
+
+          predictions=prediction_surface(
+              species=species,
+              safe_rows=safe_rows,
+              pilot_matrix=matrix,
+              pilot_order=pilot_order,
+              heldout_order=heldout_order,
+              transform_spec=transform,
+              metrics=metrics,
+              r3_fit=r3,
+              c_fit=c,
+              extreme_threshold=q75,
+              probability_clip=tuple(scoring["fitting"]["probability_clip"]),
+          )
+          prediction_rows=predictions.count("\n")-1
+          assert prediction_rows==244*233==56852
+          prediction_sha=sha256_text(predictions)
+
+          compact_obj={
+              "schema":"structural.zenodo_318_mammal_compact_pilot.v0_50",
+              "pilot_order":pilot_order,
+              "species":species,
+              "species_count":len(species),
+              "species_universe_sha256":species_obj["sha256"],
+              "targets_hex_by_island":compact,
+              "reconstructed_raw_pilot_sha256":sha256_text(rebuilt_surface),
+              "source_pilot_artifact_id":10927547114,
+              "heldout_occurrence_used":False,
+              "counts_as_fresh_confirmation":False,
+          }
+          (out/"compact_pilot.json").write_text(
+              json.dumps(compact_obj,indent=2,sort_keys=True)+"\n"
+          )
+
+          freeze={
+              "schema":"structural.zenodo_318_mammal_preheldout_model_freeze.v0_50",
+              "status":"HELDOUT_PREDICTIONS_FROZEN_BEFORE_OUTCOME_ACCESS",
+              "evidence_class":"design_frozen_response_summary_exposed_independent_stress_test",
+              "numpy_version":np.__version__,
+              "pilot_artifact_id":10927547114,
+              "pilot_artifact_sha256":"a78ee6cc18b7d276c1896ad0354e7e87f7d7a738520164e8a25333fdb2366b94",
+              "safe_design_artifact_id":10924730119,
+              "safe_design_artifact_sha256":"a5a54c04f7909b85fc7bfd50a8834629e59429628977836ccaa1977344cf8fa4",
+              "safe_design_sha256":"d35a583b9b5fd6b5073db11f25ec9584796ba463f19ac5498b9a41d21aa387db",
+              "species_count":len(species),
+              "species_universe_sha256":species_obj["sha256"],
+              "pilot_islands":len(pilot_order),
+              "heldout_islands":len(heldout_order),
+              "heldout_prediction_rows":prediction_rows,
+              "q75_dContinent_km":q75,
+              "transform_spec_hex":float_hex_mapping(transform),
+              "source_metrics_counts":metrics,
+              "R3":{
+                  "columns":list(r3.columns),
+                  "coefficients_hex":[x.hex() for x in r3.coefficients],
+                  "iterations":r3.iterations,
+                  "final_max_abs_delta_hex":r3.final_max_abs_delta.hex(),
+              },
+              "C":{
+                  "columns":list(c.columns),
+                  "coefficients_hex":[x.hex() for x in c.coefficients],
+                  "iterations":c.iterations,
+                  "final_max_abs_delta_hex":c.final_max_abs_delta.hex(),
+              },
+              "heldout_prediction_surface":{
+                  "columns":[
+                      "island_id","species","p_R3_hex","p_C_hex",
+                      "extreme_q75","archipelago","type"
+                  ],
+                  "row_count":prediction_rows,
+                  "sha256":prediction_sha,
+                  "outcome_values_used":False,
+              },
+              "heldout_occurrence_values_opened":0,
+              "effect_size":None,
+              "prediction_score":None,
+              "pilot_coefficient_interpretation_authorized":False,
+              "heldout_response_authorized":False,
+              "counts_as_fresh_confirmation":False,
+              "counts_as_primary_confirmatory_evidence":False,
+          }
+          (out/"preheldout_model_freeze.json").write_text(
+              json.dumps(freeze,indent=2,sort_keys=True)+"\n"
+          )
+          (out/"heldout_prediction_surface.csv").write_text(predictions)
+
+          print(json.dumps({
+              "status":freeze["status"],
+              "species_count":freeze["species_count"],
+              "R3_iterations":r3.iterations,
+              "C_iterations":c.iterations,
+              "heldout_prediction_rows":prediction_rows,
+              "heldout_prediction_sha256":prediction_sha,
+              "heldout_occurrence_values_opened":0,
+              "effect_size":None,
+              "prediction_score":None,
+          },indent=2))
+          PY
+
+      - name: Enforce pre-heldout evidence ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/preheldout/output/preheldout_model_freeze.json"
+          ).read_text())
+          assert x["status"]=="HELDOUT_PREDICTIONS_FROZEN_BEFORE_OUTCOME_ACCESS"
+          assert x["heldout_occurrence_values_opened"]==0
+          assert x["effect_size"] is None
+          assert x["prediction_score"] is None
+          assert x["heldout_response_authorized"] is False
+          assert x["counts_as_fresh_confirmation"] is False
+          assert x["heldout_prediction_surface"]["row_count"]==56852
+          print("pre-heldout evidence ceiling intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-318-mammal-preheldout-freeze-v0-50
+          path: |
+            build/preheldout/output/compact_pilot.json
+            build/preheldout/output/preheldout_model_freeze.json
+            build/preheldout/output/heldout_prediction_surface.csv
+          if-no-files-found: error
+          retention-days: 90

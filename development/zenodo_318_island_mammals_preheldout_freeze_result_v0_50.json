@@ -1,0 +1,58 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_preheldout_freeze_result.v0_50",
+  "status": "HELDOUT_PREDICTIONS_FROZEN_BEFORE_OUTCOME_ACCESS",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "qualified_pilot": {
+    "workflow_run_id": 36307181996,
+    "workflow_job_id": 108586004885,
+    "artifact_id": 10927547114,
+    "artifact_sha256": "a78ee6cc18b7d276c1896ad0354e7e87f7d7a738520164e8a25333fdb2366b94",
+    "species_count": 233,
+    "species_universe_sha256": "7284ef6616bba91a5b3643e5aa5e2120fa3862869858cd5371d67a83130b71ff",
+    "raw_pilot_sha256": "bc6ef8156c441788894533ddc491dc8351cf70976cb34231b313c9181650682d",
+    "estimable_blocks": 65,
+    "response_qualified_blocks": 65,
+    "heldout_occurrence_values_parsed": 0
+  },
+  "model_freeze": {
+    "workflow_run_id": 36308503357,
+    "workflow_job_id": 108589735569,
+    "artifact_id": 10928370884,
+    "artifact_sha256": "8297a3d579b0f648f9098b8f28e537f6ff7c655888c7615804b382d9e09415f6",
+    "compact_pilot_sha256": "ff079eded747a85faccb509f7ae78b8b5f8754a365da65d9009d9880509aaa85",
+    "detailed_freeze_json_sha256": "f5d3f7bc6b67a533d06e568801540cf33b3abdbd219c7631e5027e4bae21b2ad",
+    "heldout_prediction_surface_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9",
+    "heldout_prediction_rows": 56852,
+    "numpy_version": "2.3.5",
+    "R3_coefficients": 17,
+    "R3_irls_iterations": 9,
+    "R3_final_max_abs_delta_hex": "0x1.13c041df904b4p-47",
+    "C_coefficients": 19,
+    "C_irls_iterations": 9,
+    "C_final_max_abs_delta_hex": "0x1.3c8d78c771f57p-33",
+    "q75_dContinent_km": 1124.41
+  },
+  "frozen_encoding": {
+    "archipelago": "full one-hot, sorted lexicographic levels, all 8 levels retained",
+    "type": "Isolated=1; Connected=0",
+    "continuous_standardization": "65 pilot-island mean and population SD",
+    "logs": "log1p Area_km2, dContinent_km, distance_biggerLandmass before standardization",
+    "ridge_lambda": 1,
+    "penalty": "all non-intercept coefficients",
+    "source_smoothing": "Jeffreys (k+0.5)/(n+1), then logit",
+    "coefficients_and_predictions": "IEEE-754 float.hex"
+  },
+  "evidence_ceiling": {
+    "heldout_occurrence_values_opened": 0,
+    "heldout_log_loss_computed": false,
+    "primary_effect_computed": false,
+    "prediction_score": null,
+    "effect_size": null,
+    "pilot_coefficient_interpretation_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false
+  },
+  "heldout_response_authorized": false,
+  "next_action": "after this result is merged and CI-green, authorize exactly one heldout scoring read bound to artifact 10928370884 and prediction surface SHA a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9; do not refit models"
+}
