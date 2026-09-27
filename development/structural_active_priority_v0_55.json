@@ -1,0 +1,29 @@
+{
+  "schema": "structural.active_priority.v0_55",
+  "status": "dual_isolation_hypothesis_frozen_no_active_fresh_system",
+  "supersedes": "development/structural_active_priority_v0_54.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "completed_stress_test": {
+    "candidate_id": "zenodo_318_island_mammals_2024",
+    "primary_remote_amplification_supported": false,
+    "response_consumed": true,
+    "may_be_mined_for_v0_55_support": false
+  },
+  "pristine_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_safe_island_covariate_transport_unresolved",
+    "response_opened": false,
+    "automatic_promotion_to_v0_55_test": false
+  },
+  "active_goal": "test whether species-specific internal source isolation is an independent axis of island biogeography beyond external isolation, rather than retesting a universal remote-island regime switch",
+  "next_action": "resolve safe geography for the pristine 5,592-island mammal HOLD without opening its response, or admit a genuinely new response-sealed island system under the v0.55 dual-isolation hypothesis",
+  "prohibited": [
+    "rerun or subgroup-mine the completed 318-island mammal stress response",
+    "restore extreme-isolation amplification as a universal primary",
+    "select a new system because known outcomes favour source-pool effects",
+    "define permeability or dispersal moderators after response access",
+    "treat occurrence support as realized dispersal or rescue without independent process data",
+    "promote any non-fresh stress result into the fresh confirmatory denominator"
+  ]
+}
