@@ -1,0 +1,121 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_stress_result.v0_54",
+  "status": "HELDOUT_STRESS_SCORED_PRIMARY_HANDOFF_UNSUPPORTED",
+  "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+  "candidate_id": "zenodo_318_island_mammals_2024",
+  "execution": {
+    "pull_request": 142,
+    "workflow_run_id": 36311201523,
+    "workflow_job_id": 108597334607,
+    "successful_execution_version": "v0.53",
+    "parent_main_commit": "c88e9aa876e359d1e7b989fd66b1afa658d1fb7f",
+    "artifact_id": 10929282456,
+    "artifact_name": "zenodo-318-mammal-heldout-stress-score-v0-52",
+    "artifact_sha256": "bb30cddafc0302ea2ae726df2ac191888dd0fb9484dd48c1c3bbba0d73a5744c",
+    "stress_score_sha256": "5afdcd623ef99a88fd49ea07d39db70139007ecc6770ea574b78a8309ceb3fdf"
+  },
+  "frozen_inputs": {
+    "pilot_status": "qualified_65_of_65",
+    "pilot_species_count": 233,
+    "fixed_species_universe_sha256": "7284ef6616bba91a5b3643e5aa5e2120fa3862869858cd5371d67a83130b71ff",
+    "heldout_islands": 244,
+    "prediction_rows": 56852,
+    "prediction_surface_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9",
+    "source_workbook_sha256": "590e0e59db83cb2be3ddab075ce79dbc2517b5487cb9d2f9e2f726475f19a1cc",
+    "q75_dContinent_km": 1124.41,
+    "extreme_heldout_islands": 63,
+    "nonextreme_heldout_islands": 181,
+    "connected_heldout_islands": 95,
+    "isolated_heldout_islands": 149,
+    "model_refit_count": 0
+  },
+  "response_firewall": {
+    "heldout_response_accessed": true,
+    "heldout_islands_opened": 244,
+    "heldout_occurrence_values_parsed": 56852,
+    "pilot_occurrence_values_parsed_during_heldout_scoring": 0,
+    "out_of_scope_occurrence_values_parsed": 0,
+    "nonfixed_species_occurrence_values_parsed": 0,
+    "heldout_outcome_surface_sha256": "27692584941148ec197904d02fcffa1880b65718228d677fa35ad1c331999945"
+  },
+  "heldout_target_counts": {
+    "positive": 4185,
+    "negative": 52667
+  },
+  "primary": {
+    "estimand": "mean(C_minus_R3 log loss | extreme_q75) - mean(C_minus_R3 log loss | non_extreme)",
+    "prediction": "negative",
+    "support_rule": "point < 0 and archipelago-cluster bootstrap 95% upper limit < 0",
+    "mean_C_minus_R3_extreme_q75": -0.055926700616046134,
+    "mean_C_minus_R3_nonextreme": -0.10137843638289902,
+    "point_estimate_extreme_minus_nonextreme": 0.04545173576685289,
+    "bootstrap_ci_95_low": -0.0031904317577055308,
+    "bootstrap_ci_95_high": 0.08835839946973478,
+    "primary_supported": false,
+    "interpretation": "The predeclared prediction that source-pool information gains relative importance under extreme continent isolation is unsupported. The point estimate is opposite the predicted direction, but the cluster-bootstrap interval overlaps zero."
+  },
+  "bootstrap": {
+    "unit": "Archipielago",
+    "clusters": [
+      "Alexander",
+      "Caribe",
+      "Golfo California",
+      "Indonesia",
+      "Japan",
+      "Macaronesia",
+      "Mediterranean",
+      "New Guinea"
+    ],
+    "requested": 10000,
+    "accepted": 9782,
+    "invalid": 218,
+    "seed": 20260927,
+    "rng": "python.random.Random (MT19937)",
+    "quantile_method": "linear"
+  },
+  "descriptive_secondary": {
+    "overall_mean_C_minus_R3_log_loss": -0.0896429472299821,
+    "extreme_mean_C_minus_R3_log_loss": -0.055926700616046134,
+    "nonextreme_mean_C_minus_R3_log_loss": -0.10137843638289902,
+    "by_type": {
+      "Connected": {
+        "rows": 22135,
+        "islands": 95,
+        "mean_C_minus_R3_log_loss": -0.09548329130712094
+      },
+      "Isolated": {
+        "rows": 34717,
+        "islands": 149,
+        "mean_C_minus_R3_log_loss": -0.08591923791905465
+      }
+    },
+    "interpretation": "C improved heldout log loss descriptively overall and in both isolation regimes, but the gain was larger outside the extreme-isolation tail. Type-specific summaries are secondary and cannot rescue the failed primary."
+  },
+  "ecological_claim_boundary": {
+    "supported": "Within-archipelago source-pool information can add heldout occurrence information beyond a strong island-state and global-breadth reference in this independent mammal stress test, descriptively across both isolation regimes.",
+    "not_supported": "Extreme continent isolation does not show the predeclared amplification of that source-pool gain.",
+    "cannot_claim": [
+      "universal source-pool handoff at extreme isolation",
+      "fresh independent confirmation",
+      "causal dispersal or rescue effect",
+      "significant reversal of the handoff direction"
+    ]
+  },
+  "evidence_accounting": {
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false,
+    "A_Islands_remains_discovery_evidence": true,
+    "stress_test_is_independent_from_A_Islands": true
+  },
+  "terminal_rules": [
+    "heldout response is consumed",
+    "no rerun",
+    "no refit",
+    "no q75 change",
+    "no species-universe change",
+    "no source-operator change",
+    "no bootstrap change",
+    "no promotion to fresh confirmation"
+  ],
+  "rerun_authorized": false
+}
