@@ -1,0 +1,109 @@
+name: Global mammals Figshare Weigelt metadata-only probe v0.56
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  figshare-metadata:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Query Figshare metadata only
+        run: |
+          mkdir -p build/global_mammals_figshare_v056
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from urllib.error import HTTPError
+          from urllib.request import Request, urlopen
+
+          A=json.loads(Path(
+              "development/global_mammals_figshare_weigelt_metadata_probe_v0_56.json"
+          ).read_text())
+          assert A["status"]=="response_independent_metadata_only"
+
+          def get_json(url):
+              req=Request(
+                  url,
+                  headers={"Accept":"application/json","User-Agent":"Structural-Figshare-Weigelt/0.56"},
+                  method="GET",
+              )
+              with urlopen(req,timeout=60) as r:
+                  return json.loads(r.read())
+
+          article=get_json(A["source"]["article_api"])
+          version=None
+          version_error=None
+          try:
+              version=get_json(A["source"]["version_api"])
+          except HTTPError as exc:
+              version_error=f"HTTP {exc.code}"
+
+          selected=version if isinstance(version,dict) else article
+          files=[]
+          for row in selected.get("files") or []:
+              files.append({
+                  "id":row.get("id"),
+                  "name":row.get("name"),
+                  "size":row.get("size"),
+                  "is_link_only":row.get("is_link_only"),
+                  "download_url":row.get("download_url"),
+                  "supplied_md5":row.get("supplied_md5"),
+                  "computed_md5":row.get("computed_md5"),
+                  "mimetype":row.get("mimetype"),
+              })
+
+          out={
+              "schema":"structural.global_mammals_figshare_weigelt_metadata_result.v0_56",
+              "status":"metadata_only_complete",
+              "article":{
+                  "id":article.get("id"),
+                  "title":article.get("title"),
+                  "doi":article.get("doi"),
+                  "url_private_api":article.get("url_private_api"),
+                  "url_public_api":article.get("url_public_api"),
+                  "url_public_api_version":article.get("url_public_api_version"),
+                  "version":article.get("version"),
+                  "defined_type_name":article.get("defined_type_name"),
+                  "license":article.get("license"),
+              },
+              "version_endpoint_status":"ok" if version is not None else version_error,
+              "selected_version":selected.get("version"),
+              "file_count":len(files),
+              "files":sorted(files,key=lambda x:x["name"] or ""),
+              "file_content_requests":0,
+              "mammal_response_requests":0,
+              "mammal_response_values_opened":False,
+              "counts_as_empirical_evidence":False
+          }
+          p=Path("build/global_mammals_figshare_v056/figshare_metadata.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Enforce metadata-only ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_figshare_v056/figshare_metadata.json"
+          ).read_text())
+          assert x["file_content_requests"]==0
+          assert x["mammal_response_requests"]==0
+          assert x["mammal_response_values_opened"] is False
+          assert x["file_count"]>0
+          print("Figshare metadata-only ceiling intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-figshare-weigelt-metadata-v0-56
+          path: build/global_mammals_figshare_v056/figshare_metadata.json
+          if-no-files-found: error
+          retention-days: 90
