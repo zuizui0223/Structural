@@ -298,20 +298,48 @@
   "unique_island_count": 38,
   "source_article_population": {
     "current_article_reports_islands": 42,
+    "current_island_codes_resolved": 42,
     "thesis_safe_rows_recovered": 38,
-    "unresolved_safe_rows": 4,
-    "article_explicitly_mentions_additional_code_not_in_thesis_table": [
-      "TB"
+    "additional_current_codes_not_in_thesis_table": [
+      "SR",
+      "TB",
+      "WD",
+      "WF"
+    ],
+    "additional_safe_attribute_rows_unresolved": [
+      "SR",
+      "TB",
+      "WD",
+      "WF"
     ],
     "unresolved_other_codes_not_inferred": true
   },
   "completeness": {
-    "area_ha": true,
-    "distance_to_mainland_km": true,
-    "tsf_2020_years": true,
+    "area_ha": {
+      "resolved": 38,
+      "total": 42
+    },
+    "distance_to_mainland_km": {
+      "resolved": 38,
+      "total": 42
+    },
+    "tsf_2020_years": {
+      "resolved": 38,
+      "total": 42
+    },
     "fire_history_source": true,
-    "latitude": false,
-    "longitude": false
+    "latitude": {
+      "resolved": 0,
+      "total": 42
+    },
+    "longitude": {
+      "resolved": 0,
+      "total": 42
+    },
+    "island_identity": {
+      "resolved": 42,
+      "total": 42
+    }
   },
   "observed_safe_ranges_38_only": {
     "area_ha": [
@@ -328,10 +356,11 @@
     ]
   },
   "reconciliation_notes": [
-    "The 2026 article reports 42 study islands, so this 38-row thesis table is explicitly partial and must not be treated as the full current study universe.",
-    "The 2026 article reports island area up to 380.7 ha whereas the recovered thesis rows max at 350.4 ha, independently confirming that at least one current-study island is absent from this thesis table.",
-    "The article text explicitly names TB in addition to NW when discussing old-tree sensitivity; TB is not present in the 38-row thesis table.",
-    "No missing island code or value may be guessed, interpolated, inferred from biological richness, or reconstructed from the biological matrices."
+    "Bell 2024 thesis Table 2.1 supplies 38 safe rows and explicitly ends at SK; it is not treated as the complete 2026 42-island universe.",
+    "The union of those 38 Table 2.1 island codes and four additional labels visible in the same thesis Figure 2.1 (SR, TB, WD, WF) yields exactly 42 unique current-study island codes.",
+    "The 2026 article independently reports 42 study islands and explicitly mentions TB, supporting the cross-source reconciliation without opening any biological matrix.",
+    "The 2026 article reports island area up to 380.7 ha whereas the recovered 38 thesis rows max at 350.4 ha, independently confirming that at least one current-study island is absent from Table 2.1.",
+    "Area, mainland-distance, TSF, and coordinate values for SR/TB/WD/WF remain unresolved and must not be guessed, interpolated, read from biological matrices, or estimated by eyeballing the map."
   ],
   "biological_response_firewall": {
     "beetle_matrix_opened": false,
@@ -343,5 +372,106 @@
     "pilot_response_authorized": false,
     "confirmatory_response_authorized": false
   },
-  "next_gate": "recover the remaining four current-study island identities/area/distance/TSF and all 42 plot-center Lat/Long from response-independent public sources; then mechanically reconcile Island codes before geometry freeze"
+  "next_gate": "recover safe area/mainland-distance/TSF for SR/TB/WD/WF and exact Lat/Long for all 42 islands from response-independent public sources; then mechanically reconcile all 42 codes before geometry freeze",
+  "current_study_island_universe": {
+    "status": "response_independent_42_of_42_island_codes_resolved",
+    "codes": [
+      "BB",
+      "BC",
+      "BS",
+      "BT",
+      "CC",
+      "CD",
+      "CG",
+      "DF",
+      "DN",
+      "DS",
+      "EB",
+      "EI",
+      "EL",
+      "FD",
+      "HF",
+      "HI",
+      "HU",
+      "IL",
+      "IS",
+      "JO",
+      "KA",
+      "KC",
+      "KP",
+      "KR",
+      "LQ",
+      "MI",
+      "MN",
+      "MT",
+      "NH",
+      "NV",
+      "NW",
+      "OS",
+      "PP",
+      "PR",
+      "QC",
+      "SF",
+      "SG",
+      "SK",
+      "SR",
+      "TB",
+      "WD",
+      "WF"
+    ],
+    "count": 42,
+    "provenance": {
+      "thesis_table_2_1_codes": [
+        "BB",
+        "BC",
+        "BS",
+        "BT",
+        "CC",
+        "CD",
+        "CG",
+        "DF",
+        "DN",
+        "DS",
+        "EB",
+        "EI",
+        "EL",
+        "FD",
+        "HF",
+        "HI",
+        "HU",
+        "IL",
+        "IS",
+        "JO",
+        "KA",
+        "KC",
+        "KP",
+        "KR",
+        "LQ",
+        "MI",
+        "MN",
+        "MT",
+        "NH",
+        "NV",
+        "NW",
+        "OS",
+        "PP",
+        "PR",
+        "QC",
+        "SF",
+        "SG",
+        "SK"
+      ],
+      "thesis_table_2_1_count": 38,
+      "additional_current_codes_not_in_thesis_table": [
+        "SR",
+        "TB",
+        "WD",
+        "WF"
+      ],
+      "additional_code_count": 4,
+      "figure_source": "Bell 2024 thesis Figure 2.1 island labels",
+      "independent_article_check": "2026 article explicitly mentions TB and reports 42 islands",
+      "biological_matrix_used": false
+    }
+  }
 }
