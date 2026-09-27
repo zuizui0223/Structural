@@ -1,0 +1,30 @@
+{
+  "schema": "structural.global_mammals_figshare_weigelt_metadata_probe.v0_56",
+  "status": "response_independent_metadata_only",
+  "purpose": "resolve a public response-independent Weigelt islanddata mirror without touching the pristine 5592-island mammal response",
+  "source": {
+    "doi": "10.21942/uva.22788464.v5",
+    "article_id": 22788464,
+    "requested_version": 5,
+    "article_api": "https://api.figshare.com/v2/articles/22788464",
+    "version_api": "https://api.figshare.com/v2/articles/22788464/versions/5"
+  },
+  "public_description_claim": "reference.gpkg contains Weigelt et al. 2013 islanddata points without modifications plus derived archipelago geometries",
+  "allowed_requests": [
+    "GET article metadata endpoint",
+    "GET version-5 metadata endpoint if public"
+  ],
+  "forbidden_requests": [
+    "any file download URL",
+    "any mammal Dryad response URL",
+    "any mammal Appendix_1 or Appendix_2 file content"
+  ],
+  "allowed_output": [
+    "article/version identifiers and title",
+    "file name, id, size, checksum, mime, download URL",
+    "license metadata"
+  ],
+  "mammal_response_requests_expected": 0,
+  "mammal_response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
