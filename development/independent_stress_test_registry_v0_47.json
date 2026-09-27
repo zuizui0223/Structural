@@ -1,0 +1,25 @@
+{
+  "schema": "structural.independent_stress_test_registry.v0_47",
+  "status": "one_design_frozen_response_summary_exposed_stress_test_pre_pilot",
+  "fresh_confirmatory_denominator_count": 0,
+  "stress_tests": [
+    {
+      "candidate_id": "zenodo_318_island_mammals_2024",
+      "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+      "source": "Zenodo 10.5281/zenodo.11220273",
+      "raw_species_occurrence_matrix_opened": false,
+      "frozen_safe_design_path": "development/zenodo_318_island_mammals_safe_design_result_v0_47.json",
+      "pilot_protocol_path": "development/zenodo_318_island_mammals_stress_pilot_protocol_v0_47.json",
+      "pilot_protocol_fingerprint": "98dd81e471f165303503f88fc02ce6b22c624ea9c2b9a72a635869d047fdba9f",
+      "quality_contract_path": "development/zenodo_318_island_mammals_stress_quality_contract_v0_47.json",
+      "quality_contract_fingerprint": "9b6b61c927ae6e5246821781bb842edcf98dd8dd57d5b63246ba5aeb98f57c2a",
+      "scoring_contract_path": "development/zenodo_318_island_mammals_stress_scoring_contract_v0_47.json",
+      "pilot_islands": 65,
+      "heldout_islands": 244,
+      "q75_dContinent_km": 1124.41,
+      "pilot_response_accessed": false,
+      "heldout_species_occurrence_accessed": false,
+      "counts_as_fresh_confirmation": false
+    }
+  ]
+}
