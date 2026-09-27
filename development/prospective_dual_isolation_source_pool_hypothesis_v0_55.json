@@ -1,0 +1,113 @@
+{
+  "schema": "structural.prospective_ecology_hypothesis.dual_isolation_source_pool.v0_55",
+  "status": "next_generation_fresh_hypothesis_not_yet_tested",
+  "supersedes_for_future_fresh_tests": "development/prospective_source_pool_handoff_hypothesis_v0_1.json",
+  "supersedes_reason": "The 318-island independent stress test did not support extreme mainland/continent isolation as a universal amplifier of source-pool information. The next fresh hypothesis therefore separates external geographic isolation from species-specific internal source isolation instead of treating remoteness as a universal regime switch.",
+  "hypothesis_generation_only": [
+    "development/aislands_source_pool_handoff_v0_1.json",
+    "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "development/source_pool_handoff_cross_system_synthesis_v0_54.json"
+  ],
+  "prior_results_may_count_as_confirmation": false,
+  "ecological_model": {
+    "name": "dual_isolation_source_pool",
+    "statement": "Island isolation has at least two ecologically distinct axes: external isolation from major source landmasses and internal isolation from the focal species' occupied insular source pool. Species occurrence may retain information from internal source isolation after external isolation and current island state are represented.",
+    "external_isolation": "response-independent geographic and historical separation from major external source landmasses",
+    "internal_source_isolation": "training-only species-conditioned scarcity or discontinuity of occupied insular sources available to the focal island",
+    "archipelago_permeability": "response-independent physical ease with which islands in an archipelago can act as stepping stones or exchange partners",
+    "key_distinction": "A geographically remote island can be source-rich internally, and a geographically near island can be source-poor for a particular species. These states must not be collapsed to one distance-to-mainland axis."
+  },
+  "four_state_concept": [
+    "externally_near__internally_source_rich",
+    "externally_near__internally_source_poor",
+    "externally_remote__internally_source_rich",
+    "externally_remote__internally_source_poor"
+  ],
+  "required_reference_ladder": {
+    "R0": [
+      "response-independent environment/habitat",
+      "biogeographic region or archipelago structure if predeclared"
+    ],
+    "R1_add": [
+      "island area",
+      "external current isolation",
+      "historical land connection where available",
+      "other prospectively frozen classical island-state variables"
+    ],
+    "R2_add": [
+      "response-independent generic archipelago permeability/network context"
+    ],
+    "R3_add": [
+      "training-only global occupancy breadth",
+      "training-only nearest occupied source distance when safe geometry permits",
+      "training-only diffuse/multi-source pressure when safe geometry permits"
+    ],
+    "C_add": [
+      "training-only species-conditioned internal source-pool continuity not reducible to the R3 direct/diffuse source terms"
+    ]
+  },
+  "primary_prediction": {
+    "name": "internal_source_isolation_is_nonredundant",
+    "estimand": "cluster-weighted mean candidate-minus-R3 held-out log loss across the full prospectively eligible test population",
+    "favourable_direction": "negative",
+    "support_rule": "point estimate < 0 and prospectively frozen cluster-bootstrap 95% upper confidence limit < 0",
+    "interpretation_if_supported": "Species-specific internal source isolation carries predictive occurrence information beyond external isolation, island state, generic archipelago structure, global occupancy breadth and direct/diffuse occupied-source context.",
+    "external_isolation_interaction_required_for_support": false
+  },
+  "external_isolation_rule": {
+    "role": "context_variable_not_primary_regime_switch",
+    "universal_directional_interaction_prediction": null,
+    "forbidden_primary": "do not require or rescue support by showing a stronger candidate gain in an extreme-isolation tail",
+    "q75_or_other_tail_checks": "descriptive sensitivity only unless a future system-specific directional interaction was justified and frozen independently before response access"
+  },
+  "prospective_moderators": {
+    "archipelago_permeability": {
+      "status": "predeclared_secondary",
+      "source": "response-independent island geometry only",
+      "prediction": "incremental internal-source information is stronger where physical archipelago permeability is higher, because occupied insular sources are more plausibly accessible",
+      "required_freeze": "operator, scale rule and moderator contrast before any response access",
+      "may_rescue_failed_primary": false
+    },
+    "dispersal_mode": {
+      "status": "predeclared_secondary_if_external_trait_metadata_available",
+      "source": "external taxonomy/trait source frozen before response access",
+      "prediction": "present occupied-source continuity is relatively more informative for higher-dispersal taxa, while historical connection is relatively more informative for lower-dispersal taxa",
+      "may_rescue_failed_primary": false
+    },
+    "source_saturation": {
+      "status": "predeclared_secondary",
+      "definition": "training-only global occupied breadth",
+      "prediction": "incremental internal-source information attenuates as global occupied breadth increases because broad species have more saturated source support",
+      "may_rescue_failed_primary": false
+    }
+  },
+  "mechanism_boundary": {
+    "occurrence_support_is_not_realized_dispersal": true,
+    "contemporary_colonization_requires_temporal_0_to_1_data": true,
+    "rescue_or_persistence_requires_temporal_1_to_0_or_1_to_1_data": true,
+    "historical_legacy_requires_independent_genetic_or_phylogeographic_evidence": true,
+    "environment_proxy_requires_response_blind_enriched_reference": true
+  },
+  "anti_selection": [
+    "A-Islands cannot count as confirmation because it generated the source-pool hypothesis",
+    "the completed 318-island mammal stress response cannot be re-analysed for subgroup or threshold rescue",
+    "the Indo-Pacific atoll plant response cannot be repaired or rerun",
+    "the pristine 5,592-island mammal system is not admitted merely because it is large; safe geography and full pre-response contracts must first be frozen",
+    "a future system cannot be selected because a published or previewed result is favourable",
+    "external-isolation thresholds cannot be promoted to a primary after response access",
+    "permeability and dispersal-mode moderators must be frozen before response access",
+    "one secondary moderator cannot rescue a failed overall primary"
+  ],
+  "minimum_fresh_confirmation": {
+    "evidence_class": "genuinely_new_response_sealed_system",
+    "spatial_transfer_required": true,
+    "disjoint_burned_pilot_required": true,
+    "full_response_value_domain_frozen_before_pilot": true,
+    "v0_31_and_v0_42_required": true,
+    "source_operator_frozen_before_confirmatory_response": true,
+    "fresh_system_count_required": 1,
+    "stronger_generalization": "replication in at least two independently admitted island systems with distinct archipelago geometry or taxonomic dispersal regimes"
+  },
+  "current_fresh_confirmatory_systems": [],
+  "confirmatory_response_authorized": false
+}

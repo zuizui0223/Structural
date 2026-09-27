@@ -1,0 +1,35 @@
+{
+  "schema": "structural.current_status.v0_55",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_54.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "completed_318_mammal_stress": {
+    "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+    "primary_remote_amplification_supported": false,
+    "overall_source_pool_gain_descriptive": true,
+    "response_consumed": true,
+    "counts_as_fresh_confirmation": false
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_safe_island_covariate_transport_unresolved",
+    "response_opened": false
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "primary": "species-conditioned internal source-pool information improves heldout prediction beyond a strong external-isolation/current-state reference",
+    "remote_amplification_is_required": false,
+    "status": "frozen_before_any_future_fresh_system_response"
+  },
+  "ecological_conclusion": "External mainland/continent isolation and species-specific internal source isolation should be treated as distinct ecological axes. The former does not universally amplify the latter.",
+  "next_valid_scientific_event": "resolve response-independent geography for the pristine 5,592-island mammal HOLD or identify a new response-sealed island system, then freeze a v0.55-compatible reference/source operator before any response access",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_55.json",
+    "status": "dual_isolation_hypothesis_frozen_no_active_fresh_system"
+  }
+}
