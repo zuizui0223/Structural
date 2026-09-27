@@ -61,5 +61,9 @@
     "docs/ZENODO_318_MAMMAL_STRESS_RESULT_V0_54.md",
     "docs/SOURCE_POOL_HANDOFF_CROSS_SYSTEM_V0_54.md",
     "docs/CURRENT_STATUS_V0_54.md"
-  ]
+  ],
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_54.json",
+    "status": "stress_test_complete_primary_handoff_unsupported_no_active_fresh_system"
+  }
 }
