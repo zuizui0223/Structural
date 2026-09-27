@@ -1,0 +1,176 @@
+name: Zenodo 318 island mammals schema-only probe
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  schema-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Header-only mixed metadata and response workbook schema
+        run: |
+          mkdir -p build/zenodo_318_mammals_schema
+          python - <<'PY'
+          import csv, hashlib, html, io, json, re, zipfile
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import xml.etree.ElementTree as ET
+
+          auth=json.loads(Path(
+              "development/zenodo_318_island_mammals_schema_probe_v0_2.json"
+          ).read_text())
+          assert auth["status"]=="header_only_before_response_firewall"
+
+          def fetch(spec,label):
+              req=Request(
+                  spec["url"],
+                  headers={"User-Agent":"Structural-zenodo-318-schema/0.2"},
+                  method="GET",
+              )
+              with urlopen(req,timeout=90) as r:
+                  raw=r.read()
+              assert len(raw)==spec["size_bytes"],(label,len(raw),spec["size_bytes"])
+              assert hashlib.md5(raw).hexdigest()==spec["md5"],label
+              return raw
+
+          # Mixed metadata: decode ONLY first record bytes.
+          mraw=fetch(auth["files"]["metadata"],"metadata")
+          first_line=mraw.splitlines(keepends=False)[0]
+          mheader=next(csv.reader([first_line.decode("utf-8-sig")]))
+          assert mheader
+
+          # Response workbook: decode schema/row1 only.
+          xraw=fetch(auth["files"]["response"],"response")
+          NS_MAIN="{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+          NS_REL="{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+          NS_PKG="{http://schemas.openxmlformats.org/package/2006/relationships}"
+
+          with zipfile.ZipFile(io.BytesIO(xraw)) as zf:
+              names=set(zf.namelist())
+              wb=ET.fromstring(zf.read("xl/workbook.xml"))
+              rels=ET.fromstring(zf.read("xl/_rels/workbook.xml.rels"))
+              relmap={
+                  r.attrib["Id"]:r.attrib["Target"]
+                  for r in rels.findall(NS_PKG+"Relationship")
+              }
+              shared=zf.read("xl/sharedStrings.xml") if "xl/sharedStrings.xml" in names else None
+
+              def shared_values(indices):
+                  if not indices:
+                      return {}
+                  assert shared is not None
+                  blocks=re.findall(br"<si(?:\s[^>]*)?>.*?</si>",shared,flags=re.S)
+                  out={}
+                  for idx in sorted(set(indices)):
+                      assert idx < len(blocks)
+                      node=ET.fromstring(blocks[idx])
+                      out[idx]="".join(t.text or "" for t in node.iter(NS_MAIN+"t"))
+                  return out
+
+              sheets=[]
+              for s in wb.find(NS_MAIN+"sheets"):
+                  name=s.attrib["name"]
+                  rid=s.attrib[NS_REL+"id"]
+                  target=relmap[rid].lstrip("/")
+                  if not target.startswith("xl/"):
+                      target="xl/"+target
+                  xmlb=zf.read(target)
+
+                  dm=re.search(br"<dimension[^>]*ref=\"([^\"]+)\"",xmlb[:20000])
+                  dimension=dm.group(1).decode("ascii") if dm else None
+
+                  m=re.search(br"<row\b[^>]*\br=\"1\"[^>]*>.*?</row>",xmlb,flags=re.S)
+                  assert m is not None,f"no row 1 in {name}"
+                  row1=m.group(0)
+                  cells=re.findall(br"<c\b[^>]*>.*?</c>|<c\b[^>]*/>",row1,flags=re.S)
+                  prelim=[]
+                  sidx=[]
+                  for cb in cells:
+                      head=cb.split(b">",1)[0]+b">"
+                      rm=re.search(br'\br=\"([^\"]+)\"',head)
+                      tm=re.search(br'\bt=\"([^\"]+)\"',head)
+                      ref=rm.group(1).decode("ascii") if rm else None
+                      typ=tm.group(1).decode("ascii") if tm else None
+                      vm=re.search(br"<v>(.*?)</v>",cb,flags=re.S)
+                      inline=re.search(br"<is>.*?<t[^>]*>(.*?)</t>.*?</is>",cb,flags=re.S)
+                      if typ=="s":
+                          assert vm
+                          idx=int(vm.group(1)); sidx.append(idx)
+                          prelim.append((ref,typ,idx,None))
+                      elif typ=="inlineStr":
+                          assert inline
+                          val=html.unescape(inline.group(1).decode("utf-8"))
+                          prelim.append((ref,typ,None,val))
+                      elif typ in (None,"str"):
+                          # Permit literal/string header values only; never numeric data rows.
+                          if vm:
+                              val=html.unescape(vm.group(1).decode("utf-8"))
+                              prelim.append((ref,typ,None,val))
+                          else:
+                              prelim.append((ref,typ,None,""))
+                      else:
+                          raise AssertionError(f"unexpected row1 cell type {typ} in {name}:{ref}")
+                  smap=shared_values(sidx)
+                  headers=[]
+                  for ref,typ,idx,val in prelim:
+                      if typ=="s": val=smap[idx]
+                      headers.append({"cell":ref,"type":typ,"header":val})
+                  sheets.append({
+                      "sheet_name":name,
+                      "worksheet_path":target,
+                      "dimension":dimension,
+                      "header_count":len(headers),
+                      "headers":headers,
+                      "rows_ge_2_semantically_parsed":0
+                  })
+
+          out={
+              "schema":"structural.zenodo_318_island_mammals_schema_result.v0_2",
+              "status":"header_only_schema_complete",
+              "metadata_file":{
+                  "key":auth["files"]["metadata"]["key"],
+                  "md5":auth["files"]["metadata"]["md5"],
+                  "header_count":len(mheader),
+                  "headers":mheader,
+                  "rows_ge_2_semantically_parsed":0
+              },
+              "response_workbook":{
+                  "key":auth["files"]["response"]["key"],
+                  "md5":auth["files"]["response"]["md5"],
+                  "sheet_count":len(sheets),
+                  "sheets":sheets,
+                  "rows_ge_2_semantically_parsed":0
+              },
+              "response_values_opened":False,
+              "counts_as_empirical_evidence":False
+          }
+          p=Path("build/zenodo_318_mammals_schema/schema.json")
+          p.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(p.read_text())
+          PY
+
+      - name: Enforce no data-row semantic access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/zenodo_318_mammals_schema/schema.json").read_text())
+          assert x["metadata_file"]["rows_ge_2_semantically_parsed"]==0
+          assert x["response_workbook"]["rows_ge_2_semantically_parsed"]==0
+          assert all(s["rows_ge_2_semantically_parsed"]==0 for s in x["response_workbook"]["sheets"])
+          assert x["response_values_opened"] is False
+          print("schema-only firewall intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-318-island-mammals-schema-v0-2
+          path: build/zenodo_318_mammals_schema/schema.json
+          if-no-files-found: error
+          retention-days: 90
