@@ -81,7 +81,7 @@ jobs:
       - name: Download exact response-blind safe-design artifact
         uses: actions/download-artifact@v4
         with:
-          name: zenodo-318-mammal-safe-design-v08
+          name: zenodo-318-island-mammals-safe-design-v0-8
           path: build/preheldout/input/safe
           github-token: ${{ github.token }}
           repository: zuizui0223/Structural
