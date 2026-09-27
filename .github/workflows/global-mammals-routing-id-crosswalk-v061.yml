@@ -1,0 +1,327 @@
+name: Global mammals routing-ID crosswalk v0.61
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  routing-crosswalk:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify immutable ID-crosswalk authorization
+        run: |
+          set -euo pipefail
+          parent="69d3a45dc13c8eed06f1b1a8e517c8b17f0c2f0e"
+          git merge-base --is-ancestor "$parent" HEAD
+          mapfile -t changed < <(git diff --name-only "$parent"...HEAD | sort)
+          test "${#changed[@]}" -eq 2
+          test "${changed[0]}" = ".github/workflows/global-mammals-routing-id-crosswalk-v061.yml"
+          test "${changed[1]}" = "development/global_mammals_routing_id_crosswalk_authorization_v0_61.json"
+
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          A=json.loads(Path(
+              "development/global_mammals_routing_id_crosswalk_authorization_v0_61.json"
+          ).read_text())
+          assert A["status"]=="one_shot_routing_metadata_only_crosswalk"
+          expected={
+              "development/global_mammals_weigelt_safe_rows_result_v0_60.json":
+                  A["frozen_git_blobs"]["safe_rows_result"],
+              "development/global_island_mammals_dryad_metadata_result_v0_1.json":
+                  A["frozen_git_blobs"]["dryad_metadata_result"],
+          }
+          for path,sha in expected.items():
+              observed=subprocess.check_output(
+                  ["git","rev-parse",f"HEAD:{path}"],text=True
+              ).strip()
+              assert observed==sha,(path,observed,sha)
+
+          safe=json.loads(Path(
+              "development/global_mammals_weigelt_safe_rows_result_v0_60.json"
+          ).read_text())
+          meta=json.loads(Path(
+              "development/global_island_mammals_dryad_metadata_result_v0_1.json"
+          ).read_text())
+          assert safe["output"]["csv_sha256"]==A["safe_rows_artifact"]["csv_sha256"]
+          assert safe["output"]["row_count"]==A["safe_rows_artifact"]["rows"]
+          row=next(x for x in meta["files"] if x["path"]==A["mammal_response_source"]["path"])
+          assert row["size"]==A["mammal_response_source"]["size_bytes"]
+          assert row["digest"]==A["mammal_response_source"]["sha256"]
+          assert A["species_headers_may_be_decoded"] is False
+          assert A["occurrence_values_may_be_decoded"] is False
+          print("immutable ID-crosswalk authorization OK")
+          PY
+
+      - name: Download exact frozen Weigelt safe table
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-rows-v0-60
+          path: build/weigelt_safe
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 36316161135
+
+      - name: Verify Weigelt safe table identity
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+          A=json.loads(Path(
+              "development/global_mammals_routing_id_crosswalk_authorization_v0_61.json"
+          ).read_text())
+          p=Path("build/weigelt_safe")/A["safe_rows_artifact"]["csv_name"]
+          assert p.is_file()
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==A["safe_rows_artifact"]["csv_sha256"]
+          with p.open(newline="",encoding="utf-8") as f:
+              rows=list(csv.DictReader(f))
+          assert len(rows)==A["safe_rows_artifact"]["rows"]
+          assert len({r["id"] for r in rows})==len(rows)
+          print("Weigelt safe table identity OK")
+          PY
+
+      - name: Resolve Dryad file metadata and read routing IDs only
+        run: |
+          mkdir -p build/global_mammals_crosswalk_v061
+          python - <<'PY'
+          import csv
+          import hashlib
+          import io
+          import json
+          import re
+          from pathlib import Path
+          from urllib.parse import urljoin
+          from urllib.request import Request, urlopen
+
+          A=json.loads(Path(
+              "development/global_mammals_routing_id_crosswalk_authorization_v0_61.json"
+          ).read_text())
+          OUT=Path("build/global_mammals_crosswalk_v061")
+
+          # Load response-independent Weigelt IDs.
+          safe_path=Path("build/weigelt_safe")/A["safe_rows_artifact"]["csv_name"]
+          with safe_path.open(newline="",encoding="utf-8") as f:
+              safe_rows=list(csv.DictReader(f))
+          safe_raw={str(r["id"]).strip() for r in safe_rows}
+
+          integer_re=re.compile(r"^[0-9]+(?:\.0+)?$")
+          def canon(value: str) -> str:
+              s=value.strip()
+              if integer_re.fullmatch(s):
+                  return str(int(float(s)))
+              return s
+
+          safe_canon={canon(x) for x in safe_raw}
+          assert len(safe_canon)==len(safe_raw),"Weigelt IDs collide under frozen canonicalization"
+
+          # Metadata request only: resolve exact current file id/download endpoint.
+          files_url=f"https://datadryad.org/api/v2/versions/{A['mammal_response_source']['dryad_version_id']}/files"
+          req=Request(
+              files_url,
+              headers={
+                  "Accept":"application/json",
+                  "X-API-Version":"2.1.0",
+                  "User-Agent":"Structural-global-mammals-ID-crosswalk/0.61",
+              },
+              method="GET",
+          )
+          with urlopen(req,timeout=60) as r:
+              payload=json.loads(r.read())
+          embedded=payload.get("_embedded") or {}
+          rows=embedded.get("stash:files") or embedded.get("files") or []
+          target=[r for r in rows if r.get("path")==A["mammal_response_source"]["path"]]
+          assert len(target)==1,target
+          meta=target[0]
+          assert meta.get("size")==A["mammal_response_source"]["size_bytes"]
+          assert meta.get("digest")==A["mammal_response_source"]["sha256"]
+
+          fid=meta.get("id")
+          if fid is None:
+              href=((meta.get("_links") or {}).get("self") or {}).get("href","")
+              if href:
+                  fid=int(href.rstrip("/").split("/")[-1])
+          assert isinstance(fid,int),meta
+
+          # One biological response-file request. Bytes may be downloaded, but only
+          # the first routing field of each CSV record is semantically decoded.
+          download_url=f"https://datadryad.org/api/v2/files/{fid}/download"
+          req=Request(
+              download_url,
+              headers={"User-Agent":"Structural-global-mammals-ID-crosswalk/0.61"},
+              method="GET",
+          )
+          with urlopen(req,timeout=120) as r:
+              raw=r.read()
+
+          assert len(raw)==A["mammal_response_source"]["size_bytes"],(
+              len(raw),A["mammal_response_source"]["size_bytes"]
+          )
+          response_sha=hashlib.sha256(raw).hexdigest()
+          assert response_sha==A["mammal_response_source"]["sha256"],response_sha
+
+          # Byte-level CSV routing parser. It tracks quoting for whole records but
+          # captures/decode only field 0; all remaining bytes are discarded opaque.
+          def first_fields(data: bytes):
+              first=bytearray()
+              field_index=0
+              in_quotes=False
+              i=0
+              n=len(data)
+              at_field_start=True
+              while i<n:
+                  b=data[i]
+                  if in_quotes:
+                      if b==34:
+                          if i+1<n and data[i+1]==34:
+                              if field_index==0:
+                                  first.append(34)
+                              i+=2
+                              continue
+                          in_quotes=False
+                          i+=1
+                          continue
+                      if field_index==0:
+                          first.append(b)
+                      i+=1
+                      continue
+
+                  if b==34 and at_field_start:
+                      in_quotes=True
+                      at_field_start=False
+                      i+=1
+                      continue
+                  if b==44:  # comma
+                      field_index+=1
+                      at_field_start=True
+                      i+=1
+                      continue
+                  if b==10:  # LF, record boundary
+                      if first.endswith(b"\r"):
+                          del first[-1:]
+                      yield bytes(first)
+                      first.clear()
+                      field_index=0
+                      in_quotes=False
+                      at_field_start=True
+                      i+=1
+                      continue
+                  if field_index==0:
+                      first.append(b)
+                  at_field_start=False
+                  i+=1
+              if in_quotes:
+                  raise AssertionError("unterminated quoted CSV record")
+              if first or field_index:
+                  if first.endswith(b"\r"):
+                      del first[-1:]
+                  yield bytes(first)
+
+          fields=list(first_fields(raw))
+          assert fields,"empty response CSV"
+          if fields[0].startswith(b"\xef\xbb\xbf"):
+              fields[0]=fields[0][3:]
+          header=fields[0].decode("utf-8").strip()
+          routing_raw=[x.decode("utf-8").strip() for x in fields[1:] if x.strip()]
+          assert len(routing_raw)==A["routing_semantics"]["expected_data_records"],(
+              len(routing_raw),A["routing_semantics"]["expected_data_records"]
+          )
+          routing_canon=[canon(x) for x in routing_raw]
+
+          unique_raw=len(set(routing_raw))
+          unique_canon=len(set(routing_canon))
+          duplicate_rows=len(routing_canon)-unique_canon
+          exact_matches=sum(x in safe_raw for x in routing_raw)
+          canonical_matches=sum(x in safe_canon for x in routing_canon)
+          unmatched=sorted({x for x in routing_canon if x not in safe_canon})
+
+          # Write only routing metadata crosswalk.
+          cross=OUT/"routing_id_crosswalk.csv"
+          with cross.open("w",newline="",encoding="utf-8") as f:
+              w=csv.writer(f,lineterminator="\n")
+              w.writerow(["response_routing_id_raw","response_routing_id_canonical","weigelt_id","matched"])
+              for raw_id,can_id in zip(routing_raw,routing_canon):
+                  matched=can_id in safe_canon
+                  w.writerow([raw_id,can_id,can_id if matched else "",1 if matched else 0])
+
+          cross_sha=hashlib.sha256(cross.read_bytes()).hexdigest()
+          result={
+              "schema":"structural.global_mammals_routing_id_crosswalk_result.v0_61",
+              "status":(
+                  "ROUTING_ID_CROSSWALK_COMPLETE_EXACT_CANONICAL_SUBSET"
+                  if not unmatched and unique_canon==len(routing_canon)
+                  else "HOLD_ROUTING_ID_CROSSWALK_NOT_EXACT"
+              ),
+              "response_file":{
+                  "file_id":fid,
+                  "size_bytes":len(raw),
+                  "sha256":response_sha,
+                  "bytes_downloaded":len(raw),
+                  "routing_field_semantically_opened":True,
+                  "species_header_values_semantically_opened":0,
+                  "species_occurrence_cells_semantically_opened":0,
+              },
+              "routing":{
+                  "header_first_field":header,
+                  "data_records":len(routing_raw),
+                  "unique_raw_ids":unique_raw,
+                  "unique_canonical_ids":unique_canon,
+                  "duplicate_rows":duplicate_rows,
+                  "exact_raw_membership_rows":exact_matches,
+                  "canonical_membership_rows":canonical_matches,
+                  "unmatched_canonical_id_count":len(unmatched),
+                  "unmatched_canonical_ids":unmatched,
+                  "normalization_rule":A["routing_semantics"]["id_normalization"],
+              },
+              "weigelt":{
+                  "rows":len(safe_rows),
+                  "unique_ids":len(safe_raw),
+                  "safe_csv_sha256":A["safe_rows_artifact"]["csv_sha256"],
+              },
+              "crosswalk_csv_sha256":cross_sha,
+              "crosswalk_csv_bytes":cross.stat().st_size,
+              "fuzzy_or_coordinate_matching_used":False,
+              "mammal_occurrence_values_opened":0,
+              "model_fit_count":0,
+              "counts_as_empirical_evidence":False,
+          }
+          (OUT/"routing_id_crosswalk_result.json").write_text(
+              json.dumps(result,indent=2,sort_keys=True)+"\n"
+          )
+          print(json.dumps(result,indent=2,sort_keys=True))
+
+          # Do not retain raw response bytes.
+          del raw
+          PY
+
+      - name: Enforce ID-only response ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(
+              "build/global_mammals_crosswalk_v061/routing_id_crosswalk_result.json"
+          ).read_text())
+          assert x["response_file"]["species_header_values_semantically_opened"]==0
+          assert x["response_file"]["species_occurrence_cells_semantically_opened"]==0
+          assert x["mammal_occurrence_values_opened"]==0
+          assert x["model_fit_count"]==0
+          assert x["fuzzy_or_coordinate_matching_used"] is False
+          print("ID-only biological-response ceiling intact")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-routing-id-crosswalk-v0-61
+          path: |
+            build/global_mammals_crosswalk_v061/routing_id_crosswalk_result.json
+            build/global_mammals_crosswalk_v061/routing_id_crosswalk.csv
+          if-no-files-found: error
+          retention-days: 90
