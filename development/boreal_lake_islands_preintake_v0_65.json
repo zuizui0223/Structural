@@ -1,6 +1,6 @@
 {
   "schema": "structural.preintake_candidate.boreal_lake_island_beetles.v0_65",
-  "status": "HOLD_exact_Dryad_file_identity_and_safe_column_firewall_not_yet_frozen",
+  "status": "HOLD_safe_metadata_schema_and_transport_not_yet_frozen",
   "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
   "source_identity": {
     "dryad_doi": "10.5061/dryad.tdz08kq78",
@@ -8,7 +8,10 @@
     "source_title": "Pyrodiversity of boreal lake islands begets biodiversity of beetles, plants, and birds",
     "dryad_published": "2026-01-23",
     "structural_prior_use_found": false,
-    "response_values_opened_by_structural": false
+    "response_values_opened_by_structural": false,
+    "dryad_version_id": 422440,
+    "dryad_version_number": 7,
+    "file_content_requests": 0
   },
   "study_system": {
     "region": "Lac la Ronge region, northern Saskatchewan, Canada",
@@ -178,9 +181,10 @@
     "fire history/habitat must be represented in the reference before source-pool interpretation",
     "the primary beetle endpoint cannot be replaced by birds or plants after seeing outcomes"
   ],
-  "next_action": "resolve current Dryad file IDs/sizes/digests metadata-only; then freeze file roles and safe-column schemas without opening any species matrix value",
+  "next_action": "schema-open only the frozen safe/mixed metadata files needed for island geometry, fire history and habitat reference; do not open beetle/bird/plant matrices; if public transport cannot deliver safe files, remain HOLD rather than using response or outcome-derived substitutes",
   "v0_11_intake_authorized": false,
   "pilot_response_authorized": false,
   "confirmatory_response_authorized": false,
-  "counts_as_empirical_evidence": false
+  "counts_as_empirical_evidence": false,
+  "metadata_result_path": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json"
 }
