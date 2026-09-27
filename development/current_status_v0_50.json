@@ -1,0 +1,39 @@
+{
+  "schema": "structural.current_status.v0_50",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_47.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_safe_island_covariate_transport_unresolved",
+    "raw_presence_absence_response_opened": false
+  },
+  "mammal_stress_test": {
+    "candidate_id": "zenodo_318_island_mammals_2024",
+    "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+    "pilot_status": "QUALIFIED_STRESS_PILOT_GATES",
+    "pilot_species_count": 233,
+    "estimable_blocks": 65,
+    "response_qualified_blocks": 65,
+    "heldout_islands": 244,
+    "heldout_occurrence_accessed": false,
+    "preheldout_prediction_rows": 56852,
+    "preheldout_prediction_sha256": "a5fe8326172e39ca4cf1d3d7afe9b9bd679076ffc10ec08aaa7c2da2fddeaad9",
+    "preheldout_result_path": "development/zenodo_318_island_mammals_preheldout_freeze_result_v0_50.json",
+    "heldout_response_authorized": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "atoll_terminal": {
+    "candidate_id": "indo_pacific_atoll_native_vascular_plants_2026",
+    "status": "terminal_endpoint_value_domain_mismatch",
+    "source_pool_handoff_scored": false,
+    "rerun_authorized": false
+  },
+  "ecological_question_now_testable_in_stress_lane": "Does within-archipelago pilot source occupancy improve heldout mammal occurrence prediction disproportionately on islands with dContinent >=1124.41 km, beyond climate, area, past connectivity, larger-landmass distance, archipelago fixed effects and global pilot occupancy breadth?",
+  "next_valid_scientific_event": "one heldout stress-test scoring execution using the frozen 56,852 prediction rows; no coefficient refit or heldout-derived tuning",
+  "active_priority_path": "development/structural_active_priority_v0_50.json"
+}
