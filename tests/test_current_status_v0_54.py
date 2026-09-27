@@ -77,3 +77,20 @@ def test_registry_marks_stress_lane_complete_not_fresh():
     assert row["primary_supported"] is False
     assert row["counts_as_fresh_confirmation"] is False
     assert row["rerun_authorized"] is False
+
+
+def test_v054_priority_forbids_stress_result_rescue_mining():
+    status=load(STATUS)
+    priority=load(ROOT/status["active_priority"]["path"])
+
+    assert priority["status"] == (
+        "stress_test_complete_primary_handoff_unsupported_no_active_fresh_system"
+    )
+    assert priority["fresh_active_empirical_candidate"] is None
+    assert priority["fresh_confirmatory_eligible_count"] == 0
+    assert priority["completed_stress_test"]["primary_supported"] is False
+    assert priority["completed_stress_test"]["heldout_response_consumed"] is True
+    assert priority["pristine_hold"]["response_opened"] is False
+    prohibited="\n".join(priority["prohibited"])
+    assert "mine archipelagos, taxa, dispersal groups" in prohibited
+    assert "promote the 318-island stress result" in prohibited
