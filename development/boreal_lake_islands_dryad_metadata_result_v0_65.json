@@ -1,0 +1,85 @@
+{
+  "schema": "structural.boreal_lake_islands_dryad_metadata_result.v0_65",
+  "status": "metadata_only_file_identity_resolved",
+  "dryad_identifier": "doi:10.5061/dryad.tdz08kq78",
+  "selected_version_id": 422440,
+  "selected_version_number": 7,
+  "file_count": 17,
+  "artifact": {
+    "workflow_run_id": 36318004970,
+    "workflow_job_id": 108616272586,
+    "artifact_id": 10930979427,
+    "artifact_sha256": "12f4aab87f68a60082b1e228390944217577e6ff0a2628e3cb6018efdf2279ac"
+  },
+  "focal_files": {
+    "alpha_diversity_ALL_islands.csv": {
+      "file_id": 4569034,
+      "size": 3441,
+      "sha256": "f63b37b3c4c9d5453c53b0b565c4bfb7b8485e017f257fbeea663b20cbf6bddf",
+      "role": "mixed_safe_metadata_candidate"
+    },
+    "RDA_environmental_variables.csv": {
+      "file_id": 4569033,
+      "size": 8594,
+      "sha256": "30b296c8243d433b8c4aaa2e934dcb9d57b0f909094ad03cfc645babbab61046",
+      "role": "mixed_safe_habitat_candidate"
+    },
+    "island_isolation.csv": {
+      "file_id": 4569025,
+      "size": 558,
+      "sha256": "cb2be6c346e05f80ff15f711561571b36e78294634cc6550f01464f4e6c40988",
+      "role": "safe_metadata_candidate"
+    },
+    "island_logarea.csv": {
+      "file_id": 4569027,
+      "size": 686,
+      "sha256": "d8e2e8926802887a56c07a7cd72e73d99633a4359f31d935d621ec98587ebc99",
+      "role": "safe_metadata_candidate"
+    },
+    "time_since_fire_beetles.csv": {
+      "file_id": 4569026,
+      "size": 310,
+      "sha256": "3069433b855bf8c22790794b7c95e6fa8bf42b3430651b1e727a211b162168d2",
+      "role": "safe_metadata_candidate"
+    },
+    "time_since_fire_birds.csv": {
+      "file_id": 4569031,
+      "size": 309,
+      "sha256": "372b2d36eb39c763a6b9552a65ca11f565720c5e3d1904835f11737774fd01d9",
+      "role": "safe_metadata_candidate"
+    },
+    "time_since_fire_plants.csv": {
+      "file_id": 4569030,
+      "size": 308,
+      "sha256": "776b7a5b08ae8fc5c1b0c6c574bf0fa1cd14bc4c9ee852be0b8a876122ca0cbb",
+      "role": "safe_metadata_candidate"
+    },
+    "beetles_speciesmatrix_presenceabsence.csv": {
+      "file_id": 4569032,
+      "size": 49005,
+      "sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+      "role": "primary_response"
+    },
+    "borealbirds_speciesmatrix_presenceabsence.csv": {
+      "file_id": 4569037,
+      "size": 4983,
+      "sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+      "role": "secondary_response"
+    },
+    "vascularplants_speciesmatrix_presenceabsence.csv": {
+      "file_id": 4569029,
+      "size": 10308,
+      "sha256": "fa9bca793c58bf0a88e707c6841ede7513c4ea07662e4f3d6540088d5feea26d",
+      "role": "secondary_response"
+    },
+    "README.md": {
+      "file_id": 4569053,
+      "size": 9409,
+      "sha256": "588900f2cfb9784d30882723d53888d270b43434ca7ae337121cc66c99f0076b",
+      "role": "documentation"
+    }
+  },
+  "file_content_requests": 0,
+  "response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
