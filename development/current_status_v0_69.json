@@ -1,0 +1,49 @@
+{
+  "schema": "structural.current_status.v0_69",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_68.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "safe_geography_complete": true,
+    "response_opened": false
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_four_safe_attribute_rows_and_42_coordinates_unresolved",
+    "preintake_path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "firewall_path": "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "thesis_safe_table_path": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "primary_taxon": "beetles",
+    "island_universe_count": 42,
+    "island_codes_resolved": 42,
+    "thesis_safe_rows": 38,
+    "additional_current_codes": [
+      "SR",
+      "TB",
+      "WD",
+      "WF"
+    ],
+    "safe_area_distance_tsf_resolved": 38,
+    "latlong_resolved": 0,
+    "biological_response_opened": false,
+    "counts_as_active_fresh_candidate": false,
+    "v0_11_intake_authorized": false
+  },
+  "ecological_rationale": "The boreal system remains a useful pristine v0.55 test because the current 42-island identity universe is now response-independently resolved and 38 islands already have independent area/mainland-distance/fire-history attributes. Geometry/reference completion, not biological response, is the only blocker.",
+  "next_valid_scientific_event": "recover response-independent area/mainland-distance/TSF for SR/TB/WD/WF plus exact Lat/Long for all 42 islands; then reconcile the frozen 42-code universe and freeze geometry/reference before v0.11",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_69.json",
+    "status": "boreal_42_island_universe_resolved_partial_safe_attributes_coordinate_hold"
+  }
+}
