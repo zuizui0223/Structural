@@ -1,0 +1,27 @@
+{
+  "schema": "structural.independent_stress_test_registry.v0_54",
+  "status": "one_completed_independent_stress_test_primary_handoff_unsupported",
+  "supersedes": "development/independent_stress_test_registry_v0_47.json",
+  "fresh_confirmatory_denominator_count": 0,
+  "stress_tests": [
+    {
+      "candidate_id": "zenodo_318_island_mammals_2024",
+      "evidence_class": "design_frozen_response_summary_exposed_independent_stress_test",
+      "source": "Zenodo 10.5281/zenodo.11220273",
+      "result_path": "development/zenodo_318_island_mammals_stress_result_v0_54.json",
+      "pilot_status": "qualified_65_of_65",
+      "pilot_species": 233,
+      "heldout_islands": 244,
+      "heldout_response_accessed": true,
+      "primary_supported": false,
+      "primary_point": 0.04545173576685289,
+      "primary_ci_95": [
+        -0.0031904317577055308,
+        0.08835839946973478
+      ],
+      "overall_descriptive_C_minus_R3": -0.0896429472299821,
+      "counts_as_fresh_confirmation": false,
+      "rerun_authorized": false
+    }
+  ]
+}
