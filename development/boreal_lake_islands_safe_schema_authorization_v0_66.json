@@ -1,0 +1,66 @@
+{
+  "schema": "structural.boreal_lake_islands_safe_schema_authorization.v0_66",
+  "status": "one_shot_safe_metadata_header_only",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parent_main_commit": "47bb134b283fa223b05db9da0c2a219ae29454e5",
+  "dryad": {
+    "doi": "10.5061/dryad.tdz08kq78",
+    "version_id": 422440,
+    "files_api": "https://datadryad.org/api/v2/versions/422440/files"
+  },
+  "safe_files": [
+    {
+      "path": "alpha_diversity_ALL_islands.csv",
+      "file_id": 4569034,
+      "size": 3441,
+      "sha256": "f63b37b3c4c9d5453c53b0b565c4bfb7b8485e017f257fbeea663b20cbf6bddf",
+      "role": "mixed_safe_metadata_candidate"
+    },
+    {
+      "path": "RDA_environmental_variables.csv",
+      "file_id": 4569033,
+      "size": 8594,
+      "sha256": "30b296c8243d433b8c4aaa2e934dcb9d57b0f909094ad03cfc645babbab61046",
+      "role": "mixed_safe_habitat_candidate"
+    },
+    {
+      "path": "island_isolation.csv",
+      "file_id": 4569025,
+      "size": 558,
+      "sha256": "cb2be6c346e05f80ff15f711561571b36e78294634cc6550f01464f4e6c40988",
+      "role": "safe_metadata_candidate"
+    },
+    {
+      "path": "island_logarea.csv",
+      "file_id": 4569027,
+      "size": 686,
+      "sha256": "d8e2e8926802887a56c07a7cd72e73d99633a4359f31d935d621ec98587ebc99",
+      "role": "safe_metadata_candidate"
+    },
+    {
+      "path": "time_since_fire_beetles.csv",
+      "file_id": 4569026,
+      "size": 310,
+      "sha256": "3069433b855bf8c22790794b7c95e6fa8bf42b3430651b1e727a211b162168d2",
+      "role": "safe_metadata_candidate"
+    }
+  ],
+  "biological_response_files_forbidden": [
+    "beetles_speciesmatrix_presenceabsence.csv",
+    "borealbirds_speciesmatrix_presenceabsence.csv",
+    "vascularplants_speciesmatrix_presenceabsence.csv"
+  ],
+  "allowed_semantic_reads": [
+    "file metadata and returned Dryad download links",
+    "CSV header row of each allowlisted safe file only"
+  ],
+  "forbidden_semantic_reads": [
+    "row 2+ of every allowlisted file",
+    "richness or MSOM richness values",
+    "Bird.abundance, Beetle.catch.rate, frugivore/insectivore abundance values",
+    "any beetle/bird/plant response matrix header or cell"
+  ],
+  "biological_response_http_requests_expected": 0,
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
