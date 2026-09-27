@@ -1,0 +1,27 @@
+{
+  "schema": "structural.zenodo_318_island_mammals_response_schema_probe.v0_7",
+  "status": "decode_occurrence_schema_rows_1_2_4_only_namespace_and_quote_fix",
+  "file": {
+    "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+    "size_bytes": 1401342,
+    "md5": "be781f82fb6417a8447d8d10045e35ad"
+  },
+  "expected_sheet": "occurrence",
+  "expected_sheet_dimension": "A1:BDU322",
+  "source_reported_islands": 318,
+  "schema_rows": [
+    1,
+    2,
+    4
+  ],
+  "expected_absent_row": 3,
+  "first_data_row": 5,
+  "last_data_row": 322,
+  "expected_row4_cells": 1477,
+  "expected_metadata_columns": 3,
+  "expected_species_columns": 1474,
+  "allowed_semantic_reads": "rows 1,2,4 only; shared-string entries referenced by those rows only",
+  "row5_plus_values_may_be_decoded": false,
+  "occurrence_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
