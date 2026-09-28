@@ -30,6 +30,9 @@ class RoutedBorealPilotSurface:
     pilot_species_universe: tuple[str, ...]
     pilot_species_universe_count: int
     pilot_species_universe_sha256: str
+    pilot_island_order: tuple[str, ...]
+    pilot_island_to_block: tuple[tuple[str, str], ...]
+    pilot_targets_hex_by_island: tuple[tuple[str, str], ...]
     pilot_island_count: int
     confirmatory_island_count: int
     pilot_block_count: int
@@ -96,6 +99,42 @@ def _decode_utf8(value: bytes, *, label: str) -> str:
 def _species_universe_sha(species: Sequence[str]) -> str:
     payload = "".join(f"{name}\n" for name in species).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+def encode_binary_vector_hex(values: Sequence[int]) -> str:
+    bits = "".join(str(int(value)) for value in values)
+    if not bits or set(bits) - {"0", "1"}:
+        raise BorealBeetlePilotRouterError(
+            "binary vector must be nonempty 0/1 values"
+        )
+    width = (len(bits) + 3) // 4
+    return format(int(bits, 2), f"0{width}x")
+
+
+def decode_binary_vector_hex(value: str, count: int) -> tuple[int, ...]:
+    if count < 1:
+        raise BorealBeetlePilotRouterError(
+            "binary vector count must be positive"
+        )
+    width = (count + 3) // 4
+    text = str(value).strip().lower()
+    if len(text) != width:
+        raise BorealBeetlePilotRouterError(
+            "binary vector hex width mismatch"
+        )
+    try:
+        integer = int(text, 16)
+    except ValueError as exc:
+        raise BorealBeetlePilotRouterError(
+            "binary vector is not hexadecimal"
+        ) from exc
+    bits = bin(integer)[2:].zfill(width * 4)
+    extra = width * 4 - count
+    if extra and any(bit != "0" for bit in bits[:extra]):
+        raise BorealBeetlePilotRouterError(
+            "binary vector has nonzero padding bits"
+        )
+    return tuple(int(bit) for bit in bits[-count:])
 
 
 def build_boreal_beetle_pilot_surface(
@@ -257,11 +296,20 @@ def build_boreal_beetle_pilot_surface(
         )
 
     rows: list[tuple[str, str, str]] = []
+    pilot_island_order: list[str] = []
+    pilot_island_to_block: list[tuple[str, str]] = []
+    pilot_targets_hex_by_island: list[tuple[str, str]] = []
     for block in pilot_order:
         for island in sorted(pilot_islands_by_block[block]):
             targets = pilot_values[island]
-            for j in universe_indices:
-                rows.append((block, block, str(targets[j])))
+            restricted = tuple(targets[j] for j in universe_indices)
+            pilot_island_order.append(island)
+            pilot_island_to_block.append((island, block))
+            pilot_targets_hex_by_island.append(
+                (island, encode_binary_vector_hex(restricted))
+            )
+            for target in restricted:
+                rows.append((block, block, str(target)))
 
     out = io.StringIO(newline="")
     writer = csv.writer(out, lineterminator="\n")
@@ -283,6 +331,9 @@ def build_boreal_beetle_pilot_surface(
         pilot_species_universe_sha256=_species_universe_sha(
             pilot_species_universe
         ),
+        pilot_island_order=tuple(pilot_island_order),
+        pilot_island_to_block=tuple(pilot_island_to_block),
+        pilot_targets_hex_by_island=tuple(pilot_targets_hex_by_island),
         pilot_island_count=pilot_rows,
         confirmatory_island_count=confirmatory_islands,
         pilot_block_count=len(pilot_order),
