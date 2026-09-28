@@ -1,0 +1,41 @@
+{
+  "schema": "structural.current_status.v0_78",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_77.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "future_intake": {
+    "dual_isolation_contract": "development/independent_system_intake_contract_v0_12.json",
+    "status": "truthful_static_v055_bridge_ready"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_downstream_preintake_execution_pending",
+    "source_operator_contract": "development/boreal_lake_islands_source_operator_contract_v0_78.json",
+    "source_operator_module": "src/structural/boreal_source_operator.py",
+    "source_operator_frozen_before_response": true,
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "habitat_reference_executed": false,
+    "biological_response_values_opened": false,
+    "v0_12_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The dual-isolation contrast is now operationally specific before any species response: generic archipelago geometry is absorbed in R2; R3 adds training-only prevalence, nearest occupied source and unweighted/area-weighted diffuse source pressure; C adds only occupied-component frequency across response-independent frozen graph scales. This makes any future C gain interpretable as nonredundant species-conditioned insular source continuity rather than simple island density, source proximity or source size.",
+  "next_valid_scientific_event": "clear v0.73 Stage A and downstream response-independent preintake execution, then construct the real v0.12 intake; the source operator itself is no longer a tunable degree of freedom",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_78.json",
+    "status": "stage_A_human_gate_with_source_operator_frozen"
+  }
+}
