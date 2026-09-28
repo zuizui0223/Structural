@@ -1,0 +1,33 @@
+{
+  "schema": "structural.boreal_19island_geometry_identity_freeze.v0_93",
+  "status": "OPAQUE_BYTE_IDENTITY_FROZEN_BEFORE_HEADER_ACCESS",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parent_contract": "development/boreal_19island_geometry_identity_contract_v0_92.json",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-geometry-identity-v0_92.yml",
+    "run_id": 36409002955,
+    "head_sha": "8a86b478d50eeb574b8a62c1ab9ab0179c880cd5",
+    "artifact_id": 10963722053,
+    "artifact_digest": "sha256:75e8972eb270f47f5fc47125f0364d59d85a584f89d82761bf0175d71543b68a"
+  },
+  "file": {
+    "name": "alpha_diversity_model_selection_19islands.csv",
+    "dryad_file_id": 4569035,
+    "dryad_version_id": 422440,
+    "dryad_version_number": 7,
+    "size_bytes": 2486,
+    "sha256": "e40a653de7b01e5ba4c54f69577842d4d246cf179cdfc41d487693eb3c2baf43"
+  },
+  "access_state_at_freeze": {
+    "header_decoded": false,
+    "data_rows_semantically_opened": 0,
+    "safe_row_values_opened": false,
+    "biological_response_values_opened": false,
+    "counts_as_empirical_evidence": false
+  },
+  "header_access_authorized_by_this_freeze": false,
+  "safe_row_projection_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "next_action": "in a later committed revision, re-download only this exact size/SHA identity and decode the first CSV record only"
+}
