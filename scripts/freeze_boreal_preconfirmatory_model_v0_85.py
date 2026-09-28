@@ -107,6 +107,12 @@ def parse_habitat_reference(
         raise BorealPreconfirmatoryFreezeError(
             "v0.76 habitat reference did not qualify"
         )
+    if receipt.get("candidate_id") != (
+        "lac_la_ronge_boreal_island_beetles_2026"
+    ):
+        raise BorealPreconfirmatoryFreezeError(
+            "v0.76 candidate identity mismatch"
+        )
     for key in (
         "species_occurrence_used",
         "richness_used",
@@ -479,6 +485,32 @@ def freeze(
     )
 
     universe = load_universe()
+    if projection_receipt.get("schema") != (
+        "structural.boreal_lake_islands_safe_projection_result.v0_74"
+    ):
+        raise BorealPreconfirmatoryFreezeError(
+            "unexpected v0.74 projection receipt"
+        )
+    if projection_receipt.get("status") != (
+        "SAFE_ROWS_PROJECTED_RESPONSE_REMAINS_SEALED"
+    ):
+        raise BorealPreconfirmatoryFreezeError(
+            "v0.74 projection did not qualify"
+        )
+    if projection_receipt.get("candidate_id") != candidate:
+        raise BorealPreconfirmatoryFreezeError(
+            "v0.74 candidate identity mismatch"
+        )
+    for key in (
+        "protected_response_values_opened",
+        "counts_as_empirical_evidence",
+        "pilot_response_authorized",
+        "confirmatory_response_authorized",
+    ):
+        if projection_receipt.get(key) is not False:
+            raise BorealPreconfirmatoryFreezeError(
+                f"v0.74 response/evidence boundary violated: {key}"
+            )
     geometry_meta = projection_receipt.get("geometry", {})
     geometry_sha = geometry_meta.get("sha256")
     if not isinstance(geometry_sha, str):
@@ -520,6 +552,18 @@ def freeze(
         raise BorealPreconfirmatoryFreezeError(
             "v0.75 candidate mismatch"
         )
+    for key in (
+        "species_occurrence_used",
+        "richness_used",
+        "habitat_values_used",
+        "counts_as_empirical_evidence",
+        "pilot_response_authorized",
+        "confirmatory_response_authorized",
+    ):
+        if spatial_receipt.get(key) is not False:
+            raise BorealPreconfirmatoryFreezeError(
+                f"v0.75 response/evidence boundary violated: {key}"
+            )
     island_to_block = spatial_receipt.get("island_to_block")
     if not isinstance(island_to_block, dict) or set(island_to_block) != set(universe):
         raise BorealPreconfirmatoryFreezeError(
