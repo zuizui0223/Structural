@@ -1,0 +1,15 @@
+{
+  "schema": "structural.boreal_stage_a_dispatch_request.v0_91",
+  "status": "CLEAN_LOGS_AND_REDISPATCH_FROZEN_STAGE_A",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "target_workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_78.yml",
+  "target_ref": "main",
+  "failed_run_logs_to_delete": [
+    36406560560,
+    36407670057
+  ],
+  "one_shot": true,
+  "reason": "Correct src-layout imports, register Dryad bearer masking, delete failed-run logs that exposed a short-lived bearer, then redispatch the still-response-independent frozen Stage A.",
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}
