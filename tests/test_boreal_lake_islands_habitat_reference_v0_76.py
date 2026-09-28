@@ -239,12 +239,14 @@ def test_real_v076_contract_freezes_pca_before_safe_rows():
     x = json.loads(CONTRACT.read_text(encoding="utf-8"))
 
     assert x["standardization"]["method"] == "population z-score"
+    assert "math.fsum" in x["standardization"]["summation"]
     assert x["pca_rule"]["eigendecomposition"] == (
         "deterministic symmetric Jacobi rotations"
     )
     assert x["pca_rule"]["jacobi_tolerance"] == 1e-14
     assert x["pca_rule"]["jacobi_max_iterations"] == 10000
     assert x["pca_rule"]["variance_threshold"] == 0.8
+    assert "math.fsum" in x["pca_rule"]["correlation_summation"]
     assert x["response_independence"]["species_occurrence_used"] is False
     assert x["response_independence"]["richness_used"] is False
     assert x["response_independence"][
