@@ -1,0 +1,97 @@
+name: Boreal 19-island prepilot bundle v1.02
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_prepilot_request_v1_02.json
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-prepilot-bundle:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src
+    steps:
+      - name: Checkout committed response-independent parents
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot response-sealed request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path(
+                  "development/boreal_19island_prepilot_request_v1_02.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_prepilot_request.v1_02"
+          )
+          assert x["status"] == "REQUEST_RESPONSE_SEALED_PREPILOT_BUNDLE"
+          assert x["candidate_id"] == "lac_la_ronge_boreal_19island_beetles_2026"
+          assert x["response_file_download_authorized"] is False
+          assert x["pilot_response_authorized"] is False
+          assert x["confirmatory_response_authorized"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Exact-replay parents and build v0.12 v0.31 v0.42
+        run: |
+          mkdir -p build/boreal_v102
+          python scripts/build_boreal_19island_prepilot_v1_02.py \
+            --output-intake build/boreal_v102/v012_intake.json \
+            --output-intake-receipt build/boreal_v102/v012_intake_receipt.json \
+            --output-protocol build/boreal_v102/v031_protocol.json \
+            --output-quality build/boreal_v102/v042_quality_contract.json \
+            --receipt build/boreal_v102/prepilot_receipt.json
+
+      - name: Assert response-sealed artifact surface
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("build/boreal_v102")
+          expected = {
+              "v012_intake.json",
+              "v012_intake_receipt.json",
+              "v031_protocol.json",
+              "v042_quality_contract.json",
+              "prepilot_receipt.json",
+          }
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          if observed != expected:
+              raise SystemExit(f"unexpected v1.02 artifact surface: {sorted(observed)}")
+          intake = json.loads((root / "v012_intake.json").read_text())
+          receipt = json.loads((root / "prepilot_receipt.json").read_text())
+          if intake["response_values_accessed"] is not False:
+              raise SystemExit("response was accessed during v1.02")
+          if receipt["pilot_response_authorized"] is not False:
+              raise SystemExit("v1.02 unexpectedly authorized pilot response")
+          if receipt["predictive_denominator_contribution"] != 0:
+              raise SystemExit("v1.02 entered predictive denominator")
+          PY
+
+      - name: Upload exact response-sealed prepilot bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v102-prepilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v102/v012_intake.json
+            build/boreal_v102/v012_intake_receipt.json
+            build/boreal_v102/v031_protocol.json
+            build/boreal_v102/v042_quality_contract.json
+            build/boreal_v102/prepilot_receipt.json
+          if-no-files-found: error
+          retention-days: 14
