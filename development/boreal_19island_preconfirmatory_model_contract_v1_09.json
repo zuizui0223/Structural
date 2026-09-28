@@ -1,0 +1,129 @@
+{
+  "schema": "structural.boreal_19island_preconfirmatory_model_contract.v1_09",
+  "status": "CONFIRMATORY_MODEL_AND_PREDICTION_FREEZE_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "pilot_freeze": "development/boreal_19island_pilot_freeze_v1_08.json",
+    "pilot_execution": "development/boreal_19island_pilot_execution_v1_08.json",
+    "pilot_snapshot": "development/boreal_19island_pilot_training_snapshot_v1_08.json",
+    "state_freeze": "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "state_reference": "development/boreal_19island_state_reference_v0_99.csv",
+    "geometry_freeze": "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "geometry": "development/boreal_19island_safe_geometry_v0_97.csv",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "source_operator_freeze": "development/boreal_19island_source_operator_freeze_v1_01.json",
+    "source_operator_replay": "scripts/freeze_boreal_19island_dual_isolation_operator_v1_00.py",
+    "legacy_model_rule": "development/boreal_preconfirmatory_model_contract_v0_85.json"
+  },
+  "required_parent_identity": {
+    "pilot_execution_file_sha256": "b332e65258a5c54fa9f49ab352f4c2822aff1d7fb17a90f9d5796aed4429951d",
+    "pilot_snapshot_file_sha256": "30ef15112fddf0c10cd159f484bf98293083932ba6343d65bcbd060881a91cef",
+    "pilot_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+    "pilot_species_universe_count": 99,
+    "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+    "state_reference_sha256": "92296deda696e875b0ee171b2ea9a28f1297c50860fbc8750709ed7ddf5f3519",
+    "state_freeze_sha256": "a2704646c804b382cd38cf2d2531e0996d5408f496de6c0a85344a1d15ee679c",
+    "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+    "spatial_freeze_sha256": "205f43ef8087918af8ab9540eaaa56c69d29e3e801d0c7f929a5ef2f8eb5c305",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "source_operator_json_sha256": "ab175b7ccd2179dde9f9eaa3018fe5cbea329c162872a001f3114fd6201e8bdf"
+  },
+  "population": {
+    "island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7,
+    "species_count": 99,
+    "training_row_count": 594,
+    "prediction_row_count": 1287
+  },
+  "reference_ladder": {
+    "R0": ["PC1", "PC2", "PC3", "TSF_Z"],
+    "R1_add": ["LOG_AREA_Z", "LOG_MAINLAND_DISTANCE_Z"],
+    "R2_add": [
+      "graph_degree_fraction",
+      "graph_mean_shortest_path_km",
+      "graph_closeness_per_km"
+    ],
+    "R3_add": [
+      "training-only Jeffreys global occupancy logit",
+      "training-only log1p nearest Euclidean occupied-source distance",
+      "training-only log1p Euclidean occupied-source pressure"
+    ],
+    "C_add": [
+      "training-only log1p nearest graph-path occupied-source distance",
+      "training-only log1p graph-path occupied-source pressure"
+    ]
+  },
+  "standardization": {
+    "base_features": "population z-score over the exact frozen 19-island population after combining v0.99 state columns with response-independent graph context",
+    "species_source_features": "population z-score over all 594 fixed pilot island-by-species training rows only",
+    "zero_variance_base_feature": "STOP before confirmatory response",
+    "zero_variance_source_feature": "STOP before confirmatory response",
+    "legacy_v085_rule_reused_without_tuning": true
+  },
+  "source_feature_rules": {
+    "pilot_training_row": "exclude the focal pilot island from occupancy breadth and occupied-source set",
+    "confirmatory_prediction_row": "use all six frozen pilot islands and no confirmatory occurrence value",
+    "global_occupancy_smoothing": "Jeffreys (k+0.5)/(n+1), then logit",
+    "euclidean_and_graph_pressure_kernel": "exact v1.01 source-operator kernel scale",
+    "species_universe": "exact v1.08 pilot snapshot species order"
+  },
+  "fitting": {
+    "model": "pooled binary ridge logistic regression",
+    "solver": "deterministic IRLS with pure-Python pivoted Gaussian elimination",
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "max_iterations": 100,
+    "tolerance": 1e-8,
+    "probability_clip": [1e-12, 0.999999999999],
+    "legacy_v085_fitting_rule_reused_without_tuning": true
+  },
+  "prediction_surface": {
+    "population": "every 13 frozen confirmatory islands x every 99 fixed v1.08 species",
+    "row_count": 1287,
+    "columns": [
+      "island",
+      "block",
+      "species",
+      "p_R0_hex",
+      "p_R1_hex",
+      "p_R2_hex",
+      "p_R3_hex",
+      "p_C_hex"
+    ],
+    "confirmatory_target_used": false,
+    "excluded_island_target_used": false
+  },
+  "primary_scoring": {
+    "estimand": "equal-weight mean across seven confirmatory v0.97 spatial blocks of within-block mean C-minus-R3 binary log loss",
+    "favourable_direction": "negative",
+    "support_rule": "point estimate < 0 and frozen cluster-bootstrap 95% upper confidence limit < 0",
+    "bootstrap_unit": "confirmatory v0.97 spatial block",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "quantile_method": "linear",
+    "external_isolation_interaction_required": false,
+    "secondary_moderator_may_rescue_failed_primary": false
+  },
+  "response_boundary": {
+    "pilot_response_already_consumed": true,
+    "confirmatory_target_values_opened": 0,
+    "excluded_target_values_opened": 0,
+    "confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0
+  },
+  "success_ceiling": {
+    "status": "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE",
+    "confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0,
+    "next_action": "commit and exact-replay verify the complete 1287-row prediction surface and model receipt; only then may a separate one-shot confirmatory-response authorization be considered"
+  }
+}
