@@ -1,0 +1,115 @@
+name: Global mammals historical overlap gate v0.90
+
+on:
+  workflow_dispatch:
+    inputs:
+      routing_run_id:
+        description: "Successful global-mammals-routing-v0.90 workflow run ID"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  response-independent-overlap-audit:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: src:.
+    steps:
+      - name: Require manual execution from main
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download exact fresh routing-only artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: global-mammals-v090-routing-*
+          path: build/overlap_v090/routing
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: zuizui0223/Structural
+          run-id: ${{ inputs.routing_run_id }}
+
+      - name: Download frozen response-independent Weigelt safe rows
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-rows-v0-60
+          path: build/overlap_v090/weigelt
+          github-token: ${{ github.token }}
+          repository: zuizui0223/Structural
+          run-id: 36316161135
+
+      - name: Verify routing and safe-row artifact boundaries
+        run: |
+          test -f build/overlap_v090/routing/routing_ids.txt
+          test -f build/overlap_v090/routing/routing_receipt.json
+          test -f build/overlap_v090/weigelt/weigelt_islanddata_safe_v0_60.csv
+          echo "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af  build/overlap_v090/weigelt/weigelt_islanddata_safe_v0_60.csv" | sha256sum -c -
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/overlap_v090/routing/routing_receipt.json").read_text())
+          assert x["status"]=="exact_response_verified_routing_ids_only_semantically_opened"
+          assert x["routing_rows"]==5592
+          assert x["species_header_fields_semantically_opened"]==0
+          assert x["species_occurrence_cells_semantically_opened"]==0
+          PY
+
+      - name: Download exact historical 318-island workbook
+        run: |
+          mkdir -p build/overlap_v090/historical
+          curl --fail --location --silent --show-error             "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content"             --output build/overlap_v090/historical/Mammal_occurrence_islands.xlsx
+
+      - name: Extract historical identity fields only
+        run: |
+          mkdir -p build/overlap_v090/output
+          python scripts/extract_zenodo_318_identity_v0_90.py             --workbook build/overlap_v090/historical/Mammal_occurrence_islands.xlsx             --output build/overlap_v090/output/historical_318_identity.csv             --receipt build/overlap_v090/output/historical_318_identity_receipt.json
+
+      - name: Run conservative overlap candidate audit
+        run: |
+          python scripts/audit_global_mammals_historical_overlap_v0_90.py             --routing-ids build/overlap_v090/routing/routing_ids.txt             --weigelt-safe build/overlap_v090/weigelt/weigelt_islanddata_safe_v0_60.csv             --historical-identity build/overlap_v090/output/historical_318_identity.csv             --matches build/overlap_v090/output/exact_name_candidate_matches.csv             --exclusions build/overlap_v090/output/provisional_excluded_target_ids.txt             --adjudication-template build/overlap_v090/output/historical_overlap_adjudication_template.csv             --receipt build/overlap_v090/output/overlap_gate_receipt.json
+
+      - name: Delete downloaded source surfaces before artifact upload
+        if: always()
+        run: |
+          rm -rf build/overlap_v090/historical
+          rm -rf build/overlap_v090/routing
+          rm -rf build/overlap_v090/weigelt
+
+      - name: Enforce HOLD-or-PASS response ceiling
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/overlap_v090/output/overlap_gate_receipt.json").read_text())
+          assert x["status"] in {
+              "HOLD_manual_geographic_adjudication_required",
+              "PASS_response_independent_historical_overlap_excluded",
+          }
+          assert x["mammal_species_header_fields_opened"]==0
+          assert x["mammal_occurrence_cells_opened"]==0
+          assert x["counts_as_empirical_evidence"] is False
+          assert x["confirmatory_response_authorized"] is False
+          PY
+
+      - name: Upload response-independent overlap audit
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v090-historical-overlap-${{ github.sha }}-${{ github.run_id }}
+          path: build/overlap_v090/output
+          if-no-files-found: error
+          retention-days: 30
