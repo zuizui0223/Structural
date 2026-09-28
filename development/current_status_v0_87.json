@@ -1,0 +1,33 @@
+{
+  "schema": "structural.current_status.v0_87",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_86.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "confirmatory_scoring_contract": "development/boreal_confirmatory_scoring_contract_v0_87.json",
+    "confirmatory_scoring_cli": "scripts/run_boreal_confirmatory_scoring_v0_87.py",
+    "confirmatory_predictions_frozen": false,
+    "confirmatory_response_authorization_issued": false,
+    "confirmatory_response_values_opened": false,
+    "confirmatory_scoring_executed": false,
+    "fresh_primary_result_exists": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The v0.55 fresh test is now specified through its irreversible final score. The primary estimate gives each response-independent confirmatory spatial block equal weight, so large species-rich blocks cannot dominate the result. C is judged only against the strong source-aware R3, and support requires both a negative block-weighted point estimate and a negative upper 95% block-bootstrap confidence bound.",
+  "next_valid_scientific_event": "clear the frozen chain through v0.86, then execute the v0.87 one-shot confirmatory scorer exactly once; a valid completion contributes one fresh system regardless of whether the primary is supported",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_87.json",
+    "status": "human_stage_A_gate_with_final_confirmatory_scorer_ready"
+  }
+}
