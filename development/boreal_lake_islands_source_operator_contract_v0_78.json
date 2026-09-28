@@ -1,0 +1,94 @@
+{
+  "schema": "structural.boreal_lake_islands_source_operator_contract.v0_78",
+  "status": "source_operator_frozen_before_any_biological_response",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "development/boreal_lake_islands_preintake_v0_65.json",
+    "development/boreal_lake_islands_spatial_partition_contract_v0_75.json",
+    "development/boreal_lake_islands_thesis_safe_table_v0_69.json"
+  ],
+  "scale_source": {
+    "source": "all q25/q50/q75/q90 rounded candidate radii from the successful response-independent v0.75 spatial result",
+    "duplicate_rounded_radii": "collapse exact duplicate radii before averaging so an identical graph is not double-weighted",
+    "species_specific_scale_selection": false,
+    "post_response_scale_selection": false
+  },
+  "reference_ladder": {
+    "R0": [
+      "z(TSF)",
+      "all frozen v0.76 local habitat-reference axes"
+    ],
+    "R1_add": [
+      "log10(area_ha + 1)",
+      "log1p(distance_to_mainland_km)"
+    ],
+    "R2_add": [
+      "nearest_other_island_km",
+      "surrounding_island_pressure",
+      "area_weighted_surrounding_landmass_pressure",
+      "unanchored_component_exposure",
+      "mainland_stepping_stone_frequency"
+    ],
+    "R3_add": [
+      "training_global_occupied_fraction",
+      "nearest_training_presence_km",
+      "multi_source_pressure",
+      "area_weighted_source_pressure"
+    ],
+    "C_add": [
+      "occupied_component_frequency"
+    ]
+  },
+  "R2_feature_rules": {
+    "nearest_other_island_km": "minimum great-circle distance to any other frozen island node",
+    "surrounding_island_pressure": "mean_s log(1 + sum_{j != focal} exp(-d(focal,j)/s))",
+    "area_weighted_surrounding_landmass_pressure": "mean_s log(1 + sum_{j != focal} area_ha(j) * exp(-d(focal,j)/s))",
+    "unanchored_component_exposure": "mean_s ((component_size(focal,s)-1)/(N-1))",
+    "mainland_stepping_stone_frequency": "fraction of unique frozen-radius graphs where the focal component contains at least one island with direct mainland distance <= that radius"
+  },
+  "R3_feature_rules": {
+    "training_global_occupied_fraction": "number of effective training presence islands divided by effective training island count",
+    "nearest_training_presence_km": "minimum great-circle distance from focal island to an effective training presence",
+    "multi_source_pressure": "mean_s log(1 + sum_{effective training presence a} exp(-d(focal,a)/s))",
+    "area_weighted_source_pressure": "mean_s log(1 + sum_{effective training presence a} area_ha(a) * exp(-d(focal,a)/s))"
+  },
+  "C_feature_rule": {
+    "occupied_component_frequency": "fraction of unique frozen-radius graphs where the focal island connected component contains at least one effective training presence",
+    "interpretation": "species-conditioned insular source continuity after direct/diffuse source terms are already in R3",
+    "movement_probability_interpretation_authorized": false,
+    "colonization_probability_interpretation_authorized": false
+  },
+  "diagnostics_not_primary_predictors": {
+    "direct_occupied_neighbor_frequency": "fraction of unique radius graphs with a training presence directly within radius of focal",
+    "multi_hop_only_frequency": "fraction of unique radius graphs where a training presence is reachable in the component but none is directly within radius",
+    "purpose": "decompose any future C signal descriptively without changing the frozen primary C feature"
+  },
+  "training_only_rules": {
+    "heldout_response_labels_used": false,
+    "training_presence_set_only": true,
+    "training_row_self_anchor_exclusion": true,
+    "training_row_denominator_self_exclusion": true,
+    "zero_effective_training_presence": "non-estimable; never impute or lower gate",
+    "all frozen island nodes_may_act_as_response_blind_stepping_stones": true
+  },
+  "numerics": {
+    "kernel": "exp(-distance_km / scale_km)",
+    "aggregation": "Python math.fsum then equal mean over unique frozen scales",
+    "distance": "same haversine geometry as v0.75",
+    "source_area": "response-independent area_ha from v0.69"
+  },
+  "primary_contrast": {
+    "candidate": "C",
+    "reference": "R3",
+    "endpoint": "matched heldout log loss",
+    "favourable_direction": "negative"
+  },
+  "response_firewall": {
+    "biological_response_used_to_define_operator": false,
+    "species_specific_radii_from_response": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
