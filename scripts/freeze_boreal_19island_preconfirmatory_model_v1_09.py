@@ -333,6 +333,12 @@ def _validate_pilot(
         snapshot.get("snapshot_fingerprint"),
         "pilot snapshot fingerprint",
     )
+    snapshot_core = dict(snapshot)
+    snapshot_core.pop("snapshot_fingerprint", None)
+    if canonical_sha256(snapshot_core) != fingerprint:
+        raise Boreal19PreconfirmatoryError(
+            "pilot snapshot content/fingerprint mismatch"
+        )
     if fingerprint != required_identity["pilot_snapshot_fingerprint"]:
         raise Boreal19PreconfirmatoryError("pilot snapshot fingerprint drift")
     if execution.get("model_snapshot_fingerprint") != fingerprint:
