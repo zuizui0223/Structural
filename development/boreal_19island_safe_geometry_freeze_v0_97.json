@@ -1,0 +1,31 @@
+{
+  "schema": "structural.boreal_19island_safe_geometry_freeze.v0_97",
+  "status": "SAFE_GEOMETRY_COMMITTED_RESPONSE_INDEPENDENTLY",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-geometry-projection-v0_96.yml",
+    "run_id": 36410590933,
+    "head_sha": "a6e4e18ec13d26d96eb90fe2ab943c9995e267c2",
+    "artifact_id": 10963044889,
+    "artifact_digest": "sha256:3de3b8181ea5af8dd5a02e9a824d4c5eca9c6960cb9ea03f4f40b7639afd30b2"
+  },
+  "geometry_path": "development/boreal_19island_safe_geometry_v0_97.csv",
+  "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+  "row_count": 19,
+  "unique_island_count": 19,
+  "island_order": [
+    "BB", "BT", "DF", "DN", "EB", "FD", "HF", "HU", "IL", "IS",
+    "MI", "NH", "OS", "PP", "PR", "SF", "SK", "WD", "WF"
+  ],
+  "safe_columns": [
+    "Island",
+    "Lat",
+    "Long"
+  ],
+  "protected_response_values_exposed": false,
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "spatial_partition_may_be_frozen_from_this_geometry": true
+}
