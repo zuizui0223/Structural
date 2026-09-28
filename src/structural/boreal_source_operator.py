@@ -252,6 +252,15 @@ def training_source_features(
             "no effective training presence after focal self-exclusion"
         )
 
+    if set(area_ha) != ids:
+        raise BorealSourceOperatorError("source-area island set mismatch")
+    for island in sorted(ids):
+        value = float(area_ha[island])
+        if not math.isfinite(value) or value <= 0.0:
+            raise BorealSourceOperatorError(
+                f"invalid source area for {island}"
+            )
+
     scales = unique_scales_km(scales_km)
     distance = _distance_lookup(coordinates)
     components = _component_maps(coordinates, scales)
