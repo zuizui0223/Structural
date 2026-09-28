@@ -2,9 +2,9 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import math
-import random
 from dataclasses import dataclass
 from typing import Sequence
 
@@ -174,6 +174,26 @@ def _log_loss(target: int, probability: float) -> float:
     return -math.log1p(-probability)
 
 
+def _bootstrap_block_index(
+    *,
+    seed: int,
+    replicate: int,
+    draw: int,
+    n_blocks: int,
+) -> int:
+    if n_blocks < 1:
+        raise BorealConfirmatoryScoringError("bootstrap has no blocks")
+    payload = f"boreal-v0.87|{int(seed)}|{replicate}|{draw}".encode(
+        "utf-8"
+    )
+    value = int.from_bytes(
+        hashlib.sha256(payload).digest()[:8],
+        byteorder="big",
+        signed=False,
+    )
+    return value % n_blocks
+
+
 def score_frozen_surfaces(
     predictions_text: str,
     targets_text: str,
@@ -247,13 +267,17 @@ def score_frozen_surfaces(
         block_mean_c[block] for block in blocks
     ) / len(blocks)
 
-    rng = random.Random(int(bootstrap_seed))
     bootstrap = []
     n_blocks = len(blocks)
-    for _ in range(bootstrap_replicates):
+    for replicate in range(bootstrap_replicates):
         sampled = [
-            blocks[rng.randrange(n_blocks)]
-            for _ in range(n_blocks)
+            blocks[_bootstrap_block_index(
+                seed=bootstrap_seed,
+                replicate=replicate,
+                draw=draw,
+                n_blocks=n_blocks,
+            )]
+            for draw in range(n_blocks)
         ]
         bootstrap.append(
             math.fsum(block_mean_delta[block] for block in sampled)
@@ -289,5 +313,6 @@ def score_frozen_surfaces(
         "ci95_high": ci_high,
         "bootstrap_replicates": bootstrap_replicates,
         "bootstrap_seed": bootstrap_seed,
+        "bootstrap_prng": "sha256_counter_modulo_block_count",
         "primary_supported": supported,
     }
