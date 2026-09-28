@@ -1,0 +1,74 @@
+{
+  "schema": "structural.boreal_stage_b_orchestrator_contract.v0_88",
+  "status": "response_independent_stage_b_workflow_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_header_manifest_freeze_contract_v0_78.json",
+    "development/boreal_lake_islands_safe_projection_contract_v0_74.json",
+    "development/boreal_lake_islands_spatial_partition_contract_v0_75.json",
+    "development/boreal_lake_islands_habitat_reference_contract_v0_76.json",
+    "development/boreal_dual_isolation_operator_contract_v0_83.json",
+    "development/boreal_lake_islands_v012_intake_builder_contract_v0_79.json",
+    "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json"
+  ],
+  "workflow": ".github/workflows/boreal-lake-islands-stage-b-v0_88.yml",
+  "canonical_header_manifest": "development/boreal_lake_islands_header_manifest_freeze_result.json",
+  "workflow_requirements": {
+    "trigger": "workflow_dispatch_only",
+    "ref": "refs/heads/main",
+    "repository": "zuizui0223/Structural",
+    "canonical_manifest_must_be_git_tracked": true,
+    "stage_a_head_must_be_ancestor_of_current_main": true,
+    "contents_permission": "read"
+  },
+  "credential_handling": {
+    "preferred": [
+      "DRYAD_CLIENT_ID",
+      "DRYAD_CLIENT_SECRET"
+    ],
+    "fallback": "DRYAD_TOKEN",
+    "token_receipt_contains_secret": false
+  },
+  "execution_chain": [
+    "re-download exact SHA-pinned alpha/RDA mixed files as opaque bytes",
+    "v0.74 project only safe geometry/habitat rows under the committed header manifest",
+    "v0.75 freeze response-independent spatial blocks",
+    "v0.76 freeze deterministic local habitat reference",
+    "v0.83 freeze response-independent source-continuity operator",
+    "v0.79 build and validate exact v0.12 response-sealed intake",
+    "v0.80 freeze v0.31 and fingerprint-bound v0.42 pre-pilot contracts",
+    "delete mixed raw CSV files before artifact upload"
+  ],
+  "artifact_policy": {
+    "raw_mixed_csv_upload_forbidden": true,
+    "biological_response_upload_forbidden": true,
+    "token_or_client_secret_upload_forbidden": true,
+    "allowed_outputs": [
+      "execution_context.json",
+      "token_receipt.json",
+      "transport_receipt.json",
+      "safe_geometry.csv",
+      "safe_habitat.csv",
+      "projection_receipt.json",
+      "spatial_receipt.json",
+      "habitat_reference.csv",
+      "habitat_receipt.json",
+      "source_operator.json",
+      "source_operator_receipt.json",
+      "v012_intake.json",
+      "v012_intake_receipt.json",
+      "v031_protocol.json",
+      "v042_quality_contract.json",
+      "prepilot_receipt.json"
+    ],
+    "retention_days": 14
+  },
+  "evidence_ceiling": {
+    "biological_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "successful_next_action": "commit the exact Stage-B artifact outputs needed by v0.81/v0.84/v0.85, then consider separate one-shot pilot response authorization"
+}
