@@ -15,6 +15,7 @@ For each eligible habitat variable over the exact frozen island universe:
 
 - mean = arithmetic mean;
 - SD = population SD, denominator n;
+- mean/variance accumulation uses Python `math.fsum` so row order cannot change last-bit results;
 - z = (x - mean) / SD.
 
 The constants must exact-replay those emitted by v0.74.
@@ -28,7 +29,7 @@ reference is simply its population z-score, emitted as `HAB1`.
 
 With two or more variables:
 
-1. construct the population correlation matrix `X'X/n` from z-scores;
+1. construct the population correlation matrix `X'X/n` from z-scores using `math.fsum` accumulation;
 2. compute its symmetric eigendecomposition with deterministic Jacobi rotations;
 3. Jacobi tolerance = 1e-14, maximum 10,000 iterations;
 4. clamp only tiny negative eigenvalues in [-1e-12, 0) to zero;
