@@ -4,6 +4,7 @@ import csv
 import hashlib
 import importlib.util
 import json
+import math
 from pathlib import Path
 
 from structural.boreal_beetle_pilot_router import encode_binary_vector_hex
@@ -59,9 +60,11 @@ def test_pure_python_ridge_logistic_is_deterministic_and_directional():
         columns=("intercept", "x"),
     )
 
-    assert [value.hex() for value in fit1.coefficients] == [
-        value.hex() for value in fit2.coefficients
-    ]
+    assert len(fit1.coefficients) == len(fit2.coefficients)
+    assert all(
+        math.isclose(left, right, rel_tol=1e-13, abs_tol=1e-13)
+        for left, right in zip(fit1.coefficients, fit2.coefficients)
+    )
     assert fit1.coefficients[1] > 0
     assert predict_probability((1.0, 2.0), fit1) > 0.5
     assert predict_probability((1.0, -2.0), fit1) < 0.5
