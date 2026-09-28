@@ -313,7 +313,7 @@ def main() -> int:
             "schema": "structural.boreal_19island_geometry_projection_result.v0_96",
             "status": "STOP",
             "reason": str(exc),
-            "safe_row_values_opened": False,
+            "safe_row_values_opened": True,
             "protected_response_values_exposed": False,
             "biological_response_values_opened": False,
             "counts_as_empirical_evidence": False,
