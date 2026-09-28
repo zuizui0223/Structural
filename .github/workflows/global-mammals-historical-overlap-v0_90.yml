@@ -79,7 +79,7 @@ jobs:
 
       - name: Run conservative overlap candidate audit
         run: |
-          python scripts/audit_global_mammals_historical_overlap_v0_90.py             --routing-ids build/overlap_v090/routing/routing_ids.txt             --weigelt-safe build/overlap_v090/weigelt/weigelt_islanddata_safe_v0_60.csv             --historical-identity build/overlap_v090/output/historical_318_identity.csv             --matches build/overlap_v090/output/exact_name_candidate_matches.csv             --exclusions build/overlap_v090/output/provisional_excluded_target_ids.txt             --adjudication-template build/overlap_v090/output/historical_overlap_adjudication_template.csv             --receipt build/overlap_v090/output/overlap_gate_receipt.json
+          python scripts/audit_global_mammals_historical_overlap_v0_90.py             --routing-ids build/overlap_v090/routing/routing_ids.txt             --weigelt-safe build/overlap_v090/weigelt/weigelt_islanddata_safe_v0_60.csv             --historical-identity build/overlap_v090/output/historical_318_identity.csv             --matches build/overlap_v090/output/exact_name_candidate_matches.csv             --exclusions build/overlap_v090/output/provisional_excluded_target_ids.txt             --adjudication-template build/overlap_v090/output/historical_overlap_adjudication_template.csv             --eligible-output build/overlap_v090/output/eligible_routing_ids.txt             --receipt build/overlap_v090/output/overlap_gate_receipt.json
 
       - name: Delete downloaded source surfaces before artifact upload
         if: always()
