@@ -1,0 +1,39 @@
+{
+  "schema": "structural.current_status.v0_72",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_71.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_authenticated_exact_transport_not_executed",
+    "core_external_reference_complete": true,
+    "spatial_support_audit": "development/boreal_lake_islands_spatial_support_audit_v0_70.json",
+    "header_freeze_contract": "development/boreal_lake_islands_header_freeze_contract_v0_71.json",
+    "transport_contract": "development/boreal_lake_islands_exact_transport_contract_v0_72.json",
+    "transport_cli": "scripts/fetch_boreal_mixed_files_v0_72.py",
+    "exact_latlong_resolved": 0,
+    "safe_local_habitat_reference_complete": false,
+    "exact_file_transport_route_frozen": true,
+    "exact_file_transport_executed": false,
+    "header_sha_frozen": false,
+    "safe_row_values_opened": false,
+    "biological_response_values_opened": false,
+    "v0_11_intake_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The candidate remains a prospective test of whether external geographic isolation and species-specific occupied-source isolation jointly structure turnover across true lake islands. The remaining data-access path is now mechanically defined without weakening the response seal: authenticated exact-byte transport, header-only freeze, then a later safe projection.",
+  "next_valid_scientific_event": "execute the frozen v0.72 transport with a Dryad API token, verify both exact SHA-matching files, then run v0.71 header-only audit and commit the resulting manifests before row projection",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_72.json",
+    "status": "execute_frozen_authenticated_boreal_transport"
+  }
+}
