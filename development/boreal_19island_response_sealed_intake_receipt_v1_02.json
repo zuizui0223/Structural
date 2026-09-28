@@ -1,0 +1,26 @@
+{
+  "confirmatory_block_count": 7,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "effect_size": null,
+  "intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+  "island_count": 19,
+  "mechanism_response_authorized": false,
+  "next_action": "construct and commit fingerprint-bound v0.31/v0.42 pre-pilot contracts from this exact intake without opening the beetle matrix",
+  "operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+  "parent_freeze_sha256": {
+    "source_operator_freeze": "5ed5404def1a524679fe3bcd9e4566ae53667db947330571a8fbe88e26c14ae6",
+    "spatial_freeze": "205f43ef8087918af8ab9540eaaa56c69d29e3e801d0c7f929a5ef2f8eb5c305",
+    "state_freeze": "a2704646c804b382cd38cf2d2531e0996d5408f496de6c0a85344a1d15ee679c"
+  },
+  "pilot_block_count": 3,
+  "pilot_response_authorized": false,
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "schema": "structural.boreal_19island_response_sealed_intake_receipt.v1_02",
+  "source_fingerprint": "4cfa0ae0af157c2a49f886ce95f577ec8e785497ab68f3125ef0d87c869ed74e",
+  "status": "ELIGIBLE_TO_BUILD_V031_V042_RESPONSE_SEALED",
+  "system_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "v0_31_protocol_construction_authorized": true,
+  "v0_42_quality_contract_construction_authorized": true
+}
