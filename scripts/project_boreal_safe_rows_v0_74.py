@@ -67,10 +67,10 @@ def load_universe(path: Path = DEFAULT_UNIVERSE) -> tuple[str, ...]:
     if x.get("row_count") != 42 or x.get("unique_island_count") != 42:
         raise BorealSafeProjectionError("unexpected frozen 42-island universe")
     codes = tuple(x["current_study_island_universe"]["codes"])
-    if len(codes) != len(set(codes)) != 42:
-        raise BorealSafeProjectionError("invalid frozen island-code universe")
-    if len(codes) != 42:
-        raise BorealSafeProjectionError("frozen island universe is not 42")
+    if len(codes) != 42 or len(set(codes)) != 42:
+        raise BorealSafeProjectionError(
+            "frozen island universe must contain exactly 42 unique codes"
+        )
     return codes
 
 
@@ -280,7 +280,7 @@ def project(
         constants[column] = {
             "mean_hex": float(mean).hex(),
             "population_sd_hex": float(sd).hex(),
-            "n": str(len(values)),
+            "n": len(values),
         }
 
     if not eligible:
