@@ -1,0 +1,87 @@
+{
+  "schema": "structural.boreal_19island_confirmatory_scoring_contract.v1_13",
+  "status": "ONE_SHOT_19ISLAND_CONFIRMATORY_SCORER_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "authorization": "development/boreal_19island_confirmatory_authorization_v1_12.json",
+    "authorization_freeze": "development/boreal_19island_confirmatory_authorization_freeze_v1_12.json",
+    "predictions": "development/boreal_19island_confirmatory_predictions_v1_10.csv",
+    "model_receipt": "development/boreal_19island_preconfirmatory_model_receipt_v1_10.json",
+    "pilot_snapshot": "development/boreal_19island_pilot_training_snapshot_v1_08.json",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "legacy_primary_rule": "development/boreal_confirmatory_scoring_contract_v0_87.json"
+  },
+  "required_authorization": {
+    "schema": "structural.boreal_19island_confirmatory_response_authorization.v1_11",
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_CONFIRMATORY_RESPONSE",
+    "authorization_fingerprint": "9c298caa914dac454ff5cda3229abbdc971e299791e6dc582c83a10f1a12146d",
+    "authorization_json_sha256": "0b5bd2fefdc7fdfa2d0e0384fd97d70ed6185196be4e331250ade20fa89c9791",
+    "confirmatory_response_authorized": true,
+    "authorization_consumed": false,
+    "counts_as_empirical_evidence": false
+  },
+  "required_prediction_freeze": {
+    "prediction_surface_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "prediction_file_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "model_receipt_file_sha256": "be0ea3c8d277aff00533afd47177f47fba3209d49d80126debdd6817777b3393",
+    "models_fingerprint": "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff",
+    "pilot_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+    "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+    "species_count": 99,
+    "prediction_row_count": 1287,
+    "confirmatory_island_count": 13,
+    "confirmatory_block_count": 7
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "download_url": "https://datadryad.org/api/v2/files/4569032/download",
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_species_columns": 466,
+    "expected_full_source_island_rows": 42
+  },
+  "semantic_access": {
+    "router": "src/structural/boreal_19island_confirmatory_router.py",
+    "routing_island_fields_decoded_required": 42,
+    "confirmatory_fixed_species_occurrence_cells": true,
+    "confirmatory_target_values_parsed_required": 1287,
+    "pilot_target_values_parsed_required": 0,
+    "excluded_target_values_parsed_required": 0,
+    "nonfocal_confirmatory_target_values_parsed_required": 0
+  },
+  "primary": {
+    "estimand": "equal-weight mean across seven frozen v0.97 confirmatory spatial blocks of within-block mean C-minus-R3 binary log loss",
+    "favourable_direction": "negative",
+    "support_rule": "point estimate < 0 and 95% block-bootstrap upper confidence limit < 0",
+    "bootstrap_unit": "confirmatory v0.97 spatial block",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "bootstrap_index_rule": "SHA256(seed|replicate|draw), take first 8 bytes as big-endian integer, modulo number of confirmatory blocks; linear quantiles use type-7 interpolation",
+    "quantile_method": "linear_type7",
+    "external_isolation_interaction_required": false,
+    "secondary_moderator_may_rescue_failed_primary": false
+  },
+  "execution_rules": {
+    "transport_or_identity_failure_before_semantic_access_consumes_authorization": false,
+    "once_confirmatory_router_begins_authorization_is_consumed": true,
+    "any_post_access_domain_or_join_failure_is_terminal": true,
+    "model_refit_after_authorization": false,
+    "prediction_surface_change_after_authorization": false,
+    "rerun_after_post_access_failure": false
+  },
+  "valid_completion": {
+    "fresh_system_denominator_contribution": 1,
+    "counts_as_fresh_confirmatory_evidence": true,
+    "counts_as_primary_confirmatory_evidence": true,
+    "confirmatory_response_authorized_after_completion": false,
+    "authorization_consumed": true
+  },
+  "interpretation": {
+    "supported_status": "PRIMARY_SUPPORTED_INTERNAL_SOURCE_ISOLATION_NONREDUNDANT",
+    "not_supported_status": "PRIMARY_NOT_SUPPORTED_INTERNAL_SOURCE_ISOLATION_NONREDUNDANT",
+    "secondary_analysis_may_change_status": false,
+    "mechanism_claim_authorized": false
+  },
+  "execution_authorized_now": false
+}
