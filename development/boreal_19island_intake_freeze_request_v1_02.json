@@ -1,0 +1,12 @@
+{
+  "schema": "structural.boreal_19island_intake_freeze_request.v1_02",
+  "status": "REQUEST_RESPONSE_SEALED_INTAKE_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "target_ref": "main",
+  "builder": "scripts/build_boreal_19island_response_sealed_intake_v1_02.py",
+  "response_values_accessed": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
