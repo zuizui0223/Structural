@@ -1,0 +1,98 @@
+{
+  "schema": "structural.boreal_preconfirmatory_model_contract.v0_85",
+  "status": "confirmatory_model_and_prediction_freeze_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "development/boreal_beetle_model_sufficient_pilot_contract_v0_84.json",
+    "development/boreal_dual_isolation_operator_contract_v0_83.json",
+    "development/boreal_lake_islands_habitat_reference_contract_v0_76.json",
+    "development/boreal_lake_islands_spatial_partition_contract_v0_75.json"
+  ],
+  "required_pilot": {
+    "execution_schema": "structural.boreal_beetle_burned_pilot_execution.v0_84",
+    "execution_status": "QUALIFIED_TO_FREEZE_CONFIRMATORY_PROTOCOL_WITH_MODEL_SNAPSHOT",
+    "snapshot_schema": "structural.boreal_beetle_pilot_training_snapshot.v0_84",
+    "snapshot_status": "PILOT_TRAINING_SNAPSHOT_FROZEN_FROM_SINGLE_OPEN",
+    "confirmatory_target_values_parsed": 0,
+    "confirmatory_response_authorized": false
+  },
+  "reference_ladder": {
+    "R0": [
+      "response-independent frozen habitat-reference axes",
+      "time since fire"
+    ],
+    "R1_add": [
+      "log10(area_ha + 1)",
+      "log1p(distance_to_mainland_km)"
+    ],
+    "R2_add": [
+      "v0.83 degree_fraction",
+      "v0.83 mean_shortest_path_km",
+      "v0.83 closeness_per_km"
+    ],
+    "R3_add": [
+      "training-only Jeffreys global occupancy logit",
+      "training-only log1p nearest Euclidean occupied-source distance",
+      "training-only log1p Euclidean occupied-source pressure"
+    ],
+    "C_add": [
+      "training-only log1p nearest graph-path occupied-source distance",
+      "training-only log1p graph-path occupied-source pressure"
+    ]
+  },
+  "standardization": {
+    "response_independent_state_features": "population z-score over the frozen 42-island universe",
+    "species_source_features": "population z-score over all fixed pilot island-by-species training rows only",
+    "zero_variance_state_feature": "STOP before confirmatory response",
+    "zero_variance_source_feature": "STOP before confirmatory response"
+  },
+  "source_feature_rules": {
+    "pilot_training_row": "exclude the focal pilot island from occupancy breadth and occupied-source set",
+    "confirmatory_prediction_row": "use all frozen pilot islands and no confirmatory occurrence value",
+    "global_occupancy_smoothing": "Jeffreys (k+0.5)/(n+1), then logit",
+    "euclidean_and_graph_pressure_kernel": "exact v0.83 frozen kernel scale",
+    "species_universe": "exact v0.84 snapshot species order"
+  },
+  "fitting": {
+    "model": "pooled binary ridge logistic regression",
+    "solver": "deterministic IRLS with pure-Python pivoted Gaussian elimination",
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "max_iterations": 100,
+    "tolerance": 1e-8,
+    "probability_clip": [1e-12, 0.999999999999]
+  },
+  "prediction_surface": {
+    "population": "every frozen confirmatory island x every fixed v0.84 species",
+    "columns": [
+      "island",
+      "block",
+      "species",
+      "p_R0_hex",
+      "p_R1_hex",
+      "p_R2_hex",
+      "p_R3_hex",
+      "p_C_hex"
+    ],
+    "confirmatory_target_used": false
+  },
+  "primary_scoring": {
+    "estimand": "equal-weight mean across confirmatory spatial blocks of within-block mean C-minus-R3 binary log loss",
+    "favourable_direction": "negative",
+    "support_rule": "point estimate < 0 and frozen cluster-bootstrap 95% upper confidence limit < 0",
+    "bootstrap_unit": "confirmatory v0.75 spatial block",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "quantile_method": "linear",
+    "external_isolation_interaction_required": false,
+    "secondary_moderator_may_rescue_failed_primary": false
+  },
+  "freeze_ceiling": {
+    "confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "counts_as_empirical_evidence": false,
+    "next_action": "separate exact confirmatory-response authorization may be considered only after model coefficients and the complete prediction surface are committed and replay-verified"
+  }
+}

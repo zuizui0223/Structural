@@ -1,0 +1,33 @@
+{
+  "schema": "structural.current_status.v0_85",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_84.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "model_freeze_contract": "development/boreal_preconfirmatory_model_contract_v0_85.json",
+    "model_freeze_cli": "scripts/freeze_boreal_preconfirmatory_model_v0_85.py",
+    "stage_A_workflow_executed": false,
+    "pilot_response_consumed": false,
+    "model_sufficient_pilot_snapshot_exists": false,
+    "confirmatory_predictions_frozen": false,
+    "confirmatory_response_values_opened": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The prospective v0.55 test is now specified through the last pre-confirmatory modelling step. R3 contains direct/diffuse occupied-source geography, whereas C adds path-based source continuity in the separately frozen v0.83 graph. The primary heldout comparison is therefore candidate C versus a strong source-aware R3 rather than connectivity versus a weak environmental baseline.",
+  "next_valid_scientific_event": "after a qualified v0.84 pilot and committed v0.83 operator, run v0.85 to freeze all R0-R3-C coefficients and every confirmatory island-by-species prediction before any confirmatory response authorization",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_85.json",
+    "status": "freeze_full_confirmatory_prediction_surface_before_response"
+  }
+}

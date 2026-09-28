@@ -1,0 +1,23 @@
+{
+  "schema": "structural.active_priority.v0_85",
+  "status": "freeze_full_confirmatory_prediction_surface_before_response",
+  "supersedes": "development/structural_active_priority_v0_84.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "after the one-shot pilot qualifies, fit the complete strong-reference ladder from pilot data only and freeze all confirmatory predictions before any confirmatory target is opened",
+  "prepared_sequence": [
+    "v0.83 response-independent source operator",
+    "v0.84 model-sufficient one-shot pilot snapshot",
+    "v0.85 deterministic R0-R3-C model and prediction freeze",
+    "future one-shot confirmatory response authorization",
+    "frozen block-clustered C-minus-R3 scoring"
+  ],
+  "prohibited": [
+    "fit or refit any coefficient after confirmatory response access",
+    "use confirmatory occurrence values in source features or standardization",
+    "weaken R3 after seeing C performance",
+    "change the fixed species universe after v0.84",
+    "use external-isolation tail effects to rescue a failed overall primary"
+  ]
+}
