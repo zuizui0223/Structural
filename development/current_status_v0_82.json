@@ -1,0 +1,37 @@
+{
+  "schema": "structural.current_status.v0_82",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_81.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "pilot_executor_contract": "development/boreal_beetle_one_shot_pilot_contract_v0_82.json",
+    "response_transport_cli": "scripts/fetch_boreal_beetle_response_v0_82.py",
+    "pilot_executor_cli": "scripts/run_boreal_beetle_pilot_v0_82.py",
+    "stage_A_workflow_executed": false,
+    "v0_12_intake_built": false,
+    "v0_31_protocol_built": false,
+    "v0_42_quality_contract_built": false,
+    "pilot_response_authorization_issued": false,
+    "pilot_response_consumed": false,
+    "confirmatory_response_values_opened": false,
+    "confirmatory_protocol_freeze_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The complete fresh-test path is now predeclared through one-shot burned-pilot adjudication. If the future pilot survives both endpoint variation and response-quality gates, the only permitted consequence is confirmatory-protocol freezing; if any opened pilot value, class-support or quality gate fails, the authorization is consumed and the protocol version terminates without effect estimation.",
+  "next_valid_scientific_event": "execute the response-independent chain, issue v0.81 authorization, then run the exact v0.82 one-shot pilot; no confirmatory occurrence value may open during this process",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_82.json",
+    "status": "human_stage_A_gate_with_one_shot_pilot_executor_ready"
+  }
+}
