@@ -1,0 +1,11 @@
+{
+  "schema": "structural.boreal_stage_a_dispatch_request.v0_90",
+  "status": "REQUEST_FROZEN_STAGE_A_DISPATCH",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "target_workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_78.yml",
+  "target_ref": "main",
+  "one_shot": true,
+  "reason": "Replace an unavailable interactive workflow-dispatch control with a repository-recorded one-shot dispatcher. The target Stage A remains the frozen v0.78 workflow.",
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false
+}

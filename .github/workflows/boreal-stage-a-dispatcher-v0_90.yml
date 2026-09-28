@@ -1,0 +1,83 @@
+name: Boreal Stage A dispatcher v0.90
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_stage_a_dispatch_request_v0_90.json
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch-frozen-stage-a:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout dispatch request
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate one-shot request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          req = json.loads(
+              Path("development/boreal_stage_a_dispatch_request_v0_90.json")
+              .read_text(encoding="utf-8")
+          )
+          assert req["schema"] == "structural.boreal_stage_a_dispatch_request.v0_90"
+          assert req["status"] == "REQUEST_FROZEN_STAGE_A_DISPATCH"
+          assert req["target_workflow"] == (
+              ".github/workflows/boreal-lake-islands-stage-a-v0_78.yml"
+          )
+          assert req["target_ref"] == "main"
+          assert req["one_shot"] is True
+          assert req["biological_response_values_opened"] is False
+          assert req["counts_as_empirical_evidence"] is False
+
+          if Path(
+              "development/boreal_lake_islands_header_manifest_freeze_result.json"
+          ).exists():
+              raise SystemExit(
+                  "canonical Stage-A manifest already exists; refusing redispatch"
+              )
+          PY
+
+      - name: Dispatch frozen Stage A v0.78 on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          url = (
+              f"https://api.github.com/repos/{repo}/actions/workflows/"
+              "boreal-lake-islands-stage-a-v0_78.yml/dispatches"
+          )
+          payload = json.dumps({"ref": "main"}).encode("utf-8")
+          req = urllib.request.Request(
+              url,
+              data=payload,
+              method="POST",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "X-GitHub-Api-Version": "2022-11-28",
+                  "Content-Type": "application/json",
+              },
+          )
+          with urllib.request.urlopen(req) as response:
+              if response.status != 204:
+                  raise SystemExit(
+                      f"workflow dispatch returned HTTP {response.status}"
+                  )
+          print("dispatched Stage A v0.78 on main")
+          PY
