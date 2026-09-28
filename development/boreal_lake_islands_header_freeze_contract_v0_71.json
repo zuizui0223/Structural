@@ -1,0 +1,153 @@
+{
+  "schema": "structural.boreal_lake_islands_header_freeze_contract.v0_71",
+  "status": "header_only_audit_ready_transport_hold",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "development/boreal_lake_islands_spatial_support_audit_v0_70.json"
+  ],
+  "purpose": "freeze exact mixed-CSV headers and safe/protected column manifests before any boreal mixed-file data row is semantically opened",
+  "transport_rule": {
+    "current_status": "HOLD_HTTP_401",
+    "allowed_resume": "exact local bytes from an independently auditable source or user-supplied file matching the already-frozen Dryad SHA-256",
+    "blind_endpoint_retry_authorized": false,
+    "file_sha_mismatch": "STOP_before_header_decode"
+  },
+  "files": {
+    "alpha_diversity_ALL_islands.csv": {
+      "dryad_file_id": 4569034,
+      "expected_size_bytes": 3441,
+      "expected_sha256": "f63b37b3c4c9d5453c53b0b565c4bfb7b8485e017f257fbeea663b20cbf6bddf",
+      "role": "mixed_geometry_source",
+      "safe_pre_response_columns": [
+        "Island",
+        "Lat",
+        "Long",
+        "log10area",
+        "buffer5000",
+        "time.since.fire.beetles"
+      ],
+      "protected_response_columns": [
+        "beetle.richness",
+        "bird.richness",
+        "plant.richness",
+        "beetle.msom.richness",
+        "bird.msom.richness"
+      ],
+      "closed_even_if_present": [
+        "year.burned",
+        "fire.stdev",
+        "fire.stdev.stand",
+        "time.since.fire.plants",
+        "time.since.fire.birds",
+        "buffer_1",
+        "buffer_10"
+      ],
+      "projection_after_separate_manifest_freeze": [
+        "Island",
+        "Lat",
+        "Long"
+      ]
+    },
+    "RDA_environmental_variables.csv": {
+      "dryad_file_id": 4569033,
+      "expected_size_bytes": 8594,
+      "expected_sha256": "30b296c8243d433b8c4aaa2e934dcb9d57b0f909094ad03cfc645babbab61046",
+      "role": "mixed_habitat_source",
+      "safe_pre_response_columns": [
+        "Island",
+        "Basal.area",
+        "deciduous.canopy.cover.percent.a.d",
+        "deciduous.understory.cover.percent.a.d",
+        "conifer.canopy.cover.perecent.a.d",
+        "conifer.understory.canopy.percent.a.d",
+        "total.cwd.volume"
+      ],
+      "protected_response_columns": [
+        "plant.richness",
+        "frugivore.abund",
+        "insectivore.abund",
+        "Bird.abundance",
+        "Beetle.catch.rate"
+      ],
+      "closed_even_if_present": [
+        "log10area",
+        "buffer5000",
+        "time.since.fire.beetles",
+        "time.since.fire.plants",
+        "time.since.fire.birds",
+        "charcoal.yes",
+        "charcoal.no",
+        "cwd.dc1",
+        "cwd.dc2",
+        "cwd.dc3",
+        "cwd.dc4",
+        "cwd.dc5"
+      ],
+      "projection_after_separate_manifest_freeze": [
+        "Island",
+        "Basal.area",
+        "deciduous.canopy.cover.percent.a.d",
+        "deciduous.understory.cover.percent.a.d",
+        "conifer.canopy.cover.perecent.a.d",
+        "conifer.understory.canopy.percent.a.d",
+        "total.cwd.volume"
+      ]
+    }
+  },
+  "stage_A_header_only": {
+    "implementation": "scripts/audit_boreal_mixed_headers_v0_71.py",
+    "generic_firewall": "src/structural/mixed_csv_firewall.py",
+    "allowed_operations": [
+      "hash complete file as opaque bytes",
+      "verify exact frozen byte size and SHA-256",
+      "decode first physical CSV record only",
+      "classify header names as declared safe, declared protected, or closed/unclassified",
+      "emit header SHA-256 and candidate projection manifest"
+    ],
+    "forbidden_operations": [
+      "decode or inspect any data row",
+      "summarize any safe or protected row value",
+      "fit a model",
+      "change safe/protected declarations after seeing row values"
+    ],
+    "success_status": "qualified_to_freeze_header_manifests_only",
+    "success_does_not_authorize_safe_row_projection": true
+  },
+  "stage_B_safe_row_projection": {
+    "authorized_now": false,
+    "unlock_condition": "a separate revision must commit the exact Stage-A header SHA and manifest for both files before any row-level projection",
+    "generic_implementation_after_unlock": "structural.mixed_csv_firewall.project_safe_columns",
+    "protected_or_unclassified_values_may_be_returned": false,
+    "same_run_header_discovery_and_row_projection_forbidden": true
+  },
+  "post_projection_requirements": {
+    "geometry": [
+      "exactly 42 unique Island values",
+      "Island set exactly equals the v0.69 frozen 42-island universe",
+      "Lat and Long are nonmissing finite numeric values for all 42 islands",
+      "Lat within [-90, 90] and Long within [-180, 180]",
+      "no map digitization or coordinate repair"
+    ],
+    "habitat": [
+      "Island set exactly equals the v0.69 frozen 42-island universe",
+      "use only the prospectively declared habitat columns",
+      "retain only columns with nonmissing finite numeric values on all 42 islands",
+      "if at least two complete habitat variables survive, z-standardize and apply deterministic PCA retaining the minimum number of PCs reaching at least 80 percent cumulative variance",
+      "if exactly one complete habitat variable survives, use it directly",
+      "if zero complete habitat variables survive, STOP before biological response"
+    ]
+  },
+  "response_firewall": {
+    "beetle_response_opened": false,
+    "bird_response_opened": false,
+    "plant_response_opened": false,
+    "safe_row_values_opened": false,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_valid_event": "obtain exact SHA-matching alpha_diversity_ALL_islands.csv and RDA_environmental_variables.csv bytes, run Stage A only, and commit the resulting header manifests in a separate revision before any safe-row projection"
+}
