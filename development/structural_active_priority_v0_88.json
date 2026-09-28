@@ -1,0 +1,23 @@
+{
+  "schema": "structural.active_priority.v0_88",
+  "status": "stage_A_manifest_commit_then_one_shot_response_independent_stage_B",
+  "supersedes": "development/structural_active_priority_v0_87.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "reduce the human execution surface: after one committed Stage-A manifest, run all remaining response-independent pre-pilot steps in one main-bound workflow",
+  "prepared_sequence": [
+    "v0.78 main-only Stage A",
+    "commit canonical header-manifest freeze result",
+    "v0.88 re-download exact mixed bytes and execute v0.74/v0.75/v0.76/v0.83/v0.79/v0.80",
+    "commit Stage-B safe outputs and pre-pilot contracts",
+    "only then consider separate v0.81 pilot authorization"
+  ],
+  "prohibited": [
+    "run Stage B from a non-main ref",
+    "run Stage B from an untracked or non-ancestor Stage-A manifest",
+    "upload raw mixed CSV files",
+    "open biological response values during Stage B",
+    "treat Stage-B completion as pilot-response authorization"
+  ]
+}

@@ -1,0 +1,208 @@
+name: Boreal lake islands Stage B v0.88
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  response-independent-prepilot:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require manual execution from main
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require committed canonical header manifest
+        run: |
+          set -euo pipefail
+          MANIFEST="development/boreal_lake_islands_header_manifest_freeze_result.json"
+          git ls-files --error-unmatch "$MANIFEST" >/dev/null
+          python - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+
+          manifest = Path(
+              "development/boreal_lake_islands_header_manifest_freeze_result.json"
+          )
+          raw = manifest.read_bytes()
+          x = json.loads(raw)
+          assert x["schema"] == (
+              "structural.boreal_lake_islands_header_manifest_freeze.v0_74"
+          )
+          assert x["status"] == "header_manifests_frozen_before_row_projection"
+          assert x["safe_row_projection_authorized"] is True
+          assert x["row_values_opened_by_freezer"] == 0
+          assert x["biological_response_values_opened_by_freezer"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          assert x["v0_12_intake_authorized"] is False
+          stage_a_sha = x["stage_a_execution"]["head_sha"]
+          subprocess.run(
+              ["git", "merge-base", "--is-ancestor", stage_a_sha, os.environ["GITHUB_SHA"]],
+              check=True,
+          )
+          out = Path("build/boreal_v088")
+          out.mkdir(parents=True, exist_ok=True)
+          context = {
+              "schema": "structural.boreal_stage_b_execution_context.v0_88",
+              "status": "main_bound_response_independent_stage_b",
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "head_sha": os.environ["GITHUB_SHA"],
+              "ref": os.environ["GITHUB_REF"],
+              "run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "stage_a_head_sha": stage_a_sha,
+              "header_manifest_sha256": hashlib.sha256(raw).hexdigest(),
+              "biological_response_values_opened": False,
+              "counts_as_empirical_evidence": False,
+          }
+          (out / "execution_context.json").write_text(
+              json.dumps(context, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_v088/token_receipt.json
+
+      - name: Re-download exact frozen mixed files as opaque bytes
+        run: |
+          python scripts/fetch_boreal_mixed_files_v0_72.py \
+            build/boreal_v088/raw \
+            --receipt build/boreal_v088/transport_receipt.json
+
+      - name: Project safe geometry and habitat only
+        run: |
+          python scripts/project_boreal_safe_rows_v0_74.py \
+            build/boreal_v088/raw/alpha_diversity_ALL_islands.csv \
+            build/boreal_v088/raw/RDA_environmental_variables.csv \
+            development/boreal_lake_islands_header_manifest_freeze_result.json \
+            --geometry-output build/boreal_v088/safe_geometry.csv \
+            --habitat-output build/boreal_v088/safe_habitat.csv \
+            --receipt build/boreal_v088/projection_receipt.json
+
+      - name: Freeze response-independent spatial partition
+        run: |
+          python scripts/freeze_boreal_spatial_partition_v0_75.py \
+            build/boreal_v088/safe_geometry.csv \
+            build/boreal_v088/projection_receipt.json \
+            --output build/boreal_v088/spatial_receipt.json
+
+      - name: Freeze deterministic local habitat reference
+        run: |
+          python scripts/freeze_boreal_habitat_reference_v0_76.py \
+            build/boreal_v088/safe_habitat.csv \
+            build/boreal_v088/projection_receipt.json \
+            --output-reference build/boreal_v088/habitat_reference.csv \
+            --receipt build/boreal_v088/habitat_receipt.json
+
+      - name: Freeze response-independent source operator
+        run: |
+          python scripts/freeze_boreal_dual_isolation_operator_v0_83.py \
+            build/boreal_v088/safe_geometry.csv \
+            build/boreal_v088/projection_receipt.json \
+            build/boreal_v088/spatial_receipt.json \
+            --output-operator build/boreal_v088/source_operator.json \
+            --receipt build/boreal_v088/source_operator_receipt.json
+
+      - name: Build and validate response-sealed v0.12 intake
+        run: |
+          python scripts/build_boreal_v012_intake_v0_79.py \
+            build/boreal_v088/projection_receipt.json \
+            build/boreal_v088/spatial_receipt.json \
+            build/boreal_v088/habitat_receipt.json \
+            --output-intake build/boreal_v088/v012_intake.json \
+            --validation-receipt build/boreal_v088/v012_intake_receipt.json
+
+      - name: Freeze v0.31 and fingerprint-bound v0.42
+        run: |
+          python scripts/build_boreal_prepilot_contracts_v0_80.py \
+            build/boreal_v088/v012_intake.json \
+            build/boreal_v088/v012_intake_receipt.json \
+            build/boreal_v088/spatial_receipt.json \
+            --output-protocol build/boreal_v088/v031_protocol.json \
+            --output-quality build/boreal_v088/v042_quality_contract.json \
+            --receipt build/boreal_v088/prepilot_receipt.json
+
+      - name: Delete raw mixed files before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_v088/raw
+
+      - name: Assert exact safe artifact surface
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path("build/boreal_v088")
+          allowed = {
+              "execution_context.json",
+              "token_receipt.json",
+              "transport_receipt.json",
+              "safe_geometry.csv",
+              "safe_habitat.csv",
+              "projection_receipt.json",
+              "spatial_receipt.json",
+              "habitat_reference.csv",
+              "habitat_receipt.json",
+              "source_operator.json",
+              "source_operator_receipt.json",
+              "v012_intake.json",
+              "v012_intake_receipt.json",
+              "v031_protocol.json",
+              "v042_quality_contract.json",
+              "prepilot_receipt.json",
+          }
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          if observed != allowed:
+              raise SystemExit(
+                  f"unexpected Stage-B artifact surface: {sorted(observed)}"
+              )
+          if (root / "raw").exists():
+              raise SystemExit("raw mixed directory survived Stage B")
+          PY
+
+      - name: Upload response-independent Stage-B bundle
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v088-stage-b-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v088/execution_context.json
+            build/boreal_v088/token_receipt.json
+            build/boreal_v088/transport_receipt.json
+            build/boreal_v088/safe_geometry.csv
+            build/boreal_v088/safe_habitat.csv
+            build/boreal_v088/projection_receipt.json
+            build/boreal_v088/spatial_receipt.json
+            build/boreal_v088/habitat_reference.csv
+            build/boreal_v088/habitat_receipt.json
+            build/boreal_v088/source_operator.json
+            build/boreal_v088/source_operator_receipt.json
+            build/boreal_v088/v012_intake.json
+            build/boreal_v088/v012_intake_receipt.json
+            build/boreal_v088/v031_protocol.json
+            build/boreal_v088/v042_quality_contract.json
+            build/boreal_v088/prepilot_receipt.json
+          if-no-files-found: error
+          retention-days: 14
