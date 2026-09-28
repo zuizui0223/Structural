@@ -1,0 +1,34 @@
+{
+  "schema": "structural.current_status.v0_83",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_82.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "pilot_executor_contract": "development/boreal_beetle_one_shot_pilot_contract_v0_82.json",
+    "dual_isolation_operator_contract": "development/boreal_dual_isolation_operator_contract_v0_83.json",
+    "dual_isolation_operator_cli": "scripts/freeze_boreal_dual_isolation_operator_v0_83.py",
+    "stage_A_workflow_executed": false,
+    "pilot_response_consumed": false,
+    "dual_isolation_operator_executed": false,
+    "confirmatory_response_values_opened": false,
+    "confirmatory_protocol_freeze_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "v0.83 separates spatial transfer from ecological source continuity. The v0.75 validation blocks intentionally disconnect islands at the validation radius; therefore that radius cannot also define the candidate source graph without forcing all cross-block source continuity to zero. A separate response-independent minimal connected kNN graph now represents potential insular stepping-stone continuity, while Euclidean occupied-source context remains in R3. C can therefore test graph-path source continuity beyond direct/diffuse geographic source proximity rather than testing an artifact of the heldout partition.",
+  "next_valid_scientific_event": "clear the response-independent chain and freeze v0.83 from the exact v0.74 geometry plus v0.75 blocks; if v0.82 later qualifies, bind the exact operator fingerprint into the confirmatory R0-R3-C scoring protocol before confirmatory response access",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_83.json",
+    "status": "freeze_non_degenerate_dual_isolation_operator_before_confirmatory_protocol"
+  }
+}
