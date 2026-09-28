@@ -47,7 +47,12 @@ def test_v108_request_freezes_exact_successful_pilot_artifact():
 def test_v108_workflow_persists_only_snapshot_and_audit_json():
     text = WORKFLOW.read_text(encoding="utf-8")
     assert "artifact-ids: 10980668029" in text
+    assert "run-id: 36446410357" in text
     assert "merge-multiple: true" in text
+    assert (
+        "- .github/workflows/boreal-19island-pilot-freeze-v1_08.yml"
+        in text
+    )
     assert "assert not any(root.rglob(\"*.csv\"))" in text
     assert "boreal_19island_pilot_execution_v1_08.json" in text
     assert "boreal_19island_pilot_training_snapshot_v1_08.json" in text
