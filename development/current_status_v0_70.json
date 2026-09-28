@@ -1,0 +1,45 @@
+{
+  "schema": "structural.current_status.v0_70",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_69.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_exact_coordinates_or_equivalent_spatial_partition_and_habitat_reference_unresolved",
+    "preintake_path": "development/boreal_lake_islands_preintake_v0_65.json",
+    "firewall_path": "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "safe_table_path": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "spatial_support_audit_path": "development/boreal_lake_islands_spatial_support_audit_v0_70.json",
+    "primary_taxon": "beetles",
+    "island_universe_count": 42,
+    "core_external_reference_complete": true,
+    "exact_latlong_resolved": 0,
+    "known_lake_count": 6,
+    "lake_only_route_sufficient": false,
+    "minimum_disjoint_spatial_units_required_by_system_contract": 9,
+    "safe_local_habitat_reference_complete": false,
+    "biological_response_opened": false,
+    "v0_11_intake_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "pristine_global_mammal_hold": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "status": "HOLD_exact_response_bytes_transport_blocked",
+    "response_opened": false
+  },
+  "ecological_rationale": "The boreal system remains a strong prospective test of dual isolation because classical external island state is complete response-independently and the system has 42 true lake islands. However, the six-lake grouping cannot by itself satisfy the already-frozen requirement for at least three disjoint pilot spatial blocks plus six disjoint confirmatory spatial blocks. Exact coordinates, or an independently justified response-blind spatial partition with at least nine units, are therefore a hard prerequisite rather than an optional refinement.",
+  "next_valid_scientific_event": "recover exact response-independent Lat/Long for all 42 sampling plots and a prospectively safe local habitat reference; then freeze graph geometry and disjoint v0.31/v0.42 pre-pilot contracts",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_70.json",
+    "status": "boreal_coordinates_and_safe_habitat_are_hard_preintake_blockers"
+  }
+}

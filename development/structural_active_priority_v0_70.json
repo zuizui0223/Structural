@@ -1,0 +1,30 @@
+{
+  "schema": "structural.active_priority.v0_70",
+  "status": "boreal_coordinates_and_safe_habitat_are_hard_preintake_blockers",
+  "supersedes": "development/structural_active_priority_v0_69.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "hypothesis_driven_preintake_candidate": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_exact_coordinates_or_equivalent_spatial_partition_and_habitat_reference_unresolved",
+    "spatial_support_audit": "development/boreal_lake_islands_spatial_support_audit_v0_70.json",
+    "response_opened": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "active_goal": "recover response-independent exact sampling-plot coordinates for all 42 boreal islands and a prospectively safe local habitat reference without opening biological response",
+  "why_lake_crosswalk_is_not_the_current_bottleneck": "the system has only six lakes, but its frozen preintake contract requires at least three disjoint pilot spatial blocks plus six disjoint confirmatory spatial blocks; a lake-only partition is structurally under-supported before response",
+  "next_action": [
+    "search public article/thesis/supplement/prior-study sources for exact 42-island Lat/Long without visual digitization",
+    "recover prospectively allowlisted local habitat structure through a response-blind source or auditable safe-column projection",
+    "after both are frozen, construct response-independent graph radii/spatial blocks and verify at least 3 pilot plus 6 confirmatory blocks before v0.11"
+  ],
+  "prohibited": [
+    "open beetle, bird, plant or richness responses to recover geometry",
+    "lower spatial-block minima to accommodate six lakes",
+    "treat six lake identities as sufficient spatial transfer",
+    "use island IDs as arbitrary pseudo-spatial blocks",
+    "digitize exact coordinates by eye from the published map",
+    "advance to v0.11 before geometry and habitat reference are response-independently frozen"
+  ]
+}
