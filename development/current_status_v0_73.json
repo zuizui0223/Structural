@@ -1,0 +1,40 @@
+{
+  "schema": "structural.current_status.v0_73",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_72.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_secure_stage_A_workflow_not_executed",
+    "core_external_reference_complete": true,
+    "spatial_support_audit": "development/boreal_lake_islands_spatial_support_audit_v0_70.json",
+    "header_freeze_contract": "development/boreal_lake_islands_header_freeze_contract_v0_71.json",
+    "transport_contract": "development/boreal_lake_islands_exact_transport_contract_v0_72.json",
+    "workflow_contract": "development/boreal_lake_islands_secure_workflow_contract_v0_73.json",
+    "workflow_path": ".github/workflows/boreal-lake-islands-stage-a-v0_73.yml",
+    "exact_latlong_resolved": 0,
+    "safe_local_habitat_reference_complete": false,
+    "secure_manual_stage_A_route_frozen": true,
+    "stage_A_workflow_executed": false,
+    "header_sha_frozen": false,
+    "safe_row_values_opened": false,
+    "biological_response_values_opened": false,
+    "v0_11_intake_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The 42-island boreal system remains the active prospective test of dual isolation. The remaining secure-access chain is now fully specified through Stage A: exact authenticated bytes followed by header-only classification, with raw mixed files deleted before artifact handling. No ecological result is claimed until a later response-independent safe projection and fresh heldout test.",
+  "next_valid_scientific_event": "configure Dryad API credentials as GitHub Secrets and manually dispatch the v0.73 Stage-A workflow; then inspect only its JSON artifact and freeze exact header manifests in a separate revision",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_73.json",
+    "status": "manual_dispatch_secure_boreal_stage_A"
+  }
+}
