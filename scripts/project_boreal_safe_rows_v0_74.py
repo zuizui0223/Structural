@@ -174,8 +174,8 @@ def _finite_float(value: object, *, label: str) -> float:
 def _population_mean_sd(values: Sequence[float]) -> tuple[float, float]:
     if not values:
         raise BorealSafeProjectionError("empty habitat vector")
-    mean = sum(values) / len(values)
-    variance = sum((x - mean) ** 2 for x in values) / len(values)
+    mean = math.fsum(values) / len(values)
+    variance = math.fsum((x - mean) ** 2 for x in values) / len(values)
     sd = math.sqrt(variance)
     return mean, sd
 
