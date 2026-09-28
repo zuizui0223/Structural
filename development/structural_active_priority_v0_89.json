@@ -1,0 +1,26 @@
+{
+  "schema": "structural.active_priority.v0_89",
+  "status": "global_mammals_plus_GIFT_macro_core",
+  "supersedes": "development/structural_active_priority_v0_88.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "primary_goal": "advance the global two-taxon macro test without opening either primary response prematurely",
+  "sequence": [
+    "retain already-verified A-Islands outside-Actions backup; no repeat",
+    "run exact authenticated 5592-mammal routing-ID transport only",
+    "complete response-independent historical-overlap exclusion before mammal occurrence opening",
+    "run GIFT v3.2 list_set_only metadata freeze for native angiosperm islands",
+    "freeze final GIFT island/archipelago eligibility from metadata only",
+    "freeze one joint mammal+plant analysis contract with R3 species_x_regional_pool and leave-block-out source features",
+    "execute each response once under the frozen contract"
+  ],
+  "boreal_priority": "supplementary_only",
+  "prohibited": [
+    "continue boreal as the bottleneck for the macro paper",
+    "treat exact numeric ID non-overlap across unrelated island databases as proof of independence",
+    "open mammal occurrence cells before overlap exclusion",
+    "request GIFT species lists before metadata selection is committed",
+    "compute source features from held-out blocks"
+  ]
+}
