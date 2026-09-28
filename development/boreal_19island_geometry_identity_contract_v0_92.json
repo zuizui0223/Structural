@@ -1,0 +1,44 @@
+{
+  "schema": "structural.boreal_19island_geometry_identity_contract.v0_92",
+  "status": "OPAQUE_IDENTITY_DISCOVERY_FROZEN_BEFORE_HEADER_ACCESS",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "purpose": "freeze the exact byte identity of the documented 19-island model-selection file before any CSV header or data-row semantics are opened",
+  "source": {
+    "doi": "10.5061/dryad.tdz08kq78",
+    "dryad_version_id": 422440,
+    "dryad_version_number": 7,
+    "file_name": "alpha_diversity_model_selection_19islands.csv",
+    "dryad_file_id": 4569035,
+    "download_url": "https://datadryad.org/api/v2/files/4569035/download"
+  },
+  "provenance": {
+    "file_id_source": "Dryad public landing-page file link",
+    "readme_claim": "the model-selection file documents Lat and Long as plot-center coordinates",
+    "reason_for_separate_identity_stage": "the exact file SHA-256 was not previously frozen in Structural, so byte identity must be committed before header decoding"
+  },
+  "allowed_operations": [
+    "authenticated download of the exact predeclared Dryad file id",
+    "stream bytes without decoding text",
+    "count bytes",
+    "compute SHA-256",
+    "persist only the byte-identity receipt after deleting raw bytes"
+  ],
+  "forbidden_operations": [
+    "decode CSV header",
+    "decode any CSV row",
+    "inspect coordinate values",
+    "inspect richness or other biological response values",
+    "upload raw CSV bytes",
+    "change target file id after execution"
+  ],
+  "response_firewall": {
+    "header_decoded": false,
+    "data_rows_semantically_opened": 0,
+    "safe_row_values_opened": false,
+    "biological_response_values_opened": false,
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "next_gate": "commit the observed size and SHA-256 in a separate revision, then re-download the exact bytes and perform header-only classification"
+}
