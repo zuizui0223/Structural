@@ -1,0 +1,38 @@
+{
+  "schema": "structural.current_status.v0_74",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_73.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_manifest_freeze_not_executed",
+    "stage_A_workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_73.yml",
+    "stage_B_projection_contract": "development/boreal_lake_islands_safe_projection_contract_v0_74.json",
+    "stage_B_projection_cli": "scripts/project_boreal_safe_rows_v0_74.py",
+    "secure_manual_stage_A_route_frozen": true,
+    "stage_B_runner_frozen": true,
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "exact_latlong_resolved": 0,
+    "safe_local_habitat_reference_complete": false,
+    "biological_response_values_opened": false,
+    "v0_11_intake_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The boreal candidate can now proceed deterministically from a future Stage-A header manifest to response-independent 42-island plot geometry and a prospectively frozen local habitat candidate set. Stage B will exclude incomplete or zero-variance habitat variables without consulting species responses and will preserve the v0.68 one-variable versus PCA decision rule.",
+  "next_valid_scientific_event": "manually execute v0.73, freeze the exact header manifests in a separate revision, then run the already-prepared v0.74 safe projection; no biological response may open before geometry, habitat reference and spatial partitions are frozen",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_74.json",
+    "status": "stage_A_human_gate_with_stage_B_ready"
+  }
+}

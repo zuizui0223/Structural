@@ -1,0 +1,32 @@
+{
+  "schema": "structural.active_priority.v0_74",
+  "status": "stage_A_human_gate_with_stage_B_ready",
+  "supersedes": "development/structural_active_priority_v0_73.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual Dryad credential/Stage-A gate; Stage B safe geometry/habitat projection is already predeclared and fail-closed",
+  "stage_B_prepared": {
+    "script": "scripts/project_boreal_safe_rows_v0_74.py",
+    "geometry_output": "42 exact Island/Lat/Long rows in frozen island order",
+    "habitat_output": "only complete nonconstant prospectively allowed local habitat columns",
+    "protected_response_values_opened": false,
+    "v0_11_authorized": false
+  },
+  "next_action": [
+    "configure Dryad API credentials as GitHub Secrets",
+    "manually dispatch v0.73",
+    "freeze exact header SHA/manifests in a separate revision",
+    "run v0.74 safe projection",
+    "use projected coordinates to freeze graph radii and verify at least 3 pilot plus 6 confirmatory spatial blocks",
+    "freeze the response-independent habitat reference before v0.11"
+  ],
+  "prohibited": [
+    "run v0.74 with an unfrozen or unauthorized header manifest",
+    "retain habitat columns because they correlate with species responses",
+    "repair missing habitat values after inspecting biological outcomes",
+    "return protected or unclassified mixed-file values",
+    "open beetle, bird or plant response matrices before preintake completion",
+    "advance to v0.11 before geometry, habitat and validation partitions are frozen"
+  ]
+}

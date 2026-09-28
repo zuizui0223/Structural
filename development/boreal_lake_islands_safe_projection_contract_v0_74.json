@@ -1,0 +1,73 @@
+{
+  "schema": "structural.boreal_lake_islands_safe_projection_contract.v0_74",
+  "status": "stage_B_runner_predeclared_manifest_freeze_missing",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_header_freeze_contract_v0_71.json",
+    "development/boreal_lake_islands_secure_workflow_contract_v0_73.json",
+    "development/boreal_lake_islands_thesis_safe_table_v0_69.json"
+  ],
+  "required_manifest_schema": "structural.boreal_lake_islands_header_manifest_freeze.v0_74",
+  "required_manifest_status": "header_manifests_frozen_before_row_projection",
+  "manifest_must_authorize_safe_row_projection": true,
+  "projection": {
+    "alpha_diversity_ALL_islands.csv": {
+      "safe_columns": [
+        "Island",
+        "Lat",
+        "Long"
+      ],
+      "purpose": "exact 42-island sampling-plot geometry"
+    },
+    "RDA_environmental_variables.csv": {
+      "safe_columns": [
+        "Island",
+        "Basal.area",
+        "deciduous.canopy.cover.percent.a.d",
+        "deciduous.understory.cover.percent.a.d",
+        "conifer.canopy.cover.perecent.a.d",
+        "conifer.understory.canopy.percent.a.d",
+        "total.cwd.volume"
+      ],
+      "purpose": "prospectively frozen local habitat-structure candidate pool"
+    }
+  },
+  "geometry_gate": {
+    "row_count": 42,
+    "unique_island_count": 42,
+    "island_set_source": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "island_set_must_match_exactly": true,
+    "latitude_must_be_finite": true,
+    "longitude_must_be_finite": true,
+    "latitude_range": [-90, 90],
+    "longitude_range": [-180, 180],
+    "coordinate_repair_authorized": false
+  },
+  "habitat_gate": {
+    "island_set_must_match_geometry_universe": true,
+    "eligibility": "retain only prospectively declared habitat columns with finite nonmissing numeric values on all 42 islands",
+    "standardization_for_later_reference": "population z-score using mean and SD with denominator n over the frozen 42-island universe",
+    "zero_variance_columns": "exclude before reference construction",
+    "if_zero_nonconstant_complete_columns": "STOP before biological response",
+    "if_one_nonconstant_complete_column": "later reference is its frozen population z-score",
+    "if_two_or_more_nonconstant_complete_columns": "later reference uses the already-frozen v0.68 deterministic PCA rule; PCA is a separate post-projection freeze",
+    "response_association_may_not_select_columns": true
+  },
+  "outputs_after_success": {
+    "safe_geometry_csv": "Island, Lat, Long only",
+    "safe_habitat_csv": "Island plus complete nonconstant prospectively allowed habitat columns only",
+    "receipt": "hashes, eligibility decisions and standardization constants; no protected response values"
+  },
+  "response_firewall": {
+    "protected_or_unclassified_columns_may_be_returned": false,
+    "beetle_response_opened": false,
+    "bird_response_opened": false,
+    "plant_response_opened": false,
+    "counts_as_empirical_evidence": false,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "execution_authorized_now": false,
+  "reason": "the real Stage-A header manifest freeze does not yet exist; v0.73 must first run and its exact header SHA/manifests must be committed in a separate revision"
+}
