@@ -1,0 +1,72 @@
+{
+  "schema": "structural.boreal_19island_pilot_response_authorization_contract.v1_05",
+  "status": "ONE_SHOT_19ISLAND_BURNED_PILOT_GATE_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "intake": "development/boreal_19island_response_sealed_intake_v1_02.json",
+    "intake_receipt": "development/boreal_19island_response_sealed_intake_receipt_v1_02.json",
+    "prepilot_freeze": "development/boreal_19island_prepilot_freeze_v1_04.json",
+    "protocol": "development/boreal_19island_v031_protocol_v1_03.json",
+    "quality_contract": "development/boreal_19island_v042_quality_contract_v1_03.json",
+    "prepilot_receipt": "development/boreal_19island_prepilot_receipt_v1_03.json",
+    "dryad_metadata": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "full_island_universe": "development/boreal_lake_islands_thesis_safe_table_v0_69.json"
+  },
+  "required_parent_identity": {
+    "parent_intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "protocol_fingerprint": "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314",
+    "quality_contract_fingerprint": "8ac0fe95901caae988673b3d8079b123fdac00573f749049eec3264b89906b58",
+    "protocol_file_sha256": "1b742e92d95e026b2d276746360a96e0562d4aeb88e3d12b20314d72e862c725",
+    "quality_contract_file_sha256": "249be60bd133b89c1b5a37015d105719abb04b720e7d6fc427a3590dce773a35",
+    "prepilot_receipt_file_sha256": "61b4c4bbd1f3ea7d662594ecd58dc09ba38db450fc884a0fabdfd619ffe3961b",
+    "source_workflow_run_id": 36443048123,
+    "source_workflow_head_sha": "95f9250947a2aac7dc7cd6d41590b12faab0e244",
+    "source_artifact_id": 10978164415,
+    "source_artifact_digest": "sha256:eb0249226cc81ea37b311c5f1c91ff46b0efe12c5ecff708209a3fff81aed529"
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_species_columns": 466,
+    "expected_full_source_island_rows": 42,
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "excluded_island_count": 23
+  },
+  "allowed_semantic_access_after_authorization": {
+    "species_header_names": true,
+    "routing_island_field_all_42_rows": true,
+    "pilot_island_occurrence_cells": true,
+    "analysis_confirmatory_occurrence_cells": false,
+    "excluded_23_island_occurrence_cells": false
+  },
+  "router": {
+    "implementation": "src/structural/boreal_19island_beetle_pilot_router.py",
+    "full_source_universe": "exact 42 island codes from v0.69",
+    "analysis_population": "exact 19 island order from v1.02 intake",
+    "partition_unit": "exact v1.03 pilot spatial block ID",
+    "species_universe_rule": "one common universe: species with target 1 on at least two distinct frozen pilot islands",
+    "heldout_specific_species_universe_forbidden": true,
+    "pilot_target_values_parsed_expected": 2796,
+    "confirmatory_target_values_parsed_must_equal": 0,
+    "excluded_target_values_parsed_must_equal": 0,
+    "routing_island_fields_decoded_expected": 42
+  },
+  "authorization_ceiling": {
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_BURNED_PILOT_RESPONSE",
+    "pilot_response_authorized": true,
+    "confirmatory_response_authorized": false,
+    "authorization_consumed": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_evidence": false,
+    "next_action": "under a separate one-shot execution revision, exact-byte verify the frozen response file and parse occurrence values only for the six frozen pilot islands; all 13 confirmatory and 23 excluded-island occurrence cells remain opaque"
+  },
+  "execution_authorized_now": false,
+  "response_values_opened_by_this_revision": false
+}
