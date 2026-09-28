@@ -1,0 +1,80 @@
+{
+  "schema": "structural.global_mammals_historical_overlap_gate_contract.v0_90",
+  "status": "response_independent_overlap_gate_frozen_before_5592_occurrence_access",
+  "fresh_candidate": "global_island_native_mammals_barreto_2024",
+  "historical_exposed_system": "zenodo_318_island_mammals_2024",
+  "principle": "Shared islands are excluded from the fresh 5592-island target population before partition/model freezing. Numeric ID equality is diagnostic only because the two sources do not share a frozen identifier namespace.",
+  "fresh_identity_inputs": {
+    "routing_ids": {
+      "source": "development/global_mammals_authenticated_routing_contract_v0_90.json",
+      "expected_rows": 5592,
+      "biological_occurrence_values_opened": 0
+    },
+    "weigelt_safe_rows": {
+      "workflow_run_id": 36316161135,
+      "artifact_id": 10930234623,
+      "artifact_name": "global-mammals-weigelt-safe-rows-v0-60",
+      "file": "weigelt_islanddata_safe_v0_60.csv",
+      "rows": 17883,
+      "sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+      "allowed_identity_fields": ["id", "countryiso", "country", "archip", "island", "gazetteer", "name_alt"]
+    }
+  },
+  "historical_identity_input": {
+    "doi": "10.5281/zenodo.11220273",
+    "file": "Mammal_occurrence_islands.xlsx",
+    "url": "https://zenodo.org/api/records/11220273/files/Mammal_occurrence_islands.xlsx/content",
+    "size_bytes": 1401342,
+    "sha256": "590e0e59db83cb2be3ddab075ce79dbc2517b5487cb9d2f9e2f726475f19a1cc",
+    "sheet": "occurrence",
+    "dimension": "A1:BDU322",
+    "header_row": 4,
+    "data_rows_1based": [5, 322],
+    "allowed_fields": ["ID", "Island", "Island_group"],
+    "species_header_fields_semantically_opened": 0,
+    "species_occurrence_cells_semantically_opened": 0
+  },
+  "automatic_conservative_exclusions": {
+    "exact_normalized_historical_name_match": "exclude every fresh routing ID matching any exact normalized historical Island name through Weigelt island/gazetteer/name_alt identity surfaces; ambiguous multiple matches are all excluded",
+    "missing_fresh_identity_name": "exclude every fresh routing ID with no nonblank island, gazetteer or name_alt field",
+    "restoration_of_auto_exclusion_allowed": false
+  },
+  "name_normalization": {
+    "unicode": "NFKD then remove combining marks",
+    "case": "casefold",
+    "ampersand": "replace with and",
+    "punctuation": "replace non-alphanumeric runs with one space",
+    "whitespace": "collapse and strip",
+    "remove_generic_island_terms": false,
+    "fuzzy_matching": false
+  },
+  "numeric_id_collision": {
+    "computed": true,
+    "role": "diagnostic_only",
+    "may_establish_independence": false,
+    "may_trigger_exclusion_by_itself": false
+  },
+  "manual_geographic_adjudication": {
+    "required_for": "every historical island lacking an automatic exact-name match",
+    "allowed_decisions": [
+      "NOT_IN_RETAINED_TARGET",
+      "EXCLUDE_TARGET_IDS"
+    ],
+    "required_columns": [
+      "historical_id",
+      "decision",
+      "additional_target_ids",
+      "evidence"
+    ],
+    "evidence_rule": "must cite response-independent island identity/geography; biological occurrence information is forbidden",
+    "all_unmatched_historical_ids_must_be_resolved_for_pass": true
+  },
+  "pass_rule": "all 318 historical identities are either covered by irreversible automatic exclusions or resolved by completed response-independent geographic adjudication; all named additional target IDs are excluded; all unnamed fresh target identities remain excluded",
+  "hold_rule": "without complete adjudication, emit candidate matches and a template but do not emit a final eligible target list and do not authorize response opening",
+  "workflow": ".github/workflows/global-mammals-historical-overlap-v0_90.yml",
+  "extractor": "scripts/extract_zenodo_318_identity_v0_90.py",
+  "auditor": "scripts/audit_global_mammals_historical_overlap_v0_90.py",
+  "counts_as_empirical_evidence": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false
+}
