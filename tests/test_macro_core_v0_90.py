@@ -141,4 +141,5 @@ def test_v090_keeps_response_and_confirmatory_denominator_closed():
     assert status["global_mammals"]["response_occurrence_values_opened"] is False
     assert status["gift_plants"]["species_composition_requested"] is False
     assert priority["fresh_confirmatory_eligible_count"] == 0
-    assert priority["boreal"]["role"] == "supplementary_local_contrast_only"\n    assert priority["boreal"]["may_not_block_macro_progress"] is True
+    assert priority["boreal"]["role"] == "supplementary_local_contrast_only"
+    assert priority["boreal"]["may_not_block_macro_progress"] is True
