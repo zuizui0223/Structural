@@ -63,7 +63,10 @@ def test_real_v102_intake_builds_generic_v031_and_v042():
 
     assert receipt["status"] == "V031_AND_V042_FROZEN_RESPONSE_REMAINS_SEALED"
     assert receipt["generic_v0_31_status"] == "qualified_to_open_pilot"
-    assert receipt["generic_v0_42_status"] == (\n        "qualified_response_quality_contract_before_pilot"\n    )\n    assert receipt["pilot_block_count"] == 3
+    assert receipt["generic_v0_42_status"] == (
+        "qualified_response_quality_contract_before_pilot"
+    )
+    assert receipt["pilot_block_count"] == 3
     assert receipt["confirmatory_block_count"] == 7
     assert receipt["pilot_island_count"] == 6
     assert receipt["confirmatory_island_count"] == 13
