@@ -1,0 +1,74 @@
+name: Global mammals routing IDs v0.89
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authenticated-routing-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require manual execution from main
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v089
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v089/token_receipt.json
+
+      - name: Fetch exact matrix and expose routing IDs only
+        run: |
+          mkdir -p build/global_mammals_v089/raw
+          python scripts/fetch_global_mammal_routing_ids_v0_89.py             --raw build/global_mammals_v089/raw/Appendix_1_presence_absence.csv             --ids-output build/global_mammals_v089/routing_ids.txt             --receipt build/global_mammals_v089/routing_receipt.json
+
+      - name: Delete raw response before artifact handling
+        if: always()
+        run: |
+          rm -rf build/global_mammals_v089/raw
+
+      - name: Assert response-safe artifact surface
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("build/global_mammals_v089")
+          allowed = {
+              "token_receipt.json",
+              "routing_receipt.json",
+              "routing_ids.txt",
+          }
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          if observed != allowed:
+              raise SystemExit(f"unexpected artifact surface: {sorted(observed)}")
+          if (root / "raw").exists():
+              raise SystemExit("raw biological response survived transport workflow")
+          PY
+
+      - name: Upload routing-only artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v089-routing-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v089/token_receipt.json
+            build/global_mammals_v089/routing_receipt.json
+            build/global_mammals_v089/routing_ids.txt
+          if-no-files-found: error
+          retention-days: 14
