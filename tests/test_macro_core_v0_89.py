@@ -108,14 +108,15 @@ def test_gift_contract_and_script_are_metadata_only():
     assert call["geo_type"] == "Island"
     assert call["suit_geo"] is True
     assert call["list_set_only"] is True
-    assert call["GIFT_version"] if "GIFT_version" in call else True
+    assert call["GIFT_version"] == "3.2"
     assert x["database"]["database_version"] == "3.2"
+    assert x["database"]["package_version"] == "1.3.4"
 
     script = GIFT_SCRIPT.read_text(encoding="utf-8")
     assert 'list_set_only = TRUE' in script
     assert 'GIFT_version = "3.2"' in script
     assert 'res$lists' in script
-    assert 'NROW(res$checklists) > 0' in script
+    assert 'sealed_species_placeholder' in script
     assert "GIFT_richness" not in script
 
 
