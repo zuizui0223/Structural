@@ -1,0 +1,15 @@
+{
+  "schema": "structural.boreal_19island_spatial_partition_request.v0_97",
+  "status": "REQUEST_LEGACY_RULE_SPATIAL_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "reuse_v075_rule_without_tuning": true,
+  "source_geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+  "species_occurrence_used": false,
+  "richness_used": false,
+  "habitat_values_used": false,
+  "biological_response_values_opened": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
