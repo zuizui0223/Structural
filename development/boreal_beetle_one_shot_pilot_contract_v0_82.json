@@ -1,0 +1,56 @@
+{
+  "schema": "structural.boreal_beetle_one_shot_pilot_contract.v0_82",
+  "status": "one_shot_pilot_executor_predeclared_not_executed",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_beetle_pilot_response_authorization_contract_v0_81.json",
+    "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json",
+    "development/response_quality_attrition_gate_v0_42.json"
+  ],
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "download_url": "https://datadryad.org/api/v2/files/4569032/download",
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0"
+  },
+  "pre_access": {
+    "authorization_schema": "structural.boreal_beetle_pilot_response_authorization.v0_81",
+    "authorization_status": "AUTHORIZED_ONE_SHOT_BURNED_PILOT_RESPONSE",
+    "authorization_must_be_unconsumed": true,
+    "exact_size_and_sha_required_before_semantic_open": true,
+    "transport_or_identity_failure_consumes_authorization": false
+  },
+  "semantic_access": {
+    "router": "src/structural/boreal_beetle_pilot_router.py",
+    "header_species_names": true,
+    "all_island_routing_fields": true,
+    "pilot_occurrence_cells": true,
+    "confirmatory_occurrence_cells": false,
+    "confirmatory_target_values_parsed_required": 0
+  },
+  "pilot_execution": {
+    "v0_32_runner": "scripts/run_transition_pilot_v0_32.py",
+    "post_pilot_admission": "structural.future_admission_v0_42.evaluate_future_admission_v0_42",
+    "pilot_is_feasibility_only": true,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0
+  },
+  "post_access_terminal_rules": [
+    "any opened pilot value outside exact 0/1 is terminal and consumes authorization",
+    "missing or duplicate frozen island row is terminal and consumes authorization",
+    "empty common pilot-supported species universe is terminal and consumes authorization",
+    "v0.32 endpoint variation failure is terminal and consumes authorization",
+    "v0.42 response-quality failure is terminal and consumes authorization",
+    "confirmatory occurrence parsing above zero is a firewall violation and terminal"
+  ],
+  "qualified_ceiling": {
+    "status": "QUALIFIED_TO_FREEZE_CONFIRMATORY_PROTOCOL_ONLY",
+    "eligible_action": "freeze_confirmatory_protocol_only",
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "execution_authorized_now": false,
+  "reason": "real v0.81 authorization and exact response bytes do not yet exist; this revision only freezes the one-shot executor and transport semantics"
+}
