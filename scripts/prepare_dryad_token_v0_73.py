@@ -2,9 +2,9 @@
 """Prepare a short-lived Dryad bearer token for the v0.73 workflow.
 
 Preferred mode exchanges DRYAD_CLIENT_ID + DRYAD_CLIENT_SECRET for a token.
-A pre-existing DRYAD_TOKEN may be used only as an explicit fallback. The token
-is written only to the GitHub Actions environment file supplied by the runner;
-it is never printed or persisted in the receipt.
+A pre-existing DRYAD_TOKEN may be used only as an explicit fallback. On GitHub
+Actions the token is registered with the runner's masking command before it is
+written to the environment file. It is never persisted in the receipt.
 """
 from __future__ import annotations
 
@@ -127,6 +127,11 @@ def prepare_token(
         raise DryadTokenError(
             "no Dryad credential source is configured"
         )
+
+    if os.environ.get("GITHUB_ACTIONS", "").lower() == "true":
+        # Register masking before exporting the bearer token to later steps.
+        # GitHub processes this workflow command and redacts future occurrences.
+        print(f"::add-mask::{token}", flush=True)
 
     github_env.parent.mkdir(parents=True, exist_ok=True)
     with github_env.open("a", encoding="utf-8") as handle:
