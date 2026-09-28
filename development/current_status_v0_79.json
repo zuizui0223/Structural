@@ -1,0 +1,37 @@
+{
+  "schema": "structural.current_status.v0_79",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_78.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "future_intake_version": "v0.12",
+    "intake_builder_contract": "development/boreal_lake_islands_v012_intake_builder_contract_v0_79.json",
+    "intake_builder_cli": "scripts/build_boreal_v012_intake_v0_79.py",
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "habitat_reference_executed": false,
+    "v0_12_intake_built": false,
+    "biological_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The boreal preintake chain is now closed end-to-end in code. Once the response-independent geometry and habitat receipts exist, v0.79 will build a static-occurrence v0.12 intake whose opened files are derived safe geometry/habitat only, while the original 466-species beetle matrix remains an identified but unopened response file.",
+  "next_valid_scientific_event": "run main-only v0.78 Stage A, freeze manifests, execute v0.74/v0.75/v0.76, then let v0.79 generate and immediately validate the exact v0.12 intake before constructing v0.31/v0.42",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_79.json",
+    "status": "human_stage_A_gate_with_v012_builder_ready"
+  }
+}
