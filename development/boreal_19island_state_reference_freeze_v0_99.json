@@ -1,0 +1,72 @@
+{
+  "schema": "structural.boreal_19island_state_reference_freeze.v0_99",
+  "status": "STATE_REFERENCE_COMMITTED_RESPONSE_INDEPENDENTLY",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-state-reference-v0_98.yml",
+    "run_id": 36429636660,
+    "head_sha": "d8b734beaee507dd8f26410e912a879ebbfea9bf",
+    "artifact_id": 10973235158,
+    "artifact_digest": "sha256:2526b489e11a8d6d85783d12b2e71ece4197e87948c456c8da1166bc85327ec0"
+  },
+  "state_reference_path": "development/boreal_19island_state_reference_v0_99.csv",
+  "state_reference_sha256": "92296deda696e875b0ee171b2ea9a28f1297c50860fbc8750709ed7ddf5f3519",
+  "state_receipt_sha256": "d58b2a1cef817def8df7e9942a164b49f0c33b0b0e84c8f100bb92e9e36db3a7",
+  "island_count": 19,
+  "island_order": [
+    "BB",
+    "BT",
+    "DF",
+    "DN",
+    "EB",
+    "FD",
+    "HF",
+    "HU",
+    "IL",
+    "IS",
+    "MI",
+    "NH",
+    "OS",
+    "PP",
+    "PR",
+    "SF",
+    "SK",
+    "WD",
+    "WF"
+  ],
+  "habitat": {
+    "eligible_column_count": 6,
+    "incomplete_column_count": 0,
+    "zero_variance_column_count": 0,
+    "reference_columns": [
+      "PC1",
+      "PC2",
+      "PC3"
+    ],
+    "retained_component_count": 3,
+    "safe_habitat_sha256": "c5c200188329dbdc0e7e614483f409097f22cbf8bc787fc30906676324980621",
+    "habitat_reference_sha256": "43e12ad1f914c00210453b74e710704168c5556667e3deb35b1b6fef3cb3f4aa"
+  },
+  "model_roles": {
+    "R0_columns": [
+      "PC1",
+      "PC2",
+      "PC3",
+      "TSF_Z"
+    ],
+    "R1_add_columns": [
+      "LOG_AREA_Z",
+      "LOG_MAINLAND_DISTANCE_Z"
+    ]
+  },
+  "response_boundary": {
+    "species_occurrence_used": false,
+    "richness_values_returned": false,
+    "protected_response_values_exposed": false,
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "source_operator_may_be_frozen": true,
+  "next_action": "freeze the 19-island generic/source-continuity operator from committed geometry and spatial blocks before building the response-sealed intake"
+}
