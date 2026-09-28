@@ -1,0 +1,159 @@
+name: Boreal 19-island one-shot confirmatory scoring v1.13
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_confirmatory_execution_request_v1_13.json
+
+permissions:
+  contents: read
+
+jobs:
+  one-shot-confirmatory-score:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code with history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Enforce one-shot non-rerunnable request
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          REQUEST="development/boreal_19island_confirmatory_execution_request_v1_13.json"
+          test "$(git rev-list --count HEAD -- "$REQUEST")" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_confirmatory_execution_request_v1_13.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_confirmatory_execution_request.v1_13"
+          )
+          assert req["status"] == "REQUEST_ONE_SHOT_CONFIRMATORY_SCORING"
+          assert req["candidate_id"] == (
+              "lac_la_ronge_boreal_19island_beetles_2026"
+          )
+          assert req["authorization_fingerprint"] == (
+              "9c298caa914dac454ff5cda3229abbdc971e299791e6dc582c83a10f1a12146d"
+          )
+          assert req["prediction_surface_sha256"] == (
+              "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded"
+          )
+          assert req["irreversible_semantic_confirmatory_open"] is True
+          assert req["valid_completion_denominator_contribution"] == 1
+          assert req["raw_response_may_be_uploaded"] is False
+          assert req["target_surface_may_be_uploaded"] is False
+          assert req["rerun_after_semantic_open"] is False
+          assert req["one_shot"] is True
+          PY
+
+      - name: Regenerate and exact-match frozen v1.12 authorization
+        run: |
+          mkdir -p build/boreal_v113
+          python scripts/authorize_boreal_19island_confirmatory_response_v1_11.py \
+            --output build/boreal_v113/confirmatory_authorization.json
+          cmp -s \
+            build/boreal_v113/confirmatory_authorization.json \
+            development/boreal_19island_confirmatory_authorization_v1_12.json
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          freeze = json.loads(
+              Path(
+                  "development/boreal_19island_confirmatory_authorization_freeze_v1_12.json"
+              ).read_text(encoding="utf-8")
+          )
+          path = Path("build/boreal_v113/confirmatory_authorization.json")
+          raw = path.read_bytes()
+          auth = json.loads(raw)
+          expected = freeze["authorization"]
+          assert hashlib.sha256(raw).hexdigest() == (
+              expected["authorization_json_sha256"]
+          )
+          assert auth["authorization_fingerprint"] == (
+              expected["authorization_fingerprint"]
+          )
+          assert auth["authorization_consumed"] is False
+          assert auth["response_values_opened_by_authorization"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_v113/token_receipt.json
+
+      - name: Transport exact response bytes without semantic opening
+        run: |
+          mkdir -p build/boreal_v113/raw
+          python scripts/fetch_boreal_19island_confirmatory_response_v1_13.py \
+            build/boreal_v113/confirmatory_authorization.json \
+            build/boreal_v113/raw/beetles_speciesmatrix_presenceabsence.csv \
+            --receipt build/boreal_v113/transport_receipt.json
+
+      - name: Consume confirmatory authorization and score exactly once
+        id: score
+        run: |
+          set +e
+          python scripts/run_boreal_19island_confirmatory_scoring_v1_13.py \
+            --authorization build/boreal_v113/confirmatory_authorization.json \
+            build/boreal_v113/raw/beetles_speciesmatrix_presenceabsence.csv \
+            --result build/boreal_v113/scoring_result.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Delete raw and temporary authorization before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_v113/raw
+          rm -f build/boreal_v113/confirmatory_authorization.json
+
+      - name: Assert no raw target material reaches artifact surface
+        if: always()
+        run: |
+          test ! -d build/boreal_v113/raw
+          test ! -f build/boreal_v113/confirmatory_authorization.json
+          test ! -f build/boreal_v113/confirmatory_targets.csv
+          test ! -f build/boreal_v113/beetles_speciesmatrix_presenceabsence.csv
+
+      - name: Upload one-shot confirmatory audit result only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v113-confirmatory-score-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v113/token_receipt.json
+            build/boreal_v113/transport_receipt.json
+            build/boreal_v113/scoring_result.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Fail workflow if confirmatory scoring did not complete validly
+        if: always()
+        env:
+          SCORE_EXIT_CODE: ${{ steps.score.outputs.exit_code }}
+        run: |
+          test "$SCORE_EXIT_CODE" = "0"
