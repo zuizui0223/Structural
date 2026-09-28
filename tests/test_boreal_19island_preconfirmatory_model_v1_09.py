@@ -136,7 +136,7 @@ def test_pilot_snapshot_tamper_fails_closed():
     )
     with pytest.raises(
         module.Boreal19PreconfirmatoryError,
-        match="snapshot fingerprint",
+        match="snapshot content/fingerprint mismatch",
     ):
         module.freeze(
             pilot_freeze=load(PILOT_FREEZE),
