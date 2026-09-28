@@ -1,0 +1,51 @@
+{
+  "schema": "structural.boreal_19island_pilot_authorization_freeze.v1_06",
+  "status": "ONE_SHOT_PILOT_AUTHORIZATION_COMMITTED_RESPONSE_UNOPENED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-pilot-authorization-v1_05.yml",
+    "run_id": 36444583063,
+    "head_sha": "4f5148f3273aa88917e056b281742e7013982dea",
+    "artifact_id": 10980520411,
+    "artifact_digest": "sha256:962b4c72991d223504de6c16916f43aff3344fe599f5139e4fe88fbfa8c757f4"
+  },
+  "authorization": {
+    "path": "development/boreal_19island_pilot_response_authorization_v1_05.json",
+    "file_sha256": "b32613cad3c2ca4055c581b2540db349b312641e5d94ccd4dee5ec5e6c21978b",
+    "authorization_fingerprint": "2942d3d76d118bcf04c71d721d8f37f5531abb964713828dc375f610d08fab97",
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_BURNED_PILOT_RESPONSE"
+  },
+  "parents": {
+    "parent_intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "protocol_fingerprint": "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314",
+    "quality_contract_fingerprint": "8ac0fe95901caae988673b3d8079b123fdac00573f749049eec3264b89906b58"
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "size_bytes": 49005,
+    "sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "source_island_rows": 42,
+    "species_columns": 466
+  },
+  "semantic_ceiling": {
+    "routing_island_fields_may_be_decoded": 42,
+    "species_header_names_may_be_decoded": 466,
+    "pilot_island_occurrence_rows_may_be_decoded": 6,
+    "confirmatory_island_occurrence_rows_may_be_decoded": 0,
+    "excluded_island_occurrence_rows_may_be_decoded": 0
+  },
+  "response_boundary": {
+    "pilot_response_authorized": true,
+    "pilot_response_opened": false,
+    "authorization_consumed": false,
+    "confirmatory_response_authorized": false,
+    "confirmatory_response_opened": false,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0
+  },
+  "pilot_executor_may_be_built": true,
+  "pilot_executor_may_run_in_this_revision": false,
+  "next_action": "predeclare and CI-verify a one-shot executor that exact-byte verifies the 42-row response file, routes all 42 island IDs, decodes occurrence cells only for the six frozen pilot islands, preserves a model-sufficient pilot snapshot, and treats every post-open failure as terminal"
+}
