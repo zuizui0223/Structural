@@ -1,0 +1,91 @@
+name: Boreal 19-island intake freeze v1.02
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_intake_freeze_request_v1_02.json
+
+permissions:
+  contents: read
+
+jobs:
+  build-freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout frozen main
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate one-shot request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_intake_freeze_request_v1_02.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_intake_freeze_request.v1_02"
+          )
+          assert req["status"] == "REQUEST_RESPONSE_SEALED_INTAKE_FREEZE"
+          assert req["target_ref"] == "main"
+          assert req["response_values_accessed"] is False
+          assert req["pilot_response_authorized"] is False
+          assert req["confirmatory_response_authorized"] is False
+          assert req["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Build exact response-sealed intake
+        run: |
+          mkdir -p build/boreal_v102
+          python scripts/build_boreal_19island_response_sealed_intake_v1_02.py \
+            --output-intake build/boreal_v102/intake.json \
+            --receipt build/boreal_v102/receipt.json
+
+      - name: Assert response ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          intake = json.loads(
+              Path("build/boreal_v102/intake.json").read_text(encoding="utf-8")
+          )
+          receipt = json.loads(
+              Path("build/boreal_v102/receipt.json").read_text(encoding="utf-8")
+          )
+          assert intake["response_firewall_state"] == "response_sealed"
+          assert intake["response_values_accessed"] is False
+          assert intake["response_file"]["opened"] is False
+          assert intake["population"]["island_count"] == 19
+          assert len(intake["population"]["pilot_block_ids"]) == 3
+          assert len(intake["population"]["confirmatory_block_ids"]) == 7
+          assert receipt["status"] == "ELIGIBLE_TO_BUILD_V031_V042_RESPONSE_SEALED"
+          assert receipt["pilot_response_authorized"] is False
+          assert receipt["confirmatory_response_authorized"] is False
+          assert receipt["predictive_denominator_contribution"] == 0
+          assert receipt["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Emit canonical JSON for review
+        run: |
+          echo "BEGIN_BOREAL_V102_INTAKE"
+          cat build/boreal_v102/intake.json
+          echo "END_BOREAL_V102_INTAKE"
+          echo "BEGIN_BOREAL_V102_RECEIPT"
+          cat build/boreal_v102/receipt.json
+          echo "END_BOREAL_V102_RECEIPT"
+
+      - name: Upload response-sealed freeze artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v102-intake-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v102/intake.json
+            build/boreal_v102/receipt.json
+          if-no-files-found: error
+          retention-days: 7
