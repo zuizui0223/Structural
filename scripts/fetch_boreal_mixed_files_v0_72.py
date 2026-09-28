@@ -129,10 +129,15 @@ def _download_one(
                 out.write(chunk)
                 digest.update(chunk)
                 count += len(chunk)
-    except Exception:
+    except Exception as exc:
         if part.exists():
             part.unlink()
-        raise
+        # Never surface an HTTP/redirect exception string because it can
+        # contain a request or presigned object-storage URL. The exception
+        # class is sufficient for an auditable STOP receipt.
+        raise BorealTransportError(
+            f"{name} transport failed: {type(exc).__name__}"
+        ) from None
 
     observed_sha = digest.hexdigest()
     expected_size = int(spec["expected_size_bytes"])
