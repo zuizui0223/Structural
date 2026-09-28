@@ -15,8 +15,8 @@ def population_mean_sd(values: Sequence[float]) -> tuple[float, float]:
     xs = [float(x) for x in values]
     if not all(math.isfinite(x) for x in xs):
         raise BorealHabitatReferenceError("nonfinite habitat value")
-    mean = sum(xs) / len(xs)
-    variance = sum((x - mean) ** 2 for x in xs) / len(xs)
+    mean = math.fsum(xs) / len(xs)
+    variance = math.fsum((x - mean) ** 2 for x in xs) / len(xs)
     sd = math.sqrt(variance)
     if not math.isfinite(sd) or sd <= 0.0:
         raise BorealHabitatReferenceError(
@@ -62,7 +62,7 @@ def correlation_matrix(
     out = [[0.0 for _ in range(p)] for _ in range(p)]
     for j in range(p):
         for k in range(j, p):
-            value = sum(row[j] * row[k] for row in zrows) / n
+            value = math.fsum(row[j] * row[k] for row in zrows) / n
             out[j][k] = value
             out[k][j] = value
     return out
