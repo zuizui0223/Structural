@@ -1,0 +1,116 @@
+name: Boreal 19-island state reference v0.98
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_state_reference_request_v0_98.json
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-response-independent-state:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot state request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path(
+                  "development/boreal_19island_state_reference_request_v0_98.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_state_reference_request.v0_98"
+          )
+          assert x["status"] == "REQUEST_RESPONSE_INDEPENDENT_STATE_FREEZE"
+          assert x["candidate_id"] == "lac_la_ronge_boreal_19island_beetles_2026"
+          assert x["reuse_v076_habitat_rule_without_tuning"] is True
+          assert x["biological_response_values_opened"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/boreal_v098
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_v098/token_receipt.json
+
+      - name: Re-download exact frozen mixed predictor bytes
+        run: |
+          python scripts/fetch_boreal_mixed_files_v0_72.py \
+            build/boreal_v098/raw \
+            --receipt build/boreal_v098/transport_receipt.json
+
+      - name: Freeze 19-island habitat and R0/R1 state reference
+        run: |
+          python scripts/freeze_boreal_19island_state_reference_v0_98.py \
+            build/boreal_v098/raw/RDA_environmental_variables.csv \
+            --safe-habitat-output build/boreal_v098/safe_habitat_19.csv \
+            --habitat-reference-output build/boreal_v098/habitat_reference_19.csv \
+            --state-reference-output build/boreal_v098/state_reference_19.csv \
+            --receipt build/boreal_v098/state_receipt.json
+
+      - name: Delete raw mixed files before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_v098/raw
+
+      - name: Assert response-independent artifact surface
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("build/boreal_v098")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {
+              "token_receipt.json",
+              "transport_receipt.json",
+              "safe_habitat_19.csv",
+              "habitat_reference_19.csv",
+              "state_reference_19.csv",
+              "state_receipt.json",
+          }
+          if observed != expected:
+              raise SystemExit(
+                  f"unexpected v0.98 artifact surface: {sorted(observed)}"
+              )
+          if (root / "raw").exists():
+              raise SystemExit("raw mixed predictor bytes survived v0.98")
+          PY
+
+      - name: Upload frozen response-independent state bundle
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v098-state-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v098/token_receipt.json
+            build/boreal_v098/transport_receipt.json
+            build/boreal_v098/safe_habitat_19.csv
+            build/boreal_v098/habitat_reference_19.csv
+            build/boreal_v098/state_reference_19.csv
+            build/boreal_v098/state_receipt.json
+          if-no-files-found: error
+          retention-days: 14
