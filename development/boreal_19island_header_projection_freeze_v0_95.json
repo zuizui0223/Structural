@@ -1,0 +1,84 @@
+{
+  "schema": "structural.boreal_19island_header_projection_freeze.v0_95",
+  "status": "HEADER_AND_SAFE_GEOMETRY_COLUMNS_FROZEN_BEFORE_ROW_ACCESS",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "supersedes_geometry_route_for": "lac_la_ronge_boreal_island_beetles_2026",
+  "scope": {
+    "island_count_expected": 19,
+    "source_defined_selection_rule": "islands that burned between 1995 and 2021",
+    "selection_basis": "fire-history and Landsat availability, not beetle response",
+    "source_article_doi": "10.1002/eap.70218"
+  },
+  "parent_identity_freeze": "development/boreal_19island_geometry_identity_freeze_v0_93.json",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-header-audit-v0_94.yml",
+    "run_id": 36409706457,
+    "head_sha": "9993d1cd4b9097dd3a0261c61b287159e9d3d6f8",
+    "artifact_id": 10963198198,
+    "artifact_digest": "sha256:0ca90864126f985324bc981ed9b6ccc7b4c862f7544371cd1ff39bc981e65ba9"
+  },
+  "file": {
+    "name": "alpha_diversity_model_selection_19islands.csv",
+    "dryad_file_id": 4569035,
+    "size_bytes": 2486,
+    "sha256": "e40a653de7b01e5ba4c54f69577842d4d246cf179cdfc41d487693eb3c2baf43",
+    "header_physical_record_sha256": "fd9fe9b424a1e5258d41d3c52e38970e99f2ea3ecab7f8c8cd20189ea51073ec",
+    "header_canonical_sha256": "65746b857c7600ab6bd8a4e7eb1fea9ffa9637f29d3d3c512c6f41d4a820bd1a",
+    "header": [
+      "Island",
+      "year.burned",
+      "fire.stdev",
+      "fire.stdev.stand",
+      "beetle.richness",
+      "beetle.msom.richness",
+      "bird.richness",
+      "bird.msom.richness",
+      "plant.richness",
+      "log10area",
+      "buffer5000",
+      "time.since.fire.beetle",
+      "time.since.fire.plant",
+      "time.since.fire.bird",
+      "total.trapdays",
+      "Lat",
+      "Long",
+      "buffer_1",
+      "buffer_10"
+    ]
+  },
+  "projection_manifest": {
+    "safe_pre_response_columns": [
+      "Island",
+      "Lat",
+      "Long"
+    ],
+    "protected_response_columns": [
+      "beetle.richness",
+      "beetle.msom.richness",
+      "bird.richness",
+      "bird.msom.richness",
+      "plant.richness"
+    ],
+    "closed_unclassified_columns": [
+      "year.burned",
+      "fire.stdev",
+      "fire.stdev.stand",
+      "log10area",
+      "buffer5000",
+      "time.since.fire.beetle",
+      "time.since.fire.plant",
+      "time.since.fire.bird",
+      "total.trapdays",
+      "buffer_1",
+      "buffer_10"
+    ]
+  },
+  "row_values_opened_by_freezer": 0,
+  "biological_response_values_opened_by_freezer": false,
+  "counts_as_empirical_evidence": false,
+  "safe_geometry_projection_authorized_for_later_revision": true,
+  "non_geometry_projection_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "next_action": "in a later committed revision, project only Island/Lat/Long from the exact frozen file and require exactly 19 unique islands with finite valid coordinates"
+}
