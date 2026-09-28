@@ -6,7 +6,8 @@
     "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
     "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
     "development/boreal_lake_islands_spatial_partition_contract_v0_75.json",
-    "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json"
+    "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json",
+    "development/boreal_lake_islands_v012_intake_builder_contract_v0_79.json"
   ],
   "response_file": {
     "name": "beetles_speciesmatrix_presenceabsence.csv",
@@ -15,7 +16,10 @@
     "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
     "expected_island_rows": 42,
     "expected_species_columns": 466,
-    "response_domain": ["0", "1"]
+    "response_domain": [
+      "0",
+      "1"
+    ]
   },
   "required_prepilot_receipt": {
     "schema": "structural.boreal_lake_islands_prepilot_contract_result.v0_80",
@@ -47,5 +51,17 @@
     "next_action": "perform exactly one SHA-verified pilot-only routing/execution under a separate consumption receipt; do not open confirmatory occurrence cells"
   },
   "execution_authorized_now": false,
-  "reason": "real v0.80 protocol, quality contract and receipt do not yet exist; this gate may authorize access only after those exact artifacts are committed and verified"
+  "reason": "real v0.80 protocol, quality contract and receipt do not yet exist; this gate may authorize access only after those exact artifacts are committed and verified",
+  "replay_requirements": {
+    "v0_80_exact_replay_required": true,
+    "required_inputs": [
+      "validator-clean v0.12 intake",
+      "v0.12 intake receipt",
+      "v0.75 spatial receipt",
+      "committed v0.31 protocol",
+      "committed v0.42 quality contract",
+      "committed v0.80 prepilot receipt"
+    ],
+    "rule": "rerun the frozen v0.80 constructor and require exact equality of protocol, quality contract and prepilot receipt before response authorization"
+  }
 }
