@@ -87,6 +87,12 @@ def build(
     candidate = contract["candidate_id"]
     required_intake = contract["required_intake"]
     required_receipt = contract["required_receipt"]
+    required_parent = contract["required_parent_identity"]
+    intake_file_sha256 = _sha(intake_file_sha256, "intake file")
+    intake_receipt_file_sha256 = _sha(
+        intake_receipt_file_sha256,
+        "intake receipt file",
+    )
 
     for key in ("schema", "status", "response_firewall_state"):
         if intake.get(key) != required_intake[key]:
@@ -130,6 +136,14 @@ def build(
     intake_fingerprint = canonical_sha256(dict(intake))
     if intake_receipt.get("intake_fingerprint") != intake_fingerprint:
         raise Boreal19PrepilotError("intake fingerprint mismatch")
+    if intake_fingerprint != required_parent["intake_fingerprint"]:
+        raise Boreal19PrepilotError("intake fingerprint drift from frozen parent")
+    if intake_file_sha256 != required_parent["intake_file_sha256"]:
+        raise Boreal19PrepilotError("intake file SHA drift from frozen parent")
+    if intake_receipt_file_sha256 != required_parent["intake_receipt_file_sha256"]:
+        raise Boreal19PrepilotError(
+            "intake receipt file SHA drift from frozen parent"
+        )
     for key, expected in (
         ("v0_31_protocol_construction_authorized", True),
         ("v0_42_quality_contract_construction_authorized", True),
@@ -234,11 +248,10 @@ def build(
         operator.get("fingerprint"),
         "source operator fingerprint",
     )
-    intake_file_sha256 = _sha(intake_file_sha256, "intake file")
-    intake_receipt_file_sha256 = _sha(
-        intake_receipt_file_sha256,
-        "intake receipt file",
-    )
+    if operator_fingerprint != required_parent["source_operator_fingerprint"]:
+        raise Boreal19PrepilotError(
+            "source operator fingerprint drift from frozen parent"
+        )
 
     receipt = {
         "schema": "structural.boreal_19island_prepilot_contract_result.v1_03",
