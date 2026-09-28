@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from typing import Mapping
 
+from scripts.build_boreal_prepilot_contracts_v0_80 import build as build_v080
 from scripts.validate_independent_system_intake_v0_12 import canonical_fingerprint
 from structural.response_quality_attrition import (
     contract_fingerprint,
@@ -25,6 +26,9 @@ DEFAULT_CONTRACT = (
 )
 DEFAULT_METADATA = (
     ROOT / "development/boreal_lake_islands_dryad_metadata_result_v0_65.json"
+)
+DEFAULT_V080_CONTRACT = (
+    ROOT / "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json"
 )
 SHA_HEX = set("0123456789abcdef")
 
@@ -60,12 +64,14 @@ def _is_sha(value: object, length: int = 64) -> bool:
 
 def authorize(
     intake: Mapping,
+    intake_receipt: Mapping,
     protocol_mapping: Mapping,
     quality_mapping: Mapping,
     prepilot_receipt: Mapping,
     spatial_receipt: Mapping,
     *,
     contract: Mapping,
+    v080_contract: Mapping,
     metadata: Mapping,
     spatial_receipt_sha256: str,
 ) -> dict:
@@ -79,6 +85,28 @@ def authorize(
         raise BorealPilotAuthorizationError("response firewall is not sealed")
     if intake.get("response_values_accessed") is not False:
         raise BorealPilotAuthorizationError("response values already accessed")
+
+    # Replay the complete response-sealed v0.80 constructor rather than
+    # trusting a claimed prepilot receipt.
+    replay_protocol, replay_quality, replay_receipt = build_v080(
+        intake,
+        intake_receipt,
+        spatial_receipt,
+        spatial_receipt_sha256=spatial_receipt_sha256,
+        contract=v080_contract,
+    )
+    if dict(protocol_mapping) != replay_protocol:
+        raise BorealPilotAuthorizationError(
+            "v0.31 protocol does not exact-replay v0.80"
+        )
+    if dict(quality_mapping) != replay_quality:
+        raise BorealPilotAuthorizationError(
+            "v0.42 quality contract does not exact-replay v0.80"
+        )
+    if dict(prepilot_receipt) != replay_receipt:
+        raise BorealPilotAuthorizationError(
+            "v0.80 receipt does not exact-replay from frozen parents"
+        )
 
     response_files = [
         row for row in intake.get("source_files", [])
@@ -108,6 +136,8 @@ def authorize(
             raise BorealPilotAuthorizationError(
                 f"frozen response metadata drift: {key}"
             )
+    if meta.get("role") != "primary_response":
+        raise BorealPilotAuthorizationError("frozen response metadata role drift")
     if response.get("sha256") != meta["sha256"]:
         raise BorealPilotAuthorizationError(
             "v0.12 response SHA does not match frozen Dryad metadata"
@@ -223,12 +253,16 @@ def authorize(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("intake", type=Path)
+    parser.add_argument("intake_receipt", type=Path)
     parser.add_argument("protocol", type=Path)
     parser.add_argument("quality", type=Path)
     parser.add_argument("prepilot_receipt", type=Path)
     parser.add_argument("spatial_receipt", type=Path)
     parser.add_argument("--contract", type=Path, default=DEFAULT_CONTRACT)
     parser.add_argument("--metadata", type=Path, default=DEFAULT_METADATA)
+    parser.add_argument(
+        "--v080-contract", type=Path, default=DEFAULT_V080_CONTRACT
+    )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
@@ -242,11 +276,13 @@ def main() -> int:
             )
         result = authorize(
             _load(args.intake),
+            _load(args.intake_receipt),
             _load(args.protocol),
             _load(args.quality),
             _load(args.prepilot_receipt),
             _load(args.spatial_receipt),
             contract=contract,
+            v080_contract=_load(args.v080_contract),
             metadata=_load(args.metadata),
             spatial_receipt_sha256=sha256_file(args.spatial_receipt),
         )
