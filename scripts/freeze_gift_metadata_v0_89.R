@@ -37,7 +37,9 @@ res <- GIFT::GIFT_checklists(
 if (!is.list(res) || is.null(res$lists) || !is.data.frame(res$lists)) {
   stop("GIFT metadata-only response did not contain a lists data.frame")
 }
-if (!is.null(res$checklists) && NROW(res$checklists) > 0) {
+sealed_species_placeholder <- is.null(res$checklists) ||
+  (length(res$checklists) == 1L && is.atomic(res$checklists) && is.na(res$checklists[[1]]))
+if (!sealed_species_placeholder) {
   stop("species composition was returned despite list_set_only=TRUE")
 }
 
@@ -115,7 +117,8 @@ receipt <- list(
   entity_class_counts = entity_classes,
   canonical_metadata_sha256 = sha,
   species_composition_requested = FALSE,
-  species_composition_rows_returned = if (is.null(res$checklists)) 0L else NROW(res$checklists),
+  species_composition_rows_returned = 0L,
+  species_component_placeholder = if (is.null(res$checklists)) "NULL" else "NA",
   derived_species_richness_computed = FALSE,
   source_pool_features_computed = FALSE,
   C_minus_R3_computed = FALSE,
