@@ -1,0 +1,23 @@
+{
+  "schema": "structural.active_priority.v0_84",
+  "status": "one_shot_pilot_must_preserve_model_sufficient_training_snapshot",
+  "supersedes": "development/structural_active_priority_v0_83.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "ensure the first irreversible pilot opening produces both gate adjudication and the exact pilot-only training matrix required for later response-frozen confirmatory predictions",
+  "prepared_sequence": [
+    "v0.78-v0.81 pre-response chain",
+    "v0.83 response-independent source operator",
+    "v0.84 single-pass pilot execution with compact training snapshot",
+    "qualified-pilot-only confirmatory model and prediction freeze",
+    "separate confirmatory response authorization"
+  ],
+  "prohibited": [
+    "execute the older v0.82 path as the first real pilot after v0.84 is merged",
+    "reopen pilot response later merely to reconstruct island-by-species training values",
+    "store any confirmatory occurrence value in the pilot snapshot",
+    "use pilot effect sizes or prediction scores as evidence",
+    "open confirmatory response before predictions are frozen"
+  ]
+}
