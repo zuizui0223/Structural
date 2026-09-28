@@ -1,0 +1,24 @@
+{
+  "schema": "structural.active_priority.v0_79",
+  "status": "human_stage_A_gate_with_v012_builder_ready",
+  "supersedes": "development/structural_active_priority_v0_78.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual Stage-A gate; every subsequent response-independent step through a validator-clean v0.12 intake is now predeclared",
+  "prepared_sequence": [
+    "v0.78 main-only Stage A",
+    "v0.78 header-manifest freeze",
+    "v0.74 safe projection",
+    "v0.75 spatial partition",
+    "v0.76 habitat reference",
+    "v0.79 build and validate exact boreal v0.12 intake",
+    "v0.31 and v0.42 construction only"
+  ],
+  "prohibited": [
+    "mark derived geometry or habitat as biological response",
+    "mark the original beetle occurrence file opened before pilot authorization",
+    "alter v0.74/75/76 receipt SHAs in the intake",
+    "treat a validator-clean v0.12 intake as pilot-response authorization"
+  ]
+}
