@@ -117,7 +117,11 @@ def test_uniform_favourable_blocks_support_primary():
 def test_sha_bootstrap_is_exactly_reproducible():
     values = {"B1": -0.2, "B2": 0.1, "B3": -0.4}
     a = deterministic_block_bootstrap(values, replicates=50, seed=123)
-    b = deterministic_block_bootstrap(dict(reversed(list(values.items()))), replicates=50, seed=123)
+    b = deterministic_block_bootstrap(
+        dict(reversed(list(values.items()))),
+        replicates=50,
+        seed=123,
+    )
     assert a == b
     assert len(a) == 50
 
@@ -145,13 +149,15 @@ def synthetic_execution_world(*, bad_focal=False):
                 values.append(fill)
         return island + "," + ",".join(values) + "\n"
 
-    focal_bad = "X" if bad_focal else "1"
-    response = (
-        ("Island," + ",".join(all_species) + "\n")
-        + row("PILOT1", "X", "X", "X")
-        + row("CONF1", focal_bad, "1", "X")
-        + row("CONF2", "0", "1", "X")
-    ).encode("utf-8")
+    confirmatory_islands = tuple(f"CONF{i}" for i in range(1, 7))
+    response_text = "Island," + ",".join(all_species) + "\n"
+    for i in range(1, 4):
+        response_text += row(f"PILOT{i}", "X", "X", "X")
+    for i, island in enumerate(confirmatory_islands, start=1):
+        focal1 = "X" if bad_focal and i == 1 else "1"
+        response_text += row(island, focal1, "1", "X")
+    response = response_text.encode("utf-8")
+
     contract["response_file"] = {
         "name": "beetles_speciesmatrix_presenceabsence.csv",
         "dryad_file_id": 1,
@@ -159,23 +165,27 @@ def synthetic_execution_world(*, bad_focal=False):
         "expected_sha256": hashlib.sha256(response).hexdigest(),
     }
 
-    predictions = prediction_text([
-        ("CONF1", "C1", "sp1", 0.5, 0.8),
-        ("CONF1", "C1", "sp3", 0.5, 0.8),
-        ("CONF2", "C2", "sp1", 0.5, 0.2),
-        ("CONF2", "C2", "sp3", 0.5, 0.8),
-    ])
+    prediction_rows = []
+    for i, island in enumerate(confirmatory_islands, start=1):
+        block = f"C{i}"
+        prediction_rows.extend([
+            (island, block, "sp1", 0.5, 0.8),
+            (island, block, "sp3", 0.5, 0.8),
+        ])
+    predictions = prediction_text(prediction_rows)
     prediction_sha = hashlib.sha256(predictions.encode("utf-8")).hexdigest()
+    model_sha = "a" * 64
 
     model = {
         "schema": "structural.boreal_preconfirmatory_model_freeze.v0_85",
         "status": "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE",
         "candidate_id": contract["candidate_id"],
         "prediction_surface_sha256": prediction_sha,
-        "prediction_row_count": 4,
+        "prediction_row_count": 12,
         "species_count": 2,
-        "confirmatory_island_count": 2,
-        "confirmatory_block_count": 2,
+        "confirmatory_island_count": 6,
+        "confirmatory_block_count": 6,
+        "primary_scoring": dict(contract["primary"]),
         "confirmatory_target_values_opened": 0,
         "confirmatory_response_authorized": False,
         "effect_size": None,
@@ -186,11 +196,12 @@ def synthetic_execution_world(*, bad_focal=False):
         "schema": "structural.boreal_confirmatory_response_authorization.v0_86",
         "status": "AUTHORIZED_ONE_SHOT_CONFIRMATORY_RESPONSE",
         "candidate_id": contract["candidate_id"],
+        "source_model_receipt_sha256": model_sha,
         "prediction_surface_sha256": prediction_sha,
-        "prediction_row_count": 4,
+        "prediction_row_count": 12,
         "species_count": 2,
-        "confirmatory_island_count": 2,
-        "confirmatory_block_count": 2,
+        "confirmatory_island_count": 6,
+        "confirmatory_block_count": 6,
         "response_file": {
             "name": contract["response_file"]["name"],
             "dryad_file_id": 1,
@@ -220,25 +231,57 @@ def synthetic_execution_world(*, bad_focal=False):
         "status": "PILOT_TRAINING_SNAPSHOT_FROZEN_FROM_SINGLE_OPEN",
         "pilot_species_universe": list(fixed),
     }
+    island_to_block = {
+        "PILOT1": "P1",
+        "PILOT2": "P2",
+        "PILOT3": "P3",
+    }
+    island_to_block.update({
+        island: f"C{i}"
+        for i, island in enumerate(confirmatory_islands, start=1)
+    })
     spatial = {
         "schema": "structural.boreal_lake_islands_spatial_partition_result.v0_75",
         "status": "SPATIAL_PARTITION_FROZEN_RESPONSE_INDEPENDENTLY",
         "candidate_id": contract["candidate_id"],
-        "island_to_block": {
-            "PILOT1": "P1",
-            "CONF1": "C1",
-            "CONF2": "C2",
-        },
-        "pilot_block_ids": ["P1"],
-        "confirmatory_block_ids": ["C1", "C2"],
+        "island_to_block": island_to_block,
+        "pilot_block_ids": ["P1", "P2", "P3"],
+        "confirmatory_block_ids": [f"C{i}" for i in range(1, 7)],
     }
-    return module, contract, auth, model, predictions, snapshot, spatial, response
+    expected_islands = (
+        "PILOT1",
+        "PILOT2",
+        "PILOT3",
+        *confirmatory_islands,
+    )
+    return (
+        module,
+        contract,
+        auth,
+        model,
+        model_sha,
+        predictions,
+        snapshot,
+        spatial,
+        response,
+        expected_islands,
+    )
 
 
 def test_one_shot_execution_opens_only_focal_confirmatory_cells():
-    module, contract, auth, model, predictions, snapshot, spatial, response = (
-        synthetic_execution_world()
-    )
+    (
+        module,
+        contract,
+        auth,
+        model,
+        model_sha,
+        predictions,
+        snapshot,
+        spatial,
+        response,
+        expected_islands,
+    ) = synthetic_execution_world()
+
     result = module.execute(
         authorization=auth,
         model_receipt=model,
@@ -247,24 +290,36 @@ def test_one_shot_execution_opens_only_focal_confirmatory_cells():
         spatial_receipt=spatial,
         response_bytes=response,
         contract=contract,
-        expected_islands=("PILOT1", "CONF1", "CONF2"),
+        expected_islands=expected_islands,
+        model_receipt_sha256=model_sha,
     )
     assert result["authorization_consumed"] is True
     assert result["confirmatory_response_opened"] is True
-    assert result["confirmatory_target_values_parsed"] == 4
+    assert result["confirmatory_target_values_parsed"] == 12
     assert result["pilot_target_values_parsed"] == 0
     assert result["nonfocal_confirmatory_target_values_parsed"] == 0
     assert result["fresh_system_denominator_contribution"] == 1
     assert result["counts_as_fresh_confirmatory_evidence"] is True
     assert result["counts_as_primary_confirmatory_evidence"] is True
+    assert result["primary_supported"] is True
     assert result["mechanism_claim_authorized"] is False
     assert result["rerun_authorized"] is False
 
 
 def test_post_access_bad_focal_value_is_terminal_and_consumes_authorization():
-    module, contract, auth, model, predictions, snapshot, spatial, response = (
-        synthetic_execution_world(bad_focal=True)
-    )
+    (
+        module,
+        contract,
+        auth,
+        model,
+        model_sha,
+        predictions,
+        snapshot,
+        spatial,
+        response,
+        expected_islands,
+    ) = synthetic_execution_world(bad_focal=True)
+
     result = module.execute(
         authorization=auth,
         model_receipt=model,
@@ -273,7 +328,8 @@ def test_post_access_bad_focal_value_is_terminal_and_consumes_authorization():
         spatial_receipt=spatial,
         response_bytes=response,
         contract=contract,
-        expected_islands=("PILOT1", "CONF1", "CONF2"),
+        expected_islands=expected_islands,
+        model_receipt_sha256=model_sha,
     )
     assert result["status"] == "TERMINAL_CONFIRMATORY_ROUTER_STOP"
     assert result["authorization_consumed"] is True
@@ -284,9 +340,19 @@ def test_post_access_bad_focal_value_is_terminal_and_consumes_authorization():
 
 
 def test_pre_access_response_sha_failure_does_not_consume_authorization():
-    module, contract, auth, model, predictions, snapshot, spatial, response = (
-        synthetic_execution_world()
-    )
+    (
+        module,
+        contract,
+        auth,
+        model,
+        model_sha,
+        predictions,
+        snapshot,
+        spatial,
+        response,
+        expected_islands,
+    ) = synthetic_execution_world()
+
     bad = response + b"x"
     with pytest.raises(
         module.BorealConfirmatoryExecutionError,
@@ -300,7 +366,39 @@ def test_pre_access_response_sha_failure_does_not_consume_authorization():
             spatial_receipt=spatial,
             response_bytes=bad,
             contract=contract,
-            expected_islands=("PILOT1", "CONF1", "CONF2"),
+            expected_islands=expected_islands,
+            model_receipt_sha256=model_sha,
+        )
+
+
+def test_model_receipt_sha_drift_stops_before_access():
+    (
+        module,
+        contract,
+        auth,
+        model,
+        _,
+        predictions,
+        snapshot,
+        spatial,
+        response,
+        expected_islands,
+    ) = synthetic_execution_world()
+
+    with pytest.raises(
+        module.BorealConfirmatoryExecutionError,
+        match="model receipt SHA mismatch",
+    ):
+        module.execute(
+            authorization=auth,
+            model_receipt=model,
+            predictions_text=predictions,
+            pilot_snapshot=snapshot,
+            spatial_receipt=spatial,
+            response_bytes=response,
+            contract=contract,
+            expected_islands=expected_islands,
+            model_receipt_sha256="b" * 64,
         )
 
 
@@ -309,7 +407,7 @@ def test_real_v087_contract_freezes_v055_primary_without_tail_rescue():
     primary = contract["primary"]
     assert "C-minus-R3" in primary["estimand"]
     assert primary["favourable_direction"] == "negative"
-    assert primary["bootstrap_unit"] == "frozen v0.75 confirmatory spatial block"
+    assert primary["bootstrap_unit"] == "confirmatory v0.75 spatial block"
     assert primary["bootstrap_replicates"] == 10000
     assert primary["bootstrap_seed"] == 20260928
     assert primary["external_isolation_interaction_required"] is False
