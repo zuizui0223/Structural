@@ -1,0 +1,44 @@
+{
+  "schema": "structural.boreal_19island_prepilot_freeze.v1_04",
+  "status": "PREPILOT_CONTRACTS_COMMITTED_RESPONSE_SEALED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-prepilot-v1_03.yml",
+    "run_id": 36443048123,
+    "head_sha": "95f9250947a2aac7dc7cd6d41590b12faab0e244",
+    "artifact_id": 10978164415,
+    "artifact_digest": "sha256:eb0249226cc81ea37b311c5f1c91ff46b0efe12c5ecff708209a3fff81aed529"
+  },
+  "files": {
+    "protocol": {
+      "path": "development/boreal_19island_v031_protocol_v1_03.json",
+      "sha256": "1b742e92d95e026b2d276746360a96e0562d4aeb88e3d12b20314d72e862c725"
+    },
+    "quality_contract": {
+      "path": "development/boreal_19island_v042_quality_contract_v1_03.json",
+      "sha256": "249be60bd133b89c1b5a37015d105719abb04b720e7d6fc427a3590dce773a35"
+    },
+    "prepilot_receipt": {
+      "path": "development/boreal_19island_prepilot_receipt_v1_03.json",
+      "sha256": "61b4c4bbd1f3ea7d662594ecd58dc09ba38db450fc884a0fabdfd619ffe3961b"
+    }
+  },
+  "parent_intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+  "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+  "protocol_fingerprint": "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314",
+  "quality_contract_fingerprint": "8ac0fe95901caae988673b3d8079b123fdac00573f749049eec3264b89906b58",
+  "pilot_block_count": 3,
+  "confirmatory_block_count": 7,
+  "pilot_island_count": 6,
+  "confirmatory_island_count": 13,
+  "response_boundary": {
+    "pilot_response_opened": false,
+    "confirmatory_response_opened": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0
+  },
+  "pilot_authorization_may_be_built": true,
+  "next_action": "build a separately committed one-shot burned-pilot response authorization bound to these exact files and fingerprints; do not open the beetle matrix in this revision"
+}
