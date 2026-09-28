@@ -1,0 +1,59 @@
+{
+  "schema": "structural.boreal_lake_islands_spatial_partition_contract.v0_75",
+  "status": "response_independent_spatial_partition_runner_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_preintake_v0_65.json",
+    "development/boreal_lake_islands_spatial_support_audit_v0_70.json",
+    "development/boreal_lake_islands_safe_projection_contract_v0_74.json"
+  ],
+  "input": {
+    "geometry_source": "successful v0.74 safe_geometry.csv only",
+    "projection_receipt_required": true,
+    "geometry_sha_must_match_receipt": true,
+    "island_universe": "exact frozen v0.69 42-island code set"
+  },
+  "distance": {
+    "coordinate_semantics": "center of standardized 30 x 30 m island sampling plot in decimal degrees",
+    "metric": "great-circle haversine",
+    "earth_radius_km": 6371.0088
+  },
+  "radius_rule": {
+    "nearest_neighbor_vector": "one nearest-neighbor distance per frozen island",
+    "quantiles": ["q25", "q50", "q75", "q90"],
+    "quantile_definition": "Hyndman-Fan type 7 / R default linear interpolation",
+    "rounding": "round each quantile upward to the next 0.1 km",
+    "graph": "undirected edge when pairwise haversine distance <= rounded radius",
+    "candidate_selection_order": ["q90", "q75", "q50", "q25"],
+    "selection": "choose the coarsest listed radius retaining at least 9 connected components",
+    "if_none": "STOP before v0.11"
+  },
+  "partition_rule": {
+    "spatial_block": "connected component at selected radius",
+    "minimum_total_blocks": 9,
+    "minimum_pilot_blocks": 3,
+    "minimum_confirmatory_blocks": 6,
+    "pilot_fraction": 0.2,
+    "pilot_count": "max(3, ceil(0.20 * number_of_spatial_blocks))",
+    "confirmatory_count": "remaining blocks; must be >=6",
+    "block_id": "SC_ plus first 12 hex chars of SHA256(sorted comma-joined island IDs)",
+    "ranking": "ascending SHA256('boreal-v0.75-pilot-split|<block_id>')",
+    "pilot_assignment": "first deterministic pilot_count ranked blocks",
+    "confirmatory_assignment": "all remaining blocks"
+  },
+  "response_independence": {
+    "species_occurrence_used": false,
+    "richness_used": false,
+    "habitat_values_used": false,
+    "pilot_response_used": false,
+    "confirmatory_response_used": false,
+    "post_geometry_threshold_tuning_authorized": false
+  },
+  "success_ceiling": {
+    "v0_11_intake_authorized": false,
+    "reason": "a valid spatial partition removes the geometry blocker but the frozen local habitat reference must also be completed before intake",
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
