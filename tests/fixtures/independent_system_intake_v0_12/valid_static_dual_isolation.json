@@ -1,0 +1,80 @@
+{
+  "schema": "structural.independent_system_intake.v0_12",
+  "status": "response_sealed_dual_isolation_intake_draft",
+  "system_id": "synthetic_dual_isolation_static_system",
+  "source_id": "synthetic-source-v055",
+  "source_version": "v1.0",
+  "source_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "origin": "independent_island_network",
+  "is_prior_closed_system": false,
+  "response_firewall_state": "response_sealed",
+  "response_values_accessed": false,
+  "source_files": [
+    {
+      "file_id": "safe_geometry.csv",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "role": "geometry",
+      "opened": true
+    },
+    {
+      "file_id": "habitat_reference.csv",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "role": "safe_metadata",
+      "opened": true
+    },
+    {
+      "file_id": "species_occurrence.csv",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "role": "response",
+      "opened": false
+    }
+  ],
+  "freshness_metadata": {
+    "temporal_replication": "no",
+    "immutable_source_identity": "yes",
+    "spatial_unit_id_documented": "yes",
+    "coordinates_or_geometry_documented": "yes",
+    "outcome_file_separable": "yes",
+    "operator_semantics_declarable": "yes",
+    "connectivity_question_already_published": "no",
+    "response_result_seen_by_project": "no"
+  },
+  "selection_firewall": {
+    "candidate_hunt_active": false,
+    "system_selected_using_response_direction": false,
+    "system_selected_using_connectivity_result": false,
+    "mechanism_lanes_selected_using_response_direction": false,
+    "graph_scale_selected_using_response_direction": false,
+    "endpoint_selected_using_response_direction": false,
+    "published_effect_direction_used_for_selection": false
+  },
+  "analysis_bindings": {
+    "structural_partition_contract": "development/transition_pilot_protocol_contract_v0_31.json",
+    "response_quality_gate": "development/response_quality_attrition_gate_v0_42.json",
+    "ecological_hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json"
+  },
+  "endpoint_design": {
+    "mode": "static_cross_sectional_occurrence",
+    "endpoint_semantics": "species detected in a standardized insular assemblage sample, not complete whole-island occupancy",
+    "temporal_transition_required": false,
+    "whole_island_occupancy_claim_authorized": false,
+    "colonization_claim_authorized": false,
+    "rescue_persistence_claim_authorized": false
+  },
+  "mechanism_claim_requested": false,
+  "requested_mechanism_lanes": [],
+  "response_blind_data_support": {
+    "environment_predictor_metadata_available": true,
+    "safe_geometry_available": true,
+    "spatial_partition_frozen": true,
+    "habitat_reference_frozen": true,
+    "temporal_transition_metadata_available": false,
+    "genetic_sampling_metadata_available": false,
+    "biological_response_values_accessed": false,
+    "preintake_receipt_sha256": {
+      "safe_projection_v0_74": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "spatial_partition_v0_75": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "habitat_reference_v0_76": "1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  }
+}
