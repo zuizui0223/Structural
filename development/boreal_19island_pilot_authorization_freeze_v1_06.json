@@ -1,0 +1,42 @@
+{
+  "schema": "structural.boreal_19island_pilot_authorization_freeze.v1_06",
+  "status": "PILOT_AUTHORIZATION_COMMITTED_BY_FINGERPRINT_RESPONSE_UNOPENED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-pilot-authorization-v1_05.yml",
+    "run_id": 36444583063,
+    "head_sha": "4f5148f3273aa88917e056b281742e7013982dea",
+    "artifact_id": 10980520411,
+    "artifact_digest": "sha256:962b4c72991d223504de6c16916f43aff3344fe599f5139e4fe88fbfa8c757f4"
+  },
+  "authorization": {
+    "schema": "structural.boreal_19island_pilot_response_authorization.v1_05",
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_BURNED_PILOT_RESPONSE",
+    "authorization_fingerprint": "2942d3d76d118bcf04c71d721d8f37f5531abb964713828dc375f610d08fab97",
+    "authorization_json_sha256": "b32613cad3c2ca4055c581b2540db349b312641e5d94ccd4dee5ec5e6c21978b",
+    "parent_intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+    "protocol_fingerprint": "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314",
+    "quality_contract_fingerprint": "8ac0fe95901caae988673b3d8079b123fdac00573f749049eec3264b89906b58",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621"
+  },
+  "population": {
+    "full_source_island_count": 42,
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "excluded_island_count": 23,
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7
+  },
+  "response_boundary": {
+    "response_file_downloaded_by_authorization_workflow": false,
+    "response_values_opened": false,
+    "pilot_response_authorized": true,
+    "confirmatory_response_authorized": false,
+    "authorization_consumed": false,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0
+  },
+  "execution_may_be_built": true,
+  "next_action": "build a separate one-shot burned-pilot executor that regenerates and exact-matches the v1.05 authorization fingerprint before downloading the frozen response bytes; consume authorization on the first semantic pilot open and keep all 13 confirmatory plus 23 excluded occurrence cells opaque"
+}
