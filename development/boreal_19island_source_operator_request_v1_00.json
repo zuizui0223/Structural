@@ -1,0 +1,10 @@
+{
+  "schema": "structural.boreal_19island_source_operator_request.v1_00",
+  "status": "REQUEST_LEGACY_V083_SOURCE_OPERATOR_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "reuse_v083_rule_without_tuning": true,
+  "exact_replay_v097_spatial_before_operator": true,
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
