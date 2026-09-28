@@ -86,6 +86,36 @@ def _validate_pre_access(
         raise BorealPilotExecutionError("confirmatory response ceiling violated")
     if authorization.get("authorization_consumed") is not False:
         raise BorealPilotExecutionError("authorization already consumed")
+    if authorization.get("effect_size") is not None:
+        raise BorealPilotExecutionError("authorization effect_size must be null")
+    if authorization.get("prediction_score") is not None:
+        raise BorealPilotExecutionError("authorization prediction_score must be null")
+    if authorization.get("predictive_denominator_contribution") != 0:
+        raise BorealPilotExecutionError(
+            "authorization predictive denominator must be zero"
+        )
+    if authorization.get("counts_as_empirical_evidence") is not False:
+        raise BorealPilotExecutionError("authorization evidence ceiling violated")
+    semantic = authorization.get("allowed_semantic_access")
+    if not isinstance(semantic, dict):
+        raise BorealPilotExecutionError("authorization semantic-access map missing")
+    for key, expected in (
+        ("header_species_names", True),
+        ("routing_island_field_all_rows", True),
+        ("pilot_island_occurrence_cells", True),
+        ("confirmatory_island_occurrence_cells", False),
+    ):
+        if semantic.get(key) is not expected:
+            raise BorealPilotExecutionError(
+                f"authorization semantic-access drift: {key}"
+            )
+    router_rule = authorization.get("router")
+    if not isinstance(router_rule, dict):
+        raise BorealPilotExecutionError("authorization router contract missing")
+    if router_rule.get("confirmatory_target_values_parsed_must_equal") != 0:
+        raise BorealPilotExecutionError(
+            "authorization confirmatory parse ceiling drift"
+        )
 
     protocol = protocol_from_mapping(protocol_mapping)
     quality = contract_from_mapping(quality_mapping)
@@ -105,6 +135,24 @@ def _validate_pre_access(
         "structural.boreal_lake_islands_spatial_partition_result.v0_75"
     ):
         raise BorealPilotExecutionError("unexpected v0.75 spatial receipt")
+    if spatial_receipt.get("status") != (
+        "SPATIAL_PARTITION_FROZEN_RESPONSE_INDEPENDENTLY"
+    ):
+        raise BorealPilotExecutionError("v0.75 spatial partition did not qualify")
+    if spatial_receipt.get("candidate_id") != contract["candidate_id"]:
+        raise BorealPilotExecutionError("v0.75 candidate identity mismatch")
+    for key in (
+        "species_occurrence_used",
+        "richness_used",
+        "habitat_values_used",
+        "counts_as_empirical_evidence",
+        "pilot_response_authorized",
+        "confirmatory_response_authorized",
+    ):
+        if spatial_receipt.get(key) is not False:
+            raise BorealPilotExecutionError(
+                f"v0.75 evidence/response boundary violated: {key}"
+            )
     if authorization.get("source_spatial_receipt_sha256") != spatial_receipt_sha256:
         raise BorealPilotExecutionError("spatial receipt SHA mismatch")
     island_to_block = spatial_receipt.get("island_to_block")
