@@ -76,6 +76,10 @@ def _validate_projection(receipt: Mapping, candidate_id: str) -> tuple[str, str]
         raise BorealIntakeBuilderError("v0.74 protected response boundary violated")
     if receipt.get("counts_as_empirical_evidence") is not False:
         raise BorealIntakeBuilderError("v0.74 evidence boundary violated")
+    if receipt.get("unclassified_values_returned") is not False:
+        raise BorealIntakeBuilderError("v0.74 unclassified-value boundary violated")
+    if receipt.get("v0_11_intake_authorized") is not False:
+        raise BorealIntakeBuilderError("v0.74 intake ceiling violated")
     if receipt.get("pilot_response_authorized") is not False:
         raise BorealIntakeBuilderError("v0.74 pilot ceiling violated")
     if receipt.get("confirmatory_response_authorized") is not False:
@@ -135,6 +139,7 @@ def _validate_spatial(
         "richness_used",
         "habitat_values_used",
         "counts_as_empirical_evidence",
+        "v0_11_intake_authorized",
         "pilot_response_authorized",
         "confirmatory_response_authorized",
     ):
@@ -170,6 +175,7 @@ def _validate_habitat(
         "richness_used",
         "protected_response_values_opened",
         "counts_as_empirical_evidence",
+        "v0_11_intake_authorized",
         "pilot_response_authorized",
         "confirmatory_response_authorized",
     ):
