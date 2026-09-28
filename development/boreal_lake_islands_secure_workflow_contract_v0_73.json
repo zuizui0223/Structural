@@ -1,0 +1,60 @@
+{
+  "schema": "structural.boreal_lake_islands_secure_workflow_contract.v0_73",
+  "status": "manual_stage_A_workflow_predeclared_not_executed",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_exact_transport_contract_v0_72.json",
+    "development/boreal_lake_islands_header_freeze_contract_v0_71.json"
+  ],
+  "workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_73.yml",
+  "trigger": "workflow_dispatch_only",
+  "permissions": {
+    "contents": "read"
+  },
+  "credential_modes": {
+    "preferred": {
+      "secrets": [
+        "DRYAD_CLIENT_ID",
+        "DRYAD_CLIENT_SECRET"
+      ],
+      "action": "mint a short-lived OAuth2 client-credentials token at run time",
+      "token_receipt_contains_token": false
+    },
+    "fallback": {
+      "secret": "DRYAD_TOKEN",
+      "action": "use an already-issued short-lived bearer token",
+      "warning": "Dryad access tokens expire on a short timescale; client credentials are the durable route"
+    }
+  },
+  "execution_chain": [
+    "prepare short-lived DRYAD_TOKEN in runner environment",
+    "run frozen v0.72 opaque exact-byte transport",
+    "run frozen v0.71 header-only audit",
+    "delete raw mixed CSV bytes before artifact upload",
+    "upload JSON receipts/header audit only"
+  ],
+  "artifact_policy": {
+    "artifact_name": "boreal-v073-stage-a",
+    "allowed_files": [
+      "token_receipt.json",
+      "transport_receipt.json",
+      "header_audit.json"
+    ],
+    "raw_csv_upload_forbidden": true,
+    "token_or_client_secret_upload_forbidden": true,
+    "row_value_upload_forbidden": true,
+    "retention_days": 7
+  },
+  "evidence_boundary": {
+    "header_names_may_be_opened": true,
+    "safe_row_values_may_be_opened": false,
+    "protected_response_values_may_be_opened": false,
+    "raw_files_may_be_retained_as_artifact": false,
+    "counts_as_empirical_evidence": false,
+    "safe_row_projection_authorized": false,
+    "v0_11_intake_authorized": false
+  },
+  "post_success_rule": "download the workflow artifact, verify the Stage-A receipts, and commit exact header SHA/manifests in a separate revision before any safe-row projection",
+  "workflow_execution_authorized_by_this_revision": false,
+  "reason_execution_not_automatic": "credential-bearing workflow is manual-only and must not run merely because code was pushed"
+}
