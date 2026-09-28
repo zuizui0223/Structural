@@ -1,0 +1,110 @@
+name: Boreal 19-island confirmatory authorization v1.11
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_confirmatory_authorization_request_v1_11.json
+
+permissions:
+  contents: read
+
+jobs:
+  authorize-only:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot authorization request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_confirmatory_authorization_request_v1_11.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_confirmatory_authorization_request.v1_11"
+          )
+          assert req["status"] == (
+              "REQUEST_CONFIRMATORY_AUTHORIZATION_ONLY_RESPONSE_REMAINS_SEALED"
+          )
+          assert req["candidate_id"] == (
+              "lac_la_ronge_boreal_19island_beetles_2026"
+          )
+          assert req["prediction_surface_sha256"] == (
+              "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded"
+          )
+          assert req["models_fingerprint"] == (
+              "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff"
+          )
+          assert req["fixed_species_count"] == 99
+          assert req["prediction_row_count"] == 1287
+          assert req["response_bytes_may_be_downloaded"] is False
+          assert req["response_values_may_be_opened"] is False
+          assert req["confirmatory_response_authorized_before_execution"] is False
+          assert req["counts_as_empirical_evidence"] is False
+          assert req["one_shot"] is True
+          PY
+
+      - name: Build exact response-sealed confirmatory authorization
+        run: |
+          mkdir -p build/boreal_v111
+          python scripts/authorize_boreal_19island_confirmatory_response_v1_11.py \
+            --output build/boreal_v111/confirmatory_authorization.json
+
+      - name: Assert authorization-only artifact surface
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("build/boreal_v111")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          if observed != {"confirmatory_authorization.json"}:
+              raise SystemExit(
+                  f"unexpected v1.11 artifact surface: {sorted(observed)}"
+              )
+          auth = json.loads(
+              (root / "confirmatory_authorization.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          assert auth["status"] == (
+              "AUTHORIZED_ONE_SHOT_19ISLAND_CONFIRMATORY_RESPONSE"
+          )
+          assert auth["fixed_species_count"] == 99
+          assert auth["prediction_row_count"] == 1287
+          assert len(auth["full_source_island_order"]) == 42
+          assert len(auth["analysis_island_order"]) == 19
+          assert len(auth["pilot_islands"]) == 6
+          assert len(auth["confirmatory_islands"]) == 13
+          assert len(auth["excluded_islands"]) == 23
+          assert auth["confirmatory_response_authorized"] is True
+          assert auth["authorization_consumed"] is False
+          assert auth["response_values_opened_by_authorization"] is False
+          assert auth["predictive_denominator_contribution"] == 0
+          assert auth["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Upload authorization only
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v111-confirmatory-authorization-${{ github.sha }}-${{ github.run_id }}
+          path: build/boreal_v111/confirmatory_authorization.json
+          if-no-files-found: error
+          retention-days: 7
