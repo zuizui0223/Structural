@@ -1,0 +1,14 @@
+{
+  "schema": "structural.boreal_19island_pilot_authorization_request.v1_05",
+  "status": "REQUEST_AUTHORIZATION_ONLY_RESPONSE_REMAINS_SEALED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parent_intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+  "protocol_fingerprint": "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314",
+  "quality_contract_fingerprint": "8ac0fe95901caae988673b3d8079b123fdac00573f749049eec3264b89906b58",
+  "response_bytes_may_be_downloaded": false,
+  "response_values_may_be_opened": false,
+  "pilot_response_authorized_before_execution": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
