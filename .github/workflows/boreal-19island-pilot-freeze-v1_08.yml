@@ -1,0 +1,280 @@
+name: Boreal 19-island pilot artifact freeze v1.08
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_pilot_freeze_request_v1_08.json
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  freeze-pilot-artifact:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout main with history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Enforce one-shot freeze request
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          REQUEST="development/boreal_19island_pilot_freeze_request_v1_08.json"
+          test "$(git rev-list --count HEAD -- "$REQUEST")" = "1"
+
+      - name: Validate source artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_pilot_freeze_request_v1_08.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_pilot_freeze_request.v1_08"
+          )
+          assert req["status"] == "REQUEST_EXACT_PILOT_ARTIFACT_FREEZE"
+          assert req["one_shot"] is True
+
+          src = req["source_execution"]
+          url = (
+              f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}"
+              f"/actions/artifacts/{src['artifact_id']}"
+          )
+          request = urllib.request.Request(
+              url,
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+          )
+          with urllib.request.urlopen(request, timeout=60) as response:
+              meta = json.load(response)
+
+          assert meta["id"] == src["artifact_id"]
+          assert meta["name"] == src["artifact_name"]
+          assert meta["digest"] == src["artifact_digest"]
+          assert meta["expired"] is False
+          assert meta["workflow_run"]["id"] == src["workflow_run_id"]
+          assert meta["workflow_run"]["head_sha"] == src["workflow_head_sha"]
+          PY
+
+      - name: Download exact successful pilot artifact
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: 10980668029
+          path: build/boreal_v108/source
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+
+      - name: Verify artifact surface and pilot result
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          request = json.loads(
+              Path(
+                  "development/boreal_19island_pilot_freeze_request_v1_08.json"
+              ).read_text(encoding="utf-8")
+          )
+          root = Path("build/boreal_v108/source")
+          expected_files = {
+              "token_receipt.json",
+              "transport_receipt.json",
+              "execution_receipt.json",
+              "training_snapshot.json",
+          }
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          assert observed == expected_files
+          assert not any(root.rglob("*.csv"))
+
+          for name, expected_sha in request["file_sha256"].items():
+              raw = (root / name).read_bytes()
+              assert hashlib.sha256(raw).hexdigest() == expected_sha
+
+          transport = json.loads(
+              (root / "transport_receipt.json").read_text(encoding="utf-8")
+          )
+          assert transport["status"] == (
+              "EXACT_RESPONSE_BYTES_VERIFIED_SEMANTICS_UNOPENED"
+          )
+          assert transport["response_semantics_opened"] is False
+          assert transport["authorization_consumed"] is False
+
+          execution = json.loads(
+              (root / "execution_receipt.json").read_text(encoding="utf-8")
+          )
+          snapshot = json.loads(
+              (root / "training_snapshot.json").read_text(encoding="utf-8")
+          )
+          expected = request["expected_pilot_result"]
+          assert execution["status"] == expected["status"]
+          assert execution["authorization_consumed"] is expected[
+              "authorization_consumed"
+          ]
+          assert execution["pilot_response_opened"] is expected[
+              "pilot_response_opened"
+          ]
+          assert execution["pilot_species_universe_count"] == expected[
+              "pilot_species_universe_count"
+          ]
+          assert execution["pilot_species_universe_sha256"] == expected[
+              "pilot_species_universe_sha256"
+          ]
+          assert execution["model_snapshot_fingerprint"] == expected[
+              "model_snapshot_fingerprint"
+          ]
+          assert execution["raw_pilot_surface_sha256"] == expected[
+              "raw_pilot_surface_sha256"
+          ]
+          assert execution["pilot_result"]["applicable_rows"] == expected[
+              "applicable_rows"
+          ]
+          assert execution["pilot_result"]["positive"] == expected["positive"]
+          assert execution["pilot_result"]["negative"] == expected["negative"]
+          assert execution["pilot_result"]["estimable_blocks"] == expected[
+              "estimable_blocks"
+          ]
+          admission = execution["future_admission_receipt"]
+          assert admission["response_qualified_blocks"] == expected[
+              "response_qualified_blocks"
+          ]
+          assert admission["quality_retention_fraction"] == expected[
+              "quality_retention_fraction"
+          ]
+          assert execution["confirmatory_target_values_parsed"] == 0
+          assert execution["excluded_target_values_parsed"] == 0
+          assert execution["confirmatory_response_authorized"] is False
+          assert execution["predictive_denominator_contribution"] == 0
+          assert execution["counts_as_empirical_evidence"] is False
+
+          assert snapshot["snapshot_fingerprint"] == expected[
+              "model_snapshot_fingerprint"
+          ]
+          assert snapshot["pilot_species_universe_count"] == 99
+          assert snapshot["pilot_island_count"] == 6
+          assert snapshot["confirmatory_island_count"] == 13
+          assert snapshot["excluded_island_count"] == 23
+          assert snapshot["confirmatory_target_values_parsed"] == 0
+          assert snapshot["excluded_target_values_parsed"] == 0
+          assert snapshot["confirmatory_occurrence_values_stored"] is False
+          assert snapshot["excluded_occurrence_values_stored"] is False
+          assert snapshot["qualified_for_confirmatory_model_freeze"] is True
+
+          token = json.loads(
+              (root / "token_receipt.json").read_text(encoding="utf-8")
+          )
+          assert token["token_persisted_in_receipt"] is False
+          assert token["client_credentials_persisted_in_receipt"] is False
+          PY
+
+      - name: Fast-forward to latest main before freeze commit
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git merge --ff-only origin/main
+
+      - name: Persist exact execution and training snapshot
+        run: |
+          set -euo pipefail
+          test ! -e development/boreal_19island_pilot_execution_v1_08.json
+          test ! -e development/boreal_19island_pilot_training_snapshot_v1_08.json
+          test ! -e development/boreal_19island_pilot_freeze_v1_08.json
+          cp build/boreal_v108/source/execution_receipt.json \
+            development/boreal_19island_pilot_execution_v1_08.json
+          cp build/boreal_v108/source/training_snapshot.json \
+            development/boreal_19island_pilot_training_snapshot_v1_08.json
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          request = json.loads(
+              Path(
+                  "development/boreal_19island_pilot_freeze_request_v1_08.json"
+              ).read_text(encoding="utf-8")
+          )
+          expected = request["expected_pilot_result"]
+          freeze = {
+              "schema": "structural.boreal_19island_pilot_freeze.v1_08",
+              "status": "BURNED_PILOT_COMMITTED_MODEL_SNAPSHOT_READY",
+              "candidate_id": request["candidate_id"],
+              "source_execution": request["source_execution"],
+              "file_sha256": {
+                  "execution_receipt": request["file_sha256"][
+                      "execution_receipt.json"
+                  ],
+                  "training_snapshot": request["file_sha256"][
+                      "training_snapshot.json"
+                  ],
+                  "transport_receipt": request["file_sha256"][
+                      "transport_receipt.json"
+                  ],
+              },
+              "pilot_result": expected,
+              "pilot_species_universe_count": 99,
+              "pilot_species_universe_sha256": expected[
+                  "pilot_species_universe_sha256"
+              ],
+              "model_snapshot_fingerprint": expected[
+                  "model_snapshot_fingerprint"
+              ],
+              "response_boundary": {
+                  "pilot_response_consumed": True,
+                  "confirmatory_response_opened": False,
+                  "confirmatory_target_values_parsed": 0,
+                  "excluded_target_values_parsed": 0,
+                  "confirmatory_response_authorized": False,
+                  "counts_as_empirical_evidence": False,
+                  "predictive_denominator_contribution": 0,
+              },
+              "confirmatory_model_freeze_may_be_built": True,
+              "next_action": (
+                  "fit the frozen R0/R1/R2/R3/C model ladder from the committed "
+                  "pilot snapshot and state/source references, then freeze all "
+                  "13-island confirmatory predictions before any confirmatory "
+                  "occurrence value is opened"
+              ),
+          }
+          Path(
+              "development/boreal_19island_pilot_freeze_v1_08.json"
+          ).write_text(
+              json.dumps(freeze, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Commit exact pilot freeze to main
+        run: |
+          set -euo pipefail
+          git add \
+            development/boreal_19island_pilot_execution_v1_08.json \
+            development/boreal_19island_pilot_training_snapshot_v1_08.json \
+            development/boreal_19island_pilot_freeze_v1_08.json
+          test "$(git diff --cached --name-only | wc -l)" = "3"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze successful boreal 19-island burned pilot v1.08"
+          git push origin HEAD:main
