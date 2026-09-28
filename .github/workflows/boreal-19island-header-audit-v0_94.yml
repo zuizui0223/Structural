@@ -1,0 +1,117 @@
+name: Boreal 19-island header audit v0.94
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_header_audit_request_v0_94.json
+
+permissions:
+  contents: read
+
+jobs:
+  exact-header-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout committed identity freeze and audit code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require separately committed v0.93 identity freeze
+        run: |
+          set -euo pipefail
+          FREEZE="development/boreal_19island_geometry_identity_freeze_v0_93.json"
+          git ls-files --error-unmatch "$FREEZE" >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path("development/boreal_19island_geometry_identity_freeze_v0_93.json")
+              .read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_geometry_identity_freeze.v0_93"
+          )
+          assert x["status"] == "OPAQUE_BYTE_IDENTITY_FROZEN_BEFORE_HEADER_ACCESS"
+          assert x["file"]["size_bytes"] == 2486
+          assert x["file"]["sha256"] == (
+              "e40a653de7b01e5ba4c54f69577842d4d246cf179cdfc41d487693eb3c2baf43"
+          )
+          assert x["access_state_at_freeze"]["header_decoded"] is False
+          assert x["access_state_at_freeze"]["data_rows_semantically_opened"] == 0
+          PY
+
+      - name: Validate one-shot header request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path("development/boreal_19island_header_audit_request_v0_94.json")
+              .read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_header_audit_request.v0_94"
+          )
+          assert x["status"] == "REQUEST_EXACT_HEADER_ONLY_AUDIT"
+          assert x["dryad_file_id"] == 4569035
+          assert x["data_row_access_authorized"] is False
+          assert x["safe_row_projection_authorized"] is False
+          assert x["biological_response_values_opened"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/boreal_v094
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_v094/token_receipt.json
+
+      - name: Verify exact identity and decode first physical record only
+        run: |
+          mkdir -p build/boreal_v094/raw
+          python scripts/audit_boreal_19island_header_v0_94.py \
+            build/boreal_v094/raw/alpha_diversity_model_selection_19islands.csv \
+            --receipt build/boreal_v094/header_receipt.json
+
+      - name: Delete raw bytes before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_v094/raw
+
+      - name: Assert JSON-only header artifact surface
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("build/boreal_v094")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {"token_receipt.json", "header_receipt.json"}
+          if observed != expected:
+              raise SystemExit(f"unexpected artifact surface: {sorted(observed)}")
+          if any(root.rglob("*.csv")):
+              raise SystemExit("raw CSV reached artifact surface")
+          PY
+
+      - name: Upload header receipts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v094-header-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v094/token_receipt.json
+            build/boreal_v094/header_receipt.json
+          if-no-files-found: warn
+          retention-days: 7

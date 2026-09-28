@@ -1,0 +1,39 @@
+{
+  "schema": "structural.boreal_19island_header_audit_contract.v0_94",
+  "status": "HEADER_ONLY_AUDIT_FROZEN_AFTER_SEPARATE_BYTE_IDENTITY_COMMIT",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parent_identity_freeze": "development/boreal_19island_geometry_identity_freeze_v0_93.json",
+  "target": {
+    "name": "alpha_diversity_model_selection_19islands.csv",
+    "dryad_file_id": 4569035,
+    "dryad_version_id": 422440,
+    "dryad_version_number": 7,
+    "download_url": "https://datadryad.org/api/v2/files/4569035/download",
+    "expected_size_bytes": 2486,
+    "expected_sha256": "e40a653de7b01e5ba4c54f69577842d4d246cf179cdfc41d487693eb3c2baf43"
+  },
+  "allowed_operations": [
+    "authenticated exact-byte re-download of the predeclared file",
+    "verify byte count and SHA-256 before text decoding",
+    "decode only the first physical CSV record",
+    "parse and persist column names",
+    "hash the first physical CSV record"
+  ],
+  "forbidden_operations": [
+    "decode any data row",
+    "inspect any latitude or longitude value",
+    "inspect any richness or other biological response value",
+    "select projection columns in the same revision",
+    "upload raw CSV bytes"
+  ],
+  "classification_policy": "all observed header names remain closed/unclassified until a later committed revision selects exact safe projection columns",
+  "success_does_not_authorize_row_projection": true,
+  "response_firewall": {
+    "data_rows_semantically_opened": 0,
+    "safe_row_values_opened": false,
+    "biological_response_values_opened": false,
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  }
+}

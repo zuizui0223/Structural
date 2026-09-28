@@ -1,0 +1,14 @@
+{
+  "schema": "structural.boreal_19island_header_audit_request.v0_94",
+  "status": "REQUEST_EXACT_HEADER_ONLY_AUDIT",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "dryad_file_id": 4569035,
+  "expected_size_bytes": 2486,
+  "expected_sha256": "e40a653de7b01e5ba4c54f69577842d4d246cf179cdfc41d487693eb3c2baf43",
+  "header_access_authorized": true,
+  "data_row_access_authorized": false,
+  "safe_row_projection_authorized": false,
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
