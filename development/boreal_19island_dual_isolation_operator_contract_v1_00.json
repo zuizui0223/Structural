@@ -1,0 +1,65 @@
+{
+  "schema": "structural.boreal_19island_dual_isolation_operator_contract.v1_00",
+  "status": "LEGACY_V083_SOURCE_OPERATOR_REUSED_WITHOUT_TUNING",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": [
+    "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "development/boreal_dual_isolation_operator_contract_v0_83.json"
+  ],
+  "legacy_rule_source": {
+    "path": "development/boreal_dual_isolation_operator_contract_v0_83.json",
+    "rule_changed_after_19island_geometry_seen": false
+  },
+  "operator": {
+    "graph": "symmetrized k-nearest-neighbor over exact 19 island plot centers",
+    "k_rule": "smallest integer k >= 1 for which the symmetrized kNN graph over all 19 islands is connected",
+    "neighbor_tie_rule": "ascending great-circle distance then island ID",
+    "edge_weight": "great-circle haversine km",
+    "kernel_scale_rule": "Hyndman-Fan type 7 median of positive edge lengths in the selected graph",
+    "response_used_to_select_k": false,
+    "response_used_to_select_kernel_scale": false,
+    "validation_radius_reused": false
+  },
+  "spatial_replay": {
+    "minimum_total_blocks": 9,
+    "minimum_pilot_blocks": 3,
+    "minimum_confirmatory_blocks": 6,
+    "pilot_fraction": 0.2,
+    "ranking_salt": "boreal-v0.75-pilot-split",
+    "require_exact_match_to_committed_v1_00_freeze": true
+  },
+  "required_cross_partition_support": {
+    "minimum_cross_block_edges": 1,
+    "reason": "source continuity must cross at least one frozen validation-block boundary"
+  },
+  "reference_ladder": {
+    "R2_generic_response_independent_context": [
+      "degree_fraction",
+      "mean_shortest_path_km",
+      "closeness_per_km"
+    ],
+    "R3_training_only_species_source_context": [
+      "pilot_global_occupancy_breadth",
+      "nearest_euclidean_occupied_source_km",
+      "euclidean_occupied_source_pressure"
+    ],
+    "C_add_training_only_internal_source_continuity": [
+      "nearest_graph_path_to_occupied_source_km",
+      "graph_path_occupied_source_pressure"
+    ]
+  },
+  "response_boundary": {
+    "species_occurrence_used_to_build_operator": false,
+    "pilot_response_used_to_build_operator": false,
+    "confirmatory_response_used_to_build_operator": false,
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "success_ceiling": {
+    "next_action": "commit the exact operator and receipt, then build the 19-island response-sealed intake and v0.31/v0.42 pre-pilot contracts"
+  }
+}
