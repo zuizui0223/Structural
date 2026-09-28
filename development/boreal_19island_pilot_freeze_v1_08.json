@@ -1,0 +1,48 @@
+{
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "confirmatory_model_freeze_may_be_built": true,
+  "file_sha256": {
+    "execution_receipt": "b332e65258a5c54fa9f49ab352f4c2822aff1d7fb17a90f9d5796aed4429951d",
+    "training_snapshot": "30ef15112fddf0c10cd159f484bf98293083932ba6343d65bcbd060881a91cef",
+    "transport_receipt": "189756de0b8b9bca04c5327aa91fea10775fe5051fb0cdb966f7259e7df18c78"
+  },
+  "model_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+  "next_action": "fit the frozen R0/R1/R2/R3/C model ladder from the committed pilot snapshot and state/source references, then freeze all 13-island confirmatory predictions before any confirmatory occurrence value is opened",
+  "pilot_result": {
+    "applicable_rows": 594,
+    "authorization_consumed": true,
+    "confirmatory_target_values_parsed": 0,
+    "estimable_blocks": 3,
+    "excluded_target_values_parsed": 0,
+    "model_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+    "negative": 221,
+    "pilot_response_opened": true,
+    "pilot_species_universe_count": 99,
+    "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+    "positive": 373,
+    "quality_retention_fraction": 1.0,
+    "raw_pilot_surface_sha256": "a5c98669390aceb43a9ded461b54d0c9fef9de86999c7ee02c029975e89a8063",
+    "response_qualified_blocks": 3,
+    "status": "QUALIFIED_TO_FREEZE_19ISLAND_CONFIRMATORY_MODEL_WITH_PILOT_SNAPSHOT"
+  },
+  "pilot_species_universe_count": 99,
+  "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+  "response_boundary": {
+    "confirmatory_response_authorized": false,
+    "confirmatory_response_opened": false,
+    "confirmatory_target_values_parsed": 0,
+    "counts_as_empirical_evidence": false,
+    "excluded_target_values_parsed": 0,
+    "pilot_response_consumed": true,
+    "predictive_denominator_contribution": 0
+  },
+  "schema": "structural.boreal_19island_pilot_freeze.v1_08",
+  "source_execution": {
+    "artifact_digest": "sha256:5c7b09cd16151a1d481d3e7fbfb7aff8b47889d46f1713a7298bf6c806b5e57e",
+    "artifact_id": 10980668029,
+    "artifact_name": "boreal-v107-burned-pilot-3123b481ca294be184a3a3e0991e8021baef1b3c-36446410357",
+    "workflow_head_sha": "3123b481ca294be184a3a3e0991e8021baef1b3c",
+    "workflow_run_id": 36446410357
+  },
+  "status": "BURNED_PILOT_COMMITTED_MODEL_SNAPSHOT_READY"
+}
