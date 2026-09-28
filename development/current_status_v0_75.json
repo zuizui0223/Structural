@@ -1,0 +1,41 @@
+{
+  "schema": "structural.current_status.v0_75",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_74.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_manifest_freeze_not_executed",
+    "stage_A_workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_73.yml",
+    "stage_B_projection_cli": "scripts/project_boreal_safe_rows_v0_74.py",
+    "spatial_partition_contract": "development/boreal_lake_islands_spatial_partition_contract_v0_75.json",
+    "spatial_partition_cli": "scripts/freeze_boreal_spatial_partition_v0_75.py",
+    "secure_manual_stage_A_route_frozen": true,
+    "stage_B_runner_frozen": true,
+    "spatial_partition_runner_frozen": true,
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "exact_latlong_resolved": 0,
+    "safe_local_habitat_reference_complete": false,
+    "biological_response_values_opened": false,
+    "v0_11_intake_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The boreal dual-isolation test now has a fully predeclared response-independent spatial-transfer route. Once exact coordinates are safely projected, graph radii are fixed from nearest-neighbor geometry alone and the coarsest q25/q50/q75/q90 radius retaining at least nine connected components determines disjoint pilot and confirmatory spatial blocks. No species outcome can choose the scale or split.",
+  "next_valid_scientific_event": "clear v0.73 Stage A and the header-manifest freeze, execute v0.74 safe projection, then run the already-frozen v0.75 spatial partition and complete the habitat reference before v0.11",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_75.json",
+    "status": "stage_A_human_gate_downstream_geometry_ready"
+  }
+}
