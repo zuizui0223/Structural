@@ -48,5 +48,11 @@
     "mechanism_response_authorized": false,
     "counts_as_empirical_evidence": false,
     "next_action": "commit the exact v0.31 protocol, fingerprint-bound v0.42 quality contract and v1.03 receipt; only a later separately committed authorization may open burned-pilot response"
+  },
+  "required_parent_identity": {
+    "intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+    "intake_file_sha256": "b2257ec7f06c6f8d6583c40f00eef5e4c917dc343fe8aa62800819c68226cd67",
+    "intake_receipt_file_sha256": "35b956b211217d2232057d151b48a9cf0076e552cc6bcbdf4c8d9c1faf5f72aa",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621"
   }
 }
