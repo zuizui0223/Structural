@@ -1,0 +1,37 @@
+{
+  "schema": "structural.current_status.v0_78",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_77.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_v078_and_downstream_execution_pending",
+    "future_intake_version": "v0.12",
+    "stage_A_workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_78.yml",
+    "header_manifest_freezer": "scripts/freeze_boreal_header_manifests_v0_78.py",
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "habitat_reference_executed": false,
+    "biological_response_values_opened": false,
+    "v0_12_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The scientific design is unchanged; v0.78 strengthens only provenance. The Stage-A artifact is now bound to a main-branch commit and workflow run before its header manifests can authorize safe predictor rows. This prevents an untracked or branch-specific Stage-A artifact from silently becoming the geometry/habitat basis of the fresh dual-isolation test.",
+  "next_valid_scientific_event": "configure Dryad credentials, manually dispatch the main-only v0.78 Stage-A workflow, freeze its JSON-only header manifests with v0.78, then execute v0.74/v0.75/v0.76 and construct a real v0.12 intake",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_78.json",
+    "status": "main_only_stage_A_then_manifest_freeze"
+  }
+}
