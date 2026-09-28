@@ -1,0 +1,55 @@
+{
+  "schema": "structural.boreal_confirmatory_response_authorization_contract.v0_86",
+  "status": "one_shot_confirmatory_access_gate_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_preconfirmatory_model_contract_v0_85.json",
+    "development/boreal_beetle_model_sufficient_pilot_contract_v0_84.json",
+    "development/boreal_dual_isolation_operator_contract_v0_83.json",
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json"
+  ],
+  "required_model_freeze": {
+    "schema": "structural.boreal_preconfirmatory_model_freeze.v0_85",
+    "status": "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE",
+    "confirmatory_target_values_opened": 0,
+    "confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null
+  },
+  "exact_replay": {
+    "required": true,
+    "rule": "rerun v0.85 from the exact pilot snapshot, predictor artifacts, spatial receipt and source operator; require exact receipt equality and exact prediction-surface bytes before authorization",
+    "refit_after_authorization": false
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_island_rows": 42,
+    "expected_species_columns": 466
+  },
+  "allowed_semantic_access_after_authorization": {
+    "species_header_names": true,
+    "routing_island_field_all_rows": true,
+    "confirmatory_fixed_species_occurrence_cells": true,
+    "confirmatory_nonfocal_species_occurrence_cells": false,
+    "pilot_island_occurrence_cells": false
+  },
+  "router": {
+    "implementation": "src/structural/boreal_confirmatory_router.py",
+    "target_population": "exact rows in the frozen v0.85 prediction surface only",
+    "pilot_target_values_parsed_must_equal": 0,
+    "nonfocal_confirmatory_target_values_parsed_must_equal": 0
+  },
+  "authorization_ceiling": {
+    "confirmatory_response_authorized": true,
+    "authorization_consumed": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "counts_as_empirical_evidence": false,
+    "next_action": "perform exactly one SHA-verified confirmatory routing/scoring execution against the already-frozen prediction surface"
+  },
+  "execution_authorized_now": false,
+  "reason": "real v0.85 model receipt and prediction surface do not yet exist; this revision freezes the replay/access gate only"
+}
