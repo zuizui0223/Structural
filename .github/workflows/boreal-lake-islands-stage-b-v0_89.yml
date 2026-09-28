@@ -9,6 +9,8 @@ permissions:
 jobs:
   response-independent-prepilot:
     runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - name: Require manual execution from main
         run: |
