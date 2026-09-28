@@ -1,0 +1,55 @@
+{
+  "schema": "structural.boreal_lake_islands_habitat_reference_contract.v0_76",
+  "status": "deterministic_habitat_reference_runner_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_documented_column_firewall_v0_68.json",
+    "development/boreal_lake_islands_safe_projection_contract_v0_74.json"
+  ],
+  "input": {
+    "source": "successful v0.74 safe_habitat.csv only",
+    "projection_receipt_required": true,
+    "habitat_sha_must_match_receipt": true,
+    "eligible_column_order": "exact order frozen by v0.74 receipt"
+  },
+  "standardization": {
+    "method": "population z-score",
+    "mean": "arithmetic mean over exact frozen island universe",
+    "sd": "sqrt(sum((x-mean)^2)/n), denominator n",
+    "constants_must_exactly_match_v0_74_receipt": true
+  },
+  "one_variable_rule": {
+    "output": "single population-z habitat axis",
+    "pca": false
+  },
+  "pca_rule": {
+    "minimum_variables": 2,
+    "input": "population-z standardized safe habitat variables only",
+    "matrix": "population correlation X'X/n",
+    "eigendecomposition": "deterministic symmetric Jacobi rotations",
+    "jacobi_tolerance": 1e-14,
+    "jacobi_max_iterations": 10000,
+    "eigenvalue_order": "descending; ties broken by oriented loading float-hex signature",
+    "sign_orientation": "largest absolute loading positive; ties use lowest variable index",
+    "negative_eigenvalue_rule": "values in [-1e-12,0) clamp to zero; below -1e-12 STOP",
+    "retention": "smallest number of PCs reaching at least 80% cumulative explained variance",
+    "variance_threshold": 0.8
+  },
+  "output": {
+    "reference_csv": "Island plus HAB1 for one-variable mode, or Island plus PC1..PCk for PCA mode; values encoded as Python float hex",
+    "receipt": "input SHA, standardization constants, PCA eigenvalues/loadings/explained fractions and output SHA"
+  },
+  "response_independence": {
+    "species_occurrence_used": false,
+    "richness_used": false,
+    "protected_response_values_opened": false,
+    "column_selection_by_response_forbidden": true,
+    "counts_as_empirical_evidence": false
+  },
+  "success_ceiling": {
+    "v0_11_intake_authorized": false,
+    "reason": "habitat reference alone does not clear intake until the real v0.75 spatial partition is also successfully frozen",
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  }
+}
