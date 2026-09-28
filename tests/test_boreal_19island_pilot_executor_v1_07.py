@@ -272,12 +272,16 @@ def test_response_identity_failure_is_preaccess_and_does_not_consume():
         contract,
     ) = synthetic_inputs()
 
+    tampered = response[:-1] + (b"\\r" if response[-1:] != b"\\r" else b"\\n")
+    assert len(tampered) == len(response)
+    assert tampered != response
+
     with pytest.raises(executor.Boreal19PilotExecutionError, match="response SHA"):
         executor.execute(
             auth,
             protocol,
             quality,
-            response + b"x",
+            tampered,
             authorization_file_sha256=auth_sha,
             contract=contract,
         )
