@@ -1,0 +1,9 @@
+{
+  "confirmatory_response_accessed": false,
+  "contract_id": "boreal-19island-beetles-quality-v0.42-3a4bd6698780",
+  "minimum_response_qualified_blocks": 3,
+  "parent_protocol_fingerprint": "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314",
+  "pilot_response_accessed": false,
+  "response_quality_semantics": "A burned-pilot spatial block is response-qualified only when the single common fixed pilot-supported beetle species universe yields at least the frozen minimum_test_rows exact binary island-by-species targets in that held-out block. The common universe is defined once from pilot response only as species detected on at least two distinct frozen pilot islands and is applied identically to every pilot block. Unexpected values outside 0/1, a missing frozen pilot island, or inability to construct the common universe is a terminal STOP. Blocks, islands, species, thresholds and partitions may not be rescued, substituted, merged, imputed or relaxed after pilot opening.",
+  "system_id": "lac_la_ronge_boreal_19island_beetles_2026"
+}
