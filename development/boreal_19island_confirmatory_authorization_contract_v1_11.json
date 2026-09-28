@@ -1,0 +1,84 @@
+{
+  "schema": "structural.boreal_19island_confirmatory_authorization_contract.v1_11",
+  "status": "ONE_SHOT_CONFIRMATORY_ACCESS_GATE_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "preconfirmatory_freeze": "development/boreal_19island_preconfirmatory_freeze_v1_10.json",
+    "predictions": "development/boreal_19island_confirmatory_predictions_v1_10.csv",
+    "model_receipt": "development/boreal_19island_preconfirmatory_model_receipt_v1_10.json",
+    "pilot_snapshot": "development/boreal_19island_pilot_training_snapshot_v1_08.json",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "dryad_metadata": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "full_source_universe": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "replay_builder": "scripts/freeze_boreal_19island_preconfirmatory_model_v1_09.py"
+  },
+  "required_prediction_freeze": {
+    "schema": "structural.boreal_19island_preconfirmatory_freeze.v1_10",
+    "status": "PRECONFIRMATORY_MODELS_AND_PREDICTIONS_COMMITTED",
+    "exact_replay_verified": true,
+    "confirmatory_authorization_may_be_built": true,
+    "prediction_surface_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "prediction_file_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "model_receipt_file_sha256": "be0ea3c8d277aff00533afd47177f47fba3209d49d80126debdd6817777b3393",
+    "models_fingerprint": "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff",
+    "pilot_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+    "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "species_count": 99,
+    "prediction_row_count": 1287,
+    "confirmatory_island_count": 13,
+    "confirmatory_block_count": 7
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_species_columns": 466,
+    "expected_full_source_island_rows": 42
+  },
+  "population": {
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "excluded_island_count": 23,
+    "confirmatory_block_count": 7,
+    "fixed_species_count": 99,
+    "confirmatory_target_count": 1287
+  },
+  "allowed_semantic_access_after_authorization": {
+    "species_header_names": true,
+    "routing_island_field_all_42_rows": true,
+    "confirmatory_fixed_species_occurrence_cells": true,
+    "confirmatory_nonfocal_species_occurrence_cells": false,
+    "pilot_island_occurrence_cells": false,
+    "excluded_island_occurrence_cells": false
+  },
+  "router": {
+    "implementation": "src/structural/boreal_19island_confirmatory_router.py",
+    "confirmatory_target_values_parsed_required": 1287,
+    "pilot_target_values_parsed_required": 0,
+    "excluded_target_values_parsed_required": 0,
+    "nonfocal_confirmatory_target_values_parsed_required": 0,
+    "routing_island_fields_decoded_required": 42
+  },
+  "exact_replay": {
+    "required": true,
+    "rule": "rerun v1.09 from the exact committed v1.08 pilot snapshot and response-independent parents; require exact model-receipt equality and exact 1287-row prediction bytes before authorization",
+    "model_refit_after_authorization": false,
+    "prediction_surface_change_after_authorization": false
+  },
+  "authorization_ceiling": {
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_CONFIRMATORY_RESPONSE",
+    "confirmatory_response_authorized": true,
+    "authorization_consumed": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_evidence": false,
+    "response_values_opened_by_authorization": false,
+    "eligible_action": "execute_one_shot_19island_confirmatory_scoring",
+    "next_action": "freeze this exact authorization in a separate revision before any confirmatory occurrence value is opened"
+  },
+  "execution_authorized_now": false
+}
