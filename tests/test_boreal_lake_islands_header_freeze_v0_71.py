@@ -10,6 +10,8 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "development/boreal_lake_islands_header_freeze_contract_v0_71.json"
+STATUS = ROOT / "development/current_status_v0_71.json"
+PRIORITY = ROOT / "development/structural_active_priority_v0_71.json"
 SCRIPT = ROOT / "scripts/audit_boreal_mixed_headers_v0_71.py"
 
 
@@ -159,3 +161,23 @@ def test_boreal_header_audit_stops_on_byte_size_mismatch(tmp_path: Path):
 
     with pytest.raises(module.BorealHeaderAuditError, match="byte-size mismatch"):
         module.audit(alpha, rda, contract=contract)
+
+
+def test_v071_status_keeps_fresh_denominator_and_response_closed():
+    status = json.loads(STATUS.read_text(encoding="utf-8"))
+    priority = json.loads(PRIORITY.read_text(encoding="utf-8"))
+
+    assert status["fresh_empirical_state"] == {
+        "active_candidates": [],
+        "confirmatory_eligible_count": 0,
+        "live_confirmatory_queue_entries": 0,
+    }
+    boreal = status["boreal_lake_island_preintake"]
+    assert boreal["mixed_csv_firewall_ready"] is True
+    assert boreal["header_sha_frozen"] is False
+    assert boreal["safe_row_values_opened"] is False
+    assert boreal["biological_response_opened"] is False
+    assert boreal["v0_11_intake_authorized"] is False
+    assert priority["fresh_active_empirical_candidate"] is None
+    assert priority["fresh_confirmatory_eligible_count"] == 0
+    assert "header-only" in priority["active_goal"]
