@@ -68,6 +68,11 @@ def freeze(
         raise BorealManifestFreezeError("Stage A repository identity mismatch")
     if execution_context.get("ref") != wf["ref"]:
         raise BorealManifestFreezeError("Stage A was not run from main")
+    expected_workflow_ref = (
+        wf["repository"] + "/" + contract["workflow"] + "@" + wf["ref"]
+    )
+    if execution_context.get("workflow_ref") != expected_workflow_ref:
+        raise BorealManifestFreezeError("Stage A workflow identity mismatch")
     head_sha = execution_context.get("head_sha")
     if not isinstance(head_sha, str) or not SHA40.fullmatch(head_sha):
         raise BorealManifestFreezeError("invalid Stage A head SHA")
@@ -91,6 +96,8 @@ def freeze(
 
     if transport_receipt.get("status") != "exact_mixed_file_bytes_verified":
         raise BorealManifestFreezeError("exact transport did not qualify")
+    if transport_receipt.get("candidate_id") != contract["candidate_id"]:
+        raise BorealManifestFreezeError("transport candidate identity mismatch")
     for key, expected in (
         ("header_decoded", False),
         ("data_rows_semantically_opened", 0),
@@ -107,6 +114,8 @@ def freeze(
 
     if header_audit.get("status") != "qualified_to_freeze_header_manifests_only":
         raise BorealManifestFreezeError("header audit did not qualify")
+    if header_audit.get("candidate_id") != contract["candidate_id"]:
+        raise BorealManifestFreezeError("header-audit candidate identity mismatch")
     for key, expected in (
         ("data_rows_semantically_opened", 0),
         ("safe_row_values_opened", False),
@@ -134,6 +143,10 @@ def freeze(
             raise BorealManifestFreezeError(f"missing Stage A evidence for {name}")
 
         expected_sha = prior["expected_sha256"]
+        if transport.get("file_id") != prior["dryad_file_id"]:
+            raise BorealManifestFreezeError(f"{name} Dryad file ID mismatch")
+        if transport.get("size_bytes") != prior["expected_size_bytes"]:
+            raise BorealManifestFreezeError(f"{name} transport size mismatch")
         if transport.get("sha256") != expected_sha:
             raise BorealManifestFreezeError(f"{name} transport SHA mismatch")
         if audit.get("file_sha256") != expected_sha:
@@ -153,6 +166,10 @@ def freeze(
             raise BorealManifestFreezeError(f"{name} protected-column declaration drift")
         if audit.get("header_sha256") != header_sha:
             raise BorealManifestFreezeError(f"{name} header SHA disagreement")
+        if audit.get("missing_safe_columns") not in ([], ()):
+            raise BorealManifestFreezeError(f"{name} safe columns missing")
+        if audit.get("missing_protected_columns") not in ([], ()):
+            raise BorealManifestFreezeError(f"{name} protected columns missing")
         if audit.get("qualified_to_freeze_manifest") is not True:
             raise BorealManifestFreezeError(f"{name} audit not qualified")
 
