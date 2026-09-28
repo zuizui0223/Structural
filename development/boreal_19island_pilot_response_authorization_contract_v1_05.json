@@ -1,0 +1,77 @@
+{
+  "schema": "structural.boreal_19island_pilot_response_authorization_contract.v1_05",
+  "status": "ONE_SHOT_19ISLAND_PILOT_AUTHORIZATION_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "intake": "development/boreal_19island_response_sealed_intake_v1_02.json",
+    "intake_receipt": "development/boreal_19island_response_sealed_intake_receipt_v1_02.json",
+    "prepilot_builder_contract": "development/boreal_19island_prepilot_contract_builder_v1_03.json",
+    "prepilot_freeze": "development/boreal_19island_prepilot_freeze_v1_04.json",
+    "protocol": "development/boreal_19island_v031_protocol_v1_03.json",
+    "quality_contract": "development/boreal_19island_v042_quality_contract_v1_03.json",
+    "prepilot_receipt": "development/boreal_19island_prepilot_receipt_v1_03.json",
+    "dryad_metadata": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json"
+  },
+  "required_prepilot_freeze": {
+    "schema": "structural.boreal_19island_prepilot_freeze.v1_04",
+    "status": "PREPILOT_CONTRACTS_COMMITTED_RESPONSE_SEALED",
+    "parent_intake_fingerprint": "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "protocol_fingerprint": "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314",
+    "quality_contract_fingerprint": "8ac0fe95901caae988673b3d8079b123fdac00573f749049eec3264b89906b58",
+    "protocol_file_sha256": "1b742e92d95e026b2d276746360a96e0562d4aeb88e3d12b20314d72e862c725",
+    "quality_contract_file_sha256": "249be60bd133b89c1b5a37015d105719abb04b720e7d6fc427a3590dce773a35",
+    "prepilot_receipt_file_sha256": "61b4c4bbd1f3ea7d662594ecd58dc09ba38db450fc884a0fabdfd619ffe3961b"
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "download_url": "https://datadryad.org/api/v2/files/4569032/download",
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_source_island_rows": 42,
+    "expected_species_columns": 466,
+    "response_domain": ["0", "1"]
+  },
+  "analysis_population": {
+    "island_count": 19,
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7,
+    "pilot_islands": ["DN", "FD", "HU", "IL", "IS", "PP"],
+    "confirmatory_islands": ["BB", "BT", "DF", "EB", "HF", "MI", "NH", "OS", "PR", "SF", "SK", "WD", "WF"],
+    "excluded_source_island_count": 23
+  },
+  "allowed_semantic_access_after_authorization": {
+    "species_header_names": true,
+    "routing_island_field_all_42_source_rows": true,
+    "pilot_analysis_island_occurrence_cells": true,
+    "confirmatory_analysis_island_occurrence_cells": false,
+    "excluded_nonanalysis_island_occurrence_cells": false
+  },
+  "router_requirements": {
+    "planned_implementation": "src/structural/boreal_19island_beetle_pilot_router.py",
+    "source_file_row_universe": "all 42 exact Dryad island rows",
+    "analysis_population": "exact frozen 19 islands from v1.02",
+    "pilot_semantic_population": "exact six frozen pilot islands only",
+    "nonanalysis_occurrence_rule": "discard occurrence bytes without UTF-8 decoding or numeric parsing",
+    "confirmatory_occurrence_rule": "discard occurrence bytes without UTF-8 decoding or numeric parsing",
+    "pilot_species_universe_rule": "species detected on at least two distinct frozen pilot islands",
+    "heldout_specific_species_universe_forbidden": true,
+    "confirmatory_target_values_parsed_must_equal": 0,
+    "excluded_target_values_parsed_must_equal": 0
+  },
+  "authorization_ceiling": {
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_BURNED_PILOT_RESPONSE",
+    "pilot_response_authorized": true,
+    "confirmatory_response_authorized": false,
+    "mechanism_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_evidence": false,
+    "authorization_consumed": false,
+    "next_action": "commit this exact authorization in a separate revision, then execute exactly one SHA-verified pilot router that semantically opens only the six frozen pilot-island occurrence rows"
+  },
+  "execution_authorized_now": false,
+  "reason": "this revision may construct an authorization artifact only; no biological response bytes may be downloaded or opened while building the authorization"
+}

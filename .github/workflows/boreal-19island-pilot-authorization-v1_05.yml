@@ -1,0 +1,107 @@
+name: Boreal 19-island pilot authorization v1.05
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_pilot_authorization_request_v1_05.json
+
+permissions:
+  contents: read
+
+jobs:
+  authorize-one-shot-pilot:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_pilot_authorization_request_v1_05.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_pilot_authorization_request.v1_05"
+          )
+          assert req["status"] == "REQUEST_RESPONSE_INDEPENDENT_PILOT_AUTHORIZATION"
+          assert req["candidate_id"] == (
+              "lac_la_ronge_boreal_19island_beetles_2026"
+          )
+          assert req["parent_intake_fingerprint"] == (
+              "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2"
+          )
+          assert req["protocol_fingerprint"] == (
+              "3a4bd6698780049918c634a5253ff1846c84e8d1c3281e26e2014d766ab90314"
+          )
+          assert req["quality_contract_fingerprint"] == (
+              "8ac0fe95901caae988673b3d8079b123fdac00573f749049eec3264b89906b58"
+          )
+          assert req["download_response"] is False
+          assert req["open_response"] is False
+          assert req["counts_as_empirical_evidence"] is False
+          assert req["one_shot"] is True
+          PY
+
+      - name: Build exact one-shot pilot authorization
+        run: |
+          mkdir -p build/boreal_v105
+          python scripts/authorize_boreal_19island_pilot_response_v1_05.py \
+            --output build/boreal_v105/pilot_authorization.json
+
+      - name: Assert authorization ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("build/boreal_v105")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          if observed != {"pilot_authorization.json"}:
+              raise SystemExit(
+                  f"unexpected v1.05 artifact surface: {sorted(observed)}"
+              )
+
+          x = json.loads(
+              (root / "pilot_authorization.json").read_text(encoding="utf-8")
+          )
+          assert x["status"] == (
+              "AUTHORIZED_ONE_SHOT_19ISLAND_BURNED_PILOT_RESPONSE"
+          )
+          assert x["pilot_response_authorized"] is True
+          assert x["confirmatory_response_authorized"] is False
+          assert x["mechanism_response_authorized"] is False
+          assert x["authorization_consumed"] is False
+          assert x["predictive_denominator_contribution"] == 0
+          assert x["counts_as_empirical_evidence"] is False
+          assert x["allowed_semantic_access"][
+              "confirmatory_analysis_island_occurrence_cells"
+          ] is False
+          assert x["allowed_semantic_access"][
+              "excluded_nonanalysis_island_occurrence_cells"
+          ] is False
+          PY
+
+      - name: Upload authorization only
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v105-pilot-authorization-${{ github.sha }}-${{ github.run_id }}
+          path: build/boreal_v105/pilot_authorization.json
+          if-no-files-found: error
+          retention-days: 7
