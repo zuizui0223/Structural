@@ -272,7 +272,7 @@ def test_response_identity_failure_is_preaccess_and_does_not_consume():
         contract,
     ) = synthetic_inputs()
 
-    tampered = response[:-1] + (b"\\r" if response[-1:] != b"\\r" else b"\\n")
+    tampered = response[:-1] + bytes([response[-1] ^ 1])
     assert len(tampered) == len(response)
     assert tampered != response
 
