@@ -1,0 +1,36 @@
+{
+  "schema": "structural.boreal_19island_preconfirmatory_freeze_request.v1_10",
+  "status": "REQUEST_EXACT_PRECONFIRMATORY_ARTIFACT_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-preconfirmatory-v1_09.yml",
+    "workflow_run_id": 36481729833,
+    "workflow_head_sha": "0f03431d98149c6c1114b3bf91a5d0592ef41716",
+    "artifact_id": 10996718466,
+    "artifact_name": "boreal-v109-preconfirmatory-0f03431d98149c6c1114b3bf91a5d0592ef41716-36481729833",
+    "artifact_digest": "sha256:188028a93b91f0f8dc00adbeda6c84c9be6510130c726649ba62864ea0b5b1b1"
+  },
+  "file_sha256": {
+    "confirmatory_predictions.csv": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "model_receipt.json": "be0ea3c8d277aff00533afd47177f47fba3209d49d80126debdd6817777b3393"
+  },
+  "expected_model_result": {
+    "status": "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE",
+    "models_fingerprint": "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff",
+    "prediction_surface_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "pilot_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+    "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "species_count": 99,
+    "training_row_count": 594,
+    "prediction_row_count": 1287,
+    "confirmatory_island_count": 13,
+    "confirmatory_block_count": 7,
+    "confirmatory_target_values_opened": 0,
+    "excluded_target_values_opened": 0,
+    "confirmatory_response_authorized": false,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_evidence": false
+  },
+  "one_shot": true
+}
