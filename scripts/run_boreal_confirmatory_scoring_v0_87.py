@@ -67,7 +67,13 @@ def _validate_pre_access(
     spatial_receipt: Mapping,
     response_bytes: bytes,
     contract: Mapping,
-) -> tuple[tuple[str, ...], tuple[str, ...], dict[str, str]]:
+    model_receipt_sha256: str,
+) -> tuple[
+    tuple[str, ...],
+    tuple[str, ...],
+    tuple[str, ...],
+    dict[str, str],
+]:
     required = contract["required_authorization"]
     if authorization.get("schema") != required["schema"]:
         raise BorealConfirmatoryExecutionError(
@@ -120,6 +126,28 @@ def _validate_pre_access(
         raise BorealConfirmatoryExecutionError(
             "v0.85 response ceiling violated"
         )
+
+    if authorization.get("source_model_receipt_sha256") != model_receipt_sha256:
+        raise BorealConfirmatoryExecutionError(
+            "model receipt SHA mismatch with v0.86 authorization"
+        )
+
+    parent_primary = model_receipt.get("primary_scoring")
+    if not isinstance(parent_primary, dict):
+        raise BorealConfirmatoryExecutionError(
+            "v0.85 primary scoring contract missing"
+        )
+    for key in (
+        "favourable_direction",
+        "bootstrap_replicates",
+        "bootstrap_seed",
+        "external_isolation_interaction_required",
+        "secondary_moderator_may_rescue_failed_primary",
+    ):
+        if parent_primary.get(key) != contract["primary"].get(key):
+            raise BorealConfirmatoryExecutionError(
+                f"v0.85/v0.87 primary scoring drift: {key}"
+            )
 
     prediction_sha = sha256_text(predictions_text)
     if prediction_sha != model_receipt.get("prediction_surface_sha256"):
@@ -194,6 +222,10 @@ def _validate_pre_access(
         raise BorealConfirmatoryExecutionError(
             "confirmatory block-count binding mismatch"
         )
+    if len(confirmatory_blocks) < 6:
+        raise BorealConfirmatoryExecutionError(
+            "confirmatory spatial support fell below frozen minimum"
+        )
 
     target = contract["response_file"]
     if len(response_bytes) != target["expected_size_bytes"]:
@@ -242,6 +274,7 @@ def execute(
     response_bytes: bytes,
     contract: Mapping,
     expected_islands: tuple[str, ...],
+    model_receipt_sha256: str,
 ) -> dict:
     species, pilot_blocks, confirmatory_blocks, mapping = _validate_pre_access(
         authorization=authorization,
@@ -251,6 +284,7 @@ def execute(
         spatial_receipt=spatial_receipt,
         response_bytes=response_bytes,
         contract=contract,
+        model_receipt_sha256=model_receipt_sha256,
     )
 
     # From this call onward, confirmatory authorization is irreversibly consumed.
@@ -375,7 +409,6 @@ def main() -> int:
     parser.add_argument("response_csv", type=Path)
     parser.add_argument("--contract", type=Path, default=DEFAULT_CONTRACT)
     parser.add_argument("--result", type=Path)
-    parser.add_argument("--target-surface", type=Path)
     args = parser.parse_args()
 
     try:
@@ -397,6 +430,9 @@ def main() -> int:
             response_bytes=response_bytes,
             contract=contract,
             expected_islands=load_universe(),
+            model_receipt_sha256=sha256_bytes(
+                args.model_receipt.read_bytes()
+            ),
         )
     except (
         OSError,
