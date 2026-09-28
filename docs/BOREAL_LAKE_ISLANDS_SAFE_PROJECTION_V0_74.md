@@ -36,7 +36,7 @@ For each habitat column, the decision rule is fixed before row access:
 1. all 42 values must be present, numeric and finite;
 2. complete zero-variance columns are excluded;
 3. complete nonconstant columns survive;
-4. population mean and population SD (denominator n=42) are frozen;
+4. population mean and population SD (denominator n=42) are frozen using Python `math.fsum` accumulation so row order cannot change the frozen constants;
 5. zero survivors → STOP before biological response;
 6. one survivor → later reference is its population z-score;
 7. two or more survivors → later reference follows the already-frozen v0.68
