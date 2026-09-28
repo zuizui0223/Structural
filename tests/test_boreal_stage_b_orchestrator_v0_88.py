@@ -41,7 +41,7 @@ def test_workflow_runs_only_manually_on_main_and_binds_manifest_lineage():
         'git ls-files --error-unmatch "$MANIFEST" >/dev/null'
         in text
     )
-    assert "git", "merge-base", "--is-ancestor"" in text
+    assert '"git", "merge-base", "--is-ancestor"' in text
     assert (
         "development/boreal_lake_islands_header_manifest_freeze_result.json"
         in text
