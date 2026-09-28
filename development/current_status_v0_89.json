@@ -1,0 +1,44 @@
+{
+  "schema": "structural.current_status.v0_89",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_88.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "macro_core": {
+    "preregistration": "development/macro_dual_isolation_preregistration_v0_89.json",
+    "mammals": "global_island_native_mammals_barreto_2024",
+    "plants": "gift_native_angiosperm_islands_v3_2",
+    "status": "two_taxon_response_sealed_preselection"
+  },
+  "artifact_retention": {
+    "aislands_actions_expiry": "2026-11-10T04:42:52Z",
+    "outside_actions_backup_verified": true,
+    "status": "mitigated_no_repeat_needed"
+  },
+  "global_mammals": {
+    "status": "READY_authenticated_routing_transport_not_executed",
+    "contract": "development/global_mammals_authenticated_routing_contract_v0_89.json",
+    "response_occurrence_values_opened": false,
+    "species_headers_opened": false,
+    "routing_ids_opened": false
+  },
+  "gift_plants": {
+    "status": "READY_metadata_only_freeze_not_executed",
+    "contract": "development/gift_metadata_freeze_contract_v0_89.json",
+    "species_composition_requested": false
+  },
+  "boreal": {
+    "status": "supplementary_local_contrast_hold",
+    "macro_core": false,
+    "prior_v0_88_work_preserved": true
+  },
+  "ecological_rationale": "The macro test now targets the v0.55 distinction between external island isolation and species-specific internal source isolation at global scale in two taxonomic systems. All source features are leave-block-out, and R3 explicitly includes species-by-regional-pool structure so candidate continuity is tested beyond regional membership rather than inheriting it as hidden signal.",
+  "next_valid_scientific_event": "merge v0.89, execute the authenticated mammal routing-ID workflow and GIFT metadata-only workflow, commit their receipts, finish the response-independent mammal overlap gate and GIFT archipelago selection, then freeze one joint two-system pre-response analysis contract",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_89.json",
+    "status": "global_mammals_plus_GIFT_macro_core"
+  }
+}
