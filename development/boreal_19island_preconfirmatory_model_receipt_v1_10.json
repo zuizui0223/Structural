@@ -1,0 +1,254 @@
+{
+  "base_standardization": {
+    "LOG_AREA_Z": {
+      "mean_hex": "-0x1.2b5e50d79435ep-53",
+      "sd_hex": "0x1.ffffffffffffep-1"
+    },
+    "LOG_MAINLAND_DISTANCE_Z": {
+      "mean_hex": "0x1.7435e50d79436p-55",
+      "sd_hex": "0x1.0000000000000p+0"
+    },
+    "PC1": {
+      "mean_hex": "0x1.5e50d79435e51p-54",
+      "sd_hex": "0x1.8b1828f3123d2p+0"
+    },
+    "PC2": {
+      "mean_hex": "-0x1.5e50d79435e51p-57",
+      "sd_hex": "0x1.4a482a3b0857ap+0"
+    },
+    "PC3": {
+      "mean_hex": "-0x1.3ca1af286bca2p-54",
+      "sd_hex": "0x1.f4b6dfe0d430dp-1"
+    },
+    "TSF_Z": {
+      "mean_hex": "-0x1.0f286bca1af28p-53",
+      "sd_hex": "0x1.0000000000000p+0"
+    },
+    "graph_closeness_per_km": {
+      "mean_hex": "0x1.54ddb03b6e414p-6",
+      "sd_hex": "0x1.1c06a60705009p-8"
+    },
+    "graph_degree_fraction": {
+      "mean_hex": "0x1.a32e68cb9a32ep-3",
+      "sd_hex": "0x1.88218ca133536p-5"
+    },
+    "graph_mean_shortest_path_km": {
+      "mean_hex": "0x1.92337614fdfdcp+5",
+      "sd_hex": "0x1.578deb4a68b4dp+3"
+    }
+  },
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "confirmatory_block_count": 7,
+  "confirmatory_island_count": 13,
+  "confirmatory_response_authorized": false,
+  "confirmatory_target_values_opened": 0,
+  "counts_as_empirical_evidence": false,
+  "effect_size": null,
+  "excluded_target_values_opened": 0,
+  "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+  "models": {
+    "C": {
+      "coefficients_hex": [
+        "0x1.68a62e580b1afp-1",
+        "0x1.a35c2cf98fadfp-3",
+        "-0x1.89ea3b4a5de70p-4",
+        "0x1.9dde4f1777a44p-7",
+        "0x1.be1cb0262e4e7p-4",
+        "-0x1.3ac34c0e4831bp-3",
+        "-0x1.06fa9b74c0cfbp-5",
+        "0x1.c382f68526adep-10",
+        "-0x1.19fdef378e715p-4",
+        "0x1.75b05093ffbcfp-5",
+        "0x1.a6715ea96440dp-1",
+        "-0x1.35dbaa8e7d29fp-2",
+        "-0x1.6de846b489f83p-3",
+        "0x1.d001a4d06af5ep-3",
+        "-0x1.90e1f0fc871a9p-6"
+      ],
+      "columns": [
+        "intercept",
+        "z_PC1",
+        "z_PC2",
+        "z_PC3",
+        "z_TSF_Z",
+        "z_LOG_AREA_Z",
+        "z_LOG_MAINLAND_DISTANCE_Z",
+        "z_graph_degree_fraction",
+        "z_graph_mean_shortest_path_km",
+        "z_graph_closeness_per_km",
+        "z_global_occupancy_logit",
+        "z_log1p_nearest_euclidean_source_km",
+        "z_log1p_euclidean_source_pressure",
+        "z_log1p_nearest_graph_path_km",
+        "z_log1p_graph_source_pressure"
+      ],
+      "final_max_abs_delta_hex": "0x1.862696c5acbf8p-28",
+      "iterations": 5,
+      "ridge_lambda_hex": "0x1.0000000000000p+0"
+    },
+    "R0": {
+      "coefficients_hex": [
+        "0x1.2eb0d8fef44f7p-2",
+        "-0x1.310cb9ad46feap-5",
+        "-0x1.52cda99d5bee8p-2",
+        "-0x1.436bf8728d770p-2",
+        "0x1.2e921615232edp-1"
+      ],
+      "columns": [
+        "intercept",
+        "z_PC1",
+        "z_PC2",
+        "z_PC3",
+        "z_TSF_Z"
+      ],
+      "final_max_abs_delta_hex": "0x1.c314301365563p-28",
+      "iterations": 4,
+      "ridge_lambda_hex": "0x1.0000000000000p+0"
+    },
+    "R1": {
+      "coefficients_hex": [
+        "0x1.169e77baebc0ap-1",
+        "0x1.67792daa4e592p-3",
+        "-0x1.fcd3505ddcb6cp-5",
+        "0x1.d2e8597cabff2p-7",
+        "0x1.f196739bb729fp-4",
+        "-0x1.0e35a4f04eb00p-3",
+        "0x1.3672f3975816ep-4"
+      ],
+      "columns": [
+        "intercept",
+        "z_PC1",
+        "z_PC2",
+        "z_PC3",
+        "z_TSF_Z",
+        "z_LOG_AREA_Z",
+        "z_LOG_MAINLAND_DISTANCE_Z"
+      ],
+      "final_max_abs_delta_hex": "0x1.c8b0e55184ff1p-28",
+      "iterations": 4,
+      "ridge_lambda_hex": "0x1.0000000000000p+0"
+    },
+    "R2": {
+      "coefficients_hex": [
+        "0x1.323f0056bbae1p-1",
+        "0x1.24a5ed55c6ccdp-3",
+        "-0x1.26df758f6bb52p-4",
+        "0x1.12b76a55a5d19p-6",
+        "0x1.60a0a0f20c3bdp-4",
+        "-0x1.1bbe05dea10c1p-3",
+        "-0x1.dfecaa3169b8ep-10",
+        "-0x1.6c5edce8b2908p-8",
+        "-0x1.fb1500a29655ap-5",
+        "0x1.7eccc59ddd641p-5"
+      ],
+      "columns": [
+        "intercept",
+        "z_PC1",
+        "z_PC2",
+        "z_PC3",
+        "z_TSF_Z",
+        "z_LOG_AREA_Z",
+        "z_LOG_MAINLAND_DISTANCE_Z",
+        "z_graph_degree_fraction",
+        "z_graph_mean_shortest_path_km",
+        "z_graph_closeness_per_km"
+      ],
+      "final_max_abs_delta_hex": "0x1.da1e8625aa6ccp-28",
+      "iterations": 4,
+      "ridge_lambda_hex": "0x1.0000000000000p+0"
+    },
+    "R3": {
+      "coefficients_hex": [
+        "0x1.6a79f38f33a5ap-1",
+        "0x1.a9bae6489a8f8p-3",
+        "-0x1.8d072717459d1p-4",
+        "0x1.273907b2b637ap-7",
+        "0x1.b979e3b76e4b2p-4",
+        "-0x1.3694ec4cdc863p-3",
+        "-0x1.0f9cb3eefd7c9p-5",
+        "0x1.9122b580c65aep-9",
+        "-0x1.1bb6c3618dcd7p-4",
+        "0x1.75bf9a2dcdc89p-5",
+        "0x1.a9050e0e798dfp-1",
+        "-0x1.7cdc5bd2a20dfp-4",
+        "-0x1.c6cda30920576p-3"
+      ],
+      "columns": [
+        "intercept",
+        "z_PC1",
+        "z_PC2",
+        "z_PC3",
+        "z_TSF_Z",
+        "z_LOG_AREA_Z",
+        "z_LOG_MAINLAND_DISTANCE_Z",
+        "z_graph_degree_fraction",
+        "z_graph_mean_shortest_path_km",
+        "z_graph_closeness_per_km",
+        "z_global_occupancy_logit",
+        "z_log1p_nearest_euclidean_source_km",
+        "z_log1p_euclidean_source_pressure"
+      ],
+      "final_max_abs_delta_hex": "0x1.6153f4284c05cp-28",
+      "iterations": 5,
+      "ridge_lambda_hex": "0x1.0000000000000p+0"
+    }
+  },
+  "models_fingerprint": "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff",
+  "next_action": "commit and exact-replay verify the complete 1287-row prediction surface and model receipt; only then may a separate one-shot confirmatory-response authorization be considered",
+  "pilot_island_count": 6,
+  "pilot_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+  "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+  "prediction_row_count": 1287,
+  "prediction_score": null,
+  "prediction_surface_columns": [
+    "island",
+    "block",
+    "species",
+    "p_R0_hex",
+    "p_R1_hex",
+    "p_R2_hex",
+    "p_R3_hex",
+    "p_C_hex"
+  ],
+  "prediction_surface_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+  "predictive_denominator_contribution": 0,
+  "primary_scoring": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "bootstrap_unit": "confirmatory v0.97 spatial block",
+    "estimand": "equal-weight mean across seven confirmatory v0.97 spatial blocks of within-block mean C-minus-R3 binary log loss",
+    "external_isolation_interaction_required": false,
+    "favourable_direction": "negative",
+    "quantile_method": "linear",
+    "secondary_moderator_may_rescue_failed_primary": false,
+    "support_rule": "point estimate < 0 and frozen cluster-bootstrap 95% upper confidence limit < 0"
+  },
+  "schema": "structural.boreal_19island_preconfirmatory_model_freeze.v1_09",
+  "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+  "source_standardization": {
+    "global_occupancy_logit": {
+      "mean_hex": "0x1.3edceb1f99ac5p-1",
+      "sd_hex": "0x1.3870b09cf4ef4p+0"
+    },
+    "log1p_euclidean_source_pressure": {
+      "mean_hex": "0x1.30ceb6e7e8c4ep-1",
+      "sd_hex": "0x1.5e372d2103a95p-2"
+    },
+    "log1p_graph_source_pressure": {
+      "mean_hex": "0x1.2d3e26b5c58c3p-1",
+      "sd_hex": "0x1.5ff857a4d19cep-2"
+    },
+    "log1p_nearest_euclidean_source_km": {
+      "mean_hex": "0x1.c483a9b03efcep+0",
+      "sd_hex": "0x1.24e1de9426fbdp+0"
+    },
+    "log1p_nearest_graph_path_km": {
+      "mean_hex": "0x1.c6909eaf56c09p+0",
+      "sd_hex": "0x1.27b0bf077f602p+0"
+    }
+  },
+  "species_count": 99,
+  "state_reference_sha256": "92296deda696e875b0ee171b2ea9a28f1297c50860fbc8750709ed7ddf5f3519",
+  "status": "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE",
+  "training_row_count": 594
+}

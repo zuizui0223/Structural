@@ -1,0 +1,53 @@
+{
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "confirmatory_authorization_may_be_built": true,
+  "exact_replay_verified": true,
+  "files": {
+    "confirmatory_predictions": {
+      "path": "development/boreal_19island_confirmatory_predictions_v1_10.csv",
+      "sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded"
+    },
+    "model_receipt": {
+      "path": "development/boreal_19island_preconfirmatory_model_receipt_v1_10.json",
+      "sha256": "be0ea3c8d277aff00533afd47177f47fba3209d49d80126debdd6817777b3393"
+    }
+  },
+  "model_result": {
+    "confirmatory_block_count": 7,
+    "confirmatory_island_count": 13,
+    "confirmatory_response_authorized": false,
+    "confirmatory_target_values_opened": 0,
+    "counts_as_empirical_evidence": false,
+    "excluded_target_values_opened": 0,
+    "models_fingerprint": "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff",
+    "pilot_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+    "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+    "prediction_row_count": 1287,
+    "prediction_surface_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "predictive_denominator_contribution": 0,
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "species_count": 99,
+    "status": "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE",
+    "training_row_count": 594
+  },
+  "next_action": "build a separately committed one-shot confirmatory-response authorization bound to these exact 1287 predictions, model fingerprint and v1.10 file SHA-256 values",
+  "response_boundary": {
+    "confirmatory_response_authorized": false,
+    "confirmatory_response_opened": false,
+    "confirmatory_target_values_opened": 0,
+    "counts_as_empirical_evidence": false,
+    "excluded_target_values_opened": 0,
+    "pilot_response_already_consumed": true,
+    "predictive_denominator_contribution": 0
+  },
+  "schema": "structural.boreal_19island_preconfirmatory_freeze.v1_10",
+  "source_execution": {
+    "artifact_digest": "sha256:188028a93b91f0f8dc00adbeda6c84c9be6510130c726649ba62864ea0b5b1b1",
+    "artifact_id": 10996718466,
+    "artifact_name": "boreal-v109-preconfirmatory-0f03431d98149c6c1114b3bf91a5d0592ef41716-36481729833",
+    "workflow": ".github/workflows/boreal-19island-preconfirmatory-v1_09.yml",
+    "workflow_head_sha": "0f03431d98149c6c1114b3bf91a5d0592ef41716",
+    "workflow_run_id": 36481729833
+  },
+  "status": "PRECONFIRMATORY_MODELS_AND_PREDICTIONS_COMMITTED"
+}
