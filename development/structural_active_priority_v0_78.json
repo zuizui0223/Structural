@@ -1,0 +1,24 @@
+{
+  "schema": "structural.active_priority.v0_78",
+  "status": "main_only_stage_A_then_manifest_freeze",
+  "supersedes": "development/structural_active_priority_v0_77.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "obtain a main-branch Stage-A artifact with explicit run provenance, then freeze its exact header manifests before any row projection",
+  "prepared_sequence": [
+    "v0.78 main-only secure manual Stage A",
+    "v0.78 JSON-only provenance/header-manifest freeze",
+    "v0.74 safe geometry/habitat projection",
+    "v0.75 response-independent spatial partition",
+    "v0.76 deterministic habitat reference",
+    "construct and validate exact v0.12 intake",
+    "v0.31 plus v0.42 construction only"
+  ],
+  "prohibited": [
+    "use a Stage-A artifact from a non-main ref",
+    "freeze a manifest when Stage-A receipt boundaries do not exactly pass",
+    "authorize safe-row projection without a separate manifest-freeze artifact",
+    "open biological response before v0.12 intake and later pilot authorization gates"
+  ]
+}
