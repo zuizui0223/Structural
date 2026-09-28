@@ -1,0 +1,28 @@
+{
+  "schema": "structural.active_priority.v0_78",
+  "status": "stage_A_human_gate_with_source_operator_frozen",
+  "supersedes": "development/structural_active_priority_v0_77.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual Stage-A gate; all response-independent geometry, habitat, truthful intake and R2/R3/C source-operator definitions are now prospectively frozen",
+  "frozen_primary_increment": "C minus R3 heldout log loss, where C adds only occupied_component_frequency",
+  "strong_reference": [
+    "R2 generic island geometry/network context",
+    "R3 global occupied fraction",
+    "R3 nearest training presence",
+    "R3 diffuse multi-source pressure",
+    "R3 area-weighted source pressure"
+  ],
+  "diagnostic_only": [
+    "direct_occupied_neighbor_frequency",
+    "multi_hop_only_frequency"
+  ],
+  "prohibited": [
+    "select source scales using beetle outcomes",
+    "promote multi_hop_only_frequency to the primary C feature after outcomes",
+    "drop nearest-source or diffuse-source R3 terms after seeing C performance",
+    "use focal training response as its own source anchor",
+    "reinterpret connected frequency as dispersal or colonization probability"
+  ]
+}
