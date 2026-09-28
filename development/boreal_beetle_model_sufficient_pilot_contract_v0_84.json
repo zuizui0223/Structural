@@ -1,0 +1,60 @@
+{
+  "schema": "structural.boreal_beetle_model_sufficient_pilot_contract.v0_84",
+  "status": "canonical_future_one_shot_pilot_executor_predeclared_not_executed",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "supersedes_before_first_real_execution": "development/boreal_beetle_one_shot_pilot_contract_v0_82.json",
+  "supersession_reason": "v0.82 preserved pilot estimability and the fixed species universe but not the island-by-species pilot response matrix needed to fit a response-frozen confirmatory R3/C model without reopening pilot response",
+  "parents": [
+    "development/boreal_beetle_pilot_response_authorization_contract_v0_81.json",
+    "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json",
+    "development/boreal_dual_isolation_operator_contract_v0_83.json",
+    "development/response_quality_attrition_gate_v0_42.json"
+  ],
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "download_url": "https://datadryad.org/api/v2/files/4569032/download",
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_species_columns": 466
+  },
+  "pre_access": {
+    "authorization_schema": "structural.boreal_beetle_pilot_response_authorization.v0_81",
+    "authorization_status": "AUTHORIZED_ONE_SHOT_BURNED_PILOT_RESPONSE",
+    "authorization_must_be_unconsumed": true,
+    "exact_size_and_sha_required_before_semantic_open": true,
+    "transport_or_identity_failure_consumes_authorization": false
+  },
+  "semantic_access": {
+    "header_species_names": true,
+    "all_island_routing_fields": true,
+    "pilot_occurrence_cells": true,
+    "confirmatory_occurrence_cells": false,
+    "confirmatory_target_values_parsed_required": 0,
+    "single_semantic_router_pass_required": true
+  },
+  "model_snapshot": {
+    "schema": "structural.boreal_beetle_pilot_training_snapshot.v0_84",
+    "species_universe": "exact common v0.82/v0.84 rule: species detected on at least two distinct frozen pilot islands",
+    "pilot_island_order": "v0.75 pilot blocks in frozen order, island IDs sorted within block",
+    "target_encoding": "one fixed-width hexadecimal bitstring per pilot island over the frozen species order",
+    "bit_padding": "left zero padding only; nonzero padding is invalid",
+    "island_to_block_required": true,
+    "response_file_sha_required": true,
+    "raw_pilot_surface_sha_required": true,
+    "confirmatory_occurrence_values_in_snapshot": false,
+    "purpose": "permit later confirmatory model/prediction freezing from the already-consumed pilot without any second semantic opening of the pilot response file"
+  },
+  "qualified_ceiling": {
+    "status": "QUALIFIED_TO_FREEZE_CONFIRMATORY_PROTOCOL_WITH_MODEL_SNAPSHOT",
+    "eligible_action": "freeze_confirmatory_protocol_and_predictions_only",
+    "confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_evidence": false
+  },
+  "post_access_terminal_rule": "any router/domain/v0.32/v0.42 failure consumes the one-shot authorization and terminates the protocol version; snapshot may be retained for audit but may not authorize confirmatory work",
+  "execution_authorized_now": false,
+  "reason": "real v0.81 authorization and exact response bytes do not yet exist; v0.84 replaces v0.82 prospectively before the first real pilot opening"
+}
