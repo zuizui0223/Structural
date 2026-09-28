@@ -1,0 +1,22 @@
+{
+  "schema": "structural.active_priority.v0_86",
+  "status": "exact_replay_then_minimal_confirmatory_access",
+  "supersedes": "development/structural_active_priority_v0_85.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "authorize at most one confirmatory read only after exact replay of the frozen R0-R3-C prediction surface, and expose only fixed-species confirmatory cells",
+  "prepared_sequence": [
+    "v0.85 exact model/prediction freeze",
+    "v0.86 exact-replay one-shot confirmatory authorization",
+    "fixed-species confirmatory byte router",
+    "future frozen scorer for block-weighted C-minus-R3"
+  ],
+  "prohibited": [
+    "decode pilot occurrence cells during confirmatory access",
+    "decode confirmatory non-focal species",
+    "refit any model after authorization",
+    "authorize if v0.85 predictions do not exact-replay",
+    "score or interpret response during authorization itself"
+  ]
+}
