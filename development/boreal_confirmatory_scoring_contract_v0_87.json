@@ -37,14 +37,14 @@
     "nonfocal_confirmatory_target_values_parsed_required": 0
   },
   "primary": {
-    "estimand": "equal-weight mean across frozen v0.75 confirmatory spatial blocks of within-block mean C-minus-R3 binary log loss",
+    "estimand": "equal-weight mean across confirmatory spatial blocks of within-block mean C-minus-R3 binary log loss",
     "favourable_direction": "negative",
     "support_rule": "point estimate < 0 and 95% block-bootstrap upper confidence limit < 0",
-    "bootstrap_unit": "frozen v0.75 confirmatory spatial block",
+    "bootstrap_unit": "confirmatory v0.75 spatial block",
     "bootstrap_replicates": 10000,
     "bootstrap_seed": 20260928,
-    "bootstrap_index_rule": "SHA256(seed|replicate|draw), take first 8 bytes as big-endian integer, modulo number of confirmatory blocks",
-    "quantile_method": "linear type-7 at 0.025 and 0.975",
+    "bootstrap_index_rule": "SHA256(seed|replicate|draw), take first 8 bytes as big-endian integer, modulo number of confirmatory blocks; linear quantiles use type-7 interpolation",
+    "quantile_method": "linear",
     "external_isolation_interaction_required": false,
     "secondary_moderator_may_rescue_failed_primary": false
   },
