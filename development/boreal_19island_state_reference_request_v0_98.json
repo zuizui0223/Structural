@@ -1,0 +1,11 @@
+{
+  "schema": "structural.boreal_19island_state_reference_request.v0_98",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_STATE_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "reuse_v076_habitat_rule_without_tuning": true,
+  "exact_19island_universe_source": "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+  "external_state_source": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
