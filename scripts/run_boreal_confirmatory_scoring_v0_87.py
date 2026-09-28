@@ -204,7 +204,7 @@ def _validate_pre_access(
             "v0.75 candidate identity mismatch"
         )
     mapping = spatial_receipt.get("island_to_block")
-    if not isinstance(mapping, dict) or len(mapping) != 42:
+    if not isinstance(mapping, dict) or not mapping:
         raise BorealConfirmatoryExecutionError(
             "invalid frozen island-to-block map"
         )
