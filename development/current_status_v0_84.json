@@ -1,0 +1,33 @@
+{
+  "schema": "structural.current_status.v0_84",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_83.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "canonical_pilot_executor_contract": "development/boreal_beetle_model_sufficient_pilot_contract_v0_84.json",
+    "canonical_pilot_executor_cli": "scripts/run_boreal_beetle_pilot_v0_84.py",
+    "superseded_unexecuted_executor": "development/boreal_beetle_one_shot_pilot_contract_v0_82.json",
+    "stage_A_workflow_executed": false,
+    "pilot_response_consumed": false,
+    "model_sufficient_pilot_snapshot_exists": false,
+    "confirmatory_response_values_opened": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "A qualified burned pilot is not only a feasibility gate; it is also the only response source permitted for fitting the eventual confirmatory model. v0.84 therefore preserves the fixed pilot-supported species universe together with the exact pilot island-by-species binary matrix during the same one-shot semantic opening. This closes the otherwise unavoidable route of reopening pilot response after admission.",
+  "next_valid_scientific_event": "clear the response-independent chain, freeze v0.83, issue v0.81 authorization, and use v0.84—not v0.82—for the first and only real pilot opening so both admission and a model-sufficient pilot snapshot are frozen together",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_84.json",
+    "status": "one_shot_pilot_must_preserve_model_sufficient_training_snapshot"
+  }
+}
