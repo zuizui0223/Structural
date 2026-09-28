@@ -1,0 +1,57 @@
+{
+  "schema": "structural.boreal_19island_spatial_partition_contract.v0_97",
+  "status": "LEGACY_V075_SPATIAL_RULE_REUSED_WITHOUT_TUNING",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": [
+    "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "development/boreal_lake_islands_spatial_partition_contract_v0_75.json"
+  ],
+  "input": {
+    "geometry_path": "development/boreal_19island_safe_geometry_v0_97.csv",
+    "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+    "island_count": 19
+  },
+  "legacy_rule_source": {
+    "path": "development/boreal_lake_islands_spatial_partition_contract_v0_75.json",
+    "rule_changed_after_19island_geometry_seen": false
+  },
+  "radius_rule": {
+    "quantiles": [
+      "q25",
+      "q50",
+      "q75",
+      "q90"
+    ],
+    "quantile_definition": "Hyndman-Fan type 7 / R default linear interpolation",
+    "rounding": "round each quantile upward to the next 0.1 km",
+    "graph": "undirected edge when pairwise haversine distance <= rounded radius",
+    "candidate_selection_order": [
+      "q90",
+      "q75",
+      "q50",
+      "q25"
+    ],
+    "selection": "choose the coarsest listed radius retaining at least 9 connected components",
+    "if_none": "STOP before biological response"
+  },
+  "partition_rule": {
+    "minimum_total_blocks": 9,
+    "minimum_pilot_blocks": 3,
+    "minimum_confirmatory_blocks": 6,
+    "pilot_fraction": 0.2,
+    "ranking_salt": "boreal-v0.75-pilot-split"
+  },
+  "response_independence": {
+    "species_occurrence_used": false,
+    "richness_used": false,
+    "habitat_values_used": false,
+    "pilot_response_used": false,
+    "confirmatory_response_used": false,
+    "post_geometry_threshold_tuning_authorized": false
+  },
+  "success_ceiling": {
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  }
+}
