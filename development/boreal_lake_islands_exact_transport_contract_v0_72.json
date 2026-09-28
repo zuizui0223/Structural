@@ -1,0 +1,57 @@
+{
+  "schema": "structural.boreal_lake_islands_exact_transport_contract.v0_72",
+  "status": "exact_authenticated_transport_predeclared_not_executed",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/boreal_lake_islands_header_freeze_contract_v0_71.json"
+  ],
+  "purpose": "transport only the two already-frozen mixed geometry/habitat files as opaque bytes, verify exact identity, and stop before header or row semantics",
+  "authentication": {
+    "provider": "Dryad API",
+    "token_source": "DRYAD_TOKEN environment variable only",
+    "token_on_command_line_forbidden": true,
+    "token_in_receipt_forbidden": true,
+    "token_in_logs_forbidden": true,
+    "cross_host_redirect_authorization_forwarding_forbidden": true
+  },
+  "targets": {
+    "alpha_diversity_ALL_islands.csv": {
+      "dryad_file_id": 4569034,
+      "download_url": "https://datadryad.org/api/v2/files/4569034/download",
+      "expected_size_bytes": 3441,
+      "expected_sha256": "f63b37b3c4c9d5453c53b0b565c4bfb7b8485e017f257fbeea663b20cbf6bddf"
+    },
+    "RDA_environmental_variables.csv": {
+      "dryad_file_id": 4569033,
+      "download_url": "https://datadryad.org/api/v2/files/4569033/download",
+      "expected_size_bytes": 8594,
+      "expected_sha256": "30b296c8243d433b8c4aaa2e934dcb9d57b0f909094ad03cfc645babbab61046"
+    }
+  },
+  "transport_invariants": [
+    "no arbitrary URL argument",
+    "no arbitrary Dryad file-id argument",
+    "download to a temporary .part path",
+    "verify exact byte count and SHA-256 before atomic rename",
+    "delete partial or mismatched output",
+    "existing destination may be reused only after exact size and SHA-256 verification",
+    "do not decode CSV header or data rows",
+    "do not emit presigned redirect URLs",
+    "do not emit Authorization headers"
+  ],
+  "success_receipt": {
+    "status": "exact_mixed_file_bytes_verified",
+    "header_decoded": false,
+    "data_rows_semantically_opened": 0,
+    "safe_row_values_opened": false,
+    "biological_response_values_opened": false,
+    "counts_as_empirical_evidence": false,
+    "safe_row_projection_authorized": false,
+    "v0_11_intake_authorized": false
+  },
+  "next_gate_after_success": {
+    "script": "scripts/audit_boreal_mixed_headers_v0_71.py",
+    "rule": "run Stage A header-only audit, then commit header SHA/manifests in a separate revision before any safe-row projection"
+  }
+}
