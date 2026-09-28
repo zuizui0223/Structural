@@ -1,0 +1,53 @@
+{
+  "schema": "structural.independent_system_intake_contract.v0_12",
+  "status": "future_only_dual_isolation_bridge",
+  "supersedes_for_future_dual_isolation_intake": "development/independent_system_intake_contract_v0_11.json",
+  "historical_v0_10_modified": false,
+  "historical_v0_11_modified": false,
+  "purpose": "admit response-sealed static island systems under the frozen v0.55 dual-isolation source-pool hypothesis without falsely binding them to the superseded v0.3 extreme-isolation hypothesis or requiring temporal mechanism lanes",
+  "required_schema": "structural.independent_system_intake.v0_12",
+  "required_status": "response_sealed_dual_isolation_intake_draft",
+  "required_analysis_bindings": {
+    "structural_partition_contract": "development/transition_pilot_protocol_contract_v0_31.json",
+    "response_quality_gate": "development/response_quality_attrition_gate_v0_42.json",
+    "ecological_hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json"
+  },
+  "required_endpoint_design": {
+    "mode": "static_cross_sectional_occurrence",
+    "temporal_transition_required": false,
+    "whole_island_occupancy_claim_authorized": false,
+    "colonization_claim_authorized": false,
+    "rescue_persistence_claim_authorized": false
+  },
+  "mechanism_boundary": {
+    "mechanism_claim_requested": false,
+    "requested_mechanism_lanes": [],
+    "reason": "v0.55 fresh confirmation is a predictive structural-adequacy test; cross-sectional occurrence does not identify colonization, rescue/persistence or historical mechanisms"
+  },
+  "response_blind_support_required": {
+    "environment_predictor_metadata_available": true,
+    "safe_geometry_available": true,
+    "spatial_partition_frozen": true,
+    "habitat_reference_frozen": true
+  },
+  "successful_status": "eligible_to_construct_v0_31_and_v0_42_pre_pilot_contracts",
+  "successful_next_action": "construct_v0_31_protocol_then_bind_v0_42_quality_contract_only",
+  "successful_output_ceiling": {
+    "v0_31_protocol_construction_authorized": true,
+    "v0_42_quality_contract_construction_authorized": true,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "mechanism_response_authorized": false,
+    "mechanism_claim_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "mechanism_claim_contribution": 0,
+    "ttf_handoff_authorized": false
+  },
+  "legacy_boundary": {
+    "v0_11_replayed_v0_10_binding": "development/prospective_extreme_isolation_topology_hypothesis_v0_3.json",
+    "v0_55_supersedes_that_hypothesis_for_future_fresh_tests": true,
+    "future_dual_isolation_systems_must_not_mislabel_v0_55_as_v0_3_to_pass_intake": true
+  }
+}

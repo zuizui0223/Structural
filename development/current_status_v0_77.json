@@ -1,0 +1,41 @@
+{
+  "schema": "structural.current_status.v0_77",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_76.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "future_intake": {
+    "legacy_v0_11_status": "retained_for_historical_legacy_binding_only",
+    "dual_isolation_contract": "development/independent_system_intake_contract_v0_12.json",
+    "dual_isolation_validator": "scripts/validate_independent_system_intake_v0_12.py",
+    "reason": "v0.11 inherits the superseded v0.3 extreme-isolation hypothesis binding and cannot truthfully admit a v0.55 fresh static occurrence system"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_downstream_preintake_execution_pending",
+    "future_intake_version": "v0.12",
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "habitat_reference_executed": false,
+    "biological_response_values_opened": false,
+    "v0_12_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The admission machinery now matches the current ecology: v0.55 separates external geographic isolation from species-specific internal occupied-source isolation in a static island-assemblage endpoint. It no longer requires the boreal system to masquerade as the superseded extreme-isolation regime-switch hypothesis or to request temporal mechanism lanes that its cross-sectional response cannot identify.",
+  "next_valid_scientific_event": "clear v0.73 Stage A, freeze the header manifests, execute v0.74/v0.75/v0.76 response-independent preintake steps, then construct a real v0.12 intake draft from those exact receipts",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_77.json",
+    "status": "stage_A_human_gate_with_truthful_v055_intake_ready"
+  }
+}

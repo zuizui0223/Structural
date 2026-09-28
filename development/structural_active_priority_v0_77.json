@@ -1,0 +1,25 @@
+{
+  "schema": "structural.active_priority.v0_77",
+  "status": "stage_A_human_gate_with_truthful_v055_intake_ready",
+  "supersedes": "development/structural_active_priority_v0_76.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual Dryad Stage-A gate; after response-independent geometry/habitat execution, use the truthful v0.12 dual-isolation intake rather than the legacy v0.11/v0.3 binding",
+  "prepared_sequence": [
+    "v0.73 secure manual Stage A",
+    "separate exact header-manifest freeze",
+    "v0.74 safe geometry/habitat projection",
+    "v0.75 response-independent spatial partition",
+    "v0.76 deterministic response-independent habitat reference",
+    "construct exact v0.12 response-sealed dual-isolation intake",
+    "v0.31 plus v0.42 construction only",
+    "separate later authorization before burned pilot"
+  ],
+  "prohibited": [
+    "label the v0.55 boreal hypothesis as legacy v0.3 merely to pass v0.11",
+    "request M1/M2 temporal mechanism lanes for the static cross-sectional endpoint",
+    "treat a clean v0.12 intake as pilot-response authorization",
+    "open biological response before all preintake predictor/partition artifacts are frozen"
+  ]
+}
