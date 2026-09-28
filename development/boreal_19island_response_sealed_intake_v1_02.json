@@ -1,0 +1,161 @@
+{
+  "endpoint_design": {
+    "colonization_claim_authorized": false,
+    "endpoint_semantics": "beetle species detected in the standardized 30 x 30 m insular sampling assemblage on the frozen 19-island burn-window population, not complete whole-island occupancy",
+    "mechanism_claim_authorized": false,
+    "mode": "static_cross_sectional_occurrence",
+    "rescue_persistence_claim_authorized": false,
+    "whole_island_occupancy_claim_authorized": false
+  },
+  "mechanism_claim_requested": false,
+  "parent_freeze_sha256": {
+    "source_operator_freeze": "5ed5404def1a524679fe3bcd9e4566ae53667db947330571a8fbe88e26c14ae6",
+    "spatial_freeze": "205f43ef8087918af8ab9540eaaa56c69d29e3e801d0c7f929a5ef2f8eb5c305",
+    "state_freeze": "a2704646c804b382cd38cf2d2531e0996d5408f496de6c0a85344a1d15ee679c"
+  },
+  "population": {
+    "confirmatory_block_ids": [
+      "SC_343d012d58b2",
+      "SC_2f455671a546",
+      "SC_04cdabd0598f",
+      "SC_53a986e1b37a",
+      "SC_fc686c314491",
+      "SC_088d2e949e6e",
+      "SC_cfba9de3e226"
+    ],
+    "confirmatory_islands": [
+      "BB",
+      "BT",
+      "DF",
+      "EB",
+      "HF",
+      "MI",
+      "NH",
+      "OS",
+      "PR",
+      "SF",
+      "SK",
+      "WD",
+      "WF"
+    ],
+    "island_count": 19,
+    "island_order": [
+      "BB",
+      "BT",
+      "DF",
+      "DN",
+      "EB",
+      "FD",
+      "HF",
+      "HU",
+      "IL",
+      "IS",
+      "MI",
+      "NH",
+      "OS",
+      "PP",
+      "PR",
+      "SF",
+      "SK",
+      "WD",
+      "WF"
+    ],
+    "island_to_block": {
+      "BB": "SC_fc686c314491",
+      "BT": "SC_2f455671a546",
+      "DF": "SC_2f455671a546",
+      "DN": "SC_7d7dc2dd44ae",
+      "EB": "SC_cfba9de3e226",
+      "FD": "SC_7d7dc2dd44ae",
+      "HF": "SC_088d2e949e6e",
+      "HU": "SC_1d9ef1dca674",
+      "IL": "SC_0318f99b7680",
+      "IS": "SC_0318f99b7680",
+      "MI": "SC_04cdabd0598f",
+      "NH": "SC_088d2e949e6e",
+      "OS": "SC_343d012d58b2",
+      "PP": "SC_7d7dc2dd44ae",
+      "PR": "SC_04cdabd0598f",
+      "SF": "SC_04cdabd0598f",
+      "SK": "SC_04cdabd0598f",
+      "WD": "SC_2f455671a546",
+      "WF": "SC_53a986e1b37a"
+    },
+    "pilot_block_ids": [
+      "SC_7d7dc2dd44ae",
+      "SC_1d9ef1dca674",
+      "SC_0318f99b7680"
+    ],
+    "pilot_islands": [
+      "DN",
+      "FD",
+      "HU",
+      "IL",
+      "IS",
+      "PP"
+    ]
+  },
+  "prepilot_design": {
+    "v0_31": {
+      "endpoint_id": "fixed_pilot_supported_beetle_plot_occurrence_19island",
+      "heldout_design_id": "leave_one_spatial_component_out_fixed_pilot_supported_species_universe_19island",
+      "minimum_estimable_blocks": 3,
+      "minimum_test_rows": 3,
+      "minimum_train_negative": 5,
+      "minimum_train_positive": 5,
+      "partition_axis": "response_independent_19island_spatial_components_v097",
+      "species_universe_rule": "after opening burned-pilot response only, include beetle species detected on at least two distinct frozen pilot islands and use the identical universe for every pilot held-out block"
+    },
+    "v0_42": {
+      "minimum_response_qualified_blocks": 3,
+      "post_open_rescue_forbidden": true
+    }
+  },
+  "response_boundary": {
+    "biological_response_values_accessed": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "mechanism_response_authorized": false,
+    "pilot_response_authorized": false,
+    "predictive_denominator_contribution": 0
+  },
+  "response_file": {
+    "analysis_population_island_count": 19,
+    "dryad_file_id": 4569032,
+    "full_file_island_count_reported": 42,
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "opened": false,
+    "sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "size_bytes": 49005
+  },
+  "response_firewall_state": "response_sealed",
+  "response_values_accessed": false,
+  "schema": "structural.boreal_19island_response_sealed_intake.v1_02",
+  "source_fingerprint": "4cfa0ae0af157c2a49f886ce95f577ec8e785497ab68f3125ef0d87c869ed74e",
+  "source_id": "doi:10.5061/dryad.tdz08kq78",
+  "source_operator": {
+    "cross_validation_block_edge_count": 21,
+    "edge_count": 35,
+    "fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "kernel_scale_km_hex": "0x1.4ccfd7aac74e4p+3",
+    "operator_file_sha256": "ab175b7ccd2179dde9f9eaa3018fe5cbea329c162872a001f3114fd6201e8bdf",
+    "selected_k": 3
+  },
+  "source_version": "dryad-v7-version-id-422440",
+  "state_reference": {
+    "R0_columns": [
+      "PC1",
+      "PC2",
+      "PC3",
+      "TSF_Z"
+    ],
+    "R1_add_columns": [
+      "LOG_AREA_Z",
+      "LOG_MAINLAND_DISTANCE_Z"
+    ],
+    "path": "development/boreal_19island_state_reference_v0_99.csv",
+    "sha256": "92296deda696e875b0ee171b2ea9a28f1297c50860fbc8750709ed7ddf5f3519"
+  },
+  "status": "RESPONSE_SEALED_READY_FOR_PREPILOT_CONSTRUCTION",
+  "system_id": "lac_la_ronge_boreal_19island_beetles_2026"
+}
