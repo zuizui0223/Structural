@@ -5,7 +5,8 @@
   "database": {
     "package": "GIFT",
     "database_version": "3.2",
-    "api": "https://gift.uni-goettingen.de/api/extended/"
+    "api": "https://gift.uni-goettingen.de/api/extended/",
+    "package_version": "1.3.4"
   },
   "call": {
     "function": "GIFT_checklists",
@@ -16,7 +17,8 @@
     "geo_type": "Island",
     "suit_geo": true,
     "remove_overlap": false,
-    "list_set_only": true
+    "list_set_only": true,
+    "GIFT_version": "3.2"
   },
   "rationale": "native angiosperms are used because GIFT's suitability assessment is explicitly maintained for native angiosperm regional coverage; metadata-only retrieval permits island/checklist selection without opening species composition",
   "allowed_outputs": [
