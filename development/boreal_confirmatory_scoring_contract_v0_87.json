@@ -1,0 +1,74 @@
+{
+  "schema": "structural.boreal_confirmatory_scoring_contract.v0_87",
+  "status": "one_shot_confirmatory_scorer_predeclared_not_executed",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "development/boreal_preconfirmatory_model_contract_v0_85.json",
+    "development/boreal_confirmatory_response_authorization_contract_v0_86.json"
+  ],
+  "required_authorization": {
+    "schema": "structural.boreal_confirmatory_response_authorization.v0_86",
+    "status": "AUTHORIZED_ONE_SHOT_CONFIRMATORY_RESPONSE",
+    "confirmatory_response_authorized": true,
+    "authorization_consumed": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "counts_as_empirical_evidence": false
+  },
+  "required_model_freeze": {
+    "schema": "structural.boreal_preconfirmatory_model_freeze.v0_85",
+    "status": "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE",
+    "confirmatory_target_values_opened": 0,
+    "confirmatory_response_authorized": false
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0"
+  },
+  "semantic_access": {
+    "router": "src/structural/boreal_confirmatory_router.py",
+    "confirmatory_fixed_species_occurrence_cells": true,
+    "confirmatory_nonfocal_species_occurrence_cells": false,
+    "pilot_island_occurrence_cells": false,
+    "pilot_target_values_parsed_required": 0,
+    "nonfocal_confirmatory_target_values_parsed_required": 0
+  },
+  "primary": {
+    "estimand": "equal-weight mean across frozen v0.75 confirmatory spatial blocks of within-block mean C-minus-R3 binary log loss",
+    "favourable_direction": "negative",
+    "support_rule": "point estimate < 0 and 95% block-bootstrap upper confidence limit < 0",
+    "bootstrap_unit": "frozen v0.75 confirmatory spatial block",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "bootstrap_index_rule": "SHA256(seed|replicate|draw), take first 8 bytes as big-endian integer, modulo number of confirmatory blocks",
+    "quantile_method": "linear type-7 at 0.025 and 0.975",
+    "external_isolation_interaction_required": false,
+    "secondary_moderator_may_rescue_failed_primary": false
+  },
+  "execution_rules": {
+    "transport_or_identity_failure_before_semantic_access_consumes_authorization": false,
+    "once_confirmatory_router_begins_authorization_is_consumed": true,
+    "any post-access domain_or_join_failure_is_terminal": true,
+    "model_refit_after_authorization": false,
+    "prediction_surface_change_after_authorization": false,
+    "rerun_after_post_access_failure": false
+  },
+  "valid_completion": {
+    "fresh_system_denominator_contribution": 1,
+    "counts_as_fresh_confirmatory_evidence": true,
+    "counts_as_primary_confirmatory_evidence": true,
+    "confirmatory_response_authorized_after_completion": false,
+    "authorization_consumed": true
+  },
+  "interpretation": {
+    "supported_status": "PRIMARY_SUPPORTED_INTERNAL_SOURCE_ISOLATION_NONREDUNDANT",
+    "not_supported_status": "PRIMARY_NOT_SUPPORTED_INTERNAL_SOURCE_ISOLATION_NONREDUNDANT",
+    "secondary_analysis_may_change_status": false,
+    "mechanism_claim_authorized": false
+  },
+  "execution_authorized_now": false,
+  "reason": "real v0.86 authorization and frozen prediction surface do not yet exist; this revision freezes the irreversible scoring rule only"
+}
