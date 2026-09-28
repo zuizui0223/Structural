@@ -1,0 +1,42 @@
+{
+  "schema": "structural.boreal_19island_confirmatory_authorization_freeze.v1_12",
+  "status": "CONFIRMATORY_AUTHORIZATION_COMMITTED_BY_FINGERPRINT_RESPONSE_UNOPENED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-confirmatory-authorization-v1_11.yml",
+    "run_id": 36483040760,
+    "head_sha": "7e86ced326f00f7cb57b60862b6459c15d879a8f",
+    "artifact_id": 10997491142,
+    "artifact_digest": "sha256:98f2f28553137df56747037ebe27da8478011c47a88ebe384d4b7789591b4316"
+  },
+  "authorization": {
+    "path": "development/boreal_19island_confirmatory_authorization_v1_12.json",
+    "schema": "structural.boreal_19island_confirmatory_response_authorization.v1_11",
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_CONFIRMATORY_RESPONSE",
+    "authorization_fingerprint": "9c298caa914dac454ff5cda3229abbdc971e299791e6dc582c83a10f1a12146d",
+    "authorization_json_sha256": "0b5bd2fefdc7fdfa2d0e0384fd97d70ed6185196be4e331250ade20fa89c9791",
+    "prediction_surface_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "models_fingerprint": "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff",
+    "fixed_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5"
+  },
+  "population": {
+    "full_source_island_count": 42,
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "excluded_island_count": 23,
+    "confirmatory_block_count": 7,
+    "fixed_species_count": 99,
+    "confirmatory_target_count": 1287
+  },
+  "response_boundary": {
+    "response_file_downloaded_by_authorization_workflow": false,
+    "response_values_opened": false,
+    "confirmatory_response_authorized": true,
+    "authorization_consumed": false,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0
+  },
+  "scoring_execution_may_be_built": true,
+  "next_action": "build a separate retry-closed one-shot confirmatory scorer that exact-replays the v1.11 authorization before downloading the frozen response bytes; consume authorization at the first semantic confirmatory open and parse exactly 1287 fixed-species targets while pilot, excluded and non-focal occurrence cells remain opaque"
+}
