@@ -79,6 +79,8 @@ def _validate_intake_and_receipt(
     endpoint = intake.get("endpoint_design")
     if not isinstance(endpoint, dict) or endpoint.get("mode") != "static_cross_sectional_occurrence":
         raise BorealPrepilotBuilderError("v0.12 endpoint is not static occurrence")
+    if endpoint.get("endpoint_semantics") != contract["required_intake_endpoint_semantics"]:
+        raise BorealPrepilotBuilderError("v0.12 endpoint semantics drift")
 
     if receipt.get("schema") != "structural.independent_system_intake_receipt.v0_12":
         raise BorealPrepilotBuilderError("unexpected v0.12 intake receipt schema")
