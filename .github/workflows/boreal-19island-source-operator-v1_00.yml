@@ -1,0 +1,75 @@
+name: Boreal 19-island source operator v1.00
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_source_operator_request_v1_00.json
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-source-operator:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src
+    steps:
+      - name: Checkout committed geometry, state and spatial freezes
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path(
+                  "development/boreal_19island_source_operator_request_v1_00.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_source_operator_request.v1_00"
+          )
+          assert x["status"] == "REQUEST_LEGACY_V083_SOURCE_OPERATOR_FREEZE"
+          assert x["reuse_v083_rule_without_tuning"] is True
+          assert x["exact_replay_v097_spatial_before_operator"] is True
+          assert x["biological_response_values_opened"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Exact-replay spatial split and freeze source operator
+        run: |
+          mkdir -p build/boreal_v100
+          python scripts/freeze_boreal_19island_dual_isolation_operator_v1_00.py \
+            --output-operator build/boreal_v100/source_operator.json \
+            --receipt build/boreal_v100/source_operator_receipt.json
+
+      - name: Assert operator-only artifact surface
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("build/boreal_v100")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {"source_operator.json", "source_operator_receipt.json"}
+          if observed != expected:
+              raise SystemExit(f"unexpected v1.00 artifact surface: {sorted(observed)}")
+          PY
+
+      - name: Upload response-independent source operator
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v100-source-operator-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v100/source_operator.json
+            build/boreal_v100/source_operator_receipt.json
+          if-no-files-found: error
+          retention-days: 14

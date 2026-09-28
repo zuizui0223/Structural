@@ -1,0 +1,83 @@
+{
+  "schema": "structural.boreal_19island_spatial_partition_freeze.v1_00",
+  "status": "SPATIAL_PARTITION_COMMITTED_RESPONSE_INDEPENDENTLY",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-spatial-partition-v0_97.yml",
+    "run_id": 36411201617,
+    "head_sha": "69ad00ae308687e2402191f294cd374b7c526743",
+    "artifact_id": 10964089317,
+    "artifact_digest": "sha256:c42ef6578fa7f35ff76da0cae10ee41d9b07c99194d68b4f437b21c3ac316afd",
+    "receipt_sha256": "55c8b86984d0c38d2d25c8d0b271a17819753c16fd583f6870f5fc84bb2c2313"
+  },
+  "source_geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+  "selected_quantile": "q75",
+  "selected_radius_km": 7.4,
+  "spatial_block_count": 10,
+  "pilot_block_ids": [
+    "SC_7d7dc2dd44ae",
+    "SC_1d9ef1dca674",
+    "SC_0318f99b7680"
+  ],
+  "confirmatory_block_ids": [
+    "SC_343d012d58b2",
+    "SC_2f455671a546",
+    "SC_04cdabd0598f",
+    "SC_53a986e1b37a",
+    "SC_fc686c314491",
+    "SC_088d2e949e6e",
+    "SC_cfba9de3e226"
+  ],
+  "pilot_islands": [
+    "DN",
+    "FD",
+    "HU",
+    "IL",
+    "IS",
+    "PP"
+  ],
+  "confirmatory_islands": [
+    "BB",
+    "BT",
+    "DF",
+    "EB",
+    "HF",
+    "MI",
+    "NH",
+    "OS",
+    "PR",
+    "SF",
+    "SK",
+    "WD",
+    "WF"
+  ],
+  "island_to_block": {
+    "BB": "SC_fc686c314491",
+    "BT": "SC_2f455671a546",
+    "DF": "SC_2f455671a546",
+    "DN": "SC_7d7dc2dd44ae",
+    "EB": "SC_cfba9de3e226",
+    "FD": "SC_7d7dc2dd44ae",
+    "HF": "SC_088d2e949e6e",
+    "HU": "SC_1d9ef1dca674",
+    "IL": "SC_0318f99b7680",
+    "IS": "SC_0318f99b7680",
+    "MI": "SC_04cdabd0598f",
+    "NH": "SC_088d2e949e6e",
+    "OS": "SC_343d012d58b2",
+    "PP": "SC_7d7dc2dd44ae",
+    "PR": "SC_04cdabd0598f",
+    "SF": "SC_04cdabd0598f",
+    "SK": "SC_04cdabd0598f",
+    "WD": "SC_2f455671a546",
+    "WF": "SC_53a986e1b37a"
+  },
+  "legacy_v075_rule_reused_without_tuning": true,
+  "species_occurrence_used": false,
+  "richness_used": false,
+  "habitat_values_used": false,
+  "counts_as_empirical_evidence": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "source_operator_may_be_frozen": true
+}
