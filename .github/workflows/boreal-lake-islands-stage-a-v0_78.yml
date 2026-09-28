@@ -10,7 +10,7 @@ jobs:
   exact-transport-and-header-freeze:
     runs-on: ubuntu-24.04
     env:
-      PYTHONPATH: ${{ github.workspace }}
+      PYTHONPATH: ${{ github.workspace }}/src
     steps:
       - name: Require manual execution from main
         run: |
