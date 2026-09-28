@@ -1,0 +1,39 @@
+{
+  "schema": "structural.current_status.v0_80",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_79.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "future_intake_version": "v0.12",
+    "prepilot_builder_contract": "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json",
+    "prepilot_builder_cli": "scripts/build_boreal_prepilot_contracts_v0_80.py",
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "habitat_reference_executed": false,
+    "v0_12_intake_built": false,
+    "v0_31_protocol_built": false,
+    "v0_42_quality_contract_built": false,
+    "biological_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The full response-sealed admission path is now predeclared through v0.31/v0.42 construction. The boreal fixed pilot species rule preserves a common species universe across held-out spatial blocks while treating the burned pilot only as feasibility evidence; no effect or prediction score is allowed before a later confirmatory response.",
+  "next_valid_scientific_event": "clear Stage A and execute v0.74/v0.75/v0.76/v0.79; then let v0.80 freeze v0.31 and fingerprint-bound v0.42, still without opening pilot response",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_80.json",
+    "status": "human_stage_A_gate_with_prepilot_constructor_ready"
+  }
+}
