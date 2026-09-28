@@ -1,0 +1,39 @@
+{
+  "schema": "structural.active_priority.v0_73",
+  "status": "manual_dispatch_secure_boreal_stage_A",
+  "supersedes": "development/structural_active_priority_v0_72.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "execute the already-frozen boreal exact-byte plus header-only Stage-A chain without persisting raw mixed files",
+  "prepared_route": [
+    "runtime OAuth2 token minting from GitHub Secrets",
+    "short-lived DRYAD_TOKEN available only inside the runner environment",
+    "v0.72 exact-byte transport",
+    "v0.71 header-only audit",
+    "raw file deletion before artifact upload",
+    "JSON-only artifact surface"
+  ],
+  "manual_prerequisite": [
+    "GitHub Secret DRYAD_CLIENT_ID",
+    "GitHub Secret DRYAD_CLIENT_SECRET"
+  ],
+  "fallback_prerequisite": [
+    "GitHub Secret DRYAD_TOKEN containing a still-valid short-lived token"
+  ],
+  "next_action": [
+    "manually dispatch .github/workflows/boreal-lake-islands-stage-a-v0_73.yml",
+    "retrieve only the JSON artifact",
+    "verify exact transport receipt and qualified header-only result",
+    "freeze the two header SHA/manifests in a new pre-row revision",
+    "do not project safe rows until that later revision is merged"
+  ],
+  "prohibited": [
+    "automatic execution on push or pull_request",
+    "upload raw mixed CSV files as artifacts",
+    "persist bearer tokens or client credentials in artifacts",
+    "project any row value during Stage A",
+    "open biological response matrices",
+    "advance to v0.11 before exact geometry and safe habitat are frozen"
+  ]
+}
