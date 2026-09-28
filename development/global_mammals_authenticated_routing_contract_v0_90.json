@@ -1,0 +1,46 @@
+{
+  "schema": "structural.global_mammals_authenticated_routing_contract.v0_90",
+  "status": "new_authenticated_route_predeclared_superseding_v0_64_url_retry_ban_only_for_this_exact_route",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "supersedes_transport_boundary": "development/global_mammals_transport_hold_v0_64.json",
+  "supersession_scope": "v0.64 prohibited further unauthenticated URL-variant retries; v0.90 authorizes one credentialed API route using the already implemented v0.73 token mechanism and the already frozen exact file identity",
+  "dryad": {
+    "doi": "10.5061/dryad.hmgqnk9j2",
+    "version_id": 299966,
+    "version_number": 6,
+    "api_version": "2.1.0",
+    "manifest_url": "https://datadryad.org/api/v2/versions/299966/files?per_page=100",
+    "path": "Appendix_1_presence_absence.csv",
+    "size_bytes": 60486843,
+    "sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6"
+  },
+  "credential_source": {
+    "preferred": ["DRYAD_CLIENT_ID", "DRYAD_CLIENT_SECRET"],
+    "fallback": "DRYAD_TOKEN",
+    "token_preparation_script": "scripts/prepare_dryad_token_v0_73.py",
+    "secrets_may_not_enter_artifacts": true
+  },
+  "transport": {
+    "script": "scripts/fetch_global_mammal_routing_ids_v0_90.py",
+    "workflow": ".github/workflows/global-mammals-routing-v0_90.yml",
+    "manual_dispatch_only": true,
+    "main_only": true,
+    "exact_file_manifest_match_required": true,
+    "download_link_must_come_from_matched_manifest_entry": true,
+    "cross_origin_authorization_forwarding_forbidden": true,
+    "raw_response_deleted_before_artifact_upload": true
+  },
+  "semantic_firewall": {
+    "header_first_field_may_open": true,
+    "data_first_field_may_open": true,
+    "expected_data_rows": 5592,
+    "species_header_fields_opened": 0,
+    "occurrence_cells_opened": 0,
+    "id_normalization": "strip surrounding whitespace; integer and integer-with-zero-decimal canonicalize to base-10 integer; otherwise retain exact stripped UTF-8",
+    "output": "routing IDs plus transport/firewall receipt only"
+  },
+  "next_gate": "run response-independent cross-dataset island-identity audit against the historical 318-island system and exclude any overlap before spatial partition/model freezing",
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false
+}
