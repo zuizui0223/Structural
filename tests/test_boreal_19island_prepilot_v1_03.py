@@ -106,7 +106,9 @@ def test_real_v102_parent_builds_generic_v031_and_v042():
     assert receipt["pilot_island_count"] == 6
     assert receipt["confirmatory_island_count"] == 13
     assert receipt["generic_v0_31_status"] == "qualified_to_open_pilot"
-    assert receipt["generic_v0_42_status"] == "qualified_to_open_pilot"
+    assert receipt["generic_v0_42_status"] == (
+        "qualified_response_quality_contract_before_pilot"
+    )
     assert receipt["pilot_response_authorized"] is False
     assert receipt["confirmatory_response_authorized"] is False
     assert receipt["mechanism_response_authorized"] is False
