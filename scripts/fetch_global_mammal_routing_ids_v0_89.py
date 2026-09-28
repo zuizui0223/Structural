@@ -154,15 +154,14 @@ def _download_exact(
 
     href = entry["_links"]["stash:download"]["href"]
     download_url = urljoin(spec["manifest_url"], href)
-    req = Request(
-        download_url,
-        headers={
-            "Authorization": f"Bearer {token}",
-            "Accept": "application/octet-stream",
-            "X-API-Version": "2.1.0",
-            "User-Agent": "Structural-v0.89",
-        },
-    )
+    headers = {
+        "Accept": "application/octet-stream",
+        "X-API-Version": "2.1.0",
+        "User-Agent": "Structural-v0.89",
+    }
+    if _origin(download_url) == _origin(spec["manifest_url"]):
+        headers["Authorization"] = f"Bearer {token}"
+    req = Request(download_url, headers=headers)
     opener = opener or build_opener(StripAuthorizationOnCrossOriginRedirect())
 
     count = 0
