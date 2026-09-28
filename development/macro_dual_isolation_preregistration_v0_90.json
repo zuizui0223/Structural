@@ -1,0 +1,105 @@
+{
+  "schema": "structural.macro_dual_isolation_preregistration.v0_90",
+  "status": "response_sealed_two_taxon_macro_design_frozen",
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "primary_systems": [
+    {
+      "candidate_id": "global_island_native_mammals_barreto_2024",
+      "taxon": "Mammalia",
+      "scope": "5592 source-curated mammal-occupied islands",
+      "response_status": "occurrence_values_unopened"
+    },
+    {
+      "candidate_id": "gift_native_angiosperm_islands_v3_2",
+      "taxon": "Angiospermae",
+      "scope": "GIFT v3.2 island checklist universe passing metadata-only eligibility",
+      "response_status": "species_composition_unrequested"
+    }
+  ],
+  "discovery_only_not_confirmatory": [
+    "A-Islands",
+    "Tanzania",
+    "zenodo_318_island_mammals_2024"
+  ],
+  "boreal_role": "supplementary_local_contrast_only_not_macro_core",
+  "primary_estimand": {
+    "name": "cluster_weighted_C_minus_R3",
+    "unit": "prospectively frozen archipelago or regional block",
+    "within_block": "mean binary log-loss difference loss_C - loss_R3 across eligible island-by-species targets",
+    "across_blocks": "equal-weight mean of block means",
+    "favourable_direction": "negative",
+    "support_rule_per_system": "point estimate < 0 and frozen block-bootstrap 95% upper limit < 0",
+    "cross_taxon_claim": "report mammal and plant system estimates side by side and pooled only under a predeclared taxon-adjusted hierarchical summary; neither taxon may rescue a failed other taxon primary"
+  },
+  "reference_ladder": {
+    "R0": [
+      "response-independent environment/habitat",
+      "predeclared biogeographic region or archipelago structure"
+    ],
+    "R1_add": [
+      "island area",
+      "external current isolation",
+      "historical land connection where available",
+      "prospectively frozen classical island-state variables"
+    ],
+    "R2_add": [
+      "response-independent generic archipelago permeability/network context"
+    ],
+    "R3_add": [
+      "training-only global occupancy breadth",
+      "training-only species_x_regional_pool membership/prevalence",
+      "training-only nearest occupied source distance",
+      "training-only diffuse multi-source pressure"
+    ],
+    "C_add": [
+      "training-only species-conditioned internal source continuity beyond R3 direct/diffuse source terms"
+    ]
+  },
+  "leakage_firewall": {
+    "source_features_leave_block_out": true,
+    "rule": "for every held-out block, all occupancy breadth, species_x_regional_pool, direct source, diffuse source and candidate continuity features are recomputed after removing the entire held-out block from the source pool",
+    "no_full_dataset_source_features": true,
+    "heldout_block_may_not_contribute_as_source": true
+  },
+  "adjustment_variables": [
+    "island_origin_type_continental_vs_oceanic_when_response_independently_available",
+    "taxon_mammal_vs_plant"
+  ],
+  "independence_gate": {
+    "historical_system": "zenodo_318_island_mammals_2024",
+    "numeric_ID_collision_check": "diagnostic_only",
+    "numeric_ID_noncollision_is_not_proof_of_independence": true,
+    "reason": "the two mammal sources do not have a frozen common identifier namespace",
+    "required_final_gate": "response-independent island identity crosswalk using frozen safe metadata/geography before any 5592 occurrence cell is opened",
+    "overlapping_islands_action": "exclude from the 5592 test population before partition/model freezing",
+    "species_overlap": "audit using response-blind species metadata where possible; shared species alone does not constitute shared response units"
+  },
+  "mammal_transport": {
+    "contract": "development/global_mammals_authenticated_routing_contract_v0_90.json",
+    "allowed_semantic_open_before_independence_gate": "first CSV field of header and 5592 data rows only",
+    "species_headers_opened": 0,
+    "occurrence_cells_opened": 0
+  },
+  "gift_preselection": {
+    "contract": "development/gift_metadata_freeze_contract_v0_90.json",
+    "database_version": "3.2",
+    "taxon_name": "Angiospermae",
+    "floristic_group": "native",
+    "complete_taxon": true,
+    "complete_floristic": true,
+    "geo_type": "Island",
+    "suit_geo": true,
+    "list_set_only": true,
+    "species_composition_requested": false
+  },
+  "prohibited": [
+    "use boreal as the macro-scale primary evidence",
+    "open 5592 mammal species headers or occurrence cells before the independence and preintake gates",
+    "request GIFT species composition before the GIFT metadata freeze is committed",
+    "compute source features using held-out-block occurrences",
+    "promote discovery-system results to confirmatory evidence",
+    "change the primary based on taxon-specific result direction"
+  ],
+  "counts_as_empirical_evidence": false,
+  "confirmatory_response_authorized": false
+}
