@@ -1,0 +1,18 @@
+{
+  "schema": "structural.boreal_19island_preconfirmatory_request.v1_09",
+  "status": "REQUEST_CONFIRMATORY_PREDICTIONS_BEFORE_RESPONSE",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "pilot_snapshot_fingerprint": "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722",
+  "pilot_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+  "species_count": 99,
+  "pilot_island_count": 6,
+  "confirmatory_island_count": 13,
+  "confirmatory_block_count": 7,
+  "training_row_count": 594,
+  "prediction_row_count": 1287,
+  "confirmatory_response_authorized": false,
+  "confirmatory_target_values_opened": 0,
+  "excluded_target_values_opened": 0,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
