@@ -1,0 +1,36 @@
+{
+  "schema": "structural.current_status.v0_88",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_87.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_stage_A_manifest_commit_then_manual_stage_B",
+    "stage_b_contract": "development/boreal_stage_b_orchestrator_contract_v0_88.json",
+    "stage_b_workflow": ".github/workflows/boreal-lake-islands-stage-b-v0_88.yml",
+    "canonical_header_manifest": "development/boreal_lake_islands_header_manifest_freeze_result.json",
+    "stage_A_workflow_executed": false,
+    "canonical_header_manifest_committed": false,
+    "stage_B_workflow_executed": false,
+    "v0_31_protocol_built": false,
+    "v0_42_quality_contract_built": false,
+    "biological_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "All response-independent objects needed before the burned pilot can now be produced in one provenance-bound Stage-B execution after the Stage-A header manifest is committed. Geometry, habitat, validation blocks and the source-continuity operator are all derived without species outcomes; the workflow ends at response-sealed v0.31/v0.42 contracts and cannot authorize pilot access itself.",
+  "next_valid_scientific_event": "run v0.78 Stage A, freeze and commit its header manifest at the canonical path, then manually dispatch v0.88 Stage B and commit the response-independent outputs before any v0.81 pilot authorization",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_88.json",
+    "status": "stage_A_manifest_commit_then_one_shot_response_independent_stage_B"
+  }
+}
