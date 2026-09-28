@@ -1,0 +1,37 @@
+{
+  "schema": "structural.current_status.v0_89",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_88.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_stage_A_manifest_commit_then_verified_stage_B",
+    "stage_b_workflow": ".github/workflows/boreal-lake-islands-stage-b-v0_89.yml",
+    "bundle_verifier_contract": "development/boreal_stage_b_bundle_verifier_contract_v0_89.json",
+    "bundle_verifier_cli": "scripts/verify_boreal_stage_b_bundle_v0_89.py",
+    "stage_A_workflow_executed": false,
+    "canonical_header_manifest_committed": false,
+    "stage_B_workflow_executed": false,
+    "stage_B_bundle_verified": false,
+    "v0_31_protocol_built": false,
+    "v0_42_quality_contract_built": false,
+    "biological_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The response-independent pre-pilot bundle now has an independent exact-replay gate. A successful Stage-B run is not trusted merely because each component command exited zero: v0.75, v0.76, v0.83, v0.79 and v0.80 are recomputed from the safe artifact surface and must match byte-for-byte/JSON-for-JSON before the bundle is eligible to be committed for pilot authorization.",
+  "next_valid_scientific_event": "run v0.78 Stage A, commit its canonical header manifest, dispatch v0.89 Stage B, then commit only a bundle carrying VERIFIED_RESPONSE_INDEPENDENT_PREPILOT_BUNDLE before considering v0.81",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_89.json",
+    "status": "stage_A_then_exact_replay_verified_stage_B"
+  }
+}

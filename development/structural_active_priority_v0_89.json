@@ -1,0 +1,24 @@
+{
+  "schema": "structural.active_priority.v0_89",
+  "status": "stage_A_then_exact_replay_verified_stage_B",
+  "supersedes": "development/structural_active_priority_v0_88.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear Stage A, then accept only a Stage-B bundle that independently exact-replays every response-independent object through v0.80",
+  "prepared_sequence": [
+    "v0.78 main-only Stage A",
+    "commit canonical header manifest",
+    "v0.89 main-only Stage B",
+    "v0.89 exact-replay bundle verifier",
+    "commit only the verified response-independent pre-pilot bundle",
+    "only then consider separate v0.81 pilot authorization"
+  ],
+  "prohibited": [
+    "commit a Stage-B artifact without VERIFIED_RESPONSE_INDEPENDENT_PREPILOT_BUNDLE",
+    "accept claimed v0.75/v0.76/v0.83/v0.79/v0.80 receipts without exact replay",
+    "upload raw mixed predictor files",
+    "open biological response values during Stage B",
+    "treat a verified Stage-B bundle as pilot-response authorization"
+  ]
+}
