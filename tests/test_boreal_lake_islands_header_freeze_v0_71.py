@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "development/boreal_lake_islands_header_freeze_contract_v0_71.json"
 STATUS = ROOT / "development/current_status_v0_71.json"
 PRIORITY = ROOT / "development/structural_active_priority_v0_71.json"
+METADATA_V065 = ROOT / "development/boreal_lake_islands_dryad_metadata_result_v0_65.json"
+FIREWALL_V068 = ROOT / "development/boreal_lake_islands_documented_column_firewall_v0_68.json"
 SCRIPT = ROOT / "scripts/audit_boreal_mixed_headers_v0_71.py"
 
 
@@ -181,3 +183,39 @@ def test_v071_status_keeps_fresh_denominator_and_response_closed():
     assert priority["fresh_active_empirical_candidate"] is None
     assert priority["fresh_confirmatory_eligible_count"] == 0
     assert "header-only" in priority["active_goal"]
+
+
+def test_v071_is_exactly_bound_to_v065_file_identity_and_v068_firewall():
+    x = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    metadata = json.loads(METADATA_V065.read_text(encoding="utf-8"))
+    firewall = json.loads(FIREWALL_V068.read_text(encoding="utf-8"))
+
+    for name in (
+        "alpha_diversity_ALL_islands.csv",
+        "RDA_environmental_variables.csv",
+    ):
+        current = x["files"][name]
+        parent = metadata["focal_files"][name]
+        assert current["dryad_file_id"] == parent["file_id"]
+        assert current["expected_size_bytes"] == parent["size"]
+        assert current["expected_sha256"] == parent["sha256"]
+
+    alpha = x["files"]["alpha_diversity_ALL_islands.csv"]
+    alpha_parent = firewall["files"]["alpha_diversity_ALL_islands.csv"]
+    documented_alpha_safe = set(alpha_parent["required_safe_columns"]) | set(
+        alpha_parent["optional_documented_safe_columns"]
+    )
+    assert set(alpha["safe_pre_response_columns"]) <= documented_alpha_safe
+    assert set(alpha["protected_response_columns"]) <= set(
+        alpha_parent["forbidden_response_derived_columns"]
+    )
+
+    rda = x["files"]["RDA_environmental_variables.csv"]
+    rda_parent = firewall["files"]["RDA_environmental_variables.csv"]
+    documented_rda_safe = set(rda_parent["required_routing_column"]) | set(
+        rda_parent["documented_safe_exact_columns"]
+    ) | set(rda_parent["documented_safe_family_patterns"])
+    assert set(rda["safe_pre_response_columns"]) <= documented_rda_safe
+    assert set(rda["protected_response_columns"]) <= set(
+        rda_parent["forbidden_response_derived_columns"]
+    )
