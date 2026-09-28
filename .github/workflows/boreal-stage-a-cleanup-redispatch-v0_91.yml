@@ -1,0 +1,121 @@
+name: Boreal Stage A cleanup and redispatch v0.91
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_stage_a_dispatch_request_v0_91.json
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup-and-dispatch:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout one-shot request
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          req = json.loads(
+              Path("development/boreal_stage_a_dispatch_request_v0_91.json")
+              .read_text(encoding="utf-8")
+          )
+          assert req["schema"] == "structural.boreal_stage_a_dispatch_request.v0_91"
+          assert req["status"] == "CLEAN_LOGS_AND_REDISPATCH_FROZEN_STAGE_A"
+          assert req["target_workflow"] == (
+              ".github/workflows/boreal-lake-islands-stage-a-v0_78.yml"
+          )
+          assert req["target_ref"] == "main"
+          assert req["one_shot"] is True
+          assert req["biological_response_values_opened"] is False
+          assert req["counts_as_empirical_evidence"] is False
+          assert req["failed_run_logs_to_delete"] == [36406560560, 36407670057]
+
+          if Path(
+              "development/boreal_lake_islands_header_manifest_freeze_result.json"
+          ).exists():
+              raise SystemExit(
+                  "canonical Stage-A manifest already exists; refusing redispatch"
+              )
+          PY
+
+      - name: Delete failed Stage A logs containing an unmasked short-lived token
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import os
+          import urllib.error
+          import urllib.request
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GH_TOKEN"]
+          for run_id in (36406560560, 36407670057):
+              url = (
+                  f"https://api.github.com/repos/{repo}/actions/runs/"
+                  f"{run_id}/logs"
+              )
+              req = urllib.request.Request(
+                  url,
+                  method="DELETE",
+                  headers={
+                      "Accept": "application/vnd.github+json",
+                      "Authorization": f"Bearer {token}",
+                      "X-GitHub-Api-Version": "2022-11-28",
+                  },
+              )
+              try:
+                  with urllib.request.urlopen(req) as response:
+                      if response.status != 204:
+                          raise SystemExit(
+                              f"log deletion for {run_id} returned "
+                              f"HTTP {response.status}"
+                          )
+              except urllib.error.HTTPError as exc:
+                  if exc.code != 404:
+                      raise
+          print("failed Stage-A logs deleted or already absent")
+          PY
+
+      - name: Dispatch corrected frozen Stage A v0.78 on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          url = (
+              f"https://api.github.com/repos/{repo}/actions/workflows/"
+              "boreal-lake-islands-stage-a-v0_78.yml/dispatches"
+          )
+          req = urllib.request.Request(
+              url,
+              data=json.dumps({"ref": "main"}).encode("utf-8"),
+              method="POST",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "X-GitHub-Api-Version": "2022-11-28",
+                  "Content-Type": "application/json",
+              },
+          )
+          with urllib.request.urlopen(req) as response:
+              if response.status != 204:
+                  raise SystemExit(
+                      f"workflow dispatch returned HTTP {response.status}"
+                  )
+          print("dispatched corrected Stage A v0.78 on main")
+          PY
