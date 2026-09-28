@@ -1,0 +1,25 @@
+{
+  "schema": "structural.active_priority.v0_80",
+  "status": "human_stage_A_gate_with_prepilot_constructor_ready",
+  "supersedes": "development/structural_active_priority_v0_79.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual Stage-A gate; all response-sealed construction through v0.31 and v0.42 is now predeclared",
+  "prepared_sequence": [
+    "v0.78 main-only Stage A and manifest freeze",
+    "v0.74 safe projection",
+    "v0.75 spatial partition",
+    "v0.76 habitat reference",
+    "v0.79 validator-clean v0.12 intake",
+    "v0.80 v0.31 protocol plus fingerprint-bound v0.42 quality contract",
+    "separate later pilot-response authorization"
+  ],
+  "prohibited": [
+    "interpret generic v0.31/v0.42 qualification as response-access authorization",
+    "change block partitions after v0.75",
+    "change the fixed pilot species rule after pilot response opens",
+    "use burned-pilot effect estimates or prediction scores",
+    "open confirmatory response before a later confirmatory protocol is separately frozen"
+  ]
+}
