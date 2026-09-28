@@ -1,0 +1,29 @@
+{
+  "schema": "structural.active_priority.v0_75",
+  "status": "stage_A_human_gate_downstream_geometry_ready",
+  "supersedes": "development/structural_active_priority_v0_74.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual Stage-A credential gate; downstream safe projection and response-independent spatial partitioning are already frozen",
+  "prepared_sequence": [
+    "v0.73 secure authenticated header-only Stage A",
+    "separate exact header-manifest freeze",
+    "v0.74 safe geometry/habitat projection",
+    "v0.75 response-independent graph and disjoint spatial partition",
+    "local habitat reference freeze",
+    "only then v0.11 intake"
+  ],
+  "spatial_rule": {
+    "candidate_radii": "q25/q50/q75/q90 of exact nearest-neighbor distances, type-7 quantiles, rounded upward to 0.1 km",
+    "selection": "coarsest radius retaining at least 9 connected components",
+    "split": "max(3, ceil(20% of blocks)) deterministic SHA-ranked pilot blocks, at least 6 remaining confirmatory blocks"
+  },
+  "prohibited": [
+    "choose graph radius after viewing species occurrence or pilot outcomes",
+    "merge or reassign blocks after pilot failure",
+    "lower the 3-pilot or 6-confirmatory minima",
+    "use habitat or richness to choose the spatial radius",
+    "open biological response before habitat and spatial preintake gates are complete"
+  ]
+}
