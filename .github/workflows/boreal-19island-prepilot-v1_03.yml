@@ -1,0 +1,107 @@
+name: Boreal 19-island pre-pilot v1.03
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_prepilot_request_v1_03.json
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-v031-v042:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot response-sealed request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_prepilot_request_v1_03.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_prepilot_request.v1_03"
+          )
+          assert req["status"] == "REQUEST_V031_V042_RESPONSE_SEALED_BUILD"
+          assert req["candidate_id"] == (
+              "lac_la_ronge_boreal_19island_beetles_2026"
+          )
+          assert req["parent_intake_fingerprint"] == (
+              "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2"
+          )
+          assert req["pilot_response_authorized"] is False
+          assert req["confirmatory_response_authorized"] is False
+          assert req["counts_as_empirical_evidence"] is False
+          assert req["one_shot"] is True
+          PY
+
+      - name: Build exact v0.31 and fingerprint-bound v0.42
+        run: |
+          mkdir -p build/boreal_v103
+          python scripts/build_boreal_19island_prepilot_contracts_v1_03.py \
+            --output-protocol build/boreal_v103/v031_protocol.json \
+            --output-quality build/boreal_v103/v042_quality_contract.json \
+            --receipt build/boreal_v103/prepilot_receipt.json
+
+      - name: Assert response-sealed artifact surface
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("build/boreal_v103")
+          expected = {
+              "v031_protocol.json",
+              "v042_quality_contract.json",
+              "prepilot_receipt.json",
+          }
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          if observed != expected:
+              raise SystemExit(
+                  f"unexpected v1.03 artifact surface: {sorted(observed)}"
+              )
+
+          receipt = json.loads(
+              (root / "prepilot_receipt.json").read_text(encoding="utf-8")
+          )
+          assert receipt["status"] == (
+              "V031_AND_V042_FROZEN_RESPONSE_REMAINS_SEALED"
+          )
+          assert receipt["parent_intake_fingerprint"] == (
+              "87df95481c96d710190174175254b4437459714f637f1d0a99aa37c078fa8cb2"
+          )
+          assert receipt["pilot_response_authorized"] is False
+          assert receipt["confirmatory_response_authorized"] is False
+          assert receipt["mechanism_response_authorized"] is False
+          assert receipt["predictive_denominator_contribution"] == 0
+          assert receipt["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Upload response-sealed pre-pilot bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v103-prepilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v103/v031_protocol.json
+            build/boreal_v103/v042_quality_contract.json
+            build/boreal_v103/prepilot_receipt.json
+          if-no-files-found: error
+          retention-days: 7
