@@ -1,0 +1,55 @@
+{
+  "schema": "structural.boreal_stage_b_bundle_verifier_contract.v0_89",
+  "status": "exact_replay_bundle_gate_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "workflow": ".github/workflows/boreal-lake-islands-stage-b-v0_89.yml",
+  "execution_context": {
+    "schema": "structural.boreal_stage_b_execution_context.v0_89",
+    "status": "main_bound_response_independent_stage_b",
+    "repository": "zuizui0223/Structural",
+    "ref": "refs/heads/main",
+    "workflow_ref": "zuizui0223/Structural/.github/workflows/boreal-lake-islands-stage-b-v0_89.yml@refs/heads/main"
+  },
+  "required_input_files": [
+    "execution_context.json",
+    "token_receipt.json",
+    "transport_receipt.json",
+    "safe_geometry.csv",
+    "safe_habitat.csv",
+    "projection_receipt.json",
+    "spatial_receipt.json",
+    "habitat_reference.csv",
+    "habitat_receipt.json",
+    "source_operator.json",
+    "source_operator_receipt.json",
+    "v012_intake.json",
+    "v012_intake_receipt.json",
+    "v031_protocol.json",
+    "v042_quality_contract.json",
+    "prepilot_receipt.json"
+  ],
+  "exact_replay_required": [
+    "v0.75 spatial partition from safe_geometry.csv + v0.74 receipt",
+    "v0.76 habitat reference from safe_habitat.csv + v0.74 receipt",
+    "v0.83 source operator from safe_geometry.csv + v0.74/v0.75",
+    "v0.79 v0.12 intake plus generic validator from v0.74/v0.75/v0.76",
+    "v0.80 v0.31/v0.42/prepilot from v0.12 + v0.75"
+  ],
+  "projection_checks": {
+    "safe_geometry_sha_must_match_v0_74": true,
+    "safe_habitat_sha_must_match_v0_74": true,
+    "exact_42_island_support_required": true,
+    "protected_response_values_opened": false,
+    "unclassified_values_returned": false
+  },
+  "output": {
+    "schema": "structural.boreal_stage_b_bundle_freeze.v0_89",
+    "status": "VERIFIED_RESPONSE_INDEPENDENT_PREPILOT_BUNDLE",
+    "eligible_to_commit_response_independent_prepilot_bundle": true,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "failure_rule": "any replay, identity, SHA, file-surface or evidence-boundary mismatch is STOP; do not commit the bundle"
+}
