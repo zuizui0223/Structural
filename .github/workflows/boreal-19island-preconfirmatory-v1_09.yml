@@ -1,0 +1,114 @@
+name: Boreal 19-island preconfirmatory model v1.09
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_preconfirmatory_request_v1_09.json
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-model-and-predictions:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_preconfirmatory_request_v1_09.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_preconfirmatory_request.v1_09"
+          )
+          assert req["status"] == (
+              "REQUEST_CONFIRMATORY_PREDICTIONS_BEFORE_RESPONSE"
+          )
+          assert req["candidate_id"] == (
+              "lac_la_ronge_boreal_19island_beetles_2026"
+          )
+          assert req["pilot_snapshot_fingerprint"] == (
+              "c9a1b2760fcc907f24466ff05a883c08336a362159ffb208418ae9f7cf034722"
+          )
+          assert req["species_count"] == 99
+          assert req["prediction_row_count"] == 1287
+          assert req["confirmatory_response_authorized"] is False
+          assert req["confirmatory_target_values_opened"] == 0
+          assert req["counts_as_empirical_evidence"] is False
+          assert req["one_shot"] is True
+          PY
+
+      - name: Freeze R0-R1-R2-R3-C and all confirmatory predictions
+        run: |
+          mkdir -p build/boreal_v109
+          python scripts/freeze_boreal_19island_preconfirmatory_model_v1_09.py \
+            --predictions build/boreal_v109/confirmatory_predictions.csv \
+            --receipt build/boreal_v109/model_receipt.json
+
+      - name: Verify exact response-sealed artifact surface
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          root = Path("build/boreal_v109")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {"confirmatory_predictions.csv", "model_receipt.json"}
+          if observed != expected:
+              raise SystemExit(
+                  f"unexpected v1.09 artifact surface: {sorted(observed)}"
+              )
+          receipt = json.loads(
+              (root / "model_receipt.json").read_text(encoding="utf-8")
+          )
+          assert receipt["status"] == (
+              "CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_RESPONSE"
+          )
+          assert receipt["species_count"] == 99
+          assert receipt["training_row_count"] == 594
+          assert receipt["prediction_row_count"] == 1287
+          assert receipt["confirmatory_target_values_opened"] == 0
+          assert receipt["excluded_target_values_opened"] == 0
+          assert receipt["confirmatory_response_authorized"] is False
+          assert receipt["predictive_denominator_contribution"] == 0
+          assert receipt["counts_as_empirical_evidence"] is False
+
+          with (root / "confirmatory_predictions.csv").open(
+              "r", encoding="utf-8", newline=""
+          ) as handle:
+              rows = list(csv.DictReader(handle))
+          if len(rows) != 1287:
+              raise SystemExit(
+                  f"prediction row count drift: {len(rows)}"
+              )
+          PY
+
+      - name: Upload frozen prediction surface only
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v109-preconfirmatory-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v109/confirmatory_predictions.csv
+            build/boreal_v109/model_receipt.json
+          if-no-files-found: error
+          retention-days: 7
