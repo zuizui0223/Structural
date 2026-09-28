@@ -1,0 +1,112 @@
+name: Boreal lake islands Stage A v0.78
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-transport-and-header-freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require manual execution from main
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Record response-independent execution context
+        run: |
+          mkdir -p build/boreal_v078
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = {
+              "schema": "structural.boreal_stage_a_execution_context.v0_78",
+              "status": "manual_main_stage_a_execution",
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "head_sha": os.environ["GITHUB_SHA"],
+              "ref": os.environ["GITHUB_REF"],
+              "run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "workflow": os.environ["GITHUB_WORKFLOW"],
+              "workflow_ref": os.environ["GITHUB_WORKFLOW_REF"],
+              "raw_csv_artifact_authorized": False,
+              "counts_as_empirical_evidence": False,
+          }
+          Path("build/boreal_v078/execution_context.json").write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_v078/token_receipt.json
+
+      - name: Transport exact frozen mixed files as opaque bytes
+        run: |
+          python scripts/fetch_boreal_mixed_files_v0_72.py \
+            build/boreal_v078/raw \
+            --receipt build/boreal_v078/transport_receipt.json
+
+      - name: Run header-only Stage A audit
+        run: |
+          python scripts/audit_boreal_mixed_headers_v0_71.py \
+            build/boreal_v078/raw/alpha_diversity_ALL_islands.csv \
+            build/boreal_v078/raw/RDA_environmental_variables.csv \
+            --output build/boreal_v078/header_audit.json
+
+      - name: Delete raw mixed files before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_v078/raw
+
+      - name: Assert artifact surface contains JSON-only Stage-A evidence
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("build/boreal_v078")
+          allowed = {
+              "execution_context.json",
+              "token_receipt.json",
+              "transport_receipt.json",
+              "header_audit.json",
+          }
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          if observed != allowed:
+              raise SystemExit(
+                  f"unexpected artifact surface: {sorted(observed)}"
+              )
+          if any(root.rglob("*.csv")):
+              raise SystemExit("raw CSV reached artifact surface")
+          PY
+
+      - name: Upload Stage A receipts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v078-stage-a-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v078/execution_context.json
+            build/boreal_v078/token_receipt.json
+            build/boreal_v078/transport_receipt.json
+            build/boreal_v078/header_audit.json
+          if-no-files-found: warn
+          retention-days: 7

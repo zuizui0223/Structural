@@ -1,0 +1,63 @@
+{
+  "schema": "structural.boreal_lake_islands_header_manifest_freeze_contract.v0_78",
+  "status": "stage_A_provenance_and_manifest_freezer_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_header_freeze_contract_v0_71.json",
+    "development/boreal_lake_islands_exact_transport_contract_v0_72.json",
+    "development/boreal_lake_islands_secure_workflow_contract_v0_73.json",
+    "development/boreal_lake_islands_safe_projection_contract_v0_74.json"
+  ],
+  "workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_78.yml",
+  "workflow_requirements": {
+    "trigger": "workflow_dispatch_only",
+    "ref": "refs/heads/main",
+    "repository": "zuizui0223/Structural",
+    "raw_csv_artifact_authorized": false,
+    "artifact_files": [
+      "execution_context.json",
+      "token_receipt.json",
+      "transport_receipt.json",
+      "header_audit.json"
+    ]
+  },
+  "required_input_schemas": {
+    "execution_context": "structural.boreal_stage_a_execution_context.v0_78",
+    "token_receipt": "structural.dryad_token_prepare_result.v0_73",
+    "transport_receipt": "structural.boreal_lake_islands_exact_transport_result.v0_72",
+    "header_audit": "structural.boreal_lake_islands_header_audit_result.v0_71"
+  },
+  "freeze_output": {
+    "schema": "structural.boreal_lake_islands_header_manifest_freeze.v0_74",
+    "status": "header_manifests_frozen_before_row_projection",
+    "safe_row_projection_authorized": true,
+    "counts_as_empirical_evidence": false,
+    "v0_12_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "file_requirements": {
+    "alpha_diversity_ALL_islands.csv": {
+      "source": "development/boreal_lake_islands_header_freeze_contract_v0_71.json",
+      "require_candidate_manifest": true
+    },
+    "RDA_environmental_variables.csv": {
+      "source": "development/boreal_lake_islands_header_freeze_contract_v0_71.json",
+      "require_candidate_manifest": true
+    }
+  },
+  "hard_stops": [
+    "Stage A was not run from main",
+    "repository identity differs",
+    "execution-context head SHA is not 40 lowercase hex",
+    "transport was not exact-byte verified",
+    "header audit was not qualified_to_freeze_header_manifests_only",
+    "header audit reports any semantically opened data row",
+    "safe/protected declaration differs from v0.71",
+    "candidate manifest file SHA differs from v0.71",
+    "header SHA is not 64 hex",
+    "candidate manifest is missing for either mixed file"
+  ],
+  "row_values_opened_by_freezer": 0,
+  "biological_response_values_opened_by_freezer": false
+}
