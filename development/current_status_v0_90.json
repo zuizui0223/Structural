@@ -1,0 +1,62 @@
+{
+  "schema": "structural.current_status.v0_90",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_89.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "macro_core": {
+    "preregistration": "development/macro_dual_isolation_preregistration_v0_90.json",
+    "mammals": "global_island_native_mammals_barreto_2024",
+    "plants": "gift_native_angiosperm_islands_v3_2",
+    "status": "two_taxon_response_sealed_preselection"
+  },
+  "artifact_retention": {
+    "aislands_actions_expiry": "2026-11-10T04:42:52Z",
+    "outside_actions_backup_verified": true,
+    "status": "mitigated_no_repeat_needed"
+  },
+  "global_mammals": {
+    "status": "READY_authenticated_routing_transport_not_executed",
+    "contract": "development/global_mammals_authenticated_routing_contract_v0_90.json",
+    "workflow": ".github/workflows/global-mammals-routing-v0_90.yml",
+    "response_occurrence_values_opened": false,
+    "species_headers_opened": false,
+    "routing_ids_opened": false,
+    "historical_overlap_gate_completed": false
+  },
+  "gift_plants": {
+    "status": "READY_metadata_only_freeze_not_executed",
+    "contract": "development/gift_metadata_freeze_contract_v0_90.json",
+    "workflow": ".github/workflows/gift-metadata-freeze-v0_90.yml",
+    "species_composition_requested": false
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "macro_role": "supplementary_local_contrast_only",
+    "status": "HOLD_stage_A_manifest_commit_then_verified_stage_B",
+    "stage_b_workflow": ".github/workflows/boreal-lake-islands-stage-b-v0_89.yml",
+    "bundle_verifier_contract": "development/boreal_stage_b_bundle_verifier_contract_v0_89.json",
+    "bundle_verifier_cli": "scripts/verify_boreal_stage_b_bundle_v0_89.py",
+    "stage_A_workflow_executed": false,
+    "canonical_header_manifest_committed": false,
+    "stage_B_workflow_executed": false,
+    "stage_B_bundle_verified": false,
+    "biological_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The macro test now targets the v0.55 distinction between external island isolation and species-specific internal source isolation at global scale in mammals and native angiosperms. R3 explicitly contains species-by-regional-pool structure, and every occupancy/source feature is recomputed leave-block-out so the candidate term cannot inherit held-out regional membership or source state. The boreal exact-replay machinery is retained, but it no longer gates the macro paper.",
+  "next_valid_scientific_event": "merge v0.90, manually execute the authenticated 5592-mammal routing-ID workflow and the GIFT metadata-only workflow, commit their response-safe receipts, complete the response-independent mammal historical-overlap exclusion and GIFT archipelago eligibility freeze, then freeze one joint two-system pre-response analysis contract before either biological response is opened",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_90.json",
+    "status": "global_mammals_plus_GIFT_macro_core"
+  }
+}
