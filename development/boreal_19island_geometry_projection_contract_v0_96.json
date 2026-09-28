@@ -1,0 +1,46 @@
+{
+  "schema": "structural.boreal_19island_geometry_projection_contract.v0_96",
+  "status": "SAFE_GEOMETRY_PROJECTION_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parent_manifest": "development/boreal_19island_header_projection_freeze_v0_95.json",
+  "target_file": {
+    "name": "alpha_diversity_model_selection_19islands.csv",
+    "dryad_file_id": 4569035,
+    "expected_size_bytes": 2486,
+    "expected_sha256": "e40a653de7b01e5ba4c54f69577842d4d246cf179cdfc41d487693eb3c2baf43"
+  },
+  "projection": {
+    "safe_columns": [
+      "Island",
+      "Lat",
+      "Long"
+    ],
+    "expected_row_count": 19,
+    "require_unique_islands": true,
+    "require_subset_of_frozen_42_island_universe": true,
+    "require_finite_coordinates": true,
+    "latitude_range": [
+      -90,
+      90
+    ],
+    "longitude_range": [
+      -180,
+      180
+    ],
+    "output_coordinate_encoding": "python_float_hex"
+  },
+  "forbidden": [
+    "return or persist richness values",
+    "return or persist fire or habitat values from this mixed file",
+    "fit any model",
+    "open the beetle species-by-island response matrix"
+  ],
+  "evidence_boundary": {
+    "safe_geometry_values_may_be_opened": true,
+    "protected_response_values_may_be_exposed": false,
+    "biological_response_values_opened": false,
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  }
+}
