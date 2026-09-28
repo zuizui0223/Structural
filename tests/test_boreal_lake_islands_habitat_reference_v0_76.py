@@ -19,6 +19,7 @@ from structural.boreal_habitat_reference import (
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/freeze_boreal_habitat_reference_v0_76.py"
 CONTRACT = ROOT / "development/boreal_lake_islands_habitat_reference_contract_v0_76.json"
+PROJECTION_V074 = ROOT / "development/boreal_lake_islands_safe_projection_contract_v0_74.json"
 STATUS = ROOT / "development/current_status_v0_76.json"
 PRIORITY = ROOT / "development/structural_active_priority_v0_76.json"
 
@@ -274,3 +275,17 @@ def test_v076_status_keeps_human_gate_and_denominator_zero():
     assert boreal["v0_11_intake_authorized"] is False
     assert priority["fresh_active_empirical_candidate"] is None
     assert priority["fresh_confirmatory_eligible_count"] == 0
+
+
+def test_v074_and_v076_share_the_same_stable_population_standardization():
+    projection = json.loads(PROJECTION_V074.read_text(encoding="utf-8"))
+    habitat = json.loads(CONTRACT.read_text(encoding="utf-8"))
+
+    assert "math.fsum" in projection["habitat_gate"][
+        "standardization_accumulation"
+    ]
+    assert "math.fsum" in habitat["standardization"]["summation"]
+    assert "denominator n" in projection["habitat_gate"][
+        "standardization_accumulation"
+    ]
+    assert "denominator n" in habitat["standardization"]["sd"]
