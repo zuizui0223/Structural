@@ -1,0 +1,24 @@
+{
+  "schema": "structural.active_priority.v0_81",
+  "status": "human_stage_A_gate_with_pilot_response_firewall_ready",
+  "supersedes": "development/structural_active_priority_v0_80.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual response-independent chain; the one-shot pilot access gate and byte-level confirmatory firewall are now predeclared",
+  "prepared_sequence": [
+    "v0.78 main-only Stage A and manifest freeze",
+    "v0.74/v0.75/v0.76 response-independent predictor and partition execution",
+    "v0.79 validator-clean v0.12 intake",
+    "v0.80 v0.31 plus fingerprint-bound v0.42",
+    "v0.81 one-shot pilot-response authorization",
+    "future SHA-verified pilot-only router/execution with confirmatory target parse count fixed at zero"
+  ],
+  "prohibited": [
+    "decode confirmatory island occurrence cells",
+    "derive the common species universe from confirmatory islands",
+    "change the species-support threshold after pilot opening",
+    "reuse a consumed pilot authorization",
+    "treat pilot authorization or pilot estimability as predictive evidence"
+  ]
+}
