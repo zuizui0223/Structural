@@ -1,0 +1,41 @@
+{
+  "schema": "structural.boreal_19island_source_operator_freeze.v1_01",
+  "status": "SOURCE_OPERATOR_COMMITTED_BY_FINGERPRINT_RESPONSE_INDEPENDENTLY",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-source-operator-v1_00.yml",
+    "run_id": 36430933641,
+    "head_sha": "bdfe9567de3935c66d6f7db9573c648675e1b62b",
+    "artifact_id": 10973656365,
+    "artifact_digest": "sha256:3ea3d1b0372f15ed3643a3ed31b53ba5d3fd43788a8a1bb071abd4bf5c323d52",
+    "operator_file_sha256": "ab175b7ccd2179dde9f9eaa3018fe5cbea329c162872a001f3114fd6201e8bdf",
+    "receipt_file_sha256": "4117714c06c5c076d4d83e66fa43b8552b272e90736ff54a198b0586809cf918"
+  },
+  "operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+  "selected_k": 3,
+  "kernel_scale_km_hex": "0x1.4ccfd7aac74e4p+3",
+  "edge_count": 35,
+  "cross_validation_block_edge_count": 21,
+  "validation_radius_reused": false,
+  "legacy_v083_rule_reused_without_tuning": true,
+  "parents": {
+    "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+    "spatial_freeze_sha256": "205f43ef8087918af8ab9540eaaa56c69d29e3e801d0c7f929a5ef2f8eb5c305",
+    "state_freeze_sha256": "a2704646c804b382cd38cf2d2531e0996d5408f496de6c0a85344a1d15ee679c"
+  },
+  "replay_rule": {
+    "implementation": "scripts/freeze_boreal_19island_dual_isolation_operator_v1_00.py",
+    "required_match": "canonical operator fingerprint plus selected_k, kernel scale, edge count and cross-validation-block edge count",
+    "operator_json_may_be_regenerated": true
+  },
+  "response_boundary": {
+    "species_occurrence_used_to_build_operator": false,
+    "pilot_response_used_to_build_operator": false,
+    "confirmatory_response_used_to_build_operator": false,
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "prepilot_intake_may_be_built": true,
+  "next_action": "build a 19-island response-sealed intake and fingerprint-bound v0.31/v0.42 pre-pilot contracts without opening the beetle matrix"
+}
