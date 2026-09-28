@@ -39,8 +39,14 @@
     "island_set_must_match_exactly": true,
     "latitude_must_be_finite": true,
     "longitude_must_be_finite": true,
-    "latitude_range": [-90, 90],
-    "longitude_range": [-180, 180],
+    "latitude_range": [
+      -90,
+      90
+    ],
+    "longitude_range": [
+      -180,
+      180
+    ],
     "coordinate_repair_authorized": false
   },
   "habitat_gate": {
@@ -51,7 +57,8 @@
     "if_zero_nonconstant_complete_columns": "STOP before biological response",
     "if_one_nonconstant_complete_column": "later reference is its frozen population z-score",
     "if_two_or_more_nonconstant_complete_columns": "later reference uses the already-frozen v0.68 deterministic PCA rule; PCA is a separate post-projection freeze",
-    "response_association_may_not_select_columns": true
+    "response_association_may_not_select_columns": true,
+    "standardization_accumulation": "Python math.fsum for population mean and variance; denominator n over the frozen island universe"
   },
   "outputs_after_success": {
     "safe_geometry_csv": "Island, Lat, Long only",
