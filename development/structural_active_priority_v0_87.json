@@ -1,0 +1,27 @@
+{
+  "schema": "structural.active_priority.v0_87",
+  "status": "human_stage_A_gate_with_final_confirmatory_scorer_ready",
+  "supersedes": "development/structural_active_priority_v0_86.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual chain; every irreversible step through the final block-weighted C-minus-R3 fresh confirmatory score is now frozen",
+  "prepared_sequence": [
+    "v0.78 Stage A",
+    "v0.74-v0.80 response-independent admission",
+    "v0.81/v0.84 one-shot pilot and model-sufficient snapshot",
+    "v0.83 source operator",
+    "v0.85 frozen R0-R3-C confirmatory predictions",
+    "v0.86 one-shot confirmatory authorization",
+    "v0.87 minimal confirmatory routing plus deterministic block-weighted scoring"
+  ],
+  "primary_rule": "equal-weight confirmatory-block mean of within-block C-minus-R3 log-loss; support only if point < 0 and block-bootstrap 95% upper < 0",
+  "prohibited": [
+    "weight the primary by raw row count rather than spatial block",
+    "refit after confirmatory authorization",
+    "open pilot or non-focal confirmatory occurrence cells during final scoring",
+    "change bootstrap rule after response access",
+    "use external-isolation tails or secondary moderators to rescue a failed primary",
+    "rerun after any post-access terminal failure"
+  ]
+}
