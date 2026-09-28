@@ -1,0 +1,51 @@
+{
+  "schema": "structural.boreal_beetle_pilot_response_authorization_contract.v0_81",
+  "status": "one_shot_burned_pilot_access_gate_predeclared",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "development/boreal_lake_islands_spatial_partition_contract_v0_75.json",
+    "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json"
+  ],
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_island_rows": 42,
+    "expected_species_columns": 466,
+    "response_domain": ["0", "1"]
+  },
+  "required_prepilot_receipt": {
+    "schema": "structural.boreal_lake_islands_prepilot_contract_result.v0_80",
+    "status": "V031_AND_V042_FROZEN_RESPONSE_REMAINS_SEALED",
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "allowed_semantic_access_after_authorization": {
+    "header_species_names": true,
+    "routing_island_field_all_rows": true,
+    "pilot_island_occurrence_cells": true,
+    "confirmatory_island_occurrence_cells": false
+  },
+  "router": {
+    "implementation": "src/structural/boreal_beetle_pilot_router.py",
+    "partition_unit": "v0.75 pilot spatial block ID",
+    "block": "same v0.75 pilot spatial block ID",
+    "species_universe_rule": "one common universe: species with target 1 on at least two distinct frozen pilot islands",
+    "heldout_specific_species_universe_forbidden": true,
+    "confirmatory_target_values_parsed_must_equal": 0
+  },
+  "authorization_ceiling": {
+    "pilot_response_authorized": true,
+    "confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_evidence": false,
+    "next_action": "perform exactly one SHA-verified pilot-only routing/execution under a separate consumption receipt; do not open confirmatory occurrence cells"
+  },
+  "execution_authorized_now": false,
+  "reason": "real v0.80 protocol, quality contract and receipt do not yet exist; this gate may authorize access only after those exact artifacts are committed and verified"
+}
