@@ -347,3 +347,41 @@ def test_real_v113_contract_reuses_v087_primary_without_rescue():
     assert contract["valid_completion"]["fresh_system_denominator_contribution"] == 1
     assert contract["interpretation"]["secondary_analysis_may_change_status"] is False
     assert contract["interpretation"]["mechanism_claim_authorized"] is False
+
+
+WORKFLOW = (
+    ROOT / ".github/workflows/boreal-19island-confirmatory-scoring-v1_13.yml"
+)
+REQUEST = (
+    ROOT / "development/boreal_19island_confirmatory_execution_request_v1_13.json"
+)
+
+
+def test_v113_request_and_workflow_are_retry_closed_and_raw_free():
+    request = json.loads(REQUEST.read_text(encoding="utf-8"))
+    assert request["status"] == "REQUEST_ONE_SHOT_CONFIRMATORY_SCORING"
+    assert request["authorization_fingerprint"] == (
+        "9c298caa914dac454ff5cda3229abbdc971e299791e6dc582c83a10f1a12146d"
+    )
+    assert request["prediction_surface_sha256"] == (
+        "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded"
+    )
+    assert request["irreversible_semantic_confirmatory_open"] is True
+    assert request["valid_completion_denominator_contribution"] == 1
+    assert request["raw_response_may_be_uploaded"] is False
+    assert request["target_surface_may_be_uploaded"] is False
+    assert request["rerun_after_semantic_open"] is False
+    assert request["one_shot"] is True
+
+    workflow = WORKFLOW.read_text(encoding="utf-8")
+    assert 'test "$GITHUB_RUN_ATTEMPT" = "1"' in workflow
+    assert 'git rev-list --count HEAD -- "$REQUEST"' in workflow
+    assert "authorize_boreal_19island_confirmatory_response_v1_11.py" in workflow
+    assert "fetch_boreal_19island_confirmatory_response_v1_13.py" in workflow
+    assert "run_boreal_19island_confirmatory_scoring_v1_13.py" in workflow
+    assert "rm -rf build/boreal_v113/raw" in workflow
+    assert "confirmatory_targets.csv" in workflow
+    upload = workflow.split("Upload one-shot confirmatory audit result only", 1)[1]
+    assert "beetles_speciesmatrix_presenceabsence.csv" not in upload
+    assert "confirmatory_targets.csv" not in upload
+    assert "scoring_result.json" in upload
