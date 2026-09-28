@@ -1,0 +1,40 @@
+{
+  "schema": "structural.current_status.v0_76",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_75.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_manifest_freeze_not_executed",
+    "stage_A_workflow": ".github/workflows/boreal-lake-islands-stage-a-v0_73.yml",
+    "stage_B_projection_cli": "scripts/project_boreal_safe_rows_v0_74.py",
+    "spatial_partition_cli": "scripts/freeze_boreal_spatial_partition_v0_75.py",
+    "habitat_reference_contract": "development/boreal_lake_islands_habitat_reference_contract_v0_76.json",
+    "habitat_reference_cli": "scripts/freeze_boreal_habitat_reference_v0_76.py",
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "habitat_reference_executed": false,
+    "habitat_reference_runner_frozen": true,
+    "exact_latlong_resolved": 0,
+    "biological_response_values_opened": false,
+    "v0_11_intake_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "Both response-independent preintake dimensions are now algorithmically frozen before safe row values are opened: spatial-transfer blocks are fixed by geometry-only graph rules, and local habitat structure is fixed by complete/nonconstant safe variables followed by population z-standardization and a deterministic 80%-variance PCA when needed. Future choices cannot be tuned to beetle outcomes.",
+  "next_valid_scientific_event": "clear v0.73 Stage A and the header-manifest freeze, run v0.74, then execute the already-frozen v0.75 spatial partition and v0.76 habitat reference before a final preintake completeness gate",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_76.json",
+    "status": "stage_A_human_gate_all_downstream_preintake_algorithms_ready"
+  }
+}

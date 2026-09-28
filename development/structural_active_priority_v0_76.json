@@ -1,0 +1,29 @@
+{
+  "schema": "structural.active_priority.v0_76",
+  "status": "stage_A_human_gate_all_downstream_preintake_algorithms_ready",
+  "supersedes": "development/structural_active_priority_v0_75.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "clear the manual Dryad Stage-A gate; safe projection, spatial partition and deterministic habitat-reference construction are now all predeclared",
+  "prepared_sequence": [
+    "v0.73 secure manual Stage A",
+    "separate exact header-manifest freeze",
+    "v0.74 safe geometry/habitat projection",
+    "v0.75 response-independent spatial partition",
+    "v0.76 deterministic response-independent habitat reference",
+    "final preintake completeness gate",
+    "only then v0.11"
+  ],
+  "habitat_rule": {
+    "one_survivor": "population z-score",
+    "two_or_more": "population-correlation deterministic Jacobi PCA",
+    "retention": "minimum PCs reaching at least 80% cumulative variance"
+  },
+  "prohibited": [
+    "select habitat variables from beetle occurrence or richness",
+    "change PCA retention after seeing habitat structure or species outcomes",
+    "change spatial radius after seeing outcomes",
+    "open biological response before final preintake completion"
+  ]
+}
