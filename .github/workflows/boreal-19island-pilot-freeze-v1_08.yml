@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - development/boreal_19island_pilot_freeze_request_v1_08.json
+      - .github/workflows/boreal-19island-pilot-freeze-v1_08.yml
 
 permissions:
   actions: read
@@ -82,6 +83,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           artifact-ids: 10980668029
+          run-id: 36446410357
           path: build/boreal_v108/source
           merge-multiple: true
           github-token: ${{ github.token }}
