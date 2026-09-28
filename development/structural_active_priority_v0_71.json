@@ -1,0 +1,39 @@
+{
+  "schema": "structural.active_priority.v0_71",
+  "status": "boreal_exact_byte_transport_then_header_freeze",
+  "supersedes": "development/structural_active_priority_v0_70.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "obtain exact SHA-matching boreal mixed metadata bytes and run header-only verification without opening any data row",
+  "file_targets": {
+    "alpha_diversity_ALL_islands.csv": {
+      "file_id": 4569034,
+      "sha256": "f63b37b3c4c9d5453c53b0b565c4bfb7b8485e017f257fbeea663b20cbf6bddf"
+    },
+    "RDA_environmental_variables.csv": {
+      "file_id": 4569033,
+      "sha256": "30b296c8243d433b8c4aaa2e934dcb9d57b0f909094ad03cfc645babbab61046"
+    }
+  },
+  "prepared_infrastructure": [
+    "existing SHA/header-pinned mixed CSV safe-column projection",
+    "new v0.71 header-only inspection gate",
+    "boreal-specific safe/protected declarations frozen before row access",
+    "v0.70 spatial-support audit requiring real geometry rather than six-lake fallback"
+  ],
+  "next_action": [
+    "accept only exact bytes matching the frozen file SHA-256 and size",
+    "run scripts/audit_boreal_mixed_headers_v0_71.py and inspect only schema output",
+    "commit header SHA and candidate manifests in a separate revision",
+    "only then project safe geometry/habitat columns under the committed manifest"
+  ],
+  "prohibited": [
+    "retry blind blocked Dryad content endpoints",
+    "decode data rows during Stage A",
+    "project safe rows in the same run that discovers the header",
+    "return or summarize protected or unclassified values",
+    "open beetle, bird, plant or richness response matrices",
+    "advance to v0.11 before exact geometry and safe habitat are frozen"
+  ]
+}

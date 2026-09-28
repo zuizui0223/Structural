@@ -1,0 +1,39 @@
+{
+  "schema": "structural.current_status.v0_71",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_70.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_exact_mixed_file_transport_before_header_freeze",
+    "core_external_reference_complete": true,
+    "spatial_support_audit": "development/boreal_lake_islands_spatial_support_audit_v0_70.json",
+    "header_freeze_contract": "development/boreal_lake_islands_header_freeze_contract_v0_71.json",
+    "header_audit_cli": "scripts/audit_boreal_mixed_headers_v0_71.py",
+    "exact_latlong_resolved": 0,
+    "safe_local_habitat_reference_complete": false,
+    "mixed_csv_firewall_ready": true,
+    "exact_alpha_file_identity_frozen": true,
+    "exact_rda_file_identity_frozen": true,
+    "header_sha_frozen": false,
+    "safe_row_values_opened": false,
+    "biological_response_opened": false,
+    "v0_11_intake_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The dual-isolation test remains scientifically viable, but fresh admission still depends on true response-independent geometry and local habitat structure. v0.71 eliminates the previous implementation ambiguity by separating exact-byte/header verification from later row projection, so a future transport success cannot silently expose response columns or reuse the same run to adapt the manifest.",
+  "next_valid_scientific_event": "obtain exact SHA-matching alpha and RDA mixed CSV bytes, run the header-only v0.71 audit, and freeze both header manifests in a separate revision before any safe-row projection",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_71.json",
+    "status": "boreal_exact_byte_transport_then_header_freeze"
+  }
+}

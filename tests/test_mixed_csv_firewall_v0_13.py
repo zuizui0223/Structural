@@ -12,6 +12,8 @@ from structural.mixed_csv_firewall import (
     MixedCSVFirewallError,
     audit_mixed_csv_header,
     header_sha256,
+    inspect_mixed_csv_header_for_freeze,
+    manifest_from_header_freeze,
     project_safe_columns,
     sha256_file,
 )
@@ -98,3 +100,70 @@ def test_safe_and_protected_overlap_fails(tmp_path: Path):
     )
     with pytest.raises(MixedCSVFirewallError, match="overlap"):
         audit_mixed_csv_header(path, m)
+
+
+def test_header_freeze_reads_no_data_row_text(tmp_path: Path):
+    path = tmp_path / "mixed.csv"
+    path.write_bytes(b"site,species\n" + bytes([0xFF, 0xFE]) + b"\n")
+
+    audit = inspect_mixed_csv_header_for_freeze(
+        path,
+        expected_file_sha256=sha256_file(path),
+        safe_pre_response_columns=("site",),
+        protected_response_columns=("species",),
+    )
+
+    assert audit.header == ("site", "species")
+    assert audit.qualified_to_freeze_manifest is True
+    assert audit.reasons == ()
+    assert audit.closed_unclassified_columns == ()
+
+
+def test_header_freeze_reports_missing_declarations_without_rows(tmp_path: Path):
+    path = tmp_path / "mixed.csv"
+    path.write_bytes(b"site,mystery\n" + bytes([0xFF]) + b"\n")
+
+    audit = inspect_mixed_csv_header_for_freeze(
+        path,
+        expected_file_sha256=sha256_file(path),
+        safe_pre_response_columns=("site",),
+        protected_response_columns=("species",),
+    )
+
+    assert audit.qualified_to_freeze_manifest is False
+    assert audit.missing_protected_columns == ("species",)
+    assert audit.closed_unclassified_columns == ("mystery",)
+    assert audit.reasons == ("missing_declared_protected_columns",)
+
+
+def test_manifest_can_only_be_built_from_qualified_header_freeze(tmp_path: Path):
+    path = tmp_path / "mixed.csv"
+    write_csv(path)
+    audit = inspect_mixed_csv_header_for_freeze(
+        path,
+        expected_file_sha256=sha256_file(path),
+        safe_pre_response_columns=("site", "year", "UTMe", "UTMn"),
+        protected_response_columns=("species", "obs1"),
+    )
+    frozen = manifest_from_header_freeze(audit)
+
+    assert frozen.file_sha256 == sha256_file(path)
+    assert frozen.header_sha256 == header_sha256(
+        ("site", "year", "UTMe", "UTMn", "species", "obs1")
+    )
+    assert project_safe_columns(path, frozen)[0] == {
+        "site": "A", "year": "2012", "UTMe": "100", "UTMn": "200"
+    }
+
+
+def test_manifest_build_fails_for_unqualified_header(tmp_path: Path):
+    path = tmp_path / "mixed.csv"
+    path.write_text("site,mystery\nA,x\n", encoding="utf-8")
+    audit = inspect_mixed_csv_header_for_freeze(
+        path,
+        expected_file_sha256=sha256_file(path),
+        safe_pre_response_columns=("site",),
+        protected_response_columns=("species",),
+    )
+    with pytest.raises(MixedCSVFirewallError, match="not qualified"):
+        manifest_from_header_freeze(audit)
