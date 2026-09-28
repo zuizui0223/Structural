@@ -1,0 +1,34 @@
+{
+  "schema": "structural.active_priority.v0_72",
+  "status": "execute_frozen_authenticated_boreal_transport",
+  "supersedes": "development/structural_active_priority_v0_71.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "transport the two exact predeclared boreal mixed files with authenticated Dryad access while preserving the response-value firewall",
+  "prepared_route": [
+    "fixed Dryad file IDs and SHA-256 from v0.65",
+    "two-stage header firewall from v0.71",
+    "token-from-environment-only exact downloader from v0.72",
+    "cross-origin Authorization stripping",
+    "temporary-file plus exact byte-count/SHA verification",
+    "no header or row decoding during transport"
+  ],
+  "next_action": [
+    "provide DRYAD_TOKEN only through the process environment",
+    "run scripts/fetch_boreal_mixed_files_v0_72.py to an isolated local directory",
+    "retain only exact size/SHA matches",
+    "run scripts/audit_boreal_mixed_headers_v0_71.py on those exact files",
+    "commit the header manifests in a separate revision before any row projection"
+  ],
+  "prohibited": [
+    "pass the token as a command-line argument",
+    "log or persist the bearer token",
+    "forward Authorization to a cross-origin redirect target",
+    "download arbitrary file IDs or URLs through the v0.72 script",
+    "decode CSV header or row text during the transport stage",
+    "project rows before a separate header-manifest freeze revision",
+    "open biological response matrices",
+    "advance to v0.11 before exact geometry and safe habitat are frozen"
+  ]
+}
