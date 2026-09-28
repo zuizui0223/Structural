@@ -1,0 +1,14 @@
+{
+  "schema": "structural.boreal_19island_geometry_transport_request.v0_92",
+  "status": "REQUEST_OPAQUE_BYTE_IDENTITY_ONLY",
+  "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+  "target_file": "alpha_diversity_model_selection_19islands.csv",
+  "dryad_file_id": 4569035,
+  "dryad_version_id": 422440,
+  "dryad_version_number": 7,
+  "header_access_authorized": false,
+  "data_row_access_authorized": false,
+  "biological_response_values_opened": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}

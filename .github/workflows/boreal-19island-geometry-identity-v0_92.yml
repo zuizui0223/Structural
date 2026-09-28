@@ -1,0 +1,96 @@
+name: Boreal 19-island geometry identity v0.92
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_geometry_transport_request_v0_92.json
+
+permissions:
+  contents: read
+
+jobs:
+  opaque-byte-identity:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          x = json.loads(
+              Path(
+                  "development/boreal_19island_geometry_transport_request_v0_92.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_geometry_transport_request.v0_92"
+          )
+          assert x["status"] == "REQUEST_OPAQUE_BYTE_IDENTITY_ONLY"
+          assert x["target_file"] == "alpha_diversity_model_selection_19islands.csv"
+          assert x["dryad_file_id"] == 4569035
+          assert x["header_access_authorized"] is False
+          assert x["data_row_access_authorized"] is False
+          assert x["biological_response_values_opened"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/boreal_v092
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_v092/token_receipt.json
+
+      - name: Discover exact opaque byte identity
+        run: |
+          mkdir -p build/boreal_v092/raw
+          python scripts/fetch_boreal_19island_geometry_candidate_v0_92.py \
+            build/boreal_v092/raw/alpha_diversity_model_selection_19islands.csv \
+            --receipt build/boreal_v092/identity_receipt.json
+
+      - name: Delete raw bytes before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_v092/raw
+
+      - name: Assert JSON-only artifact surface
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("build/boreal_v092")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {"token_receipt.json", "identity_receipt.json"}
+          if observed != expected:
+              raise SystemExit(f"unexpected artifact surface: {sorted(observed)}")
+          if any(root.rglob("*.csv")):
+              raise SystemExit("raw CSV reached artifact surface")
+          PY
+
+      - name: Upload identity receipts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v092-geometry-identity-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v092/token_receipt.json
+            build/boreal_v092/identity_receipt.json
+          if-no-files-found: warn
+          retention-days: 7
