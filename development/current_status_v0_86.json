@@ -1,0 +1,32 @@
+{
+  "schema": "structural.current_status.v0_86",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_85.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "confirmatory_authorization_contract": "development/boreal_confirmatory_response_authorization_contract_v0_86.json",
+    "confirmatory_authorization_cli": "scripts/authorize_boreal_confirmatory_response_v0_86.py",
+    "confirmatory_router": "src/structural/boreal_confirmatory_router.py",
+    "confirmatory_predictions_frozen": false,
+    "confirmatory_response_authorization_issued": false,
+    "confirmatory_response_values_opened": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The confirmatory access surface is now minimized to exactly the fixed v0.84 species universe on v0.75 confirmatory islands. Pilot occurrence cells and the other beetle species remain opaque even during the future confirmatory read. Authorization additionally requires exact replay of the full v0.85 coefficient and prediction freeze.",
+  "next_valid_scientific_event": "after v0.85 has been executed and committed, exact-replay it through v0.86 and issue a one-shot confirmatory authorization; scoring remains a separate irreversible action",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_86.json",
+    "status": "exact_replay_then_minimal_confirmatory_access"
+  }
+}
