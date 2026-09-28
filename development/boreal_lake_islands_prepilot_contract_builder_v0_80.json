@@ -41,5 +41,6 @@
     "mechanism_response_authorized": false,
     "counts_as_empirical_evidence": false,
     "next_action": "separate response-access authorization may be considered only after both frozen pre-pilot contracts are committed and CI-green"
-  }
+  },
+  "required_intake_endpoint_semantics": "beetle species detected in the standardized 30 x 30 m insular sampling assemblage, not complete whole-island occupancy"
 }
