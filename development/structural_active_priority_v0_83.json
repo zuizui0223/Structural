@@ -1,0 +1,22 @@
+{
+  "schema": "structural.active_priority.v0_83",
+  "status": "freeze_non_degenerate_dual_isolation_operator_before_confirmatory_protocol",
+  "supersedes": "development/structural_active_priority_v0_82.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "active_goal": "keep the v0.75 spatial-transfer partition and the species-conditioned source-continuity operator distinct so candidate C remains estimable across heldout blocks",
+  "prepared_sequence": [
+    "v0.78-v0.82 frozen gate chain",
+    "v0.83 response-independent minimal-connected-kNN source operator",
+    "future qualified-pilot-only confirmatory scoring freeze",
+    "separate confirmatory response authorization only after the complete scoring protocol is committed"
+  ],
+  "prohibited": [
+    "reuse the v0.75 connected-component radius as the source-continuity graph",
+    "select k or source-decay scale from beetle response",
+    "use confirmatory occurrence values to construct source predictors",
+    "promote external-isolation tail interactions to the primary",
+    "open confirmatory response before the exact source-operator fingerprint and scoring protocol are frozen"
+  ]
+}
