@@ -1,0 +1,126 @@
+name: Boreal 19-island safe geometry projection v0.96
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_geometry_projection_request_v0_96.json
+
+permissions:
+  contents: read
+
+jobs:
+  safe-geometry-only:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src
+    steps:
+      - name: Checkout committed geometry manifest
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require committed v0.95 safe geometry manifest
+        run: |
+          set -euo pipefail
+          FREEZE="development/boreal_19island_header_projection_freeze_v0_95.json"
+          git ls-files --error-unmatch "$FREEZE" >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path("development/boreal_19island_header_projection_freeze_v0_95.json")
+              .read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_header_projection_freeze.v0_95"
+          )
+          assert x["status"] == (
+              "HEADER_AND_SAFE_GEOMETRY_COLUMNS_FROZEN_BEFORE_ROW_ACCESS"
+          )
+          assert x["projection_manifest"]["safe_pre_response_columns"] == [
+              "Island", "Lat", "Long"
+          ]
+          assert x["row_values_opened_by_freezer"] == 0
+          assert x["biological_response_values_opened_by_freezer"] is False
+          assert x["safe_geometry_projection_authorized_for_later_revision"] is True
+          PY
+
+      - name: Validate one-shot projection request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path("development/boreal_19island_geometry_projection_request_v0_96.json")
+              .read_text(encoding="utf-8")
+          )
+          assert x["schema"] == (
+              "structural.boreal_19island_geometry_projection_request.v0_96"
+          )
+          assert x["status"] == "REQUEST_SAFE_GEOMETRY_ONLY"
+          assert x["safe_columns"] == ["Island", "Lat", "Long"]
+          assert x["biological_response_access_authorized"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/boreal_v096
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_v096/token_receipt.json
+
+      - name: Project only Island Lat Long
+        run: |
+          mkdir -p build/boreal_v096/raw
+          python scripts/project_boreal_19island_geometry_v0_96.py \
+            build/boreal_v096/raw/alpha_diversity_model_selection_19islands.csv \
+            --download \
+            --geometry-output build/boreal_v096/safe_geometry.csv \
+            --receipt build/boreal_v096/projection_receipt.json
+
+      - name: Delete raw mixed bytes before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_v096/raw
+
+      - name: Assert safe-only artifact surface
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("build/boreal_v096")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {
+              "token_receipt.json",
+              "safe_geometry.csv",
+              "projection_receipt.json",
+          }
+          if observed != expected:
+              raise SystemExit(f"unexpected artifact surface: {sorted(observed)}")
+          if (root / "raw").exists():
+              raise SystemExit("raw mixed bytes survived v0.96")
+          PY
+
+      - name: Upload safe geometry only
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v096-safe-geometry-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_v096/token_receipt.json
+            build/boreal_v096/safe_geometry.csv
+            build/boreal_v096/projection_receipt.json
+          if-no-files-found: error
+          retention-days: 14

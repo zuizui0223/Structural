@@ -1,0 +1,17 @@
+{
+  "schema": "structural.boreal_19island_geometry_projection_request.v0_96",
+  "status": "REQUEST_SAFE_GEOMETRY_ONLY",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "safe_columns": [
+    "Island",
+    "Lat",
+    "Long"
+  ],
+  "expected_row_count": 19,
+  "safe_geometry_row_access_authorized": true,
+  "biological_response_access_authorized": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}
