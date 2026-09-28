@@ -1,0 +1,99 @@
+{
+  "schema": "structural.boreal_19island_state_reference_contract.v0_98",
+  "status": "RESPONSE_INDEPENDENT_STATE_REFERENCE_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": [
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "development/boreal_lake_islands_habitat_reference_contract_v0_76.json"
+  ],
+  "habitat_source": {
+    "name": "RDA_environmental_variables.csv",
+    "dryad_file_id": 4569033,
+    "expected_size_bytes": 8594,
+    "expected_sha256": "30b296c8243d433b8c4aaa2e934dcb9d57b0f909094ad03cfc645babbab61046",
+    "expected_header_sha256": "549dd51e1793ee2ea71cff1a3e9fef84b3b44a3b7aa1a7d274e36ef5b2d5822d",
+    "safe_columns": [
+      "island",
+      "basal.area.a.d",
+      "deciduous.canopy.cover.percent.a.d",
+      "deciduous.understory.cover.percent.a.d",
+      "conifer.canopy.cover.percent.a.d",
+      "conifer.understory.cover.percent.a.d",
+      "total.cwd.volume"
+    ],
+    "protected_columns": [
+      "plant.richness",
+      "insectivore.abund",
+      "frugivore.abund",
+      "bird.abundance",
+      "beetle.catch.rate"
+    ],
+    "closed_columns": [
+      "log10area",
+      "buffer5000",
+      "time.since.fire.beetles",
+      "time.since.fire.plants",
+      "time.since.fire.birds",
+      "charcoal.no",
+      "charcoal.yes",
+      "cwd.dc1",
+      "cwd.dc2",
+      "cwd.dc3",
+      "cwd.dc4",
+      "cwd.dc5"
+    ],
+    "header_classification_basis": "header-only Stage A run 36408213378; zero data rows semantically opened"
+  },
+  "island_universe": {
+    "source": "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "count": 19,
+    "require_exact_order": true
+  },
+  "habitat_projection_rule": {
+    "project_only_safe_columns": true,
+    "require_full_42_island_parent_support": true,
+    "require_exact_frozen_42_island_identity_set": true,
+    "subset_after_safe_projection": "exact 19-island geometry order",
+    "eligible_habitat_column": "finite and nonmissing on all 19 islands with positive population variance",
+    "minimum_eligible_habitat_columns": 1,
+    "column_selection_by_response_forbidden": true
+  },
+  "habitat_reference_rule": {
+    "source_rule": "development/boreal_lake_islands_habitat_reference_contract_v0_76.json",
+    "one_variable": "population z-score as HAB1",
+    "multiple_variables": "deterministic population-correlation PCA",
+    "variance_threshold": 0.8,
+    "jacobi_tolerance": 1e-14,
+    "jacobi_max_iterations": 10000
+  },
+  "external_state_rule": {
+    "source": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "tsf": "raw tsf_2020_years then population z-score over exact 19 islands",
+    "log_area": "log10(area_ha + 1) then population z-score over exact 19 islands",
+    "log_mainland_distance": "log1p(distance_to_mainland_km) then population z-score over exact 19 islands",
+    "population_sd_denominator": "n"
+  },
+  "output_roles": {
+    "R0": [
+      "frozen habitat-reference axes",
+      "TSF_Z"
+    ],
+    "R1_add": [
+      "LOG_AREA_Z",
+      "LOG_MAINLAND_DISTANCE_Z"
+    ]
+  },
+  "response_boundary": {
+    "species_occurrence_used": false,
+    "richness_values_returned": false,
+    "protected_response_values_exposed": false,
+    "counts_as_empirical_evidence": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "success_ceiling": {
+    "next_action": "freeze the 19-island generic/source-continuity operator and only then build the response-sealed intake"
+  }
+}
