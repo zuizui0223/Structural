@@ -1,0 +1,17 @@
+{
+  "schema": "structural.boreal_19island_pilot_execution_request.v1_07",
+  "status": "REQUEST_ONE_SHOT_BURNED_PILOT_EXECUTION",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "authorization_fingerprint": "2942d3d76d118bcf04c71d721d8f37f5531abb964713828dc375f610d08fab97",
+  "authorization_json_sha256": "b32613cad3c2ca4055c581b2540db349b312641e5d94ccd4dee5ec5e6c21978b",
+  "response_file_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+  "irreversible_semantic_pilot_open": true,
+  "pilot_is_feasibility_only": true,
+  "pilot_island_count": 6,
+  "confirmatory_island_count": 13,
+  "excluded_island_count": 23,
+  "confirmatory_response_may_be_opened": false,
+  "raw_response_may_be_uploaded": false,
+  "counts_as_empirical_evidence": false,
+  "one_shot": true
+}

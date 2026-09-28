@@ -1,0 +1,95 @@
+{
+  "schema": "structural.boreal_19island_one_shot_pilot_contract.v1_07",
+  "status": "ONE_SHOT_19ISLAND_PILOT_EXECUTOR_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "authorization_freeze": "development/boreal_19island_pilot_authorization_freeze_v1_06.json",
+    "authorization_builder": "scripts/authorize_boreal_19island_pilot_response_v1_05.py",
+    "protocol": "development/boreal_19island_v031_protocol_v1_03.json",
+    "quality_contract": "development/boreal_19island_v042_quality_contract_v1_03.json",
+    "intake": "development/boreal_19island_response_sealed_intake_v1_02.json",
+    "full_island_universe": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "generic_pilot_runner": "scripts/run_transition_pilot_v0_32.py",
+    "generic_future_admission": "structural.future_admission_v0_42.evaluate_future_admission_v0_42"
+  },
+  "authorization": {
+    "schema": "structural.boreal_19island_pilot_response_authorization.v1_05",
+    "status": "AUTHORIZED_ONE_SHOT_19ISLAND_BURNED_PILOT_RESPONSE",
+    "expected_fingerprint": "2942d3d76d118bcf04c71d721d8f37f5531abb964713828dc375f610d08fab97",
+    "expected_json_sha256": "b32613cad3c2ca4055c581b2540db349b312641e5d94ccd4dee5ec5e6c21978b",
+    "must_be_unconsumed_before_semantic_open": true,
+    "transport_or_identity_failure_consumes_authorization": false
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "download_url": "https://datadryad.org/api/v2/files/4569032/download",
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_species_columns": 466,
+    "expected_full_source_island_rows": 42
+  },
+  "population": {
+    "full_source_island_count": 42,
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "excluded_island_count": 23,
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7
+  },
+  "semantic_access": {
+    "router": "src/structural/boreal_19island_beetle_pilot_router.py",
+    "species_header_names": true,
+    "routing_island_fields_all_42_rows": true,
+    "pilot_occurrence_cells_six_islands": true,
+    "confirmatory_occurrence_cells_thirteen_islands": false,
+    "excluded_occurrence_cells_twenty_three_islands": false,
+    "expected_pilot_target_values_parsed": 2796,
+    "required_confirmatory_target_values_parsed": 0,
+    "required_excluded_target_values_parsed": 0,
+    "single_semantic_router_pass_required": true
+  },
+  "model_snapshot": {
+    "schema": "structural.boreal_19island_pilot_training_snapshot.v1_07",
+    "species_universe": "species detected on at least two distinct frozen pilot islands",
+    "pilot_island_order": "v1.03 pilot blocks in frozen order, island ids sorted within block",
+    "target_encoding": "one fixed-width hexadecimal bitstring per pilot island over the frozen pilot-supported species order",
+    "confirmatory_occurrence_values_stored": false,
+    "excluded_occurrence_values_stored": false,
+    "response_file_sha_required": true,
+    "raw_pilot_surface_sha_required": true
+  },
+  "pilot_execution": {
+    "v0_32_runner": "scripts/run_transition_pilot_v0_32.py",
+    "future_admission": "structural.future_admission_v0_42.evaluate_future_admission_v0_42",
+    "pilot_is_feasibility_only": true,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0
+  },
+  "post_access_terminal_rules": [
+    "once the semantic router is invoked, authorization is consumed even if routing, domain, v0.32, or v0.42 fails",
+    "any opened pilot occurrence outside exact 0/1 is terminal",
+    "missing or duplicate source island routing row is terminal",
+    "any confirmatory target parse above zero is a terminal firewall violation",
+    "any excluded-island target parse above zero is a terminal firewall violation",
+    "empty common pilot-supported species universe is terminal",
+    "v0.32 endpoint estimability failure is terminal",
+    "v0.42 response-quality failure is terminal",
+    "no threshold, block, island, species, or endpoint rescue is permitted after semantic opening"
+  ],
+  "qualified_ceiling": {
+    "status": "QUALIFIED_TO_FREEZE_19ISLAND_CONFIRMATORY_MODEL_WITH_PILOT_SNAPSHOT",
+    "eligible_action": "freeze_19island_confirmatory_model_and_predictions_only",
+    "authorization_consumed": true,
+    "pilot_response_opened": true,
+    "confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "counts_as_empirical_evidence": false
+  },
+  "execution_authorized_now": false,
+  "reason": "the v1.06 authorization is frozen, but execution must remain a separate revision whose merge triggers the only intended semantic pilot opening"
+}
