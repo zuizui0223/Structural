@@ -1,0 +1,39 @@
+{
+  "schema": "structural.current_status.v0_80",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_79.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0
+  },
+  "next_generation_hypothesis": {
+    "path": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+    "name": "dual_isolation_source_pool",
+    "status": "frozen_untested"
+  },
+  "boreal_lake_island_preintake": {
+    "candidate_id": "lac_la_ronge_boreal_island_beetles_2026",
+    "status": "HOLD_manual_stage_A_and_response_independent_execution_pending",
+    "future_intake_version": "v0.12",
+    "prepilot_builder_contract": "development/boreal_lake_islands_prepilot_contract_builder_v0_80.json",
+    "prepilot_builder_cli": "scripts/build_boreal_v031_v042_v0_80.py",
+    "stage_A_workflow_executed": false,
+    "header_manifest_freeze_exists": false,
+    "safe_row_projection_executed": false,
+    "spatial_partition_executed": false,
+    "habitat_reference_executed": false,
+    "v0_12_intake_built": false,
+    "v0_31_protocol_built": false,
+    "v0_42_quality_contract_built": false,
+    "biological_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "counts_as_active_fresh_candidate": false
+  },
+  "ecological_rationale": "The response-independent path is now specified through the final pre-pilot generic contracts. v0.80 maps frozen pilot/confirmatory islands to the v0.75 spatial blocks, freezes one common pilot-supported beetle species universe rule, and binds a v0.42 response-quality contract to the exact v0.31 fingerprint. This preserves spatial transfer while keeping the static occurrence endpoint distinct from temporal mechanism claims.",
+  "next_valid_scientific_event": "run the already-frozen Stage-A to v0.79 chain, then let v0.80 build exact v0.31/v0.42 components; a separate router/access authorization is still required before any beetle occurrence value opens",
+  "active_priority": {
+    "path": "development/structural_active_priority_v0_80.json",
+    "status": "human_stage_A_gate_with_full_prepilot_contract_path_ready"
+  }
+}
