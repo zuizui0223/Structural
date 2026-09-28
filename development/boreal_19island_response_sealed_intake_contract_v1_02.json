@@ -1,0 +1,81 @@
+{
+  "schema": "structural.boreal_19island_response_sealed_intake_contract.v1_02",
+  "status": "PREDECLARED_RESPONSE_SEALED_INTAKE_BINDING",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "state_freeze": "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "source_operator_freeze": "development/boreal_19island_source_operator_freeze_v1_01.json",
+    "dryad_metadata": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "preintake": "development/boreal_lake_islands_preintake_v0_65.json"
+  },
+  "required_parent_status": {
+    "spatial_freeze": "SPATIAL_PARTITION_COMMITTED_RESPONSE_INDEPENDENTLY",
+    "state_freeze": "STATE_REFERENCE_COMMITTED_RESPONSE_INDEPENDENTLY",
+    "source_operator_freeze": "SOURCE_OPERATOR_COMMITTED_BY_FINGERPRINT_RESPONSE_INDEPENDENTLY"
+  },
+  "population": {
+    "island_count": 19,
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "population_rule": "the exact 19 islands in the committed v0.99 state reference and v1.00 spatial freeze; no other 42-island rows enter this fresh system"
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "expected_full_file_island_count_reported": 42,
+    "opened": false
+  },
+  "endpoint_design": {
+    "mode": "static_cross_sectional_occurrence",
+    "endpoint_semantics": "beetle species detected in the standardized 30 x 30 m insular sampling assemblage on the frozen 19-island burn-window population, not complete whole-island occupancy",
+    "whole_island_occupancy_claim_authorized": false,
+    "colonization_claim_authorized": false,
+    "rescue_persistence_claim_authorized": false,
+    "mechanism_claim_authorized": false
+  },
+  "model_binding": {
+    "R0": ["PC1", "PC2", "PC3", "TSF_Z"],
+    "R1_add": ["LOG_AREA_Z", "LOG_MAINLAND_DISTANCE_Z"],
+    "R2_source": "response-independent generic graph context from the v1.01 committed source operator",
+    "R3_source": "training-only global occupancy breadth plus direct/diffuse Euclidean occupied-source context",
+    "C_source": "training-only graph-path occupied-source continuity from the v1.01 committed source operator",
+    "primary_contrast": "C_minus_R3 heldout binary log loss"
+  },
+  "prepilot_design": {
+    "v0_31": {
+      "partition_axis": "response_independent_19island_spatial_components_v097",
+      "endpoint_id": "fixed_pilot_supported_beetle_plot_occurrence_19island",
+      "heldout_design_id": "leave_one_spatial_component_out_fixed_pilot_supported_species_universe_19island",
+      "minimum_test_rows": 3,
+      "minimum_train_positive": 5,
+      "minimum_train_negative": 5,
+      "minimum_estimable_blocks": 3,
+      "species_universe_rule": "after opening burned-pilot response only, include beetle species detected on at least two distinct frozen pilot islands and use the identical universe for every pilot held-out block"
+    },
+    "v0_42": {
+      "minimum_response_qualified_blocks": 3,
+      "post_open_rescue_forbidden": true
+    }
+  },
+  "response_boundary": {
+    "biological_response_values_accessed": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "mechanism_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0
+  },
+  "success_ceiling": {
+    "v0_31_protocol_construction_authorized": true,
+    "v0_42_quality_contract_construction_authorized": true,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "next_action": "construct and commit fingerprint-bound v0.31/v0.42 pre-pilot contracts from this exact intake without opening the beetle matrix"
+  }
+}
