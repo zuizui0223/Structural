@@ -1,0 +1,48 @@
+{
+  "schema": "structural.gift_metadata_eligibility_contract.v1_28",
+  "status": "predeclared_before_GIFT_metadata_execution",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parent": "development/gift_metadata_freeze_contract_v0_89.json",
+  "input": "exact metadata-only artifact produced by the first successful v0.89 workflow execution",
+  "response_access": {
+    "species_composition_allowed": false,
+    "species_richness_allowed": false,
+    "checklist_contents_allowed": false
+  },
+  "eligibility_principle": "selection may use only list/checklist geography and coverage metadata returned under list_set_only=TRUE; no biological-response summary may affect inclusion",
+  "required_checks": [
+    "metadata artifact SHA and workflow provenance are frozen",
+    "all selected rows remain geo_type Island under the original GIFT query",
+    "native and complete floristic/taxonomic filters are inherited unchanged",
+    "geographic entities have stable GIFT entity/list identifiers sufficient for later response routing",
+    "coordinates or polygon/area metadata needed for spatial blocking are present or can be obtained through a separately response-independent GIFT geography call",
+    "overlapping checklist geographies are not silently treated as independent islands"
+  ],
+  "overlap_rule": {
+    "remove_overlap_was_false_at_metadata_retrieval": true,
+    "reason": "retain the full metadata universe so overlap handling is explicit rather than hidden inside the API",
+    "later_action": "construct an overlap graph from response-independent geography only; connected overlap components are indivisible validation units or one representative is selected by a deterministic metadata-only rule frozen before species access"
+  },
+  "block_rule": {
+    "preferred": "archipelago or non-overlapping geographic component when metadata supplies it",
+    "fallback": "response-independent spatial connected components from island centroids/polygons",
+    "minimum_confirmatory_blocks": 6,
+    "pilot_fraction_target": 0.20,
+    "pilot_selection": "deterministic SHA-ranked blocks after geometry is frozen",
+    "heldout_source_exclusion": "entire validation block removed before every species-conditioned source feature is computed"
+  },
+  "reference_requirement": {
+    "R3_must_include_species_x_regional_pool": true,
+    "regional_pool_defined_before_species_access": true,
+    "C_may_not_encode_region_identity_not_already_available_to_R3": true
+  },
+  "stop_conditions": [
+    "metadata-only artifact contains species composition",
+    "stable response routing identifier is absent",
+    "independent validation blocks cannot be formed without species data",
+    "overlap cannot be resolved response-independently",
+    "fewer than six confirmatory blocks remain after deterministic eligibility"
+  ],
+  "counts_as_empirical_evidence": false,
+  "species_response_authorized": false
+}
