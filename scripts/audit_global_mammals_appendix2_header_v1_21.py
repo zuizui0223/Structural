@@ -224,7 +224,7 @@ def _first_row_bytes(
     *,
     chunk_size: int = 4096,
     maximum_scan_bytes: int = 4 * 1024 * 1024,
-) -> tuple[bytes, int]:
+) -> tuple[bytes, int, tuple[bytes, ...]]:
     if member not in zf.namelist():
         raise GlobalMammalAppendix2AuditError(
             f"worksheet member missing: {member}"
@@ -252,27 +252,57 @@ def _first_row_bytes(
                     if len(buffer) > 8192:
                         del buffer[:-8192]
                     continue
+                preamble = bytes(buffer[:match.start()])
+                namespace_attrs = tuple(
+                    match.group(0)
+                    for match in re.finditer(
+                        br'xmlns(?::[A-Za-z_][\\w.-]*)?="[^"]+"',
+                        preamble,
+                    )
+                )
                 del buffer[:match.start()]
                 start_found = True
 
             # Header rows should be ordinary non-self-closing row elements.
             tag_end = buffer.find(b">")
             if tag_end >= 0 and buffer[:tag_end].rstrip().endswith(b"/"):
-                return bytes(buffer[:tag_end + 1]), total_scanned
+                return (
+                    bytes(buffer[:tag_end + 1]),
+                    total_scanned,
+                    namespace_attrs,
+                )
 
             end = ROW_END_RE.search(buffer)
             if end is not None:
-                return bytes(buffer[:end.end()]), total_scanned
+                return (
+                    bytes(buffer[:end.end()]),
+                    total_scanned,
+                    namespace_attrs,
+                )
 
     raise GlobalMammalAppendix2AuditError(
         f"worksheet has no complete first row: {member}"
     )
 
 
-def _parse_row_fragment(row_bytes: bytes) -> tuple[dict, set[int]]:
+def _parse_row_fragment(
+    row_bytes: bytes,
+    namespace_attrs: Sequence[bytes],
+) -> tuple[dict, set[int]]:
+    # Namespace declarations normally live on the worksheet root. Reattach
+    # only those declarations around the isolated first-row fragment so
+    # prefixed row attributes can be parsed without reading later rows.
+    wrapper = (
+        b"<auditroot "
+        + b" ".join(namespace_attrs)
+        + b">"
+        + row_bytes
+        + b"</auditroot>"
+    )
     try:
-        row = ET.fromstring(row_bytes)
-    except ET.ParseError as exc:
+        root = ET.fromstring(wrapper)
+        row = next(iter(root))
+    except (ET.ParseError, StopIteration) as exc:
         raise GlobalMammalAppendix2AuditError(
             "first worksheet row XML is invalid"
         ) from exc
@@ -414,11 +444,14 @@ def audit_workbook(
             row_meta = []
             needed_shared: set[int] = set()
             for sheet in sheets:
-                row_bytes, scanned = _first_row_bytes(
+                row_bytes, scanned, namespace_attrs = _first_row_bytes(
                     zf,
                     sheet["worksheet_member"],
                 )
-                parsed, shared = _parse_row_fragment(row_bytes)
+                parsed, shared = _parse_row_fragment(
+                    row_bytes,
+                    namespace_attrs,
+                )
                 needed_shared |= shared
                 row_meta.append({
                     **sheet,
