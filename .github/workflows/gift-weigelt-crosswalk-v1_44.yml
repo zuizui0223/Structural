@@ -1,0 +1,87 @@
+name: GIFT-Weigelt strict crosswalk v1.44
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_weigelt_crosswalk_request_v1_44.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  crosswalk:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate frozen response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_weigelt_crosswalk_request_v1_44.json").read_text())
+          c=json.loads(Path("development/gift_weigelt_crosswalk_contract_v1_44.json").read_text())
+          assert r["gift_artifact_id"]==11059270235
+          assert r["weigelt_artifact_id"]==10930234623
+          assert r["plant_species_composition_authorized"] is False
+          assert r["mammal_Appendix1_access_authorized"] is False
+          assert c["global_one_to_one_rule"]["manual_matching_forbidden"] is True
+          assert c["global_one_to_one_rule"]["threshold_retuning_after_execution_forbidden"] is True
+          PY
+      - name: Download exact GIFT geography artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v138-geography-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638377
+          path: build/gift_v144/gift
+          repository: zuizui0223/Structural
+          run-id: 36621638377
+          github-token: ${{ github.token }}
+      - name: Download exact Weigelt safe rows
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-rows-v0-60
+          path: build/gift_v144/weigelt
+          repository: zuizui0223/Structural
+          run-id: 36316161135
+          github-token: ${{ github.token }}
+      - name: Verify exact geography identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/gift_v144/gift/gift_whole_island_geography.csv":"385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+            "build/gift_v144/weigelt/weigelt_islanddata_safe_v0_60.csv":"ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s
+          PY
+      - name: Execute strict one-to-one crosswalk
+        run: |
+          mkdir -p build/gift_v144/output
+          python scripts/crosswalk_gift_weigelt_v1_44.py             build/gift_v144/gift/gift_whole_island_geography.csv             build/gift_v144/weigelt/weigelt_islanddata_safe_v0_60.csv             --output-crosswalk build/gift_v144/output/gift_weigelt_crosswalk.csv             --output-unmatched build/gift_v144/output/gift_unmatched_islands.csv             --receipt build/gift_v144/output/crosswalk_receipt.json
+      - name: Enforce response ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v144/output/crosswalk_receipt.json").read_text())
+          assert x["status"]=="STRICT_COMMON_GEOGRAPHY_CROSSWALK_COMPLETE"
+          assert x["input_GIFT_islands"]==1373
+          assert x["plant_species_composition_opened"] is False
+          assert x["plant_species_richness_computed"] is False
+          assert x["mammal_Appendix1_reopened"] is False
+          PY
+      - name: Upload common-geography crosswalk
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v144-weigelt-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v144/output/gift_weigelt_crosswalk.csv
+            build/gift_v144/output/gift_unmatched_islands.csv
+            build/gift_v144/output/crosswalk_receipt.json
+          if-no-files-found: error
+          retention-days: 30
