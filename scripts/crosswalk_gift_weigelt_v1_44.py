@@ -15,9 +15,11 @@ def sha(p):
  return h.hexdigest()
 
 def norm(s):
- s=unicodedata.normalize("NFKD",str(s or ""))
+ raw=str(s or "").strip()
+ if raw.casefold() in {"","na","nan","none","null"}: return ""
+ s=unicodedata.normalize("NFKD",raw)
  s="".join(ch for ch in s if not unicodedata.combining(ch)).casefold()
- s=re.sub(r"[^0-9a-z]+"," ",s)
+ s="".join(ch if ch.isalnum() else " " for ch in s)
  return " ".join(s.split())
 
 def split_alt(s):
