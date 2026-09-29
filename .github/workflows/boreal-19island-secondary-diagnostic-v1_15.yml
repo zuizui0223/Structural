@@ -1,0 +1,82 @@
+name: Boreal 19-island secondary diagnostic v1.15
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_secondary_diagnostic_request_v1_15.json
+
+permissions:
+  contents: read
+
+jobs:
+  descriptive-nonrescuing-diagnostic:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural result
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate post-hoc non-rescue request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/boreal_19island_secondary_diagnostic_request_v1_15.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.boreal_19island_secondary_diagnostic_request.v1_15"
+          )
+          assert req["status"] == "REQUEST_POSTHOC_NONRESCUING_DIAGNOSTIC"
+          assert req["primary_supported"] is False
+          assert req["fresh_system_denominator_contribution"] == 0
+          assert req["raw_confirmatory_response_may_be_reopened"] is False
+          assert req["secondary_analysis_may_change_primary_status"] is False
+          assert req["mechanism_claim_authorized"] is False
+          assert req["one_shot"] is True
+          PY
+
+      - name: Build frozen secondary diagnostic
+        run: |
+          mkdir -p build/boreal_v115
+          python scripts/analyze_boreal_19island_secondary_diagnostic_v1_15.py \
+            --output build/boreal_v115/diagnostic.json
+
+      - name: Enforce non-rescue ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("build/boreal_v115/diagnostic.json")
+          x = json.loads(p.read_text(encoding="utf-8"))
+          assert x["status"] == (
+              "POSTHOC_DIAGNOSTIC_COMPLETE_PRIMARY_REMAINS_NOT_SUPPORTED"
+          )
+          assert x["primary_supported"] is False
+          assert x["fresh_system_denominator_contribution"] == 0
+          assert x["raw_confirmatory_response_reopened"] is False
+          assert x["row_level_confirmatory_targets_used"] is False
+          assert x["secondary_analysis_may_change_primary_status"] is False
+          assert x["mechanism_claim_authorized"] is False
+          assert x["causal_dispersal_claim_authorized"] is False
+          PY
+
+      - name: Upload diagnostic only
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-v115-secondary-diagnostic-${{ github.sha }}-${{ github.run_id }}
+          path: build/boreal_v115/diagnostic.json
+          if-no-files-found: error
+          retention-days: 30
