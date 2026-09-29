@@ -1,0 +1,57 @@
+name: GIFT public geology route v1.53
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_public_geology_request_v1_53.json
+permissions:
+  contents: read
+jobs:
+  geology-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate exact non-biological query surface
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_public_geology_request_v1_53.json").read_text())
+          c=json.loads(Path("development/gift_public_geology_contract_v1_53.json").read_text())
+          assert r["queries"]==["geoentities_geology","geology"]
+          assert c["public_API"]["allowed_queries"]==r["queries"]
+          assert c["public_API"]["species_or_checklist_query_forbidden"] is True
+          assert r["species_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+      - name: Query exact public geology tables
+        run: |
+          mkdir -p build/gift_v153
+          python scripts/fetch_gift_public_geology_v1_53.py             --output build/gift_v153/gift_geology.csv             --receipt build/gift_v153/receipt.json
+      - name: Enforce response ceiling
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v153/receipt.json").read_text())
+          assert x["status"]=="PUBLIC_GIFT_GEOLOGY_PROJECTED_RESPONSE_INDEPENDENTLY"
+          assert x["species_endpoint_requested"] is False
+          assert x["checklist_endpoint_requested"] is False
+          assert x["species_composition_opened"] is False
+          PY
+      - name: Upload geology-only artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v153-geology-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v153/gift_geology.csv
+            build/gift_v153/receipt.json
+          if-no-files-found: warn
+          retention-days: 30
