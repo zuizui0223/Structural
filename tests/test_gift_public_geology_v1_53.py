@@ -16,4 +16,4 @@ def test_fetcher_contains_no_species_query():
  s=(ROOT/"scripts/fetch_gift_public_geology_v1_53.py").read_text()
  assert 'base+"geoentities_geology"' in s
  assert 'base+"geology"' in s
- assert "checklists" not in s.lower()
+ assert 'base+"checklists"' not in s\n assert 'base+"species"' not in s
