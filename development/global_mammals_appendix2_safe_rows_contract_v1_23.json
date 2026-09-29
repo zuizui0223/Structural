@@ -95,7 +95,12 @@
     "preserve_source_row_order": true,
     "null_counts_safe_columns_only": true,
     "forbidden_or_closed_values_may_appear_in_output": false,
-    "raw_xlsx_may_be_uploaded": false
+    "raw_xlsx_may_be_uploaded": false,
+    "value_encoding": {
+      "ID": "stripped UTF-8 source text",
+      "bioregion": "stripped UTF-8 source text",
+      "numeric_columns": "Python float.hex() after frozen finite/range validation"
+    }
   },
   "evidence_boundary": {
     "Appendix_1_response_file_reopened": false,
@@ -110,5 +115,11 @@
     "safe_spatial_design_may_be_built": true,
     "response_access_authorized": false,
     "next_action": "commit the exact 5592-row safe table and receipt, then freeze the response-independent global spatial/pilot design from ID, centroid, area/isolation/climate and bioregion only"
+  },
+  "transport_policy": {
+    "exact_file_only": true,
+    "alternate_file_id_retry_authorized": false,
+    "alternate_endpoint_retry_authorized": false,
+    "raw_xlsx_artifact_authorized": false
   }
 }
