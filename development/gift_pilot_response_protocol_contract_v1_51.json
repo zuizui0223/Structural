@@ -1,0 +1,61 @@
+{
+  "schema": "structural.gift_pilot_response_protocol_contract.v1_51",
+  "status": "PILOT_RESPONSE_SEMANTICS_FROZEN_NOT_AUTHORIZED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_spatial_reference_freeze_v1_49.json",
+    "development/gift_pilot_list_router_contract_v1_50.json",
+    "development/gift_geological_origin_metadata_freeze_v1_49.json"
+  ],
+  "first_biological_access": {
+    "function": "GIFT_checklists_raw",
+    "list_IDs": "exact frozen 147 pilot list_IDs only from the future committed v1.50 router result",
+    "arguments": {
+      "namesmatched": false,
+      "taxon_name": "Angiospermae",
+      "floristic_group": "native",
+      "GIFT_version": "3.2",
+      "api": "https://gift.uni-goettingen.de/api/extended/"
+    },
+    "confirmatory_list_ID_access": false
+  },
+  "entity_species_response": {
+    "entity_unit": "one of the 99 frozen pilot whole-island entity_IDs",
+    "species_key": "work_ID",
+    "certain_presence": "at least one returned row for any eligible list_ID of the entity with native==1, questionable==0 and quest_native==0",
+    "uncertain": "no certain presence but at least one returned row for the work_ID on an eligible entity list with questionable!=0 or quest_native!=0",
+    "checklist_absence": "no returned row for that work_ID across any eligible list_ID of the entity",
+    "uncertain_targets_scored": false,
+    "absence_claim_boundary": "checklist absence in complete/native/suit_geo GIFT lists; do not claim perfect biological nondetection"
+  },
+  "fixed_species_universe": {
+    "candidate_species": "work_IDs with at least one certain presence in pilot",
+    "minimum_present_archipelago_blocks": 3,
+    "minimum_absent_archipelago_blocks": 3,
+    "block_presence": "at least one certain-presence entity in that frozen pilot archipelago",
+    "block_absence": "no certain presence and at least one known checklist-absence entity in that frozen pilot archipelago",
+    "minimum_qualifying_species": 100,
+    "maximum_species": 2000,
+    "if_above_maximum": "select 2000 smallest SHA256('Structural-GIFT-species-v1.51|'+work_ID), tie by numeric/string work_ID",
+    "post_access_threshold_change_forbidden": true
+  },
+  "pilot_quality_gate": {
+    "all_99_pilot_entities_must_be_returnable_from_their_147_lists": true,
+    "unexpected_list_ID": "terminal STOP for v1.51",
+    "missing_or_invalid_work_ID": "row excluded from fixed species construction and counted in receipt; it cannot create a presence or absence for another work_ID",
+    "qualifying_species_below_100": "terminal STOP; confirmatory access remains sealed",
+    "confirmatory_access_after_clean_pilot": false,
+    "next_after_clean_pilot": "preserve a compact entity-by-fixed-species pilot matrix including unknown mask, then freeze R3/C models and all confirmatory predictions in a separate revision"
+  },
+  "geological_origin_gate": {
+    "pilot_access_requires_prior_resolution": true,
+    "current_state": "UNRESOLVED_no_GIFT_env_misc_candidate",
+    "authorization_now": false
+  },
+  "evidence_boundary": {
+    "pilot_species_response_authorized": false,
+    "confirmatory_species_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution_before_final_confirmatory_score": 0
+  }
+}
