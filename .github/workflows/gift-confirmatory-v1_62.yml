@@ -1,0 +1,178 @@
+name: GIFT one-shot confirmatory scoring v1.62
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_confirmatory_execution_request_v1_62.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  confirmatory:
+    runs-on: ubuntu-24.04
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::GIFT@1.3.4
+            any::jsonlite
+            any::digest
+      - name: Install exact replay numeric dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.3.3"
+
+      - name: Validate one-shot request and frozen scorer
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_confirmatory_execution_request_v1_62.json").read_text())
+          c=json.loads(Path("development/gift_confirmatory_scoring_contract_v1_61.json").read_text())
+          f=json.loads(Path("development/gift_preconfirmatory_model_freeze_v1_60.json").read_text())
+          assert r["status"]=="REQUEST_ONE_SHOT_FRESH_PLANT_CONFIRMATORY_SCORING"
+          assert r["prediction_artifact_id"]==11060858946
+          assert r["routing_artifact_id"]==11060636113
+          assert r["pilot_artifact_id"]==11060478567
+          assert r["confirmatory_response_authorized"] is True
+          assert r["one_shot"] is True
+          assert c["primary"]["bootstrap_replicates"]==10000
+          assert c["primary"]["bootstrap_seed"]==20260930
+          assert f["result"]["prediction_cells"]==90496
+          PY
+
+      - name: Download exact pilot snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v155-pilot-response-7b892540ed98c1adb97314cdaa0baaa6c46bda25-36626284777
+          path: build/gift_v162/pilot
+          repository: zuizui0223/Structural
+          run-id: 36626284777
+          github-token: ${{ github.token }}
+      - name: Download exact pilot/confirmatory routing
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810621
+          path: build/gift_v162/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810621
+          github-token: ${{ github.token }}
+      - name: Download exact pristine spatial reference
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v147-spatial-reference-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390299
+          path: build/gift_v162/spatial
+          repository: zuizui0223/Structural
+          run-id: 36624390299
+          github-token: ${{ github.token }}
+      - name: Download exact GIFT geography
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v138-geography-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638377
+          path: build/gift_v162/geography
+          repository: zuizui0223/Structural
+          run-id: 36621638377
+          github-token: ${{ github.token }}
+      - name: Download exact frozen predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v159-preconfirmatory-e1d2e64455ca25576f17e19db5f799f3a3973983-36627890437
+          path: build/gift_v162/frozen
+          repository: zuizui0223/Structural
+          run-id: 36627890437
+          github-token: ${{ github.token }}
+
+      - name: Verify every parent identity before replay
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/gift_v162/pilot/pilot_species_universe.csv":"6b92ebfa7e3c242f0cffde3e91f9ff05c821b2ca242638a0ead6f6f0591e4bce",
+            "build/gift_v162/pilot/pilot_matrix.csv":"1a10e6a2d6a06039975f2f8d045575f0d461f647d32b4b3428d3462bcec66f6d",
+            "build/gift_v162/routing/pilot_lists.csv":"f7986c13d65070bbd3aa23db5be8cfc4af42da8590b7d47a5cbd9c2ece9f27d4",
+            "build/gift_v162/routing/confirmatory_lists.csv":"c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a",
+            "build/gift_v162/spatial/state_reference.csv":"26f48c761208d683c90dea8f3fdb45f72ad35a2283c0945120dad68e307d80ee",
+            "build/gift_v162/spatial/island_partition.csv":"70bdddaa0fff2b576419af6cfb18870a97b0cae38101472d1c01790e47c74797",
+            "build/gift_v162/spatial/source_graph_edges.csv":"476f5a9fe12bc27033f5bc929eae752705b6824dd8a2828f02705d74586964ae",
+            "build/gift_v162/spatial/spatial_reference_receipt.json":"e512b47cf5ffbb47825dc4f122d03e579690993f6f7f2891080a8f61b7d295af",
+            "build/gift_v162/geography/gift_whole_island_geography.csv":"385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+            "build/gift_v162/frozen/confirmatory_predictions.f64le":"3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+            "build/gift_v162/frozen/confirmatory_entity_order.csv":"22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663",
+            "build/gift_v162/frozen/model_receipt.json":"1e9950ab95cff3382ec899b213a4f38fd859b100906d33b9fa2519f87dd0bd2d",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s,(p,s)
+          PY
+
+      - name: Exact replay predictions before response
+        run: |
+          mkdir -p build/gift_v162/replay
+          python scripts/freeze_gift_preconfirmatory_model_v1_57.py             build/gift_v162/pilot/pilot_species_universe.csv             build/gift_v162/pilot/pilot_matrix.csv             development/gift_pilot_response_freeze_v1_58.json             build/gift_v162/spatial/state_reference.csv             build/gift_v162/spatial/island_partition.csv             build/gift_v162/spatial/source_graph_edges.csv             build/gift_v162/spatial/spatial_reference_receipt.json             build/gift_v162/geography/gift_whole_island_geography.csv             --predictions build/gift_v162/replay/confirmatory_predictions.f64le             --entity-order build/gift_v162/replay/confirmatory_entity_order.csv             --receipt build/gift_v162/replay/model_receipt.json
+      - name: Require byte-identical replay before any confirmatory API request
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected={
+            "confirmatory_predictions.f64le":"3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+            "confirmatory_entity_order.csv":"22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663",
+            "model_receipt.json":"1e9950ab95cff3382ec899b213a4f38fd859b100906d33b9fa2519f87dd0bd2d",
+          }
+          for name,s in expected.items():
+              got=hashlib.sha256((Path("build/gift_v162/replay")/name).read_bytes()).hexdigest()
+              assert got==s,(name,got,s)
+          PY
+
+      - name: Consume the 596-list confirmatory response once
+        run: |
+          mkdir -p build/gift_v162/result
+          Rscript scripts/run_gift_confirmatory_response_v1_61.R             --confirmatory-lists build/gift_v162/routing/confirmatory_lists.csv             --pilot-lists build/gift_v162/routing/pilot_lists.csv             --species-universe build/gift_v162/pilot/pilot_species_universe.csv             --matrix build/gift_v162/result/confirmatory_matrix.csv             --receipt build/gift_v162/result/confirmatory_response_receipt.json
+
+      - name: Score frozen primary immediately
+        run: |
+          python scripts/score_gift_confirmatory_v1_61.py             build/gift_v162/frozen/confirmatory_predictions.f64le             build/gift_v162/frozen/confirmatory_entity_order.csv             build/gift_v162/pilot/pilot_species_universe.csv             build/gift_v162/result/confirmatory_matrix.csv             build/gift_v162/result/confirmatory_response_receipt.json             --block-output build/gift_v162/result/block_scores.csv             --result build/gift_v162/result/confirmatory_result.json
+
+      - name: Enforce one-shot completion semantics
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/gift_v162/result/confirmatory_result.json").read_text())
+          q=json.loads(Path("build/gift_v162/result/confirmatory_response_receipt.json").read_text())
+          assert r["status"]=="FRESH_PLANT_CONFIRMATORY_PRIMARY_SCORED_ONCE"
+          assert r["target_rows"]==90496 and r["confirmatory_blocks"]==59
+          assert r["confirmatory_response_consumed"] is True
+          assert r["rerun_authorized"] is False
+          assert r["counts_as_fresh_confirmatory_evidence"] is True
+          assert r["fresh_system_denominator_contribution"]==1
+          assert q["confirmatory_list_IDs_requested"]==596
+          assert q["pilot_list_IDs_requested"]==0
+          PY
+
+      - name: Upload terminal confirmatory bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v162-confirmatory-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v162/result/confirmatory_matrix.csv
+            build/gift_v162/result/confirmatory_response_receipt.json
+            build/gift_v162/result/block_scores.csv
+            build/gift_v162/result/confirmatory_result.json
+          if-no-files-found: warn
+          retention-days: 30

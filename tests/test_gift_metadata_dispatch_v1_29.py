@@ -34,9 +34,9 @@ def test_dispatcher_only_emits_workflow_dispatch_and_never_queries_gift():
     assert '"ref": "main"' in text
     assert "GIFT_checklists" not in text
     assert "gift.uni-goettingen.de" not in text
-    assert "species" not in text.lower().split(
-        "Validate one-shot metadata-only request", 1
-    )[0]
+    lowered = text.lower()
+    prefix = lowered.split("validate one-shot metadata-only request", 1)[0]
+    assert "species" not in prefix
 
 
 def test_target_v089_is_still_metadata_only():

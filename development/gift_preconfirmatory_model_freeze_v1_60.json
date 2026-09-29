@@ -1,0 +1,58 @@
+{
+  "schema": "structural.gift_preconfirmatory_model_freeze.v1_60",
+  "status": "PRISTINE_PLANT_CONFIRMATORY_PREDICTIONS_ARTIFACT_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-preconfirmatory-model-v1_59.yml",
+    "workflow_run_id": 36627890437,
+    "workflow_head_sha": "e1d2e64455ca25576f17e19db5f799f3a3973983",
+    "artifact_id": 11060858946,
+    "artifact_name": "gift-v159-preconfirmatory-e1d2e64455ca25576f17e19db5f799f3a3973983-36627890437",
+    "artifact_digest": "sha256:f179f8d41993af3af1f0e2323cefef71d0054b4427f74e5d568b03ccd8c2fd54",
+    "expires_at": "2026-10-29T20:39:47Z"
+  },
+  "artifact_files": {
+    "confirmatory_predictions.f64le": {
+      "size_bytes": 1447968,
+      "sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4"
+    },
+    "confirmatory_entity_order.csv": {
+      "size_bytes": 13909,
+      "sha256": "22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663"
+    },
+    "model_receipt.json": {
+      "size_bytes": 12389,
+      "sha256": "1e9950ab95cff3382ec899b213a4f38fd859b100906d33b9fa2519f87dd0bd2d"
+    }
+  },
+  "result": {
+    "focal_species": 224,
+    "training_rows": 22176,
+    "confirmatory_entities": 404,
+    "prediction_cells": 90496,
+    "prediction_shape": [404,224,2],
+    "training_empty_global_source_rows": 729,
+    "training_empty_graph_source_rows": 18241,
+    "confirmatory_empty_global_source_rows": 0,
+    "confirmatory_empty_graph_source_rows": 82144
+  },
+  "response_independent_prediction_estimability_audit": {
+    "cells_with_abs_pC_minus_pR3_gt_1e_12": 89911,
+    "total_cells": 90496,
+    "fraction": 0.993535625884017,
+    "median_abs_probability_difference": 6.838163846488343e-06,
+    "mean_abs_probability_difference": 0.0015634267504698101,
+    "max_abs_probability_difference": 0.1628941761356858,
+    "confirmatory_archipelago_blocks": 59,
+    "blocks_with_nonzero_mean_abs_probability_difference_gt_1e_12": 59,
+    "interpretation": "candidate and R3 prediction surfaces are numerically distinct throughout all confirmatory validation blocks; this audit uses no confirmatory target"
+  },
+  "response_boundary": {
+    "confirmatory_target_values_used": false,
+    "confirmatory_species_composition_opened": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "next_action": "exact-replay verify this prediction freeze before issuing one-shot confirmatory checklist access"
+}
