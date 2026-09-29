@@ -1,0 +1,59 @@
+{
+  "schema": "structural.gift_pilot_list_router_contract.v1_50",
+  "status": "PILOT_LIST_IDS_RESPONSE_INDEPENDENTLY_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_metadata_freeze_commit_v1_34.json",
+    "development/gift_spatial_reference_freeze_v1_49.json"
+  ],
+  "metadata_input": {
+    "workflow_run_id": 36582542511,
+    "artifact_id": 11039932741,
+    "metadata_sha256": "3d7f5a1284aded4e28e0bddea2f09c87ce9fb456ac785b84d59446307e0ba4a7",
+    "expected_rows": 1930
+  },
+  "partition_input": {
+    "workflow_run_id": 36624390299,
+    "artifact_id": 11059738512,
+    "partition_sha256": "70bdddaa0fff2b576419af6cfb18870a97b0cae38101472d1c01790e47c74797",
+    "expected_primary_islands": 503,
+    "expected_pilot_islands": 99,
+    "expected_confirmatory_islands": 404
+  },
+  "router": {
+    "join_key": "entity_ID exact string",
+    "metadata_requirements": {
+      "restricted": 0,
+      "suit_geo": 1,
+      "native_indicated": 1
+    },
+    "pilot_output_fields": ["entity_ID","list_ID","ref_ID"],
+    "confirmatory_output_fields": ["entity_ID","list_ID","ref_ID"],
+    "expected_pilot_list_ID_count": 147,
+    "expected_confirmatory_list_ID_count": 596,
+    "duplicate_list_ID_allowed": false,
+    "species_API_called": false
+  },
+  "future_first_response_boundary": {
+    "function": "GIFT_checklists_raw",
+    "allowed_list_IDs": "exact frozen pilot list_ID vector only",
+    "forbidden_list_IDs": "all 596 confirmatory list_IDs and any other GIFT list",
+    "arguments": {
+      "namesmatched": false,
+      "taxon_name": "Angiospermae",
+      "floristic_group": "native",
+      "GIFT_version": "3.2",
+      "api": "https://gift.uni-goettingen.de/api/extended/"
+    }
+  },
+  "geological_origin_gate": {
+    "must_be_resolved_or_formally_declared_unavailable_before_pilot_access": true,
+    "currently_resolved": false
+  },
+  "response_boundary": {
+    "species_API_authorized_now": false,
+    "pilot_species_response_authorized": false,
+    "confirmatory_species_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
