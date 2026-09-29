@@ -19,7 +19,13 @@
     "geometry": "archipelago centroid assigned to fixed global latitude-longitude cells",
     "archipelago_centroid_latitude": "arithmetic mean latitude across matched islands in the archipelago",
     "archipelago_centroid_longitude": "circular mean longitude across matched islands in the archipelago",
-    "candidate_cell_width_degrees": [20,30,45,60,90],
+    "candidate_cell_width_degrees": [
+      20,
+      30,
+      45,
+      60,
+      90
+    ],
     "sparse_pool_rule": "for each candidate width, exclude regional pools containing fewer than 3 islands before evaluating the width",
     "width_selection": "choose the smallest candidate width retaining at least 98% of archip-known islands after sparse-pool exclusion and for which one mandatory pilot archipelago per retained regional pool contains at most 20% of retained islands",
     "expected_selected_width_degrees": 60,
@@ -103,5 +109,9 @@
     "species_richness_authorized": false,
     "counts_as_empirical_evidence": false,
     "fresh_system_denominator_contribution": 0
+  },
+  "parents_fingerprints": {
+    "gift_geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+    "crosswalk_sha256": "999f3e3383288c1ead4aabeede002d62b457b7ef18a7e3b59eaa3529b05954f0"
   }
 }
