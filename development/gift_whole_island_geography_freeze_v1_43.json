@@ -1,0 +1,33 @@
+{
+  "schema": "structural.gift_whole_island_geography_freeze.v1_43",
+  "status": "SUCCESSFUL_COMPLETE_SAFE_GIFT_GEOGRAPHY_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-whole-island-geography-v1_38.yml",
+    "workflow_run_id": 36621638377,
+    "workflow_head_sha": "898f73cc957f7b58f075dd2fcef92ab00f401e8e",
+    "artifact_id": 11059270235,
+    "artifact_name": "gift-v138-geography-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638377",
+    "artifact_digest": "sha256:e99e6d0dc658cb83e19b119e23cd896fcbb2b83a85ab9b762f70e156e3e96bf6",
+    "expires_at": "2026-10-29T19:48:50Z"
+  },
+  "result": {
+    "input_whole_island_entities": 1460,
+    "nonoverlap_entities": 1421,
+    "retained_complete_geography_entities": 1373,
+    "excluded_overlap_entities": 39,
+    "excluded_missing_geography_entities": 48,
+    "excluded_invalid_geography_entities": 0,
+    "retained_list_rows": 1748,
+    "geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+    "retained_lists_sha256": "7892bf0b7639a2574512c16ca8fd7827ccc5fecee97607a3bef8d3c9c9717cfe",
+    "excluded_manifest_sha256": "4a402d976e699b035190b8ad76342b008954210e2222e3c18f579e57c2969be3"
+  },
+  "response_boundary": {
+    "species_composition_opened": false,
+    "species_richness_computed": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "next_action": "strictly crosswalk the 1373 safe GIFT islands to Weigelt response-independent island geography before any plant species composition access"
+}
