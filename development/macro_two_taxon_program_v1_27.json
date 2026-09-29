@@ -1,0 +1,55 @@
+{
+  "schema": "structural.macro_two_taxon_program.v1_27",
+  "status": "mammal_contaminated_macro_plus_pristine_GIFT_replication_predeclared",
+  "parent_hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "evidence_classes": {
+    "global_mammals_5592": {
+      "role": "large_scale_contaminated_macro_analysis",
+      "fresh_confirmatory": false,
+      "reason": "v1.19 parser failure exposed one complete island occurrence row; freshness cannot be restored",
+      "safe_predictor_freeze": "development/global_mammals_appendix2_safe_rows_freeze_v1_24.json",
+      "spatial_freeze": "development/global_mammals_spatial_pilot_freeze_v1_26.json",
+      "islands": 5592,
+      "blocks": 219
+    },
+    "GIFT_native_angiosperms": {
+      "role": "new_pristine_global_plant_replication",
+      "fresh_confirmatory": "eligible_only_after_all_metadata/design gates_pass",
+      "species_composition_opened": false,
+      "metadata_contract": "development/gift_metadata_freeze_contract_v0_89.json"
+    },
+    "boreal_19island_beetles": {
+      "role": "completed_local_fresh_test",
+      "fresh_confirmatory": true,
+      "primary_supported": false,
+      "result": "development/boreal_19island_confirmatory_result_freeze_v1_14.json"
+    }
+  },
+  "ecological_question": "Does species-conditioned internal source isolation retain occurrence information beyond external isolation and strong island/regional state, and is any such increment general across plants and mammals rather than an artifact of one taxon or spatial scale?",
+  "reference_ladder_requirement": {
+    "R3_must_include": [
+      "training-only global occupancy breadth",
+      "training-only species_x_regional_pool membership_or_prevalence",
+      "training-only nearest occupied source distance",
+      "training-only diffuse source pressure"
+    ],
+    "C_adds_only": "species-conditioned internal source continuity beyond R3"
+  },
+  "leakage_rule": "All occupancy/source features must be recomputed leave-one-heldout-block-out; no heldout block may contribute to its own or another target's source pool.",
+  "inference_rule": {
+    "mammal_and_GIFT_results_reported_separately": true,
+    "boreal_result_cannot_be_rescued": true,
+    "mammal_contaminated_route_cannot_count_as_fresh_confirmation": true,
+    "GIFT_result_cannot_be_selected_or_tuned_using_mammal_or_boreal_direction": true,
+    "cross_taxon_synthesis_only_after_both_system_specific_estimands_are_frozen": true
+  },
+  "next_actions": [
+    "execute and commit GIFT metadata-only freeze",
+    "freeze GIFT island/archipelago eligibility without species composition",
+    "freeze GIFT spatial blocks and response-independent state reference",
+    "freeze GIFT R3/C source operator including species_x_regional_pool and leave-block-out computation before species composition access",
+    "separately finish the already-contaminated 5592-mammal macro route under the same reference semantics"
+  ],
+  "counts_as_empirical_evidence": false,
+  "GIFT_response_authorized": false
+}
