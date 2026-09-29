@@ -1,0 +1,16 @@
+{
+  "schema": "structural.gift_metadata_execution_request.v1_29",
+  "status": "one_shot_metadata_only_execution_requested",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parent_main_sha": "206731b8982598ce2b4dfa74e1bd1f6a51a001d3",
+  "bindings": {
+    "metadata_contract_git_blob_sha1": "12dc7a8b1458b264e5a30122e01ead090af11bda",
+    "metadata_script_git_blob_sha1": "9a5cf28b7dbbb3c75d74335d8290c642f3b3ea1c",
+    "eligibility_contract_git_blob_sha1": "1a370087de32d7f120e9bee748f925202bef6939"
+  },
+  "trigger": "push_to_main_when_this_exact_request_file_is_first_added",
+  "execution_attempt_limit": 1,
+  "species_composition_requested": false,
+  "species_response_authorized": false,
+  "counts_as_empirical_evidence": false
+}
