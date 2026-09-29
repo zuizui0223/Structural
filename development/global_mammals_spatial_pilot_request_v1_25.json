@@ -1,0 +1,14 @@
+{
+  "schema": "structural.global_mammals_spatial_pilot_request.v1_25",
+  "status": "REQUEST_GLOBAL_RESPONSE_INDEPENDENT_SPATIAL_PILOT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "safe_artifact_id": 11013887248,
+  "safe_csv_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+  "island_count": 5592,
+  "bioregion_count": 12,
+  "tile_width_degrees": 10.0,
+  "response_access_authorized": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}
