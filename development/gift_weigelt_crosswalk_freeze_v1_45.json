@@ -1,0 +1,32 @@
+{
+  "schema": "structural.gift_weigelt_crosswalk_freeze.v1_45",
+  "status": "SUCCESSFUL_STRICT_COMMON_GEOGRAPHY_ARTIFACT_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-weigelt-crosswalk-v1_44.yml",
+    "workflow_run_id": 36622553028,
+    "workflow_head_sha": "fe0e65be12a223fb3f0991afae959cd62ef3aabb",
+    "artifact_id": 11059211347,
+    "artifact_name": "gift-v144-weigelt-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553028",
+    "artifact_digest": "sha256:3fd0f596965e1c7ffcbd443cc6244b34d99d9d9a635f2e42ae96e4f8e7149dd3",
+    "expires_at": "2026-10-29T19:54:57Z"
+  },
+  "result": {
+    "input_GIFT_islands": 1373,
+    "input_Weigelt_islands": 17883,
+    "matched_GIFT_islands": 548,
+    "unmatched_GIFT_islands": 825,
+    "match_tier_counts": {
+      "A_exact_name_area": 181,
+      "B_mutual_nearest_strict": 367
+    },
+    "crosswalk_sha256": "999f3e3383288c1ead4aabeede002d62b457b7ef18a7e3b59eaa3529b05954f0",
+    "unmatched_sha256": "10214e3cd56e19ff89e6ec8177b1756c94f32a4c3628c3ca75641353635edb35"
+  },
+  "response_boundary": {
+    "plant_species_composition_opened": false,
+    "plant_species_richness_computed": false,
+    "mammal_Appendix1_reopened": false,
+    "counts_as_empirical_evidence": false
+  }
+}
