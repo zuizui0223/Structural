@@ -1,0 +1,75 @@
+name: GIFT pilot routing v1.52
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_pilot_routing_request_v1_52.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  routing:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_pilot_routing_request_v1_52.json").read_text())
+          c=json.loads(Path("development/gift_pilot_routing_contract_v1_51.json").read_text())
+          assert r["species_composition_authorized"] is False
+          assert c["inputs"]["pilot_islands"]==99
+          assert c["inputs"]["confirmatory_islands"]==404
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact geography/list artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v138-geography-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638377
+          path: build/gift_v152/lists
+          repository: zuizui0223/Structural
+          run-id: 36621638377
+          github-token: ${{ github.token }}
+      - name: Download exact 503-island partition
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v147-spatial-reference-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390299
+          path: build/gift_v152/partition
+          repository: zuizui0223/Structural
+          run-id: 36624390299
+          github-token: ${{ github.token }}
+      - name: Freeze exact pilot list routing
+        run: |
+          mkdir -p build/gift_v152/output
+          python scripts/freeze_gift_pilot_routing_v1_51.py             build/gift_v152/lists/gift_retained_lists.csv             build/gift_v152/partition/island_partition.csv             --pilot-entities build/gift_v152/output/pilot_entities.csv             --pilot-lists build/gift_v152/output/pilot_lists.csv             --confirm-entities build/gift_v152/output/confirmatory_entities.csv             --confirm-lists build/gift_v152/output/confirmatory_lists.csv             --receipt build/gift_v152/output/routing_receipt.json
+      - name: Enforce response seal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v152/output/routing_receipt.json").read_text())
+          assert x["status"]=="PRISTINE_PLANT_PILOT_ROUTING_FROZEN"
+          assert x["pilot_entities"]==99 and x["confirmatory_entities"]==404
+          assert x["GIFT_checklists_raw_called"] is False
+          assert x["species_composition_opened"] is False
+          assert x["species_response_authorized"] is False
+          PY
+      - name: Upload response-independent routing
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v152-pilot-routing-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v152/output/pilot_entities.csv
+            build/gift_v152/output/pilot_lists.csv
+            build/gift_v152/output/confirmatory_entities.csv
+            build/gift_v152/output/confirmatory_lists.csv
+            build/gift_v152/output/routing_receipt.json
+          if-no-files-found: error
+          retention-days: 30
