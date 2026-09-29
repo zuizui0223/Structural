@@ -1,0 +1,111 @@
+name: GIFT metadata one-shot v1.29
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_metadata_execution_request_v1_29.json
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact main revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Require one-shot request on main
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-list --all --count -- development/gift_metadata_execution_request_v1_29.json)" = "1"
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          req=json.loads(Path("development/gift_metadata_execution_request_v1_29.json").read_text())
+          assert req["schema"]=="structural.gift_metadata_execution_request.v1_29"
+          assert req["execution_attempt_limit"]==1
+          assert req["species_composition_requested"] is False
+          assert req["species_response_authorized"] is False
+          bindings=req["bindings"]
+          expected={
+            "development/gift_metadata_freeze_contract_v0_89.json": bindings["metadata_contract_git_blob_sha1"],
+            "scripts/freeze_gift_metadata_v0_89.R": bindings["metadata_script_git_blob_sha1"],
+            "development/gift_metadata_eligibility_contract_v1_28.json": bindings["eligibility_contract_git_blob_sha1"],
+          }
+          for path,sha in expected.items():
+              got=subprocess.check_output(["git","rev-parse",f"HEAD:{path}"],text=True).strip()
+              assert got==sha,(path,got,sha)
+          PY
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install pinned metadata dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::GIFT@1.3.4
+            any::jsonlite
+            any::digest
+
+      - name: Execute metadata-only freeze
+        run: |
+          mkdir -p build/gift_v129
+          Rscript scripts/freeze_gift_metadata_v0_89.R             --output-metadata build/gift_v129/gift_island_list_metadata.csv             --receipt build/gift_v129/gift_metadata_receipt.json
+
+      - name: Bind execution provenance
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path("build/gift_v129")
+          receipt=json.loads((root/"gift_metadata_receipt.json").read_text())
+          assert receipt["species_composition_requested"] is False
+          assert receipt["species_composition_rows_returned"]==0
+          meta=(root/"gift_island_list_metadata.csv").read_bytes()
+          out={
+            "schema":"structural.gift_metadata_execution_receipt.v1_29",
+            "status":"metadata_only_execution_complete",
+            "candidate_id":"gift_native_angiosperm_islands_v3_2",
+            "head_sha":os.environ["GITHUB_SHA"],
+            "run_id":int(os.environ["GITHUB_RUN_ID"]),
+            "run_attempt":int(os.environ["GITHUB_RUN_ATTEMPT"]),
+            "metadata_sha256":hashlib.sha256(meta).hexdigest(),
+            "metadata_rows":receipt["metadata_rows"],
+            "metadata_columns":receipt["metadata_columns"],
+            "species_composition_opened":False,
+            "species_response_authorized":False,
+            "counts_as_empirical_evidence":False
+          }
+          (root/"execution_receipt.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Assert exact artifact surface
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root=Path("build/gift_v129")
+          allowed={"gift_island_list_metadata.csv","gift_metadata_receipt.json","execution_receipt.json"}
+          observed={p.name for p in root.iterdir() if p.is_file()}
+          if observed != allowed:
+              raise SystemExit(f"unexpected artifact surface: {sorted(observed)}")
+          PY
+
+      - name: Upload frozen metadata bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v129-metadata-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v129/gift_island_list_metadata.csv
+            build/gift_v129/gift_metadata_receipt.json
+            build/gift_v129/execution_receipt.json
+          if-no-files-found: error
+          retention-days: 30
