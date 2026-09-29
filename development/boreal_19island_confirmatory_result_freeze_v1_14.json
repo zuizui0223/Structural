@@ -1,0 +1,76 @@
+{
+  "schema": "structural.boreal_19island_confirmatory_result_freeze.v1_14",
+  "status": "FRESH_CONFIRMATORY_RESULT_COMMITTED_PRIMARY_NOT_SUPPORTED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-confirmatory-scoring-v1_13.yml",
+    "workflow_run_id": 36484288418,
+    "workflow_head_sha": "29cccf6154af4d5a0eba03407dc90edcf26e9246",
+    "artifact_id": 10997682789,
+    "artifact_name": "boreal-v113-confirmatory-score-29cccf6154af4d5a0eba03407dc90edcf26e9246-36484288418",
+    "artifact_digest": "sha256:d05318de622e219f117d52d51fb3505d8217523616f749becf6a2b1ba6c88088"
+  },
+  "source_artifact_files": {
+    "scoring_result_raw_sha256": "dba48afad5a447a95564624f9bf18adc5a55d7e1b313f38916c9231253cdecc6",
+    "scoring_result_canonical_json_sha256": "450f8c6b05cffc3ccfb67ea579ec5320be0e61634e19c65a8ddab37cf646a88e",
+    "committed_canonical_json_plus_newline_sha256": "c9867cae7b7f0c569ec41ea702c250964a9b22031553cb6adf26fa7a015ad228",
+    "transport_receipt_raw_sha256": "3351cd61ec99e32dfc85fcb37e49c3f8ee9689988ff43aed564f5c748dd5743a",
+    "token_receipt_raw_sha256": "d92e4aacce2909395970e95c5f99f542e64fc4ebd44819fb84707973503d5077"
+  },
+  "committed_result": {
+    "path": "development/boreal_19island_confirmatory_scoring_result_v1_14.json",
+    "schema": "structural.boreal_19island_confirmatory_scoring_result.v1_13",
+    "source_status": "PRIMARY_NOT_SUPPORTED_INTERNAL_SOURCE_ISOLATION_NONREDUNDANT",
+    "semantic_interpretation": "the preregistered nonredundancy hypothesis was not supported: adding graph-path source continuity C did not improve heldout binary log loss beyond R3 Euclidean/direct-diffuse occupied-source context"
+  },
+  "frozen_parent_identity": {
+    "authorization_fingerprint": "9c298caa914dac454ff5cda3229abbdc971e299791e6dc582c83a10f1a12146d",
+    "prediction_surface_sha256": "26e13914b69faa3a342ce0fc137a1b4b9badeb0f3ff2ec24aa82097780ba5ded",
+    "models_fingerprint": "2f94fd0ea0eda73013340d417d6827778ebcec97eec7686bdd9ddd59e07790ff",
+    "fixed_species_universe_sha256": "b223ec140491216a724039cd1eb1e0b5771466c91785d066195a3b90091f66d5",
+    "response_file_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "confirmatory_target_surface_sha256": "989989e2fc5db086bdae92b80edce8eb987bda915862a4d7d515a32a018fa50b"
+  },
+  "population": {
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "excluded_island_count": 23,
+    "confirmatory_block_count": 7,
+    "fixed_species_count": 99,
+    "confirmatory_target_count": 1287,
+    "positive_target_count": 534,
+    "target_prevalence_hex": "0x1.a8e05f7a54bc9p-2"
+  },
+  "primary": {
+    "estimand": "equal-weight mean across seven frozen confirmatory spatial blocks of within-block mean C-minus-R3 binary log loss",
+    "favourable_direction": "negative",
+    "point_estimate_hex": "0x1.39924c7e170fep-7",
+    "ci95_lower_hex": "0x1.0a92c7c5aaa77p-8",
+    "ci95_upper_hex": "0x1.de25df9bfda78p-7",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260928,
+    "quantile_method": "linear_type7",
+    "primary_supported": false,
+    "status_final_for_system": true,
+    "secondary_analysis_may_change_primary_status": false
+  },
+  "response_boundary": {
+    "authorization_consumed": true,
+    "confirmatory_response_opened": true,
+    "confirmatory_target_values_parsed": 1287,
+    "pilot_target_values_parsed_during_confirmatory_execution": 0,
+    "excluded_target_values_parsed": 0,
+    "nonfocal_confirmatory_target_values_parsed": 0,
+    "rerun_authorized": false,
+    "confirmatory_response_authorized_after_completion": false
+  },
+  "evidence_accounting": {
+    "counts_as_fresh_confirmatory_evidence": true,
+    "counts_as_primary_confirmatory_evidence": true,
+    "fresh_system_denominator_contribution": 1,
+    "mechanism_claim_authorized": false,
+    "secondary_analysis_may_rescue_primary": false
+  },
+  "next_action": "exact-replay the frozen seven-block primary arithmetic from the committed result only, update Structural fresh-system accounting to one completed fresh system with primary not supported, and permit secondary analyses only as clearly labelled non-rescuing description"
+}

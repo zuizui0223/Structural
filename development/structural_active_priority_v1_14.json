@@ -1,0 +1,23 @@
+{
+  "schema": "structural.active_priority.v1_14",
+  "status": "first_fresh_system_closed_primary_not_supported",
+  "completed_system": "lac_la_ronge_boreal_19island_beetles_2026",
+  "primary_result": {
+    "supported": false,
+    "point_estimate_hex": "0x1.39924c7e170fep-7",
+    "ci95_lower_hex": "0x1.0a92c7c5aaa77p-8",
+    "ci95_upper_hex": "0x1.de25df9bfda78p-7",
+    "favourable_direction": "negative",
+    "fresh_system_denominator_contribution": 1
+  },
+  "locked_rules": {
+    "rerun_completed_system": false,
+    "secondary_analysis_may_rescue_primary": false,
+    "mechanism_claim_authorized": false,
+    "change_primary_estimand_after_result": false,
+    "change_species_universe_after_result": false,
+    "change_spatial_blocks_after_result": false
+  },
+  "immediate_goal": "verify and merge the v1.14 exact result freeze, then interpret the ecological reason for R3 sufficiency using only clearly labelled secondary/descriptive analyses; do not alter the primary status",
+  "next_confirmatory_program_step": "if replication is pursued, recruit a new independent fresh island system and freeze its protocol before response access; the completed boreal system cannot re-enter the fresh denominator"
+}

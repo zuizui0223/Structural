@@ -1,0 +1,44 @@
+{
+  "schema": "structural.current_status.v1_14",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v0_89.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0,
+    "completed_fresh_system_count": 1,
+    "primary_supported_count": 0,
+    "primary_not_supported_count": 1
+  },
+  "boreal_19island_fresh_system": {
+    "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+    "status": "COMPLETED_PRIMARY_NOT_SUPPORTED",
+    "pilot_response_consumed": true,
+    "confirmatory_response_consumed": true,
+    "rerun_authorized": false,
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "confirmatory_block_count": 7,
+    "fixed_species_count": 99,
+    "confirmatory_target_count": 1287,
+    "primary_estimand": "equal-weight mean across confirmatory spatial blocks of within-block C-minus-R3 binary log loss",
+    "favourable_direction": "negative",
+    "point_estimate_hex": "0x1.39924c7e170fep-7",
+    "ci95_lower_hex": "0x1.0a92c7c5aaa77p-8",
+    "ci95_upper_hex": "0x1.de25df9bfda78p-7",
+    "primary_supported": false,
+    "fresh_system_denominator_contribution": 1,
+    "counts_as_fresh_confirmatory_evidence": true,
+    "mechanism_claim_authorized": false,
+    "secondary_analysis_may_change_primary_status": false,
+    "result_freeze": "development/boreal_19island_confirmatory_result_freeze_v1_14.json"
+  },
+  "program_interpretation": {
+    "v0_55_nonredundancy_hypothesis": "not supported in the first prospectively response-sealed fresh system",
+    "descriptive_direction": "C had higher heldout log loss than R3 on the equal-block primary estimand",
+    "mechanism_inference": "not authorized",
+    "secondary_rescue": "forbidden",
+    "replication_requirement": "any renewed claim of nonredundant graph-path source continuity requires a new independent fresh system under a separately frozen protocol"
+  }
+}
