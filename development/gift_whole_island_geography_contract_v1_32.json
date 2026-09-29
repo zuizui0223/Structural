@@ -1,0 +1,55 @@
+{
+  "schema": "structural.gift_whole_island_geography_contract.v1_32",
+  "status": "response_independent_geography_stage_predeclared",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_metadata_freeze_contract_v0_89.json",
+    "development/gift_metadata_eligibility_contract_v1_28.json",
+    "development/gift_whole_island_response_semantics_v1_30.json"
+  ],
+  "input": {
+    "canonical_metadata_result_required": true,
+    "whole_island_projection_required": true,
+    "species_composition_allowed": false
+  },
+  "overlap_resolution": {
+    "function": "GIFT_no_overlap",
+    "entity_IDs": "all metadata-qualified whole-island entity_IDs",
+    "area_threshold_island": 0,
+    "area_threshold_mainland": 100,
+    "overlap_threshold": 0.1,
+    "GIFT_version": "3.2",
+    "api": "https://gift.uni-goettingen.de/api/extended/",
+    "reason": "retain one non-overlapping whole-island geography per overlapping set using the package-native response-independent rule",
+    "species_data_used": false
+  },
+  "geography_query": {
+    "function": "GIFT_env",
+    "miscellaneous": ["longitude", "latitude", "area"],
+    "rasterlayer": null,
+    "GIFT_version": "3.2",
+    "api": "https://gift.uni-goettingen.de/api/extended/",
+    "required_complete": ["entity_ID", "longitude", "latitude", "area"],
+    "species_data_used": false
+  },
+  "primary_unit": {
+    "entity_class": "Island",
+    "one_row_per_entity_ID": true,
+    "multiple_checklists_remain_collapsed_to_entity": true
+  },
+  "external_isolation_bridge": {
+    "preferred_reference": "Weigelt 17883-island response-independent geography",
+    "goal": "use the same or directly comparable external-isolation variables as the 5592-island mammal system where a strict response-independent geographic match is possible",
+    "matching_rule_not_yet_authorized": true,
+    "reason": "crosswalk thresholds will be frozen only after safe GIFT geography and safe Weigelt geography are inspected, still before any plant species composition is requested",
+    "outcome_informed_matching_forbidden": true
+  },
+  "evidence_boundary": {
+    "species_composition_requested": false,
+    "species_richness_computed": false,
+    "source_features_computed": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0,
+    "species_response_authorized": false
+  }
+}
