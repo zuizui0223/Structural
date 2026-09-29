@@ -1,0 +1,52 @@
+{
+  "schema": "structural.gift_whole_island_geography_contract.v1_38",
+  "status": "COMPLETE_SAFE_GEOGRAPHY_RULE_PREDECLARED_AFTER_RESPONSE_INDEPENDENT_V135_STOP",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "supersedes_for_future_execution": "development/gift_whole_island_geography_contract_v1_32.json",
+  "failure_basis": {
+    "workflow_run_id": 36584382510,
+    "failure": "GIFT geography did not return every retained entity",
+    "species_composition_opened": false,
+    "species_richness_computed": false,
+    "ecological_response_used_to_change_design": false
+  },
+  "parents": [
+    "development/gift_metadata_freeze_commit_v1_34.json",
+    "development/gift_whole_island_response_semantics_v1_30.json"
+  ],
+  "overlap_resolution": {
+    "function": "GIFT_no_overlap",
+    "entity_IDs": "all 1460 metadata-qualified whole-island entity_IDs",
+    "area_threshold_island": 0,
+    "area_threshold_mainland": 100,
+    "overlap_threshold": 0.1,
+    "GIFT_version": "3.2",
+    "species_data_used": false
+  },
+  "geography_complete_case_rule": {
+    "query": "GIFT_env(entity_ID=nonoverlap IDs, miscellaneous=c(longitude,latitude,area))",
+    "retain_if": [
+      "entity_ID returned by GIFT_env",
+      "longitude finite and in [-180,180]",
+      "latitude finite and in [-90,90]",
+      "area finite and >0"
+    ],
+    "missing_or_invalid_geography": "exclude deterministically before any species composition is requested",
+    "replacement_entities_allowed": false,
+    "outcome_informed_recovery_forbidden": true,
+    "manual_geography_imputation_forbidden": true,
+    "excluded_entity_IDs_must_be_frozen": true
+  },
+  "primary_unit": {
+    "entity_class": "Island",
+    "one_row_per_entity_ID": true,
+    "multiple_checklists_collapsed_to_entity": true
+  },
+  "next_gate": "freeze exact retained geography and excluded-ID manifest, then design response-independent spatial blocks and external-isolation crosswalk",
+  "evidence_boundary": {
+    "species_composition_authorized": false,
+    "species_richness_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}

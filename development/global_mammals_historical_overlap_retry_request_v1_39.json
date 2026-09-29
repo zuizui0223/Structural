@@ -1,0 +1,20 @@
+{
+  "schema": "structural.global_mammals_historical_overlap_retry_request.v1_39",
+  "status": "REQUEST_OPERATIONAL_RETRY_SAME_V137_SCIENTIFIC_CONTRACT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parent_contract": "development/global_mammals_historical_overlap_contract_v1_37.json",
+  "failed_run": {
+    "workflow_run_id": 36585590372,
+    "workflow_job_id": 109464898248,
+    "failure": "ModuleNotFoundError: No module named scripts",
+    "failed_before_overlap_script_body": true,
+    "Appendix2_row_values_opened": false,
+    "Appendix1_reopened": false
+  },
+  "repair": "set repository root and src on PYTHONPATH; make no scientific or matching-rule change",
+  "matching_rules_changed": false,
+  "historical_population_changed": false,
+  "global_population_changed": false,
+  "Appendix1_access_authorized": false,
+  "one_retry_only": true
+}

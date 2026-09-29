@@ -1,0 +1,68 @@
+{
+  "schema": "structural.global_mammals_reference_operator_contract.v1_40",
+  "status": "FINAL_POPULATION_R0_R2_REGION_SPECIFIC_K_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "supersedes_for_future_execution": "development/global_mammals_reference_operator_contract_v1_33.json",
+  "failure_basis": {
+    "workflow_run_id": 36584382558,
+    "failure": "no common k<=20 connects every retained bioregion",
+    "Appendix1_opened": false,
+    "species_headers_opened": false,
+    "occurrence_values_opened": false,
+    "outcome_information_used": false
+  },
+  "population": {
+    "must_use_successful_v1_39_post_historical_overlap_partition": true,
+    "v1_31_quarantined_block_excluded": true,
+    "all_318_overlap_islands_excluded": true,
+    "replacement_islands_allowed": false,
+    "repartition_allowed": false,
+    "existing_v1_25_block_labels_preserved": true
+  },
+  "state_reference": {
+    "R0": [
+      "bioregion_categorical",
+      "z_Climate_velocity",
+      "z_Temperature_mean",
+      "z_Temperature_sd",
+      "z_Precipitation_mean",
+      "z_Precipitation_sd",
+      "z_Elevation_sd"
+    ],
+    "R1_add": ["z_log_Area","z_Current_isolation","z_Past_isolation"],
+    "standardization": "population mean and population SD across final retained post-overlap population",
+    "area_transform": "natural_log(Area)"
+  },
+  "generic_network_R2": {
+    "graph_partition": "within bioregion only",
+    "distance": "haversine great-circle kilometers",
+    "k_selection": "for each bioregion separately, smallest integer k in 1..n_region-1 whose symmetrized kNN graph is connected",
+    "common_k_across_bioregions": false,
+    "reason": "bioregions differ strongly in island number and spatial density; forcing a common k adds no ecological control and caused a response-independent estimability failure",
+    "edge_decay_scale": "within-bioregion median unique selected edge length",
+    "R2_add": ["z_log1p_nearest_island_km","z_generic_neighbor_pressure"]
+  },
+  "future_species_conditioned_reference": {
+    "R3_must_add": [
+      "training-only global occupancy breadth",
+      "training-only species_x_bioregion prevalence_or_membership",
+      "training-only Euclidean nearest occupied-source distance",
+      "training-only Euclidean diffuse occupied-source pressure"
+    ],
+    "C_may_add_only": [
+      "training-only graph-path nearest occupied-source distance",
+      "training-only graph-path diffuse occupied-source pressure"
+    ],
+    "pilot_training_features": "leave target pilot block out of all species-conditioned source features",
+    "confirmatory_features": "use retained pilot response only; no confirmatory response enters source features",
+    "heldout_block_source_leakage_allowed": false
+  },
+  "response_boundary": {
+    "Appendix1_access_authorized": false,
+    "species_headers_authorized": false,
+    "occurrence_values_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
