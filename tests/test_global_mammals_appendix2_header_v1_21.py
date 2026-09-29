@@ -42,7 +42,7 @@ def synthetic_xlsx_bytes() -> bytes:
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
  <Relationship Id="rId1"
   Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet"
-  Target="worksheets/sheet1.xml"/>
+  Target="../worksheets/sheet1.xml"/>
 </Relationships>"""
     sheet = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"
@@ -79,7 +79,7 @@ def synthetic_xlsx_bytes() -> bytes:
         zf.writestr("[Content_Types].xml", content_types)
         zf.writestr("xl/workbook.xml", workbook)
         zf.writestr("xl/_rels/workbook.xml.rels", rels)
-        zf.writestr("xl/worksheets/sheet1.xml", sheet)
+        zf.writestr("worksheets/sheet1.xml", sheet)
         zf.writestr("xl/sharedStrings.xml", shared)
     return out.getvalue()
 
@@ -188,3 +188,16 @@ def test_only_header_referenced_shared_string_indexes_are_decoded(tmp_path: Path
     )
     assert 3 not in out["header_shared_string_indexes_decoded"]
     assert "SECRET_ROW_VALUE" not in json.dumps(out)
+
+
+def test_opc_relationship_parent_segment_is_resolved_against_workbook_part():
+    module = load_module()
+    assert module._normalize_sheet_target("../worksheets/sheet1.xml") == (
+        "worksheets/sheet1.xml"
+    )
+    assert module._normalize_sheet_target("worksheets/sheet1.xml") == (
+        "xl/worksheets/sheet1.xml"
+    )
+    assert module._normalize_sheet_target("/xl/worksheets/sheet1.xml") == (
+        "xl/worksheets/sheet1.xml"
+    )
