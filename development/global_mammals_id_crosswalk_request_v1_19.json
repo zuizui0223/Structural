@@ -1,0 +1,20 @@
+{
+  "schema": "structural.global_mammals_id_crosswalk_request.v1_19",
+  "status": "REQUEST_EXACT_ROUTING_ID_ONLY_CROSSWALK",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "response_file_id": 3242161,
+  "response_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+  "expected_response_rows": 5592,
+  "safe_reference_artifact_id": 10930234623,
+  "safe_reference_rows": 17883,
+  "safe_reference_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+  "decode_header_first_field_only": true,
+  "decode_routing_first_field_only": true,
+  "species_header_fields_decoded": 0,
+  "occurrence_values_decoded": 0,
+  "fuzzy_matching_authorized": false,
+  "population_redefinition_authorized": false,
+  "raw_response_artifact_authorized": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}
