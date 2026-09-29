@@ -1,0 +1,65 @@
+{
+  "schema": "structural.global_mammals_appendix2_safe_rows_freeze.v1_24",
+  "status": "APPENDIX2_5592_SAFE_ROWS_COMMITTED_BY_ARTIFACT_PROVENANCE",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-appendix2-safe-rows-v1_23.yml",
+    "workflow_run_id": 36524988694,
+    "workflow_head_sha": "ea565b98419f8aacde9fb13c26724bb385635b95",
+    "artifact_id": 11013887248,
+    "artifact_name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+    "artifact_digest": "sha256:f740c6762a7414f624c7d920a5a4316a062cba803ed9ad426e4f97d36598d9e8"
+  },
+  "artifact_files": {
+    "appendix2_safe_rows.csv": {
+      "size_bytes": 1310008,
+      "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+    },
+    "safe_rows_receipt.json": {
+      "size_bytes": 2176,
+      "raw_sha256": "b303251ba2a50a664e39434739c3f1751969e1b694063de0afb6e5a8e52acc78",
+      "canonical_json_sha256": "36b6bce8002225ee7d9d94d6bd01262fad4778ac1f1917533f5b5100f73cb635"
+    },
+    "token_receipt.json": {
+      "size_bytes": 323,
+      "sha256": "d92e4aacce2909395970e95c5f99f542e64fc4ebd44819fb84707973503d5077"
+    }
+  },
+  "safe_population": {
+    "row_count": 5592,
+    "distinct_id_count": 5592,
+    "safe_column_count": 13,
+    "routing_id_order_sha256": "438b76e167b302fdf79827a2c9f6f9eb8bf354af5730f44506536f15d8af92a6",
+    "safe_csv_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "null_counts_all_zero": true,
+    "bioregion_count": 12
+  },
+  "safe_columns": [
+    "ID",
+    "Longitude_centroid",
+    "Latitude_centroid",
+    "Area",
+    "Current_isolation",
+    "Past_isolation",
+    "Climate_velocity",
+    "Temperature_mean",
+    "Temperature_sd",
+    "Precipitation_mean",
+    "Precipitation_sd",
+    "Elevation_sd",
+    "bioregion"
+  ],
+  "semantic_boundary": {
+    "Appendix_1_response_file_reopened": false,
+    "biological_response_values_opened_in_v1_23": false,
+    "closed_unneeded_cell_values_decoded": 0,
+    "protected_response_derived_cell_values_decoded": 0,
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "original_global_mammal_fresh_chain_restored": false
+  },
+  "spatial_design_may_be_built": true,
+  "next_action": "download this exact frozen artifact by run and artifact identity, verify member SHA-256 values, then freeze a response-independent global spatial/pilot design using only the 5592 safe rows; do not reopen Appendix 1"
+}
