@@ -1,0 +1,31 @@
+{
+  "schema": "structural.gift_geological_origin_metadata_freeze.v1_49",
+  "status": "NO_PUBLIC_GIFT_ENV_MISC_ORIGIN_VARIABLE_FOUND",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow_run_id": 36624390303,
+    "workflow_head_sha": "44aa5fac0335a74008fd0143cf6225155a8aaade",
+    "artifact_id": 11059433840,
+    "artifact_name": "gift-v148-origin-metadata-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390303",
+    "artifact_digest": "sha256:952db7e2b1512e5b9008ac882e5c35f36b79997f8e11829795b3b799f36cacb1",
+    "expires_at": "2026-10-29T20:12:11Z"
+  },
+  "result": {
+    "metadata_rows": 30,
+    "candidate_rows": 0,
+    "candidate_variables": [],
+    "metadata_sha256": "3035e4ca16efd6dc7d559650e372736733c48924d4c7d6ea62a20d3ddff14586",
+    "candidates_sha256": "1047b0209dcb60beec2002efcc198c1c731412a57530ef5ea5aaa6e7b5e7d83c"
+  },
+  "scientific_consequence": {
+    "GMMC_may_be_relabelled_geological_origin": false,
+    "continental_oceanic_adjustment_resolved": false,
+    "pilot_species_response_may_open_now": false,
+    "next_valid_route": "freeze a separate public response-independent geological-origin source and crosswalk before any GIFT species access; otherwise formally declare the origin adjustment unavailable in a separate pre-response revision"
+  },
+  "response_boundary": {
+    "entity_level_origin_values_opened": false,
+    "species_composition_opened": false,
+    "counts_as_empirical_evidence": false
+  }
+}
