@@ -1,0 +1,73 @@
+{
+  "schema": "structural.gift_weigelt_crosswalk_contract.v1_45",
+  "status": "STRICT_RESPONSE_INDEPENDENT_GIFT_TO_WEIGELT_CROSSWALK_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_whole_island_geography_freeze_v1_44.json",
+    "development/global_mammals_weigelt_safe_rows_result_v0_60.json"
+  ],
+  "input_population": {
+    "gift_whole_islands": 1373,
+    "gift_geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+    "weigelt_islands": 17883,
+    "weigelt_safe_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af"
+  },
+  "name_normalization": {
+    "unicode": "NFKD then drop combining marks",
+    "case": "casefold",
+    "punctuation": "replace non-alphanumeric with spaces",
+    "whitespace": "collapse and trim",
+    "generic_island_tokens_for_core": ["island","islands","isle","isles","isla","islas","ilha","ilhas","ile","iles","île","îles","isola","isole","pulau","shima","jima"]
+  },
+  "weigelt_name_fields": ["island","gazetteer","name_id","name_alt"],
+  "coordinate_fields": {
+    "gift": ["longitude","latitude"],
+    "weigelt": ["name_long","name_lat"]
+  },
+  "match_tiers_in_priority_order": [
+    {
+      "tier": "A_full_name_geo_area",
+      "name_rule": "at least one normalized full GIFT geo_entity name equals one normalized Weigelt name",
+      "maximum_haversine_km": 25.0,
+      "maximum_area_ratio": 2.0,
+      "uniqueness": "exactly one Weigelt candidate satisfies all tier-A conditions"
+    },
+    {
+      "tier": "B_core_name_geo_area",
+      "name_rule": "normalized names after removal of generic island tokens are identical and nonblank",
+      "maximum_haversine_km": 10.0,
+      "maximum_area_ratio": 1.5,
+      "uniqueness": "exactly one Weigelt candidate satisfies all tier-B conditions"
+    },
+    {
+      "tier": "C_ultrastrict_coordinate_area",
+      "name_rule": "none",
+      "maximum_nearest_haversine_km": 2.0,
+      "maximum_area_ratio": 1.25,
+      "nearest_neighbor_separation": "second-nearest Weigelt coordinate distance must be >= max(5 km, 3 * nearest distance)",
+      "uniqueness": "nearest Weigelt candidate only"
+    }
+  ],
+  "one_to_one_rule": {
+    "required": true,
+    "if_multiple_GIFT_entities_map_to_one_Weigelt_id": "exclude every colliding GIFT entity from primary crosswalk",
+    "manual_resolution_allowed": false,
+    "replacement_allowed": false
+  },
+  "unmatched_rule": {
+    "primary_external_isolation_analysis": "exclude",
+    "GIFT_only_sensitivity_may_retain": true,
+    "manual_or_outcome_informed_rescue_forbidden": true
+  },
+  "transferred_response_independent_fields": [
+    "Weigelt_id","archip","area","dist","slmp","gmmc","elev","temp","vart","ccvt","prec","varp"
+  ],
+  "ecological_reason": "plant and mammal macro analyses should share directly comparable external-isolation semantics wherever a strict response-independent island identity match is defensible",
+  "response_boundary": {
+    "plant_species_composition_authorized": false,
+    "plant_species_richness_authorized": false,
+    "mammal_Appendix1_access_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
