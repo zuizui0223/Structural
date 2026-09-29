@@ -1,0 +1,86 @@
+name: Global mammals final reference operator retry v1.43
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_reference_operator_retry_request_v1_43.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  final-reference-retry:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate operational-only retry
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_reference_operator_retry_request_v1_43.json").read_text())
+          assert r["status"]=="REQUEST_OPERATIONAL_RETRY_SAME_V140_SCIENTIFIC_CONTRACT"
+          assert r["failed_run"]["workflow_run_id"]==36621967224
+          assert r["failed_run"]["failed_before_reference_operator_execution"] is True
+          assert r["scientific_contract_changed"] is False
+          assert r["expected_final_islands"]==5401
+          assert r["Appendix1_access_authorized"] is False
+          PY
+      - name: Download exact safe Appendix 2 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v143/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+      - name: Download exact post-overlap artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v139-overlap-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638431
+          path: build/global_mammals_v143/overlap
+          repository: zuizui0223/Structural
+          run-id: 36621638431
+          github-token: ${{ github.token }}
+      - name: Verify exact inputs
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v143/safe/appendix2_safe_rows.csv":"b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+            "build/global_mammals_v143/overlap/output/island_partition_after_historical_overlap.csv":"317801c21355c9859d1e59fe5a17a6d54ccc7755f9e322636811ba11bc0507db",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s,(p,s)
+          PY
+      - name: Build final R0-R2 and regional source graph
+        run: |
+          mkdir -p build/global_mammals_v143/output
+          python scripts/build_global_mammals_reference_operator_v1_40.py             build/global_mammals_v143/safe/appendix2_safe_rows.csv             build/global_mammals_v143/overlap/output/island_partition_after_historical_overlap.csv             --state-output build/global_mammals_v143/output/state_reference.csv             --edge-output build/global_mammals_v143/output/source_graph_edges.csv             --receipt build/global_mammals_v143/output/reference_receipt.json
+      - name: Enforce response ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v143/output/reference_receipt.json").read_text())
+          assert x["status"]=="FINAL_R0_R2_REGION_SPECIFIC_GRAPH_FROZEN_RESPONSE_INDEPENDENTLY"
+          assert x["retained_islands"]==5401
+          assert x["Appendix1_opened"] is False
+          assert x["species_headers_opened"] is False
+          assert x["occurrence_values_opened"] is False
+          PY
+      - name: Upload final response-independent reference
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v143-reference-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v143/output/state_reference.csv
+            build/global_mammals_v143/output/source_graph_edges.csv
+            build/global_mammals_v143/output/reference_receipt.json
+          if-no-files-found: error
+          retention-days: 30
