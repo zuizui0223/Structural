@@ -1,0 +1,97 @@
+name: GIFT preconfirmatory model freeze v1.59
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_preconfirmatory_model_request_v1_59.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  freeze-models:
+    runs-on: ubuntu-24.04
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned numeric dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.3.3"
+      - name: Validate exact frozen request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_preconfirmatory_model_request_v1_59.json").read_text())
+          c=json.loads(Path("development/gift_preconfirmatory_model_contract_v1_57.json").read_text())
+          f=json.loads(Path("development/gift_pilot_response_freeze_v1_58.json").read_text())
+          assert r["pilot_artifact_id"]==11060478567
+          assert r["focal_species"]==224
+          assert r["expected_prediction_cells"]==90496
+          assert r["confirmatory_response_authorized"] is False
+          assert c["fitting"]["ridge_lambda"]==1.0
+          assert c["fitting"]["numpy_version"]=="2.3.3"
+          assert f["result"]["focal_species"]==224
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact pilot response snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v155-pilot-response-7b892540ed98c1adb97314cdaa0baaa6c46bda25-36626284777
+          path: build/gift_v159/pilot
+          repository: zuizui0223/Structural
+          run-id: 36626284777
+          github-token: ${{ github.token }}
+      - name: Download exact pristine spatial reference
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v147-spatial-reference-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390299
+          path: build/gift_v159/spatial
+          repository: zuizui0223/Structural
+          run-id: 36624390299
+          github-token: ${{ github.token }}
+      - name: Download exact GIFT geography
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v138-geography-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638377
+          path: build/gift_v159/geography
+          repository: zuizui0223/Structural
+          run-id: 36621638377
+          github-token: ${{ github.token }}
+      - name: Freeze models and every confirmatory R3/C probability
+        run: |
+          mkdir -p build/gift_v159/output
+          python scripts/freeze_gift_preconfirmatory_model_v1_57.py             build/gift_v159/pilot/pilot_species_universe.csv             build/gift_v159/pilot/pilot_matrix.csv             development/gift_pilot_response_freeze_v1_58.json             build/gift_v159/spatial/state_reference.csv             build/gift_v159/spatial/island_partition.csv             build/gift_v159/spatial/source_graph_edges.csv             build/gift_v159/spatial/spatial_reference_receipt.json             build/gift_v159/geography/gift_whole_island_geography.csv             --predictions build/gift_v159/output/confirmatory_predictions.f64le             --entity-order build/gift_v159/output/confirmatory_entity_order.csv             --receipt build/gift_v159/output/model_receipt.json
+      - name: Enforce confirmatory seal
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v159/output/model_receipt.json").read_text())
+          assert x["status"]=="CONFIRMATORY_R3_C_PREDICTIONS_FROZEN_BEFORE_RESPONSE"
+          assert x["focal_species"]==224
+          assert x["training_rows"]==22176
+          assert x["confirmatory_entities"]==404
+          assert x["prediction_cells"]==90496
+          assert x["confirmatory_target_values_used"] is False
+          assert x["confirmatory_species_composition_opened"] is False
+          assert x["confirmatory_response_authorized"] is False
+          assert Path("build/gift_v159/output/confirmatory_predictions.f64le").stat().st_size == 32 + 90496*16
+          PY
+      - name: Upload frozen prediction bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v159-preconfirmatory-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v159/output/confirmatory_predictions.f64le
+            build/gift_v159/output/confirmatory_entity_order.csv
+            build/gift_v159/output/model_receipt.json
+          if-no-files-found: error
+          retention-days: 30
