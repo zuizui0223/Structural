@@ -1,0 +1,71 @@
+{
+  "schema": "structural.global_mammals_v119_firewall_failure_freeze.v1_20",
+  "status": "TERMINAL_RESPONSE_FIREWALL_VIOLATION_V119",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-id-crosswalk-v1_19.yml",
+    "workflow_run_id": 36522032421,
+    "workflow_head_sha": "91bb96cdc4ba53b4658b1c10fd70acfab47e8495",
+    "workflow_job_id": 109256790668,
+    "artifact_id": 11013611460,
+    "artifact_name": "global-mammals-v119-id-crosswalk-91bb96cdc4ba53b4658b1c10fd70acfab47e8495-36522032421",
+    "artifact_digest": "sha256:be7a6fdc6e45be2007228f65e893c6ca64d0e67307c08ea2e0b5a8253532634e"
+  },
+  "failed_artifact_files": {
+    "crosswalk_receipt_raw_sha256": "63870aeca57d976cfecd00dade53045e10ea73186894ee77979e02ec2d8c09bd",
+    "token_receipt_raw_sha256": "ca4e77793124d352acb896c1a8c4511c9ad9ab6e1f28a7588b4c07d29b3a1b60"
+  },
+  "failure_cause": {
+    "predeclared_parser_delimiter": "comma",
+    "actual_file_delimiter_discovered_by_failure": "semicolon",
+    "predeclared_routing_namespace": "Weigelt islanddata id",
+    "correct_source_documented_routing_namespace": "Appendix 2 ID matched to Appendix 1 row names",
+    "direct_Weigelt_id_join_is_valid": false,
+    "source_documentation_basis": [
+      "Dryad README states Appendix 1 row names are paired with Appendix 2 ID",
+      "published analysis code constructs presence/absence row names from id_spatial_island and aligns island data to those row names"
+    ]
+  },
+  "actual_semantic_exposure": {
+    "v1_19_receipt_semantic_flags_are_superseded": true,
+    "header_record_utf8_decoded_as_one_wrongly_delimited_field": true,
+    "species_header_record_semantics_opened_in_runner_memory": true,
+    "species_header_names_persisted_in_failed_artifact": false,
+    "data_rows_utf8_decoded_before_failure": 1,
+    "exposed_source_local_row_id": "1",
+    "exposed_data_record_field_count": 5395,
+    "exposed_occurrence_value_count": 5394,
+    "exposed_occurrence_values_all_binary_0_1": true,
+    "second_or_later_data_row_semantically_decoded": false,
+    "biological_response_values_opened": true
+  },
+  "security_cleanup": {
+    "delete_workflow_run_logs": 36522032421,
+    "delete_failed_artifact": 11013611460,
+    "preserve_run_metadata_and_cryptographic_provenance": true,
+    "reason": "the failed log and artifact persisted one complete response row in an exception string"
+  },
+  "freshness_consequence": {
+    "original_global_mammal_chain_remains_pristine": false,
+    "fresh_confirmation_authorized_under_v0_1_through_v1_19": false,
+    "fresh_system_denominator_contribution": 0,
+    "rerun_v1_19_authorized": false,
+    "quarantine_based_fresh_reentry_authorized_now": false,
+    "contaminated_macro_analysis_may_be_designed_separately": true
+  },
+  "safe_next_route": {
+    "response_file_may_be_reopened_now": false,
+    "appendix2_file": "Appendix_2-dryad.xlsx",
+    "appendix2_dryad_file_id": 3242157,
+    "appendix2_expected_size_bytes": 1066391,
+    "appendix2_expected_sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+    "routing_key": "Appendix 2 ID",
+    "next_action": "without any further Appendix 1 access, perform a separately frozen Appendix 2 workbook sheet/header-only audit, then freeze safe response-independent columns before any Appendix 2 data-row values are opened"
+  },
+  "evidence_boundary": {
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "mechanism_claim_authorized": false
+  }
+}
