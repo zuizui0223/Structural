@@ -1,0 +1,130 @@
+name: Global mammals spatial-pilot design v1.25
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/global_mammals_spatial_pilot_request_v1_25.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  freeze-spatial-pilot:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/global_mammals_spatial_pilot_request_v1_25.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.global_mammals_spatial_pilot_request.v1_25"
+          )
+          assert req["status"] == "REQUEST_GLOBAL_RESPONSE_INDEPENDENT_SPATIAL_PILOT"
+          assert req["candidate_id"] == "global_island_native_mammals_barreto_2024"
+          assert req["analysis_route"] == "contaminated_macro_analysis_only"
+          assert req["safe_artifact_id"] == 11013887248
+          assert req["safe_csv_sha256"] == (
+              "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+          )
+          assert req["island_count"] == 5592
+          assert req["tile_width_degrees"] == 10.0
+          assert req["response_access_authorized"] is False
+          assert req["fresh_system_denominator_contribution"] == 0
+          assert req["one_shot"] is True
+          PY
+
+      - name: Download exact frozen v1.23 safe artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v125/input
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Verify exact safe CSV identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          root = Path("build/global_mammals_v125/input")
+          p = root / "appendix2_safe_rows.csv"
+          if not p.exists():
+              raise SystemExit("frozen v1.23 safe CSV missing")
+          observed = hashlib.sha256(p.read_bytes()).hexdigest()
+          expected = "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+          if observed != expected:
+              raise SystemExit("v1.23 safe CSV SHA mismatch")
+          PY
+
+      - name: Freeze 5592-island spatial and pilot design
+        run: |
+          mkdir -p build/global_mammals_v125/output
+          python scripts/freeze_global_mammals_spatial_pilot_v1_25.py \
+            build/global_mammals_v125/input/appendix2_safe_rows.csv \
+            --island-partition build/global_mammals_v125/output/island_partition.csv \
+            --block-table build/global_mammals_v125/output/block_table.csv \
+            --receipt build/global_mammals_v125/output/spatial_receipt.json
+
+      - name: Enforce global spatial ceiling
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+          root = Path("build/global_mammals_v125/output")
+          x = json.loads((root / "spatial_receipt.json").read_text(encoding="utf-8"))
+          assert x["status"] == "GLOBAL_SPATIAL_PILOT_DESIGN_FROZEN_RESPONSE_INDEPENDENTLY"
+          assert x["island_count"] == 5592
+          assert x["bioregion_count"] == 12
+          assert x["total_block_count"] == 219
+          assert x["singleton_block_count"] == 31
+          assert x["pilot_block_count"] == 50
+          assert x["confirmatory_block_count"] == 169
+          assert x["pilot_island_count"] == 1307
+          assert x["confirmatory_island_count"] == 4285
+          assert x["current_isolation_q75_hex"] == "-0x1.72b020c49ba5ep-1"
+          assert x["extreme_confirmatory_island_count"] == 1074
+          assert x["response_used_in_spatial_design"] is False
+          assert x["Appendix_1_reopened"] is False
+          assert x["mammal_species_names_opened"] is False
+          assert x["mammal_occurrence_values_opened"] is False
+          assert x["fresh_system_denominator_contribution"] == 0
+          assert x["original_fresh_chain_restored"] is False
+          with (root / "island_partition.csv").open("r", encoding="utf-8", newline="") as h:
+              assert sum(1 for _ in csv.reader(h)) == 5593
+          with (root / "block_table.csv").open("r", encoding="utf-8", newline="") as h:
+              assert sum(1 for _ in csv.reader(h)) == 220
+          PY
+
+      - name: Upload response-independent partition only
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v125-spatial-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v125/output/island_partition.csv
+            build/global_mammals_v125/output/block_table.csv
+            build/global_mammals_v125/output/spatial_receipt.json
+          if-no-files-found: error
+          retention-days: 30
