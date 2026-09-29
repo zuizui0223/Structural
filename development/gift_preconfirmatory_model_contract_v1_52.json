@@ -1,0 +1,73 @@
+{
+  "schema": "structural.gift_preconfirmatory_model_contract.v1_52",
+  "status": "R3_C_FORMULAS_FROZEN_BEFORE_ANY_PILOT_RESPONSE",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parent_spatial_reference": "development/gift_spatial_reference_freeze_v1_49.json",
+  "training": {
+    "population": "fixed species x 99 pilot island targets with unknown cells excluded",
+    "target": "binary certain presence versus checklist absence",
+    "pooled_across_species": true,
+    "model": "ridge logistic regression",
+    "ridge_lambda": 1.0,
+    "intercept_penalized": false,
+    "probability_clamp_for_log_loss": 1e-9,
+    "no_response_driven_hyperparameter_selection": true
+  },
+  "reference_ladder": {
+    "R0": [
+      "intercept",
+      "regional_pool categorical one-hot",
+      "z_ccvt","z_temp","z_vart","z_prec","z_varp","z_elev"
+    ],
+    "R1_add": ["z_log_area","z_dist","z_slmp","z_gmmc"],
+    "R2_add": ["z_log1p_nearest_island_km","z_generic_neighbor_pressure"],
+    "R3_add": [
+      "training-only smoothed global species prevalence",
+      "training-only smoothed species_x_regional_pool prevalence",
+      "regional_pool_training_support indicator",
+      "training-only Euclidean nearest occupied-source distance",
+      "training-only Euclidean diffuse occupied-source pressure"
+    ],
+    "C_add": [
+      "training-only graph-path nearest occupied-source distance",
+      "training-only graph-path diffuse occupied-source pressure"
+    ]
+  },
+  "source_feature_rules": {
+    "pilot_target": "remove the entire target pilot archipelago's occurrence information from the source set before computing every species-conditioned feature",
+    "confirmatory_target": "source set is the complete frozen 99-island pilot response only; no confirmatory occurrence may enter any feature",
+    "global_prevalence": "(certain_presence_count + 0.5)/(known_target_count + 1)",
+    "regional_prevalence": "(regional_certain_presence_count + 0.5)/(regional_known_target_count + 1)",
+    "regional_no_training_support": "use smoothed global prevalence and regional_pool_training_support=0",
+    "euclidean_pressure_kernel": "exp(-distance_km / h_E)",
+    "h_E": "0x1.5240c887808e0p+7 km; exact median of all 3369 frozen v1.47 generic graph edge lengths",
+    "euclidean_source_set": "certain-presence source islands only",
+    "graph_source_set": "certain-presence source islands in the target 60-degree regional pool only",
+    "graph_paths": "shortest weighted paths on the frozen v1.47 response-independent graph; other islands in the target heldout archipelago are removed as intermediate nodes",
+    "graph_no_occupied_source": "pressure=0 and nearest distance set to 1.05 times the response-independent graph diameter of that regional pool; R3 regional prevalence remains the information about local source absence",
+    "source_features_restandardized": "fit means/SDs using pilot training feature rows only, freeze them, and apply unchanged to confirmatory rows"
+  },
+  "confirmatory_freeze": {
+    "before_confirmatory_response": [
+      "exact fixed species universe",
+      "pilot response snapshot SHA",
+      "all feature-standardization parameters",
+      "all R0/R1/R2/R3/C coefficients",
+      "all 404 x fixed-species confirmatory probabilities under R3 and C",
+      "eligible confirmatory target mask independent of confirmatory outcomes"
+    ],
+    "refit_after_confirmatory_access": false
+  },
+  "primary": {
+    "estimand": "equal-weight mean across 59 confirmatory archipelagos of within-archipelago mean(loss_C-loss_R3)",
+    "favourable_direction": "negative",
+    "bootstrap_unit": "confirmatory archipelago",
+    "bootstrap_replicates": 10000,
+    "support_rule": "point estimate <0 and deterministic 95% bootstrap upper bound <0",
+    "secondary_moderators_may_rescue": false
+  },
+  "response_boundary": {
+    "pilot_response_authorized_now": false,
+    "confirmatory_response_authorized_now": false
+  }
+}
