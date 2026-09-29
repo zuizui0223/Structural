@@ -120,6 +120,7 @@ def main():
     try:
         c=json.loads(a.contract.read_text())
         if c.get("schema")!="structural.gift_preconfirmatory_model_contract.v1_57":raise Stop("contract schema drift")
+        if np.__version__!=c["fitting"]["numpy_version"]:raise Stop(f"NumPy version drift: {np.__version__}")
         expected=c["required_response_independent_inputs"]
         for path,key in [
           (a.state_reference,"state_reference_sha256"),
