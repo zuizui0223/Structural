@@ -1,0 +1,63 @@
+{
+  "schema": "structural.gift_weigelt_crosswalk_contract.v1_44",
+  "status": "STRICT_RESPONSE_INDEPENDENT_COMMON_GEOGRAPHY_CROSSWALK_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_whole_island_geography_freeze_v1_43.json",
+    "development/global_mammals_weigelt_safe_rows_result_v0_60.json"
+  ],
+  "gift_input": {
+    "islands": 1373,
+    "artifact_run_id": 36621638377,
+    "artifact_id": 11059270235,
+    "geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+    "fields": ["entity_ID","geo_entity","longitude","latitude","area"]
+  },
+  "weigelt_input": {
+    "islands": 17883,
+    "artifact_run_id": 36316161135,
+    "artifact_id": 10930234623,
+    "safe_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "name_fields": ["island","name_alt"],
+    "coordinate_fields": ["name_long","name_lat"],
+    "common_reference_fields": ["area","dist","slmp","gmmc","elev","temp","vart","ccvt","prec","varp","archip","countryiso"]
+  },
+  "normalization": {
+    "unicode": "NFKD and remove combining marks",
+    "case": "casefold",
+    "punctuation": "replace non-alphanumeric with spaces",
+    "whitespace": "collapse and trim",
+    "name_alt_split": "semicolon or vertical-bar only"
+  },
+  "match_tiers_in_order": [
+    {
+      "tier": "A_exact_name_area",
+      "rule": "normalized GIFT geo_entity exactly equals one normalized Weigelt island/name_alt and area ratio max/min <= 2.0",
+      "uniqueness": "exactly one eligible Weigelt ID; otherwise leave unmatched"
+    },
+    {
+      "tier": "B_mutual_nearest_strict",
+      "rule": "among still-unmatched entities and still-unused Weigelt rows with name coordinates, pair only if mutual nearest geographic neighbors, great-circle distance <= 5 km, and area ratio max/min <= 1.25",
+      "name_match_required": false
+    }
+  ],
+  "global_one_to_one_rule": {
+    "one_GIFT_entity_per_Weigelt_ID": true,
+    "one_Weigelt_ID_per_GIFT_entity": true,
+    "conflicted_pairs": "drop rather than resolve manually",
+    "manual_matching_forbidden": true,
+    "fuzzy_string_matching_forbidden": true,
+    "threshold_retuning_after_execution_forbidden": true
+  },
+  "primary_common_reference_population": "matched GIFT entities only; unmatched entities are excluded from the primary two-taxon common-reference analysis without replacement",
+  "historical_connection_adjustment": {
+    "field": "gmmc",
+    "interpretation": "mainland connection during the Last Glacial Maximum; use as a reproducible historical-connection / continental-shelf proxy, not as a complete geological-origin classification"
+  },
+  "response_boundary": {
+    "plant_species_composition_authorized": false,
+    "plant_species_richness_authorized": false,
+    "mammal_Appendix1_access_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
