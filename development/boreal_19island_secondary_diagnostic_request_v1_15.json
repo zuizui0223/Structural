@@ -1,0 +1,14 @@
+{
+  "schema": "structural.boreal_19island_secondary_diagnostic_request.v1_15",
+  "status": "REQUEST_POSTHOC_NONRESCUING_DIAGNOSTIC",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "primary_result": "development/boreal_19island_confirmatory_scoring_result_v1_14.json",
+  "primary_supported": false,
+  "fresh_system_denominator_contribution": 0,
+  "raw_confirmatory_response_may_be_reopened": false,
+  "row_level_confirmatory_targets_may_be_used": false,
+  "secondary_analysis_may_change_primary_status": false,
+  "mechanism_claim_authorized": false,
+  "causal_dispersal_claim_authorized": false,
+  "one_shot": true
+}

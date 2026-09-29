@@ -1,0 +1,56 @@
+{
+  "schema": "structural.boreal_19island_secondary_diagnostic_contract.v1_15",
+  "status": "POSTHOC_NONRESCUING_DIAGNOSTIC_PREDECLARED_AFTER_PRIMARY_CLOSE",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": {
+    "primary_result": "development/boreal_19island_confirmatory_scoring_result_v1_14.json",
+    "primary_freeze": "development/boreal_19island_confirmatory_result_freeze_v1_14.json",
+    "predictions": "development/boreal_19island_confirmatory_predictions_v1_10.csv",
+    "state_reference": "development/boreal_19island_state_reference_v0_99.csv",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "preconfirmatory_freeze": "development/boreal_19island_preconfirmatory_freeze_v1_10.json",
+    "state_freeze": "development/boreal_19island_state_reference_freeze_v0_99.json"
+  },
+  "required_primary": {
+    "primary_supported": false,
+    "fresh_system_denominator_contribution": 1,
+    "secondary_analysis_may_change_primary_status": false,
+    "rerun_authorized": false
+  },
+  "diagnostic_scope": {
+    "unit": "seven frozen confirmatory spatial blocks",
+    "response_input": "frozen v1.14 block summaries only; no raw or row-level confirmatory target is reopened",
+    "prediction_input": "frozen v1.10 R3 and C predictions",
+    "state_input": "frozen v0.99 response-independent state reference",
+    "block_weighting": "equal block for summaries and correlations, matching the primary estimand scale",
+    "allowed_outputs": [
+      "block-level C-minus-R3 loss delta",
+      "block-level signed and absolute C-minus-R3 probability shifts",
+      "fraction of rows where C probability exceeds R3",
+      "block-level response-independent state means",
+      "descriptive Pearson correlations across seven blocks"
+    ]
+  },
+  "predeclared_descriptive_questions": [
+    "Did C predominantly move probabilities upward relative to R3?",
+    "Were larger C-minus-R3 prediction shifts associated with larger loss penalties?",
+    "Was the loss penalty concentrated in particular response-independent island-state regimes?"
+  ],
+  "interpretation_boundary": {
+    "primary_status_may_change": false,
+    "secondary_analysis_may_rescue_primary": false,
+    "mechanism_claim_authorized": false,
+    "causal_dispersal_claim_authorized": false,
+    "n_blocks": 7,
+    "correlations_are_descriptive_only": true,
+    "ecological_language": "patterns may be described as consistent with redundancy or over-adjustment of graph-path source continuity beyond R3, not as proof of dispersal mechanism"
+  },
+  "success_ceiling": {
+    "status": "POSTHOC_DIAGNOSTIC_COMPLETE_PRIMARY_REMAINS_NOT_SUPPORTED",
+    "fresh_system_denominator_contribution": 0,
+    "primary_supported": false,
+    "secondary_analysis_may_change_primary_status": false,
+    "mechanism_claim_authorized": false,
+    "next_action": "use the diagnostic only to explain the completed result and to motivate a separately frozen hypothesis in a new independent fresh system"
+  }
+}
