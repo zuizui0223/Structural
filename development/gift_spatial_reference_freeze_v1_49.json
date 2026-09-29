@@ -1,0 +1,52 @@
+{
+  "schema": "structural.gift_spatial_reference_freeze.v1_49",
+  "status": "SUCCESSFUL_PRISTINE_503_ISLAND_SPATIAL_REFERENCE_ARTIFACT_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow_run_id": 36624390299,
+    "workflow_head_sha": "44aa5fac0335a74008fd0143cf6225155a8aaade",
+    "artifact_id": 11059738512,
+    "artifact_name": "gift-v147-spatial-reference-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390299",
+    "artifact_digest": "sha256:57d7b88e88b1a641d3d67db9b8b828aaa3e5492533552bc8352cf82046743fcf",
+    "expires_at": "2026-10-29T20:10:06Z"
+  },
+  "result": {
+    "strict_common_geography_islands": 548,
+    "archip_known_islands": 508,
+    "primary_islands": 503,
+    "archipelago_blocks": 78,
+    "regional_pools": 13,
+    "selected_regional_pool_width_degrees": 60,
+    "pilot_blocks": 19,
+    "pilot_islands": 99,
+    "confirmatory_blocks": 59,
+    "confirmatory_islands": 404,
+    "edge_count": 3369,
+    "partition_sha256": "70bdddaa0fff2b576419af6cfb18870a97b0cae38101472d1c01790e47c74797",
+    "block_table_sha256": "d0060d4e99cb975747061c803adfea94e0277f6bd4c8c5c822a296322fba2ad2",
+    "state_sha256": "26f48c761208d683c90dea8f3fdb45f72ad35a2283c0945120dad68e307d80ee",
+    "edge_sha256": "476f5a9fe12bc27033f5bc929eae752705b6824dd8a2828f02705d74586964ae",
+    "excluded_sha256": "a9e863fc5138e45a9e099e57f50bf6d2701e997e1015e52409d18b1c54a43143",
+    "selected_k_by_regional_pool": {
+      "RP60_lat00_lon02": 2,
+      "RP60_lat00_lon04": 1,
+      "RP60_lat00_lon05": 6,
+      "RP60_lat01_lon00": 8,
+      "RP60_lat01_lon01": 12,
+      "RP60_lat01_lon02": 5,
+      "RP60_lat01_lon03": 3,
+      "RP60_lat01_lon04": 3,
+      "RP60_lat01_lon05": 3,
+      "RP60_lat02_lon01": 2,
+      "RP60_lat02_lon02": 9,
+      "RP60_lat02_lon03": 19,
+      "RP60_lat02_lon05": 11
+    }
+  },
+  "response_boundary": {
+    "species_composition_opened": false,
+    "species_richness_computed": false,
+    "species_response_authorized": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
