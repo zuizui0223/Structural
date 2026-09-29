@@ -71,4 +71,4 @@ def test_cleanup_request_and_workflow_target_only_sensitive_outputs():
     assert "/actions/runs/36522032421/logs" in text
     assert "/actions/artifacts/11013611460" in text
     assert 'method="DELETE"' in text
-    assert "/actions/runs/36522032421"" not in text
+    assert "DELETE run metadata" not in text
