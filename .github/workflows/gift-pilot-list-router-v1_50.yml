@@ -1,0 +1,76 @@
+name: GIFT pilot-list router v1.50
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_pilot_list_router_request_v1_50.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  route-lists:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate response-independent router request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_pilot_list_router_request_v1_50.json").read_text())
+          c=json.loads(Path("development/gift_pilot_list_router_contract_v1_50.json").read_text())
+          assert r["species_API_authorized"] is False
+          assert c["router"]["expected_pilot_list_ID_count"]==147
+          assert c["router"]["expected_confirmatory_list_ID_count"]==596
+          assert c["geological_origin_gate"]["currently_resolved"] is False
+          assert c["response_boundary"]["pilot_species_response_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact canonical metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v089-metadata-766855d3948088603eef19f9a3ac09bb7c5b8e3e-36582542511
+          path: build/gift_v150/metadata
+          repository: zuizui0223/Structural
+          run-id: 36582542511
+          github-token: ${{ github.token }}
+      - name: Download exact v1.47 spatial artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v147-spatial-reference-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390299
+          path: build/gift_v150/spatial
+          repository: zuizui0223/Structural
+          run-id: 36624390299
+          github-token: ${{ github.token }}
+      - name: Freeze exact list routing
+        run: |
+          mkdir -p build/gift_v150/output
+          python scripts/freeze_gift_pilot_list_router_v1_50.py             build/gift_v150/metadata/gift_island_list_metadata.csv             build/gift_v150/spatial/island_partition.csv             --pilot-output build/gift_v150/output/pilot_lists.csv             --confirmatory-output build/gift_v150/output/confirmatory_lists.csv             --receipt build/gift_v150/output/router_receipt.json
+      - name: Enforce zero species access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v150/output/router_receipt.json").read_text())
+          assert x["status"]=="PILOT_AND_CONFIRMATORY_LIST_IDS_FROZEN_WITHOUT_SPECIES_ACCESS"
+          assert x["pilot_list_IDs"]==147
+          assert x["confirmatory_list_IDs"]==596
+          assert x["species_API_called"] is False
+          assert x["species_rows_opened"]==0
+          assert x["pilot_species_response_authorized"] is False
+          PY
+      - name: Upload list routing only
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v150-list-router-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v150/output/pilot_lists.csv
+            build/gift_v150/output/confirmatory_lists.csv
+            build/gift_v150/output/router_receipt.json
+          if-no-files-found: error
+          retention-days: 30
