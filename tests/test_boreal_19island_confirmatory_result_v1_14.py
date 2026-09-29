@@ -88,7 +88,7 @@ def test_block_delta_tamper_fails_closed():
     ] = "0x0.0p+0"
     with pytest.raises(
         module.Boreal19ResultVerificationError,
-        match="block C-minus-R3 inconsistency|point estimate replay drift",
+        match="canonical result fingerprint mismatch|block C-minus-R3 inconsistency|point estimate replay drift",
     ):
         module.verify(
             result,
@@ -103,7 +103,7 @@ def test_primary_status_cannot_be_relabelled_after_result():
     result["primary_supported"] = True
     with pytest.raises(
         module.Boreal19ResultVerificationError,
-        match="boundary/accounting mismatch",
+        match="canonical result fingerprint mismatch|boundary/accounting mismatch",
     ):
         module.verify(
             result,
