@@ -1,0 +1,119 @@
+name: Global mammals v1.19 sensitive cleanup v1.20
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/global_mammals_v119_cleanup_request_v1_20.json
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout frozen audit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate cleanup request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(
+              Path(
+                  "development/global_mammals_v119_cleanup_request_v1_20.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert x["schema"] == "structural.global_mammals_v119_cleanup_request.v1_20"
+          assert x["status"] == "REQUEST_DELETE_V119_SENSITIVE_LOG_AND_ARTIFACT"
+          assert x["workflow_run_id"] == 36522032421
+          assert x["artifact_id"] == 11013611460
+          assert x["preserve_run_metadata"] is True
+          assert x["response_reaccess_authorized"] is False
+          assert x["v1_19_rerun_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+
+      - name: Delete leaked run logs and failed artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/global_mammals_v120
+          python - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.request
+          from pathlib import Path
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GH_TOKEN"]
+
+          targets = [
+              (
+                  "run_logs",
+                  f"https://api.github.com/repos/{repo}/actions/runs/36522032421/logs",
+              ),
+              (
+                  "artifact",
+                  f"https://api.github.com/repos/{repo}/actions/artifacts/11013611460",
+              ),
+          ]
+          results = {}
+          for label, url in targets:
+              req = urllib.request.Request(
+                  url,
+                  method="DELETE",
+                  headers={
+                      "Accept": "application/vnd.github+json",
+                      "Authorization": f"Bearer {token}",
+                      "X-GitHub-Api-Version": "2022-11-28",
+                  },
+              )
+              try:
+                  with urllib.request.urlopen(req) as response:
+                      status = response.status
+                  if status != 204:
+                      raise SystemExit(
+                          f"{label} deletion returned HTTP {status}"
+                      )
+                  results[label] = "deleted"
+              except urllib.error.HTTPError as exc:
+                  if exc.code == 404:
+                      results[label] = "already_absent"
+                  else:
+                      raise
+
+          out = {
+              "schema": "structural.global_mammals_v119_cleanup_result.v1_20",
+              "status": "SENSITIVE_V119_LOG_AND_ARTIFACT_REMOVED",
+              "workflow_run_id": 36522032421,
+              "artifact_id": 11013611460,
+              "run_metadata_preserved": True,
+              "run_logs": results["run_logs"],
+              "artifact": results["artifact"],
+              "response_reaccess_authorized": False,
+              "v1_19_rerun_authorized": False,
+          }
+          Path(
+              "build/global_mammals_v120/cleanup_receipt.json"
+          ).write_text(
+              json.dumps(out, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(out, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload cleanup receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v120-cleanup-${{ github.sha }}-${{ github.run_id }}
+          path: build/global_mammals_v120/cleanup_receipt.json
+          if-no-files-found: error
+          retention-days: 30

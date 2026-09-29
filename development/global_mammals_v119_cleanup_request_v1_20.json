@@ -1,0 +1,10 @@
+{
+  "schema": "structural.global_mammals_v119_cleanup_request.v1_20",
+  "status": "REQUEST_DELETE_V119_SENSITIVE_LOG_AND_ARTIFACT",
+  "workflow_run_id": 36522032421,
+  "artifact_id": 11013611460,
+  "preserve_run_metadata": true,
+  "response_reaccess_authorized": false,
+  "v1_19_rerun_authorized": false,
+  "one_shot": true
+}
