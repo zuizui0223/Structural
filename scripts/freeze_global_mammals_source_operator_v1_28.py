@@ -127,9 +127,6 @@ def spherical_block_centroids(
             )
         meta[block] = observed
 
-    if len(members) != 219:
-        raise GlobalMammalOperatorError("block support is not exact 219")
-
     coordinates = {}
     for block in sorted(members):
         vectors = members[block]
@@ -164,6 +161,8 @@ def freeze(
     coords, meta, island_to_block = spherical_block_centroids(
         safe_rows, part_rows
     )
+    if len(coords) != 219:
+        raise GlobalMammalOperatorError("block support is not exact 219")
     try:
         graph = freeze_connected_knn_operator(coords)
     except BorealDualIsolationOperatorError as exc:
