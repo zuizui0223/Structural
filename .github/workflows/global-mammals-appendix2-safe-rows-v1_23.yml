@@ -1,0 +1,129 @@
+name: Global mammals Appendix 2 safe rows v1.23
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/global_mammals_appendix2_safe_rows_request_v1_23.json
+
+permissions:
+  contents: read
+
+jobs:
+  project-safe-rows:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot safe-row request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/global_mammals_appendix2_safe_rows_request_v1_23.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.global_mammals_appendix2_safe_rows_request.v1_23"
+          )
+          assert req["status"] == "REQUEST_APPENDIX2_13_SAFE_COLUMNS_5592_ROWS"
+          assert req["candidate_id"] == "global_island_native_mammals_barreto_2024"
+          assert req["analysis_route"] == "contaminated_macro_analysis_only"
+          assert req["appendix2_file_id"] == 3242157
+          assert req["appendix2_sha256"] == (
+              "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960"
+          )
+          assert req["safe_column_count"] == 13
+          assert req["expected_row_count"] == 5592
+          assert req["closed_unneeded_cell_values_decoded_required"] == 0
+          assert req["protected_response_derived_cell_values_decoded_required"] == 0
+          assert req["Appendix_1_response_file_access_authorized"] is False
+          assert req["fresh_system_denominator_contribution"] == 0
+          assert req["one_shot"] is True
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v123
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/global_mammals_v123/token_receipt.json
+
+      - name: Project exact 13-column safe table
+        run: |
+          python scripts/project_global_mammals_appendix2_safe_rows_v1_23.py \
+            --safe-csv build/global_mammals_v123/appendix2_safe_rows.csv \
+            --receipt build/global_mammals_v123/safe_rows_receipt.json
+
+      - name: Enforce safe-row semantic ceiling
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          root = Path("build/global_mammals_v123")
+          receipt = json.loads(
+              (root / "safe_rows_receipt.json").read_text(encoding="utf-8")
+          )
+          assert receipt["status"] == "APPENDIX2_5592_SAFE_ROWS_PROJECTED"
+          assert receipt["safe_column_count"] == 13
+          assert receipt["row_count"] == 5592
+          assert receipt["distinct_id_count"] == 5592
+          assert receipt["safe_cell_values_decoded"] == 5592 * 13
+          assert receipt["closed_unneeded_cell_values_decoded"] == 0
+          assert receipt["protected_response_derived_cell_values_decoded"] == 0
+          assert receipt["Appendix_1_response_file_reopened"] is False
+          assert receipt["biological_response_values_opened_in_v1_23"] is False
+          assert receipt["counts_as_fresh_confirmation"] is False
+          assert receipt["fresh_system_denominator_contribution"] == 0
+          assert receipt["original_global_mammal_fresh_chain_restored"] is False
+          assert receipt["safe_spatial_design_may_be_built"] is True
+
+          with (root / "appendix2_safe_rows.csv").open(
+              "r", encoding="utf-8", newline=""
+          ) as handle:
+              reader = csv.reader(handle)
+              header = next(reader)
+              rows = list(reader)
+          assert len(header) == 13
+          assert len(rows) == 5592
+          assert all(len(row) == 13 for row in rows)
+          PY
+
+      - name: Assert no raw workbook or Appendix 1 response artifact
+        if: always()
+        run: |
+          if find build -type f \( -name 'Appendix_2-dryad.xlsx' -o -name 'Appendix_1_presence_absence.csv' \) | grep -q .; then
+            echo "raw mixed/response file reached artifact tree" >&2
+            exit 1
+          fi
+
+      - name: Upload safe table and receipts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v123/token_receipt.json
+            build/global_mammals_v123/safe_rows_receipt.json
+            build/global_mammals_v123/appendix2_safe_rows.csv
+          if-no-files-found: warn
+          retention-days: 30
