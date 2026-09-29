@@ -1,0 +1,18 @@
+{
+  "schema": "structural.gift_preconfirmatory_model_request.v1_59",
+  "status": "REQUEST_FROZEN_GIFT_PRECONFIRMATORY_MODELS_AND_PREDICTIONS",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "pilot_run_id": 36626284777,
+  "pilot_artifact_id": 11060478567,
+  "pilot_species_universe_sha256": "6b92ebfa7e3c242f0cffde3e91f9ff05c821b2ca242638a0ead6f6f0591e4bce",
+  "pilot_matrix_sha256": "1a10e6a2d6a06039975f2f8d045575f0d461f647d32b4b3428d3462bcec66f6d",
+  "focal_species": 224,
+  "confirmatory_entities": 404,
+  "expected_prediction_cells": 90496,
+  "spatial_run_id": 36624390299,
+  "spatial_artifact_id": 11059738512,
+  "geography_run_id": 36621638377,
+  "geography_artifact_id": 11059270235,
+  "confirmatory_response_authorized": false,
+  "one_shot": true
+}
