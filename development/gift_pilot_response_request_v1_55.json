@@ -1,0 +1,13 @@
+{
+  "schema": "structural.gift_pilot_response_request.v1_55",
+  "status": "REQUEST_ONE_SHOT_PRISTINE_PLANT_PILOT_RESPONSE",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "routing_run_id": 36625810621,
+  "routing_artifact_id": 11060636113,
+  "routing_artifact_digest": "sha256:033cdaaa2ffbb96a7178c73a981d52ed92150df4bd99fd2131d4164223b7c619",
+  "pilot_lists_sha256": "f7986c13d65070bbd3aa23db5be8cfc4af42da8590b7d47a5cbd9c2ece9f27d4",
+  "confirmatory_lists_sha256": "c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a",
+  "pilot_response_authorized": true,
+  "confirmatory_response_authorized": false,
+  "one_shot": true
+}
