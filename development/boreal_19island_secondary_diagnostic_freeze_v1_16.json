@@ -1,0 +1,53 @@
+{
+  "schema": "structural.boreal_19island_secondary_diagnostic_freeze.v1_16",
+  "status": "POSTHOC_DIAGNOSTIC_COMMITTED_PRIMARY_UNCHANGED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-19island-secondary-diagnostic-v1_15.yml",
+    "workflow_run_id": 36509465675,
+    "workflow_head_sha": "416b0c03cbd7e12d5f4656fa535adaa1d38087ce",
+    "artifact_id": 11008262618,
+    "artifact_name": "boreal-v115-secondary-diagnostic-416b0c03cbd7e12d5f4656fa535adaa1d38087ce-36509465675",
+    "artifact_digest": "sha256:682c633a1795e2d5d0d257d765e31f7203e36e0b9486cb57fec10ef3e4f7355d",
+    "diagnostic_json_sha256": "bc7583b909445fb9dccc505108fd999e96cc3f03aeb8e5d545c883e8623841d3"
+  },
+  "primary_lock": {
+    "primary_supported": false,
+    "primary_status": "PRIMARY_NOT_SUPPORTED_INTERNAL_SOURCE_ISOLATION_NONREDUNDANT",
+    "fresh_system_denominator_contribution": 0,
+    "secondary_analysis_may_change_primary_status": false,
+    "mechanism_claim_authorized": false,
+    "causal_dispersal_claim_authorized": false,
+    "raw_confirmatory_response_reopened": false,
+    "row_level_confirmatory_targets_used": false
+  },
+  "diagnostic_summary": {
+    "confirmatory_block_count": 7,
+    "worsening_block_count": 5,
+    "improving_block_count": 2,
+    "worsening_blocks": [
+      "SC_343d012d58b2",
+      "SC_2f455671a546",
+      "SC_04cdabd0598f",
+      "SC_fc686c314491",
+      "SC_cfba9de3e226"
+    ],
+    "improving_blocks": [
+      "SC_53a986e1b37a",
+      "SC_088d2e949e6e"
+    ],
+    "minimum_fraction_C_probability_higher_in_worsening_blocks_hex": "0x1.ec9b26c9b26cap-1",
+    "correlation_loss_with_signed_probability_shift_hex": "0x1.f77039f267825p-1",
+    "correlation_loss_with_absolute_probability_shift_hex": "0x1.e59b18171ec06p-1",
+    "correlation_loss_with_rms_probability_shift_hex": "0x1.e3aff15d35cbap-1",
+    "correlation_loss_with_log_area_z_hex": "-0x1.66fccd95f37ddp-1",
+    "correlation_loss_with_log_mainland_distance_z_hex": "-0x1.0d2c6f3bd30abp-1"
+  },
+  "ecological_interpretation": {
+    "descriptive_result": "C mostly increased predicted occurrence probabilities relative to R3 in the five blocks where heldout loss worsened, and the magnitude of this extra shift tracked the loss penalty closely.",
+    "consistent_with": "multi-hop graph-path source continuity behaving as redundant or over-adjusting source signal once habitat/fire, external isolation, generic graph context, global occupancy breadth, and direct/diffuse Euclidean occupied-source context were already represented.",
+    "not_established": "the diagnostic does not establish direct over-water dispersal, stepping-stone absence, causal movement mechanism, or a general law beyond this system.",
+    "new_hypothesis_for_future_system_only": "direct Euclidean source accessibility may dominate graph-path continuity in compact lake-island beetle assemblages; this must be frozen and tested in a new independent system before response access."
+  },
+  "next_action": "retain the boreal primary as not supported; use v1.16 only as ecological interpretation and as motivation for a separately response-sealed replication hypothesis in a new fresh island system"
+}
