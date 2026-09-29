@@ -1,0 +1,34 @@
+{
+  "schema": "structural.gift_pilot_routing_contract.v1_51",
+  "status": "PRISTINE_PLANT_PILOT_ROUTING_PREDECLARED_RESPONSE_INDEPENDENTLY",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_spatial_reference_freeze_v1_49.json",
+    "development/gift_whole_island_geography_freeze_v1_43.json",
+    "development/macro_species_response_protocol_v1_50.json"
+  ],
+  "inputs": {
+    "retained_lists_artifact_run_id": 36621638377,
+    "retained_lists_artifact_id": 11059270235,
+    "retained_lists_sha256": "7892bf0b7639a2574512c16ca8fd7827ccc5fecee97607a3bef8d3c9c9717cfe",
+    "partition_artifact_run_id": 36624390299,
+    "partition_artifact_id": 11059738512,
+    "primary_islands": 503,
+    "pilot_islands": 99,
+    "confirmatory_islands": 404
+  },
+  "routing_rule": {
+    "entity_key": "entity_ID",
+    "pilot_list_IDs": "all and only frozen retained list_IDs whose entity_ID is in the frozen pilot partition",
+    "confirmatory_list_IDs": "all and only frozen retained list_IDs whose entity_ID is in the frozen confirmatory partition",
+    "entity_with_multiple_lists": "retain all eligible lists; species presence later unions them at entity level",
+    "list_ID_overlap_between_pilot_and_confirmatory": "STOP",
+    "entity_overlap_between_pilot_and_confirmatory": "STOP"
+  },
+  "response_boundary": {
+    "GIFT_checklists_raw_called": false,
+    "species_composition_opened": false,
+    "species_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
