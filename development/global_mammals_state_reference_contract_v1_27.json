@@ -1,0 +1,155 @@
+{
+  "schema": "structural.global_mammals_state_reference_contract.v1_27",
+  "status": "GLOBAL_R0_R1_STATE_REFERENCE_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": {
+    "safe_rows_freeze": "development/global_mammals_appendix2_safe_rows_freeze_v1_24.json",
+    "spatial_freeze": "development/global_mammals_spatial_pilot_freeze_v1_26.json"
+  },
+  "source_artifacts": {
+    "safe_rows": {
+      "workflow_run_id": 36524988694,
+      "artifact_id": 11013887248,
+      "safe_csv_name": "appendix2_safe_rows.csv",
+      "safe_csv_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+    },
+    "spatial_partition": {
+      "workflow_run_id": 36527735618,
+      "artifact_id": 11015850157,
+      "island_partition_name": "island_partition.csv",
+      "island_partition_sha256": "3f85efb3b71423a8392cb1f7a5590c7b03cedef377fee0997df457a029b998bd"
+    }
+  },
+  "population": {
+    "island_count": 5592,
+    "pilot_island_count": 1307,
+    "confirmatory_island_count": 4285,
+    "bioregion_count": 12
+  },
+  "bioregion_encoding": {
+    "levels_in_frozen_order": [
+      "Afrotropical",
+      "Australian",
+      "Eurasia",
+      "Madagascan",
+      "Neartic",
+      "Neotropical",
+      "Oceanina",
+      "Oriental",
+      "Paleartic",
+      "Panamanian",
+      "Saharo-Arabian",
+      "Sino-Japanese"
+    ],
+    "reference_level": "Afrotropical",
+    "dummy_columns": [
+      "realm_Australian",
+      "realm_Eurasia",
+      "realm_Madagascan",
+      "realm_Neartic",
+      "realm_Neotropical",
+      "realm_Oceanina",
+      "realm_Oriental",
+      "realm_Paleartic",
+      "realm_Panamanian",
+      "realm_Saharo_Arabian",
+      "realm_Sino_Japanese"
+    ],
+    "response_used_to_choose_reference": false
+  },
+  "R0": {
+    "continuous_source_columns": [
+      "Temperature_mean",
+      "Temperature_sd",
+      "Precipitation_mean",
+      "Precipitation_sd",
+      "Elevation_sd"
+    ],
+    "continuous_transform": "identity then population z-score over all 5592 frozen safe islands",
+    "categorical_columns": "11 fixed bioregion dummies relative to Afrotropical",
+    "feature_columns_in_order": [
+      "z_Temperature_mean",
+      "z_Temperature_sd",
+      "z_Precipitation_mean",
+      "z_Precipitation_sd",
+      "z_Elevation_sd",
+      "realm_Australian",
+      "realm_Eurasia",
+      "realm_Madagascan",
+      "realm_Neartic",
+      "realm_Neotropical",
+      "realm_Oceanina",
+      "realm_Oriental",
+      "realm_Paleartic",
+      "realm_Panamanian",
+      "realm_Saharo_Arabian",
+      "realm_Sino_Japanese"
+    ]
+  },
+  "R1_add": {
+    "source_columns": [
+      "Area",
+      "Current_isolation",
+      "Past_isolation",
+      "Climate_velocity"
+    ],
+    "transform_rules": {
+      "Area": "log10(Area), requiring Area > 0, then population z-score over all 5592 islands",
+      "Current_isolation": "identity then population z-score over all 5592 islands; larger source values retain the documented greater-current-isolation direction",
+      "Past_isolation": "must be exactly binary 0/1 and is retained unstandardized",
+      "Climate_velocity": "identity then population z-score over all 5592 islands"
+    },
+    "feature_columns_in_order": [
+      "z_log10_Area",
+      "z_Current_isolation",
+      "Past_isolation",
+      "z_Climate_velocity"
+    ]
+  },
+  "standardization": {
+    "population": "all exact 5592 frozen safe islands, before any further Appendix 1 access",
+    "sd_definition": "population SD with denominator N",
+    "zero_or_nonfinite_sd": "STOP",
+    "constants_encoding": "float.hex()"
+  },
+  "output": {
+    "state_table_columns_prefix": [
+      "ID",
+      "block_id",
+      "split",
+      "extreme_current_isolation",
+      "bioregion"
+    ],
+    "then_R0_features": true,
+    "then_R1_add_features": true,
+    "numeric_encoding": "float.hex(); Past_isolation and realm dummies as literal 0/1",
+    "row_order": "exact v1.23 safe-row source order"
+  },
+  "validation": {
+    "safe_and_partition_ID_sets_must_match_exactly": true,
+    "safe_and_partition_ID_order_must_match_exactly": true,
+    "partition_split_counts": {
+      "pilot": 1307,
+      "confirmatory": 4285
+    },
+    "realm_levels_must_match_exactly": true,
+    "Past_isolation_domain": [0,1],
+    "all_R0_R1_continuous_source_values_must_be_finite": true,
+    "all_standardized_features_must_have_finite_values": true
+  },
+  "response_boundary": {
+    "Appendix_1_may_be_reopened": false,
+    "mammal_species_names_opened": false,
+    "mammal_occurrence_values_opened": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "original_fresh_chain_restored": false
+  },
+  "success_ceiling": {
+    "status": "GLOBAL_R0_R1_STATE_REFERENCE_FROZEN_RESPONSE_INDEPENDENTLY",
+    "global_source_operator_may_be_built": true,
+    "mammal_response_access_authorized": false,
+    "next_action": "commit the exact state table and constants, then freeze a distinct response-independent global source-connectivity operator before any further Appendix 1 access"
+  }
+}
