@@ -1,0 +1,106 @@
+{
+  "schema": "structural.global_mammals_id_crosswalk_contract.v1_19",
+  "status": "RESPONSE_ROUTING_ID_ONLY_CROSSWALK_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parents": {
+    "opaque_transport_freeze": "development/global_mammals_opaque_transport_freeze_v1_18.json",
+    "weigelt_safe_rows_result": "development/global_mammals_weigelt_safe_rows_result_v0_60.json",
+    "preintake": "development/global_island_mammals_preintake_v0_1.json"
+  },
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "expected_data_row_count": 5592
+  },
+  "safe_reference_identity": {
+    "workflow_run_id": 36316161135,
+    "workflow_head_sha": "d5e7788b0e81fb9cc165a9fd33584b52d7501953",
+    "artifact_id": 10930234623,
+    "artifact_name": "global-mammals-weigelt-safe-rows-v0-60",
+    "artifact_digest": "sha256:467c8d5edc5514ac75107ede7752038497f606fcf7aa42f085269c9a8cd93b31",
+    "safe_csv_name": "weigelt_islanddata_safe_v0_60.csv",
+    "safe_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "safe_receipt_sha256": "ec330ddb878d2ab54039d8d5f541decd75f8c599248dad2306032ac80ef18680",
+    "safe_row_count": 17883,
+    "safe_distinct_id_count": 17883,
+    "safe_id_column": "id"
+  },
+  "canonicalization": {
+    "applies_identically_to_response_and_safe_ids": true,
+    "decode": "UTF-8 for the routing field only",
+    "strip": "ASCII surrounding whitespace bytes 0x20, 0x09, 0x0d, 0x0a only",
+    "accepted_raw_pattern": "^[0-9]+$",
+    "canonical_form": "parse unsigned base-10 integer and render with str(int(value,10)); this removes leading zeros and preserves zero as 0",
+    "negative_sign_allowed": false,
+    "decimal_point_allowed": false,
+    "scientific_notation_allowed": false,
+    "blank_allowed": false,
+    "fuzzy_matching_allowed": false,
+    "name_matching_allowed": false,
+    "coordinate_matching_allowed": false
+  },
+  "semantic_access": {
+    "header_first_field_decoded": true,
+    "header_other_fields_decoded": 0,
+    "routing_first_field_decoded_for_each_data_row": true,
+    "species_header_fields_decoded": 0,
+    "occurrence_values_decoded": 0,
+    "row_remainder_semantics_opened": false,
+    "biological_response_values_opened": false
+  },
+  "parser": {
+    "record_rule": "byte-level RFC4180-style quote/newline scan; retain bytes only for first field and skip the remainder of every record without Unicode decode",
+    "header_record_count": 1,
+    "expected_data_record_count": 5592,
+    "duplicate_canonical_response_ids_allowed": false
+  },
+  "decision_rule": {
+    "success_status": "EXACT_ROUTING_ID_CROSSWALK_COMPLETE",
+    "success_requires": {
+      "response_data_row_count": 5592,
+      "response_distinct_canonical_id_count": 5592,
+      "matched_safe_id_count": 5592,
+      "unmatched_response_id_count": 0,
+      "duplicate_response_id_count": 0
+    },
+    "failure_status": "HOLD_ROUTING_ID_CROSSWALK_INCOMPLETE",
+    "same_revision_fuzzy_rescue_forbidden": true,
+    "same_revision_population_redefinition_forbidden": true
+  },
+  "output": {
+    "routing_id_list_allowed": true,
+    "routing_id_order": "exact source response row order after frozen canonicalization",
+    "routing_id_fingerprint": "SHA-256 of each canonical ID followed by LF in response row order",
+    "unmatched_id_list_allowed": false,
+    "unmatched_id_count_allowed": true,
+    "unmatched_id_fingerprint_allowed": true,
+    "species_names_allowed": false,
+    "occurrence_values_allowed": false,
+    "raw_response_bytes_allowed": false
+  },
+  "transport_policy": {
+    "exact_re_download_authorized_by_v1_18_next_gate": true,
+    "crosswalk_transport_attempt_limit": 1,
+    "alternate_file_id_retry_authorized": false,
+    "alternate_endpoint_retry_authorized": false,
+    "transport_failure_before_semantic_access": "HOLD_NO_RETRY_UNDER_V1_19",
+    "failure_after_first_routing_field_decode": "TERMINAL_ID_CROSSWALK_STOP_NO_RERUN_UNDER_V1_19"
+  },
+  "evidence_boundary": {
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "v0_11_intake_authorized": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "success_ceiling": {
+    "safe_population_projection_may_be_built": true,
+    "species_header_access_authorized": false,
+    "occurrence_value_access_authorized": false,
+    "next_action": "commit the exact routing-ID population and crosswalk receipt; only a later separately frozen revision may project safe Weigelt covariates for those exact 5592 IDs and design the response-independent spatial/pilot split"
+  }
+}
