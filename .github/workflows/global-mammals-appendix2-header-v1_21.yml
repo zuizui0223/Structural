@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - development/global_mammals_appendix2_header_audit_request_v1_21.json
+      - development/global_mammals_appendix2_header_retry_request_v1_21.json
 
 permissions:
   contents: read
@@ -31,15 +32,25 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          req = json.loads(
-              Path(
+          retry_path = Path(
+              "development/global_mammals_appendix2_header_retry_request_v1_21.json"
+          )
+          request_path = (
+              retry_path
+              if retry_path.exists()
+              else Path(
                   "development/global_mammals_appendix2_header_audit_request_v1_21.json"
-              ).read_text(encoding="utf-8")
+              )
           )
-          assert req["schema"] == (
-              "structural.global_mammals_appendix2_header_audit_request.v1_21"
-          )
-          assert req["status"] == "REQUEST_APPENDIX2_WORKBOOK_HEADER_ONLY_AUDIT"
+          req = json.loads(request_path.read_text(encoding="utf-8"))
+          assert req["schema"] in {
+              "structural.global_mammals_appendix2_header_audit_request.v1_21",
+              "structural.global_mammals_appendix2_header_retry_request.v1_21",
+          }
+          assert req["status"] in {
+              "REQUEST_APPENDIX2_WORKBOOK_HEADER_ONLY_AUDIT",
+              "REQUEST_SINGLE_PRESEMANTIC_PARSER_REPAIR_RETRY",
+          }
           assert req["candidate_id"] == "global_island_native_mammals_barreto_2024"
           assert req["analysis_route"] == "contaminated_macro_analysis_only"
           assert req["appendix2_file_id"] == 3242157
@@ -52,6 +63,11 @@ jobs:
           assert req["safe_row_access_authorized"] is False
           assert req["fresh_system_denominator_contribution"] == 0
           assert req["one_shot"] is True
+          if req["status"] == "REQUEST_SINGLE_PRESEMANTIC_PARSER_REPAIR_RETRY":
+              assert req["initial_failed_workflow_run_id"] == 36523380359
+              assert req["initial_appendix2_data_rows_semantically_opened"] == 0
+              assert req["initial_appendix2_data_cell_values_decoded"] == 0
+              assert req["repair_scope"] == "OPC relationship path normalization only"
           PY
 
       - name: Prepare short-lived Dryad bearer token

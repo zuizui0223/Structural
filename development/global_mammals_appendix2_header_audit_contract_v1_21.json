@@ -84,5 +84,18 @@
     "alternate_file_id_retry_authorized": false,
     "alternate_endpoint_retry_authorized": false,
     "raw_xlsx_artifact_authorized": false
+  },
+  "operational_retry": {
+    "authorized": true,
+    "attempt_limit_after_initial_failure": 1,
+    "initial_failed_workflow_run_id": 36523380359,
+    "initial_failure_stage": "workbook relationship target normalization before any worksheet row semantic parse",
+    "initial_failure_reason": "worksheet relationship escapes xl/",
+    "initial_appendix2_data_rows_semantically_opened": 0,
+    "initial_appendix2_data_cell_values_decoded": 0,
+    "scientific_hypothesis_changed": false,
+    "safe_column_intent_changed": false,
+    "freshness_status_changed": false,
+    "repair_scope": "OPC relationship path normalization only"
   }
 }
