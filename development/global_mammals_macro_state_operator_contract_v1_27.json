@@ -1,0 +1,128 @@
+{
+  "schema": "structural.global_mammals_macro_state_operator_contract.v1_27",
+  "status": "GLOBAL_MACRO_STATE_AND_SOURCE_OPERATOR_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": {
+    "safe_rows_freeze": "development/global_mammals_appendix2_safe_rows_freeze_v1_24.json",
+    "spatial_freeze": "development/global_mammals_spatial_pilot_freeze_v1_26.json",
+    "preintake": "development/global_island_mammals_preintake_v0_1.json"
+  },
+  "safe_artifact": {
+    "workflow_run_id": 36524988694,
+    "workflow_head_sha": "ea565b98419f8aacde9fb13c26724bb385635b95",
+    "artifact_id": 11013887248,
+    "artifact_name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+    "artifact_digest": "sha256:f740c6762a7414f624c7d920a5a4316a062cba803ed9ad426e4f97d36598d9e8",
+    "safe_csv_name": "appendix2_safe_rows.csv",
+    "safe_csv_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "safe_row_count": 5592,
+    "safe_id_order_sha256": "438b76e167b302fdf79827a2c9f6f9eb8bf354af5730f44506536f15d8af92a6"
+  },
+  "spatial_artifact": {
+    "workflow_run_id": 36527735618,
+    "workflow_head_sha": "9333854097f15617b25a09ba79a67db4854c6b3f",
+    "artifact_id": 11015850157,
+    "artifact_name": "global-mammals-v125-spatial-9333854097f15617b25a09ba79a67db4854c6b3f-36527735618",
+    "artifact_digest": "sha256:b34b0a30676b6294676860cdda4923e013c11a3263da46cb2e0b1f35680bb08c",
+    "island_partition_sha256": "3f85efb3b71423a8392cb1f7a5590c7b03cedef377fee0997df457a029b998bd",
+    "block_table_sha256": "4646034c1e5cd408e252c6d187a763e292850edd5c7d1619567b634e410bb27d",
+    "spatial_receipt_raw_sha256": "0282a503943b8d63a8ff3e104da72fa210713fca5a357c64669225ecef7d1727",
+    "island_count": 5592,
+    "total_block_count": 219,
+    "pilot_block_count": 50,
+    "confirmatory_block_count": 169
+  },
+  "state_reference": {
+    "population": "exact 5592 safe Appendix 2 islands in source order",
+    "categorical_reference": {
+      "column": "bioregion",
+      "levels_rule": "lexicographically sorted exact source strings",
+      "reference_level": "Afrotropical",
+      "encoding": "intercept plus one dummy for every non-reference level"
+    },
+    "R0_numeric_source_columns": [
+      "Temperature_mean",
+      "Temperature_sd",
+      "Precipitation_mean",
+      "Precipitation_sd",
+      "Elevation_sd"
+    ],
+    "R1_add_source_columns": [
+      "Area",
+      "Current_isolation",
+      "Past_isolation",
+      "Climate_velocity"
+    ],
+    "transform_rules": {
+      "Area": "log10(Area + 1.0) before population z-score",
+      "Current_isolation": "identity before population z-score",
+      "Past_isolation": "identity before population z-score; expected exact binary 0/1",
+      "Climate_velocity": "identity before population z-score",
+      "R0_numeric": "identity before population z-score"
+    },
+    "standardization": "population mean and population SD over all exact 5592 islands; zero/nonfinite SD is STOP",
+    "output_columns": "ID, bioregion, realm dummies, z-scored R0 numeric columns, z-scored R1 numeric columns",
+    "response_used": false
+  },
+  "source_operator": {
+    "geometry": "exact Longitude_centroid/Latitude_centroid from the frozen 5592-row safe table",
+    "graph": "global symmetrized k-nearest-neighbor graph over all 5592 islands",
+    "neighbor_ranking": "ascending great-circle distance; ties by ascending numeric source ID",
+    "k_rule": "smallest integer k >= 1 for which the symmetrized kNN graph is connected",
+    "search_max_k": 64,
+    "distance_metric": "great-circle haversine km, Earth radius 6371.0088 km",
+    "nearest_neighbor_search": "exact top-64 ranking by unit-sphere chord distance, which is monotonic with great-circle distance",
+    "kernel_scale_rule": "Hyndman-Fan type-7 median of positive selected-edge great-circle lengths",
+    "validation_blocks_reused_as_source_components": false,
+    "response_used_to_choose_k": false,
+    "response_used_to_choose_kernel_scale": false,
+    "generic_R2_context": [
+      "degree_fraction",
+      "mean_incident_edge_km",
+      "two_hop_reach_fraction"
+    ],
+    "audit_expectations_from_response_independent_geometry": {
+      "selected_k": 36,
+      "edge_count": 124733,
+      "cross_validation_block_edge_count": 37235,
+      "kernel_scale_km_hex": "0x1.0329e68e17982p+7"
+    }
+  },
+  "ecological_role": {
+    "R0": "zoogeographic realm plus climate/elevation state",
+    "R1_add": "island area, current isolation, past isolation and climate velocity",
+    "R2_add": "generic response-independent source-graph context",
+    "R3_future": "species-conditioned direct/diffuse occupied-source proximity using training response only",
+    "C_future": "species-conditioned multihop source continuity on the frozen kNN graph using training response only",
+    "primary_future_contrast": "C_minus_R3 heldout log loss",
+    "future_response_access_authorized_here": false
+  },
+  "validation": {
+    "safe_row_count": 5592,
+    "unique_ID_count": 5592,
+    "unique_coordinate_pair_count": 5592,
+    "bioregion_count": 12,
+    "Past_isolation_unique_values": [0, 1],
+    "partition_ID_order_must_match_safe_ID_order": true,
+    "all_selected_source_graph_edges_must_reference_frozen_IDs": true,
+    "source_graph_must_be_connected": true,
+    "source_graph_must_cross_validation_blocks": true
+  },
+  "response_boundary": {
+    "Appendix_1_reopened": false,
+    "mammal_species_names_opened": false,
+    "mammal_occurrence_values_opened": false,
+    "response_used_in_state_reference": false,
+    "response_used_in_source_operator": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "original_fresh_chain_restored": false
+  },
+  "success_ceiling": {
+    "status": "GLOBAL_MACRO_STATE_AND_SOURCE_OPERATOR_FROZEN_RESPONSE_INDEPENDENTLY",
+    "macro_response_model_design_may_be_built": true,
+    "mammal_response_access_authorized": false,
+    "next_action": "commit/fingerprint the exact state table and source operator; then define a separate contaminated-macro response-opening/model protocol before any further Appendix 1 access"
+  }
+}
