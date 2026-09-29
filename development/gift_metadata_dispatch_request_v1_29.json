@@ -1,0 +1,15 @@
+{
+  "schema": "structural.gift_metadata_dispatch_request.v1_29",
+  "status": "REQUEST_FROZEN_GIFT_METADATA_V089_DISPATCH",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "target_workflow": ".github/workflows/gift-metadata-freeze-v0_89.yml",
+  "target_ref": "main",
+  "reason": "Execute the already-frozen metadata-only GIFT query without changing eligibility, overlap, blocking, source-pool, or response rules.",
+  "species_composition_authorized": false,
+  "species_richness_authorized": false,
+  "checklist_contents_authorized": false,
+  "source_pool_features_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}
