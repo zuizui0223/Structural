@@ -1,0 +1,109 @@
+{
+  "schema": "structural.macro_species_response_protocol.v1_50",
+  "status": "JOINT_PILOT_RESPONSE_AND_R3_C_PROTOCOL_FROZEN_BEFORE_NEW_SPECIES_ACCESS",
+  "systems": {
+    "plants": {
+      "candidate_id": "gift_native_angiosperm_islands_v3_2",
+      "evidence_class": "pristine_fresh_replication",
+      "primary_islands": 503,
+      "pilot_islands": 99,
+      "pilot_blocks": 19,
+      "confirmatory_islands": 404,
+      "confirmatory_blocks": 59,
+      "validation_unit": "Weigelt archipelago",
+      "regional_pool": "frozen 60-degree response-independent pool"
+    },
+    "mammals": {
+      "candidate_id": "global_island_native_mammals_barreto_2024",
+      "evidence_class": "contaminated_macro_analysis_only",
+      "primary_islands": 5401,
+      "pilot_islands": 1275,
+      "pilot_blocks": 50,
+      "confirmatory_islands": 4126,
+      "confirmatory_blocks": 168,
+      "validation_unit": "frozen bioregion-by-10-degree spatial block",
+      "regional_pool": "frozen bioregion"
+    }
+  },
+  "species_universe": {
+    "identity": {
+      "plants": "GIFT work_ID with work_species retained as label",
+      "mammals": "exact frozen source species column identity"
+    },
+    "pilot_only_selection": true,
+    "minimum_presence_rule": "m = max(5, ceil(0.01 * number_of_pilot_islands))",
+    "minimum_absence_rule": "same m",
+    "plants_m": 5,
+    "mammals_m": 13,
+    "eligible_species": "present on >=m pilot islands and absent on >=m pilot islands",
+    "confirmatory_response_may_not_change_species_universe": true
+  },
+  "plant_presence_semantics": {
+    "api_function": "GIFT_checklists_raw",
+    "taxon_name": "Angiospermae",
+    "floristic_group": "native",
+    "query_only_frozen_pilot_list_IDs_before_prediction_freeze": true,
+    "entity_presence": "union across all frozen eligible list_IDs for that entity",
+    "accepted_row": "native == 1 AND questionable == 0 AND quest_native == 0",
+    "absence": "no accepted row for the focal work_ID across any frozen eligible list_ID of the entity",
+    "confirmatory_list_IDs_may_not_be_requested_during_pilot": true
+  },
+  "mammal_presence_semantics": {
+    "source": "frozen 2024 Appendix_1_presence_absence.csv",
+    "delimiter": "semicolon",
+    "routing_namespace": "Appendix 2 ID / source-local island ID",
+    "target_domain": ["0","1"],
+    "pilot_access": "only exact final-population pilot island rows and species fields needed to build the pilot species universe/training snapshot",
+    "confirmatory_occurrence_may_not_open_during_pilot": true,
+    "historically_excluded_176_islands_and_quarantined_15-island_block_may_not_enter_training_or_source_features": true
+  },
+  "cross_fitted_species_features": {
+    "pilot_training_row": "remove the entire focal pilot validation block before computing every species-conditioned feature for that row",
+    "confirmatory_prediction_row": "use the complete frozen pilot response only; no confirmatory occurrence may enter a feature",
+    "R3_add": [
+      "Jeffreys-smoothed training-only global occupancy logit",
+      "Jeffreys-smoothed species_x_regional_pool prevalence logit",
+      "log1p nearest Euclidean occupied-source distance",
+      "log1p Euclidean diffuse occupied-source pressure"
+    ],
+    "C_add": [
+      "log1p nearest response-independent-graph-path occupied-source distance",
+      "log1p graph-path diffuse occupied-source pressure"
+    ],
+    "heldout_block_source_leakage_allowed": false
+  },
+  "fitting": {
+    "model": "pooled binary ridge logistic regression",
+    "solver": "deterministic IRLS / sufficient-statistic implementation",
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "max_iterations": 100,
+    "tolerance": 1e-8,
+    "probability_clip": [1e-12,0.999999999999],
+    "response_based_hyperparameter_tuning": false
+  },
+  "primary": {
+    "estimand": "equal-weight mean across confirmatory validation blocks of within-block mean(loss_C - loss_R3)",
+    "favourable_direction": "negative",
+    "uncertainty": "deterministic 10000-replicate confirmatory-block bootstrap",
+    "support_rule": "point estimate < 0 and 95% bootstrap upper bound < 0",
+    "systems_scored_separately": true,
+    "mammal_result_cannot_count_as_fresh_confirmation": true,
+    "plant_result_cannot_be_tuned_using_mammal_or_boreal_direction": true
+  },
+  "island_type_adjustment": "development/common_island_type_adjustment_v1_49.json",
+  "anti_rescue": [
+    "no species threshold change after pilot access",
+    "no block change after pilot access",
+    "no regional-pool change after pilot access",
+    "no source-kernel retuning after pilot access",
+    "no subgroup/type interaction may rescue a failed overall primary"
+  ],
+  "response_boundary": {
+    "new_plant_species_rows_opened": 0,
+    "new_mammal_occurrence_values_opened": 0,
+    "plant_pilot_authorized": false,
+    "mammal_macro_pilot_authorized": false,
+    "confirmatory_response_authorized": false
+  }
+}

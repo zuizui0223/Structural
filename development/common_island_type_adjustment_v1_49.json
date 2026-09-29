@@ -1,0 +1,37 @@
+{
+  "schema": "structural.common_island_type_adjustment.v1_49",
+  "status": "COMMON_LGM_CONNECTIVITY_TYPE_RESOLVED_BEFORE_SPECIES_ACCESS",
+  "scope": ["global_island_native_mammals_barreto_2024","gift_native_angiosperm_islands_v3_2"],
+  "source": "Weigelt et al. 2013 global island characterization GMMC",
+  "semantics": {
+    "raw_Weigelt_gmmc_1": "connected to a continental mainland during the Last Glacial Maximum",
+    "raw_Weigelt_gmmc_0": "not connected to a continental mainland during the Last Glacial Maximum",
+    "harmonized_isolation_type": {
+      "0": "LGM_connected_continental_shelf_proxy",
+      "1": "LGM_disconnected_oceanic_like_proxy"
+    },
+    "transform_from_raw_Weigelt": "harmonized_isolation_type = 1 - raw_gmmc",
+    "claim_boundary": "this is a coarse historical-connectivity / continental-shelf proxy that differentiates oceanic and continental islands well; it is not a complete geological-origin classification"
+  },
+  "plant_503_audit": {
+    "raw_gmmc_0_disconnected": 381,
+    "raw_gmmc_1_connected": 122,
+    "pilot_raw_gmmc_0": 67,
+    "pilot_raw_gmmc_1": 32,
+    "confirmatory_raw_gmmc_0": 314,
+    "confirmatory_raw_gmmc_1": 90,
+    "derived_only_from_response_independent_crosswalk_and_partition": true
+  },
+  "model_rule": {
+    "R1_already_contains_historical_connection": true,
+    "do_not_include_both_numeric_gmmc_and_duplicate_type_dummy_in_same_model": true,
+    "within_system_primary_model": "use the already-frozen historical-isolation variable once",
+    "cross_taxon_reporting": "label the harmonized binary variable as LGM connectivity type for descriptive stratification and adjustment semantics",
+    "secondary_type_interaction": "descriptive unless separately frozen before response; may not rescue a failed overall C-minus-R3 primary"
+  },
+  "response_boundary": {
+    "plant_species_composition_opened": false,
+    "mammal_additional_occurrence_opened": false,
+    "counts_as_empirical_evidence": false
+  }
+}

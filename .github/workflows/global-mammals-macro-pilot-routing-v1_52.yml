@@ -1,0 +1,65 @@
+name: Global mammals macro pilot routing v1.52
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_macro_pilot_routing_request_v1_52.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  routing:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_macro_pilot_routing_request_v1_52.json").read_text())
+          c=json.loads(Path("development/global_mammals_macro_pilot_routing_contract_v1_51.json").read_text())
+          assert r["Appendix1_access_authorized"] is False
+          assert c["input"]["pilot_islands"]==1275
+          assert c["input"]["confirmatory_islands"]==4126
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact post-overlap partition
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v139-overlap-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638431
+          path: build/global_mammals_v152/input
+          repository: zuizui0223/Structural
+          run-id: 36621638431
+          github-token: ${{ github.token }}
+      - name: Freeze exact macro pilot routing
+        run: |
+          mkdir -p build/global_mammals_v152/output
+          python scripts/freeze_global_mammals_macro_pilot_routing_v1_51.py             build/global_mammals_v152/input/output/island_partition_after_historical_overlap.csv             --pilot build/global_mammals_v152/output/pilot_ids.csv             --confirmatory build/global_mammals_v152/output/confirmatory_ids.csv             --receipt build/global_mammals_v152/output/routing_receipt.json
+      - name: Enforce response seal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v152/output/routing_receipt.json").read_text())
+          assert x["status"]=="MACRO_MAMMAL_PILOT_ROUTING_FROZEN"
+          assert x["pilot_islands"]==1275 and x["confirmatory_islands"]==4126
+          assert x["Appendix1_reopened"] is False
+          assert x["occurrence_values_opened"] is False
+          assert x["macro_pilot_response_authorized"] is False
+          PY
+      - name: Upload response-independent routing
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v152/output/pilot_ids.csv
+            build/global_mammals_v152/output/confirmatory_ids.csv
+            build/global_mammals_v152/output/routing_receipt.json
+          if-no-files-found: error
+          retention-days: 30

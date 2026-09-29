@@ -1,0 +1,23 @@
+{
+  "schema": "structural.gift_geological_origin_metadata_freeze.v1_49",
+  "status": "NO_GIFT_GEOLOGICAL_ORIGIN_VARIABLE_AVAILABLE",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow_run_id": 36624390303,
+    "workflow_head_sha": "44aa5fac0335a74008fd0143cf6225155a8aaade",
+    "artifact_id": 11059433840,
+    "artifact_name": "gift-v148-origin-metadata-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390303",
+    "artifact_digest": "sha256:952db7e2b1512e5b9008ac882e5c35f36b79997f8e11829795b3b799f36cacb1"
+  },
+  "result": {
+    "environmental_metadata_rows": 30,
+    "geological_origin_candidate_rows": 0,
+    "candidate_variables": []
+  },
+  "consequence": "do not invent or manually reconstruct a geological-origin variable from GIFT; resolve the requested island-type adjustment using the already-frozen response-independent GMMC mainland-connectivity proxy under a separately explicit semantic contract",
+  "response_boundary": {
+    "entity_level_environment_values_opened": false,
+    "species_composition_opened": false,
+    "counts_as_empirical_evidence": false
+  }
+}
