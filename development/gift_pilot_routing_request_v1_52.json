@@ -1,0 +1,11 @@
+{
+  "schema": "structural.gift_pilot_routing_request.v1_52",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_GIFT_PILOT_ROUTING",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "retained_lists_run_id": 36621638377,
+  "retained_lists_artifact_id": 11059270235,
+  "partition_run_id": 36624390299,
+  "partition_artifact_id": 11059738512,
+  "species_composition_authorized": false,
+  "one_shot": true
+}
