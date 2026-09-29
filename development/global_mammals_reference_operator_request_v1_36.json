@@ -1,0 +1,15 @@
+{
+  "schema": "structural.global_mammals_reference_operator_request.v1_36",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_R0_R2_AND_SOURCE_GRAPH",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "safe_run_id": 36524988694,
+  "safe_artifact_id": 11013887248,
+  "safe_csv_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+  "quarantine_run_id": 36582701305,
+  "quarantine_artifact_id": 11040646818,
+  "quarantine_partition_sha256": "d0500af9d642ee6d324899511c74190117b4255afc1ea598710a0e93713eb748",
+  "expected_retained_islands": 5577,
+  "Appendix1_access_authorized": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}

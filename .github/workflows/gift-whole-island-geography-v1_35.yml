@@ -1,0 +1,92 @@
+name: GIFT whole-island geography v1.35
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_whole_island_geography_request_v1_35.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  geography:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::GIFT@1.3.4
+            any::jsonlite
+            any::digest
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/gift_whole_island_geography_request_v1_35.json").read_text())
+          assert x["status"]=="REQUEST_RESPONSE_INDEPENDENT_GIFT_GEOGRAPHY"
+          assert x["metadata_run_id"]==36582542511
+          assert x["metadata_artifact_id"]==11039932741
+          assert x["metadata_csv_sha256"]=="3d7f5a1284aded4e28e0bddea2f09c87ce9fb456ac785b84d59446307e0ba4a7"
+          assert x["expected_whole_island_entities_before_overlap"]==1460
+          assert x["species_composition_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+      - name: Download exact canonical metadata artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v089-metadata-766855d3948088603eef19f9a3ac09bb7c5b8e3e-36582542511
+          path: build/gift_v135/input
+          repository: zuizui0223/Structural
+          run-id: 36582542511
+          github-token: ${{ github.token }}
+      - name: Verify exact metadata identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("build/gift_v135/input/gift_island_list_metadata.csv")
+          assert p.exists()
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=="3d7f5a1284aded4e28e0bddea2f09c87ce9fb456ac785b84d59446307e0ba4a7"
+          PY
+      - name: Project unique whole islands
+        run: |
+          mkdir -p build/gift_v135/output
+          Rscript scripts/project_gift_whole_islands_v1_30.R             --input build/gift_v135/input/gift_island_list_metadata.csv             --output-entities build/gift_v135/output/whole_island_entities.csv             --output-lists build/gift_v135/output/whole_island_lists.csv             --receipt build/gift_v135/output/whole_island_receipt.json
+      - name: Freeze non-overlapping whole-island geography
+        run: |
+          Rscript scripts/freeze_gift_whole_island_geography_v1_32.R             --entities build/gift_v135/output/whole_island_entities.csv             --lists build/gift_v135/output/whole_island_lists.csv             --output-geography build/gift_v135/output/gift_whole_island_geography.csv             --output-lists build/gift_v135/output/gift_retained_lists.csv             --receipt build/gift_v135/output/geography_receipt.json
+      - name: Enforce species-response seal
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path("build/gift_v135/output")
+          w=json.loads((root/"whole_island_receipt.json").read_text())
+          g=json.loads((root/"geography_receipt.json").read_text())
+          assert w["primary_whole_island_entities"]==1460
+          assert w["species_composition_opened"] is False
+          assert g["species_composition_opened"] is False
+          assert g["species_response_authorized"] is False
+          with (root/"gift_whole_island_geography.csv").open(encoding="utf-8",newline="") as h:
+              rows=list(csv.DictReader(h))
+          assert len(rows)==g["retained_nonoverlapping_entities"]
+          PY
+      - name: Upload response-independent plant geography
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v135-geography-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v135/output/whole_island_entities.csv
+            build/gift_v135/output/whole_island_lists.csv
+            build/gift_v135/output/whole_island_receipt.json
+            build/gift_v135/output/gift_whole_island_geography.csv
+            build/gift_v135/output/gift_retained_lists.csv
+            build/gift_v135/output/geography_receipt.json
+          if-no-files-found: error
+          retention-days: 30

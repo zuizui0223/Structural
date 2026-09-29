@@ -1,0 +1,87 @@
+name: Global mammals reference operator v1.36
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_reference_operator_request_v1_36.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  reference-operator:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/global_mammals_reference_operator_request_v1_36.json").read_text())
+          assert x["status"]=="REQUEST_RESPONSE_INDEPENDENT_R0_R2_AND_SOURCE_GRAPH"
+          assert x["expected_retained_islands"]==5577
+          assert x["Appendix1_access_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+      - name: Download exact safe Appendix 2 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v136/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+      - name: Download exact quarantine artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v131-quarantine-79965159298b0b4eedcb4a52c926e817c54e62b2-36582701305
+          path: build/global_mammals_v136/quarantine
+          repository: zuizui0223/Structural
+          run-id: 36582701305
+          github-token: ${{ github.token }}
+      - name: Verify exact input identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v136/safe/appendix2_safe_rows.csv":"b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+            "build/global_mammals_v136/quarantine/island_partition_quarantined.csv":"d0500af9d642ee6d324899511c74190117b4255afc1ea598710a0e93713eb748",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s
+          PY
+      - name: Build R0-R2 and generic source graph
+        run: |
+          mkdir -p build/global_mammals_v136/output
+          python scripts/build_global_mammals_reference_operator_v1_33.py             build/global_mammals_v136/safe/appendix2_safe_rows.csv             build/global_mammals_v136/quarantine/island_partition_quarantined.csv             --state-output build/global_mammals_v136/output/state_reference.csv             --edge-output build/global_mammals_v136/output/source_graph_edges.csv             --receipt build/global_mammals_v136/output/reference_receipt.json
+      - name: Enforce response seal
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path("build/global_mammals_v136/output")
+          x=json.loads((root/"reference_receipt.json").read_text())
+          assert x["status"]=="R0_R2_STATE_AND_SOURCE_GRAPH_FROZEN_RESPONSE_INDEPENDENTLY"
+          assert x["retained_islands"]==5577
+          assert x["Appendix1_opened"] is False
+          assert x["species_headers_opened"] is False
+          assert x["occurrence_values_opened"] is False
+          with (root/"state_reference.csv").open(encoding="utf-8",newline="") as h:
+              assert sum(1 for _ in csv.reader(h))==5578
+          PY
+      - name: Upload response-independent reference
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v136-reference-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v136/output/state_reference.csv
+            build/global_mammals_v136/output/source_graph_edges.csv
+            build/global_mammals_v136/output/reference_receipt.json
+          if-no-files-found: error
+          retention-days: 30
