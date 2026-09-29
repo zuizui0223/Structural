@@ -1,0 +1,52 @@
+{
+  "schema": "structural.gift_metadata_freeze_commit.v1_34",
+  "status": "SUCCESSFUL_PRISTINE_METADATA_ARTIFACT_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-metadata-freeze-v0_89.yml",
+    "workflow_run_id": 36582542511,
+    "workflow_head_sha": "766855d3948088603eef19f9a3ac09bb7c5b8e3e",
+    "artifact_id": 11039932741,
+    "artifact_name": "gift-v089-metadata-766855d3948088603eef19f9a3ac09bb7c5b8e3e-36582542511",
+    "artifact_digest": "sha256:f90392496c1d7886a2c2812957291e7a5cbece6857032508977278d4fe1df015",
+    "expires_at": "2026-10-13T14:31:20Z"
+  },
+  "artifact_files": {
+    "gift_island_list_metadata.csv": {
+      "size_bytes": 186970,
+      "sha256": "3d7f5a1284aded4e28e0bddea2f09c87ce9fb456ac785b84d59446307e0ba4a7"
+    },
+    "gift_metadata_receipt.json": {
+      "raw_sha256": "3b60cd68d526e10c0425a365dfc2c1e1d0ce31514115009b089e8bbda811b564"
+    }
+  },
+  "query_result": {
+    "metadata_rows": 1930,
+    "entity_class_counts": {
+      "Island": 1876,
+      "Island Group": 45,
+      "Island Part": 9
+    },
+    "whole_island_unique_entity_count": 1460,
+    "whole_island_entities_with_multiple_lists": 305,
+    "whole_island_max_list_count": 6,
+    "whole_island_unique_entity_list_reference_rows": 1876
+  },
+  "semantic_boundary": {
+    "species_composition_requested": false,
+    "species_composition_rows_returned": 0,
+    "derived_species_richness_computed": false,
+    "source_pool_features_computed": false,
+    "C_minus_R3_computed": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "canonical_run_rule": {
+    "failed_direct_run_id": 36581168080,
+    "failed_direct_run_opened_GIFT_metadata": false,
+    "successful_metadata_run_id": 36582542511,
+    "this_success_is_canonical": true,
+    "later_metadata_success_may_only_check_reproducibility": true
+  },
+  "next_action": "project the exact artifact to unique whole-island entities, resolve overlap response-independently, and freeze longitude/latitude/area before any species composition is requested"
+}
