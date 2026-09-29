@@ -1,0 +1,49 @@
+{
+  "schema": "structural.gift_pilot_response_freeze.v1_58",
+  "status": "PRISTINE_PLANT_PILOT_RESPONSE_ARTIFACT_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-pilot-response-v1_55.yml",
+    "workflow_run_id": 36626284777,
+    "workflow_head_sha": "7b892540ed98c1adb97314cdaa0baaa6c46bda25",
+    "artifact_id": 11060478567,
+    "artifact_name": "gift-v155-pilot-response-7b892540ed98c1adb97314cdaa0baaa6c46bda25-36626284777",
+    "artifact_digest": "sha256:584ba252eb77c97dc415ddfc616cc8dee1a6bf2849a15c364106155da76a1e17",
+    "expires_at": "2026-10-29T20:35:44Z"
+  },
+  "artifact_files": {
+    "pilot_species_universe.csv": {
+      "size_bytes": 7549,
+      "sha256": "6b92ebfa7e3c242f0cffde3e91f9ff05c821b2ca242638a0ead6f6f0591e4bce"
+    },
+    "pilot_matrix.csv": {
+      "size_bytes": 362353,
+      "sha256": "1a10e6a2d6a06039975f2f8d045575f0d461f647d32b4b3428d3462bcec66f6d"
+    },
+    "pilot_response_receipt.json": {
+      "size_bytes": 1106,
+      "sha256": "3fe3130d978cdef4fe02ad735563a785b6265aba120ecc727b05b22727a45f6f"
+    }
+  },
+  "result": {
+    "pilot_entities": 99,
+    "pilot_list_IDs_requested": 147,
+    "confirmatory_list_IDs_requested": 0,
+    "raw_species_rows_received": 21844,
+    "accepted_high_confidence_native_rows": 6737,
+    "candidate_pilot_species": 2537,
+    "focal_species": 224,
+    "species_threshold_m": 5,
+    "pilot_matrix_rows": 22176,
+    "pilot_matrix_positive": 1808,
+    "pilot_matrix_negative": 20368
+  },
+  "response_boundary": {
+    "pilot_response_consumed": true,
+    "confirmatory_species_composition_opened": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "next_action": "execute the already-frozen v1.57 model/prediction method and freeze all 90496 confirmatory R3/C prediction cells before confirmatory list access"
+}
