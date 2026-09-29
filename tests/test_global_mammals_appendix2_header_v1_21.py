@@ -188,3 +188,25 @@ def test_only_header_referenced_shared_string_indexes_are_decoded(tmp_path: Path
     )
     assert 3 not in out["header_shared_string_indexes_decoded"]
     assert "SECRET_ROW_VALUE" not in json.dumps(out)
+
+
+def test_ooxml_relationship_target_is_normalized_before_escape_check():
+    module = load_module()
+    assert module._normalize_sheet_target(
+        "worksheets/sheet1.xml"
+    ) == "xl/worksheets/sheet1.xml"
+    assert module._normalize_sheet_target(
+        "/xl/worksheets/sheet1.xml"
+    ) == "xl/worksheets/sheet1.xml"
+    assert module._normalize_sheet_target(
+        "../xl/worksheets/sheet1.xml"
+    ) == "xl/worksheets/sheet1.xml"
+
+
+def test_ooxml_relationship_that_really_escapes_xl_is_rejected():
+    module = load_module()
+    with pytest.raises(
+        module.GlobalMammalAppendix2AuditError,
+        match="escapes xl/",
+    ):
+        module._normalize_sheet_target("../worksheets/sheet1.xml")
