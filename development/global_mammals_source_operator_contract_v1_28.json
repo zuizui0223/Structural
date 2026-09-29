@@ -1,0 +1,92 @@
+{
+  "schema": "structural.global_mammals_source_operator_contract.v1_28",
+  "status": "GLOBAL_BLOCK_GRAPH_SOURCE_OPERATOR_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": {
+    "safe_rows_freeze": "development/global_mammals_appendix2_safe_rows_freeze_v1_24.json",
+    "spatial_freeze": "development/global_mammals_spatial_pilot_freeze_v1_26.json",
+    "state_contract": "development/global_mammals_state_reference_contract_v1_27.json"
+  },
+  "source_geometry": {
+    "island_coordinates": "exact v1.23 safe Longitude_centroid/Latitude_centroid",
+    "block_membership": "exact v1.25 island_partition.csv",
+    "block_centroid_rule": "mean 3D unit vector of all member island centroids, normalized back to longitude/latitude",
+    "earth_radius_km": 6371.0088,
+    "response_used": false
+  },
+  "graph": {
+    "nodes": "219 frozen v1.25 spatial blocks",
+    "edge_rule": "symmetrized k-nearest-neighbor graph over block spherical centroids",
+    "k_rule": "smallest integer k >= 1 that makes all 219 block nodes connected",
+    "neighbor_tie_rule": "ascending great-circle distance then block_id",
+    "edge_weight": "great-circle haversine km",
+    "kernel_scale_rule": "Hyndman-Fan type-7 median of positive selected-edge lengths",
+    "validation_block_graph_reused": false,
+    "response_used_to_select_k": false,
+    "response_used_to_select_kernel_scale": false,
+    "expected_connectivity_audit": [
+      {"k": 1, "edge_count": 152, "connected": false},
+      {"k": 2, "edge_count": 280, "connected": false},
+      {"k": 3, "edge_count": 409, "connected": false},
+      {"k": 4, "edge_count": 542, "connected": true}
+    ],
+    "expected_selected_k": 4,
+    "expected_edge_count": 542,
+    "expected_kernel_scale_km_hex": "0x1.d9b27b6148cbep+9",
+    "expected_pilot_confirmatory_cross_edge_count": 198,
+    "expected_cross_bioregion_edge_count": 123
+  },
+  "R2_generic_context": {
+    "unit": "block, inherited by every island in that block",
+    "features": [
+      "degree_fraction",
+      "mean_shortest_path_km",
+      "closeness_per_km"
+    ],
+    "response_used": false
+  },
+  "R3_direct_source_context": {
+    "geometry": "island-centroid great-circle distance",
+    "occupied_sources": "training-only pilot islands after a later frozen pilot response open",
+    "nearest_source": "minimum great-circle km to occupied training source islands",
+    "multi_source_pressure": "sum exp(-island_distance_km / frozen block-graph kernel_scale_km) across occupied training source islands",
+    "training_row_rule": "exclude focal pilot island from occupied-source set",
+    "confirmatory_prediction_rule": "use all frozen pilot islands only; no confirmatory occurrence value"
+  },
+  "C_graph_source_context": {
+    "geometry": "shortest path km on the frozen 219-block kNN graph",
+    "occupied_sources": "same training-only occupied pilot islands as R3; each occupied island contributes using the path distance from target block to its source block",
+    "nearest_source": "minimum frozen block-graph path km to an occupied source block",
+    "multi_source_pressure": "sum exp(-block_path_km / frozen block-graph kernel_scale_km) once per occupied pilot source island",
+    "within_same_block_path_km": 0.0,
+    "training_row_rule": "exclude focal pilot island before source aggregation",
+    "confirmatory_prediction_rule": "use all frozen pilot islands only; no confirmatory occurrence value"
+  },
+  "design_separation": {
+    "validation_units": "fixed bioregion-by-10-degree block labels from v1.25",
+    "source_operator": "distinct response-independent kNN graph whose edges connect those block centroids",
+    "reason": "heldout blocks are labels rather than connected components of the source graph, so graph-path continuity is not structurally forced to be unreachable across validation boundaries",
+    "minimum_cross_split_edges": 1
+  },
+  "outputs": {
+    "operator_json": "block centroids, selected k, kernel scale, edges, all-pairs shortest-path-derived generic block context",
+    "receipt_json": "exact fingerprints, graph audit, cross-split/cross-bioregion support and response boundary",
+    "island_generic_context_csv": "ID, block_id and inherited R2 generic graph features for all 5592 islands"
+  },
+  "response_boundary": {
+    "Appendix_1_may_be_reopened": false,
+    "mammal_species_names_opened": false,
+    "mammal_occurrence_values_opened": false,
+    "response_used_to_build_operator": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "original_fresh_chain_restored": false
+  },
+  "success_ceiling": {
+    "status": "GLOBAL_SOURCE_OPERATOR_FROZEN_RESPONSE_INDEPENDENTLY",
+    "macro_pilot_protocol_may_be_built": true,
+    "mammal_response_access_authorized": false,
+    "next_action": "commit the exact operator and R2 context, then freeze the contaminated-macro pilot species-universe/estimability protocol before any further Appendix 1 access"
+  }
+}
