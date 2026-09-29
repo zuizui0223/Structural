@@ -1,0 +1,124 @@
+name: Global mammals Appendix 2 header audit v1.21
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/global_mammals_appendix2_header_audit_request_v1_21.json
+
+permissions:
+  contents: read
+
+jobs:
+  header-only-audit:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate contaminated-macro header-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/global_mammals_appendix2_header_audit_request_v1_21.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.global_mammals_appendix2_header_audit_request.v1_21"
+          )
+          assert req["status"] == "REQUEST_APPENDIX2_WORKBOOK_HEADER_ONLY_AUDIT"
+          assert req["candidate_id"] == "global_island_native_mammals_barreto_2024"
+          assert req["analysis_route"] == "contaminated_macro_analysis_only"
+          assert req["appendix2_file_id"] == 3242157
+          assert req["appendix2_size_bytes"] == 1066391
+          assert req["appendix2_sha256"] == (
+              "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960"
+          )
+          assert req["worksheet_rows_ge_2_authorized"] is False
+          assert req["response_file_access_authorized"] is False
+          assert req["safe_row_access_authorized"] is False
+          assert req["fresh_system_denominator_contribution"] == 0
+          assert req["one_shot"] is True
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v121/output
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/global_mammals_v121/output/token_receipt.json
+
+      - name: Exact-download Appendix 2 and audit headers only
+        run: |
+          mkdir -p build/global_mammals_v121/raw
+          python scripts/audit_global_mammals_appendix2_header_v1_21.py \
+            --output build/global_mammals_v121/raw/Appendix_2-dryad.xlsx \
+            --audit-receipt build/global_mammals_v121/output/header_audit.json
+
+      - name: Delete raw workbook before artifact handling
+        if: always()
+        run: |
+          rm -rf build/global_mammals_v121/raw
+
+      - name: Enforce header-only semantic ceiling
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("build/global_mammals_v121/output")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {"token_receipt.json", "header_audit.json"}
+          if observed != expected:
+              raise SystemExit(
+                  f"unexpected v1.21 artifact surface: {sorted(observed)}"
+              )
+          x = json.loads(
+              (root / "header_audit.json").read_text(encoding="utf-8")
+          )
+          assert x["status"] == (
+              "APPENDIX2_WORKBOOK_HEADERS_AUDITED_DATA_ROWS_SEALED"
+          )
+          assert x["source"]["dryad_file_id"] == 3242157
+          assert x["source"]["size_bytes"] == 1066391
+          assert x["source"]["sha256"] == (
+              "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960"
+          )
+          assert x["appendix2_data_rows_semantically_opened"] == 0
+          assert x["appendix2_data_cell_values_decoded"] == 0
+          assert x["response_file_reopened"] is False
+          assert x["biological_response_values_opened_in_v1_21"] is False
+          assert x["safe_columns_authorized_for_row_access"] is False
+          assert x["forbidden_columns_row_access_authorized"] is False
+          assert x["counts_as_fresh_confirmation"] is False
+          assert x["fresh_system_denominator_contribution"] == 0
+          assert x["original_global_mammal_fresh_chain_restored"] is False
+          PY
+
+      - name: Upload header audit only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v121-appendix2-header-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v121/output/token_receipt.json
+            build/global_mammals_v121/output/header_audit.json
+          if-no-files-found: warn
+          retention-days: 30

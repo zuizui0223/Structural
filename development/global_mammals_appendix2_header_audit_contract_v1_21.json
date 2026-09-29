@@ -1,0 +1,88 @@
+{
+  "schema": "structural.global_mammals_appendix2_header_audit_contract.v1_21",
+  "status": "APPENDIX2_WORKBOOK_HEADER_ONLY_AUDIT_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": {
+    "firewall_failure_freeze": "development/global_mammals_v119_firewall_failure_freeze_v1_20.json",
+    "dryad_metadata": "development/global_island_mammals_dryad_metadata_result_v0_1.json",
+    "preintake": "development/global_island_mammals_preintake_v0_1.json"
+  },
+  "source": {
+    "dryad_doi": "10.5061/dryad.hmgqnk9j2",
+    "dryad_version_id": 299966,
+    "dryad_version_number": 6,
+    "file_name": "Appendix_2-dryad.xlsx",
+    "dryad_file_id": 3242157,
+    "download_url": "https://datadryad.org/api/v2/files/3242157/download",
+    "expected_size_bytes": 1066391,
+    "expected_sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+    "documented_routing_key": "ID",
+    "documented_relation": "Appendix 1 row names correspond to Appendix 2 ID"
+  },
+  "allowed_semantic_access": {
+    "xlsx_zip_member_names": true,
+    "workbook_sheet_names": true,
+    "workbook_sheet_relationship_targets": true,
+    "worksheet_first_physical_row_only": true,
+    "header_cell_references": true,
+    "header_cell_types": true,
+    "header_cell_values": true,
+    "shared_string_entries_referenced_by_header_cells_only": true,
+    "worksheet_rows_ge_2": false,
+    "data_cell_values": false,
+    "formulas_below_header": false,
+    "response_file_access": false
+  },
+  "implementation_rule": {
+    "workbook_metadata": "parse xl/workbook.xml and xl/_rels/workbook.xml.rels only",
+    "worksheet_rule": "stream worksheet XML as bytes, isolate the first row element before XML decoding, parse only that row fragment, and stop semantic parsing before row 2",
+    "shared_strings_rule": "treat xl/sharedStrings.xml as opaque bytes except exact <si> entries whose zero-based indexes are referenced by first-row header cells; decode only those selected entries",
+    "inline_string_rule": "decode inlineStr text only when it occurs in the first row",
+    "styles_rule": "styles are not needed and must not be used to infer data semantics",
+    "openpyxl_forbidden": true
+  },
+  "prospective_safe_column_intent": [
+    "ID",
+    "Lat_centroid",
+    "Long_centroid",
+    "Area",
+    "Current_isolation",
+    "Past_isolation",
+    "Climate_velocity",
+    "Temperature_mean",
+    "Temperature_sd",
+    "Precipitation_mean",
+    "Precipitation_sd",
+    "Elevation_sd",
+    "bioregion"
+  ],
+  "prospective_forbidden_header_patterns": [
+    "Richness_*",
+    "SIE_*",
+    "pSIE*"
+  ],
+  "header_audit_ceiling": {
+    "safe_columns_authorized_for_row_access": false,
+    "forbidden_columns_row_access_authorized": false,
+    "appendix2_data_rows_semantically_opened": 0,
+    "response_file_reopened": false,
+    "biological_response_values_opened_in_v1_21": false,
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "next_action": "in a later separate revision, freeze a column-level Appendix 2 firewall from the observed headers before any Appendix 2 data-row value is opened"
+  },
+  "freshness_boundary": {
+    "original_global_mammal_fresh_chain_closed_by_v1_20": true,
+    "v1_21_does_not_restore_freshness": true,
+    "quarantine_reentry_authorized": false,
+    "macro_analysis_may_continue": true
+  },
+  "transport_policy": {
+    "exact_file_only": true,
+    "alternate_file_id_retry_authorized": false,
+    "alternate_endpoint_retry_authorized": false,
+    "raw_xlsx_artifact_authorized": false
+  }
+}

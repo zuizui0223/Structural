@@ -1,0 +1,14 @@
+{
+  "schema": "structural.global_mammals_appendix2_header_audit_request.v1_21",
+  "status": "REQUEST_APPENDIX2_WORKBOOK_HEADER_ONLY_AUDIT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "appendix2_file_id": 3242157,
+  "appendix2_size_bytes": 1066391,
+  "appendix2_sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+  "worksheet_rows_ge_2_authorized": false,
+  "response_file_access_authorized": false,
+  "safe_row_access_authorized": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}
