@@ -1,0 +1,50 @@
+{
+  "schema": "structural.global_mammals_contamination_quarantine_freeze.v1_34",
+  "status": "SUCCESSFUL_QUARANTINE_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-quarantine-v1_31.yml",
+    "workflow_run_id": 36582701305,
+    "workflow_head_sha": "79965159298b0b4eedcb4a52c926e817c54e62b2",
+    "artifact_id": 11040646818,
+    "artifact_name": "global-mammals-v131-quarantine-79965159298b0b4eedcb4a52c926e817c54e62b2-36582701305",
+    "artifact_digest": "sha256:05a4b09b718e52c69ff20005db794adfe7b15c526d59f11d16dbab5458fd7602",
+    "expires_at": "2026-10-29T14:31:06Z"
+  },
+  "artifact_files": {
+    "island_partition_quarantined.csv": {
+      "sha256": "d0500af9d642ee6d324899511c74190117b4255afc1ea598710a0e93713eb748"
+    },
+    "block_table_quarantined.csv": {
+      "sha256": "b3035a72427fc894b0ed9d1b592663df7b63b7404228126d5369905944af3a04"
+    },
+    "quarantine_receipt.json": {
+      "raw_sha256": "1b82d23c6c481079c6af1be6b300de517f04176d8f753142b6c4a9cc016e915e"
+    }
+  },
+  "quarantine_result": {
+    "exposed_source_local_id": "1",
+    "quarantined_block_id": "GB_e41324eb2918",
+    "quarantined_block_key": "Neotropical|lat10|lon11",
+    "quarantined_block_bioregion": "Neotropical",
+    "quarantined_block_split": "confirmatory",
+    "quarantined_island_count": 15,
+    "retained_island_count": 5577,
+    "retained_block_count": 218,
+    "retained_pilot_blocks": 50,
+    "retained_pilot_islands": 1307,
+    "retained_confirmatory_blocks": 168,
+    "retained_confirmatory_islands": 4270,
+    "current_isolation_q75_hex": "-0x1.7353f7ced9168p-1",
+    "extreme_confirmatory_island_count": 1068
+  },
+  "response_boundary": {
+    "Appendix1_reopened": false,
+    "mammal_occurrence_values_opened": false,
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "next_action": "build the frozen response-independent R0-R2 state reference and generic source graph from the exact retained population; no Appendix 1 access"
+}
