@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 from pathlib import Path, PurePosixPath
+import posixpath
 import re
 import xml.etree.ElementTree as ET
 import zipfile
@@ -147,17 +148,30 @@ def _exact_download(
 
 
 def _normalize_sheet_target(target: str) -> str:
-    text = str(target).replace("\\", "/")
+    text = str(target).replace("\\", "/").strip()
+    if not text:
+        raise GlobalMammalAppendix2AuditError(
+            "blank worksheet relationship target"
+        )
+
+    # OPC relationship targets are resolved relative to the source part
+    # (xl/workbook.xml), not relative to the _rels directory. Normalize first;
+    # only the final resolved path is allowed to decide whether the target
+    # escaped the workbook's xl/ namespace.
     if text.startswith("/"):
-        text = text.lstrip("/")
-    elif not text.startswith("xl/"):
-        text = str(PurePosixPath("xl") / text)
-    norm = str(PurePosixPath(text))
-    if ".." in PurePosixPath(norm).parts:
+        candidate = posixpath.normpath(text.lstrip("/"))
+    else:
+        candidate = posixpath.normpath(posixpath.join("xl", text))
+
+    if (
+        candidate in {"", ".", ".."}
+        or candidate.startswith("../")
+        or not candidate.startswith("xl/")
+    ):
         raise GlobalMammalAppendix2AuditError(
             "worksheet relationship escapes xl/"
         )
-    return norm
+    return str(PurePosixPath(candidate))
 
 
 def _workbook_sheets(zf: zipfile.ZipFile) -> list[dict[str, str]]:
