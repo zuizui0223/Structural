@@ -1,0 +1,84 @@
+{
+  "schema": "structural.global_mammals_spatial_pilot_contract.v1_25",
+  "status": "GLOBAL_RESPONSE_INDEPENDENT_SPATIAL_PILOT_DESIGN_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parent_safe_rows_freeze": "development/global_mammals_appendix2_safe_rows_freeze_v1_24.json",
+  "safe_artifact": {
+    "workflow_run_id": 36524988694,
+    "workflow_head_sha": "ea565b98419f8aacde9fb13c26724bb385635b95",
+    "artifact_id": 11013887248,
+    "artifact_name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+    "artifact_digest": "sha256:f740c6762a7414f624c7d920a5a4316a062cba803ed9ad426e4f97d36598d9e8",
+    "safe_csv_name": "appendix2_safe_rows.csv",
+    "safe_csv_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "safe_row_count": 5592,
+    "safe_distinct_id_count": 5592,
+    "safe_id_order_sha256": "438b76e167b302fdf79827a2c9f6f9eb8bf354af5730f44506536f15d8af92a6"
+  },
+  "spatial_blocks": {
+    "unit": "bioregion_by_equal_angle_tile",
+    "tile_width_degrees": 10.0,
+    "latitude_index_rule": "min(17,max(0,floor((Latitude_centroid+90)/10)))",
+    "longitude_index_rule": "floor((((Longitude_centroid+180) mod 360))/10)",
+    "block_key_format": "{bioregion}|lat{latitude_index:02d}|lon{longitude_index:02d}",
+    "block_id": "GB_ plus first 12 lowercase hex characters of SHA256(block_key)",
+    "same_block_requires_same_bioregion": true,
+    "response_used_to_choose_tile_width": false,
+    "expected_total_block_count": 219,
+    "expected_singleton_block_count": 31
+  },
+  "pilot_split": {
+    "stratification": "bioregion",
+    "ranking_salt": "global-mammals-v1.25-pilot",
+    "block_rank_rule": "ascending SHA256(ranking_salt|block_key), then block_key",
+    "pilot_block_fraction": 0.20,
+    "pilot_block_count_per_bioregion": "max(1,ceil(0.20*B)), capped at B-2 so every bioregion retains at least two confirmatory blocks",
+    "response_used_to_select_pilot": false,
+    "expected_bioregion_count": 12,
+    "expected_pilot_block_count": 50,
+    "expected_confirmatory_block_count": 169,
+    "expected_pilot_island_count": 1307,
+    "expected_confirmatory_island_count": 4285
+  },
+  "primary_regime_freeze": {
+    "variable": "Current_isolation",
+    "population": "exact 4285 response-independent confirmatory islands after the frozen spatial/pilot split",
+    "extreme_rule": "Current_isolation >= Hyndman-Fan type-7 0.75 quantile",
+    "expected_q75_hex": "-0x1.72b020c49ba5ep-1",
+    "expected_extreme_island_count": 1074,
+    "response_used_to_choose_threshold": false,
+    "q70_q80_sensitivity_may_not_rescue_primary": true
+  },
+  "outputs": {
+    "partition_receipt": "JSON",
+    "island_partition_table": "CSV with ID, bioregion, block_key, block_id, split, Current_isolation, extreme_current_isolation",
+    "block_table": "CSV with block_key, block_id, bioregion, island_count, split",
+    "preserve_safe_source_id": true
+  },
+  "validation": {
+    "exact_5592_ids_required": true,
+    "duplicate_ids_forbidden": true,
+    "finite_coordinates_required": true,
+    "unique_coordinate_pairs_required": true,
+    "all_12_bioregions_require_pilot_and_confirmatory_support": true,
+    "minimum_confirmatory_blocks_per_bioregion": 2,
+    "expected_total_blocks": 219,
+    "expected_total_islands": 5592
+  },
+  "response_boundary": {
+    "Appendix_1_may_be_reopened": false,
+    "mammal_species_names_opened": false,
+    "mammal_occurrence_values_opened": false,
+    "response_used_in_spatial_design": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "original_fresh_chain_restored": false
+  },
+  "success_ceiling": {
+    "status": "GLOBAL_SPATIAL_PILOT_DESIGN_FROZEN_RESPONSE_INDEPENDENTLY",
+    "macro_model_reference_may_be_built": true,
+    "mammal_response_access_authorized": false,
+    "next_action": "commit the exact 5592-island partition and regime threshold, then freeze R0/R1 response-independent state and a distinct global source-connectivity operator before any further Appendix 1 access"
+  }
+}
