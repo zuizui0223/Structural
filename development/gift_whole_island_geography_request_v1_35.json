@@ -1,0 +1,12 @@
+{
+  "schema": "structural.gift_whole_island_geography_request.v1_35",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_GIFT_GEOGRAPHY",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "metadata_run_id": 36582542511,
+  "metadata_artifact_id": 11039932741,
+  "metadata_csv_sha256": "3d7f5a1284aded4e28e0bddea2f09c87ce9fb456ac785b84d59446307e0ba4a7",
+  "expected_whole_island_entities_before_overlap": 1460,
+  "species_composition_authorized": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}
