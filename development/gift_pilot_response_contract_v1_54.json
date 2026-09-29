@@ -28,8 +28,14 @@
   },
   "returned_row_firewall": {
     "required_columns": [
-      "ref_ID","list_ID","entity_ID","work_ID","work_species",
-      "questionable","native","quest_native"
+      "ref_ID",
+      "list_ID",
+      "entity_ID",
+      "work_ID",
+      "work_species",
+      "questionable",
+      "native",
+      "quest_native"
     ],
     "every_returned_list_ID_must_be_in_frozen_pilot_set": true,
     "every_returned_entity_ID_must_match_frozen_list_to_entity_mapping": true,
@@ -61,8 +67,15 @@
   ],
   "pilot_matrix": {
     "rows": "99 pilot entities x all eligible species",
-    "columns": ["entity_ID","work_ID","y"],
-    "y_domain": [0,1]
+    "columns": [
+      "entity_ID",
+      "work_ID",
+      "y"
+    ],
+    "y_domain": [
+      0,
+      1
+    ]
   },
   "evidence_boundary": {
     "pilot_response_will_be_consumed": true,
@@ -72,8 +85,9 @@
     "fresh_system_denominator_contribution": 0
   },
   "failure_policy": {
-    "pre_API_transport_or_dependency_failure": "HOLD; no pilot response consumed if no checklist row returned",
+    "before_first_pilot_checklist_API_request": "HOLD; pilot response not consumed",
+    "after_first_pilot_checklist_API_request_is_sent": "conservatively mark pilot response consumed on any failure unless an independently auditable receipt proves zero species-response bytes were returned",
     "after_first_species_row_received": "pilot response is consumed; protocol version becomes terminal on any validation failure",
-    "rerun_after_semantic_access": false
+    "rerun_after_pilot_request_started": false
   }
 }
