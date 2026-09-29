@@ -1,0 +1,33 @@
+{
+  "schema": "structural.gift_pilot_routing_freeze.v1_53",
+  "status": "SUCCESSFUL_PRISTINE_PLANT_PILOT_ROUTING_ARTIFACT_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-pilot-routing-v1_52.yml",
+    "workflow_run_id": 36625810621,
+    "workflow_head_sha": "f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c",
+    "artifact_id": 11060636113,
+    "artifact_name": "gift-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810621",
+    "artifact_digest": "sha256:033cdaaa2ffbb96a7178c73a981d52ed92150df4bd99fd2131d4164223b7c619",
+    "expires_at": "2026-10-29T20:21:55Z"
+  },
+  "result": {
+    "pilot_entities": 99,
+    "pilot_list_rows": 147,
+    "unique_pilot_list_IDs": 147,
+    "confirmatory_entities": 404,
+    "confirmatory_list_rows": 596,
+    "unique_confirmatory_list_IDs": 596,
+    "pilot_entities_sha256": "ebf202a6d8efd6ed63156d89c25d13f1779765e26ede903be2520daf0eee6b74",
+    "pilot_lists_sha256": "f7986c13d65070bbd3aa23db5be8cfc4af42da8590b7d47a5cbd9c2ece9f27d4",
+    "confirmatory_entities_sha256": "bcc7edb962191005230b4301ae351ff10fd097014bee75e63bbfd23e4a5e59d8",
+    "confirmatory_lists_sha256": "c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a"
+  },
+  "response_boundary": {
+    "GIFT_checklists_raw_called": false,
+    "species_composition_opened": false,
+    "species_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}

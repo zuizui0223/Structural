@@ -1,0 +1,91 @@
+name: GIFT one-shot pilot response v1.55
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_pilot_response_request_v1_55.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  pilot-response:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::GIFT@1.3.4
+            any::jsonlite
+            any::digest
+      - name: Validate one-shot authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_pilot_response_request_v1_55.json").read_text())
+          c=json.loads(Path("development/gift_pilot_response_contract_v1_54.json").read_text())
+          assert r["routing_artifact_id"]==11060636113
+          assert r["pilot_response_authorized"] is True
+          assert r["confirmatory_response_authorized"] is False
+          assert c["routing"]["pilot_list_IDs"]==147
+          assert c["routing"]["confirmatory_list_IDs"]==596
+          assert c["species_universe"]["m"]==5
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact frozen routing
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810621
+          path: build/gift_v155/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810621
+          github-token: ${{ github.token }}
+      - name: Verify exact pilot and confirmatory route identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/gift_v155/routing/pilot_lists.csv":"f7986c13d65070bbd3aa23db5be8cfc4af42da8590b7d47a5cbd9c2ece9f27d4",
+            "build/gift_v155/routing/confirmatory_lists.csv":"c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s
+          PY
+      - name: Consume pilot species response once
+        run: |
+          mkdir -p build/gift_v155/output
+          Rscript scripts/run_gift_pilot_response_v1_54.R             --pilot-lists build/gift_v155/routing/pilot_lists.csv             --confirmatory-lists build/gift_v155/routing/confirmatory_lists.csv             --species-universe build/gift_v155/output/pilot_species_universe.csv             --pilot-matrix build/gift_v155/output/pilot_matrix.csv             --receipt build/gift_v155/output/pilot_response_receipt.json
+      - name: Enforce confirmatory seal
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v155/output/pilot_response_receipt.json").read_text())
+          assert x["status"]=="PRISTINE_PLANT_PILOT_RESPONSE_CONSUMED_AND_SPECIES_UNIVERSE_FROZEN"
+          assert x["pilot_entities"]==99
+          assert x["pilot_list_IDs_requested"]==147
+          assert x["confirmatory_list_IDs_requested"]==0
+          assert x["species_threshold_m"]==5
+          assert x["pilot_response_consumed"] is True
+          assert x["confirmatory_species_composition_opened"] is False
+          assert x["confirmatory_response_authorized"] is False
+          PY
+      - name: Upload pilot snapshot only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v155-pilot-response-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v155/output/pilot_species_universe.csv
+            build/gift_v155/output/pilot_matrix.csv
+            build/gift_v155/output/pilot_response_receipt.json
+          if-no-files-found: warn
+          retention-days: 30

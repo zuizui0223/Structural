@@ -1,0 +1,93 @@
+{
+  "schema": "structural.gift_pilot_response_contract.v1_54",
+  "status": "ONE_SHOT_PRISTINE_PLANT_PILOT_RESPONSE_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_pilot_routing_freeze_v1_53.json",
+    "development/gift_spatial_reference_freeze_v1_49.json",
+    "development/macro_species_response_protocol_v1_50.json"
+  ],
+  "routing": {
+    "pilot_entities": 99,
+    "pilot_list_IDs": 147,
+    "confirmatory_entities": 404,
+    "confirmatory_list_IDs": 596,
+    "pilot_lists_sha256": "f7986c13d65070bbd3aa23db5be8cfc4af42da8590b7d47a5cbd9c2ece9f27d4",
+    "confirmatory_lists_sha256": "c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a",
+    "confirmatory_list_ID_may_be_requested": false
+  },
+  "api": {
+    "function": "GIFT_checklists_raw",
+    "GIFT_package_version": "1.3.4",
+    "GIFT_version": "3.2",
+    "taxon_name": "Angiospermae",
+    "floristic_group": "native",
+    "namesmatched": false,
+    "api": "https://gift.uni-goettingen.de/api/extended/",
+    "requested_list_ID_argument": "exact 147 frozen pilot list_IDs only"
+  },
+  "returned_row_firewall": {
+    "required_columns": [
+      "ref_ID",
+      "list_ID",
+      "entity_ID",
+      "work_ID",
+      "work_species",
+      "questionable",
+      "native",
+      "quest_native"
+    ],
+    "every_returned_list_ID_must_be_in_frozen_pilot_set": true,
+    "every_returned_entity_ID_must_match_frozen_list_to_entity_mapping": true,
+    "every_frozen_pilot_list_ID_must_appear_at_least_once": true,
+    "confirmatory_list_ID_in_returned_rows": "TERMINAL_STOP",
+    "unknown_list_ID_or_entity_ID": "TERMINAL_STOP"
+  },
+  "presence_semantics": {
+    "species_identity": "work_ID",
+    "label": "work_species",
+    "accepted_presence_row": "native == 1 AND questionable == 0 AND quest_native == 0",
+    "entity_presence": "union accepted work_IDs across all frozen pilot list_IDs attached to the entity",
+    "entity_absence": "work_ID not present in the accepted union for that entity",
+    "multiple_labels_for_one_work_ID": "STOP",
+    "blank_or_nonpositive_work_ID": "STOP"
+  },
+  "species_universe": {
+    "pilot_islands": 99,
+    "m": 5,
+    "eligible": "presence_count >= 5 AND absence_count >= 5 across 99 pilot islands",
+    "order": "ascending numeric work_ID",
+    "confirmatory_data_may_not_change_universe": true,
+    "if_zero_eligible_species": "TERMINAL_STOP"
+  },
+  "outputs": [
+    "pilot_species_universe.csv",
+    "pilot_matrix.csv",
+    "pilot_response_receipt.json"
+  ],
+  "pilot_matrix": {
+    "rows": "99 pilot entities x all eligible species",
+    "columns": [
+      "entity_ID",
+      "work_ID",
+      "y"
+    ],
+    "y_domain": [
+      0,
+      1
+    ]
+  },
+  "evidence_boundary": {
+    "pilot_response_will_be_consumed": true,
+    "confirmatory_species_composition_opened": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "failure_policy": {
+    "before_first_pilot_checklist_API_request": "HOLD; pilot response not consumed",
+    "after_first_pilot_checklist_API_request_is_sent": "conservatively mark pilot response consumed on any failure unless an independently auditable receipt proves zero species-response bytes were returned",
+    "after_first_species_row_received": "pilot response is consumed; protocol version becomes terminal on any validation failure",
+    "rerun_after_pilot_request_started": false
+  }
+}
