@@ -1,0 +1,56 @@
+{
+  "schema": "structural.macro_source_feature_empty_support_contract.v1_56",
+  "status": "EMPTY_SOURCE_NUMERICS_FROZEN_BEFORE_PILOT_RESULT_INSPECTION",
+  "parent": "development/macro_species_response_protocol_v1_50.json",
+  "scope": ["gift_native_angiosperm_islands_v3_2","global_island_native_mammals_barreto_2024"],
+  "kernel": {
+    "pressure": "sum exp(-distance / target_pool_frozen_edge_decay_scale)",
+    "same_target_pool_scale_used_for_euclidean_and_graph_pressure": true,
+    "scale_is_response_independent": true
+  },
+  "euclidean_R3": {
+    "occupied_sources": "all allowable training-only occupied pilot islands after heldout-block exclusion, across regional pools",
+    "if_nonempty": {
+      "nearest": "minimum haversine distance to occupied source",
+      "pressure": "sum exp(-haversine_distance / target_pool_scale)"
+    },
+    "if_empty": {
+      "nearest": "pi * 6371.0088 km + target_pool_scale",
+      "pressure": 0.0,
+      "reason": "pi*Earth-radius is the maximum possible great-circle distance, so the sentinel is strictly beyond any realizable source distance"
+    }
+  },
+  "graph_C": {
+    "occupied_sources": "allowable training-only occupied pilot islands reachable in the target's frozen response-independent regional-pool graph after heldout-block exclusion",
+    "if_nonempty": {
+      "nearest": "minimum graph shortest-path distance to occupied reachable source",
+      "pressure": "sum exp(-graph_shortest_path_distance / target_pool_scale)"
+    },
+    "if_empty": {
+      "nearest": "(target_pool_node_count - 1) * target_pool_max_frozen_edge_km + target_pool_scale",
+      "pressure": 0.0,
+      "reason": "a connected positive-edge graph has a simple shortest path with at most n-1 edges, so this response-independent bound is strictly beyond any finite frozen graph path"
+    }
+  },
+  "regional_prevalence": {
+    "smoothing": "Jeffreys: p=(successes+0.5)/(trials+1), then logit",
+    "if_no_remaining_pilot_trials_in_target_pool": "successes=0,trials=0 gives p=0.5 and logit=0",
+    "separate_no_source_indicator_added": false
+  },
+  "anti_leakage": {
+    "pilot_row_excludes_entire_target_validation_block_before_source_set_and_prevalence_are_computed": true,
+    "confirmatory_row_uses_pilot_response_only": true,
+    "sentinel_values_use_no_species_outcome": true,
+    "response_based_sentinel_tuning_forbidden": true
+  },
+  "modeling": {
+    "distance_features": "apply log1p after sentinel/finite distance is assigned",
+    "pressure_features": "apply log1p after pressure is assigned",
+    "standardization": "freeze from cross-fitted pilot training rows only",
+    "zero_variance_feature": "STOP before confirmatory response"
+  },
+  "response_boundary": {
+    "pilot_result_values_inspected_to_choose_this_rule": false,
+    "confirmatory_response_authorized": false
+  }
+}
