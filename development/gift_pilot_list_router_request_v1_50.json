@@ -1,0 +1,11 @@
+{
+  "schema": "structural.gift_pilot_list_router_request.v1_50",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_LIST_ROUTING",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "metadata_run_id": 36582542511,
+  "metadata_artifact_id": 11039932741,
+  "spatial_run_id": 36624390299,
+  "spatial_artifact_id": 11059738512,
+  "species_API_authorized": false,
+  "one_shot": true
+}
