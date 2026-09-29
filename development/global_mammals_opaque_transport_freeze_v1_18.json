@@ -1,0 +1,49 @@
+{
+  "schema": "structural.global_mammals_opaque_transport_freeze.v1_18",
+  "status": "EXACT_RESPONSE_TRANSPORT_COMMITTED_SEMANTICS_UNOPENED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-opaque-transport-v1_17.yml",
+    "workflow_run_id": 36510453244,
+    "workflow_head_sha": "ee5c20524ce9f761fa4687f7472a31ec7cc0a2c5",
+    "artifact_id": 11009231174,
+    "artifact_name": "global-mammals-v117-opaque-transport-ee5c20524ce9f761fa4687f7472a31ec7cc0a2c5-36510453244",
+    "artifact_digest": "sha256:1388d0279822a465e371f42f4be09bfab51750653dd46e713d79008dd74480d6"
+  },
+  "files": {
+    "transport_receipt": {
+      "path": "development/global_mammals_opaque_transport_receipt_v1_18.json",
+      "artifact_raw_sha256": "8a8312451cb4f66b4b2d733090c7279f099f06f75cbab74592364fd8ef98f717",
+      "canonical_json_sha256": "e24b16c622687bc9878d9d1a0579e1ce3984e899400b082798694cbc55dc0d4c",
+      "committed_json_sha256": "8a8312451cb4f66b4b2d733090c7279f099f06f75cbab74592364fd8ef98f717"
+    },
+    "token_receipt_artifact_sha256": "d92e4aacce2909395970e95c5f99f542e64fc4ebd44819fb84707973503d5077"
+  },
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "size_bytes": 60486843,
+    "sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "source_reported_island_rows": 5592
+  },
+  "semantic_boundary": {
+    "opaque_response_bytes_verified": true,
+    "header_decoded": false,
+    "routing_ids_decoded": 0,
+    "species_header_fields_decoded": 0,
+    "occurrence_values_decoded": 0,
+    "biological_response_values_opened": false,
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "next_gate": {
+    "authorized": true,
+    "action": "in a separate revision, re-download the exact frozen response bytes and decode only the first CSV field of the header and each of the expected 5592 data rows; join canonicalized routing IDs by exact membership to the frozen Weigelt safe-id universe",
+    "species_header_decode_authorized": false,
+    "occurrence_value_decode_authorized": false,
+    "same_revision_response_crosswalk_performed": false
+  }
+}
