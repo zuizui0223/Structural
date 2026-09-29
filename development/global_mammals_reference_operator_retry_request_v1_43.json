@@ -1,0 +1,23 @@
+{
+  "schema": "structural.global_mammals_reference_operator_retry_request.v1_43",
+  "status": "REQUEST_OPERATIONAL_RETRY_SAME_V140_SCIENTIFIC_CONTRACT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parent_request": "development/global_mammals_reference_operator_request_v1_42.json",
+  "parent_contract": "development/global_mammals_reference_operator_contract_v1_40.json",
+  "failed_run": {
+    "workflow_run_id": 36621967224,
+    "workflow_job_id": 109589338329,
+    "failure": "downloaded overlap artifact preserves output/ subdirectory but workflow expected file at artifact root",
+    "failed_before_reference_operator_execution": true,
+    "Appendix1_opened": false,
+    "species_headers_opened": false,
+    "occurrence_values_opened": false
+  },
+  "repair": "use output/island_partition_after_historical_overlap.csv inside the exact same artifact",
+  "scientific_contract_changed": false,
+  "final_population_changed": false,
+  "expected_final_islands": 5401,
+  "final_partition_sha256": "317801c21355c9859d1e59fe5a17a6d54ccc7755f9e322636811ba11bc0507db",
+  "Appendix1_access_authorized": false,
+  "one_retry_only": true
+}
