@@ -1,0 +1,83 @@
+name: Global mammals historical-overlap audit v1.37
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_historical_overlap_request_v1_37.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  overlap-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/global_mammals_historical_overlap_request_v1_37.json").read_text())
+          assert x["status"]=="REQUEST_RESPONSE_INDEPENDENT_318_VS_5592_OVERLAP_AUDIT"
+          assert x["Appendix1_access_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+      - name: Prepare Dryad token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v137
+          python scripts/prepare_dryad_token_v0_73.py --github-env "$GITHUB_ENV" --receipt build/global_mammals_v137/token_receipt.json
+      - name: Download historical 318 safe design
+        uses: actions/download-artifact@v4
+        with:
+          name: zenodo-318-mammal-safe-design-v047
+          path: build/global_mammals_v137/historical
+          repository: zuizui0223/Structural
+          run-id: 36296726405
+          github-token: ${{ github.token }}
+      - name: Download exact v1.31 retained partition
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v131-quarantine-79965159298b0b4eedcb4a52c926e817c54e62b2-36582701305
+          path: build/global_mammals_v137/quarantine
+          repository: zuizui0223/Structural
+          run-id: 36582701305
+          github-token: ${{ github.token }}
+      - name: Execute response-independent identity audit
+        run: |
+          mkdir -p build/global_mammals_v137/output
+          python scripts/audit_global_mammals_historical_overlap_v1_37.py             build/global_mammals_v137/historical/safe_island_design.csv             build/global_mammals_v137/quarantine/island_partition_quarantined.csv             --identity-output build/global_mammals_v137/output/appendix2_identity.csv             --matches-output build/global_mammals_v137/output/historical_overlap_matches.csv             --retained-output build/global_mammals_v137/output/island_partition_after_historical_overlap.csv             --receipt build/global_mammals_v137/output/overlap_receipt.json
+      - name: Delete raw Appendix 2 bytes
+        if: always()
+        run: rm -f build/global_mammals_v137/output/Appendix_2-dryad.xlsx
+      - name: Enforce response ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v137/output/overlap_receipt.json").read_text())
+          assert x["status"]=="HISTORICAL_OVERLAP_AUDIT_COMPLETE_RESPONSE_INDEPENDENTLY"
+          assert x["Appendix1_reopened"] is False
+          assert x["species_headers_opened"] is False
+          assert x["occurrence_values_opened"] is False
+          PY
+      - name: Upload overlap audit only
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v137-overlap-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v137/token_receipt.json
+            build/global_mammals_v137/output/appendix2_identity.csv
+            build/global_mammals_v137/output/historical_overlap_matches.csv
+            build/global_mammals_v137/output/island_partition_after_historical_overlap.csv
+            build/global_mammals_v137/output/overlap_receipt.json
+          if-no-files-found: error
+          retention-days: 30
