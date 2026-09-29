@@ -1,0 +1,66 @@
+name: Global mammals contamination quarantine v1.31
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_contamination_quarantine_request_v1_31.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  quarantine:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/global_mammals_contamination_quarantine_request_v1_31.json").read_text())
+          assert x["status"]=="REQUEST_RESPONSE_INDEPENDENT_CONTAMINATION_QUARANTINE"
+          assert x["exposed_source_local_id"]=="1"
+          assert x["Appendix1_access_authorized"] is False
+          assert x["fresh_system_denominator_contribution"]==0
+          assert x["one_shot"] is True
+          PY
+      - name: Download exact v1.25 spatial artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v125-spatial-9333854097f15617b25a09ba79a67db4854c6b3f-36527735618
+          path: build/global_mammals_v131/input
+          repository: zuizui0223/Structural
+          run-id: 36527735618
+          github-token: ${{ github.token }}
+      - name: Quarantine known-exposure block
+        run: |
+          mkdir -p build/global_mammals_v131/output
+          python scripts/quarantine_global_mammals_exposed_block_v1_31.py             build/global_mammals_v131/input/island_partition.csv             build/global_mammals_v131/input/block_table.csv             --output-partition build/global_mammals_v131/output/island_partition_quarantined.csv             --output-blocks build/global_mammals_v131/output/block_table_quarantined.csv             --receipt build/global_mammals_v131/output/quarantine_receipt.json
+      - name: Enforce no-response ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v131/output/quarantine_receipt.json").read_text())
+          assert x["status"]=="KNOWN_EXPOSURE_BLOCK_QUARANTINED"
+          assert x["exposed_id"]=="1"
+          assert x["Appendix1_reopened"] is False
+          assert x["mammal_occurrence_values_opened"] is False
+          assert x["fresh_status_restored"] is False
+          assert x["fresh_system_denominator_contribution"]==0
+          PY
+      - name: Upload quarantined design only
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v131-quarantine-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v131/output/island_partition_quarantined.csv
+            build/global_mammals_v131/output/block_table_quarantined.csv
+            build/global_mammals_v131/output/quarantine_receipt.json
+          if-no-files-found: error
+          retention-days: 30

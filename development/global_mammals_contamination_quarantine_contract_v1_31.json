@@ -1,0 +1,49 @@
+{
+  "schema": "structural.global_mammals_contamination_quarantine_contract.v1_31",
+  "status": "QUARANTINE_RULE_FROZEN_BEFORE_ANY_FURTHER_APPENDIX1_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": [
+    "development/global_mammals_v119_firewall_failure_freeze_v1_20.json",
+    "development/global_mammals_spatial_pilot_freeze_v1_26.json"
+  ],
+  "known_exposure": {
+    "source_local_row_id": "1",
+    "exposed_occurrence_row_count": 1,
+    "exposed_occurrence_value_count": 5394,
+    "outcome_values_may_not_be_used_for_quarantine_choice": true
+  },
+  "spatial_artifact": {
+    "workflow_run_id": 36527735618,
+    "artifact_id": 11015850157,
+    "artifact_name": "global-mammals-v125-spatial-9333854097f15617b25a09ba79a67db4854c6b3f-36527735618",
+    "island_partition_sha256": "3f85efb3b71423a8392cb1f7a5590c7b03cedef377fee0997df457a029b998bd",
+    "block_table_sha256": "4646034c1e5cd408e252c6d187a763e292850edd5c7d1619567b634e410bb27d"
+  },
+  "quarantine_rule": {
+    "unit": "entire pre-frozen v1.25 spatial block containing source-local ID 1",
+    "remove_from_targets": true,
+    "remove_from_training": true,
+    "remove_from_species_source_pool": true,
+    "remove_from_global_occupancy_breadth_denominator": true,
+    "replacement_block_allowed": false,
+    "repartition_allowed": false,
+    "block_boundary_change_allowed": false,
+    "pilot_confirmatory_label_change_allowed": false
+  },
+  "post_quarantine_design": {
+    "current_isolation_q75": "recomputed response-independently on retained confirmatory islands only",
+    "extreme_rule": "Current_isolation >= recomputed type-7 q75",
+    "minimum_pilot_blocks_per_bioregion": 1,
+    "minimum_confirmatory_blocks_per_bioregion": 2,
+    "failure_if_minimum_not_met": true
+  },
+  "interpretation": {
+    "fresh_status_restored": false,
+    "purpose": "prevent the known exposed island and every island sharing its pre-frozen spatial block from influencing macro-analysis targets, model fitting or source features",
+    "remaining_route": "auditable contaminated macro evidence only"
+  },
+  "Appendix1_access_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "fresh_system_denominator_contribution": 0
+}

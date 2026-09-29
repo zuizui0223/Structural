@@ -1,0 +1,12 @@
+{
+  "schema": "structural.global_mammals_contamination_quarantine_request.v1_31",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_CONTAMINATION_QUARANTINE",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "spatial_run_id": 36527735618,
+  "spatial_artifact_id": 11015850157,
+  "exposed_source_local_id": "1",
+  "Appendix1_access_authorized": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}
