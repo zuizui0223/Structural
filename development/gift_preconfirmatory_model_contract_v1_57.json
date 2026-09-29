@@ -1,0 +1,110 @@
+{
+  "schema": "structural.gift_preconfirmatory_model_contract.v1_57",
+  "status": "PRISTINE_PLANT_MODEL_AND_CONFIRMATORY_PREDICTION_METHOD_FROZEN_BEFORE_PILOT_RESULT_INSPECTION",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_spatial_reference_freeze_v1_49.json",
+    "development/macro_species_response_protocol_v1_50.json",
+    "development/macro_source_feature_empty_support_contract_v1_56.json",
+    "development/gift_pilot_response_contract_v1_54.json"
+  ],
+  "required_response_independent_inputs": {
+    "state_reference_sha256": "26f48c761208d683c90dea8f3fdb45f72ad35a2283c0945120dad68e307d80ee",
+    "source_graph_edges_sha256": "476f5a9fe12bc27033f5bc929eae752705b6824dd8a2828f02705d74586964ae",
+    "island_partition_sha256": "70bdddaa0fff2b576419af6cfb18870a97b0cae38101472d1c01790e47c74797",
+    "spatial_receipt_sha256": "e512b47cf5ffbb47825dc4f122d03e579690993f6f7f2891080a8f61b7d295af",
+    "gift_geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5"
+  },
+  "pilot_parent_requirement": {
+    "schema": "structural.gift_pilot_response_freeze.v1_58",
+    "status": "PRISTINE_PLANT_PILOT_RESPONSE_ARTIFACT_FROZEN",
+    "must_bind_exact_species_universe_sha256": true,
+    "must_bind_exact_pilot_matrix_sha256": true,
+    "focal_species_count_is_not_predeclared": true,
+    "reason": "the selection rule was frozen before pilot access; the realized count is an outcome of that fixed rule and may not tune the method"
+  },
+  "base_design": {
+    "regional_pool_categorical": "full one-hot for all 13 frozen regional_pool levels in lexicographic order; all levels retained",
+    "R0_continuous": ["z_ccvt","z_temp","z_vart","z_prec","z_varp","z_elev"],
+    "R1_add": ["z_log_area","z_dist","z_slmp","z_gmmc"],
+    "R2_add": ["z_log1p_nearest_island_km","z_generic_neighbor_pressure"],
+    "base_features_are_already_population_standardized": true
+  },
+  "species_source_features_raw": {
+    "R3_add": [
+      "global_occupancy_jeffreys_logit",
+      "regional_pool_prevalence_jeffreys_logit",
+      "log1p_nearest_euclidean_source_km",
+      "log1p_euclidean_source_pressure"
+    ],
+    "C_add": [
+      "log1p_nearest_graph_source_km",
+      "log1p_graph_source_pressure"
+    ],
+    "pilot_row_source_set": "all frozen pilot islands except every island in the focal pilot archipelago",
+    "confirmatory_row_source_set": "all 99 frozen pilot islands",
+    "euclidean_source_scope": "all allowable pilot islands across pools",
+    "graph_source_scope": "allowable occupied pilot islands reachable inside target regional_pool graph",
+    "kernel_and_empty_source_semantics": "development/macro_source_feature_empty_support_contract_v1_56.json"
+  },
+  "source_standardization": {
+    "columns": [
+      "global_occupancy_jeffreys_logit",
+      "regional_pool_prevalence_jeffreys_logit",
+      "log1p_nearest_euclidean_source_km",
+      "log1p_euclidean_source_pressure",
+      "log1p_nearest_graph_source_km",
+      "log1p_graph_source_pressure"
+    ],
+    "freeze_on": "all focal-species x 99 pilot-island cross-fitted training rows",
+    "population_sd": true,
+    "zero_or_nonfinite_sd": "STOP before confirmatory response",
+    "same_constants_applied_to_confirmatory_predictions": true
+  },
+  "nested_model_columns": {
+    "R0": "intercept + 13 full regional-pool indicators + six R0 continuous features",
+    "R1": "R0 + four R1 continuous features",
+    "R2": "R1 + two R2 generic-network features",
+    "R3": "R2 + first four standardized species-source features",
+    "C": "R3 + final two standardized graph-source features"
+  },
+  "fitting": {
+    "implementation": "custom NumPy float64 IRLS",
+    "numpy_version": "2.3.3",
+    "linear_algebra_threads": 1,
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "initial_coefficients": "all zero",
+    "max_iterations": 100,
+    "tolerance_max_abs_delta": 1e-8,
+    "probability_clip": [1e-12,0.999999999999],
+    "fit_models": ["R0","R1","R2","R3","C"],
+    "response_based_tuning": false
+  },
+  "confirmatory_prediction_freeze": {
+    "entities": 404,
+    "species": "exact frozen pilot species universe in ascending numeric work_ID order",
+    "entity_order": "ascending numeric entity_ID",
+    "confirmatory_target_values_used": false,
+    "stored_probabilities": ["R3","C"],
+    "binary_format": {
+      "file": "confirmatory_predictions.f64le",
+      "magic": "STRUCTURAL_GIFT_PRED_V1\n",
+      "header": "little-endian uint32 n_entities, then uint32 n_species",
+      "body": "entity-major then species-major; each cell is little-endian float64 p_R3 followed by float64 p_C"
+    },
+    "entity_order_file": "confirmatory_entity_order.csv",
+    "model_receipt": "model_receipt.json"
+  },
+  "primary_scoring_later": {
+    "block": "confirmatory Weigelt archipelago",
+    "estimand": "equal-weight mean across 59 confirmatory archipelagos of within-archipelago mean(loss_C-loss_R3)",
+    "bootstrap": "10000 confirmatory-archipelago replicates",
+    "confirmatory_response_must_remain_closed_until_prediction_artifact_is_committed_and_exact-replay-verified": true
+  },
+  "response_boundary": {
+    "pilot_result_inspected_to_choose_method": false,
+    "confirmatory_species_composition_opened": false,
+    "confirmatory_response_authorized": false
+  }
+}
