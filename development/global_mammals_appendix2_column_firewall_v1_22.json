@@ -1,0 +1,164 @@
+{
+  "schema": "structural.global_mammals_appendix2_column_firewall.v1_22",
+  "status": "APPENDIX2_COLUMNS_CLASSIFIED_BEFORE_ANY_DATA_ROW_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_header_audit": {
+    "workflow": ".github/workflows/global-mammals-appendix2-header-v1_21.yml",
+    "workflow_run_id": 36523712323,
+    "workflow_head_sha": "94eb91ea5dc33e3ff50538ae52b3916b49cb9176",
+    "artifact_id": 11013841173,
+    "artifact_name": "global-mammals-v121-appendix2-header-94eb91ea5dc33e3ff50538ae52b3916b49cb9176-36523712323",
+    "artifact_digest": "sha256:38a5db3dc16ed9a225409fe3746fd8a5f1f77f73944b96f7c767fc8cf7c7f2ea",
+    "header_audit_json_sha256": "7e763886ed41ad7a148f2ac995d1017a14123719bf8fb5ec216ec03831dc18fc",
+    "sheet_name": "table_s1",
+    "worksheet_member": "xl/worksheets/sheet1.xml",
+    "header_sha256": "cc1803dfde02370aea850b588b99944de7ac34d1b0311c4d60a6826ed8bfaa65",
+    "header_cell_count": 25,
+    "appendix2_data_rows_semantically_opened": 0,
+    "appendix2_data_cell_values_decoded": 0
+  },
+  "source_file": {
+    "name": "Appendix_2-dryad.xlsx",
+    "dryad_file_id": 3242157,
+    "size_bytes": 1066391,
+    "sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+    "expected_data_row_count": 5592
+  },
+  "observed_headers_in_order": [
+    "ID",
+    "Island_name",
+    "CountryISO",
+    "Longitude_centroid",
+    "Latitude_centroid",
+    "Area",
+    "Current_isolation",
+    "Past_isolation",
+    "Climate_velocity",
+    "Temperature_mean",
+    "Temperature_sd",
+    "Precipitation_mean",
+    "Precipitation_sd",
+    "Elevation_sd",
+    "Richness_mammal",
+    "Richness_bat",
+    "Richness_nonVol",
+    "SIE_mammal",
+    "SIE_bats",
+    "SIE_nonVol",
+    "pSIE_mammal",
+    "pSIE_bats",
+    "pSIE_nonVol",
+    "bioregion",
+    "bioregion_SIE"
+  ],
+  "safe_columns_in_source_order": [
+    "ID",
+    "Longitude_centroid",
+    "Latitude_centroid",
+    "Area",
+    "Current_isolation",
+    "Past_isolation",
+    "Climate_velocity",
+    "Temperature_mean",
+    "Temperature_sd",
+    "Precipitation_mean",
+    "Precipitation_sd",
+    "Elevation_sd",
+    "bioregion"
+  ],
+  "safe_roles": {
+    "ID": "source-local stable island routing key; documented to match Appendix 1 row names",
+    "Longitude_centroid": "response-independent island centroid longitude used for spatial design",
+    "Latitude_centroid": "response-independent island centroid latitude used for spatial design",
+    "Area": "response-independent island area",
+    "Current_isolation": "response-independent present-isolation variable (source SLMP coding; larger values represent greater isolation)",
+    "Past_isolation": "response-independent LGM mainland-connection/isolation variable",
+    "Climate_velocity": "response-independent climate-change velocity",
+    "Temperature_mean": "response-independent climate mean",
+    "Temperature_sd": "response-independent within-island temperature variability",
+    "Precipitation_mean": "response-independent precipitation mean",
+    "Precipitation_sd": "response-independent within-island precipitation variability",
+    "Elevation_sd": "response-independent within-island elevation variability",
+    "bioregion": "response-independent mammalian zoogeographic realm label"
+  },
+  "exact_partition_rule": {
+    "every_observed_header_classified_exactly_once": true,
+    "unknown_columns_allowed": false,
+    "safe_closed_protected_overlap_allowed": false,
+    "safe_column_order_must_match_source_order": true,
+    "closed_unneeded_column_order_must_match_source_order": true,
+    "protected_response_derived_column_order_must_match_source_order": true,
+    "post_header_safe_set_expansion_beyond_preaudit_intent_forbidden": true,
+    "coordinate_alias_resolution_allowed": "Lat_centroid and Long_centroid preaudit intents map only to the observed exact headers Latitude_centroid and Longitude_centroid"
+  },
+  "model_reference_intent": {
+    "R0": [
+      "bioregion",
+      "Temperature_mean",
+      "Temperature_sd",
+      "Precipitation_mean",
+      "Precipitation_sd",
+      "Elevation_sd"
+    ],
+    "R1_add": [
+      "Area",
+      "Current_isolation",
+      "Past_isolation",
+      "Climate_velocity"
+    ],
+    "geometry": [
+      "Longitude_centroid",
+      "Latitude_centroid"
+    ],
+    "routing": "ID"
+  },
+  "row_access_boundary": {
+    "safe_row_projection_authorized_after_this_firewall_is_committed": true,
+    "response_file_access_authorized": false,
+    "appendix2_data_rows_semantically_opened_in_v1_22": 0,
+    "biological_response_values_opened_in_v1_22": false,
+    "closed_unneeded_row_values_authorized": false,
+    "protected_response_derived_row_values_authorized": false
+  },
+  "freshness_boundary": {
+    "original_global_mammal_fresh_chain_closed_by_v1_20": true,
+    "v1_22_does_not_restore_freshness": true,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "quarantine_reentry_authorized": false
+  },
+  "next_action": "after this exact firewall is committed and CI-green, exact-download Appendix 2 and project only the 13 prospectively intended safe columns (with the frozen Latitude/Longitude header aliases) for the expected 5592 source-local IDs; skip the two unneeded descriptive columns and all ten response-derived columns without semantic decoding",
+  "closed_unneeded_columns_in_source_order": [
+    "Island_name",
+    "CountryISO"
+  ],
+  "protected_response_derived_columns_in_source_order": [
+    "Richness_mammal",
+    "Richness_bat",
+    "Richness_nonVol",
+    "SIE_mammal",
+    "SIE_bats",
+    "SIE_nonVol",
+    "pSIE_mammal",
+    "pSIE_bats",
+    "pSIE_nonVol",
+    "bioregion_SIE"
+  ],
+  "closed_unneeded_reasons": {
+    "Island_name": "response-independent descriptive label, but not part of the prospectively declared model/split reference and unnecessary for routing once ID is available",
+    "CountryISO": "response-independent descriptive label, but not part of the prospectively declared model/split reference and unnecessary for the frozen ecological design"
+  },
+  "protected_response_derived_reasons": {
+    "Richness_mammal": "response-derived richness summary computed from the mammal presence-absence matrix",
+    "Richness_bat": "response-derived bat richness summary",
+    "Richness_nonVol": "response-derived non-volant richness summary",
+    "SIE_mammal": "response-derived single-island-endemic count",
+    "SIE_bats": "response-derived bat single-island-endemic count",
+    "SIE_nonVol": "response-derived non-volant single-island-endemic count",
+    "pSIE_mammal": "response-derived proportion of single-island endemics",
+    "pSIE_bats": "response-derived bat proportion of single-island endemics",
+    "pSIE_nonVol": "response-derived non-volant proportion of single-island endemics",
+    "bioregion_SIE": "conservatively excluded because it is SIE-associated, not needed by the frozen ecological reference, and cannot improve the response-independent design"
+  }
+}
