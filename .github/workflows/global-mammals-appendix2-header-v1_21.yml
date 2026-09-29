@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - development/global_mammals_appendix2_header_audit_request_v1_21.json
+      - development/global_mammals_appendix2_header_audit_repair_request_v1_21a.json
 
 permissions:
   contents: read
