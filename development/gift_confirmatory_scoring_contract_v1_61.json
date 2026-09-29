@@ -1,0 +1,93 @@
+{
+  "schema": "structural.gift_confirmatory_scoring_contract.v1_61",
+  "status": "ONE_SHOT_FRESH_PLANT_CONFIRMATORY_SCORING_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_preconfirmatory_model_freeze_v1_60.json",
+    "development/gift_pilot_response_freeze_v1_58.json",
+    "development/gift_pilot_routing_freeze_v1_53.json",
+    "development/gift_spatial_reference_freeze_v1_49.json",
+    "development/macro_species_response_protocol_v1_50.json"
+  ],
+  "required_exact_replay_before_response": {
+    "method": "rerun scripts/freeze_gift_preconfirmatory_model_v1_57.py from exact pilot/spatial/geography parents under NumPy 2.3.3 single-threaded",
+    "prediction_sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+    "entity_order_sha256": "22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663",
+    "model_receipt_sha256": "1e9950ab95cff3382ec899b213a4f38fd859b100906d33b9fa2519f87dd0bd2d",
+    "failure": "STOP before any confirmatory GIFT checklist request"
+  },
+  "confirmatory_routing": {
+    "entities": 404,
+    "list_IDs": 596,
+    "confirmatory_lists_sha256": "c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a",
+    "pilot_list_IDs_forbidden": true,
+    "requested_list_ID_argument": "each and only the 596 frozen confirmatory list_IDs",
+    "every_returned_list_ID_must_match_exact_frozen_entity_ID": true,
+    "unknown_or_pilot_list_ID": "TERMINAL_STOP"
+  },
+  "api": {
+    "function": "GIFT_checklists_raw",
+    "GIFT_package_version": "1.3.4",
+    "GIFT_version": "3.2",
+    "taxon_name": "Angiospermae",
+    "floristic_group": "native",
+    "namesmatched": false,
+    "api": "https://gift.uni-goettingen.de/api/extended/"
+  },
+  "focal_response": {
+    "species_universe_count": 224,
+    "species_universe_sha256": "6b92ebfa7e3c242f0cffde3e91f9ff05c821b2ca242638a0ead6f6f0591e4bce",
+    "identity": "work_ID",
+    "accepted_presence_row": "native == 1 AND questionable == 0 AND quest_native == 0",
+    "entity_presence": "union accepted focal work_IDs across all frozen confirmatory list_IDs attached to entity",
+    "entity_absence": "focal work_ID not present in accepted union",
+    "nonfocal_rows_received_from_API": "may be counted for audit but may not be persisted or analyzed",
+    "each_confirmatory_list_must_return_at_least_one_species_row": true,
+    "each_confirmatory_entity_must_have_at_least_one_accepted_high_confidence_native_row_of_any_species": true,
+    "focal_work_ID_label_must_match_pilot_universe": true,
+    "matrix_rows": 90496,
+    "target_domain": [0,1]
+  },
+  "prediction_input": {
+    "prediction_sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+    "entity_order_sha256": "22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663",
+    "binary_magic": "STRUCTURAL_GIFT_PRED_V1\n",
+    "shape": [404,224,2],
+    "fields": ["p_R3","p_C"]
+  },
+  "primary": {
+    "cell_delta": "binary_log_loss(p_C,y) - binary_log_loss(p_R3,y)",
+    "within_block": "mean cell_delta across all focal species x islands in the confirmatory archipelago",
+    "across_blocks": "equal-weight mean of the 59 frozen confirmatory archipelago means",
+    "favourable_direction": "negative",
+    "bootstrap_unit": "confirmatory archipelago",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260930,
+    "bootstrap_rng": "python.random.Random MT19937",
+    "quantile_method": "type-7 linear",
+    "support_rule": "point estimate < 0 AND 95% bootstrap upper bound < 0"
+  },
+  "completion_semantics": {
+    "valid_completion_contributes_one_fresh_system_regardless_direction": true,
+    "secondary_or_LGM_type_stratification_may_not_rescue_primary": true,
+    "rerun_after_first_confirmatory_checklist_request": false,
+    "refit_after_confirmatory_access": false,
+    "species_universe_change_after_confirmatory_access": false,
+    "block_change_after_confirmatory_access": false
+  },
+  "failure_policy": {
+    "before_first_confirmatory_checklist_request": "HOLD with fresh system unconsumed",
+    "after_first_confirmatory_checklist_request": "confirmatory response consumed; any API/schema/routing/scoring failure is terminal under v1.61"
+  },
+  "outputs": [
+    "confirmatory_matrix.csv",
+    "confirmatory_response_receipt.json",
+    "block_scores.csv",
+    "confirmatory_result.json"
+  ],
+  "response_boundary": {
+    "confirmatory_response_authorized_now": false,
+    "confirmatory_target_values_opened": 0,
+    "fresh_system_denominator_contribution": 0
+  }
+}
