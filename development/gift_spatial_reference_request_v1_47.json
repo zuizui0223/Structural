@@ -1,0 +1,16 @@
+{
+  "schema": "structural.gift_spatial_reference_request.v1_47",
+  "status": "REQUEST_PRISTINE_PLANT_RESPONSE_INDEPENDENT_SPATIAL_REFERENCE",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "gift_geography_run_id": 36621638377,
+  "gift_geography_artifact_id": 11059270235,
+  "gift_geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+  "crosswalk_run_id": 36622553028,
+  "crosswalk_artifact_id": 11059211347,
+  "crosswalk_sha256": "999f3e3383288c1ead4aabeede002d62b457b7ef18a7e3b59eaa3529b05954f0",
+  "expected_primary_islands": 503,
+  "expected_pilot_blocks": 19,
+  "expected_confirmatory_blocks": 59,
+  "species_composition_authorized": false,
+  "one_shot": true
+}
