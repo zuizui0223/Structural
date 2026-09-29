@@ -1,0 +1,25 @@
+{
+  "schema": "structural.gift_geological_origin_metadata_contract.v1_48",
+  "status": "ENVIRONMENTAL_METADATA_ONLY_GEOLOGICAL_ORIGIN_DISCOVERY_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "GIFT_version": "3.2",
+  "package_version": "1.3.4",
+  "function": "GIFT_env_meta_misc",
+  "query_scope": "metadata table only; no entity-level environmental values",
+  "candidate_regex": "origin|geolog|volcan|oceanic|continental|atoll|shelf",
+  "search_fields": ["dataset","variable","description","unit"],
+  "selection_rule": "case-insensitive fixed regex over concatenated metadata fields; freeze every matching metadata row, do not choose among candidates in this execution",
+  "if_candidates_found": "a later separate revision must select the geological-origin variable and category mapping before querying entity-level values",
+  "if_no_candidates_found": "do not substitute GMMC as geological origin; either obtain a separate response-independent origin source or downgrade origin to an unavailable adjustment explicitly before species access",
+  "forbidden": [
+    "GIFT_env entity-level value query",
+    "GIFT_checklists species composition",
+    "post-result regex modification",
+    "selecting an origin variable because it improves C-minus-R3"
+  ],
+  "response_boundary": {
+    "species_composition_authorized": false,
+    "entity_level_origin_values_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
