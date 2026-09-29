@@ -1,0 +1,66 @@
+{
+  "schema": "structural.gift_whole_island_response_semantics.v1_30",
+  "status": "predeclared_before_GIFT_metadata_result_access",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_metadata_freeze_contract_v0_89.json",
+    "development/gift_metadata_eligibility_contract_v1_28.json",
+    "development/macro_two_taxon_program_v1_27.json"
+  ],
+  "metadata_run_multiplicity_rule": {
+    "reason": "two response-independent execution paths were queued before either completed",
+    "canonical_result": "the successful GIFT metadata-only run with the smallest GitHub workflow run_id",
+    "later_successful_runs": "reproducibility checks only and may not replace the canonical metadata result",
+    "failed_runs": "do not alter scientific eligibility or authorize response access",
+    "species_response_opened_by_any_metadata_run": false
+  },
+  "primary_geographic_unit": {
+    "entity_class": "Island",
+    "exclude_from_primary": ["Island Group", "Island Part"],
+    "reason": "whole islands are the ecological replication units; grouping island groups and island parts with whole islands would mix spatial scales and create pseudo-replication",
+    "sensitivity_only": ["Island Group"],
+    "excluded": ["Island Part"]
+  },
+  "entity_level_checklist_semantics": {
+    "unit": "unique GIFT entity_ID",
+    "multiple_list_IDs_for_same_entity": "do not create replicate islands",
+    "future_species_response_aggregation": "union species presences across all eligible complete native Angiospermae list_IDs attached to the entity_ID",
+    "presence": "species occurs in at least one eligible selected list for the entity",
+    "absence": "species is absent from every eligible selected list for the entity after the fixed species universe is defined from training data only",
+    "list_or_reference_identity_may_not_enter_C_without_also_entering_R3": true
+  },
+  "response_quality_boundary": {
+    "suit_geo_required": true,
+    "complete_taxon_required": true,
+    "complete_floristic_required": true,
+    "unexpected checklist/status codes after species access": "terminal for that frozen response protocol version",
+    "species_response_still_authorized": false
+  },
+  "geography_next_stage": {
+    "response_independent_only": true,
+    "retrieve_for_whole_island_entity_IDs": ["longitude", "latitude", "area"],
+    "source": "GIFT_env miscellaneous metadata under GIFT version 3.2",
+    "external_isolation_target": "join or derive a response-independent mainland-isolation variable before species composition is requested",
+    "preferred_common_reference": "Weigelt global island geography so mammal and plant systems share the same external-isolation semantics where an exact response-independent match exists",
+    "unmatched_GIFT_entities": "exclude from the primary common-reference analysis rather than use outcome-informed matching"
+  },
+  "overlap_and_independence": {
+    "whole_island_filter_applied_before_overlap_resolution": true,
+    "overlap_resolution_uses_species_data": false,
+    "entity_ID_is_the_response_routing_key": true,
+    "same_entity_multiple_lists_collapsed_before spatial blocking": true
+  },
+  "reference_ladder": {
+    "R3_requires_species_x_regional_pool": true,
+    "R3_requires_training_only_global_occupancy_breadth": true,
+    "R3_requires_training_only_direct_and_diffuse_source_context": true,
+    "C_adds_only_internal_source_continuity_beyond_R3": true,
+    "all_source_features_leave_heldout_block_out": true
+  },
+  "evidence_boundary": {
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0,
+    "species_composition_requested": false,
+    "species_response_authorized": false
+  }
+}
