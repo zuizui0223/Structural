@@ -1,0 +1,14 @@
+{
+  "schema": "structural.global_mammals_state_reference_request.v1_27",
+  "status": "REQUEST_GLOBAL_R0_R1_STATE_REFERENCE",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "safe_artifact_id": 11013887248,
+  "spatial_artifact_id": 11015850157,
+  "island_count": 5592,
+  "R0_feature_count": 16,
+  "R1_add_feature_count": 4,
+  "Appendix_1_response_access_authorized": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}

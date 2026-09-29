@@ -1,0 +1,139 @@
+name: Global mammals R0-R1 state reference v1.27
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/global_mammals_state_reference_request_v1_27.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  freeze-state-reference:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/global_mammals_state_reference_request_v1_27.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.global_mammals_state_reference_request.v1_27"
+          )
+          assert req["status"] == "REQUEST_GLOBAL_R0_R1_STATE_REFERENCE"
+          assert req["candidate_id"] == "global_island_native_mammals_barreto_2024"
+          assert req["analysis_route"] == "contaminated_macro_analysis_only"
+          assert req["safe_artifact_id"] == 11013887248
+          assert req["spatial_artifact_id"] == 11015850157
+          assert req["island_count"] == 5592
+          assert req["Appendix_1_response_access_authorized"] is False
+          assert req["fresh_system_denominator_contribution"] == 0
+          assert req["one_shot"] is True
+          PY
+
+      - name: Download exact frozen v1.23 safe rows
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v127/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen v1.25 spatial partition
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v125-spatial-9333854097f15617b25a09ba79a67db4854c6b3f-36527735618
+          path: build/global_mammals_v127/spatial
+          repository: zuizui0223/Structural
+          run-id: 36527735618
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen input SHA-256 values
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks = {
+              Path("build/global_mammals_v127/safe/appendix2_safe_rows.csv"):
+                  "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+              Path("build/global_mammals_v127/spatial/island_partition.csv"):
+                  "3f85efb3b71423a8392cb1f7a5590c7b03cedef377fee0997df457a029b998bd",
+          }
+          for path, expected in checks.items():
+              if not path.exists():
+                  raise SystemExit(f"missing frozen input: {path}")
+              observed = hashlib.sha256(path.read_bytes()).hexdigest()
+              if observed != expected:
+                  raise SystemExit(f"frozen input SHA drift: {path}")
+          PY
+
+      - name: Freeze R0 and R1 state surface
+        run: |
+          mkdir -p build/global_mammals_v127/output
+          python scripts/freeze_global_mammals_state_reference_v1_27.py \
+            build/global_mammals_v127/safe/appendix2_safe_rows.csv \
+            build/global_mammals_v127/spatial/island_partition.csv \
+            --state-table build/global_mammals_v127/output/state_reference.csv \
+            --receipt build/global_mammals_v127/output/state_receipt.json
+
+      - name: Enforce state-reference ceiling
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+          root = Path("build/global_mammals_v127/output")
+          x = json.loads((root / "state_receipt.json").read_text(encoding="utf-8"))
+          assert x["status"] == "GLOBAL_R0_R1_STATE_REFERENCE_FROZEN_RESPONSE_INDEPENDENTLY"
+          assert x["row_count"] == 5592
+          assert x["pilot_island_count"] == 1307
+          assert x["confirmatory_island_count"] == 4285
+          assert len(x["bioregion_levels"]) == 12
+          assert x["bioregion_reference"] == "Afrotropical"
+          assert len(x["R0_feature_columns"]) == 16
+          assert len(x["R1_add_feature_columns"]) == 4
+          assert x["Past_isolation_domain"] == [0, 1]
+          assert x["Appendix_1_reopened"] is False
+          assert x["mammal_species_names_opened"] is False
+          assert x["mammal_occurrence_values_opened"] is False
+          assert x["fresh_system_denominator_contribution"] == 0
+          assert x["original_fresh_chain_restored"] is False
+          assert x["global_source_operator_may_be_built"] is True
+          with (root / "state_reference.csv").open("r", encoding="utf-8", newline="") as h:
+              reader = csv.reader(h)
+              header = next(reader)
+              rows = list(reader)
+          assert len(rows) == 5592
+          assert len(header) == 5 + 16 + 4
+          PY
+
+      - name: Upload response-independent state only
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v127-state-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v127/output/state_reference.csv
+            build/global_mammals_v127/output/state_receipt.json
+          if-no-files-found: error
+          retention-days: 30
