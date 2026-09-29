@@ -1,0 +1,67 @@
+{
+  "schema": "structural.global_mammals_spatial_pilot_freeze.v1_26",
+  "status": "GLOBAL_SPATIAL_PILOT_ARTIFACT_COMMITTED_BY_PROVENANCE",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-spatial-pilot-v1_25.yml",
+    "workflow_run_id": 36527735618,
+    "workflow_head_sha": "9333854097f15617b25a09ba79a67db4854c6b3f",
+    "artifact_id": 11015850157,
+    "artifact_name": "global-mammals-v125-spatial-9333854097f15617b25a09ba79a67db4854c6b3f-36527735618",
+    "artifact_digest": "sha256:b34b0a30676b6294676860cdda4923e013c11a3263da46cb2e0b1f35680bb08c"
+  },
+  "artifact_files": {
+    "island_partition.csv": {
+      "size_bytes": 500560,
+      "sha256": "3f85efb3b71423a8392cb1f7a5590c7b03cedef377fee0997df457a029b998bd"
+    },
+    "block_table.csv": {
+      "size_bytes": 13805,
+      "sha256": "4646034c1e5cd408e252c6d187a763e292850edd5c7d1619567b634e410bb27d"
+    },
+    "spatial_receipt.json": {
+      "size_bytes": 3956,
+      "raw_sha256": "0282a503943b8d63a8ff3e104da72fa210713fca5a357c64669225ecef7d1727",
+      "canonical_json_sha256": "9c48348365cf9a2834474faa6b19b2364333aa1f1e3fe6837ec24ae4e9e49f27"
+    }
+  },
+  "partition": {
+    "island_count": 5592,
+    "bioregion_count": 12,
+    "total_block_count": 219,
+    "singleton_block_count": 31,
+    "pilot_block_count": 50,
+    "confirmatory_block_count": 169,
+    "pilot_island_count": 1307,
+    "confirmatory_island_count": 4285,
+    "pilot_island_fraction_hex": "0x1.deac21b1a00bcp-3",
+    "current_isolation_q75_hex": "-0x1.72b020c49ba5ep-1",
+    "extreme_confirmatory_island_count": 1074
+  },
+  "regional_audit": {
+    "Afrotropical": {"pilot_blocks": 4, "confirmatory_blocks": 15, "pilot_islands": 45, "confirmatory_islands": 214},
+    "Australian": {"pilot_blocks": 4, "confirmatory_blocks": 12, "pilot_islands": 63, "confirmatory_islands": 195},
+    "Eurasia": {"pilot_blocks": 5, "confirmatory_blocks": 16, "pilot_islands": 273, "confirmatory_islands": 401},
+    "Madagascan": {"pilot_blocks": 1, "confirmatory_blocks": 2, "pilot_islands": 1, "confirmatory_islands": 50},
+    "Neartic": {"pilot_blocks": 3, "confirmatory_blocks": 8, "pilot_islands": 32, "confirmatory_islands": 91},
+    "Neotropical": {"pilot_blocks": 5, "confirmatory_blocks": 18, "pilot_islands": 60, "confirmatory_islands": 180},
+    "Oceanina": {"pilot_blocks": 4, "confirmatory_blocks": 15, "pilot_islands": 130, "confirmatory_islands": 518},
+    "Oriental": {"pilot_blocks": 6, "confirmatory_blocks": 20, "pilot_islands": 458, "confirmatory_islands": 1141},
+    "Paleartic": {"pilot_blocks": 12, "confirmatory_blocks": 45, "pilot_islands": 98, "confirmatory_islands": 912},
+    "Panamanian": {"pilot_blocks": 2, "confirmatory_blocks": 6, "pilot_islands": 31, "confirmatory_islands": 207},
+    "Saharo-Arabian": {"pilot_blocks": 2, "confirmatory_blocks": 6, "pilot_islands": 14, "confirmatory_islands": 194},
+    "Sino-Japanese": {"pilot_blocks": 2, "confirmatory_blocks": 6, "pilot_islands": 102, "confirmatory_islands": 182}
+  },
+  "response_boundary": {
+    "response_used_in_spatial_design": false,
+    "Appendix_1_reopened": false,
+    "mammal_species_names_opened": false,
+    "mammal_occurrence_values_opened": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "original_fresh_chain_restored": false
+  },
+  "macro_model_reference_may_be_built": true,
+  "next_action": "download the exact v1.23 safe covariates and v1.25 partition artifacts, freeze R0/R1 state encoding and a distinct response-independent global source-connectivity operator, then only under a separately declared contaminated-macro route consider further Appendix 1 access"
+}
