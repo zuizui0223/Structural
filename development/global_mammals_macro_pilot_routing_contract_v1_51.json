@@ -1,0 +1,35 @@
+{
+  "schema": "structural.global_mammals_macro_pilot_routing_contract.v1_51",
+  "status": "CONTAMINATED_MACRO_PILOT_ROUTING_PREDECLARED_RESPONSE_INDEPENDENTLY",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": [
+    "development/global_mammals_historical_overlap_freeze_v1_41.json",
+    "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "development/macro_species_response_protocol_v1_50.json"
+  ],
+  "input": {
+    "post_overlap_partition_run_id": 36621638431,
+    "post_overlap_partition_artifact_id": 11058009970,
+    "partition_sha256": "317801c21355c9859d1e59fe5a17a6d54ccc7755f9e322636811ba11bc0507db",
+    "final_islands": 5401,
+    "pilot_islands": 1275,
+    "confirmatory_islands": 4126,
+    "pilot_blocks": 50,
+    "confirmatory_blocks": 168
+  },
+  "routing_rule": {
+    "source_row_key": "Appendix 2 ID / source-local row ID",
+    "pilot_IDs": "all and only final retained IDs whose frozen split is pilot",
+    "confirmatory_IDs": "all and only final retained IDs whose frozen split is confirmatory",
+    "quarantined_and_historical_overlap_IDs_absent": true,
+    "repartition_allowed": false
+  },
+  "response_boundary": {
+    "Appendix1_reopened": false,
+    "species_headers_opened": false,
+    "occurrence_values_opened": false,
+    "macro_pilot_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
