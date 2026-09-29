@@ -35,14 +35,22 @@ jobs:
         run: |
           mkdir -p build/global_mammals_v137
           python scripts/prepare_dryad_token_v0_73.py --github-env "$GITHUB_ENV" --receipt build/global_mammals_v137/token_receipt.json
-      - name: Download historical 318 safe design
+      - name: Download exact historical 318 safe design
         uses: actions/download-artifact@v4
         with:
-          name: zenodo-318-mammal-safe-design-v047
+          name: zenodo-318-island-mammals-safe-design-v0-8
           path: build/global_mammals_v137/historical
           repository: zuizui0223/Structural
           run-id: 36296726405
           github-token: ${{ github.token }}
+      - name: Verify historical safe design identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("build/global_mammals_v137/historical/safe_island_design.csv")
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=="d35a583b9b5fd6b5073db11f25ec9584796ba463f19ac5498b9a41d21aa387db"
+          PY
       - name: Download exact v1.31 retained partition
         uses: actions/download-artifact@v4
         with:
