@@ -1,0 +1,9 @@
+{
+  "schema": "structural.gift_public_geology_request.v1_53",
+  "status": "REQUEST_EXACT_PUBLIC_GIFT_GEOLOGY_ROUTE",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "queries": ["geoentities_geology","geology"],
+  "GIFT_version": "3.2",
+  "species_access_authorized": false,
+  "one_shot": true
+}
