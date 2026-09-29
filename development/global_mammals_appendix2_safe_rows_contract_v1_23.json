@@ -1,0 +1,125 @@
+{
+  "schema": "structural.global_mammals_appendix2_safe_rows_contract.v1_23",
+  "status": "SAFE_ROW_PROJECTION_PREDECLARED_AFTER_V122_FIREWALL",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": {
+    "column_firewall": "development/global_mammals_appendix2_column_firewall_v1_22.json",
+    "header_audit_contract": "development/global_mammals_appendix2_header_audit_contract_v1_21.json",
+    "firewall_failure_freeze": "development/global_mammals_v119_firewall_failure_freeze_v1_20.json"
+  },
+  "source": {
+    "file_name": "Appendix_2-dryad.xlsx",
+    "dryad_file_id": 3242157,
+    "download_url": "https://datadryad.org/api/v2/files/3242157/download",
+    "expected_size_bytes": 1066391,
+    "expected_sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+    "sheet_name": "table_s1",
+    "worksheet_member": "xl/worksheets/sheet1.xml",
+    "expected_header_sha256": "cc1803dfde02370aea850b588b99944de7ac34d1b0311c4d60a6826ed8bfaa65",
+    "expected_data_row_count": 5592
+  },
+  "safe_columns_in_source_order": [
+    "ID",
+    "Longitude_centroid",
+    "Latitude_centroid",
+    "Area",
+    "Current_isolation",
+    "Past_isolation",
+    "Climate_velocity",
+    "Temperature_mean",
+    "Temperature_sd",
+    "Precipitation_mean",
+    "Precipitation_sd",
+    "Elevation_sd",
+    "bioregion"
+  ],
+  "closed_unneeded_columns_in_source_order": [
+    "Island_name",
+    "CountryISO"
+  ],
+  "protected_response_derived_columns_in_source_order": [
+    "Richness_mammal",
+    "Richness_bat",
+    "Richness_nonVol",
+    "SIE_mammal",
+    "SIE_bats",
+    "SIE_nonVol",
+    "pSIE_mammal",
+    "pSIE_bats",
+    "pSIE_nonVol",
+    "bioregion_SIE"
+  ],
+  "safe_type_rules": {
+    "ID": "nonblank source-local routing key rendered as stripped text; duplicate IDs are STOP",
+    "Longitude_centroid": "finite numeric degrees in [-180,180]",
+    "Latitude_centroid": "finite numeric degrees in [-90,90]",
+    "Area": "finite numeric > 0",
+    "Current_isolation": "finite numeric",
+    "Past_isolation": "finite numeric",
+    "Climate_velocity": "finite numeric",
+    "Temperature_mean": "finite numeric",
+    "Temperature_sd": "finite numeric >= 0",
+    "Precipitation_mean": "finite numeric",
+    "Precipitation_sd": "finite numeric >= 0",
+    "Elevation_sd": "finite numeric >= 0",
+    "bioregion": "nonblank string"
+  },
+  "xlsx_firewall": {
+    "worksheet_streaming_rule": "scan worksheet XML row by row as bytes; inspect cell references/types only to route cells; XML/text-decode cell values only for the 13 frozen safe source columns",
+    "closed_unneeded_cell_values_decoded_required": 0,
+    "protected_response_derived_cell_values_decoded_required": 0,
+    "safe_shared_strings_rule": "collect shared-string indexes only from safe-column cells, then decode only those exact shared-string entries",
+    "all_other_shared_strings_semantically_opened": false,
+    "formulas_in_safe_cells": "STOP",
+    "formulas_in_closed_or_protected_cells": "skip as opaque bytes",
+    "openpyxl_forbidden": true
+  },
+  "output": {
+    "safe_csv_columns": [
+      "ID",
+      "Longitude_centroid",
+      "Latitude_centroid",
+      "Area",
+      "Current_isolation",
+      "Past_isolation",
+      "Climate_velocity",
+      "Temperature_mean",
+      "Temperature_sd",
+      "Precipitation_mean",
+      "Precipitation_sd",
+      "Elevation_sd",
+      "bioregion"
+    ],
+    "safe_csv_row_count": 5592,
+    "preserve_source_row_order": true,
+    "null_counts_safe_columns_only": true,
+    "forbidden_or_closed_values_may_appear_in_output": false,
+    "raw_xlsx_may_be_uploaded": false,
+    "value_encoding": {
+      "ID": "stripped UTF-8 source text",
+      "bioregion": "stripped UTF-8 source text",
+      "numeric_columns": "Python float.hex() after frozen finite/range validation"
+    }
+  },
+  "evidence_boundary": {
+    "Appendix_1_response_file_reopened": false,
+    "biological_response_values_opened_in_v1_23": false,
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "original_global_mammal_fresh_chain_restored": false
+  },
+  "success_ceiling": {
+    "status": "APPENDIX2_5592_SAFE_ROWS_PROJECTED",
+    "safe_spatial_design_may_be_built": true,
+    "response_access_authorized": false,
+    "next_action": "commit the exact 5592-row safe table and receipt, then freeze the response-independent global spatial/pilot design from ID, centroid, area/isolation/climate and bioregion only"
+  },
+  "transport_policy": {
+    "exact_file_only": true,
+    "alternate_file_id_retry_authorized": false,
+    "alternate_endpoint_retry_authorized": false,
+    "raw_xlsx_artifact_authorized": false
+  }
+}
