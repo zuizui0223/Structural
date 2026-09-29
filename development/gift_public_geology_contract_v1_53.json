@@ -1,0 +1,64 @@
+{
+  "schema": "structural.gift_public_geology_contract.v1_53",
+  "status": "EXACT_PUBLIC_API_GEOLOGY_ROUTE_PREDECLARED_BEFORE_SPECIES_ACCESS",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "basis": {
+    "public_reproduction_record": "10.5281/zenodo.6325640",
+    "public_script": "01_data_preparation_obtain_floras_from_GIFT.R",
+    "documented_source_tables": ["geoentities_geology","geology"],
+    "documented_join": "geoentities_geology.geology = geology.ID",
+    "documented_output": ["entity_ID","age_Ma","geology_state","geology_description"]
+  },
+  "public_API": {
+    "base": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=",
+    "allowed_queries": ["geoentities_geology","geology"],
+    "arbitrary_query_forbidden": true,
+    "species_or_checklist_query_forbidden": true
+  },
+  "projection": {
+    "geoentities_geology_required_fields": ["entity_ID","geology","age_Ma"],
+    "geology_required_fields": ["ID","geology"],
+    "saved_fields": ["entity_ID","geology_state","geology_simple","age_Ma"],
+    "age_is_adjustment": false
+  },
+  "geology_simple_recode": {
+    "oceanic": [
+      "volcanic",
+      "atoll",
+      "floor",
+      "floor/volcanic",
+      "atoll/floor/volcanic",
+      "atoll/volcanic"
+    ],
+    "continental": [
+      "shelf",
+      "fragment"
+    ],
+    "mixed": [
+      "shelf/volcanic",
+      "atoll/shelf/volcanic",
+      "fragment/volcanic",
+      "atoll/floor/fragment/shelf/volcanic",
+      "atoll/floor/fragment",
+      "fragment/shelf/volcanic"
+    ],
+    "other_or_missing": "NA; do not infer"
+  },
+  "primary_adjustment": {
+    "requested_contrast": "continental versus oceanic",
+    "mixed": "separate categorical level, not coerced",
+    "missing_or_other": "missing adjustment value; primary population is not subset on geology because geology is an adjustment rather than the response or source feature",
+    "model_encoding": "two dummy indicators oceanic and mixed with continental reference, plus missingness indicator; if continental absent in the final primary population, use sorted observed nonmissing levels with first as reference",
+    "same_rule_for_mammal_macro": "only if the same response-independent geology source can be crosswalked prospectively; otherwise taxon-specific availability is reported and geology is not fabricated"
+  },
+  "if_public_API_not_exposed": {
+    "status": "HOLD_ORIGIN_EXTERNAL_SOURCE_UNAVAILABLE",
+    "species_access_authorized": false,
+    "fallback": "use exact published Zizka/PNAS supplementary geology table only if an independently auditable public artifact containing entity_ID and geology is located and frozen in a later revision"
+  },
+  "response_boundary": {
+    "GIFT_species_composition_authorized": false,
+    "GIFT_checklist_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
