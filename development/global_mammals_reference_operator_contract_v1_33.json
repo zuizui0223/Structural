@@ -1,0 +1,76 @@
+{
+  "schema": "structural.global_mammals_reference_operator_contract.v1_33",
+  "status": "RESPONSE_INDEPENDENT_R0_R2_AND_SOURCE_GRAPH_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": [
+    "development/global_mammals_appendix2_safe_rows_freeze_v1_24.json",
+    "development/global_mammals_spatial_pilot_freeze_v1_26.json",
+    "development/global_mammals_contamination_quarantine_contract_v1_31.json"
+  ],
+  "population": {
+    "use_only_v1_31_retained_islands": true,
+    "quarantined_block_may_not_enter_models_or_source_graph": true,
+    "repartition_allowed": false
+  },
+  "state_reference": {
+    "R0": [
+      "bioregion_categorical",
+      "z_Climate_velocity",
+      "z_Temperature_mean",
+      "z_Temperature_sd",
+      "z_Precipitation_mean",
+      "z_Precipitation_sd",
+      "z_Elevation_sd"
+    ],
+    "R1_add": [
+      "z_log_Area",
+      "z_Current_isolation",
+      "z_Past_isolation"
+    ],
+    "standardization": "population mean and population SD across the retained v1.31 island population, computed without any species response",
+    "area_transform": "natural_log(Area)",
+    "zero_variance_predictor": "STOP"
+  },
+  "generic_network_R2": {
+    "graph_partition": "within bioregion only",
+    "distance": "haversine great-circle kilometers from Appendix 2 centroids",
+    "graph": "symmetrized k-nearest-neighbour",
+    "k_selection": "smallest integer k from 1 through 20 that makes every retained bioregion subgraph connected",
+    "failure": "STOP if any retained bioregion is not connected by k<=20",
+    "edge_decay_scale": "within-bioregion median unique selected edge length",
+    "R2_add": [
+      "z_log1p_nearest_island_km",
+      "z_generic_neighbor_pressure"
+    ],
+    "generic_neighbor_pressure": "sum exp(-edge_distance_km / bioregion_edge_decay_scale) across incident response-independent graph edges"
+  },
+  "future_species_conditioned_reference": {
+    "R3_must_add": [
+      "training-only global occupancy breadth",
+      "training-only species_x_bioregion prevalence_or_membership",
+      "training-only Euclidean nearest occupied-source distance",
+      "training-only Euclidean diffuse occupied-source pressure"
+    ],
+    "C_may_add_only": [
+      "training-only graph-path nearest occupied-source distance",
+      "training-only graph-path diffuse occupied-source pressure"
+    ],
+    "pilot_training_rows": "each pilot target block must compute all species-conditioned R3/C features from all other pilot blocks only",
+    "confirmatory_rows": "all species-conditioned R3/C features use the complete retained pilot source pool and no confirmatory response",
+    "heldout_block_source_leakage_allowed": false
+  },
+  "interpretation_guardrails": {
+    "R2_controls_generic_island_network_density": true,
+    "R3_controls_species_x_region_structure": true,
+    "C_cannot_claim_realized_dispersal": true,
+    "C_is_incremental_predictive_continuity_only": true
+  },
+  "response_boundary": {
+    "Appendix1_access_authorized": false,
+    "species_headers_authorized": false,
+    "occurrence_values_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
