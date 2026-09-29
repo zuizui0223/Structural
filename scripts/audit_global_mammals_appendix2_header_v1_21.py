@@ -6,7 +6,8 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path, PurePosixPath
+import posixpath
+from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
 import zipfile
@@ -147,17 +148,29 @@ def _exact_download(
 
 
 def _normalize_sheet_target(target: str) -> str:
-    text = str(target).replace("\\", "/")
-    if text.startswith("/"):
-        text = text.lstrip("/")
-    elif not text.startswith("xl/"):
-        text = str(PurePosixPath("xl") / text)
-    norm = str(PurePosixPath(text))
-    if ".." in PurePosixPath(norm).parts:
+    text = str(target).replace("\\", "/").strip()
+    if not text or "://" in text:
         raise GlobalMammalAppendix2AuditError(
-            "worksheet relationship escapes xl/"
+            "invalid external/blank worksheet relationship target"
         )
-    return norm
+    # OPC relationship targets are resolved against the source part URI
+    # (/xl/workbook.xml). A target such as ../worksheets/sheet1.xml is
+    # therefore legal if its normalized package path remains inside the ZIP.
+    if text.startswith("/"):
+        joined = text
+    else:
+        joined = posixpath.join("/xl", text)
+    normalized = posixpath.normpath(joined)
+    if not normalized.startswith("/") or normalized == "/":
+        raise GlobalMammalAppendix2AuditError(
+            "invalid normalized worksheet relationship target"
+        )
+    member = normalized.lstrip("/")
+    if member.startswith("../") or member == "..":
+        raise GlobalMammalAppendix2AuditError(
+            "worksheet relationship escapes package root"
+        )
+    return member
 
 
 def _workbook_sheets(zf: zipfile.ZipFile) -> list[dict[str, str]]:
