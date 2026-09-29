@@ -231,8 +231,10 @@ def _first_row_bytes(
         )
 
     buffer = bytearray()
+    namespace_prefix = bytearray()
     total_scanned = 0
     start_found = False
+    namespace_attrs: tuple[bytes, ...] = ()
 
     with zf.open(member, "r") as handle:
         while True:
@@ -245,6 +247,8 @@ def _first_row_bytes(
                     "first worksheet row not found within frozen scan ceiling"
                 )
             buffer.extend(chunk)
+            if not start_found:
+                namespace_prefix.extend(chunk)
 
             if not start_found:
                 match = ROW_START_RE.search(buffer)
@@ -252,12 +256,11 @@ def _first_row_bytes(
                     if len(buffer) > 8192:
                         del buffer[:-8192]
                     continue
-                preamble = bytes(buffer[:match.start()])
                 namespace_attrs = tuple(
-                    match.group(0)
-                    for match in re.finditer(
-                        br'xmlns(?::[A-Za-z_][\\w.-]*)?="[^"]+"',
-                        preamble,
+                    ns_match.group(0)
+                    for ns_match in re.finditer(
+                        br'xmlns(?::[A-Za-z_][A-Za-z0-9_.-]*)?="[^"]+"',
+                        bytes(namespace_prefix),
                     )
                 )
                 del buffer[:match.start()]
