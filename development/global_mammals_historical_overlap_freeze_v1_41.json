@@ -1,0 +1,46 @@
+{
+  "schema": "structural.global_mammals_historical_overlap_freeze.v1_41",
+  "status": "SUCCESSFUL_318_VS_GLOBAL_OVERLAP_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-historical-overlap-retry-v1_39.yml",
+    "workflow_run_id": 36621638431,
+    "workflow_head_sha": "898f73cc957f7b58f075dd2fcef92ab00f401e8e",
+    "artifact_id": 11058009970,
+    "artifact_name": "global-mammals-v139-overlap-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638431",
+    "artifact_digest": "sha256:04bb03612ad991bea2abcd096613367d05e891689c7706f565fd4be6c0811c52",
+    "expires_at": "2026-10-29T19:46:52Z"
+  },
+  "result": {
+    "historical_analyzed_islands": 309,
+    "global_identity_rows": 5592,
+    "unique_global_overlap_ids": 176,
+    "match_tier_counts": {
+      "A_unique": 99,
+      "A_area": 6,
+      "B_core_area": 71
+    },
+    "overlap_ids_removed_from_v131_retained": 176,
+    "retained_after_historical_overlap": 5401,
+    "identity_sha256": "4380d34c5d73073ef139b69ce582c330da26d0a241e99542293eeb8047d7e1fc",
+    "matches_sha256": "d0d600c54b05b9f2125613cf7eaf777d0a2695bb7e06a6a4260768e2777d3cef",
+    "retained_partition_sha256": "317801c21355c9859d1e59fe5a17a6d54ccc7755f9e322636811ba11bc0507db"
+  },
+  "exclusion_scope": {
+    "remove_from_training": true,
+    "remove_from_targets": true,
+    "remove_from_species_source_pool": true,
+    "remove_from_global_occupancy_breadth_denominator": true,
+    "replacement_islands_allowed": false,
+    "repartition_allowed": false
+  },
+  "response_boundary": {
+    "Appendix1_reopened": false,
+    "species_headers_opened": false,
+    "occurrence_values_opened": false,
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "next_action": "build R0-R2 and the response-independent source graph on exactly these 5401 islands using the already-frozen v1.40 region-specific-k rule"
+}
