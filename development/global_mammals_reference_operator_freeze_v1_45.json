@@ -1,0 +1,44 @@
+{
+  "schema": "structural.global_mammals_reference_operator_freeze.v1_45",
+  "status": "SUCCESSFUL_FINAL_5401_ISLAND_REFERENCE_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-reference-retry-v1_43.yml",
+    "workflow_run_id": 36622553042,
+    "workflow_head_sha": "fe0e65be12a223fb3f0991afae959cd62ef3aabb",
+    "artifact_id": 11059506168,
+    "artifact_name": "global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042",
+    "artifact_digest": "sha256:9f57b122f6954bab8a8213896ff3b8200511627f82c5fcea6492641f9c409512",
+    "expires_at": "2026-10-29T19:55:54Z"
+  },
+  "result": {
+    "retained_islands": 5401,
+    "bioregions": 12,
+    "edge_count": 73162,
+    "state_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "edge_sha256": "92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+    "selected_k_by_bioregion": {
+      "Afrotropical": 49,
+      "Australian": 23,
+      "Eurasia": 15,
+      "Madagascan": 4,
+      "Neartic": 36,
+      "Neotropical": 15,
+      "Oceanina": 18,
+      "Oriental": 16,
+      "Paleartic": 29,
+      "Panamanian": 13,
+      "Saharo-Arabian": 38,
+      "Sino-Japanese": 28
+    }
+  },
+  "response_boundary": {
+    "Appendix1_opened": false,
+    "species_headers_opened": false,
+    "occurrence_values_opened": false,
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false
+  },
+  "next_action": "freeze exact pilot-response firewall and cross-fitted R3/C formulas before any further Appendix 1 access"
+}

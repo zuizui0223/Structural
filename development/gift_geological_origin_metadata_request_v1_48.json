@@ -1,0 +1,9 @@
+{
+  "schema": "structural.gift_geological_origin_metadata_request.v1_48",
+  "status": "REQUEST_GIFT_ENVIRONMENTAL_METADATA_ONLY_ORIGIN_AUDIT",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "GIFT_version": "3.2",
+  "entity_level_environment_values_authorized": false,
+  "species_composition_authorized": false,
+  "one_shot": true
+}

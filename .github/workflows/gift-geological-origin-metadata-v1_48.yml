@@ -1,0 +1,61 @@
+name: GIFT geological-origin metadata audit v1.48
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_geological_origin_metadata_request_v1_48.json
+permissions:
+  contents: read
+jobs:
+  metadata-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::GIFT@1.3.4
+            any::jsonlite
+            any::digest
+      - name: Validate metadata-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_geological_origin_metadata_request_v1_48.json").read_text())
+          c=json.loads(Path("development/gift_geological_origin_metadata_contract_v1_48.json").read_text())
+          assert r["GIFT_version"]=="3.2"
+          assert r["entity_level_environment_values_authorized"] is False
+          assert r["species_composition_authorized"] is False
+          assert c["candidate_regex"]=="origin|geolog|volcan|oceanic|continental|atoll|shelf"
+          assert r["one_shot"] is True
+          PY
+      - name: Audit environmental metadata only
+        run: |
+          mkdir -p build/gift_v148
+          Rscript scripts/audit_gift_geological_origin_metadata_v1_48.R             --output-all build/gift_v148/environmental_metadata.csv             --output-candidates build/gift_v148/geological_origin_candidates.csv             --receipt build/gift_v148/receipt.json
+      - name: Enforce no value or species access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v148/receipt.json").read_text())
+          assert x["status"]=="GIFT_ENVIRONMENTAL_METADATA_ORIGIN_CANDIDATES_FROZEN"
+          assert x["entity_level_environment_values_opened"] is False
+          assert x["species_composition_opened"] is False
+          PY
+      - name: Upload metadata audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v148-origin-metadata-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v148/environmental_metadata.csv
+            build/gift_v148/geological_origin_candidates.csv
+            build/gift_v148/receipt.json
+          if-no-files-found: error
+          retention-days: 30

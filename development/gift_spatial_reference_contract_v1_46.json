@@ -1,0 +1,117 @@
+{
+  "schema": "structural.gift_spatial_reference_contract.v1_46",
+  "status": "PRISTINE_PLANT_SPATIAL_REFERENCE_PREDECLARED_BEFORE_SPECIES_ACCESS",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_whole_island_geography_freeze_v1_43.json",
+    "development/gift_weigelt_crosswalk_freeze_v1_45.json",
+    "development/gift_whole_island_response_semantics_v1_30.json"
+  ],
+  "population": {
+    "strict_common_geography_islands": 548,
+    "require_nonmissing_Weigelt_archip": true,
+    "expected_archip_known_islands": 508,
+    "expected_archip_count_before_sparse_pool_filter": 81,
+    "missing_archip_action": "exclude from primary without replacement; retain only as descriptive sensitivity after primary is complete"
+  },
+  "regional_pool": {
+    "purpose": "broad response-independent pool for species_x_regional_pool R3 control, distinct from heldout archipelago blocks",
+    "geometry": "archipelago centroid assigned to fixed global latitude-longitude cells",
+    "archipelago_centroid_latitude": "arithmetic mean latitude across matched islands in the archipelago",
+    "archipelago_centroid_longitude": "circular mean longitude across matched islands in the archipelago",
+    "candidate_cell_width_degrees": [
+      20,
+      30,
+      45,
+      60,
+      90
+    ],
+    "sparse_pool_rule": "for each candidate width, exclude regional pools containing fewer than 3 islands before evaluating the width",
+    "width_selection": "choose the smallest candidate width retaining at least 98% of archip-known islands after sparse-pool exclusion and for which one mandatory pilot archipelago per retained regional pool contains at most 20% of retained islands",
+    "expected_selected_width_degrees": 60,
+    "expected_primary_islands": 503,
+    "expected_archipelago_blocks": 78,
+    "expected_regional_pools": 13,
+    "expected_sparse_pool_excluded_islands": 5
+  },
+  "validation_blocks": {
+    "unit": "Weigelt archip",
+    "reason": "whole archipelagos are held out so nearby islands within an archipelago cannot leak occurrence/source information across validation boundaries",
+    "ranking_salt": "Structural-GIFT-v1.46",
+    "mandatory_pilot": "within every retained regional pool choose the SHA256-lowest archipelago under salt|archip",
+    "additional_pilot": "rank all remaining archipelagos by SHA256(salt|archip), add a prefix and select the prefix whose island count is closest to 20% of retained islands while leaving at least 30 confirmatory archipelagos",
+    "expected_pilot_blocks": 19,
+    "expected_pilot_islands": 99,
+    "expected_confirmatory_blocks": 59,
+    "expected_confirmatory_islands": 404,
+    "repartition_after_species_access": false
+  },
+  "state_reference": {
+    "R0": [
+      "regional_pool_categorical",
+      "z_ccvt",
+      "z_temp",
+      "z_vart",
+      "z_prec",
+      "z_varp",
+      "z_elev"
+    ],
+    "R1_add": [
+      "z_log_area",
+      "z_dist",
+      "z_slmp",
+      "z_gmmc"
+    ],
+    "gmmc_semantics": "Last Glacial Maximum mainland-connection / historical-connection proxy; not a complete geological-origin classification",
+    "standardization": "population mean and population SD across the exact 503-island primary population",
+    "zero_variance_predictor": "STOP"
+  },
+  "generic_network_R2": {
+    "graph_partition": "within retained 60-degree regional pool only",
+    "distance": "haversine great-circle kilometers using frozen GIFT centroids",
+    "k_selection": "within each regional pool separately choose the smallest k in 1..n-1 whose symmetrized kNN graph is connected",
+    "edge_decay_scale": "within-regional-pool median unique selected edge length",
+    "R2_add": [
+      "z_log1p_nearest_island_km",
+      "z_generic_neighbor_pressure"
+    ]
+  },
+  "future_species_conditioned_reference": {
+    "R3_must_add": [
+      "training-only global occupancy breadth",
+      "training-only species_x_regional_pool prevalence_or_membership",
+      "training-only Euclidean nearest occupied-source distance",
+      "training-only Euclidean diffuse occupied-source pressure"
+    ],
+    "regional_prevalence_smoothing": "Jeffreys add-0.5/add-1 binomial smoothing within the fixed 60-degree regional pool",
+    "pilot_training_rows": "leave the entire target pilot archipelago out of every species-conditioned source feature",
+    "confirmatory_rows": "use only the complete retained pilot response as species source support; no confirmatory occurrence enters any feature",
+    "C_may_add_only": [
+      "training-only graph-path nearest occupied-source distance",
+      "training-only graph-path diffuse occupied-source pressure"
+    ],
+    "heldout_archipelago_source_leakage_allowed": false
+  },
+  "primary_estimand": {
+    "within_block": "mean binary log-loss difference loss_C - loss_R3 over eligible island-by-species targets in each confirmatory archipelago",
+    "across_blocks": "equal-weight mean of confirmatory archipelago means",
+    "favourable_direction": "negative",
+    "uncertainty": "deterministic 10000-replicate confirmatory-archipelago bootstrap",
+    "support": "point estimate <0 and 95% bootstrap upper bound <0"
+  },
+  "geological_origin_gate": {
+    "requested_adjustment": "continental versus oceanic island origin",
+    "status": "metadata_variable_identity_must_be_resolved_response_independently_before_species_access",
+    "do_not_substitute": "gmmc may not be relabelled geological origin"
+  },
+  "response_boundary": {
+    "species_composition_authorized": false,
+    "species_richness_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "parents_fingerprints": {
+    "gift_geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+    "crosswalk_sha256": "999f3e3383288c1ead4aabeede002d62b457b7ef18a7e3b59eaa3529b05954f0"
+  }
+}
