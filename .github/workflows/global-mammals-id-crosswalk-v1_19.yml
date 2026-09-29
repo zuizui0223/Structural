@@ -1,0 +1,156 @@
+name: Global mammals routing-ID crosswalk v1.19
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/global_mammals_id_crosswalk_request_v1_19.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  id-only-crosswalk:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot ID-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/global_mammals_id_crosswalk_request_v1_19.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.global_mammals_id_crosswalk_request.v1_19"
+          )
+          assert req["status"] == "REQUEST_EXACT_ROUTING_ID_ONLY_CROSSWALK"
+          assert req["candidate_id"] == "global_island_native_mammals_barreto_2024"
+          assert req["response_sha256"] == (
+              "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6"
+          )
+          assert req["expected_response_rows"] == 5592
+          assert req["safe_reference_rows"] == 17883
+          assert req["decode_header_first_field_only"] is True
+          assert req["decode_routing_first_field_only"] is True
+          assert req["species_header_fields_decoded"] == 0
+          assert req["occurrence_values_decoded"] == 0
+          assert req["fuzzy_matching_authorized"] is False
+          assert req["population_redefinition_authorized"] is False
+          assert req["one_shot"] is True
+          PY
+
+      - name: Download exact frozen Weigelt safe rows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-rows-v0-60
+          path: build/global_mammals_v119/weigelt
+          repository: zuizui0223/Structural
+          run-id: 36316161135
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen safe artifact members
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          root = Path("build/global_mammals_v119/weigelt")
+          observed = {p.name for p in root.iterdir() if p.is_file()}
+          expected = {"weigelt_islanddata_safe_v0_60.csv", "safe_rows_receipt.json"}
+          if observed != expected:
+              raise SystemExit(f"unexpected safe artifact surface: {sorted(observed)}")
+          checks = {
+              "weigelt_islanddata_safe_v0_60.csv":
+                  "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+              "safe_rows_receipt.json":
+                  "ec330ddb878d2ab54039d8d5f541decd75f8c599248dad2306032ac80ef18680",
+          }
+          for name, expected_sha in checks.items():
+              observed_sha = hashlib.sha256((root / name).read_bytes()).hexdigest()
+              if observed_sha != expected_sha:
+                  raise SystemExit(f"safe artifact SHA mismatch: {name}")
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v119/output
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/global_mammals_v119/output/token_receipt.json
+
+      - name: Re-download exact bytes and decode routing IDs only
+        run: |
+          python scripts/run_global_mammals_id_crosswalk_v1_19.py \
+            --safe-csv build/global_mammals_v119/weigelt/weigelt_islanddata_safe_v0_60.csv \
+            --safe-receipt build/global_mammals_v119/weigelt/safe_rows_receipt.json \
+            --receipt build/global_mammals_v119/output/crosswalk_receipt.json \
+            --routing-ids build/global_mammals_v119/output/routing_ids.json
+
+      - name: Enforce exact-match and semantic ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("build/global_mammals_v119/output")
+          x = json.loads((root / "crosswalk_receipt.json").read_text(encoding="utf-8"))
+          ids = json.loads((root / "routing_ids.json").read_text(encoding="utf-8"))
+          assert x["status"] == "EXACT_ROUTING_ID_CROSSWALK_COMPLETE"
+          assert x["response_data_row_count"] == 5592
+          assert x["response_distinct_canonical_id_count"] == 5592
+          assert x["matched_safe_id_count"] == 5592
+          assert x["unmatched_response_id_count"] == 0
+          assert x["duplicate_response_id_count"] == 0
+          assert x["routing_ids_decoded"] == 5592
+          assert x["species_header_fields_decoded"] == 0
+          assert x["occurrence_values_decoded"] == 0
+          assert x["biological_response_values_opened"] is False
+          assert x["safe_population_projection_may_be_built"] is True
+          assert x["same_revision_fuzzy_rescue_authorized"] is False
+          assert x["fresh_system_denominator_contribution"] == 0
+          assert ids["status"] == "FROZEN_EXACT_5592_ROUTING_ID_POPULATION"
+          assert ids["routing_id_count"] == 5592
+          assert ids["distinct_routing_id_count"] == 5592
+          assert len(ids["routing_ids_in_response_order"]) == 5592
+          assert ids["species_header_fields_decoded"] == 0
+          assert ids["occurrence_values_decoded"] == 0
+          PY
+
+      - name: Assert no raw response artifact exists
+        if: always()
+        run: |
+          if find build -type f -name 'Appendix_1_presence_absence.csv' | grep -q .; then
+            echo "raw mammal response reached workspace artifact tree" >&2
+            exit 1
+          fi
+
+      - name: Upload ID-only crosswalk receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v119-id-crosswalk-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v119/output/token_receipt.json
+            build/global_mammals_v119/output/crosswalk_receipt.json
+            build/global_mammals_v119/output/routing_ids.json
+          if-no-files-found: warn
+          retention-days: 30
