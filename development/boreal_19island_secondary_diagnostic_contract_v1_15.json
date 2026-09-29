@@ -7,7 +7,9 @@
     "primary_freeze": "development/boreal_19island_confirmatory_result_freeze_v1_14.json",
     "predictions": "development/boreal_19island_confirmatory_predictions_v1_10.csv",
     "state_reference": "development/boreal_19island_state_reference_v0_99.csv",
-    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json"
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "preconfirmatory_freeze": "development/boreal_19island_preconfirmatory_freeze_v1_10.json",
+    "state_freeze": "development/boreal_19island_state_reference_freeze_v0_99.json"
   },
   "required_primary": {
     "primary_supported": false,
