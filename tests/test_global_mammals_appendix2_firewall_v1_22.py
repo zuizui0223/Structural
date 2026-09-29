@@ -18,16 +18,21 @@ def test_all_25_observed_headers_are_classified_exactly_once():
     x = load()
     observed = x["observed_headers_in_order"]
     safe = x["safe_columns_in_source_order"]
-    forbidden = x["forbidden_columns_in_source_order"]
+    closed = x["closed_unneeded_columns_in_source_order"]
+    protected = x["protected_response_derived_columns_in_source_order"]
 
     assert len(observed) == 25
-    assert len(safe) == 15
-    assert len(forbidden) == 10
+    assert len(safe) == 13
+    assert len(closed) == 2
+    assert len(protected) == 10
     assert len(set(observed)) == 25
-    assert set(safe).isdisjoint(forbidden)
-    assert set(safe) | set(forbidden) == set(observed)
+    assert set(safe).isdisjoint(closed)
+    assert set(safe).isdisjoint(protected)
+    assert set(closed).isdisjoint(protected)
+    assert set(safe) | set(closed) | set(protected) == set(observed)
     assert [v for v in observed if v in set(safe)] == safe
-    assert [v for v in observed if v in set(forbidden)] == forbidden
+    assert [v for v in observed if v in set(closed)] == closed
+    assert [v for v in observed if v in set(protected)] == protected
 
 
 def test_coordinate_names_follow_observed_appendix2_headers_not_preaudit_guess():
@@ -45,7 +50,7 @@ def test_coordinate_names_follow_observed_appendix2_headers_not_preaudit_guess()
 
 def test_response_derived_and_sie_associated_headers_are_all_forbidden():
     x = load()
-    forbidden = set(x["forbidden_columns_in_source_order"])
+    protected = set(x["protected_response_derived_columns_in_source_order"])
     expected = {
         "Richness_mammal",
         "Richness_bat",
@@ -58,8 +63,8 @@ def test_response_derived_and_sie_associated_headers_are_all_forbidden():
         "pSIE_nonVol",
         "bioregion_SIE",
     }
-    assert forbidden == expected
-    assert set(x["forbidden_reasons"]) == expected
+    assert protected == expected
+    assert set(x["protected_response_derived_reasons"]) == expected
 
 
 def test_safe_reference_preserves_area_isolation_climate_and_realm():
@@ -92,6 +97,30 @@ def test_safe_reference_preserves_area_isolation_climate_and_realm():
     ]
 
 
+
+
+def test_postheader_firewall_does_not_expand_preaudit_safe_intent():
+    x = load()
+    safe = set(x["safe_columns_in_source_order"])
+    assert "Island_name" not in safe
+    assert "CountryISO" not in safe
+    assert x["closed_unneeded_columns_in_source_order"] == [
+        "Island_name",
+        "CountryISO",
+    ]
+    assert set(x["closed_unneeded_reasons"]) == {
+        "Island_name",
+        "CountryISO",
+    }
+    assert x["exact_partition_rule"][
+        "post_header_safe_set_expansion_beyond_preaudit_intent_forbidden"
+    ] is True
+    assert x["exact_partition_rule"]["coordinate_alias_resolution_allowed"] == (
+        "Lat_centroid and Long_centroid preaudit intents map only to the observed "
+        "exact headers Latitude_centroid and Longitude_centroid"
+    )
+
+
 def test_firewall_is_bound_to_successful_header_audit_provenance():
     x = load()
     source = x["source_header_audit"]
@@ -120,7 +149,8 @@ def test_safe_projection_is_authorized_only_after_firewall_commit_and_not_fresh(
     assert boundary[
         "safe_row_projection_authorized_after_this_firewall_is_committed"
     ] is True
-    assert boundary["forbidden_row_values_authorized"] is False
+    assert boundary["closed_unneeded_row_values_authorized"] is False
+    assert boundary["protected_response_derived_row_values_authorized"] is False
     assert boundary["response_file_access_authorized"] is False
     assert boundary["appendix2_data_rows_semantically_opened_in_v1_22"] == 0
     assert boundary["biological_response_values_opened_in_v1_22"] is False
