@@ -1,0 +1,95 @@
+name: GIFT pristine spatial reference v1.47
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_spatial_reference_request_v1_47.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  spatial-reference:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate frozen pristine request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_spatial_reference_request_v1_47.json").read_text())
+          c=json.loads(Path("development/gift_spatial_reference_contract_v1_46.json").read_text())
+          assert r["expected_primary_islands"]==503
+          assert r["expected_pilot_blocks"]==19
+          assert r["expected_confirmatory_blocks"]==59
+          assert r["species_composition_authorized"] is False
+          assert c["regional_pool"]["expected_selected_width_degrees"]==60
+          assert c["future_species_conditioned_reference"]["heldout_archipelago_source_leakage_allowed"] is False
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact GIFT geography
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v138-geography-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638377
+          path: build/gift_v147/geography
+          repository: zuizui0223/Structural
+          run-id: 36621638377
+          github-token: ${{ github.token }}
+      - name: Download exact strict common-geography crosswalk
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v144-weigelt-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553028
+          path: build/gift_v147/crosswalk
+          repository: zuizui0223/Structural
+          run-id: 36622553028
+          github-token: ${{ github.token }}
+      - name: Verify exact input identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/gift_v147/geography/gift_whole_island_geography.csv":"385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+            "build/gift_v147/crosswalk/gift_weigelt_crosswalk.csv":"999f3e3383288c1ead4aabeede002d62b457b7ef18a7e3b59eaa3529b05954f0",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s
+          PY
+      - name: Freeze spatial blocks and R0-R2
+        run: |
+          mkdir -p build/gift_v147/output
+          python scripts/build_gift_spatial_reference_v1_46.py             build/gift_v147/geography/gift_whole_island_geography.csv             build/gift_v147/crosswalk/gift_weigelt_crosswalk.csv             --partition build/gift_v147/output/island_partition.csv             --block-table build/gift_v147/output/archipelago_blocks.csv             --state build/gift_v147/output/state_reference.csv             --edges build/gift_v147/output/source_graph_edges.csv             --excluded build/gift_v147/output/excluded_primary_islands.csv             --receipt build/gift_v147/output/spatial_reference_receipt.json
+      - name: Enforce pristine design ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v147/output/spatial_reference_receipt.json").read_text())
+          assert x["status"]=="PRISTINE_PLANT_SPATIAL_REFERENCE_FROZEN_RESPONSE_INDEPENDENTLY"
+          assert x["primary_islands"]==503
+          assert x["archipelago_blocks"]==78
+          assert x["regional_pools"]==13
+          assert x["selected_regional_pool_width_degrees"]==60
+          assert x["pilot_blocks"]==19 and x["pilot_islands"]==99
+          assert x["confirmatory_blocks"]==59 and x["confirmatory_islands"]==404
+          assert x["species_composition_opened"] is False
+          assert x["species_response_authorized"] is False
+          PY
+      - name: Upload pristine response-independent plant design
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v147-spatial-reference-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v147/output/island_partition.csv
+            build/gift_v147/output/archipelago_blocks.csv
+            build/gift_v147/output/state_reference.csv
+            build/gift_v147/output/source_graph_edges.csv
+            build/gift_v147/output/excluded_primary_islands.csv
+            build/gift_v147/output/spatial_reference_receipt.json
+          if-no-files-found: error
+          retention-days: 30
