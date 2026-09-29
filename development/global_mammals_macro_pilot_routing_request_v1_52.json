@@ -1,0 +1,9 @@
+{
+  "schema": "structural.global_mammals_macro_pilot_routing_request.v1_52",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_MACRO_MAMMAL_PILOT_ROUTING",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "post_overlap_run_id": 36621638431,
+  "post_overlap_artifact_id": 11058009970,
+  "Appendix1_access_authorized": false,
+  "one_shot": true
+}
