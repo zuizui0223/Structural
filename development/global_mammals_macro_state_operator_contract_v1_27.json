@@ -86,7 +86,7 @@
       "selected_k": 36,
       "edge_count": 124733,
       "cross_validation_block_edge_count": 37235,
-      "kernel_scale_km_hex": "0x1.0329e68e17982p+7"
+      "kernel_scale_km_hex": "0x1.0329e68e17975p+7"
     }
   },
   "ecological_role": {
@@ -103,7 +103,10 @@
     "unique_ID_count": 5592,
     "unique_coordinate_pair_count": 5592,
     "bioregion_count": 12,
-    "Past_isolation_unique_values": [0, 1],
+    "Past_isolation_unique_values": [
+      0,
+      1
+    ],
     "partition_ID_order_must_match_safe_ID_order": true,
     "all_selected_source_graph_edges_must_reference_frozen_IDs": true,
     "source_graph_must_be_connected": true,
