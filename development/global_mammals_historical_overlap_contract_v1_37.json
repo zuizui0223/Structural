@@ -1,0 +1,67 @@
+{
+  "schema": "structural.global_mammals_historical_overlap_contract.v1_37",
+  "status": "RESPONSE_INDEPENDENT_318_VS_5592_OVERLAP_AUDIT_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "historical_system": "zenodo_318_island_mammals_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": [
+    "development/global_mammals_appendix2_column_firewall_v1_22.json",
+    "development/global_mammals_contamination_quarantine_freeze_v1_34.json",
+    "development/zenodo_318_island_mammals_safe_design_result_v0_47.json"
+  ],
+  "historical_population": {
+    "source_islands": 318,
+    "historically_analyzed_eligible_islands": 309,
+    "safe_artifact_run_id": 36296726405,
+    "safe_artifact_id": 10924730119,
+    "safe_design_csv_sha256": "d35a583b9b5fd6b5073db11f25ec9584796ba463f19ac5498b9a41d21aa387db",
+    "fields_used": ["ID", "Island", "Island_group", "Archipielago", "Area_km2"],
+    "occurrence_values_used": false
+  },
+  "global_identity_projection": {
+    "source_file": "Appendix_2-dryad.xlsx",
+    "dryad_file_id": 3242157,
+    "expected_size_bytes": 1066391,
+    "expected_sha256": "fdcfc92bfa67e1ccf4d468fe2c7222bcb5919a1bce56d272b19d42525c234960",
+    "columns_opened": ["ID", "Island_name", "CountryISO", "Area"],
+    "protected_response_derived_columns_opened": 0,
+    "Appendix1_reopened": false,
+    "reason": "Island_name and CountryISO are response-independent identity labels previously closed only because they were unnecessary for the ecological model; they are now opened solely for historical-overlap auditing"
+  },
+  "name_normalization": {
+    "unicode": "NFKD then drop combining marks",
+    "case": "casefold",
+    "punctuation": "replace non-alphanumeric characters with spaces",
+    "whitespace": "collapse runs and trim",
+    "generic_island_tokens_for_tier_B": ["island","islands","isle","isles","isla","islas","ilha","ilhas","ile","iles","île","îles","isola","isole","pulau","shima","jima"]
+  },
+  "match_rules": [
+    "A_unique: normalized full name identical and unique in both populations",
+    "A_area: normalized full name identical and area ratio max/min <= 2.0",
+    "B_core_area: normalized names after generic-island-token removal identical and area ratio max/min <= 1.25"
+  ],
+  "exclusion_rule": {
+    "exclude_every_5592_ID_matching_any_historical_eligible_island": true,
+    "apply_only_to_v1_31_retained_population": true,
+    "remove_from_targets": true,
+    "remove_from_training": true,
+    "remove_from_species_source_pool": true,
+    "remove_from_global_occupancy_breadth_denominator": true,
+    "replacement_islands_allowed": false,
+    "repartition_allowed": false,
+    "existing_block_labels_preserved": true,
+    "empty_blocks_after_exclusion": "drop without replacement"
+  },
+  "species_overlap": {
+    "not_an_independence_exclusion_criterion": true,
+    "reason": "shared mammal species across geographically independent islands are expected; response-unit reuse is defined by island identity, while species overlap can be reported later as taxonomy diagnostics",
+    "species_header_access_for_overlap_audit": false
+  },
+  "response_boundary": {
+    "Appendix1_access_authorized": false,
+    "mammal_species_headers_authorized": false,
+    "mammal_occurrence_values_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
