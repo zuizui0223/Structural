@@ -54,8 +54,6 @@
   ],
   "safe_columns_in_source_order": [
     "ID",
-    "Island_name",
-    "CountryISO",
     "Longitude_centroid",
     "Latitude_centroid",
     "Area",
@@ -69,22 +67,8 @@
     "Elevation_sd",
     "bioregion"
   ],
-  "forbidden_columns_in_source_order": [
-    "Richness_mammal",
-    "Richness_bat",
-    "Richness_nonVol",
-    "SIE_mammal",
-    "SIE_bats",
-    "SIE_nonVol",
-    "pSIE_mammal",
-    "pSIE_bats",
-    "pSIE_nonVol",
-    "bioregion_SIE"
-  ],
   "safe_roles": {
     "ID": "source-local stable island routing key; documented to match Appendix 1 row names",
-    "Island_name": "response-independent descriptive island label; not required for model fitting",
-    "CountryISO": "response-independent descriptive country label; not required for model fitting",
     "Longitude_centroid": "response-independent island centroid longitude used for spatial design",
     "Latitude_centroid": "response-independent island centroid latitude used for spatial design",
     "Area": "response-independent island area",
@@ -98,24 +82,15 @@
     "Elevation_sd": "response-independent within-island elevation variability",
     "bioregion": "response-independent mammalian zoogeographic realm label"
   },
-  "forbidden_reasons": {
-    "Richness_mammal": "response-derived richness summary computed from the mammal presence-absence matrix",
-    "Richness_bat": "response-derived bat richness summary",
-    "Richness_nonVol": "response-derived non-volant richness summary",
-    "SIE_mammal": "response-derived single-island-endemic count",
-    "SIE_bats": "response-derived bat single-island-endemic count",
-    "SIE_nonVol": "response-derived non-volant single-island-endemic count",
-    "pSIE_mammal": "response-derived proportion of single-island endemics",
-    "pSIE_bats": "response-derived bat proportion of single-island endemics",
-    "pSIE_nonVol": "response-derived non-volant proportion of single-island endemics",
-    "bioregion_SIE": "conservatively excluded because it is SIE-associated, not needed by the frozen ecological reference, and cannot improve the response-independent design"
-  },
   "exact_partition_rule": {
     "every_observed_header_classified_exactly_once": true,
     "unknown_columns_allowed": false,
-    "safe_forbidden_overlap_allowed": false,
+    "safe_closed_protected_overlap_allowed": false,
     "safe_column_order_must_match_source_order": true,
-    "forbidden_column_order_must_match_source_order": true
+    "closed_unneeded_column_order_must_match_source_order": true,
+    "protected_response_derived_column_order_must_match_source_order": true,
+    "post_header_safe_set_expansion_beyond_preaudit_intent_forbidden": true,
+    "coordinate_alias_resolution_allowed": "Lat_centroid and Long_centroid preaudit intents map only to the observed exact headers Latitude_centroid and Longitude_centroid"
   },
   "model_reference_intent": {
     "R0": [
@@ -140,10 +115,11 @@
   },
   "row_access_boundary": {
     "safe_row_projection_authorized_after_this_firewall_is_committed": true,
-    "forbidden_row_values_authorized": false,
     "response_file_access_authorized": false,
     "appendix2_data_rows_semantically_opened_in_v1_22": 0,
-    "biological_response_values_opened_in_v1_22": false
+    "biological_response_values_opened_in_v1_22": false,
+    "closed_unneeded_row_values_authorized": false,
+    "protected_response_derived_row_values_authorized": false
   },
   "freshness_boundary": {
     "original_global_mammal_fresh_chain_closed_by_v1_20": true,
@@ -152,5 +128,37 @@
     "fresh_system_denominator_contribution": 0,
     "quarantine_reentry_authorized": false
   },
-  "next_action": "after this exact firewall is committed and CI-green, exact-download Appendix 2 and project only the 15 safe columns for the expected 5592 source-local IDs; skip all forbidden cell values without semantic decoding"
+  "next_action": "after this exact firewall is committed and CI-green, exact-download Appendix 2 and project only the 13 prospectively intended safe columns (with the frozen Latitude/Longitude header aliases) for the expected 5592 source-local IDs; skip the two unneeded descriptive columns and all ten response-derived columns without semantic decoding",
+  "closed_unneeded_columns_in_source_order": [
+    "Island_name",
+    "CountryISO"
+  ],
+  "protected_response_derived_columns_in_source_order": [
+    "Richness_mammal",
+    "Richness_bat",
+    "Richness_nonVol",
+    "SIE_mammal",
+    "SIE_bats",
+    "SIE_nonVol",
+    "pSIE_mammal",
+    "pSIE_bats",
+    "pSIE_nonVol",
+    "bioregion_SIE"
+  ],
+  "closed_unneeded_reasons": {
+    "Island_name": "response-independent descriptive label, but not part of the prospectively declared model/split reference and unnecessary for routing once ID is available",
+    "CountryISO": "response-independent descriptive label, but not part of the prospectively declared model/split reference and unnecessary for the frozen ecological design"
+  },
+  "protected_response_derived_reasons": {
+    "Richness_mammal": "response-derived richness summary computed from the mammal presence-absence matrix",
+    "Richness_bat": "response-derived bat richness summary",
+    "Richness_nonVol": "response-derived non-volant richness summary",
+    "SIE_mammal": "response-derived single-island-endemic count",
+    "SIE_bats": "response-derived bat single-island-endemic count",
+    "SIE_nonVol": "response-derived non-volant single-island-endemic count",
+    "pSIE_mammal": "response-derived proportion of single-island endemics",
+    "pSIE_bats": "response-derived bat proportion of single-island endemics",
+    "pSIE_nonVol": "response-derived non-volant proportion of single-island endemics",
+    "bioregion_SIE": "conservatively excluded because it is SIE-associated, not needed by the frozen ecological reference, and cannot improve the response-independent design"
+  }
 }
