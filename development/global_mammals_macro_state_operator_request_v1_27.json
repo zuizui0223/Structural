@@ -1,0 +1,21 @@
+{
+  "schema": "structural.global_mammals_macro_state_operator_request.v1_27",
+  "status": "REQUEST_GLOBAL_MACRO_STATE_AND_SOURCE_OPERATOR",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "safe_artifact_id": 11013887248,
+  "safe_csv_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+  "spatial_artifact_id": 11015850157,
+  "island_partition_sha256": "3f85efb3b71423a8392cb1f7a5590c7b03cedef377fee0997df457a029b998bd",
+  "island_count": 5592,
+  "source_operator_k_rule": "smallest_connected_k",
+  "source_operator_search_max_k": 64,
+  "expected_selected_k": 36,
+  "expected_edge_count": 124733,
+  "expected_cross_validation_block_edge_count": 37235,
+  "Appendix_1_access_authorized": false,
+  "mammal_species_names_opened": false,
+  "mammal_occurrence_values_opened": false,
+  "fresh_system_denominator_contribution": 0,
+  "one_shot": true
+}
