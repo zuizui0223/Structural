@@ -1,0 +1,14 @@
+{
+  "schema": "structural.gift_weigelt_crosswalk_request.v1_44",
+  "status": "REQUEST_STRICT_RESPONSE_INDEPENDENT_GIFT_WEIGELT_CROSSWALK",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "gift_run_id": 36621638377,
+  "gift_artifact_id": 11059270235,
+  "gift_geography_sha256": "385c4aa0860a90f9a3805455d7270797f3eab3a8ab36a7425a720359accf22c5",
+  "weigelt_run_id": 36316161135,
+  "weigelt_artifact_id": 10930234623,
+  "weigelt_safe_csv_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+  "plant_species_composition_authorized": false,
+  "mammal_Appendix1_access_authorized": false,
+  "one_shot": true
+}
