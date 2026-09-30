@@ -1,0 +1,146 @@
+name: Global mammals exploratory preconfirmatory v1.73
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_exploratory_preconfirmatory_request_v1_73.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preconfirmatory:
+    runs-on: ubuntu-24.04
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install exact numeric dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.3.3"
+
+      - name: Validate frozen nonconfirmatory request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_exploratory_preconfirmatory_request_v1_73.json").read_text())
+          c=json.loads(Path("development/global_mammals_exploratory_preconfirmatory_contract_v1_72.json").read_text())
+          f=json.loads(Path("development/global_mammals_exploratory_pilot_freeze_v1_72.json").read_text())
+          assert r["status"]=="REQUEST_NONCONFIRMATORY_MAMMAL_MODELS_AND_CONFIRMATORY_PREDICTIONS"
+          assert r["pilot_artifact_id"]==11112360652
+          assert r["reference_artifact_id"]==11059506168
+          assert r["safe_artifact_id"]==11013887248
+          assert r["routing_artifact_id"]==11060106528
+          assert r["focal_species"]==79
+          assert r["confirmatory_entities"]==4126
+          assert r["expected_prediction_cells"]==325954
+          assert r["confirmatory_occurrence_authorized"] is False
+          assert r["counts_as_confirmatory_evidence"] is False
+          assert r["one_shot"] is True
+          assert c["numerics"]["numpy_version"]=="2.3.3"
+          assert f["result"]["focal_species"]==79
+          PY
+
+      - name: Download exact exploratory pilot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v171-exploratory-pilot-6dd3917166633381d88f7d9c4f95ee38b11d63f8-36743891802
+          path: build/global_mammals_v173/pilot
+          repository: zuizui0223/Structural
+          run-id: 36743891802
+          github-token: ${{ github.token }}
+
+      - name: Download exact final response-independent reference
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/global_mammals_v173/reference
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+
+      - name: Download exact safe Appendix 2 coordinates
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v173/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen pilot and confirmatory routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v173/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify every input identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v173/pilot/exploratory_pilot_species_universe.csv":"c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+            "build/global_mammals_v173/pilot/exploratory_pilot_matrix.csv":"77be952a6c45707e5e71cd0f192551f6365d6fde1ac1ba5aaaef2755c03366e2",
+            "build/global_mammals_v173/reference/state_reference.csv":"5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+            "build/global_mammals_v173/reference/source_graph_edges.csv":"92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+            "build/global_mammals_v173/reference/reference_receipt.json":"55a0581c7c7d0136ecb6a025fa2a41f5ddeeb8ec674b8500bf7c37f81763954a",
+            "build/global_mammals_v173/safe/appendix2_safe_rows.csv":"b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+            "build/global_mammals_v173/routing/pilot_ids.csv":"ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+            "build/global_mammals_v173/routing/confirmatory_ids.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Freeze models and all confirmatory predictions
+        run: |
+          mkdir -p build/global_mammals_v173/output
+          python scripts/freeze_global_mammals_exploratory_preconfirmatory_v1_72.py             build/global_mammals_v173/pilot/exploratory_pilot_species_universe.csv             build/global_mammals_v173/pilot/exploratory_pilot_matrix.csv             build/global_mammals_v173/reference/state_reference.csv             build/global_mammals_v173/reference/source_graph_edges.csv             build/global_mammals_v173/reference/reference_receipt.json             build/global_mammals_v173/safe/appendix2_safe_rows.csv             build/global_mammals_v173/routing/pilot_ids.csv             build/global_mammals_v173/routing/confirmatory_ids.csv             --predictions build/global_mammals_v173/output/confirmatory_predictions.f64le             --entity-order build/global_mammals_v173/output/confirmatory_entity_order.csv             --receipt build/global_mammals_v173/output/model_receipt.json
+
+      - name: Enforce no confirmatory target use
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v173/output/model_receipt.json").read_text())
+          assert x["status"]=="NONCONFIRMATORY_EXPLORATORY_R3_C_PREDICTIONS_FROZEN_BEFORE_CONFIRMATORY_RESPONSE"
+          assert x["focal_species"]==79
+          assert x["training_rows"]==100725
+          assert x["confirmatory_entities"]==4126
+          assert x["confirmatory_blocks"]==168
+          assert x["prediction_cells"]==325954
+          assert x["prediction_binary_shape"]==[4126,79,2]
+          a=x["response_independent_prediction_estimability_audit"]
+          assert a["total_cells"]==325954
+          assert a["confirmatory_blocks"]==168
+          assert x["confirmatory_target_values_used"] is False
+          assert x["confirmatory_occurrence_opened"] is False
+          assert x["confirmatory_response_authorized"] is False
+          assert x["counts_as_primary_confirmatory_evidence"] is False
+          PY
+
+      - name: Upload frozen exploratory predictions
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v173-preconfirmatory-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v173/output/confirmatory_predictions.f64le
+            build/global_mammals_v173/output/confirmatory_entity_order.csv
+            build/global_mammals_v173/output/model_receipt.json
+          if-no-files-found: error
+          retention-days: 30

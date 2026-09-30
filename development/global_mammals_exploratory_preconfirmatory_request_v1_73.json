@@ -1,0 +1,19 @@
+{
+  "schema": "structural.global_mammals_exploratory_preconfirmatory_request.v1_73",
+  "status": "REQUEST_NONCONFIRMATORY_MAMMAL_MODELS_AND_CONFIRMATORY_PREDICTIONS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "pilot_run_id": 36743891802,
+  "pilot_artifact_id": 11112360652,
+  "reference_run_id": 36622553042,
+  "reference_artifact_id": 11059506168,
+  "safe_run_id": 36524988694,
+  "safe_artifact_id": 11013887248,
+  "routing_run_id": 36625810600,
+  "routing_artifact_id": 11060106528,
+  "focal_species": 79,
+  "confirmatory_entities": 4126,
+  "expected_prediction_cells": 325954,
+  "confirmatory_occurrence_authorized": false,
+  "counts_as_confirmatory_evidence": false,
+  "one_shot": true
+}

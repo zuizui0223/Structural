@@ -1,0 +1,85 @@
+{
+  "schema": "structural.global_mammals_exploratory_preconfirmatory_contract.v1_72",
+  "status": "NONCONFIRMATORY_EXPLORATORY_R0_R3_C_PREDICTIONS_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "parents": [
+    "development/global_mammals_exploratory_pilot_freeze_v1_72.json",
+    "development/global_mammals_macro_model_contract_v1_67.json",
+    "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "development/global_mammals_macro_pilot_routing_freeze_v1_64.json",
+    "development/macro_source_feature_empty_support_contract_v1_56.json"
+  ],
+  "required_inputs": {
+    "pilot_species_universe_sha256": "c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+    "pilot_matrix_sha256": "77be952a6c45707e5e71cd0f192551f6365d6fde1ac1ba5aaaef2755c03366e2",
+    "state_reference_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "source_graph_edges_sha256": "92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+    "reference_receipt_sha256": "55a0581c7c7d0136ecb6a025fa2a41f5ddeeb8ec674b8500bf7c37f81763954a",
+    "safe_appendix2_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "pilot_routing_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_routing_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "dimensions": {
+    "population_islands": 5401,
+    "pilot_islands": 1275,
+    "confirmatory_islands": 4126,
+    "pilot_blocks": 50,
+    "confirmatory_blocks": 168,
+    "focal_species": 79,
+    "training_rows": 100725,
+    "confirmatory_prediction_cells": 325954
+  },
+  "model_method": "exactly development/global_mammals_macro_model_contract_v1_67.json",
+  "numerics": {
+    "python": "3.11",
+    "numpy_version": "2.3.3",
+    "linear_algebra_threads": 1,
+    "probability_binary_magic": "STRUCTURAL_MAMMAL_PRED_V1\n",
+    "prediction_fields": ["p_R3","p_C"],
+    "prediction_shape": [4126,79,2]
+  },
+  "source_feature_computation": {
+    "euclidean_distance_matrix": "haversine distances from every final-population island to every pilot island",
+    "graph_distance_matrix": "shortest-path distances from each pilot island over the frozen within-bioregion graph",
+    "pilot_row_exclusion": "exclude every pilot source island in the focal target 10-degree validation block",
+    "confirmatory_source_support": "all 1275 frozen pilot islands; no confirmatory target may enter any source feature",
+    "kernel_and_empty_support": "development/macro_source_feature_empty_support_contract_v1_56.json",
+    "standardization": "population mean and population SD over all 100725 cross-fitted pilot training rows only"
+  },
+  "nested_models": {
+    "R0": "intercept + full 12-level bioregion one-hot + 6 frozen climate/topography state variables",
+    "R1": "R0 + z_log_Area + z_Current_isolation + z_Past_isolation",
+    "R2": "R1 + z_log1p_nearest_island_km + z_generic_neighbor_pressure",
+    "R3": "R2 + 4 standardized species-source controls",
+    "C": "R3 + 2 standardized graph-path species-source features"
+  },
+  "fitting": {
+    "model": "pooled binary ridge logistic regression",
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "initial_coefficients": "all zero",
+    "max_iterations": 100,
+    "tolerance_max_abs_delta": 1e-8,
+    "probability_clip": [1e-12,0.999999999999],
+    "response_based_hyperparameter_tuning": false
+  },
+  "response_independent_estimability_audit": {
+    "threshold_abs_pC_minus_pR3": 1e-12,
+    "report_cells_above_threshold": true,
+    "report_each_confirmatory_block_mean_abs_difference": true,
+    "confirmatory_targets_used": false,
+    "audit_may_not_change_models_or_primary": true
+  },
+  "outputs": [
+    "confirmatory_predictions.f64le",
+    "confirmatory_entity_order.csv",
+    "model_receipt.json"
+  ],
+  "response_boundary": {
+    "confirmatory_occurrence_opened": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false
+  }
+}
