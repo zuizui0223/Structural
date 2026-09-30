@@ -1,0 +1,103 @@
+name: GIFT response-independent numeric replay audit v1.63
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_replay_numeric_equivalence_request_v1_63.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install exact numeric dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.3.3"
+      - name: Validate response-independent audit request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_replay_numeric_equivalence_request_v1_63.json").read_text())
+          c=json.loads(Path("development/gift_replay_numeric_equivalence_contract_v1_63.json").read_text())
+          assert r["status"]=="REQUEST_RESPONSE_INDEPENDENT_NUMERIC_REPLAY_AUDIT"
+          assert r["absolute_tolerance"]==1e-12
+          assert r["confirmatory_response_authorized"] is False
+          assert c["failed_exact_replay"]["confirmatory_response_consumed"] is False
+          assert c["tolerance_basis"]["source"].endswith("abs(p_C-p_R3)>1e-12")
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact pilot snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v155-pilot-response-7b892540ed98c1adb97314cdaa0baaa6c46bda25-36626284777
+          path: build/gift_v163/pilot
+          repository: zuizui0223/Structural
+          run-id: 36626284777
+          github-token: ${{ github.token }}
+      - name: Download exact spatial reference
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v147-spatial-reference-44aa5fac0335a74008fd0143cf6225155a8aaade-36624390299
+          path: build/gift_v163/spatial
+          repository: zuizui0223/Structural
+          run-id: 36624390299
+          github-token: ${{ github.token }}
+      - name: Download exact GIFT geography
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v138-geography-898f73cc957f7b58f075dd2fcef92ab00f401e8e-36621638377
+          path: build/gift_v163/geography
+          repository: zuizui0223/Structural
+          run-id: 36621638377
+          github-token: ${{ github.token }}
+      - name: Download original frozen predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v159-preconfirmatory-e1d2e64455ca25576f17e19db5f799f3a3973983-36627890437
+          path: build/gift_v163/original
+          repository: zuizui0223/Structural
+          run-id: 36627890437
+          github-token: ${{ github.token }}
+      - name: Recompute response-independent prediction surface
+        run: |
+          mkdir -p build/gift_v163/replay
+          python scripts/freeze_gift_preconfirmatory_model_v1_57.py             build/gift_v163/pilot/pilot_species_universe.csv             build/gift_v163/pilot/pilot_matrix.csv             development/gift_pilot_response_freeze_v1_58.json             build/gift_v163/spatial/state_reference.csv             build/gift_v163/spatial/island_partition.csv             build/gift_v163/spatial/source_graph_edges.csv             build/gift_v163/spatial/spatial_reference_receipt.json             build/gift_v163/geography/gift_whole_island_geography.csv             --predictions build/gift_v163/replay/confirmatory_predictions.f64le             --entity-order build/gift_v163/replay/confirmatory_entity_order.csv             --receipt build/gift_v163/replay/model_receipt.json
+      - name: Audit numerical equivalence at pre-frozen tolerance
+        run: |
+          python scripts/audit_gift_replay_numeric_equivalence_v1_63.py             build/gift_v163/original/confirmatory_predictions.f64le             build/gift_v163/replay/confirmatory_predictions.f64le             build/gift_v163/original/confirmatory_entity_order.csv             build/gift_v163/replay/confirmatory_entity_order.csv             build/gift_v163/original/model_receipt.json             build/gift_v163/replay/model_receipt.json             --tolerance 1e-12             --output build/gift_v163/replay/numeric_equivalence_receipt.json
+      - name: Enforce response ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/gift_v163/replay/numeric_equivalence_receipt.json").read_text())
+          assert x["status"]=="NUMERIC_REPLAY_EQUIVALENT_RESPONSE_INDEPENDENTLY"
+          assert x["max_abs_probability_difference"]<=1e-12
+          assert x["max_abs_coefficient_difference"]<=1e-12
+          assert x["confirmatory_target_values_used"] is False
+          assert x["confirmatory_species_composition_opened"] is False
+          assert x["confirmatory_response_authorized"] is False
+          PY
+      - name: Upload numerical audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v163-numeric-replay-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v163/replay/confirmatory_predictions.f64le
+            build/gift_v163/replay/confirmatory_entity_order.csv
+            build/gift_v163/replay/model_receipt.json
+            build/gift_v163/replay/numeric_equivalence_receipt.json
+          if-no-files-found: error
+          retention-days: 30
