@@ -1,0 +1,14 @@
+{
+  "schema": "structural.gift_exploratory_availability_request.v1_78",
+  "status": "REQUEST_ONE_SHOT_NONCONFIRMATORY_GIFT_ENDPOINT_AVAILABLE_SCORING",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "terminal_fresh_run_id": 36741126035,
+  "routing_artifact_id": 11060636113,
+  "pilot_artifact_id": 11060478567,
+  "prediction_artifact_id": 11060858946,
+  "expected_confirmatory_lists": 596,
+  "expected_confirmatory_entities": 404,
+  "expected_focal_species": 224,
+  "fresh_status_restoration_authorized": false,
+  "one_shot": true
+}
