@@ -1,0 +1,75 @@
+{
+  "schema": "structural.global_mammals_corrected_macro_pilot_contract.v1_70",
+  "status": "SEPARATE_NONCONFIRMATORY_EXPLORATORY_PILOT_PREDECLARED_AFTER_SCHEMA_CORRECTION",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "parents": [
+    "development/global_mammals_corrected_physical_schema_contract_v1_69.json",
+    "development/global_mammals_macro_pilot_failure_freeze_v1_68.json",
+    "development/global_mammals_macro_pilot_routing_freeze_v1_64.json",
+    "development/global_mammals_macro_model_contract_v1_67.json"
+  ],
+  "schema_parent": {
+    "artifact_run_id": 36743248729,
+    "artifact_id": 11112070309,
+    "artifact_name": "global-mammals-v169-corrected-schema-c1ba487b5df7c9558048f69a2747243d59edd58c-36743248729",
+    "artifact_digest": "sha256:1a6041064784a23828782b4082940aafde2e0f6222b8613c37c29d0e76e91a3f",
+    "corrected_manifest_sha256": "882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6",
+    "species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81",
+    "species_count": 5394
+  },
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";",
+    "header_fields": 5394,
+    "data_record_fields": 5395,
+    "data_record_column_1": "source-local island row-name ID",
+    "data_record_columns_2_5395": "5394 binary occurrence values corresponding in order to the 5394 header species"
+  },
+  "routing": {
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_islands": 1275,
+    "confirmatory_islands": 4126,
+    "excluded_islands": 191,
+    "population_islands": 5401
+  },
+  "semantic_firewall": {
+    "header_may_be_decoded_to_verify_exact_corrected_manifest": true,
+    "pilot_occurrence_rows_may_be_decoded": true,
+    "confirmatory_record_remainder_decode_forbidden": true,
+    "excluded_record_remainder_decode_forbidden": true,
+    "confirmatory_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "raw_response_persistence_forbidden": true
+  },
+  "species_universe": {
+    "minimum_presence": 13,
+    "minimum_absence": 13,
+    "selection_uses_pilot_only": true,
+    "rule": "retain corrected-manifest species present on at least 13 of 1275 pilot islands and absent on at least 13 pilot islands",
+    "species_order": "corrected manifest source order",
+    "species_names_or_threshold_may_not_change_after_pilot_access": true
+  },
+  "scientific_method_lock": {
+    "population_changed_from_v167": false,
+    "routing_changed_from_v167": false,
+    "species_threshold_changed_from_v167": false,
+    "R0_R3_C_method_changed_from_v167": false,
+    "model_contract": "development/global_mammals_macro_model_contract_v1_67.json"
+  },
+  "failure_policy": {
+    "failure_after_first_pilot_occurrence_decode": "terminal for v1.70; no threshold/schema/model rescue",
+    "confirmatory_response_remains_closed": true
+  },
+  "evidence_boundary": {
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "confirmatory_response_authorized": false
+  }
+}
