@@ -1,0 +1,69 @@
+{
+  "schema": "structural.global_mammals_macro_pilot_response_contract.v1_65",
+  "status": "ONE_SHOT_CONTAMINATED_MACRO_PILOT_RESPONSE_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": [
+    "development/global_mammals_macro_pilot_routing_freeze_v1_64.json",
+    "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "development/global_mammals_historical_overlap_freeze_v1_41.json",
+    "development/macro_species_response_protocol_v1_50.json",
+    "development/macro_source_feature_empty_support_contract_v1_56.json"
+  ],
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";",
+    "expected_data_rows": 5592,
+    "expected_species_columns": 5394
+  },
+  "routing": {
+    "pilot_artifact_id": 11060106528,
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_islands": 1275,
+    "confirmatory_islands": 4126,
+    "final_population_islands": 5401,
+    "excluded_rows": 191,
+    "pilot_and_confirmatory_must_be_disjoint": true
+  },
+  "semantic_firewall": {
+    "species_header_may_open": true,
+    "pilot_occurrence_rows_may_open": true,
+    "confirmatory_occurrence_rows_may_open": false,
+    "excluded_occurrence_rows_may_open": false,
+    "nonpilot_record_remainder_utf8_decode_forbidden": true,
+    "target_domain": ["0","1"],
+    "raw_response_persistence_forbidden": true
+  },
+  "species_universe": {
+    "selection_uses_pilot_only": true,
+    "minimum_presence": 13,
+    "minimum_absence": 13,
+    "rule": "retain exact source species columns present on at least 13 pilot islands and absent on at least 13 pilot islands",
+    "confirmatory_response_may_not_change_universe": true,
+    "source_column_order_preserved": true
+  },
+  "outputs": {
+    "species_universe": "pilot_species_universe.csv",
+    "pilot_matrix": "pilot_matrix.csv",
+    "receipt": "pilot_response_receipt.json",
+    "nonfocal_pilot_occurrence_persisted": false,
+    "confirmatory_occurrence_persisted": false
+  },
+  "failure_policy": {
+    "transport_failure_before_header_decode": "HOLD retry only under a separately committed operational repair",
+    "after_species_header_or_first_pilot_occurrence_decode": "pilot response consumed; semantic/model/species-threshold rescue forbidden under v1.65"
+  },
+  "next_gate": "freeze mammal R0-R3-C model and every confirmatory prediction before opening any confirmatory occurrence value",
+  "evidence_boundary": {
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "macro_pilot_response_authorized_now": false,
+    "confirmatory_response_authorized": false
+  }
+}
