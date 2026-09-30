@@ -1,0 +1,11 @@
+{
+  "schema": "structural.global_mammals_corrected_physical_schema_request.v1_69",
+  "status": "REQUEST_RESPONSE_FREE_CORRECTED_SCHEMA_FREEZE",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "header_run_id": 36742619309,
+  "header_artifact_id": 11111510286,
+  "header_manifest_sha256": "6838021a430083d4b4a8d2a84b59e80c156c08742c388b24f6550221be7e7f3e",
+  "response_download_authorized": false,
+  "occurrence_data_access_authorized": false,
+  "one_shot": true
+}
