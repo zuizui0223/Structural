@@ -1,0 +1,88 @@
+{
+  "schema": "structural.global_mammals_exploratory_scoring_contract.v1_74",
+  "status": "ONE_SHOT_NONCONFIRMATORY_EXPLORATORY_SCORING_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "parents": [
+    "development/global_mammals_exploratory_preconfirmatory_freeze_v1_74.json",
+    "development/global_mammals_exploratory_pilot_freeze_v1_72.json",
+    "development/global_mammals_corrected_physical_schema_freeze_v1_71.json",
+    "development/global_mammals_macro_pilot_routing_freeze_v1_64.json",
+    "development/global_mammals_macro_model_contract_v1_67.json"
+  ],
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";",
+    "expected_data_rows": 5592
+  },
+  "physical_schema": {
+    "header_species_fields": 5394,
+    "data_fields": 5395,
+    "routing_data_column_index": 1,
+    "species_data_columns": "2 through 5395 aligned to corrected 5394-species header manifest"
+  },
+  "confirmatory_routing": {
+    "entities": 4126,
+    "blocks": 168,
+    "confirmatory_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "excluded_rows": 191,
+    "pilot_occurrence_values_may_open": false,
+    "excluded_occurrence_values_may_open": false
+  },
+  "focal_response": {
+    "species_universe_count": 79,
+    "species_universe_sha256": "c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+    "identity": "exact source species name and frozen source_data_column_index",
+    "target_domain": [0,1],
+    "confirmatory_target_cells": 325954,
+    "nonfocal_confirmatory_occurrence_values_decoded": 0,
+    "matrix_order": "exact frozen confirmatory routing order x exact focal species_index order"
+  },
+  "prediction_input": {
+    "prediction_sha256": "f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "model_receipt_sha256": "b0cb7c8a46eef99f0024984a991cb821cee69a17e7e5e0490160880eddcac9c8",
+    "binary_magic": "STRUCTURAL_MAMMAL_PRED_V1\n",
+    "shape": [4126,79,2],
+    "fields": ["p_R3","p_C"]
+  },
+  "primary_exploratory_estimand": {
+    "cell_delta": "binary_log_loss(p_C,y) - binary_log_loss(p_R3,y)",
+    "within_block": "mean cell_delta across all 79 focal species x confirmatory islands in the frozen 10-degree block",
+    "across_blocks": "equal-weight mean of the 168 frozen block means",
+    "favourable_direction": "negative",
+    "bootstrap_unit": "frozen confirmatory spatial block",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261001,
+    "bootstrap_rng": "python.random.Random MT19937",
+    "quantile_method": "type-7 linear",
+    "directional_support_rule": "point estimate < 0 AND 95% bootstrap upper bound < 0"
+  },
+  "interpretation": {
+    "directional_support_is_exploratory_only": true,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false,
+    "cannot_rescue_or_reverse_terminal_v165": true,
+    "cannot_be_pooled_as_independent_confirmation_with_historical_318_island_system": true
+  },
+  "failure_policy": {
+    "before_first_confirmatory_focal_value_decode": "HOLD; separately committed operational retry only",
+    "after_first_confirmatory_focal_value_decode": "exploratory confirmatory surface consumed; no same-lineage rerun"
+  },
+  "outputs": [
+    "exploratory_confirmatory_matrix.csv",
+    "exploratory_confirmatory_response_receipt.json",
+    "block_scores.csv",
+    "exploratory_result.json"
+  ],
+  "response_boundary": {
+    "confirmatory_response_authorized_now": false,
+    "confirmatory_target_values_opened": 0,
+    "fresh_system_denominator_contribution": 0
+  }
+}
