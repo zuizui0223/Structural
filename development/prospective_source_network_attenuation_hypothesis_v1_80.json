@@ -1,0 +1,67 @@
+{
+  "schema": "structural.prospective_source_network_attenuation_hypothesis.v1_80",
+  "status": "FUTURE_ONLY_HYPOTHESIS_GENERATED_FROM_NONCONFIRMATORY_MAMMAL_CONVERGENCE",
+  "name": "external-isolation attenuation of internal source-continuity information",
+  "origin_of_hypothesis": {
+    "zenodo_318_stress_test": {
+      "evidence_class": "design-frozen nonfresh stress test",
+      "overall_C_minus_R3": -0.0896429472299821,
+      "extreme_C_minus_R3": -0.055926700616046134,
+      "nonextreme_C_minus_R3": -0.10137843638289902,
+      "extreme_minus_nonextreme": 0.04545173576685289,
+      "interpretation": "source-continuity gain was descriptively weaker in the extreme external-isolation tail"
+    },
+    "global_5401_mammal_exploratory": {
+      "evidence_class": "separate nonconfirmatory exploratory macro lineage",
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "negative_blocks": 108,
+      "total_blocks": 168,
+      "negative_mean_bioregions": 10,
+      "total_bioregions": 12,
+      "Current_isolation_spearman_equal_block": 0.28743057515243015,
+      "Current_isolation_spearman_within_bioregion_centered": 0.2278413095720483,
+      "interpretation": "C advantage was geographically broad but weakened as response-independent external isolation increased"
+    }
+  },
+  "core_statement": "Species-conditioned internal source continuity can retain nonredundant occurrence information beyond island state and direct/diffuse occupied-source context, but that incremental information should attenuate rather than amplify toward extreme external isolation.",
+  "mechanistic_working_model": {
+    "source_network_depletion": "As external isolation increases, the set of plausible occupied insular sources becomes sparse, truncated, or effectively absent, so graph-path structure has less variation left to explain beyond R3.",
+    "state_filter_dominance": "At extreme isolation, historical and environmental filters may dominate occurrence strongly enough that fine internal source topology contributes less incremental prediction.",
+    "not_claimed": [
+      "causal rescue effect",
+      "realized dispersal path",
+      "universal monotonicity across all taxa",
+      "confirmation by the current GIFT terminal fresh attempt"
+    ]
+  },
+  "future_independent_test": {
+    "required_data": "a response-sealed island occurrence system independent of A-Islands, the 318-island mammal test, the 5401-island mammal analysis, boreal beetles, and the consumed GIFT plant lane",
+    "R3_must_control": [
+      "response-independent island state",
+      "external isolation",
+      "species_x_regional_pool prevalence or membership",
+      "training-only global occupancy breadth",
+      "training-only nearest occupied-source distance",
+      "training-only diffuse occupied-source pressure"
+    ],
+    "C_adds_only": "training-only internal source-continuity or graph-path features beyond R3",
+    "source_features": "leave the complete held-out validation block out of all source-derived predictors",
+    "validation_unit": "response-independent archipelago or spatial block frozen before response access"
+  },
+  "prospective_primary_for_future_system": {
+    "estimand_1": "equal-weight validation-block mean C-minus-R3 log loss",
+    "estimand_1_support": "point estimate < 0 and frozen block-bootstrap 95% upper bound < 0",
+    "estimand_2": "Spearman association across validation blocks between block-mean C-minus-R3 and response-independent external isolation",
+    "estimand_2_direction": "positive, because less-negative C-minus-R3 at greater isolation means attenuation",
+    "estimand_2_support": "rho > 0 and frozen block-bootstrap 95% lower bound > 0",
+    "joint_support": "both estimand_1 and estimand_2 support rules must pass",
+    "anti_rescue": "failure of either component cannot be rescued by taxon, island type, tail threshold, or subgroup analyses"
+  },
+  "current_evidence_accounting": {
+    "counts_as_new_confirmatory_evidence": false,
+    "changes_any_existing_primary_status": false,
+    "GIFT_terminal_fresh_attempt_remains_terminal": true,
+    "boreal_fresh_non_support_remains_unchanged": true,
+    "global_mammal_exploratory_result_remains_nonconfirmatory": true
+  }
+}
