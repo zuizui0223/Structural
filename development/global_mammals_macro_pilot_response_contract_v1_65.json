@@ -36,7 +36,10 @@
     "confirmatory_occurrence_rows_may_open": false,
     "excluded_occurrence_rows_may_open": false,
     "nonpilot_record_remainder_utf8_decode_forbidden": true,
-    "target_domain": ["0","1"],
+    "target_domain": [
+      "0",
+      "1"
+    ],
     "raw_response_persistence_forbidden": true
   },
   "species_universe": {
@@ -45,7 +48,9 @@
     "minimum_absence": 13,
     "rule": "retain exact source species columns present on at least 13 pilot islands and absent on at least 13 pilot islands",
     "confirmatory_response_may_not_change_universe": true,
-    "source_column_order_preserved": true
+    "source_column_order_preserved": true,
+    "header_identity": "exact ordered source species-header strings paired with source column index",
+    "duplicate_species_header": "STOP"
   },
   "outputs": {
     "species_universe": "pilot_species_universe.csv",
