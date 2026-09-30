@@ -1,0 +1,49 @@
+{
+  "schema": "structural.global_mammals_exploratory_pilot_freeze.v1_72",
+  "status": "SUCCESSFUL_NONCONFIRMATORY_EXPLORATORY_PILOT_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-exploratory-pilot-v1_71.yml",
+    "workflow_run_id": 36743891802,
+    "workflow_head_sha": "6dd3917166633381d88f7d9c4f95ee38b11d63f8",
+    "artifact_id": 11112360652,
+    "artifact_name": "global-mammals-v171-exploratory-pilot-6dd3917166633381d88f7d9c4f95ee38b11d63f8-36743891802",
+    "artifact_digest": "sha256:bbcd4846128f45066e588def80502c94f55a088dbeecb3b8b16cf43515a9fd30",
+    "expires_at": "2026-10-30T16:24:13Z"
+  },
+  "artifact_files": {
+    "exploratory_pilot_species_universe.csv": {
+      "size_bytes": 2782,
+      "sha256": "c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e"
+    },
+    "exploratory_pilot_matrix.csv": {
+      "size_bytes": 242551,
+      "sha256": "77be952a6c45707e5e71cd0f192551f6365d6fde1ac1ba5aaaef2755c03366e2"
+    },
+    "exploratory_pilot_receipt.json": {
+      "size_bytes": 1215,
+      "sha256": "91157aea101b5db7cc8d300aaafb1e611948f7fa4b907911faf4a3adec3e220d"
+    }
+  },
+  "result": {
+    "pilot_islands": 1275,
+    "confirmatory_islands_routing_only": 4126,
+    "source_species_columns": 5394,
+    "focal_species": 79,
+    "species_threshold_m": 13,
+    "pilot_matrix_rows": 100725,
+    "pilot_matrix_positive": 3541,
+    "pilot_matrix_negative": 97184,
+    "confirmatory_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0
+  },
+  "response_boundary": {
+    "exploratory_pilot_consumed": true,
+    "confirmatory_response_authorized": false,
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false
+  },
+  "next_action": "freeze v1.67 R0-R3-C models and all 4126 x 79 confirmatory R3/C probabilities before any confirmatory occurrence access"
+}
