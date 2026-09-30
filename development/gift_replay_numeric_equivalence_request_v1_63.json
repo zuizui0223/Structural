@@ -1,0 +1,12 @@
+{
+  "schema": "structural.gift_replay_numeric_equivalence_request.v1_63",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_NUMERIC_REPLAY_AUDIT",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "original_prediction_artifact_id": 11060858946,
+  "pilot_artifact_id": 11060478567,
+  "spatial_artifact_id": 11059738512,
+  "geography_artifact_id": 11059270235,
+  "absolute_tolerance": 1e-12,
+  "confirmatory_response_authorized": false,
+  "one_shot": true
+}

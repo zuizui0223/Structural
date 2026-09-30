@@ -1,0 +1,51 @@
+{
+  "schema": "structural.gift_replay_numeric_equivalence_contract.v1_63",
+  "status": "RESPONSE_INDEPENDENT_NUMERIC_REPLAY_AUDIT_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_preconfirmatory_model_freeze_v1_60.json",
+    "development/gift_confirmatory_scoring_contract_v1_61.json"
+  ],
+  "failed_exact_replay": {
+    "workflow_run_id": 36738553501,
+    "workflow_job_id": 109966568949,
+    "failed_step": "Require byte-identical replay before any confirmatory API request",
+    "original_prediction_sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+    "replay_prediction_sha256": "27b666a1cab6e9c35f7f97cafe3b2bee705a56eab23bb7e316381d142043980d",
+    "confirmatory_api_requested": false,
+    "confirmatory_response_consumed": false
+  },
+  "tolerance_basis": {
+    "absolute_tolerance": 1e-12,
+    "source": "the already-frozen v1.60 response-independent prediction estimability threshold abs(p_C-p_R3)>1e-12",
+    "not_selected_from_confirmatory_targets": true,
+    "reason": "permit only floating-point replay differences smaller than the pre-existing numerical-resolution threshold while preserving the original frozen prediction surface for scoring"
+  },
+  "required_equivalence": {
+    "entity_order_byte_identical": true,
+    "source_standardization_exact_hex_identical": true,
+    "model_column_order_identical": true,
+    "model_iteration_counts_identical": true,
+    "max_abs_coefficient_difference_lte": 1e-12,
+    "prediction_shape_identical": true,
+    "max_abs_probability_difference_lte": 1e-12,
+    "all_probabilities_finite_and_in_0_1": true
+  },
+  "scoring_policy_if_pass": {
+    "score_original_frozen_predictions_only": true,
+    "original_prediction_sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+    "replay_predictions_may_not_replace_original": true,
+    "model_refit_or_retuning": false,
+    "scientific_estimand_changed": false
+  },
+  "failure_policy": {
+    "if_numeric_equivalence_fails": "HOLD confirmatory response unopened; do not relax tolerance in the same protocol lineage",
+    "confirmatory_response_authorized_by_this_audit": false
+  },
+  "response_boundary": {
+    "confirmatory_species_composition_opened": false,
+    "confirmatory_target_values_used": false,
+    "counts_as_empirical_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
