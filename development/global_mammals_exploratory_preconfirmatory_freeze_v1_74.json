@@ -1,0 +1,49 @@
+{
+  "schema": "structural.global_mammals_exploratory_preconfirmatory_freeze.v1_74",
+  "status": "SUCCESSFUL_NONCONFIRMATORY_EXPLORATORY_PREDICTION_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-exploratory-preconfirmatory-v1_73.yml",
+    "workflow_run_id": 36745389315,
+    "workflow_head_sha": "2dfb3ce75e57b0d6a44584a8fd68158d05310e91",
+    "artifact_id": 11112450910,
+    "artifact_name": "global-mammals-v173-preconfirmatory-2dfb3ce75e57b0d6a44584a8fd68158d05310e91-36745389315",
+    "artifact_digest": "sha256:86f48d2f7c62ba4249c5038e62765d82f40c873bc8d826f92669baa8ca4ab887",
+    "expires_at": "2026-10-30T16:36:52Z"
+  },
+  "artifact_files": {
+    "confirmatory_predictions.f64le": {
+      "size_bytes": 5215298,
+      "sha256": "f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8"
+    },
+    "confirmatory_entity_order.csv": {
+      "size_bytes": 132986,
+      "sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+    },
+    "model_receipt.json": {
+      "size_bytes": 12267,
+      "sha256": "b0cb7c8a46eef99f0024984a991cb821cee69a17e7e5e0490160880eddcac9c8"
+    }
+  },
+  "result": {
+    "focal_species": 79,
+    "training_rows": 100725,
+    "confirmatory_entities": 4126,
+    "confirmatory_blocks": 168,
+    "prediction_cells": 325954,
+    "prediction_shape": [4126,79,2],
+    "cells_with_abs_pC_minus_pR3_gt_1e_12": 325954,
+    "blocks_with_nonzero_mean_abs_probability_difference_gt_1e_12": 168,
+    "median_abs_probability_difference": 0.0009031142197582706,
+    "mean_abs_probability_difference": 0.005524611662609686,
+    "max_abs_probability_difference": 0.6698681805138411
+  },
+  "response_boundary": {
+    "confirmatory_target_values_used": false,
+    "confirmatory_occurrence_opened": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false
+  }
+}
