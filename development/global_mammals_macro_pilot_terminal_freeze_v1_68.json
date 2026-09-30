@@ -1,0 +1,51 @@
+{
+  "schema": "structural.global_mammals_macro_pilot_terminal_freeze.v1_68",
+  "status": "TERMINAL_MACRO_MAMMAL_PILOT_AFTER_SEMANTIC_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-macro-pilot-response-v1_66.yml",
+    "workflow_run_id": 36741861713,
+    "workflow_head_sha": "9001a99287bf01afdcefd8ab2a606d4581f9601e",
+    "workflow_job_id": 109978002965,
+    "artifact_id": 11109828868,
+    "artifact_name": "global-mammals-v166-pilot-9001a99287bf01afdcefd8ab2a606d4581f9601e-36741861713",
+    "artifact_digest": "sha256:1b44f959400a76d2c76aa82272b062c3788f61eb1d026f12e263556ff7053d56",
+    "expires_at": "2026-10-30T16:08:40Z"
+  },
+  "artifact_files": {
+    "pilot_response_receipt.json": {
+      "size_bytes": 469,
+      "sha256": "029ce5a9e6e45552292911414cf831cd3f6442cd42aba86d1e735cdfa26083ae"
+    },
+    "token_receipt.json": {
+      "size_bytes": 323,
+      "sha256": "d92e4aacce2909395970e95c5f99f542e64fc4ebd44819fb84707973503d5077"
+    },
+    "pilot_species_universe.csv_persisted": false,
+    "pilot_matrix.csv_persisted": false
+  },
+  "terminal_result": {
+    "reason": "species header field-count drift",
+    "pilot_response_consumed": true,
+    "confirmatory_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "confirmatory_response_authorized": false,
+    "fresh_status_restored": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "interpretation": {
+    "ecological_primary_result_available": false,
+    "counts_as_support_or_non_support_for_C_minus_R3": false,
+    "schema_failure_is_not_an_ecological_null_result": true,
+    "same_protocol_retry_authorized": false,
+    "species_threshold_or_model_rescue_authorized": false,
+    "future_use": "only a separately labelled nonconfirmatory exploratory macro analysis may reuse the public mammal response after explicitly acknowledging this terminal pilot failure"
+  },
+  "response_boundary": {
+    "confirmatory_response_opened": false,
+    "confirmatory_target_values_opened": 0,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false
+  }
+}
