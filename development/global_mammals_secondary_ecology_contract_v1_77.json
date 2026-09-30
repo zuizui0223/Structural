@@ -1,0 +1,85 @@
+{
+  "schema": "structural.global_mammals_secondary_ecology_contract.v1_77",
+  "status": "POSTHOC_NONRESCUING_ECOLOGICAL_DIAGNOSTICS_FROZEN_AFTER_PRIMARY",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "secondary_descriptive_on_frozen_nonconfirmatory_macro_result",
+  "parent_result": "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+  "timing": {
+    "primary_result_already_known": true,
+    "diagnostics_are_posthoc": true,
+    "diagnostics_may_not_change_primary_or_confirmatory_status": true,
+    "diagnostics_may_not_trigger_model_refit_or_response_rerun": true
+  },
+  "exact_inputs": {
+    "scoring_artifact_id": 11113225988,
+    "confirmatory_matrix_sha256": "25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252",
+    "block_scores_sha256": "c0a0642800db060b61a78933ae5d86b0f976688c68fd0a39ea85c8c2eb5723a1",
+    "prediction_artifact_id": 11112450910,
+    "prediction_sha256": "f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_artifact_id": 11112360652,
+    "species_universe_sha256": "c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+    "reference_artifact_id": 11059506168,
+    "state_reference_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "safe_artifact_id": 11013887248,
+    "safe_appendix2_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+  },
+  "diagnostics": {
+    "geographic_breadth": {
+      "block_sign_counts": "count negative, positive, and exact-zero C-minus-R3 block means across all 168 frozen confirmatory blocks",
+      "bioregion_summary": "within each of 12 frozen bioregions, equal-weight mean of its block means plus negative-block fraction",
+      "generality_readout": "number of bioregions with negative regional block-mean effect"
+    },
+    "external_state_associations": {
+      "unit": "168 frozen confirmatory blocks",
+      "block_covariate": "equal-island mean of the frozen standardized response-independent state values within each block",
+      "covariates": [
+        "z_Current_isolation",
+        "z_Past_isolation",
+        "z_log_Area",
+        "z_log1p_nearest_island_km",
+        "z_generic_neighbor_pressure"
+      ],
+      "statistic": "Spearman rank correlation between block C-minus-R3 and block covariate mean",
+      "uncertainty": "10000 nonparametric block-bootstrap replicates, type-7 95% interval",
+      "bootstrap_seed": 20261002,
+      "interpretation": "descriptive moderator pattern only; no multiple-testing-adjusted inferential claim"
+    },
+    "species_breadth": {
+      "species_effect": "for each of 79 frozen focal species, first average C-minus-R3 cell log-loss within each frozen confirmatory block, then equally average its 168 block means",
+      "report": [
+        "number and fraction of species with negative effect",
+        "median, q25 and q75 species effect",
+        "five most negative and five most positive species effects with frozen species labels"
+      ],
+      "pilot_prevalence_association": "Spearman correlation between species effect and frozen pilot prevalence pilot_presence/1275",
+      "uncertainty": "no species-wise significance tests; association is descriptive"
+    },
+    "past_isolation_strata": {
+      "conditional_rule": "only if raw Past_isolation in the exact safe Appendix 2 rows has exactly two finite unique values among confirmatory islands",
+      "summary": "for each raw Past_isolation value, compute equal-weight mean of within-block C-minus-R3 cell deltas using only islands of that stratum in blocks where the stratum occurs",
+      "label": "Past_isolation strata only; do not relabel as geological origin unless independently justified"
+    }
+  },
+  "fixed_scoring": {
+    "prediction_magic": "STRUCTURAL_MAMMAL_PRED_V1\n",
+    "prediction_shape": [4126,79,2],
+    "cell_delta": "binary_log_loss(p_C,y)-binary_log_loss(p_R3,y)",
+    "favourable_direction": "negative"
+  },
+  "forbidden": [
+    "change the 79-species universe",
+    "change the 168 confirmatory blocks",
+    "refit R3 or C",
+    "change source-feature definitions",
+    "use these diagnostics to relabel the mammal result confirmatory",
+    "use a favourable subgroup to rescue a nonfavourable overall result",
+    "reopen Dryad response bytes"
+  ],
+  "response_boundary": {
+    "new_response_access_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "counts_as_primary_confirmatory_evidence": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
