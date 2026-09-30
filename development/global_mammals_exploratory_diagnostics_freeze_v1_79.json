@@ -1,0 +1,76 @@
+{
+  "schema": "structural.global_mammals_exploratory_diagnostics_freeze.v1_79",
+  "status": "SUCCESSFUL_POSTHOC_NONRESCUING_DIAGNOSTICS_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-exploratory-diagnostics-v1_77.yml",
+    "workflow_run_id": 36787772910,
+    "workflow_head_sha": "3778a2c53e76ec83a871b1415ba2e27eb1affb98",
+    "workflow_job_id": 110133201718,
+    "artifact_id": 11130602935,
+    "artifact_name": "global-mammals-v177-diagnostics-3778a2c53e76ec83a871b1415ba2e27eb1affb98-36787772910",
+    "artifact_digest": "sha256:f418503a8a3dce139744d4112d980ea4230ae81868b9a2699abf6326717d18ed",
+    "expires_at": "2026-10-30T22:54:14Z"
+  },
+  "artifact_files": {
+    "block_context.csv": {
+      "sha256": "36f452c2db01f55d6bd43951fb2f744c98772484f033330153e26b5da6d82195"
+    },
+    "bioregion_summary.csv": {
+      "sha256": "46c3542a0e7a79255433134b0ea3ce38afa86356f2677b98d9e07d7357ef5f3d"
+    },
+    "diagnostics_result.json": {
+      "sha256": "9fbbcf41ffe6c4c9b52802b05fc8192d2226018e428e2f7413484d4c56d90b0d"
+    }
+  },
+  "geographic_breadth": {
+    "confirmatory_blocks": 168,
+    "negative_blocks": 108,
+    "positive_blocks": 60,
+    "fraction_negative_blocks": 0.6428571428571429,
+    "bioregions": 12,
+    "bioregions_with_negative_mean": 10,
+    "bioregions_with_positive_mean": 2,
+    "positive_mean_bioregions": ["Neartic","Oceanina"]
+  },
+  "external_isolation_context": {
+    "Current_isolation": {
+      "spearman_rho_equal_block": 0.28743057515243015,
+      "spearman_rho_within_bioregion_centered": 0.2278413095720483,
+      "interpretation": "higher external isolation is associated with a less negative C-minus-R3, so the incremental graph-path source-continuity advantage weakens rather than strengthens"
+    },
+    "Past_isolation": {
+      "spearman_rho_equal_block": 0.1331436198257784,
+      "spearman_rho_within_bioregion_centered": 0.17298599495451078
+    },
+    "log_Area": {
+      "spearman_rho_equal_block": 0.268319658232141,
+      "spearman_rho_within_bioregion_centered": 0.17501176851706565
+    }
+  },
+  "cross_system_mammal_context": {
+    "historical_318_stress_test": {
+      "mean_C_minus_R3_extreme": -0.055926700616046134,
+      "mean_C_minus_R3_nonextreme": -0.10137843638289902,
+      "extreme_minus_nonextreme": 0.04545173576685289,
+      "bootstrap_ci95": [-0.0031904317577055308,0.08835839946973478]
+    },
+    "qualitative_concordance": "both mammal analyses point away from the original extreme-isolation amplification idea: internal source-continuity information is weaker, not stronger, toward the most externally isolated end",
+    "pooled_inference": false
+  },
+  "ecological_interpretation": {
+    "working_hypothesis": "internal source-continuity information is most useful while an insular source network remains sufficiently structured to discriminate among targets; at extreme external isolation, depletion or saturation of the available source pool can erase that incremental information",
+    "causal_mechanism_claimed": false,
+    "posthoc": true
+  },
+  "interpretation_guardrails": {
+    "may_change_primary_status": false,
+    "counts_as_confirmatory_evidence": false,
+    "fresh_system_denominator_contribution": 0,
+    "global_mammal_exploratory_primary_unchanged": true,
+    "GIFT_terminal_fresh_status_unchanged": true,
+    "boreal_fresh_non_support_unchanged": true
+  },
+  "next_action": "compare this frozen mammal breadth/isolation pattern with the separately labelled GIFT endpoint-available exploratory surface if that execution succeeds; do not promote either exploratory lane to fresh confirmation"
+}
