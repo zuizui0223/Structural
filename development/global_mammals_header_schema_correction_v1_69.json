@@ -1,0 +1,49 @@
+{
+  "schema": "structural.global_mammals_header_schema_correction.v1_69",
+  "status": "HEADER_EXPOSED_PHYSICAL_SCHEMA_CORRECTED_FOR_CONTAMINATED_MACRO_ONLY",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "header_exposed_contaminated_macro_only",
+  "parents": [
+    "development/global_mammals_macro_pilot_failure_freeze_v1_68.json",
+    "development/global_mammals_header_exposed_schema_contract_v1_68.json",
+    "development/global_mammals_macro_model_contract_v1_67.json"
+  ],
+  "header_audit_execution": {
+    "workflow_run_id": 36742619309,
+    "workflow_head_sha": "bc703acdd8ac596af26082f2bbc9fe1d72c601b4",
+    "artifact_id": 11111510286,
+    "artifact_name": "global-mammals-v168-header-bc703acdd8ac596af26082f2bbc9fe1d72c601b4-36742619309",
+    "artifact_digest": "sha256:fb04b29c94cb47087afa04477ada64de129516b81952bfda9149997ec459831e",
+    "header_manifest_sha256": "6838021a430083d4b4a8d2a84b59e80c156c08742c388b24f6550221be7e7f3e",
+    "header_receipt_sha256": "3fbadbd81f6c34c8b0d0f9a4021d51229d92fafd0c0dd107299f751ea600f68e"
+  },
+  "corrected_physical_schema": {
+    "header_fields": 5394,
+    "header_semantics": "all 5394 header fields are mammal species names; there is no routing-ID header field",
+    "species_order_sha256_all_5394_headers": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81",
+    "first_species": "Cephalophus.adersi",
+    "last_species": "Miniopterus.tristis",
+    "data_record_fields": 5395,
+    "data_record_semantics": "first field is source-local island row-name / Appendix 2 ID; remaining 5394 fields are binary occurrence targets",
+    "source_documentation_basis": "Dryad README states Appendix 1 is species-per-island with island ID in row names and mammal species in columns"
+  },
+  "why_v165_failed": "v1.65 incorrectly required a 5395-field header by assuming the row-name routing field also had a header label",
+  "what_does_not_change": {
+    "species_count": 5394,
+    "species_threshold_m": 13,
+    "final_population_islands": 5401,
+    "pilot_islands": 1275,
+    "confirmatory_islands": 4126,
+    "pilot_blocks": 50,
+    "confirmatory_blocks": 168,
+    "scientific_model_contract": "development/global_mammals_macro_model_contract_v1_67.json",
+    "source_feature_semantics": "development/macro_source_feature_empty_support_contract_v1_56.json"
+  },
+  "evidence_boundary": {
+    "this_is_not_a_v165_rerun": true,
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false,
+    "occurrence_values_opened_by_header_audit": 0,
+    "confirmatory_occurrence_values_opened": 0
+  }
+}
