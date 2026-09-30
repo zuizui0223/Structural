@@ -1,0 +1,40 @@
+{
+  "schema": "structural.global_mammals_corrected_physical_schema_freeze.v1_71",
+  "status": "SUCCESSFUL_CORRECTED_ROWNAME_SCHEMA_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-corrected-schema-v1_69.yml",
+    "workflow_run_id": 36743248729,
+    "workflow_head_sha": "c1ba487b5df7c9558048f69a2747243d59edd58c",
+    "artifact_id": 11112070309,
+    "artifact_name": "global-mammals-v169-corrected-schema-c1ba487b5df7c9558048f69a2747243d59edd58c-36743248729",
+    "artifact_digest": "sha256:1a6041064784a23828782b4082940aafde2e0f6222b8613c37c29d0e76e91a3f",
+    "expires_at": "2026-10-30T16:20:00Z"
+  },
+  "artifact_files": {
+    "corrected_species_manifest.csv": {
+      "size_bytes": 156121,
+      "sha256": "882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6"
+    },
+    "corrected_schema_receipt.json": {
+      "size_bytes": 873,
+      "sha256": "93b9e09652c1e7e10ad08f379f4b37b355e9c961613e0151a704c2e0ae1b7459"
+    }
+  },
+  "result": {
+    "species_count": 5394,
+    "header_fields": 5394,
+    "data_record_fields": 5395,
+    "routing_data_column_index": 1,
+    "first_species_data_column_index": 2,
+    "last_species_data_column_index": 5395,
+    "first_species_name": "Cephalophus.adersi",
+    "last_species_name": "Miniopterus.tristis",
+    "species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81",
+    "response_downloaded": false,
+    "occurrence_values_decoded": 0
+  },
+  "same_v165_protocol_retry_authorized": false,
+  "new_exploratory_lineage_may_continue": true,
+  "counts_as_empirical_evidence": false
+}
