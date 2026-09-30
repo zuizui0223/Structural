@@ -1,0 +1,139 @@
+name: GIFT confirmatory numeric-equivalence retry v1.66
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_confirmatory_numeric_retry_request_v1_66.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  confirmatory-retry:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::GIFT@1.3.4
+            any::jsonlite
+            any::digest
+      - name: Validate operational retry authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_confirmatory_numeric_retry_request_v1_66.json").read_text())
+          c=json.loads(Path("development/gift_confirmatory_numeric_retry_contract_v1_65.json").read_text())
+          f=json.loads(Path("development/gift_replay_numeric_equivalence_freeze_v1_64.json").read_text())
+          assert r["status"]=="REQUEST_ONE_OPERATIONAL_FRESH_PLANT_CONFIRMATORY_RETRY"
+          assert r["numeric_audit_artifact_id"]==11109932378
+          assert r["original_prediction_artifact_id"]==11060858946
+          assert r["confirmatory_response_authorized"] is True
+          assert r["prior_attempt_confirmatory_response_consumed"] is False
+          assert r["one_retry_only"] is True
+          assert c["scientific_design_changes"] is False
+          assert c["prediction_surface_changes"] is False
+          assert c["scoring_prediction_surface"]["use_original_frozen_predictions_only"] is True
+          assert f["prior_confirmatory_attempt"]["confirmatory_response_consumed"] is False
+          PY
+      - name: Download exact pilot snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v155-pilot-response-7b892540ed98c1adb97314cdaa0baaa6c46bda25-36626284777
+          path: build/gift_v166/pilot
+          repository: zuizui0223/Structural
+          run-id: 36626284777
+          github-token: ${{ github.token }}
+      - name: Download exact routing
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810621
+          path: build/gift_v166/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810621
+          github-token: ${{ github.token }}
+      - name: Download original frozen predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v159-preconfirmatory-e1d2e64455ca25576f17e19db5f799f3a3973983-36627890437
+          path: build/gift_v166/frozen
+          repository: zuizui0223/Structural
+          run-id: 36627890437
+          github-token: ${{ github.token }}
+      - name: Download successful numeric replay audit
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v163-numeric-replay-4ecfdac8c4a03c7f86ebddeca78866d2e87e8d53-36740377155
+          path: build/gift_v166/audit
+          repository: zuizui0223/Structural
+          run-id: 36740377155
+          github-token: ${{ github.token }}
+      - name: Verify exact frozen inputs and numerical gate
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          checks={
+            "build/gift_v166/pilot/pilot_species_universe.csv":"6b92ebfa7e3c242f0cffde3e91f9ff05c821b2ca242638a0ead6f6f0591e4bce",
+            "build/gift_v166/routing/pilot_lists.csv":"f7986c13d65070bbd3aa23db5be8cfc4af42da8590b7d47a5cbd9c2ece9f27d4",
+            "build/gift_v166/routing/confirmatory_lists.csv":"c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a",
+            "build/gift_v166/frozen/confirmatory_predictions.f64le":"3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+            "build/gift_v166/frozen/confirmatory_entity_order.csv":"22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663",
+            "build/gift_v166/audit/numeric_equivalence_receipt.json":"a414d7ea0cae502c86920792ad5a22d05b4dcbd4563dae14289e51eb36eb4d30",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s,(p,s)
+          x=json.loads(Path("build/gift_v166/audit/numeric_equivalence_receipt.json").read_text())
+          assert x["status"]=="NUMERIC_REPLAY_EQUIVALENT_RESPONSE_INDEPENDENTLY"
+          assert x["absolute_tolerance"]==1e-12
+          assert x["max_abs_probability_difference"]<=1e-12
+          assert x["max_abs_coefficient_difference"]<=1e-12
+          assert x["original_prediction_sha256"]=="3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4"
+          assert x["confirmatory_species_composition_opened"] is False
+          PY
+      - name: Consume the 596-list confirmatory response once
+        run: |
+          mkdir -p build/gift_v166/result
+          Rscript scripts/run_gift_confirmatory_response_v1_61.R             --confirmatory-lists build/gift_v166/routing/confirmatory_lists.csv             --pilot-lists build/gift_v166/routing/pilot_lists.csv             --species-universe build/gift_v166/pilot/pilot_species_universe.csv             --matrix build/gift_v166/result/confirmatory_matrix.csv             --receipt build/gift_v166/result/confirmatory_response_receipt.json
+      - name: Score original frozen primary immediately
+        run: |
+          python scripts/score_gift_confirmatory_v1_61.py             build/gift_v166/frozen/confirmatory_predictions.f64le             build/gift_v166/frozen/confirmatory_entity_order.csv             build/gift_v166/pilot/pilot_species_universe.csv             build/gift_v166/result/confirmatory_matrix.csv             build/gift_v166/result/confirmatory_response_receipt.json             --block-output build/gift_v166/result/block_scores.csv             --result build/gift_v166/result/confirmatory_result.json
+      - name: Enforce terminal completion
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/gift_v166/result/confirmatory_result.json").read_text())
+          q=json.loads(Path("build/gift_v166/result/confirmatory_response_receipt.json").read_text())
+          assert r["status"]=="FRESH_PLANT_CONFIRMATORY_PRIMARY_SCORED_ONCE"
+          assert r["target_rows"]==90496
+          assert r["confirmatory_blocks"]==59
+          assert r["confirmatory_response_consumed"] is True
+          assert r["rerun_authorized"] is False
+          assert r["counts_as_fresh_confirmatory_evidence"] is True
+          assert r["fresh_system_denominator_contribution"]==1
+          assert q["confirmatory_list_IDs_requested"]==596
+          assert q["pilot_list_IDs_requested"]==0
+          PY
+      - name: Upload terminal confirmatory bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v166-confirmatory-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v166/result/confirmatory_matrix.csv
+            build/gift_v166/result/confirmatory_response_receipt.json
+            build/gift_v166/result/block_scores.csv
+            build/gift_v166/result/confirmatory_result.json
+          if-no-files-found: warn
+          retention-days: 30
