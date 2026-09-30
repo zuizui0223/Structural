@@ -1,0 +1,137 @@
+{
+  "schema": "structural.global_mammals_macro_model_contract.v1_67",
+  "status": "CONTAMINATED_MACRO_R0_R3_C_METHOD_FROZEN_BEFORE_MACRO_PILOT_RESPONSE",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "parents": [
+    "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "development/global_mammals_macro_pilot_routing_freeze_v1_64.json",
+    "development/global_mammals_macro_pilot_response_contract_v1_65.json",
+    "development/macro_species_response_protocol_v1_50.json",
+    "development/macro_source_feature_empty_support_contract_v1_56.json"
+  ],
+  "fixed_population": {
+    "islands": 5401,
+    "pilot_islands": 1275,
+    "pilot_blocks": 50,
+    "confirmatory_islands": 4126,
+    "confirmatory_blocks": 168,
+    "regional_pool": "bioregion",
+    "validation_block": "frozen bioregion-by-10-degree block"
+  },
+  "response_independent_inputs": {
+    "safe_appendix2_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "final_partition_sha256": "317801c21355c9859d1e59fe5a17a6d54ccc7755f9e322636811ba11bc0507db",
+    "state_reference_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "source_graph_edges_sha256": "92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+    "pilot_routing_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_routing_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "pilot_parent_requirement": {
+    "future_result_schema": "structural.global_mammals_macro_pilot_response_result.v1_65",
+    "species_selection_rule_already_frozen": true,
+    "minimum_presence": 13,
+    "minimum_absence": 13,
+    "realized_focal_species_count_may_not_change_method": true
+  },
+  "base_design": {
+    "regional_pool_categorical": "full one-hot for every retained bioregion in lexicographic order; all levels retained",
+    "R0_continuous": [
+      "z_Climate_velocity",
+      "z_Temperature_mean",
+      "z_Temperature_sd",
+      "z_Precipitation_mean",
+      "z_Precipitation_sd",
+      "z_Elevation_sd"
+    ],
+    "R1_add": [
+      "z_log_Area",
+      "z_Current_isolation",
+      "z_Past_isolation"
+    ],
+    "R2_add": [
+      "z_log1p_nearest_island_km",
+      "z_generic_neighbor_pressure"
+    ],
+    "base_features_already_standardized_on_final_5401_population": true
+  },
+  "species_source_features_raw": {
+    "R3_add": [
+      "global_occupancy_jeffreys_logit",
+      "bioregion_prevalence_jeffreys_logit",
+      "log1p_nearest_euclidean_source_km",
+      "log1p_euclidean_source_pressure"
+    ],
+    "C_add": [
+      "log1p_nearest_graph_source_km",
+      "log1p_graph_source_pressure"
+    ],
+    "pilot_row_source_set": "all frozen pilot islands except every island in the focal 10-degree validation block",
+    "confirmatory_row_source_set": "all 1275 frozen pilot islands",
+    "euclidean_source_scope": "all allowable occupied pilot islands globally",
+    "graph_source_scope": "allowable occupied pilot islands reachable inside the target bioregion frozen graph",
+    "kernel_and_empty_source_semantics": "development/macro_source_feature_empty_support_contract_v1_56.json"
+  },
+  "source_standardization": {
+    "columns": [
+      "global_occupancy_jeffreys_logit",
+      "bioregion_prevalence_jeffreys_logit",
+      "log1p_nearest_euclidean_source_km",
+      "log1p_euclidean_source_pressure",
+      "log1p_nearest_graph_source_km",
+      "log1p_graph_source_pressure"
+    ],
+    "freeze_on": "all focal-species x 1275 pilot-island cross-fitted training rows",
+    "population_sd": true,
+    "zero_or_nonfinite_sd": "STOP before confirmatory response"
+  },
+  "nested_models": {
+    "R0": "intercept + full bioregion indicators + six R0 continuous features",
+    "R1": "R0 + three R1 continuous features",
+    "R2": "R1 + two generic-network features",
+    "R3": "R2 + first four standardized species-source features",
+    "C": "R3 + final two standardized graph-source features"
+  },
+  "fitting": {
+    "model": "pooled binary ridge logistic regression",
+    "implementation": "custom NumPy float64 IRLS, same mathematical implementation family as GIFT v1.57",
+    "numpy_version": "2.3.3",
+    "linear_algebra_threads": 1,
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "initial_coefficients": "all zero",
+    "max_iterations": 100,
+    "tolerance_max_abs_delta": 1e-8,
+    "probability_clip": [1e-12,0.999999999999],
+    "response_based_hyperparameter_tuning": false
+  },
+  "confirmatory_prediction_freeze": {
+    "entities": 4126,
+    "species": "exact future frozen pilot species universe in source-column order",
+    "entity_order": "exact frozen confirmatory routing order",
+    "confirmatory_target_values_used": false,
+    "stored_probabilities": ["R3","C"],
+    "binary_magic": "STRUCTURAL_MAMMAL_PRED_V1\n"
+  },
+  "primary_scoring_later": {
+    "block": "168 frozen confirmatory spatial blocks",
+    "estimand": "equal-weight mean across confirmatory block means of loss_C-loss_R3",
+    "bootstrap": "deterministic 10000 confirmatory-block replicates",
+    "favourable_direction": "negative",
+    "mammal_result_counts_as_fresh_confirmation": false
+  },
+  "anti_rescue": [
+    "no species threshold change after pilot access",
+    "no block or bioregion change after pilot access",
+    "no source-kernel retuning after pilot access",
+    "no hyperparameter tuning from pilot response",
+    "no subgroup or LGM-connectivity-type result may rescue the overall primary"
+  ],
+  "response_boundary": {
+    "macro_pilot_response_opened_at_contract_freeze": false,
+    "confirmatory_occurrence_opened": false,
+    "confirmatory_response_authorized": false,
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false
+  }
+}
