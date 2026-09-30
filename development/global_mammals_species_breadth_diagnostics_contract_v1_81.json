@@ -1,0 +1,39 @@
+{
+  "schema": "structural.global_mammals_species_breadth_diagnostics_contract.v1_81",
+  "status": "POSTHOC_NONRESCUING_SPECIES_BREADTH_DIAGNOSTICS_DECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "parents": [
+    "development/global_mammals_exploratory_pilot_freeze_v1_72.json",
+    "development/global_mammals_exploratory_preconfirmatory_freeze_v1_74.json",
+    "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+    "development/global_mammals_exploratory_diagnostics_freeze_v1_79.json"
+  ],
+  "inputs": {
+    "pilot_species_universe_sha256": "c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+    "prediction_sha256": "f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "confirmatory_matrix_sha256": "25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252",
+    "pilot_islands": 1275,
+    "confirmatory_islands": 4126,
+    "focal_species": 79
+  },
+  "diagnostics": {
+    "species_effect": "mean held-out C-minus-R3 binary log-loss across all 4126 held-out islands for each focal species",
+    "breadth": "pilot_presence / 1275 from the frozen pilot species universe",
+    "primary_descriptive_association": "Spearman rho between pilot prevalence and species-level mean C-minus-R3",
+    "direction": "positive rho means broader species receive a weaker incremental C advantage",
+    "rank_quartiles": "sort by pilot_presence then species_index; assign first 20, next 20, next 20, final 19 species; report mean/median C-minus-R3 and negative-species count"
+  },
+  "mechanistic_context": {
+    "working_interpretation": "if high occupancy breadth saturates the available source pool, source-network topology should add less information for widespread species",
+    "not_claimed": "causal source saturation or a universal unimodal relationship"
+  },
+  "anti_rescue": [
+    "species-level diagnostics cannot change the global block-weighted primary status",
+    "no species are removed from the frozen 79-species universe",
+    "no trait or taxonomic subgroup search is authorized",
+    "no p-value threshold is used for claims"
+  ],
+  "counts_as_confirmatory_evidence": false
+}

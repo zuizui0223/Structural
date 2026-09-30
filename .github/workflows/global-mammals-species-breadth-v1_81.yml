@@ -1,0 +1,111 @@
+name: Global mammals species-breadth diagnostics v1.81
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_species_breadth_diagnostics_request_v1_81.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate post-hoc nonrescuing request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_species_breadth_diagnostics_request_v1_81.json").read_text())
+          c=json.loads(Path("development/global_mammals_species_breadth_diagnostics_contract_v1_81.json").read_text())
+          assert r["status"]=="REQUEST_POSTHOC_NONRESCUING_SPECIES_BREADTH_DIAGNOSTICS"
+          assert r["pilot_artifact_id"]==11112360652
+          assert r["prediction_artifact_id"]==11112450910
+          assert r["score_artifact_id"]==11113225988
+          assert r["expected_species"]==79
+          assert r["expected_confirmatory_islands"]==4126
+          assert r["confirmatory_status_change_authorized"] is False
+          assert c["counts_as_confirmatory_evidence"] is False
+          PY
+
+      - name: Download exact exploratory pilot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v171-exploratory-pilot-6dd3917166633381d88f7d9c4f95ee38b11d63f8-36743891802
+          path: build/global_mammals_v181/pilot
+          repository: zuizui0223/Structural
+          run-id: 36743891802
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v173-preconfirmatory-2dfb3ce75e57b0d6a44584a8fd68158d05310e91-36745389315
+          path: build/global_mammals_v181/prediction
+          repository: zuizui0223/Structural
+          run-id: 36745389315
+          github-token: ${{ github.token }}
+
+      - name: Download exact held-out score artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v175-exploratory-score-33f0a6a85ff7480f1fac30d8fcf26f355a7687ef-36746823761
+          path: build/global_mammals_v181/score
+          repository: zuizui0223/Structural
+          run-id: 36746823761
+          github-token: ${{ github.token }}
+
+      - name: Verify exact inputs
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v181/pilot/exploratory_pilot_species_universe.csv":"c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+            "build/global_mammals_v181/prediction/confirmatory_predictions.f64le":"f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+            "build/global_mammals_v181/prediction/confirmatory_entity_order.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+            "build/global_mammals_v181/score/exploratory_confirmatory_matrix.csv":"25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Run frozen species-breadth diagnostics
+        run: |
+          mkdir -p build/global_mammals_v181/output
+          python scripts/run_global_mammals_species_breadth_diagnostics_v1_81.py             build/global_mammals_v181/pilot/exploratory_pilot_species_universe.csv             build/global_mammals_v181/prediction/confirmatory_predictions.f64le             build/global_mammals_v181/prediction/confirmatory_entity_order.csv             build/global_mammals_v181/score/exploratory_confirmatory_matrix.csv             --species-output build/global_mammals_v181/output/species_effects.csv             --quartile-output build/global_mammals_v181/output/breadth_quartiles.csv             --result build/global_mammals_v181/output/species_breadth_result.json
+
+      - name: Enforce nonrescuing ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v181/output/species_breadth_result.json").read_text())
+          assert x["status"]=="POSTHOC_SPECIES_BREADTH_DIAGNOSTICS_COMPLETE"
+          assert x["species"]==79
+          assert x["posthoc"] is True
+          assert x["may_change_primary_status"] is False
+          assert x["counts_as_confirmatory_evidence"] is False
+          PY
+
+      - name: Upload species-breadth diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v181-species-breadth-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v181/output/species_effects.csv
+            build/global_mammals_v181/output/breadth_quartiles.csv
+            build/global_mammals_v181/output/species_breadth_result.json
+          if-no-files-found: error
+          retention-days: 30
