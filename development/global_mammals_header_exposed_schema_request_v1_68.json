@@ -1,0 +1,9 @@
+{
+  "schema": "structural.global_mammals_header_exposed_schema_request.v1_68",
+  "status": "REQUEST_HEADER_ONLY_CONTAMINATED_MACRO_SCHEMA_AUDIT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "failed_pilot_run_id": 36741861713,
+  "failure_artifact_id": 11109828868,
+  "occurrence_data_row_access_authorized": false,
+  "one_shot": true
+}
