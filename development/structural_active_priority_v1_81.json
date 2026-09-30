@@ -1,0 +1,20 @@
+{
+  "schema": "structural.active_priority.v1_81",
+  "status": "resolve_queued_nonconfirmatory_macro_context_then_freeze_final_synthesis",
+  "canonical_current_status": "development/current_status_v1_81.json",
+  "do_now": [
+    "consume no new fresh response",
+    "let the already-triggered GIFT endpoint-available exploratory workflow complete once",
+    "let the already-triggered mammal species-breadth diagnostic complete once",
+    "freeze successful artifacts by exact provenance",
+    "update macro synthesis and manuscript only with explicitly nonconfirmatory wording"
+  ],
+  "do_not": [
+    "retry the terminal GIFT fresh confirmatory protocol",
+    "promote the global mammal exploratory analysis to fresh confirmation",
+    "change the mammal 79-species universe or 5401-island population",
+    "search new isolation thresholds or taxa to rescue a stronger claim",
+    "claim two-taxon confirmation"
+  ],
+  "next_fresh_scientific_event_after_current_queue": "only a new independent response-sealed system may test development/prospective_source_network_attenuation_hypothesis_v1_80.json"
+}
