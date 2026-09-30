@@ -36,14 +36,26 @@ def test_confirmatory_router_cannot_request_pilot_lists():
     assert 'pilot_list_IDs_requested=0L' in s
     assert 'raw_species_rows_persisted=FALSE' in s
 
-def test_workflow_replays_predictions_before_response_and_request_is_absent():
+def test_workflow_replays_predictions_before_response_and_request_is_exact():
     s=(ROOT/".github/workflows/gift-confirmatory-v1_62.yml").read_text()
     replay=s.index("Exact replay predictions before response")
     gate=s.index("Require byte-identical replay before any confirmatory API request")
     access=s.index("Consume the 596-list confirmatory response once")
     score=s.index("Score frozen primary immediately")
     assert replay < gate < access < score
-    assert not (ROOT/"development/gift_confirmatory_execution_request_v1_62.json").exists()
+    r=json.loads((ROOT/"development/gift_confirmatory_execution_request_v1_62.json").read_text())
+    assert r["status"]=="REQUEST_ONE_SHOT_FRESH_PLANT_CONFIRMATORY_SCORING"
+    assert r["prediction_artifact_id"]==11060858946
+    assert r["routing_artifact_id"]==11060636113
+    assert r["pilot_artifact_id"]==11060478567
+    assert r["confirmatory_entities"]==404
+    assert r["confirmatory_blocks"]==59
+    assert r["focal_species"]==224
+    assert r["expected_target_rows"]==90496
+    assert r["confirmatory_response_authorized"] is True
+    assert r["rerun_after_first_confirmatory_checklist_request"] is False
+    assert r["refit_after_confirmatory_access"] is False
+    assert r["one_shot"] is True
 
 def test_preconfirmatory_freeze_has_numerically_distinct_surface():
     x=json.loads((ROOT/"development/gift_preconfirmatory_model_freeze_v1_60.json").read_text())
