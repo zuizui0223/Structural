@@ -1,0 +1,84 @@
+{
+  "schema": "structural.global_mammals_exploratory_scoring_freeze.v1_76",
+  "status": "SUCCESSFUL_NONCONFIRMATORY_EXPLORATORY_MAMMAL_RESULT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-exploratory-scoring-v1_75.yml",
+    "workflow_run_id": 36746823761,
+    "workflow_head_sha": "33f0a6a85ff7480f1fac30d8fcf26f355a7687ef",
+    "workflow_job_id": 109995001727,
+    "artifact_id": 11113225988,
+    "artifact_name": "global-mammals-v175-exploratory-score-33f0a6a85ff7480f1fac30d8fcf26f355a7687ef-36746823761",
+    "artifact_digest": "sha256:307e5090a512fb2db6a434accdcbcebe305cace450a4e9c0da8fbcc4a94f1778",
+    "expires_at": "2026-10-30T16:48:42Z"
+  },
+  "artifact_files": {
+    "exploratory_confirmatory_matrix.csv": {
+      "size_bytes": 785447,
+      "sha256": "25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252"
+    },
+    "exploratory_confirmatory_response_receipt.json": {
+      "size_bytes": 969,
+      "sha256": "a0f89981c3babb64a36d10845199c074864574e2659f832b3f64a451e6156e86"
+    },
+    "block_scores.csv": {
+      "size_bytes": 13130,
+      "sha256": "c0a0642800db060b61a78933ae5d86b0f976688c68fd0a39ea85c8c2eb5723a1"
+    },
+    "exploratory_result.json": {
+      "size_bytes": 1714,
+      "sha256": "2a96164730b64ce70660bc04cad1f137f1d90a7cb3094aaaf98fbda2f1c4cf4a"
+    }
+  },
+  "response_firewall": {
+    "confirmatory_entities": 4126,
+    "focal_species": 79,
+    "confirmatory_focal_values_decoded": 325954,
+    "confirmatory_nonfocal_values_decoded": 0,
+    "pilot_occurrence_values_decoded_during_confirmatory": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "raw_response_retained": false,
+    "rerun_authorized": false
+  },
+  "primary_exploratory_result": {
+    "target_cells": 325954,
+    "target_positive": 5620,
+    "target_negative": 320334,
+    "confirmatory_blocks": 168,
+    "point_estimate_C_minus_R3_logloss": -0.0018141589038615496,
+    "point_estimate_hex": "-0x1.db9224a5b76f8p-10",
+    "bootstrap_ci95_low": -0.002817220627012837,
+    "bootstrap_ci95_low_hex": "-0x1.71423cead26fap-9",
+    "bootstrap_ci95_high": -0.0009974506971953355,
+    "bootstrap_ci95_high_hex": "-0x1.0579c87ecc56bp-10",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261001,
+    "favourable_direction": "negative",
+    "directional_support_exploratory": true
+  },
+  "interpretation_guardrails": {
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmatory_evidence": false,
+    "counts_as_primary_confirmatory_evidence": false,
+    "fresh_system_denominator_contribution": 0,
+    "terminal_v165_status_unchanged": true,
+    "historical_318_overlap_exclusion_unchanged": true,
+    "mechanism_claim_authorized": false,
+    "secondary_analysis_may_rescue_confirmatory_status": false,
+    "allowed_wording": "In the separately defined nonconfirmatory 5,401-island mammal macro analysis, species-conditioned graph-path source continuity improved held-out occurrence log loss beyond the strong R3 reference.",
+    "forbidden_wording": [
+      "independent confirmation",
+      "fresh replication",
+      "confirmed in mammals",
+      "two-taxon confirmatory support"
+    ]
+  },
+  "program_readout": {
+    "boreal_fresh_primary": "not supported",
+    "GIFT_fresh_global_primary": "terminal API completeness failure before scoring; no ecological direction",
+    "mammal_global_macro": "directionally supportive but explicitly nonconfirmatory exploratory",
+    "current_general_claim": "the global mammal pattern is evidence of ecological generality worth explaining, not a successful confirmatory replication"
+  },
+  "next_action": "run preregistered-as-post-hoc nonrescuing diagnostics on frozen block scores to test geographic breadth and association with response-independent external-isolation context"
+}
