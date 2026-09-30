@@ -1,0 +1,40 @@
+{
+  "schema": "structural.gift_confirmatory_numeric_retry_contract.v1_67",
+  "status": "ONE_SHOT_CONFIRMATORY_RETRY_AFTER_PRE_RESPONSE_NUMERIC_EQUIVALENCE",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_confirmatory_scoring_contract_v1_61.json",
+    "development/gift_replay_numeric_equivalence_contract_v1_63.json",
+    "development/gift_replay_numeric_equivalence_freeze_v1_67.json",
+    "development/gift_preconfirmatory_model_freeze_v1_60.json"
+  ],
+  "why_retry_is_valid": {
+    "prior_v1_62_failed_before_response": true,
+    "failure_was_byte_identity_only": true,
+    "numeric_equivalence_was_audited_without_confirmatory_targets": true,
+    "absolute_tolerance": 1e-12,
+    "tolerance_preexisted_in_v1_60_estimability_audit": true,
+    "model_or_predictions_retuned": false
+  },
+  "required_gate_before_response": {
+    "download_exact_original_prediction_artifact": true,
+    "download_exact_v1_63_numeric_audit_artifact": true,
+    "rerun_numeric_equivalence_auditor_on_those_exact_artifacts": true,
+    "max_abs_probability_difference_lte": 1e-12,
+    "max_abs_coefficient_difference_lte": 1e-12,
+    "entity_order_byte_identical": true,
+    "source_standardization_exact": true
+  },
+  "scoring": {
+    "prediction_surface": "original frozen v1.60 predictions only",
+    "prediction_sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+    "primary_and_bootstrap": "unchanged from development/gift_confirmatory_scoring_contract_v1_61.json"
+  },
+  "irreversibility": {
+    "first_confirmatory_checklist_request_consumes_response": true,
+    "rerun_after_first_confirmatory_checklist_request": false,
+    "refit_after_confirmatory_access": false,
+    "species_universe_change_after_confirmatory_access": false,
+    "block_change_after_confirmatory_access": false
+  }
+}
