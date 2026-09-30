@@ -25,8 +25,17 @@ def test_mammal_macro_pilot_contract_is_contaminated_not_fresh():
     assert x["semantic_firewall"]["confirmatory_occurrence_rows_may_open"] is False
     assert x["evidence_boundary"]["fresh_status_restored"] is False
 
-def test_future_workflow_exists_but_request_is_not_yet_issued():
+def test_one_shot_request_is_exact_and_confirmatory_sealed():
     s=(ROOT/".github/workflows/global-mammals-macro-pilot-response-v1_66.yml").read_text()
     assert "run_global_mammals_macro_pilot_response_v1_65.py" in s
     assert "confirmatory_occurrence_values_decoded" in s
-    assert not (ROOT/"development/global_mammals_macro_pilot_response_request_v1_66.json").exists()
+    r=json.loads((ROOT/"development/global_mammals_macro_pilot_response_request_v1_66.json").read_text())
+    assert r["status"]=="REQUEST_ONE_SHOT_CONTAMINATED_MACRO_MAMMAL_PILOT"
+    assert r["routing_artifact_id"]==11060106528
+    assert r["pilot_islands"]==1275
+    assert r["confirmatory_islands"]==4126
+    assert r["species_threshold_m"]==13
+    assert r["macro_pilot_response_authorized"] is True
+    assert r["confirmatory_response_authorized"] is False
+    assert r["fresh_status_restored"] is False
+    assert r["one_shot"] is True
