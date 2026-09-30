@@ -1,0 +1,62 @@
+{
+  "schema": "structural.global_mammals_exploratory_diagnostics_contract.v1_77",
+  "status": "POSTHOC_NONRESCUING_DIAGNOSTICS_DECLARED_AFTER_EXPLORATORY_PRIMARY",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "parents": [
+    "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+    "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "development/source_pool_handoff_cross_system_synthesis_v0_54.json"
+  ],
+  "inputs": {
+    "block_scores": {
+      "artifact_id": 11113225988,
+      "sha256": "c0a0642800db060b61a78933ae5d86b0f976688c68fd0a39ea85c8c2eb5723a1",
+      "blocks": 168
+    },
+    "state_reference": {
+      "artifact_id": 11059506168,
+      "sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+      "confirmatory_islands": 4126
+    }
+  },
+  "diagnostics": {
+    "geographic_breadth": {
+      "block_unit": "frozen confirmatory bioregion-by-10-degree block",
+      "report": [
+        "number and fraction of blocks with C-minus-R3 < 0",
+        "number and fraction of blocks with C-minus-R3 > 0",
+        "per-bioregion equal-block mean and median C-minus-R3",
+        "per-bioregion fraction of negative blocks",
+        "number of bioregions with negative equal-block mean C-minus-R3"
+      ]
+    },
+    "external_isolation_context": {
+      "block_context": "mean of frozen island-level standardized reference covariates within each block",
+      "variables": [
+        "z_Current_isolation",
+        "z_Past_isolation",
+        "z_log_Area"
+      ],
+      "report": [
+        "equal-block Spearman rho between block C-minus-R3 and each block-mean covariate",
+        "within-bioregion-centered Spearman rho for the same three covariates"
+      ],
+      "interpretation_direction": "positive rho means C's advantage becomes less negative / weaker as the covariate increases; negative rho means C's advantage strengthens"
+    }
+  },
+  "cross_system_context": {
+    "historical_318_result": "extreme-minus-non-extreme C-minus-R3 = +0.04545 with cluster-bootstrap CI spanning zero",
+    "allowed_comparison": "qualitative direction concordance only",
+    "pooled_inference_authorized": false
+  },
+  "anti_rescue": [
+    "these diagnostics cannot change the mammal lane from exploratory to confirmatory",
+    "these diagnostics cannot rescue the terminal GIFT fresh lane",
+    "no threshold search, subgroup search, or variable selection based on stronger association",
+    "no p-value threshold is used for ecological claims",
+    "primary exploratory C-minus-R3 estimate remains exactly the v1.76 frozen result"
+  ],
+  "counts_as_empirical_evidence": false,
+  "counts_as_confirmatory_evidence": false
+}
