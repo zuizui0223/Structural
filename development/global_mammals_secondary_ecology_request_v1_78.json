@@ -1,0 +1,18 @@
+{
+  "schema": "structural.global_mammals_secondary_ecology_request.v1_78",
+  "status": "REQUEST_POSTHOC_NONRESCUING_MAMMAL_ECOLOGY_DIAGNOSTICS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scoring_run_id": 36746823761,
+  "scoring_artifact_id": 11113225988,
+  "prediction_run_id": 36745389315,
+  "prediction_artifact_id": 11112450910,
+  "pilot_run_id": 36743891802,
+  "pilot_artifact_id": 11112360652,
+  "reference_run_id": 36622553042,
+  "reference_artifact_id": 11059506168,
+  "safe_run_id": 36524988694,
+  "safe_artifact_id": 11013887248,
+  "new_response_access_authorized": false,
+  "primary_status_change_authorized": false,
+  "one_shot": true
+}
