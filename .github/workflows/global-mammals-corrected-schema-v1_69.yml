@@ -1,0 +1,95 @@
+name: Global mammals corrected schema v1.69
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_corrected_physical_schema_request_v1_69.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  correct-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-free correction request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_corrected_physical_schema_request_v1_69.json").read_text())
+          c=json.loads(Path("development/global_mammals_corrected_physical_schema_contract_v1_69.json").read_text())
+          assert r["status"]=="REQUEST_RESPONSE_FREE_CORRECTED_SCHEMA_FREEZE"
+          assert r["header_artifact_id"]==11111510286
+          assert r["response_download_authorized"] is False
+          assert r["occurrence_data_access_authorized"] is False
+          assert r["one_shot"] is True
+          assert c["physical_schema"]["species_count"]==5394
+          assert c["physical_schema"]["data_record_fields"]==5395
+          assert c["continuation"]["same_v165_protocol_retry_authorized"] is False
+          PY
+
+      - name: Download exact v1.68 header artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v168-header-bc703acdd8ac596af26082f2bbc9fe1d72c601b4-36742619309
+          path: build/global_mammals_v169/input
+          repository: zuizui0223/Structural
+          run-id: 36742619309
+          github-token: ${{ github.token }}
+
+      - name: Verify exact v1.68 input identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v169/input/header_manifest.csv":"6838021a430083d4b4a8d2a84b59e80c156c08742c388b24f6550221be7e7f3e",
+            "build/global_mammals_v169/input/header_receipt.json":"3fbadbd81f6c34c8b0d0f9a4021d51229d92fafd0c0dd107299f751ea600f68e",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Freeze corrected row-name schema without response access
+        run: |
+          mkdir -p build/global_mammals_v169/output
+          python scripts/freeze_global_mammals_corrected_schema_v1_69.py             build/global_mammals_v169/input/header_manifest.csv             build/global_mammals_v169/input/header_receipt.json             --output-manifest build/global_mammals_v169/output/corrected_species_manifest.csv             --receipt build/global_mammals_v169/output/corrected_schema_receipt.json
+
+      - name: Enforce zero response access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v169/output/corrected_schema_receipt.json").read_text())
+          assert x["status"]=="CORRECTED_ROWNAME_SCHEMA_FROZEN_WITHOUT_RESPONSE_ACCESS"
+          assert x["species_count"]==5394
+          assert x["data_record_fields"]==5395
+          assert x["routing_data_column_index"]==1
+          assert x["first_species_data_column_index"]==2
+          assert x["last_species_data_column_index"]==5395
+          assert x["species_order_sha256"]=="e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81"
+          assert x["response_downloaded"] is False
+          assert x["occurrence_values_decoded"]==0
+          assert x["same_v165_protocol_retry_authorized"] is False
+          PY
+
+      - name: Upload corrected schema only
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v169-corrected-schema-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v169/output/corrected_species_manifest.csv
+            build/global_mammals_v169/output/corrected_schema_receipt.json
+          if-no-files-found: error
+          retention-days: 30
