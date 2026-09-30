@@ -1,0 +1,21 @@
+{
+  "schema": "structural.gift_confirmatory_numeric_retry_request.v1_67",
+  "status": "REQUEST_ONE_SHOT_FRESH_PLANT_CONFIRMATORY_AFTER_NUMERIC_EQUIVALENCE",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "failed_pre_response_run_id": 36738553501,
+  "numeric_audit_run_id": 36740377155,
+  "numeric_audit_artifact_id": 11109932378,
+  "numeric_audit_artifact_digest": "sha256:f8e7ef30a6fa5cf957799d6eadb6f3caeb2d6ab377382c7356ed4980ec5475ab",
+  "numeric_equivalence_receipt_sha256": "a414d7ea0cae502c86920792ad5a22d05b4dcbd4563dae14289e51eb36eb4d30",
+  "prediction_artifact_id": 11060858946,
+  "routing_artifact_id": 11060636113,
+  "pilot_artifact_id": 11060478567,
+  "confirmatory_entities": 404,
+  "confirmatory_blocks": 59,
+  "focal_species": 224,
+  "expected_target_rows": 90496,
+  "confirmatory_response_authorized": true,
+  "score_original_predictions_only": true,
+  "rerun_after_first_confirmatory_checklist_request": false,
+  "one_shot": true
+}
