@@ -1,0 +1,40 @@
+{
+  "schema": "structural.macro_artifact_retention.v1_82",
+  "status": "OUTSIDE_ACTIONS_BACKUP_COMPLETED_FOR_CURRENT_MACRO_CORE",
+  "backup_date": "2026-10-01",
+  "destination": "private Google Drive under the existing Structural release retention hierarchy",
+  "destination_identifiers_persisted_in_public_repo": false,
+  "reason": "GitHub Actions source artifacts used by the macro programme expire around 2026-10-30; preserve exact raw ZIP bundles outside Actions before expiry",
+  "verification": {
+    "all_upload_actions_reported_success": true,
+    "spot_readback_completed": true,
+    "spot_readback_file": "global-mammals-v175-exploratory-score.zip",
+    "spot_readback_parent_verified": true,
+    "cryptographic_identity_authority": "the original GitHub Actions artifact IDs/digests already frozen in development result files; Drive storage is retention, not a new scientific identity"
+  },
+  "backed_up_artifacts": [
+    {"artifact_id": 11113225988, "name": "global-mammals-v175-exploratory-score"},
+    {"artifact_id": 11112360652, "name": "global-mammals-v171-exploratory-pilot"},
+    {"artifact_id": 11112450910, "name": "global-mammals-v173-preconfirmatory"},
+    {"artifact_id": 11130602935, "name": "global-mammals-v177-diagnostics"},
+    {"artifact_id": 11058009970, "name": "global-mammals-v139-overlap"},
+    {"artifact_id": 11059506168, "name": "global-mammals-v143-reference"},
+    {"artifact_id": 11039932741, "name": "gift-v089-metadata"},
+    {"artifact_id": 11059270235, "name": "gift-v138-geography"},
+    {"artifact_id": 11059211347, "name": "gift-v144-weigelt-crosswalk"},
+    {"artifact_id": 11059738512, "name": "gift-v147-spatial-reference"},
+    {"artifact_id": 11060636113, "name": "gift-v152-pilot-routing"},
+    {"artifact_id": 11060478567, "name": "gift-v155-pilot-response"},
+    {"artifact_id": 11060858946, "name": "gift-v159-preconfirmatory"},
+    {"artifact_id": 11109932378, "name": "gift-v163-numeric-replay"},
+    {"artifact_id": 11112790884, "name": "gift-v166-terminal-confirmatory"}
+  ],
+  "artifact_count": 15,
+  "not_yet_backed_up_because_execution_pending": [
+    "GIFT endpoint-available exploratory scoring v1.78",
+    "global mammal species-breadth diagnostics v1.81"
+  ],
+  "next_retention_action": "when either pending workflow completes successfully, copy its terminal artifact ZIP into the same private retention location and record a follow-up freeze",
+  "scientific_effect": "none; this record changes no outcome, model, evidence class, or claim boundary",
+  "counts_as_empirical_evidence": false
+}
