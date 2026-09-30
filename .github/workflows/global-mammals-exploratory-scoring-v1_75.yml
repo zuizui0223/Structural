@@ -1,0 +1,159 @@
+name: Global mammals exploratory scoring v1.75
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_exploratory_scoring_request_v1_75.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exploratory-score:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate frozen nonconfirmatory scoring request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_exploratory_scoring_request_v1_75.json").read_text())
+          c=json.loads(Path("development/global_mammals_exploratory_scoring_contract_v1_74.json").read_text())
+          f=json.loads(Path("development/global_mammals_exploratory_preconfirmatory_freeze_v1_74.json").read_text())
+          assert r["status"]=="REQUEST_ONE_SHOT_NONCONFIRMATORY_MAMMAL_EXPLORATORY_SCORING"
+          assert r["prediction_artifact_id"]==11112450910
+          assert r["pilot_artifact_id"]==11112360652
+          assert r["corrected_schema_artifact_id"]==11112070309
+          assert r["routing_artifact_id"]==11060106528
+          assert r["confirmatory_entities"]==4126
+          assert r["confirmatory_blocks"]==168
+          assert r["focal_species"]==79
+          assert r["expected_target_cells"]==325954
+          assert r["exploratory_confirmatory_response_authorized"] is True
+          assert r["counts_as_confirmatory_evidence"] is False
+          assert r["fresh_status_restored"] is False
+          assert r["one_shot"] is True
+          assert c["primary_exploratory_estimand"]["bootstrap_replicates"]==10000
+          assert c["primary_exploratory_estimand"]["bootstrap_seed"]==20261001
+          assert f["result"]["prediction_cells"]==325954
+          PY
+
+      - name: Download exact frozen predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v173-preconfirmatory-2dfb3ce75e57b0d6a44584a8fd68158d05310e91-36745389315
+          path: build/global_mammals_v175/prediction
+          repository: zuizui0223/Structural
+          run-id: 36745389315
+          github-token: ${{ github.token }}
+
+      - name: Download exact exploratory pilot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v171-exploratory-pilot-6dd3917166633381d88f7d9c4f95ee38b11d63f8-36743891802
+          path: build/global_mammals_v175/pilot
+          repository: zuizui0223/Structural
+          run-id: 36743891802
+          github-token: ${{ github.token }}
+
+      - name: Download exact corrected physical schema
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v169-corrected-schema-c1ba487b5df7c9558048f69a2747243d59edd58c-36743248729
+          path: build/global_mammals_v175/schema
+          repository: zuizui0223/Structural
+          run-id: 36743248729
+          github-token: ${{ github.token }}
+
+      - name: Download exact routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v175/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify every frozen input identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v175/prediction/confirmatory_predictions.f64le":"f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+            "build/global_mammals_v175/prediction/confirmatory_entity_order.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+            "build/global_mammals_v175/prediction/model_receipt.json":"b0cb7c8a46eef99f0024984a991cb821cee69a17e7e5e0490160880eddcac9c8",
+            "build/global_mammals_v175/pilot/exploratory_pilot_species_universe.csv":"c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+            "build/global_mammals_v175/schema/corrected_species_manifest.csv":"882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6",
+            "build/global_mammals_v175/routing/pilot_ids.csv":"ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+            "build/global_mammals_v175/routing/confirmatory_ids.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Prepare Dryad token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v175/result
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v175/result/token_receipt.json
+
+      - name: Consume 79 focal values on confirmatory islands once
+        run: |
+          python scripts/run_global_mammals_exploratory_confirmatory_v1_74.py             --corrected-manifest build/global_mammals_v175/schema/corrected_species_manifest.csv             --universe build/global_mammals_v175/pilot/exploratory_pilot_species_universe.csv             --pilot-routing build/global_mammals_v175/routing/pilot_ids.csv             --confirmatory-routing build/global_mammals_v175/routing/confirmatory_ids.csv             --matrix build/global_mammals_v175/result/exploratory_confirmatory_matrix.csv             --receipt build/global_mammals_v175/result/exploratory_confirmatory_response_receipt.json
+
+      - name: Score frozen exploratory primary immediately
+        run: |
+          python scripts/score_global_mammals_exploratory_v1_74.py             build/global_mammals_v175/prediction/confirmatory_predictions.f64le             build/global_mammals_v175/prediction/confirmatory_entity_order.csv             build/global_mammals_v175/pilot/exploratory_pilot_species_universe.csv             build/global_mammals_v175/result/exploratory_confirmatory_matrix.csv             build/global_mammals_v175/result/exploratory_confirmatory_response_receipt.json             --block-output build/global_mammals_v175/result/block_scores.csv             --result build/global_mammals_v175/result/exploratory_result.json
+
+      - name: Enforce terminal exploratory semantics
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/global_mammals_v175/result/exploratory_result.json").read_text())
+          q=json.loads(Path("build/global_mammals_v175/result/exploratory_confirmatory_response_receipt.json").read_text())
+          assert r["status"]=="NONCONFIRMATORY_EXPLORATORY_MAMMAL_PRIMARY_SCORED_ONCE"
+          assert r["target_cells"]==325954
+          assert r["confirmatory_blocks"]==168
+          assert r["confirmatory_response_consumed"] is True
+          assert r["rerun_authorized"] is False
+          assert r["counts_as_fresh_confirmatory_evidence"] is False
+          assert r["counts_as_primary_confirmatory_evidence"] is False
+          assert r["fresh_system_denominator_contribution"]==0
+          assert r["terminal_v165_status_unchanged"] is True
+          assert q["confirmatory_focal_values_decoded"]==325954
+          assert q["confirmatory_nonfocal_values_decoded"]==0
+          assert q["pilot_occurrence_values_decoded"]==0
+          assert q["excluded_occurrence_values_decoded"]==0
+          PY
+
+      - name: Upload terminal exploratory bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v175-exploratory-score-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v175/result/token_receipt.json
+            build/global_mammals_v175/result/exploratory_confirmatory_matrix.csv
+            build/global_mammals_v175/result/exploratory_confirmatory_response_receipt.json
+            build/global_mammals_v175/result/block_scores.csv
+            build/global_mammals_v175/result/exploratory_result.json
+          if-no-files-found: warn
+          retention-days: 30
