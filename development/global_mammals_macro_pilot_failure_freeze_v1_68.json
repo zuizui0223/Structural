@@ -1,0 +1,46 @@
+{
+  "schema": "structural.global_mammals_macro_pilot_failure_freeze.v1_68",
+  "status": "V165_TERMINAL_AFTER_SPECIES_HEADER_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-macro-pilot-response-v1_66.yml",
+    "workflow_run_id": 36741861713,
+    "workflow_head_sha": "9001a99287bf01afdcefd8ab2a606d4581f9601e",
+    "workflow_job_id": 109978002965,
+    "artifact_id": 11109828868,
+    "artifact_name": "global-mammals-v166-pilot-9001a99287bf01afdcefd8ab2a606d4581f9601e-36741861713",
+    "artifact_digest": "sha256:1b44f959400a76d2c76aa82272b062c3788f61eb1d026f12e263556ff7053d56"
+  },
+  "failure_receipt": {
+    "sha256": "029ce5a9e6e45552292911414cf831cd3f6442cd42aba86d1e735cdfa26083ae",
+    "reason": "species header field-count drift",
+    "pilot_response_consumed": true,
+    "confirmatory_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0
+  },
+  "semantic_exposure": {
+    "exact_response_bytes_transported": true,
+    "full_semicolon_header_decoded": true,
+    "species_header_identity_seen_in_runner_memory": true,
+    "species_header_names_persisted": false,
+    "pilot_occurrence_rows_decoded": 0,
+    "pilot_occurrence_values_decoded": 0,
+    "confirmatory_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0
+  },
+  "v165_consequence": {
+    "rerun_authorized": false,
+    "change_expected_species_count_and_call_it_v165": false,
+    "pilot_species_threshold_change_authorized": false,
+    "model_or_block_change_authorized": false
+  },
+  "separate_contaminated_lineage": {
+    "allowed": true,
+    "fresh_or_confirmatory_claim_allowed": false,
+    "only_next_semantic_step": "persist an exact header-only manifest and physical schema under a separately frozen contract; do not decode any data-row occurrence value",
+    "scientific_model_must_remain": "development/global_mammals_macro_model_contract_v1_67.json",
+    "species_threshold_must_remain": 13,
+    "routing_and_population_must_remain": "development/global_mammals_macro_pilot_routing_freeze_v1_64.json"
+  }
+}

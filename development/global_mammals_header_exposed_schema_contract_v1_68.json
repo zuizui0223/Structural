@@ -1,0 +1,42 @@
+{
+  "schema": "structural.global_mammals_header_exposed_schema_contract.v1_68",
+  "status": "HEADER_ONLY_CONTAMINATED_MACRO_SCHEMA_AUDIT_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "header_exposed_contaminated_macro_only",
+  "parents": [
+    "development/global_mammals_macro_pilot_failure_freeze_v1_68.json",
+    "development/global_mammals_macro_model_contract_v1_67.json"
+  ],
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";"
+  },
+  "semantic_ceiling": {
+    "decode_exactly_one_logical_record": "header only",
+    "persist_header_manifest": true,
+    "data_record_routing_fields_decoded": 0,
+    "pilot_occurrence_values_decoded": 0,
+    "confirmatory_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "species_names_may_be_persisted": true
+  },
+  "audit_outputs": {
+    "header_manifest": "source_column_index, role, header_string",
+    "species_count": "observed header fields minus one routing field",
+    "species_order_fingerprint": "SHA-256 of each exact species header UTF-8 followed by LF",
+    "duplicate_or_blank_species_headers": "must be reported; nonzero means STOP for continuation"
+  },
+  "continuation_rule_if_clean": {
+    "new_lineage_only": true,
+    "adopt_observed_species_count_as_physical_schema": true,
+    "retain_species_threshold_m": 13,
+    "retain_5401_island_population_and_1275_4126_split": true,
+    "retain_v167_R0_R3_C_method": true,
+    "fresh_status_restored": false
+  },
+  "counts_as_empirical_evidence": false
+}
