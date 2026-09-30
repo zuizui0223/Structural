@@ -1,0 +1,52 @@
+{
+  "schema": "structural.gift_confirmatory_terminal_freeze.v1_76",
+  "status": "TERMINAL_FRESH_PLANT_CONFIRMATORY_API_FAILURE_AFTER_RESPONSE_ACCESS",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "evidence_class": "pristine_fresh_replication_attempt_terminal_without_primary_score",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-confirmatory-numeric-retry-v1_66.yml",
+    "workflow_run_id": 36741126035,
+    "workflow_head_sha": "42434ac395126cd742452fb5a6b6e62f506e472f",
+    "workflow_job_id": 109975480236,
+    "artifact_id": 11112790884,
+    "artifact_name": "gift-v166-confirmatory-42434ac395126cd742452fb5a6b6e62f506e472f-36741126035",
+    "artifact_digest": "sha256:bb5a017136d10afb9818acfb99e6232ea83160de2deacfaafe724645bebf749f",
+    "expires_at": "2026-10-30T16:38:51Z"
+  },
+  "artifact_files": {
+    "confirmatory_response_receipt.json": {
+      "size_bytes": 411,
+      "sha256": "7c3a2cb18caebd005410bd876510c389550daaa61b17db56ef60c50d3676feb7"
+    },
+    "confirmatory_matrix.csv_persisted": false,
+    "block_scores.csv_persisted": false,
+    "confirmatory_result.json_persisted": false
+  },
+  "terminal_result": {
+    "status": "TERMINAL_CONFIRMATORY_API_FAILURE_AFTER_ACCESS_STARTED",
+    "reason": "confirmatory list_ID returned zero species rows: 180",
+    "confirmatory_response_consumed": true,
+    "confirmatory_list_requests_started": true,
+    "primary_scored": false,
+    "rerun_authorized": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0
+  },
+  "scientific_interpretation": {
+    "C_minus_R3_direction_observed": false,
+    "counts_as_support_or_non_support_for_internal_source_continuity": false,
+    "endpoint_completeness_failure_is_not_an_ecological_null_result": true,
+    "pilot_result_remains_consumed": true,
+    "confirmatory_attempt_remains_consumed": true,
+    "same_protocol_retry_authorized": false,
+    "secondary_or_sensitivity_analysis_may_not_manufacture_a_fresh_primary": true
+  },
+  "program_consequence": {
+    "global_pristine_plant_fresh_confirmation_completed": false,
+    "global_pristine_plant_fresh_denominator_contribution": 0,
+    "boreal_19island_fresh_non_support_unchanged": true,
+    "global_mammal_lane_remains_nonconfirmatory_exploratory_only": true,
+    "macro_paper_must_not_claim_two_successful_confirmatory_taxonomic_replications": true
+  },
+  "next_action": "preserve this terminal failure; continue only explicitly nonconfirmatory macro synthesis and separately designed future independent fresh systems"
+}
