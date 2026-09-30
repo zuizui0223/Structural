@@ -1,0 +1,103 @@
+name: Global mammals exploratory diagnostics v1.77
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_exploratory_diagnostics_request_v1_77.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate post-hoc nonrescuing request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_exploratory_diagnostics_request_v1_77.json").read_text())
+          c=json.loads(Path("development/global_mammals_exploratory_diagnostics_contract_v1_77.json").read_text())
+          assert r["status"]=="REQUEST_POSTHOC_NONRESCUING_FROZEN_BLOCK_DIAGNOSTICS"
+          assert r["block_score_artifact_id"]==11113225988
+          assert r["reference_artifact_id"]==11059506168
+          assert r["expected_blocks"]==168
+          assert r["expected_confirmatory_islands"]==4126
+          assert r["confirmatory_status_change_authorized"] is False
+          assert r["one_shot"] is True
+          assert c["counts_as_confirmatory_evidence"] is False
+          assert c["cross_system_context"]["pooled_inference_authorized"] is False
+          PY
+
+      - name: Download exact frozen mammal score artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v175-exploratory-score-33f0a6a85ff7480f1fac30d8fcf26f355a7687ef-36746823761
+          path: build/global_mammals_v177/score
+          repository: zuizui0223/Structural
+          run-id: 36746823761
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen response-independent reference
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/global_mammals_v177/reference
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+
+      - name: Verify exact input identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v177/score/block_scores.csv":"c0a0642800db060b61a78933ae5d86b0f976688c68fd0a39ea85c8c2eb5723a1",
+            "build/global_mammals_v177/reference/state_reference.csv":"5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Run frozen nonrescuing diagnostics
+        run: |
+          mkdir -p build/global_mammals_v177/output
+          python scripts/run_global_mammals_exploratory_diagnostics_v1_77.py             build/global_mammals_v177/score/block_scores.csv             build/global_mammals_v177/reference/state_reference.csv             --block-output build/global_mammals_v177/output/block_context.csv             --bioregion-output build/global_mammals_v177/output/bioregion_summary.csv             --result build/global_mammals_v177/output/diagnostics_result.json
+
+      - name: Enforce nonrescuing ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v177/output/diagnostics_result.json").read_text())
+          assert x["status"]=="POSTHOC_NONRESCUING_DIAGNOSTICS_COMPLETE"
+          assert x["blocks"]==168
+          assert x["islands"]==4126
+          assert x["posthoc"] is True
+          assert x["may_change_primary_status"] is False
+          assert x["counts_as_confirmatory_evidence"] is False
+          assert x["fresh_system_denominator_contribution"]==0
+          PY
+
+      - name: Upload frozen diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v177-diagnostics-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v177/output/block_context.csv
+            build/global_mammals_v177/output/bioregion_summary.csv
+            build/global_mammals_v177/output/diagnostics_result.json
+          if-no-files-found: error
+          retention-days: 30
