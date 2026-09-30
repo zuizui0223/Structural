@@ -1,0 +1,133 @@
+name: GIFT endpoint-available exploratory scoring v1.78
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/gift_exploratory_availability_request_v1_78.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exploratory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::GIFT@1.3.4
+            any::jsonlite
+            any::digest
+
+      - name: Validate nonconfirmatory continuation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/gift_exploratory_availability_request_v1_78.json").read_text())
+          c=json.loads(Path("development/gift_exploratory_availability_contract_v1_78.json").read_text())
+          assert r["status"]=="REQUEST_ONE_SHOT_NONCONFIRMATORY_GIFT_ENDPOINT_AVAILABLE_SCORING"
+          assert r["terminal_fresh_run_id"]==36741126035
+          assert r["routing_artifact_id"]==11060636113
+          assert r["pilot_artifact_id"]==11060478567
+          assert r["prediction_artifact_id"]==11060858946
+          assert r["fresh_status_restoration_authorized"] is False
+          assert r["one_shot"] is True
+          assert c["endpoint_availability_rule"]["manual_exception_for_list_180_or_any_other_list"] is False
+          assert c["counts_as_fresh_confirmation"] is False
+          assert c["counts_as_primary_confirmatory_evidence"] is False
+          PY
+
+      - name: Download exact frozen routing
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810621
+          path: build/gift_v178/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810621
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen pilot species universe
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v155-pilot-response-7b892540ed98c1adb97314cdaa0baaa6c46bda25-36626284777
+          path: build/gift_v178/pilot
+          repository: zuizui0223/Structural
+          run-id: 36626284777
+          github-token: ${{ github.token }}
+
+      - name: Download original frozen predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: gift-v159-preconfirmatory-e1d2e64455ca25576f17e19db5f799f3a3973983-36627890437
+          path: build/gift_v178/prediction
+          repository: zuizui0223/Structural
+          run-id: 36627890437
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen inputs
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/gift_v178/routing/confirmatory_lists.csv":"c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a",
+            "build/gift_v178/pilot/pilot_species_universe.csv":"6b92ebfa7e3c242f0cffde3e91f9ff05c821b2ca242638a0ead6f6f0591e4bce",
+            "build/gift_v178/prediction/confirmatory_predictions.f64le":"3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+            "build/gift_v178/prediction/confirmatory_entity_order.csv":"22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Build one-shot endpoint-available exploratory response
+        run: |
+          mkdir -p build/gift_v178/result
+          Rscript scripts/run_gift_exploratory_availability_v1_78.R             --confirmatory-lists build/gift_v178/routing/confirmatory_lists.csv             --species-universe build/gift_v178/pilot/pilot_species_universe.csv             --matrix build/gift_v178/result/exploratory_matrix.csv             --availability build/gift_v178/result/endpoint_availability.csv             --receipt build/gift_v178/result/exploratory_response_receipt.json
+
+      - name: Score original frozen prediction surface on retained entities
+        run: |
+          python scripts/score_gift_exploratory_availability_v1_78.py             build/gift_v178/prediction/confirmatory_predictions.f64le             build/gift_v178/prediction/confirmatory_entity_order.csv             build/gift_v178/pilot/pilot_species_universe.csv             build/gift_v178/result/exploratory_matrix.csv             build/gift_v178/result/exploratory_response_receipt.json             --block-output build/gift_v178/result/block_scores.csv             --result build/gift_v178/result/exploratory_result.json
+
+      - name: Enforce nonconfirmatory semantics
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("build/gift_v178/result/exploratory_response_receipt.json").read_text())
+          r=json.loads(Path("build/gift_v178/result/exploratory_result.json").read_text())
+          assert q["status"]=="NONCONFIRMATORY_ENDPOINT_AVAILABLE_RESPONSE_FROZEN"
+          assert q["fresh_status_restored"] is False
+          assert q["counts_as_fresh_confirmation"] is False
+          assert r["status"]=="NONCONFIRMATORY_ENDPOINT_AVAILABLE_GIFT_PRIMARY_SCORED_ONCE"
+          assert r["fresh_status_restored"] is False
+          assert r["counts_as_fresh_confirmatory_evidence"] is False
+          assert r["counts_as_primary_confirmatory_evidence"] is False
+          assert r["fresh_system_denominator_contribution"]==0
+          assert r["rerun_authorized"] is False
+          PY
+
+      - name: Upload terminal exploratory bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: gift-v178-exploratory-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/gift_v178/result/exploratory_matrix.csv
+            build/gift_v178/result/endpoint_availability.csv
+            build/gift_v178/result/exploratory_response_receipt.json
+            build/gift_v178/result/block_scores.csv
+            build/gift_v178/result/exploratory_result.json
+          if-no-files-found: error
+          retention-days: 30
