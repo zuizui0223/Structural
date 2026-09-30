@@ -1,0 +1,59 @@
+{
+  "schema": "structural.global_mammals_corrected_physical_schema_contract.v1_69",
+  "status": "CONTAMINATED_EXPLORATORY_ROWNAME_SCHEMA_CORRECTION_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "parents": [
+    "development/global_mammals_macro_pilot_failure_freeze_v1_68.json",
+    "development/global_mammals_header_exposed_schema_contract_v1_68.json",
+    "development/global_mammals_v119_firewall_failure_freeze_v1_20.json",
+    "development/global_mammals_macro_model_contract_v1_67.json"
+  ],
+  "frozen_evidence": {
+    "v168_header_artifact": {
+      "workflow_run_id": 36742619309,
+      "artifact_id": 11111510286,
+      "artifact_name": "global-mammals-v168-header-bc703acdd8ac596af26082f2bbc9fe1d72c601b4-36742619309",
+      "artifact_digest": "sha256:fb04b29c94cb47087afa04477ada64de129516b81952bfda9149997ec459831e",
+      "header_manifest_sha256": "6838021a430083d4b4a8d2a84b59e80c156c08742c388b24f6550221be7e7f3e",
+      "header_receipt_sha256": "3fbadbd81f6c34c8b0d0f9a4021d51229d92fafd0c0dd107299f751ea600f68e",
+      "total_header_fields": 5394,
+      "first_header_string": "Cephalophus.adersi"
+    },
+    "v120_first_data_record": {
+      "decoded_data_rows": 1,
+      "data_record_field_count": 5395,
+      "occurrence_value_count": 5394,
+      "source_local_row_id": "1"
+    }
+  },
+  "physical_schema": {
+    "delimiter": ";",
+    "header_fields": 5394,
+    "header_semantics": "all 5394 header fields are mammal species names; the routing row-name field has no header cell",
+    "data_record_fields": 5395,
+    "data_record_column_1": "source-local island routing ID / row name",
+    "data_record_columns_2_through_5395": "5394 binary occurrence values aligned one-to-one to header fields 1 through 5394",
+    "species_count": 5394,
+    "corrected_species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81"
+  },
+  "correction_scope": {
+    "reclassify_v168_manifest_first_row_from_routing_to_species": true,
+    "shift_species_data_column_index_by_plus_one": true,
+    "species_names_changed": false,
+    "species_order_changed": false,
+    "occurrence_values_opened": false,
+    "new_response_download_required": false
+  },
+  "continuation": {
+    "same_v165_protocol_retry_authorized": false,
+    "new_exploratory_lineage_allowed": true,
+    "retain_population_islands": 5401,
+    "retain_pilot_islands": 1275,
+    "retain_confirmatory_islands": 4126,
+    "retain_species_threshold_m": 13,
+    "retain_model_method": "development/global_mammals_macro_model_contract_v1_67.json",
+    "fresh_or_confirmatory_claim_allowed": false
+  },
+  "counts_as_empirical_evidence": false
+}
