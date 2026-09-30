@@ -1,0 +1,50 @@
+{
+  "schema": "structural.gift_confirmatory_numeric_retry_contract.v1_65",
+  "status": "ONE_OPERATIONAL_CONFIRMATORY_RETRY_AFTER_NUMERIC_EQUIVALENCE_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "parents": [
+    "development/gift_confirmatory_scoring_contract_v1_61.json",
+    "development/gift_replay_numeric_equivalence_freeze_v1_64.json",
+    "development/gift_preconfirmatory_model_freeze_v1_60.json"
+  ],
+  "scientific_design_changes": false,
+  "primary_estimand_changes": false,
+  "species_universe_changes": false,
+  "block_changes": false,
+  "prediction_surface_changes": false,
+  "scoring_prediction_surface": {
+    "use_original_frozen_predictions_only": true,
+    "sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+    "replay_prediction_sha256": "27b666a1cab6e9c35f7f97cafe3b2bee705a56eab23bb7e316381d142043980d",
+    "replay_is_gate_only": true
+  },
+  "pre_response_gate": {
+    "numeric_audit_artifact_id": 11109932378,
+    "numeric_audit_receipt_sha256": "a414d7ea0cae502c86920792ad5a22d05b4dcbd4563dae14289e51eb36eb4d30",
+    "required_status": "NUMERIC_REPLAY_EQUIVALENT_RESPONSE_INDEPENDENTLY",
+    "absolute_tolerance": 1e-12,
+    "required_max_abs_probability_difference_lte": 1e-12,
+    "required_max_abs_coefficient_difference_lte": 1e-12
+  },
+  "confirmatory_access": {
+    "entities": 404,
+    "blocks": 59,
+    "lists": 596,
+    "focal_species": 224,
+    "target_rows": 90496,
+    "one_retry_only": true,
+    "pilot_lists_forbidden": true
+  },
+  "completion_and_failure": {
+    "valid_completion_contributes_one_fresh_system_regardless_direction": true,
+    "failure_after_first_confirmatory_checklist_request_is_terminal": true,
+    "rerun_after_first_confirmatory_checklist_request": false,
+    "refit_after_confirmatory_access": false,
+    "secondary_rescue_forbidden": true
+  },
+  "response_boundary": {
+    "confirmatory_response_authorized_now": false,
+    "prior_attempt_consumed_response": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}
