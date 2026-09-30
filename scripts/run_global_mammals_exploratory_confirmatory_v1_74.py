@@ -143,8 +143,8 @@ def main()->int:
                     row=[]
                     for col in focal_columns:
                         rawv=fields[col].strip()
-                        if rawv not in (b"0",b"1"):raise Stop("confirmatory focal target outside 0/1")
                         confirm_semantic_started=True
+                        if rawv not in (b"0",b"1"):raise Stop("confirmatory focal target outside 0/1")
                         row.append(1 if rawv==b"1" else 0)
                         focal_decoded+=1
                     if iid in values:raise Stop("duplicate confirmatory response row")
