@@ -1,0 +1,125 @@
+name: Global mammals exploratory pilot v1.71
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_exploratory_pilot_request_v1_71.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exploratory-pilot:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate exact exploratory authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_exploratory_pilot_request_v1_71.json").read_text())
+          c=json.loads(Path("development/global_mammals_exploratory_pilot_contract_v1_70.json").read_text())
+          f=json.loads(Path("development/global_mammals_corrected_physical_schema_freeze_v1_71.json").read_text())
+          assert r["status"]=="REQUEST_ONE_SHOT_NONCONFIRMATORY_EXPLORATORY_MAMMAL_PILOT"
+          assert r["corrected_schema_artifact_id"]==11112070309
+          assert r["routing_artifact_id"]==11060106528
+          assert r["pilot_islands"]==1275 and r["confirmatory_islands"]==4126
+          assert r["species_threshold_m"]==13
+          assert r["exploratory_pilot_response_authorized"] is True
+          assert r["confirmatory_occurrence_authorized"] is False
+          assert r["counts_as_confirmatory_evidence"] is False
+          assert r["one_shot"] is True
+          assert c["eligibility"]["same_v165_protocol_retry"] is False
+          assert c["model_method"]["must_remain"]=="development/global_mammals_macro_model_contract_v1_67.json"
+          assert f["result"]["species_count"]==5394
+          PY
+
+      - name: Download exact corrected schema
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v169-corrected-schema-c1ba487b5df7c9558048f69a2747243d59edd58c-36743248729
+          path: build/global_mammals_v171/schema
+          repository: zuizui0223/Structural
+          run-id: 36743248729
+          github-token: ${{ github.token }}
+
+      - name: Download exact routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v171/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify exact nonresponse parents
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v171/schema/corrected_species_manifest.csv":"882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6",
+            "build/global_mammals_v171/schema/corrected_schema_receipt.json":"93b9e09652c1e7e10ad08f379f4b37b355e9c961613e0151a704c2e0ae1b7459",
+            "build/global_mammals_v171/routing/pilot_ids.csv":"ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+            "build/global_mammals_v171/routing/confirmatory_ids.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Prepare Dryad token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v171/output
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v171/output/token_receipt.json
+
+      - name: Consume exploratory pilot only
+        run: |
+          python scripts/run_global_mammals_exploratory_pilot_v1_70.py             --corrected-manifest build/global_mammals_v171/schema/corrected_species_manifest.csv             --pilot-routing build/global_mammals_v171/routing/pilot_ids.csv             --confirmatory-routing build/global_mammals_v171/routing/confirmatory_ids.csv             --species-universe build/global_mammals_v171/output/exploratory_pilot_species_universe.csv             --pilot-matrix build/global_mammals_v171/output/exploratory_pilot_matrix.csv             --receipt build/global_mammals_v171/output/exploratory_pilot_receipt.json
+
+      - name: Enforce exploratory-only ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v171/output/exploratory_pilot_receipt.json").read_text())
+          assert x["status"]=="NONCONFIRMATORY_EXPLORATORY_PILOT_CONSUMED_AND_SPECIES_UNIVERSE_FROZEN"
+          assert x["source_species_columns"]==5394
+          assert x["pilot_islands_decoded"]==1275
+          assert x["confirmatory_occurrence_values_decoded"]==0
+          assert x["excluded_occurrence_values_decoded"]==0
+          assert x["species_threshold_m"]==13
+          assert x["exploratory_pilot_consumed"] is True
+          assert x["fresh_status_restored"] is False
+          assert x["counts_as_fresh_confirmation"] is False
+          assert x["counts_as_primary_confirmatory_evidence"] is False
+          assert x["confirmatory_response_authorized"] is False
+          PY
+
+      - name: Upload exploratory pilot snapshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v171-exploratory-pilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v171/output/token_receipt.json
+            build/global_mammals_v171/output/exploratory_pilot_species_universe.csv
+            build/global_mammals_v171/output/exploratory_pilot_matrix.csv
+            build/global_mammals_v171/output/exploratory_pilot_receipt.json
+          if-no-files-found: warn
+          retention-days: 30
