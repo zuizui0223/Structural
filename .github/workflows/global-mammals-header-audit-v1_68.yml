@@ -1,0 +1,73 @@
+name: Global mammals header-only schema audit v1.68
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_header_exposed_schema_request_v1_68.json
+
+permissions:
+  contents: read
+
+jobs:
+  header-only:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate terminal-v1.65 / header-only-v1.68 boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=json.loads(Path("development/global_mammals_macro_pilot_failure_freeze_v1_68.json").read_text())
+          c=json.loads(Path("development/global_mammals_header_exposed_schema_contract_v1_68.json").read_text())
+          r=json.loads(Path("development/global_mammals_header_exposed_schema_request_v1_68.json").read_text())
+          assert f["v165_consequence"]["rerun_authorized"] is False
+          assert f["semantic_exposure"]["pilot_occurrence_values_decoded"]==0
+          assert c["semantic_ceiling"]["decode_exactly_one_logical_record"]=="header only"
+          assert r["occurrence_data_row_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+      - name: Prepare Dryad token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v168
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v168/token_receipt.json
+      - name: Audit exact response header only
+        run: |
+          python scripts/audit_global_mammals_header_v1_68.py             --manifest build/global_mammals_v168/header_manifest.csv             --receipt build/global_mammals_v168/header_receipt.json
+      - name: Enforce zero occurrence access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v168/header_receipt.json").read_text())
+          assert x["status"]=="HEADER_ONLY_SCHEMA_FROZEN"
+          assert x["data_record_routing_fields_decoded"]==0
+          assert x["pilot_occurrence_values_decoded"]==0
+          assert x["confirmatory_occurrence_values_decoded"]==0
+          assert x["excluded_occurrence_values_decoded"]==0
+          assert x["blank_species_headers"]==0
+          assert x["duplicate_species_headers"]==0
+          assert x["fresh_status_restored"] is False
+          PY
+      - name: Upload header schema only
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v168-header-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v168/token_receipt.json
+            build/global_mammals_v168/header_manifest.csv
+            build/global_mammals_v168/header_receipt.json
+          if-no-files-found: error
+          retention-days: 30
