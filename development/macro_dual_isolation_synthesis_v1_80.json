@@ -1,0 +1,89 @@
+{
+  "schema": "structural.macro_dual_isolation_synthesis.v1_80",
+  "status": "CURRENT_ECOLOGICAL_SYNTHESIS_WITH_EXPLICIT_EVIDENCE_CLASSES",
+  "core_question": "Are external mainland isolation and species-conditioned internal source isolation distinct ecological axes, and how does the value of internal source continuity change along external isolation?",
+  "current_answer": "The mammal analyses indicate that internal source continuity can retain nonredundant occurrence information beyond strong island-state and direct/diffuse source controls, but the incremental information is geographically broad rather than confined to remote islands and attenuates rather than amplifies toward greater external isolation.",
+  "systems": {
+    "global_5401_mammals": {
+      "evidence_class": "nonconfirmatory exploratory macro analysis",
+      "islands": 5401,
+      "pilot_islands": 1275,
+      "confirmatory_islands": 4126,
+      "focal_species": 79,
+      "confirmatory_blocks": 168,
+      "target_cells": 325954,
+      "C_minus_R3": -0.0018141589038615496,
+      "bootstrap_ci95": [-0.002817220627012837,-0.0009974506971953355],
+      "negative_blocks": 108,
+      "negative_mean_bioregions": 10,
+      "total_bioregions": 12,
+      "Current_isolation_spearman_equal_block": 0.28743057515243015,
+      "Current_isolation_spearman_within_bioregion_centered": 0.2278413095720483
+    },
+    "historical_318_mammals": {
+      "evidence_class": "design-frozen nonfresh stress test",
+      "heldout_islands": 244,
+      "focal_species": 233,
+      "prediction_rows": 56852,
+      "overall_C_minus_R3": -0.0896429472299821,
+      "extreme_C_minus_R3": -0.055926700616046134,
+      "nonextreme_C_minus_R3": -0.10137843638289902,
+      "extreme_minus_nonextreme": 0.04545173576685289,
+      "bootstrap_ci95": [-0.0031904317577055308,0.08835839946973478],
+      "original_extreme_amplification_primary_supported": false
+    },
+    "GIFT_plants": {
+      "evidence_class": "fresh global attempt terminal without ecological primary score",
+      "primary_islands": 503,
+      "pilot_islands": 99,
+      "confirmatory_islands": 404,
+      "pilot_selected_species": 224,
+      "confirmatory_archipelagos": 59,
+      "terminal_reason": "confirmatory list_ID 180 returned zero species rows after response access began",
+      "fresh_result_available": false,
+      "separate_nonconfirmatory_exploratory_lane": "queued under v1.78"
+    },
+    "boreal_beetles": {
+      "evidence_class": "fresh local confirmatory system",
+      "primary_supported": false,
+      "role": "small-scale boundary case rather than macro core"
+    }
+  },
+  "revised_general_principle": {
+    "statement": "Island isolation is not a single scalar. External separation from major landmasses and internal continuity to the focal species' occupied insular source network are distinct axes, but the predictive information in internal source topology is expected to decline when external isolation becomes so strong that the source network itself is depleted or homogenously sparse.",
+    "contrast_with_old_handoff": "The old prediction that extreme mainland isolation amplifies source-pool importance is not supported; both mammal analyses point in the opposite direction.",
+    "mechanistic_working_model": [
+      "moderate external isolation preserves enough occupied-source heterogeneity for graph-path continuity to distinguish targets",
+      "extreme external isolation reduces the number or diversity of plausible occupied sources, causing internal topology to saturate or become uninformative beyond R3",
+      "environmental and historical state filters may dominate increasingly at the extreme end"
+    ]
+  },
+  "novelty": {
+    "gap": "Classical and modern island-biogeography metrics usually characterize island-level external isolation, surrounding landmass, stepping stones, or generic network position. The unresolved question is whether the realized occupied source network of a focal species contains nonredundant held-out information after those generic dimensions and species-by-region prevalence are represented.",
+    "advance": "The global mammal analysis separates generic island context, direct/diffuse occupied-source proximity, and graph-path source continuity under held-out spatial blocks, then shows that the final species-conditioned structural increment is widespread across bioregions but weaker at greater external isolation.",
+    "unexpected_result": "The ecological surprise is attenuation, not handoff: internal source-network information does not become strongest on the most externally isolated islands."
+  },
+  "claim_boundary": {
+    "allowed": [
+      "In the nonconfirmatory global mammal macroanalysis, graph-path source continuity improved held-out occurrence log loss beyond R3.",
+      "The supportive direction occurred in 108 of 168 blocks and in the equal-block mean of 10 of 12 bioregions.",
+      "Across blocks, greater current external isolation was associated with a weaker C advantage, including after within-bioregion centering.",
+      "The 318-island mammal stress test showed the same qualitative attenuation direction."
+    ],
+    "forbidden": [
+      "two-taxon confirmatory replication",
+      "fresh global confirmation",
+      "causal dispersal or rescue mechanism",
+      "universal attenuation across plants and animals",
+      "successful confirmation by GIFT"
+    ]
+  },
+  "paper_positioning": {
+    "provisional_title": "Island isolation is not one-dimensional: source-network information is widespread but attenuates with external isolation",
+    "preferred_scope": "global island biogeography / macroecology",
+    "preferred_targets": ["Global Ecology and Biogeography","Journal of Biogeography","Ecography"],
+    "current_limitation": "cross-taxon generality is not confirmatory because the GIFT fresh lane terminated before ecological scoring"
+  },
+  "future_test": "development/prospective_source_network_attenuation_hypothesis_v1_80.json",
+  "counts_as_new_confirmatory_evidence": false
+}
