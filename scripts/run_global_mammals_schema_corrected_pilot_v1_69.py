@@ -100,7 +100,7 @@ def load_routing(path:Path,expected_sha:str,expected_n:int):
         order.append(iid);meta[iid]=r
     return order,meta
 
-def consume(response_bytes:bytes,pilot_order,pilot_meta,confirm_order,contract):
+def consume(response_bytes:bytes,pilot_order,pilot_meta,confirm_order,contract,semantic_state):
     records=iter(iter_records(response_bytes))
     try:header_rec=next(records)
     except StopIteration as e:raise Stop("empty response file") from e
@@ -169,7 +169,7 @@ def consume(response_bytes:bytes,pilot_order,pilot_meta,confirm_order,contract):
       "excluded_islands_seen_routing_only":excluded_seen,"excluded_occurrence_values_decoded":0,
       "species_threshold_m":m,"focal_species":len(selected),"pilot_matrix_rows":n*len(selected),
       "pilot_matrix_positive":positives,"pilot_matrix_negative":n*len(selected)-positives,
-      "pilot_occurrence_response_consumed":semantic_occurrence_started,
+      "pilot_occurrence_response_consumed":semantic_state["occurrence_started"],
       "confirmatory_response_authorized":False,"fresh_status_restored":False,
       "counts_as_fresh_confirmation":False,"fresh_system_denominator_contribution":0
     }
