@@ -1,0 +1,9 @@
+{
+  "schema": "structural.global_mammals_species_metadata_audit_request.v1_69",
+  "status": "REQUEST_RESPONSE_BLIND_SPECIES_METADATA_SCHEMA_AUDIT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "species_metadata_file_id": 3242160,
+  "species_metadata_sha256": "705576b9ddb5de369c8f87e37f5fb47ed83e12e4f9dc6946443630034062f314",
+  "Appendix1_access_authorized": false,
+  "one_shot": true
+}
