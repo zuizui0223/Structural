@@ -1,0 +1,52 @@
+{
+  "schema": "structural.gift_exploratory_availability_contract.v1_78",
+  "status": "POST_TERMINAL_NONCONFIRMATORY_ENDPOINT_AVAILABLE_SURFACE_PREDECLARED",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "analysis_route": "separate_nonconfirmatory_exploratory_plant_lineage",
+  "parents": [
+    "development/gift_confirmatory_terminal_freeze_v1_76.json",
+    "development/gift_confirmatory_scoring_contract_v1_61.json",
+    "development/gift_preconfirmatory_model_freeze_v1_60.json",
+    "development/gift_pilot_routing_freeze_v1_53.json"
+  ],
+  "fixed_inputs": {
+    "confirmatory_entities": 404,
+    "confirmatory_lists": 596,
+    "focal_species": 224,
+    "prediction_sha256": "3c87379be8081edd05ad42e56a8b58a39b2ff75e15ba75993147fb21a0992db4",
+    "entity_order_sha256": "22d61a3915ea2786f2ff2d34e9d4485b14cc5da5a22f197b72511885034fd663",
+    "species_universe_sha256": "6b92ebfa7e3c242f0cffde3e91f9ff05c821b2ca242638a0ead6f6f0591e4bce",
+    "confirmatory_lists_sha256": "c1996d42281a309829d224419fca6a42e7eea7009fc9817a6c4bad62cbf1974a"
+  },
+  "endpoint_availability_rule": {
+    "query": "one GIFT_checklists_raw call using exactly all 596 frozen confirmatory list_IDs",
+    "unavailable_list": "frozen list_ID absent from returned species rows",
+    "retained_entity": "at least one frozen list_ID returns species rows AND the union of returned lists contains at least one accepted high-confidence native row of any species",
+    "excluded_entity": "no available list OR zero accepted high-confidence native rows across all available frozen lists",
+    "replacement_lists_allowed": false,
+    "replacement_entities_allowed": false,
+    "manual_exception_for_list_180_or_any_other_list": false
+  },
+  "presence_semantics": {
+    "accepted_row": "native == 1 AND questionable == 0 AND quest_native == 0",
+    "focal_entity_presence": "focal work_ID appears in at least one accepted row across available frozen lists of the retained entity",
+    "focal_entity_absence": "focal work_ID absent from all accepted rows across available frozen lists of the retained entity"
+  },
+  "scoring": {
+    "predictions": "original v1.60 frozen predictions only; no refit or replacement",
+    "within_block": "mean C-minus-R3 binary log-loss over retained entity-by-focal-species cells",
+    "across_blocks": "equal-weight mean of retained confirmatory archipelago block means",
+    "empty_block": "drop if no retained entity remains; no replacement",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260930,
+    "favourable_direction": "negative"
+  },
+  "anti_rescue": [
+    "fresh GIFT terminal v1.76 status is unchanged",
+    "no list/entity threshold may be chosen from C-minus-R3 direction",
+    "no species-universe, model, prediction, regional-pool, or block changes",
+    "this result cannot count as fresh or primary confirmatory evidence"
+  ],
+  "counts_as_fresh_confirmation": false,
+  "counts_as_primary_confirmatory_evidence": false
+}
