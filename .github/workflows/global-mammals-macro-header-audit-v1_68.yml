@@ -1,0 +1,68 @@
+name: Global mammals macro header-only audit v1.68
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_macro_header_audit_request_v1_68.json
+permissions:
+  contents: read
+jobs:
+  header-audit:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate diagnostic-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_macro_header_audit_request_v1_68.json").read_text())
+          c=json.loads(Path("development/global_mammals_macro_header_audit_contract_v1_68.json").read_text())
+          assert r["status"]=="REQUEST_HEADER_ONLY_SCHEMA_DIAGNOSTIC"
+          assert r["failed_pilot_run_id"]==36741861713
+          assert r["data_record_access_authorized"] is False
+          assert r["confirmatory_response_authorized"] is False
+          assert c["failure_parent"]["v1_65_rerun_authorized"] is False
+          assert c["allowed_semantics"]["data_record_occurrence_values_decoded"]==0
+          assert r["one_shot"] is True
+          PY
+      - name: Prepare Dryad token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v168
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v168/token_receipt.json
+      - name: Audit exact header only
+        run: |
+          python scripts/audit_global_mammals_macro_header_v1_68.py             --receipt build/global_mammals_v168/header_audit_receipt.json
+      - name: Enforce no data-row access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v168/header_audit_receipt.json").read_text())
+          assert x["status"]=="HEADER_ONLY_SCHEMA_AUDIT_COMPLETE"
+          assert x["data_record_routing_ids_decoded"]==0
+          assert x["data_record_occurrence_values_decoded"]==0
+          assert x["data_record_bytes_semantically_opened"] is False
+          assert x["fresh_status_restored"] is False
+          assert x["confirmatory_response_authorized"] is False
+          PY
+      - name: Upload header-only receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v168-header-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v168/token_receipt.json
+            build/global_mammals_v168/header_audit_receipt.json
+          if-no-files-found: error
+          retention-days: 30
