@@ -1,0 +1,125 @@
+name: Global mammals schema-corrected macro pilot v1.70
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_schema_corrected_pilot_request_v1_70.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  pilot:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate separate contaminated lineage
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/global_mammals_header_schema_correction_v1_69.json").read_text())
+          c=json.loads(Path("development/global_mammals_schema_corrected_pilot_contract_v1_69.json").read_text())
+          r=json.loads(Path("development/global_mammals_schema_corrected_pilot_request_v1_70.json").read_text())
+          assert x["corrected_physical_schema"]["header_fields"]==5394
+          assert x["corrected_physical_schema"]["data_record_fields"]==5395
+          assert x["what_does_not_change"]["species_threshold_m"]==13
+          assert x["evidence_boundary"]["this_is_not_a_v165_rerun"] is True
+          assert c["scientific_method"]["model_or_feature_change_after_header_failure"] is False
+          assert r["pilot_occurrence_access_authorized"] is True
+          assert r["confirmatory_occurrence_access_authorized"] is False
+          assert r["fresh_status_restored"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact frozen routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v170/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Download exact header audit
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v168-header-bc703acdd8ac596af26082f2bbc9fe1d72c601b4-36742619309
+          path: build/global_mammals_v170/header
+          repository: zuizui0223/Structural
+          run-id: 36742619309
+          github-token: ${{ github.token }}
+
+      - name: Verify corrected header interpretation before occurrence access
+        run: |
+          python - <<'PY'
+          import csv,hashlib
+          from pathlib import Path
+          p=Path("build/global_mammals_v170/header/header_manifest.csv")
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=="6838021a430083d4b4a8d2a84b59e80c156c08742c388b24f6550221be7e7f3e"
+          with p.open(encoding="utf-8",newline="") as h:
+              rows=list(csv.DictReader(h))
+          assert len(rows)==5394
+          assert rows[0]["header_string"]=="Cephalophus.adersi"
+          assert rows[-1]["header_string"]=="Miniopterus.tristis"
+          d=hashlib.sha256()
+          for row in rows:
+              d.update(row["header_string"].encode("utf-8"));d.update(b"\n")
+          assert d.hexdigest()=="e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81"
+          PY
+
+      - name: Prepare Dryad token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v170/output
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v170/output/token_receipt.json
+
+      - name: Consume exact pilot occurrence rows once
+        run: |
+          python scripts/run_global_mammals_schema_corrected_pilot_v1_69.py             --pilot-routing build/global_mammals_v170/routing/pilot_ids.csv             --confirmatory-routing build/global_mammals_v170/routing/confirmatory_ids.csv             --species-universe build/global_mammals_v170/output/pilot_species_universe.csv             --pilot-matrix build/global_mammals_v170/output/pilot_matrix.csv             --receipt build/global_mammals_v170/output/pilot_response_receipt.json
+
+      - name: Enforce confirmatory occurrence seal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v170/output/pilot_response_receipt.json").read_text())
+          assert x["status"]=="HEADER_EXPOSED_MACRO_PILOT_OCCURRENCES_CONSUMED_AND_SPECIES_UNIVERSE_FROZEN"
+          assert x["source_species_columns"]==5394
+          assert x["species_order_sha256"]=="e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81"
+          assert x["pilot_islands_decoded"]==1275
+          assert x["confirmatory_islands_seen_routing_only"]==4126
+          assert x["excluded_islands_seen_routing_only"]==191
+          assert x["confirmatory_occurrence_values_decoded"]==0
+          assert x["excluded_occurrence_values_decoded"]==0
+          assert x["species_threshold_m"]==13
+          assert x["pilot_occurrence_response_consumed"] is True
+          assert x["confirmatory_response_authorized"] is False
+          assert x["fresh_status_restored"] is False
+          PY
+
+      - name: Upload contaminated macro pilot snapshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v170-pilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v170/output/token_receipt.json
+            build/global_mammals_v170/output/pilot_species_universe.csv
+            build/global_mammals_v170/output/pilot_matrix.csv
+            build/global_mammals_v170/output/pilot_response_receipt.json
+          if-no-files-found: warn
+          retention-days: 30
