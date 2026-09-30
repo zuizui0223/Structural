@@ -1,0 +1,91 @@
+{
+  "schema": "structural.current_status.v1_81",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v1_14.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0,
+    "completed_fresh_system_count": 1,
+    "fresh_primary_supported_count": 0,
+    "fresh_primary_not_supported_count": 1,
+    "fresh_terminal_unscored_attempt_count": 1
+  },
+  "fresh_systems": {
+    "boreal_19island_beetles": {
+      "status": "COMPLETED_PRIMARY_NOT_SUPPORTED",
+      "counts_as_fresh_confirmatory_evidence": true,
+      "fresh_system_denominator_contribution": 1,
+      "result_freeze": "development/boreal_19island_confirmatory_result_freeze_v1_14.json"
+    },
+    "GIFT_native_angiosperms": {
+      "status": "TERMINAL_FRESH_CONFIRMATORY_API_FAILURE_AFTER_RESPONSE_ACCESS",
+      "primary_score_available": false,
+      "fresh_system_denominator_contribution": 0,
+      "terminal_reason": "confirmatory list_ID 180 returned zero species rows",
+      "same_protocol_retry_authorized": false,
+      "result_freeze": "development/gift_confirmatory_terminal_freeze_v1_76.json"
+    }
+  },
+  "global_mammal_macro": {
+    "candidate_id": "global_island_native_mammals_barreto_2024",
+    "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+    "final_islands": 5401,
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "focal_species": 79,
+    "heldout_blocks": 168,
+    "target_cells": 325954,
+    "C_minus_R3": -0.0018141589038615496,
+    "bootstrap_ci95": [-0.002817220627012837,-0.0009974506971953355],
+    "directional_support_exploratory": true,
+    "negative_blocks": 108,
+    "negative_mean_bioregions": 10,
+    "total_bioregions": 12,
+    "Current_isolation_spearman_equal_block": 0.28743057515243015,
+    "Current_isolation_spearman_within_bioregion_centered": 0.2278413095720483,
+    "counts_as_fresh_confirmatory_evidence": false,
+    "counts_as_primary_confirmatory_evidence": false,
+    "primary_freeze": "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+    "diagnostics_freeze": "development/global_mammals_exploratory_diagnostics_freeze_v1_79.json"
+  },
+  "historical_mammal_stress_context": {
+    "candidate_id": "zenodo_318_island_mammals_2024",
+    "heldout_islands": 244,
+    "focal_species": 233,
+    "overall_C_minus_R3": -0.0896429472299821,
+    "extreme_minus_nonextreme": 0.04545173576685289,
+    "bootstrap_ci95": [-0.0031904317577055308,0.08835839946973478],
+    "extreme_amplification_supported": false,
+    "counts_as_fresh_confirmation": false,
+    "result_freeze": "development/zenodo_318_island_mammals_stress_result_v0_54.json"
+  },
+  "current_ecological_synthesis": {
+    "path": "development/macro_dual_isolation_synthesis_v1_80.json",
+    "core_statement": "external mainland isolation and species-conditioned internal source isolation are distinct axes; internal source-network information is geographically broad in the global mammal analysis but attenuates rather than amplifies toward greater external isolation",
+    "provisional_title": "Island isolation is not one-dimensional: source-network information is widespread but attenuates with external isolation",
+    "cross_taxon_confirmatory_generality_claim_authorized": false
+  },
+  "future_hypothesis": {
+    "path": "development/prospective_source_network_attenuation_hypothesis_v1_80.json",
+    "status": "future-only; requires a new independent response-sealed system"
+  },
+  "manuscript": {
+    "path": "manuscript/macro_dual_isolation_mammal_v1_80.md",
+    "empirical_core": "global 5401-island mammal macroanalysis",
+    "preferred_scope": "global island biogeography / macroecology"
+  },
+  "queued_nonconfirmatory_work": [
+    {
+      "workflow_run_id": 36788225904,
+      "name": "GIFT endpoint-available exploratory scoring v1.78",
+      "purpose": "recover descriptive plant direction without restoring fresh status"
+    },
+    {
+      "workflow_run_id": 36789642593,
+      "name": "Global mammals species-breadth diagnostics v1.81",
+      "purpose": "test post-hoc whether source-network gain weakens with species occupancy breadth"
+    }
+  ],
+  "active_priority": "development/structural_active_priority_v1_81.json"
+}
