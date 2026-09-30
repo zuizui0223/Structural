@@ -1,0 +1,46 @@
+{
+  "schema": "structural.global_mammals_macro_header_audit_contract.v1_68",
+  "status": "HEADER_ONLY_SCHEMA_DIAGNOSTIC_AFTER_V165_TERMINAL_STOP",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "contaminated_macro_analysis_only",
+  "failure_parent": {
+    "workflow_run_id": 36741861713,
+    "workflow_job_id": 109978002965,
+    "status": "TERMINAL_AFTER_PILOT_SEMANTIC_ACCESS",
+    "reason": "species header field-count drift",
+    "confirmatory_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "v1_65_rerun_authorized": false
+  },
+  "response_identity": {
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6"
+  },
+  "allowed_semantics": {
+    "decode_header_record_only": true,
+    "header_delimiter": ";",
+    "persist_header_strings": false,
+    "persist_header_field_count": true,
+    "persist_first_header_field_sha256": true,
+    "persist_ordered_species_header_sha256": true,
+    "data_record_routing_ids_decoded": 0,
+    "data_record_occurrence_values_decoded": 0,
+    "data_record_bytes_semantically_opened": false
+  },
+  "purpose": "determine the exact physical header schema responsible for the v1.65 pre-pilot-matrix STOP without inspecting any additional biological occurrence value",
+  "scientific_constraints": {
+    "may_not_restore_freshness": true,
+    "may_not_change_m13_species_selection_rule": true,
+    "may_not_change_spatial_blocks": true,
+    "may_not_change_R3_C_model_contract": true,
+    "may_not_authorize_confirmatory_response": true
+  },
+  "evidence_boundary": {
+    "counts_as_empirical_evidence": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_status_restored": false,
+    "confirmatory_response_authorized": false
+  }
+}
