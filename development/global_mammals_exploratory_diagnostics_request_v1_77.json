@@ -1,0 +1,13 @@
+{
+  "schema": "structural.global_mammals_exploratory_diagnostics_request.v1_77",
+  "status": "REQUEST_POSTHOC_NONRESCUING_FROZEN_BLOCK_DIAGNOSTICS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "block_score_artifact_id": 11113225988,
+  "block_scores_sha256": "c0a0642800db060b61a78933ae5d86b0f976688c68fd0a39ea85c8c2eb5723a1",
+  "reference_artifact_id": 11059506168,
+  "state_reference_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+  "expected_blocks": 168,
+  "expected_confirmatory_islands": 4126,
+  "confirmatory_status_change_authorized": false,
+  "one_shot": true
+}
