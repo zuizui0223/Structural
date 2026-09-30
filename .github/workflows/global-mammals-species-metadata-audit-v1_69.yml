@@ -1,0 +1,66 @@
+name: Global mammals species metadata audit v1.69
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_species_metadata_audit_request_v1_69.json
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate response-blind audit request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_species_metadata_audit_request_v1_69.json").read_text())
+          c=json.loads(Path("development/global_mammals_species_metadata_audit_contract_v1_69.json").read_text())
+          assert r["status"]=="REQUEST_RESPONSE_BLIND_SPECIES_METADATA_SCHEMA_AUDIT"
+          assert r["species_metadata_file_id"]==3242160
+          assert r["Appendix1_access_authorized"] is False
+          assert c["allowed_semantics"]["species_column_selection_in_this_revision"] is False
+          assert c["response_boundary"]["occurrence_values_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+      - name: Prepare Dryad token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v169
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v169/token_receipt.json
+      - name: Audit exact response-blind species metadata
+        run: |
+          python scripts/audit_global_mammals_species_metadata_v1_69.py             --receipt build/global_mammals_v169/species_metadata_receipt.json
+      - name: Enforce response boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v169/species_metadata_receipt.json").read_text())
+          assert x["status"]=="SPECIES_METADATA_SCHEMA_FROZEN_RESPONSE_BLINDLY"
+          assert x["species_column_selected"] is False
+          assert x["Appendix1_opened"] is False
+          assert x["occurrence_values_opened"] is False
+          assert x["fresh_status_restored"] is False
+          PY
+      - name: Upload metadata schema receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v169-species-metadata-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v169/token_receipt.json
+            build/global_mammals_v169/species_metadata_receipt.json
+          if-no-files-found: error
+          retention-days: 30
