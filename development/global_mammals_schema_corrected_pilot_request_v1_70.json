@@ -1,0 +1,17 @@
+{
+  "schema": "structural.global_mammals_schema_corrected_pilot_request.v1_70",
+  "status": "REQUEST_ONE_SHOT_HEADER_EXPOSED_CONTAMINATED_MACRO_PILOT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "header_audit_run_id": 36742619309,
+  "header_audit_artifact_id": 11111510286,
+  "header_manifest_sha256": "6838021a430083d4b4a8d2a84b59e80c156c08742c388b24f6550221be7e7f3e",
+  "species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81",
+  "routing_artifact_id": 11060106528,
+  "pilot_islands": 1275,
+  "confirmatory_islands": 4126,
+  "species_threshold_m": 13,
+  "pilot_occurrence_access_authorized": true,
+  "confirmatory_occurrence_access_authorized": false,
+  "fresh_status_restored": false,
+  "one_shot": true
+}
