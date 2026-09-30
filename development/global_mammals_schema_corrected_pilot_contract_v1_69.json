@@ -1,0 +1,64 @@
+{
+  "schema": "structural.global_mammals_schema_corrected_pilot_contract.v1_69",
+  "status": "ONE_SHOT_HEADER_EXPOSED_CONTAMINATED_MACRO_PILOT_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "header_exposed_contaminated_macro_only",
+  "parents": [
+    "development/global_mammals_header_schema_correction_v1_69.json",
+    "development/global_mammals_macro_pilot_routing_freeze_v1_64.json",
+    "development/global_mammals_macro_model_contract_v1_67.json"
+  ],
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";",
+    "expected_data_rows": 5592,
+    "expected_species_columns": 5394,
+    "expected_header_fields": 5394,
+    "expected_data_record_fields": 5395,
+    "species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81"
+  },
+  "routing": {
+    "artifact_id": 11060106528,
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_islands": 1275,
+    "confirmatory_islands": 4126,
+    "excluded_rows": 191
+  },
+  "semantic_firewall": {
+    "species_header_already_exposed_and_now_frozen": true,
+    "pilot_occurrence_rows_may_open": true,
+    "confirmatory_occurrence_rows_may_open": false,
+    "excluded_occurrence_rows_may_open": false,
+    "nonpilot_record_remainder_utf8_decode_forbidden": true,
+    "target_domain": ["0","1"],
+    "raw_response_persistence_forbidden": true
+  },
+  "species_universe": {
+    "selection_uses_pilot_only": true,
+    "minimum_presence": 13,
+    "minimum_absence": 13,
+    "rule": "retain exact frozen species headers present on at least 13 pilot islands and absent on at least 13 pilot islands",
+    "confirmatory_response_may_not_change_universe": true,
+    "source_header_order_preserved": true
+  },
+  "scientific_method": {
+    "model_contract": "development/global_mammals_macro_model_contract_v1_67.json",
+    "model_or_feature_change_after_header_failure": false,
+    "block_or_threshold_change_after_header_failure": false
+  },
+  "failure_policy": {
+    "before_first_pilot_occurrence_decode": "HOLD only for operational transport/input-identity failure",
+    "after_first_pilot_occurrence_decode": "pilot occurrence response consumed; no further pilot redesign"
+  },
+  "evidence_boundary": {
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmation": false,
+    "fresh_system_denominator_contribution": 0,
+    "confirmatory_response_authorized": false
+  }
+}
