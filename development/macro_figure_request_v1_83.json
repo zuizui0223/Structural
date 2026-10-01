@@ -1,0 +1,11 @@
+{
+  "schema": "structural.macro_figure_request.v1_83",
+  "status": "REQUEST_FROZEN_OUTPUT_ONLY_MACRO_FIGURES",
+  "diagnostics_run_id": 36787772910,
+  "diagnostics_artifact_id": 11130602935,
+  "species_breadth_run_id": 36789642593,
+  "species_breadth_artifact_id": 11131608867,
+  "gift_freeze": "development/gift_exploratory_availability_freeze_v1_82.json",
+  "new_response_access_authorized": false,
+  "one_shot": true
+}
