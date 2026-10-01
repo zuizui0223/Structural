@@ -1,0 +1,11 @@
+{
+  "schema": "structural.macro_figure_rerender_request.v1_83_1",
+  "status": "REQUEST_LAYOUT_ONLY_RERENDER_FROM_SAME_FROZEN_OUTPUTS",
+  "parent_request": "development/macro_figure_request_v1_83.json",
+  "diagnostics_artifact_id": 11130602935,
+  "species_breadth_artifact_id": 11131608867,
+  "gift_freeze": "development/gift_exploratory_availability_freeze_v1_82.json",
+  "scientific_data_or_claim_changed": false,
+  "new_response_access_authorized": false,
+  "one_shot": true
+}

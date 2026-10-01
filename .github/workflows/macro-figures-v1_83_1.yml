@@ -1,0 +1,100 @@
+name: Macro frozen-output figures layout rerender v1.83.1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/macro_figure_rerender_request_v1_83_1.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  figures:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install plotting dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "matplotlib>=3.8,<4"
+
+      - name: Validate layout-only rerender
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/macro_figure_rerender_request_v1_83_1.json").read_text())
+          assert r["status"]=="REQUEST_LAYOUT_ONLY_RERENDER_FROM_SAME_FROZEN_OUTPUTS"
+          assert r["diagnostics_artifact_id"]==11130602935
+          assert r["species_breadth_artifact_id"]==11131608867
+          assert r["scientific_data_or_claim_changed"] is False
+          assert r["new_response_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact mammal geographic diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v177-diagnostics-3778a2c53e76ec83a871b1415ba2e27eb1affb98-36787772910
+          path: build/macro_v1831/diagnostics
+          repository: zuizui0223/Structural
+          run-id: 36787772910
+          github-token: ${{ github.token }}
+
+      - name: Download exact mammal species-breadth diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v181-species-breadth-291a5a803c070215bd25fb46449e62f1821a1378-36789642593
+          path: build/macro_v1831/breadth
+          repository: zuizui0223/Structural
+          run-id: 36789642593
+          github-token: ${{ github.token }}
+
+      - name: Verify exact frozen inputs
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/macro_v1831/diagnostics/block_context.csv":"36f452c2db01f55d6bd43951fb2f744c98772484f033330153e26b5da6d82195",
+            "build/macro_v1831/diagnostics/bioregion_summary.csv":"46c3542a0e7a79255433134b0ea3ce38afa86356f2677b98d9e07d7357ef5f3d",
+            "build/macro_v1831/breadth/species_effects.csv":"c87e32f74bffb65255f9f639d3050da3d5109ad0409f97c7a9d8c58e1da02648",
+            "build/macro_v1831/breadth/breadth_quartiles.csv":"6f217a762273feea388b46e344520741b9fd46dfba5f6d5ca247ae63576d5b3e",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Rerender layout only
+        run: |
+          mkdir -p build/macro_v1831/output
+          python scripts/build_macro_figures_v1_83.py             --block-context build/macro_v1831/diagnostics/block_context.csv             --bioregion-summary build/macro_v1831/diagnostics/bioregion_summary.csv             --species-effects build/macro_v1831/breadth/species_effects.csv             --breadth-quartiles build/macro_v1831/breadth/breadth_quartiles.csv             --gift-freeze development/gift_exploratory_availability_freeze_v1_82.json             --output-dir build/macro_v1831/output             --receipt build/macro_v1831/output/figure_receipt.json
+
+      - name: Enforce unchanged scientific boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/macro_v1831/output/figure_receipt.json").read_text())
+          assert x["status"]=="FROZEN_OUTPUT_ONLY_FIGURES_RENDERED"
+          assert x["render_revision"]=="v1.83.1_layout_only"
+          assert x["new_response_accessed"] is False
+          assert x["counts_as_empirical_evidence"] is False
+          PY
+
+      - name: Upload polished figures
+        uses: actions/upload-artifact@v4
+        with:
+          name: macro-v1831-figures-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/macro_v1831/output/*.png
+            build/macro_v1831/output/*.svg
+            build/macro_v1831/output/figure_receipt.json
+          if-no-files-found: error
+          retention-days: 30
