@@ -1,0 +1,119 @@
+{
+  "schema": "structural.current_status.v1_85",
+  "status": "canonical_current_status",
+  "supersedes": "development/current_status_v1_82.json",
+  "fresh_empirical_state": {
+    "active_candidates": [],
+    "confirmatory_eligible_count": 0,
+    "live_confirmatory_queue_entries": 0,
+    "completed_fresh_system_count": 1,
+    "fresh_primary_supported_count": 0,
+    "fresh_primary_not_supported_count": 1,
+    "fresh_terminal_unscored_attempt_count": 1
+  },
+  "global_mammal_macro": {
+    "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+    "islands": 5401,
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "focal_species": 79,
+    "heldout_blocks": 168,
+    "target_cells": 325954,
+    "positive_cells": 5620,
+    "positive_fraction": 0.017241696681126784,
+    "primary_C_minus_R3": -0.0018141589038615496,
+    "primary_bootstrap_ci95": [-0.002817220627012837,-0.0009974506971953355],
+    "block_weighted_relative_logloss_reduction": 0.03770988990745495,
+    "geographic_breadth": {
+      "negative_blocks": 108,
+      "negative_mean_bioregions": 10,
+      "total_bioregions": 12
+    },
+    "species_breadth": {
+      "negative_species": 64,
+      "total_species": 79,
+      "pilot_prevalence_vs_C_minus_R3_spearman": 0.27643959301238685
+    },
+    "external_isolation": {
+      "equal_block_spearman": 0.28743057515243015,
+      "within_bioregion_centered_spearman": 0.2278413095720483
+    },
+    "prediction_behavior": {
+      "absence_C_minus_R3": -0.005801435444703651,
+      "presence_C_minus_R3": 0.11643800501898788,
+      "class_balanced_equal_block_C_minus_R3": 0.04941170770534662,
+      "R3_ROC_AUC": 0.9094690468425005,
+      "C_ROC_AUC": 0.918508736444059,
+      "R3_average_precision": 0.3561225304367006,
+      "C_average_precision": 0.35015538387585554,
+      "graph_empty_fraction": 0.7825367996711192,
+      "graph_empty_C_minus_R3": -0.0007992552987686575,
+      "graph_nonempty_C_minus_R3": -0.014109851236894143,
+      "graph_empty_fraction_vs_C_minus_R3_spearman": 0.2827513281311377
+    },
+    "evidence_status": {
+      "counts_as_fresh_confirmatory_evidence": false,
+      "counts_as_primary_confirmatory_evidence": false,
+      "primary_status_changed_by_posthoc_diagnostics": false
+    },
+    "freezes": {
+      "primary": "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+      "geographic_diagnostics": "development/global_mammals_exploratory_diagnostics_freeze_v1_79.json",
+      "species_breadth": "development/global_mammals_species_breadth_diagnostics_freeze_v1_82.json",
+      "prediction_behavior": "development/global_mammals_prediction_behavior_freeze_v1_85.json"
+    }
+  },
+  "GIFT_plants": {
+    "fresh_lane": {
+      "status": "TERMINAL_FRESH_CONFIRMATORY_API_FAILURE_AFTER_RESPONSE_ACCESS",
+      "primary_score_available": false,
+      "fresh_system_denominator_contribution": 0,
+      "result_freeze": "development/gift_confirmatory_terminal_freeze_v1_76.json"
+    },
+    "endpoint_available_exploratory": {
+      "retained_entities": 118,
+      "frozen_confirmatory_entities": 404,
+      "retained_blocks": 18,
+      "frozen_confirmatory_blocks": 59,
+      "C_minus_R3": -0.04749387278574668,
+      "bootstrap_ci95": [-0.11332878625785192,-0.004323333963255859],
+      "role": "descriptive cross-taxon directional concordance only",
+      "result_freeze": "development/gift_exploratory_availability_freeze_v1_82.json"
+    }
+  },
+  "boreal_19island_beetles": {
+    "status": "COMPLETED_PRIMARY_NOT_SUPPORTED",
+    "counts_as_fresh_confirmatory_evidence": true,
+    "fresh_system_denominator_contribution": 1,
+    "role": "local fresh boundary case"
+  },
+  "historical_318_mammals": {
+    "evidence_class": "design-frozen nonfresh stress test",
+    "overall_C_minus_R3": -0.0896429472299821,
+    "extreme_minus_nonextreme": 0.04545173576685289,
+    "bootstrap_ci95": [-0.0031904317577055308,0.08835839946973478],
+    "role": "independent external-isolation attenuation context only"
+  },
+  "current_ecological_synthesis": {
+    "path": "development/macro_dual_isolation_synthesis_v1_85.json",
+    "core_statement": "graph-path source topology provides geographically broad but asymmetric occupancy information beyond R3: its natural-prevalence gain is driven mainly by better prediction of true absences, and the increment attenuates with external isolation, species breadth, and graph-source emptiness",
+    "working_principle": "source-network contrast window with asymmetric occupancy-constraint information",
+    "fresh_global_confirmation_authorized": false,
+    "cross_taxon_confirmatory_generality_claim_authorized": false
+  },
+  "future_hypothesis": {
+    "path": "development/prospective_source_network_contrast_window_hypothesis_v1_85.json",
+    "status": "future-only; new independent response-sealed system required"
+  },
+  "manuscript": {
+    "path": "manuscript/macro_dual_isolation_mammal_v1_85.md",
+    "empirical_core": "global 5401-island mammal macroanalysis",
+    "preferred_scope": "global island biogeography / macroecology"
+  },
+  "figures": {
+    "base_pipeline": "v1.83 frozen-output figures complete",
+    "layout_polish": "v1.83.1 requested from identical frozen outputs",
+    "new_response_access": false
+  },
+  "active_priority": "development/structural_active_priority_v1_85.json"
+}
