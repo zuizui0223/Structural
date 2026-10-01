@@ -1,0 +1,9 @@
+{
+  "schema": "structural.macro_prediction_behavior_figure_request.v1_86",
+  "status": "REQUEST_FROZEN_V185_DIAGNOSTIC_FIGURES",
+  "freeze": "development/global_mammals_prediction_behavior_freeze_v1_85.json",
+  "prediction_behavior_artifact_id": 11139081593,
+  "new_response_access_authorized": false,
+  "may_change_primary_status": false,
+  "one_shot": true
+}
