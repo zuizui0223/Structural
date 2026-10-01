@@ -1,0 +1,74 @@
+{
+  "schema": "structural.gift_exploratory_availability_freeze.v1_82",
+  "status": "SUCCESSFUL_NONCONFIRMATORY_ENDPOINT_AVAILABLE_GIFT_RESULT_FROZEN",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "analysis_route": "separate_nonconfirmatory_exploratory_plant_lineage",
+  "source_execution": {
+    "workflow": ".github/workflows/gift-exploratory-availability-v1_78.yml",
+    "workflow_run_id": 36788225904,
+    "workflow_head_sha": "17bc7b6baf87b65580a021e9b18f45dd73a2fac5",
+    "workflow_job_id": 110134647963,
+    "artifact_id": 11131717694,
+    "artifact_name": "gift-v178-exploratory-17bc7b6baf87b65580a021e9b18f45dd73a2fac5-36788225904",
+    "artifact_digest": "sha256:e1039e3f125bf47d0f175c7d175f109c468010f686aa70943f93a262a088eb50",
+    "expires_at": "2026-10-30T23:22:12Z"
+  },
+  "artifact_files": {
+    "exploratory_matrix.csv": {
+      "sha256": "130a7787d76a5a9a4cc1ca54e6997444c4fcb237f28e9ac2be8783bc8944dcd3"
+    },
+    "endpoint_availability.csv": {
+      "sha256": "08bb8af320806fd6e61c572a0fc0eab64ca2c878b06f88fd78396c38396c811f"
+    },
+    "exploratory_response_receipt.json": {
+      "sha256": "1bc35dd52a68e74a645bc2de4f0b939034aa47d8be1363cec778ad82b2e16fb7"
+    },
+    "block_scores.csv": {
+      "sha256": "d31a1f4238ea849f5ae2b4510a11dc68d4286ff9506798cd451dac2e1460973f"
+    },
+    "exploratory_result.json": {
+      "sha256": "c2407ccd6193d182079f0093657ff5dcc3725d0daf583b267657b49f138d7795"
+    }
+  },
+  "endpoint_availability": {
+    "frozen_confirmatory_entities": 404,
+    "frozen_confirmatory_lists": 596,
+    "returned_nonempty_lists": 584,
+    "unavailable_lists": 12,
+    "retained_entities": 118,
+    "excluded_entities": 286,
+    "excluded_entities_no_available_list": 9,
+    "excluded_entities_available_list_but_zero_accepted_high_confidence_native_rows": 277,
+    "retained_blocks": 18,
+    "dropped_empty_blocks": 41,
+    "focal_species": 224,
+    "target_rows": 26432,
+    "target_positive": 978,
+    "target_negative": 25454
+  },
+  "primary_exploratory_result": {
+    "point_estimate_C_minus_R3_logloss": -0.04749387278574668,
+    "bootstrap_ci95_low": -0.11332878625785192,
+    "bootstrap_ci95_high": -0.004323333963255859,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260930,
+    "directional_support_exploratory": true
+  },
+  "interpretation_guardrails": {
+    "fresh_GIFT_v1_76_terminal_status_unchanged": true,
+    "fresh_status_restored": false,
+    "counts_as_fresh_confirmatory_evidence": false,
+    "counts_as_primary_confirmatory_evidence": false,
+    "fresh_system_denominator_contribution": 0,
+    "availability_selection_is_severe": true,
+    "allowed_wording": "Within the nonconfirmatory endpoint-available GIFT subset (118 islands in 18 archipelagos), the original frozen graph-path source-continuity predictions improved held-out log loss beyond R3 in the same direction as the global mammal exploratory analysis.",
+    "forbidden_wording": [
+      "plant replication",
+      "cross-taxon confirmation",
+      "fresh plant support",
+      "representative global plant result",
+      "GIFT confirms attenuation"
+    ]
+  },
+  "next_action": "use only as descriptive cross-taxon concordance in the macro synthesis; do not use the endpoint-available subset to estimate plant generality"
+}

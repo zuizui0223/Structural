@@ -1,0 +1,21 @@
+{
+  "schema": "structural.active_priority.v1_82",
+  "status": "freeze_v182_macro_synthesis_and_stop_response_mining",
+  "canonical_current_status": "development/current_status_v1_82.json",
+  "do_now": [
+    "freeze the completed GIFT endpoint-available exploratory artifact by exact provenance",
+    "freeze the completed mammal species-breadth diagnostic by exact provenance",
+    "update the mammal-centered manuscript around the source-network contrast-window interpretation",
+    "treat all new v1.82 additions as nonconfirmatory synthesis or post-hoc diagnostics",
+    "prepare figures and submission-facing methods/results from already frozen outputs only"
+  ],
+  "do_not": [
+    "consume new fresh response in Structural",
+    "retry the terminal GIFT fresh confirmatory protocol",
+    "promote GIFT v1.78 or global mammals to fresh confirmation",
+    "search new isolation or occupancy thresholds",
+    "remove species or blocks to strengthen the attenuation pattern",
+    "claim formal unimodality or causal depletion/saturation"
+  ],
+  "next_fresh_scientific_event": "only a new independent response-sealed system may test development/prospective_source_network_contrast_window_hypothesis_v1_82.json"
+}

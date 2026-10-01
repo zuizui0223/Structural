@@ -1,0 +1,99 @@
+{
+  "schema": "structural.macro_dual_isolation_synthesis.v1_82",
+  "status": "CURRENT_MACROECOLOGICAL_SYNTHESIS_WITH_ENDPOINT_AND_EVIDENCE_GUARDRAILS",
+  "core_question": "When does species-conditioned internal source-network topology retain occurrence information beyond external island isolation, generic network context, occupancy breadth, regional prevalence, and direct/diffuse occupied-source proximity?",
+  "current_answer": "In the global mammal exploratory analysis, graph-path source continuity adds geographically broad held-out information beyond R3, but its increment weakens along two independent axes: with greater external island isolation and with broader species occupancy. This supports a source-network contrast-window hypothesis in which topology is most informative while occupied source networks remain neither severely depleted nor broadly saturated.",
+  "systems": {
+    "global_5401_mammals": {
+      "evidence_class": "nonconfirmatory exploratory macro analysis",
+      "islands": 5401,
+      "pilot_islands": 1275,
+      "heldout_islands": 4126,
+      "focal_species": 79,
+      "heldout_blocks": 168,
+      "target_cells": 325954,
+      "C_minus_R3": -0.0018141589038615496,
+      "bootstrap_ci95": [-0.002817220627012837,-0.0009974506971953355],
+      "negative_blocks": 108,
+      "negative_mean_bioregions": 10,
+      "total_bioregions": 12,
+      "Current_isolation_spearman_equal_block": 0.28743057515243015,
+      "Current_isolation_spearman_within_bioregion_centered": 0.2278413095720483,
+      "negative_species": 64,
+      "positive_species": 15,
+      "pilot_prevalence_vs_species_C_minus_R3_spearman": 0.27643959301238685
+    },
+    "historical_318_mammals": {
+      "evidence_class": "design-frozen nonfresh stress test",
+      "heldout_islands": 244,
+      "focal_species": 233,
+      "overall_C_minus_R3": -0.0896429472299821,
+      "extreme_C_minus_R3": -0.055926700616046134,
+      "nonextreme_C_minus_R3": -0.10137843638289902,
+      "extreme_minus_nonextreme": 0.04545173576685289,
+      "bootstrap_ci95": [-0.0031904317577055308,0.08835839946973478],
+      "original_extreme_amplification_supported": false
+    },
+    "GIFT_plants": {
+      "fresh_evidence_class": "terminal global fresh attempt without ecological primary score",
+      "fresh_terminal_reason": "confirmatory list_ID 180 returned zero species rows after response access began",
+      "fresh_result_available": false,
+      "exploratory_evidence_class": "nonconfirmatory endpoint-available subset",
+      "frozen_confirmatory_entities": 404,
+      "endpoint_available_retained_entities": 118,
+      "endpoint_available_retained_blocks": 18,
+      "excluded_entities": 286,
+      "excluded_no_available_list": 9,
+      "excluded_zero_accepted_high_confidence_native_rows": 277,
+      "focal_species": 224,
+      "exploratory_C_minus_R3": -0.04749387278574668,
+      "exploratory_bootstrap_ci95": [-0.11332878625785192,-0.004323333963255859],
+      "interpretation": "descriptive cross-taxon directional concordance only; endpoint attrition is too severe for plant generality or replication claims"
+    },
+    "boreal_beetles": {
+      "evidence_class": "fresh local confirmatory system",
+      "primary_supported": false,
+      "role": "small-scale boundary case showing that internal source topology is not universally informative"
+    }
+  },
+  "revised_general_principle": {
+    "name": "source-network contrast window",
+    "statement": "Species-conditioned source topology is most informative when the occupied insular source network retains enough heterogeneity to distinguish targets. Its incremental value declines when the network becomes too sparse under strong external isolation and also when source occupancy becomes broad enough to saturate or homogenize the available source set.",
+    "place_side_evidence": "Across 168 global mammal blocks, greater current external isolation is associated with a less negative C-minus-R3 both globally and after within-bioregion centering; the independent 318-island stress test points in the same attenuation direction.",
+    "species_side_evidence": "Across the frozen 79-species mammal universe, broader pilot occupancy is associated with a less negative species-level C-minus-R3 (Spearman rho = +0.276), and the broadest occupancy quartile has the weakest mean increment.",
+    "boundary": "The current data support attenuation with breadth, not a formally established unimodal response or causal source depletion/saturation mechanism."
+  },
+  "novelty": {
+    "gap": "Island isolation metrics usually describe target-level mainland distance, surrounding landmass, stepping stones, or generic network position. Even species-aware models commonly stop at occupancy breadth or Euclidean distance to occupied sources. The unresolved ecological quantity is whether the topology of the realized occupied source network adds information after all of those simpler dimensions are represented, and under what source-network states that structural information remains nonredundant.",
+    "advance": "The global mammal analysis isolates graph-path source continuity above a deliberately strong R3 reference, demonstrates a geographically broad increment, and then shows that the increment attenuates along both a place-level axis (external isolation) and a species-level axis (occupancy breadth).",
+    "unexpected_result": "The strongest conceptual result is not a handoff at extreme remoteness. Instead, topological source information appears to require intermediate source-network contrast: it weakens when source networks are depleted by external isolation and when they become broadly saturated across islands.",
+    "cross_taxon_context": "The endpoint-available GIFT subset shows the same sign, but severe availability/quality attrition means this is descriptive concordance rather than cross-taxon confirmation."
+  },
+  "claim_boundary": {
+    "allowed": [
+      "In the nonconfirmatory global mammal macroanalysis, graph-path source continuity improved held-out occurrence log loss beyond R3.",
+      "The supportive direction occurred in 108 of 168 blocks, 10 of 12 bioregions, and 64 of 79 focal mammal species.",
+      "The graph-path increment weakened with greater current external isolation and with broader species occupancy.",
+      "The independent 318-island stress test showed the same qualitative external-isolation attenuation direction.",
+      "In the endpoint-available GIFT subset, the frozen plant predictions showed the same C-minus-R3 direction, but severe endpoint attrition prevents a replication/generalization claim."
+    ],
+    "forbidden": [
+      "fresh global confirmation",
+      "two-taxon confirmatory replication",
+      "universal source-network contrast window",
+      "causal source depletion or source saturation",
+      "representative global plant support",
+      "GIFT confirms the mammal result"
+    ]
+  },
+  "paper_positioning": {
+    "provisional_title": "Island isolation is not one-dimensional: source-network information weakens with external isolation and species breadth",
+    "alternative_title": "When does an island source network matter? Internal connectivity peaks before source networks become sparse or saturated",
+    "preferred_scope": "global island biogeography / macroecology",
+    "preferred_targets": ["Global Ecology and Biogeography","Journal of Biogeography","Ecography"],
+    "empirical_core": "global 5401-island mammal macroanalysis",
+    "plant_role": "transparent endpoint-limited nonconfirmatory cross-taxon context"
+  },
+  "future_test": "development/prospective_source_network_contrast_window_hypothesis_v1_82.json",
+  "counts_as_new_confirmatory_evidence": false
+}

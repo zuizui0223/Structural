@@ -1,0 +1,90 @@
+{
+  "schema": "structural.global_mammals_species_breadth_diagnostics_freeze.v1_82",
+  "status": "SUCCESSFUL_POSTHOC_NONRESCUING_SPECIES_BREADTH_DIAGNOSTICS_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-species-breadth-v1_81.yml",
+    "workflow_run_id": 36789642593,
+    "workflow_head_sha": "291a5a803c070215bd25fb46449e62f1821a1378",
+    "workflow_job_id": 110139257178,
+    "artifact_id": 11131608867,
+    "artifact_name": "global-mammals-v181-species-breadth-291a5a803c070215bd25fb46449e62f1821a1378-36789642593",
+    "artifact_digest": "sha256:8a59c8e4bb755f7315397c20664c4c31fe5659fcd34d10e2d66716e71ad312c3",
+    "expires_at": "2026-10-30T23:39:13Z"
+  },
+  "artifact_files": {
+    "species_effects.csv": {
+      "sha256": "c87e32f74bffb65255f9f639d3050da3d5109ad0409f97c7a9d8c58e1da02648"
+    },
+    "breadth_quartiles.csv": {
+      "sha256": "6f217a762273feea388b46e344520741b9fd46dfba5f6d5ca247ae63576d5b3e"
+    },
+    "species_breadth_result.json": {
+      "sha256": "9502f70b182b32944044f79dc21a0f253aead7e64bebb30e001c510edc9c5c2f"
+    }
+  },
+  "result": {
+    "species": 79,
+    "negative_species": 64,
+    "positive_species": 15,
+    "pilot_prevalence_vs_C_minus_R3_spearman_rho": 0.27643959301238685,
+    "direction_interpretation": "positive rho means broader pilot occupancy is associated with a less negative C-minus-R3 and therefore a weaker incremental graph-path source-continuity advantage",
+    "quartiles": [
+      {
+        "quartile": 1,
+        "species": 20,
+        "pilot_presence_min": 13,
+        "pilot_presence_max": 17,
+        "mean_pilot_prevalence": 0.011647058823529411,
+        "mean_C_minus_R3": -0.004828775067728861,
+        "median_C_minus_R3": -0.0036039603472723713,
+        "negative_species": 18
+      },
+      {
+        "quartile": 2,
+        "species": 20,
+        "pilot_presence_min": 17,
+        "pilot_presence_max": 23,
+        "mean_pilot_prevalence": 0.015333333333333334,
+        "mean_C_minus_R3": -0.005619764657409333,
+        "median_C_minus_R3": -0.005129739161730729,
+        "negative_species": 19
+      },
+      {
+        "quartile": 3,
+        "species": 20,
+        "pilot_presence_min": 24,
+        "pilot_presence_max": 47,
+        "mean_pilot_prevalence": 0.026431372549019606,
+        "mean_C_minus_R3": -0.0027522039382347906,
+        "median_C_minus_R3": -0.001720236132944599,
+        "negative_species": 17
+      },
+      {
+        "quartile": 4,
+        "species": 19,
+        "pilot_presence_min": 57,
+        "pilot_presence_max": 496,
+        "mean_pilot_prevalence": 0.0899484004127967,
+        "mean_C_minus_R3": -0.0014629954643907539,
+        "median_C_minus_R3": -0.00013545009482940788,
+        "negative_species": 10
+      }
+    ]
+  },
+  "ecological_interpretation": {
+    "working_pattern": "source-network topology adds the least incremental information for the broadest-distributed focal species, consistent with source-pool saturation reducing topological contrast",
+    "combined_with_external_isolation": "place-level external isolation attenuates C when source networks become sparse, while species-level breadth attenuates C when source networks become widespread/saturated; together these suggest that internal topology is most informative when occupied source networks retain intermediate structural contrast",
+    "unimodality_claim_authorized": false,
+    "causal_source_saturation_claim_authorized": false,
+    "posthoc": true
+  },
+  "interpretation_guardrails": {
+    "may_change_primary_status": false,
+    "counts_as_confirmatory_evidence": false,
+    "fresh_system_denominator_contribution": 0,
+    "no_species_removed": true,
+    "no_taxonomic_or_trait_subgroup_search": true
+  }
+}
