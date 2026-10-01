@@ -1,0 +1,32 @@
+{
+  "schema": "structural.prospective_source_network_contrast_window_hypothesis.v1_85",
+  "status": "FUTURE_ONLY_INDEPENDENT_RESPONSE_SEALED_HYPOTHESIS",
+  "name": "source_network_contrast_and_constraint",
+  "motivation": "The frozen global mammal exploratory analysis indicates both attenuation of C-minus-R3 with external isolation/species breadth and a strong presence-absence asymmetry in the predictive gain. A future independent system must distinguish source-network opportunity from source-network constraint prospectively.",
+  "future_primary": {
+    "required_new_system": "independent response-sealed island occurrence system not used in Structural discovery or model development",
+    "overall_primary": "block-weighted natural-prevalence C-minus-R3 < 0",
+    "external_isolation_attenuation": "predeclared positive association between external isolation and C-minus-R3",
+    "species_breadth_attenuation": "predeclared positive association between occupancy breadth and species-level C-minus-R3"
+  },
+  "predeclared_behavior_guardrails": {
+    "presence_cell_C_minus_R3": "report prospectively; do not select direction after response",
+    "absence_cell_C_minus_R3": "report prospectively; do not select direction after response",
+    "class_balanced_block_score": "secondary guardrail only, never replaces natural-prevalence primary",
+    "ROC_AUC_and_average_precision": "secondary discrimination diagnostics",
+    "graph_empty_vs_nonempty": "secondary structural-support diagnostic using a response-independent empty-source definition"
+  },
+  "competing_interpretations": {
+    "opportunity_signature": "C improves realized-presence log loss as well as or more than absence loss",
+    "constraint_signature": "C primarily reduces absence loss / overprediction while presence-cell log loss is unchanged or worse",
+    "mixed_signature": "ranking improves while probability calibration trades off across classes"
+  },
+  "guardrails": [
+    "no isolation threshold search",
+    "no occupancy-breadth threshold search",
+    "no species or block removal based on outcome",
+    "no switch from natural-prevalence primary to class-balanced scoring after response",
+    "no causal dispersal/rescue claim from predictive signatures alone"
+  ],
+  "counts_as_current_evidence": false
+}
