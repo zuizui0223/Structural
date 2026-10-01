@@ -1,0 +1,114 @@
+name: Global mammals prediction-behavior diagnostics v1.84
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_prediction_behavior_request_v1_84.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate post-hoc nonrescuing request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_prediction_behavior_request_v1_84.json").read_text())
+          c=json.loads(Path("development/global_mammals_prediction_behavior_contract_v1_84.json").read_text())
+          assert r["status"]=="REQUEST_POSTHOC_NONRESCUING_PREDICTION_BEHAVIOR_DIAGNOSTICS"
+          assert r["pilot_artifact_id"]==11112360652
+          assert r["prediction_artifact_id"]==11112450910
+          assert r["score_artifact_id"]==11113225988
+          assert r["expected_cells"]==325954
+          assert r["confirmatory_status_change_authorized"] is False
+          assert r["one_shot"] is True
+          assert c["interpretation_guardrails"]["primary_v1_76_unchanged"] is True
+          assert c["counts_as_confirmatory_evidence"] is False
+          PY
+
+      - name: Download exact exploratory pilot artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v171-exploratory-pilot-6dd3917166633381d88f7d9c4f95ee38b11d63f8-36743891802
+          path: build/global_mammals_v184/pilot
+          repository: zuizui0223/Structural
+          run-id: 36743891802
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen prediction artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v173-preconfirmatory-2dfb3ce75e57b0d6a44584a8fd68158d05310e91-36745389315
+          path: build/global_mammals_v184/prediction
+          repository: zuizui0223/Structural
+          run-id: 36745389315
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen score artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v175-exploratory-score-33f0a6a85ff7480f1fac30d8fcf26f355a7687ef-36746823761
+          path: build/global_mammals_v184/score
+          repository: zuizui0223/Structural
+          run-id: 36746823761
+          github-token: ${{ github.token }}
+
+      - name: Verify exact frozen input identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v184/pilot/exploratory_pilot_matrix.csv":"77be952a6c45707e5e71cd0f192551f6365d6fde1ac1ba5aaaef2755c03366e2",
+            "build/global_mammals_v184/prediction/confirmatory_predictions.f64le":"f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+            "build/global_mammals_v184/prediction/confirmatory_entity_order.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+            "build/global_mammals_v184/prediction/model_receipt.json":"b0cb7c8a46eef99f0024984a991cb821cee69a17e7e5e0490160880eddcac9c8",
+            "build/global_mammals_v184/score/exploratory_confirmatory_matrix.csv":"25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Run prediction-behavior diagnostics
+        run: |
+          mkdir -p build/global_mammals_v184/output
+          python scripts/run_global_mammals_prediction_behavior_v1_84.py             build/global_mammals_v184/pilot/exploratory_pilot_matrix.csv             build/global_mammals_v184/prediction/confirmatory_predictions.f64le             build/global_mammals_v184/prediction/confirmatory_entity_order.csv             build/global_mammals_v184/prediction/model_receipt.json             build/global_mammals_v184/score/exploratory_confirmatory_matrix.csv             --contract development/global_mammals_prediction_behavior_contract_v1_84.json             --block-output build/global_mammals_v184/output/block_prediction_behavior.csv             --result build/global_mammals_v184/output/prediction_behavior_result.json
+
+      - name: Enforce post-hoc ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v184/output/prediction_behavior_result.json").read_text())
+          assert x["status"]=="POSTHOC_NONRESCUING_PREDICTION_BEHAVIOR_COMPLETE"
+          assert x["cells"]==325954
+          assert x["graph_empty_support"]["empty_cells"]==255071
+          assert x["posthoc"] is True
+          assert x["may_change_primary_status"] is False
+          assert x["counts_as_confirmatory_evidence"] is False
+          assert x["fresh_system_denominator_contribution"]==0
+          PY
+
+      - name: Upload diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v184-prediction-behavior-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v184/output/block_prediction_behavior.csv
+            build/global_mammals_v184/output/prediction_behavior_result.json
+          if-no-files-found: error
+          retention-days: 30

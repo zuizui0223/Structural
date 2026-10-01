@@ -1,0 +1,64 @@
+{
+  "schema": "structural.global_mammals_prediction_behavior_contract.v1_84",
+  "status": "POSTHOC_NONRESCUING_PREDICTION_BEHAVIOR_DIAGNOSTICS_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+  "parents": [
+    "development/global_mammals_exploratory_pilot_freeze_v1_72.json",
+    "development/global_mammals_exploratory_preconfirmatory_freeze_v1_74.json",
+    "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+    "development/macro_source_feature_empty_support_contract_v1_56.json"
+  ],
+  "inputs": {
+    "pilot_artifact_id": 11112360652,
+    "pilot_matrix_sha256": "77be952a6c45707e5e71cd0f192551f6365d6fde1ac1ba5aaaef2755c03366e2",
+    "prediction_artifact_id": 11112450910,
+    "prediction_sha256": "f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "model_receipt_sha256": "b0cb7c8a46eef99f0024984a991cb821cee69a17e7e5e0490160880eddcac9c8",
+    "score_artifact_id": 11113225988,
+    "confirmatory_matrix_sha256": "25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252"
+  },
+  "diagnostics": {
+    "effect_scale": [
+      "equal-block mean R3 log loss",
+      "equal-block mean C log loss",
+      "relative reduction (R3-C)/R3",
+      "cell-weighted equivalents"
+    ],
+    "outcome_stratification": [
+      "presence-cell mean R3, C and C-minus-R3 log loss",
+      "absence-cell mean R3, C and C-minus-R3 log loss",
+      "equal-block presence and absence C-minus-R3 where defined",
+      "class-balanced block diagnostic = mean(presence-block-delta, absence-block-delta)"
+    ],
+    "ranking_context": [
+      "ROC-AUC for R3 and C",
+      "average precision for R3 and C"
+    ],
+    "graph_empty_support": {
+      "empty_definition": "for a held-out island x species cell, no occupied pilot island of that species occurs in the target bioregion; because the frozen within-bioregion graph is connected, this is exactly the graph-source-empty state used by v1.72",
+      "report": [
+        "empty and nonempty cell counts",
+        "cell-weighted C-minus-R3 within empty and nonempty states",
+        "Spearman rho between block graph-empty fraction and frozen block C-minus-R3",
+        "four equal-rank block groups by graph-empty fraction"
+      ]
+    }
+  },
+  "interpretation_guardrails": {
+    "primary_v1_76_unchanged": true,
+    "may_change_primary_status": false,
+    "counts_as_confirmatory_evidence": false,
+    "no_threshold_search": true,
+    "no_species_or_block_removal": true,
+    "balanced_class_diagnostic_is_not_a_replacement_estimand": true,
+    "allowed_if_supported": "describe graph-path source topology as primarily constraining overprediction/nonoccurrence rather than improving probability assigned to true presences",
+    "forbidden": [
+      "claiming improved presence detection if presence log loss worsens",
+      "redefining the primary to a metric that gives a stronger result",
+      "dropping graph-empty cells or rare positives to strengthen the estimate"
+    ]
+  },
+  "counts_as_confirmatory_evidence": false
+}

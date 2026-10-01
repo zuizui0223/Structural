@@ -1,0 +1,14 @@
+{
+  "schema": "structural.global_mammals_prediction_behavior_request.v1_84",
+  "status": "REQUEST_POSTHOC_NONRESCUING_PREDICTION_BEHAVIOR_DIAGNOSTICS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "pilot_artifact_id": 11112360652,
+  "prediction_artifact_id": 11112450910,
+  "score_artifact_id": 11113225988,
+  "expected_pilot_islands": 1275,
+  "expected_confirmatory_islands": 4126,
+  "expected_species": 79,
+  "expected_cells": 325954,
+  "confirmatory_status_change_authorized": false,
+  "one_shot": true
+}
