@@ -35,6 +35,7 @@ def linear_fit(xs,ys):
 
 def save(fig,outdir,name):
     outdir.mkdir(parents=True,exist_ok=True)
+    fig.tight_layout()
     for ext in ("png","svg"):
         fig.savefig(outdir/f"{name}.{ext}",bbox_inches="tight",dpi=300)
     plt.close(fig)
@@ -43,16 +44,16 @@ def fig1_bioregions(rows,outdir):
     rows=sorted(rows,key=lambda r:f(r["mean_delta"]))
     labels=[r["bioregion"] for r in rows]
     vals=[f(r["mean_delta"]) for r in rows]
-    fig,ax=plt.subplots(figsize=(7.2,5.4))
+    fig,ax=plt.subplots(figsize=(7.4,5.6))
     y=list(range(len(rows)))
-    ax.scatter(vals,y)
-    ax.axvline(0,linewidth=1)
-    ax.axvline(GLOBAL_EFFECT,linewidth=1,linestyle="--")
+    ax.scatter(vals,y,label="Bioregion mean")
+    ax.axvline(0,linewidth=1,label="No increment")
+    ax.axvline(GLOBAL_EFFECT,linewidth=1,linestyle="--",label="Global block-weighted mean")
     ax.set_yticks(y,labels)
     ax.set_xlabel("Equal-block mean C−R3 log loss")
     ax.set_ylabel("Bioregion")
     ax.set_title("Global mammal source-network increment across bioregions")
-    ax.text(0.02,0.02,"Negative values favour graph-path source continuity\nGlobal equal-block mean = −0.001814",transform=ax.transAxes,va="bottom")
+    ax.legend(loc="lower right",frameon=False)
     save(fig,outdir,"fig1_bioregion_effects")
 
 def fig2_isolation(rows,outdir):
@@ -61,15 +62,19 @@ def fig2_isolation(rows,outdir):
     intercept,slope=linear_fit(xs,ys)
     xlo,xhi=min(xs),max(xs)
     line_x=[xlo,xhi]; line_y=[intercept+slope*x for x in line_x]
-    fig,ax=plt.subplots(figsize=(6.6,5.2))
+    fig,ax=plt.subplots(figsize=(6.8,5.4))
     ax.scatter(xs,ys,s=20)
-    ax.plot(line_x,line_y,linewidth=1.5)
+    ax.plot(line_x,line_y,linewidth=1.5,label="Linear visual guide")
     ax.axhline(0,linewidth=1)
     ax.set_xlabel("Block mean standardized current external isolation")
     ax.set_ylabel("Block mean C−R3 log loss")
     ax.set_title("External isolation attenuates the source-network increment")
-    ax.text(0.02,0.98,f"Spearman ρ = {RHO_ISOLATION:.3f}\nWithin-bioregion centered ρ = {RHO_ISOLATION_WITHIN:.3f}",transform=ax.transAxes,va="top")
-    ax.text(0.02,0.02,"Positive association = less-negative C−R3 at greater isolation",transform=ax.transAxes,va="bottom")
+    ax.text(
+        0.98,0.97,
+        f"Spearman ρ = {RHO_ISOLATION:.3f}\nWithin-bioregion ρ = {RHO_ISOLATION_WITHIN:.3f}",
+        transform=ax.transAxes,ha="right",va="top"
+    )
+    ax.legend(loc="lower right",frameon=False)
     save(fig,outdir,"fig2_external_isolation_attenuation")
 
 def fig3_breadth(species,quartiles,outdir):
@@ -77,22 +82,22 @@ def fig3_breadth(species,quartiles,outdir):
     ys=[f(r["mean_C_minus_R3"]) for r in species]
     qx=[f(r["mean_pilot_prevalence"]) for r in quartiles]
     qy=[f(r["mean_C_minus_R3"]) for r in quartiles]
-    fig,ax=plt.subplots(figsize=(6.6,5.2))
-    ax.scatter(xs,ys,s=24)
-    ax.plot(qx,qy,marker="o",linewidth=1.5)
+    fig,ax=plt.subplots(figsize=(6.8,5.4))
+    ax.scatter(xs,ys,s=24,label="Focal species")
+    ax.plot(qx,qy,marker="o",linewidth=1.5,label="Rank-group means")
     ax.axhline(0,linewidth=1)
     ax.set_xlabel("Pilot occupancy prevalence")
     ax.set_ylabel("Species mean held-out C−R3 log loss")
     ax.set_title("Broad species receive weaker graph-topology gains")
-    ax.text(0.02,0.98,f"Spearman ρ = {RHO_BREADTH:.3f}",transform=ax.transAxes,va="top")
-    ax.text(0.02,0.02,"Connected points are the four pre-defined rank-group means",transform=ax.transAxes,va="bottom")
+    ax.text(0.98,0.97,f"Spearman ρ = {RHO_BREADTH:.3f}",transform=ax.transAxes,ha="right",va="top")
+    ax.legend(loc="lower right",frameon=False)
     save(fig,outdir,"fig3_species_breadth_attenuation")
 
 def figS1_gift(freeze,outdir):
     a=freeze["endpoint_availability"]
     labels=[
-      "Retained high-confidence\nendpoint available",
-      "Available list, zero accepted\nnative rows",
+      "Retained high-confidence endpoint",
+      "Available list; zero accepted native rows",
       "No available list",
     ]
     vals=[
@@ -100,13 +105,17 @@ def figS1_gift(freeze,outdir):
       int(a["excluded_entities_available_list_but_zero_accepted_high_confidence_native_rows"]),
       int(a["excluded_entities_no_available_list"]),
     ]
-    fig,ax=plt.subplots(figsize=(7.0,4.8))
-    ax.bar(labels,vals)
-    ax.set_ylabel("Frozen confirmatory GIFT entities")
+    fig,ax=plt.subplots(figsize=(7.4,4.8))
+    y=list(range(len(labels)))
+    ax.barh(y,vals)
+    ax.set_yticks(y,labels)
+    ax.invert_yaxis()
+    ax.set_xlabel("Frozen confirmatory GIFT entities")
     ax.set_title("Endpoint-quality attrition in the nonconfirmatory GIFT continuation")
+    xmax=max(vals)
     for i,v in enumerate(vals):
-        ax.text(i,v,str(v),ha="center",va="bottom")
-    ax.text(0.02,0.98,"Frozen confirmatory entities = 404\nRetained for exploratory scoring = 118",transform=ax.transAxes,va="top")
+        ax.text(v+xmax*0.015,i,str(v),va="center")
+    ax.set_xlim(0,xmax*1.14)
     save(fig,outdir,"figS1_gift_endpoint_attrition")
 
 def main():
@@ -140,6 +149,7 @@ def main():
     receipt={
       "schema":"structural.macro_figure_result.v1_83",
       "status":"FROZEN_OUTPUT_ONLY_FIGURES_RENDERED",
+      "render_revision":"v1.83.1_layout_only",
       "figures":[
         "fig1_bioregion_effects",
         "fig2_external_isolation_attenuation",
