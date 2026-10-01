@@ -10,9 +10,12 @@
     "focal_species": 79,
     "heldout_blocks": 168,
     "target_cells": 325954,
-    "natural_prevalence_positive_fraction": 0.01724170096946686,
+    "natural_prevalence_positive_fraction": 0.017241696681126784,
     "primary_C_minus_R3": -0.0018141589038615496,
-    "primary_bootstrap_ci95": [-0.002817220627012837,-0.0009974506971953355],
+    "primary_bootstrap_ci95": [
+      -0.002817220627012837,
+      -0.0009974506971953355
+    ],
     "block_weighted_relative_logloss_reduction": 0.03770988990745495,
     "negative_blocks": 108,
     "negative_bioregions": 10,
@@ -72,7 +75,11 @@
     "preferred_title": "Island isolation is not one-dimensional: source-network information is widespread but asymmetric",
     "alternative_title": "Source-network topology sharpens island occupancy constraints but weakens with isolation and species breadth",
     "empirical_core": "global 5401-island mammal macroanalysis",
-    "preferred_targets": ["Global Ecology and Biogeography","Journal of Biogeography","Ecography"]
+    "preferred_targets": [
+      "Global Ecology and Biogeography",
+      "Journal of Biogeography",
+      "Ecography"
+    ]
   },
   "prediction_behavior_freeze": "development/global_mammals_prediction_behavior_freeze_v1_85.json",
   "future_hypothesis": "development/prospective_source_network_contrast_window_hypothesis_v1_85.json",
