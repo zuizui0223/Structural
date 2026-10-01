@@ -1,0 +1,87 @@
+{
+  "schema": "structural.macro_dual_isolation_synthesis.v1_85",
+  "status": "CURRENT_MACROECOLOGICAL_SYNTHESIS_WITH_PREDICTION_BEHAVIOR_GUARDRAILS",
+  "core_question": "When does species-conditioned internal source-network topology add occurrence information beyond external isolation and simpler source context, and what kind of predictive information does it add?",
+  "current_answer": "The global mammal exploratory analysis shows a geographically broad natural-prevalence log-loss gain from graph-path source topology beyond R3, but the gain is asymmetric: it is driven mainly by better prediction of true absences, not by higher probability assigned to realized presences. The increment weakens with greater external isolation, broader species occupancy, and graph-source emptiness.",
+  "global_mammals": {
+    "evidence_class": "nonconfirmatory exploratory macro analysis",
+    "islands": 5401,
+    "heldout_islands": 4126,
+    "focal_species": 79,
+    "heldout_blocks": 168,
+    "target_cells": 325954,
+    "natural_prevalence_positive_fraction": 0.017241696681126784,
+    "primary_C_minus_R3": -0.0018141589038615496,
+    "primary_bootstrap_ci95": [
+      -0.002817220627012837,
+      -0.0009974506971953355
+    ],
+    "block_weighted_relative_logloss_reduction": 0.03770988990745495,
+    "negative_blocks": 108,
+    "negative_bioregions": 10,
+    "negative_species": 64,
+    "external_isolation_rho": 0.28743057515243015,
+    "external_isolation_within_bioregion_rho": 0.2278413095720483,
+    "species_breadth_rho": 0.27643959301238685,
+    "prediction_behavior": {
+      "absence_C_minus_R3": -0.005801435444703651,
+      "presence_C_minus_R3": 0.11643800501898788,
+      "class_balanced_equal_block_C_minus_R3": 0.04941170770534662,
+      "R3_ROC_AUC": 0.9094690468425005,
+      "C_ROC_AUC": 0.918508736444059,
+      "R3_average_precision": 0.3561225304367006,
+      "C_average_precision": 0.35015538387585554,
+      "graph_nonempty_C_minus_R3": -0.014109851236894143,
+      "graph_empty_C_minus_R3": -0.0007992552987686575,
+      "graph_empty_fraction_rho": 0.2827513281311377
+    }
+  },
+  "revised_general_principle": {
+    "name": "source-network contrast window with asymmetric constraint information",
+    "statement": "Species-conditioned source topology carries the most nonredundant occupancy information when occupied source networks retain structural contrast. In the current sparse mammal surface, that information acts mainly by constraining overprediction of nonoccurrence-prone island-species combinations, and it attenuates when source networks become externally depleted, broadly saturated, or empty within a regional graph.",
+    "not_claimed": [
+      "formal unimodality",
+      "causal source depletion or saturation",
+      "improved sensitivity to realized presences",
+      "realized graph paths as dispersal routes"
+    ]
+  },
+  "cross_system_context": {
+    "historical_318_mammals": "independent nonfresh stress test points toward external-isolation attenuation but was not reopened for post-hoc class-specific scoring",
+    "GIFT_plants": "fresh lane terminal without ecological score; endpoint-available subset shows the same overall C-minus-R3 sign but severe endpoint attrition prevents plant generality or replication claims",
+    "boreal_beetles": "valid fresh local non-support boundary case"
+  },
+  "novelty": {
+    "gap": "Existing island isolation metrics emphasize target geography, generic networks, or source proximity. The unresolved issue is whether the topology of the realized occupied source network contributes information beyond these controls, and whether that information reflects occurrence opportunity or occupancy constraint.",
+    "advance": "The global mammal analysis isolates graph-path source topology above a strong R3 reference, shows broad but attenuating information across blocks and species, and reveals that the natural-prevalence gain is concentrated in ruling out unlikely occurrences rather than boosting true-presence probabilities.",
+    "unexpected_result": "The strongest source-network signal is asymmetric exclusion information: reachable, structured source networks improve ranking and reduce absence loss, yet the candidate does not improve true-presence log loss."
+  },
+  "claim_boundary": {
+    "allowed": [
+      "Graph-path source topology reduced natural-prevalence held-out log loss beyond R3 by 3.77% on a block-weighted relative scale in the nonconfirmatory global mammal analysis.",
+      "The gain was geographically broad but weakened with external isolation, species occupancy breadth, and graph-source emptiness.",
+      "The gain was driven primarily by reduced loss on true absences; true-presence log loss worsened, while ROC-AUC improved and average precision declined slightly.",
+      "The graph-empty sentinel does not explain the gain because nonempty source-support cells showed a much larger C advantage."
+    ],
+    "forbidden": [
+      "fresh global confirmation",
+      "two-taxon replication",
+      "C improves presence detection",
+      "graph topology demonstrates rescue, dispersal pathways, or colonization causality",
+      "class-balanced performance supports C"
+    ]
+  },
+  "paper_positioning": {
+    "preferred_title": "Island isolation is not one-dimensional: source-network information is widespread but asymmetric",
+    "alternative_title": "Source-network topology sharpens island occupancy constraints but weakens with isolation and species breadth",
+    "empirical_core": "global 5401-island mammal macroanalysis",
+    "preferred_targets": [
+      "Global Ecology and Biogeography",
+      "Journal of Biogeography",
+      "Ecography"
+    ]
+  },
+  "prediction_behavior_freeze": "development/global_mammals_prediction_behavior_freeze_v1_85.json",
+  "future_hypothesis": "development/prospective_source_network_contrast_window_hypothesis_v1_85.json",
+  "counts_as_new_confirmatory_evidence": false
+}

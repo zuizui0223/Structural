@@ -1,0 +1,24 @@
+{
+  "schema": "structural.active_priority.v1_85",
+  "status": "submission_defense_from_frozen_outputs_only",
+  "canonical_current_status": "development/current_status_v1_85.json",
+  "do_now": [
+    "freeze the v1.84 prediction-behavior artifact by exact provenance",
+    "revise manuscript language so the global mammal gain is described as natural-prevalence occupancy refinement dominated by true-absence improvement",
+    "state explicitly that true-presence log loss and class-balanced diagnostic are unfavorable",
+    "state explicitly that the graph-empty sentinel does not drive the gain",
+    "retain external-isolation and species-breadth attenuation as post-hoc nonrescuing diagnostics",
+    "polish frozen-output figures and add a supplementary prediction-behavior figure if useful",
+    "prepare submission-facing references and methods from frozen outputs only"
+  ],
+  "do_not": [
+    "open any new biological response",
+    "retry terminal fresh GIFT or mammal protocols",
+    "change the natural-prevalence primary after seeing class-specific diagnostics",
+    "remove absences, graph-empty cells, species, blocks, or bioregions to strengthen C",
+    "claim improved presence detection",
+    "claim source-network rescue, realized dispersal paths, or causal colonization mechanism",
+    "promote exploratory mammal or GIFT results to fresh confirmation"
+  ],
+  "next_fresh_scientific_event": "only a new independent response-sealed system may test development/prospective_source_network_contrast_window_hypothesis_v1_85.json"
+}
