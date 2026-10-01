@@ -1,0 +1,37 @@
+{
+  "schema": "structural.prospective_source_network_contrast_window_hypothesis.v1_82",
+  "status": "FUTURE_ONLY_INDEPENDENT_RESPONSE_SEALED_HYPOTHESIS",
+  "name": "source_network_contrast_window",
+  "motivation": "Frozen global mammal exploratory results indicate that C-minus-R3 is attenuated both at greater external island isolation and for broader-distributed species. This future hypothesis is frozen only after those exploratory results and must not be back-projected as confirmatory.",
+  "ecological_model": {
+    "core": "internal source-network topology adds the most information when occupied insular sources are sufficiently numerous and heterogeneous to create structural contrast among targets",
+    "sparse_limit": "strong external isolation depletes or truncates occupied source sets, making graph topology uniformly sparse or remote",
+    "saturated_limit": "high species occupancy breadth fills many potential source islands, making graph topology more homogeneous and increasingly redundant with prevalence and direct/diffuse source context",
+    "prediction_shape": "topological information should be strongest away from both sparse and saturated source-network limits; a unimodal relationship is a mechanistic possibility but is not assumed for the primary test"
+  },
+  "future_primary": {
+    "required_new_system": "independent response-sealed island occurrence system not used anywhere in Structural discovery or model development",
+    "reference_R3": [
+      "environment/current state",
+      "area and external isolation",
+      "generic island-network context",
+      "global occupancy breadth",
+      "species-by-regional-pool prevalence",
+      "nearest occupied-source Euclidean distance",
+      "diffuse occupied-source pressure"
+    ],
+    "candidate_C": "graph-path occupied-source continuity only beyond R3",
+    "primary_1": "overall held-out C-minus-R3 < 0 under block-weighted scoring",
+    "primary_2": "predeclared attenuation with external isolation: isolation-by-C increment direction positive on the C-minus-R3 scale",
+    "primary_3": "predeclared attenuation with occupancy breadth: breadth-by-C increment direction positive on the C-minus-R3 scale",
+    "source_features": "strict leave-heldout-block-out for training/pilot rows and no heldout response in confirmatory features"
+  },
+  "guardrails": [
+    "do not select external-isolation thresholds from the new response",
+    "do not select occupancy-breadth thresholds from the new response",
+    "do not require or claim formal unimodality unless separately powered and preregistered before response",
+    "do not use GIFT v1.78 endpoint-available subset or global mammals as future confirmation",
+    "one independent system contributes one denominator unit regardless direction"
+  ],
+  "counts_as_current_evidence": false
+}
