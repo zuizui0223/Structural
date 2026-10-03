@@ -1,0 +1,67 @@
+{
+  "schema": "structural.global_mammals_ultrarare_preconfirm_contract.v1_113",
+  "status": "FREEZE_R3_C_GRAPH_SUPPORT_AND_ISOLATION_BEFORE_ULTRARARE_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parents": [
+    "development/global_mammals_sealed_ultrarare_species_pilot_contract_v1_112.json",
+    "development/global_mammals_sealed_ultrarare_species_pilot_freeze_v1_113.json",
+    "development/global_mammals_macro_model_contract_v1_67.json",
+    "development/global_mammals_reference_operator_freeze_v1_45.json"
+  ],
+  "population": {
+    "species": 529,
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "heldout_target_cells": 2182654
+  },
+  "required_inputs": {
+    "pilot_species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "pilot_matrix_sha256": "476c35e7e197c6b7a9daf7fc6697101add9e0bda1690de94f64efffd5468fb79",
+    "state_reference_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "source_graph_edges_sha256": "92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+    "reference_receipt_sha256": "55a0581c7c7d0136ecb6a025fa2a41f5ddeeb8ec674b8500bf7c37f81763954a",
+    "safe_appendix2_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "pilot_routing_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "heldout_routing_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "model": {
+    "reuse": "exact R3/C definitions and ridge fitting method from v1.67/v1.72",
+    "ridge_lambda": 1.0,
+    "numpy_version": "2.3.3",
+    "response_based_hyperparameter_tuning": false,
+    "R3": [
+      "environment and bioregion",
+      "area/current/past external isolation",
+      "generic island-network context",
+      "training-only global occupancy breadth",
+      "training-only species_x_bioregion prevalence",
+      "training-only nearest occupied-source Euclidean distance",
+      "training-only diffuse occupied-source pressure"
+    ],
+    "C_adds_only": [
+      "training-only nearest occupied-source graph-path distance",
+      "training-only graph-path occupied-source pressure"
+    ]
+  },
+  "frozen_outputs_before_response": [
+    "all 4126x529 p_R3",
+    "all 4126x529 p_C",
+    "all 4126x529 actual graph-source-empty indicators",
+    "heldout entity/block order",
+    "block-mean z_Current_isolation",
+    "R3 and C coefficients",
+    "source-feature standardization"
+  ],
+  "response_independent_estimability_gate": {
+    "threshold_abs_pC_minus_pR3": 1e-12,
+    "minimum_cells_with_difference": 1,
+    "minimum_blocks_with_mean_difference": 10
+  },
+  "scoring_hypotheses_inherited_exactly": "development/global_mammals_sealed_ultrarare_species_pilot_contract_v1_112.json",
+  "response_boundary": {
+    "heldout_target_values_used": false,
+    "heldout_response_opened": false,
+    "heldout_response_authorized": false
+  }
+}
