@@ -1,0 +1,70 @@
+{
+  "schema": "structural.global_mammals_sealed_ultrarare_species_pilot_contract.v1_112",
+  "status": "PROSPECTIVE_ULTRARARE_LAYER_FROZEN_BEFORE_PILOT_CENSUS_AND_ANY_NEW_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scientific_question": "Does the presence-opportunity signature observed prospectively in the 5-12-presence layer replicate in an even rarer, previously unread 1-4-presence species layer?",
+  "hypotheses": {
+    "primary_presence_opportunity": {
+      "future_estimand": "equal-weight mean across heldout blocks containing at least one realized presence of C-minus-R3 log loss among y=1 cells",
+      "prediction": "negative",
+      "support_rule": "point < 0 and block-bootstrap 95% upper bound < 0",
+      "minimum_presence_blocks": 10
+    },
+    "secondary_absence_signature": {
+      "future_estimand": "equal-weight mean C-minus-R3 among y=0 cells",
+      "prediction": "nonnegative point direction",
+      "role": "secondary; cannot rescue failed presence primary"
+    },
+    "secondary_external_isolation_attenuation": {
+      "future_estimand": "Spearman rho across presence-bearing heldout blocks between block-mean presence-cell C-minus-R3 and response-independent Current_isolation",
+      "prediction": "positive, meaning the presence benefit becomes less negative at greater external isolation",
+      "support_rule": "rho > 0 and block-bootstrap 95% lower bound > 0",
+      "role": "separate secondary; cannot rescue failed presence primary"
+    },
+    "secondary_source_support": {
+      "future_estimand": "within blocks containing both support classes, mean presence-cell C-minus-R3 for graph-nonempty minus graph-empty cells",
+      "prediction": "negative",
+      "role": "secondary; cannot rescue failed presence primary"
+    }
+  },
+  "layer_rule": {
+    "pilot_presence_min_inclusive": 1,
+    "pilot_presence_max_inclusive": 4,
+    "pilot_absence_min_inclusive": 13,
+    "exclude_zero_presence_species": true,
+    "original79_disjointness": "original layer required pilot presence >=13",
+    "rare96_disjointness": "sealed rare layer required pilot presence 5-12",
+    "species_identity_exceptions_allowed": false,
+    "threshold_change_after_census_authorized": false,
+    "heldout_response_may_not_change_membership": true,
+    "minimum_species_count_gate": 10,
+    "if_fewer_than_minimum": "terminal NOT_ESTIMABLE; do not widen the presence range after census"
+  },
+  "routing": {
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "excluded_rows": 191,
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "physical_schema": {
+    "species_count": 5394,
+    "species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81",
+    "response_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6"
+  },
+  "pilot_access_boundary": {
+    "pilot_rows_may_be_redecoded": true,
+    "heldout_rows_routing_field_may_be_read": true,
+    "heldout_occurrence_values_may_be_decoded": false,
+    "excluded_occurrence_values_may_be_decoded": false,
+    "raw_response_may_be_retained": false
+  },
+  "next_step_if_gate_passes": "freeze exact R3/C predictions, graph-empty mask, and response-independent block Current_isolation before any ultrarare heldout value is decoded",
+  "evidence_boundary": {
+    "same_geographic_system": true,
+    "new_species_response_layer": true,
+    "geographically_independent_replication": false,
+    "heldout_response_authorized": false,
+    "counts_as_current_empirical_result": false
+  }
+}
