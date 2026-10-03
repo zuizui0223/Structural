@@ -68,12 +68,14 @@ def main():
 
     # C: actual graph among rewired nulls
     ax=axes[2]
-    ax.scatter(nulls,[1]*len(nulls),s=30,label="20 rewired graphs")
+    null_y=[1+0.025*((i%5)-2) for i in range(len(nulls))]
+    ax.scatter([v*1e4 for v in nulls],null_y,s=30,label="20 rewired graphs")
     actual=float(sp["point_C_minus_R3"])
-    ax.scatter([actual],[1],s=95,marker="D",label="Actual graph")
-    ax.axvline(actual,linewidth=1,linestyle="--")
+    ax.scatter([actual*1e4],[1],s=95,marker="D",label="Actual graph")
+    ax.axvline(actual*1e4,linewidth=1,linestyle="--")
     ax.set_yticks([])
-    ax.set_xlabel("Block-weighted C−R3")
+    ax.set_ylim(0.82,1.18)
+    ax.set_xlabel("Block-weighted C−R3 (×10⁻⁴)")
     ax.set_title("C  Actual topology is not exceptional",loc="left")
     ax.legend(frameon=False,fontsize=9,loc="lower left")
     ax.text(0.02,0.95,
