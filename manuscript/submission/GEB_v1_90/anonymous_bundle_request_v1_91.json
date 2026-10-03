@@ -16,5 +16,9 @@
   "prediction_behavior_figure_artifact_id": 11259686592,
   "raw_response_access_authorized": false,
   "new_scientific_analysis_authorized": false,
-  "one_shot": true
+  "one_shot": true,
+  "operational_retry_revision": "v1.91.1",
+  "prior_failed_run_id": 37089916493,
+  "prior_failure": "anonymizer correctly stopped on suffixed provenance key score_artifact_id before archive creation",
+  "scientific_inputs_changed": false
 }

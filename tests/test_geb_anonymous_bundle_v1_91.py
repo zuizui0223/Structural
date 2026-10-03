@@ -74,3 +74,14 @@ def test_v191_checklist_flags_public_repo_anonymity_boundary():
 
 def test_neutralizer_source_parses():
     ast.parse((ROOT/"scripts/build_geb_anonymous_review_bundle_v1_91.py").read_text())
+
+
+def test_v191_retry_removes_suffixed_provenance_keys_without_science_change():
+    builder=(ROOT/"scripts/build_geb_anonymous_review_bundle_v1_91.py").read_text()
+    assert '"artifact_id" in key_l' in builder
+    assert 'key_l.endswith("_run_id")' in builder
+    assert 'key_l.endswith("_head_sha")' in builder
+    x=json.loads((GEB/"anonymous_bundle_request_v1_91.json").read_text())
+    assert x["operational_retry_revision"]=="v1.91.1"
+    assert x["prior_failed_run_id"]==37089916493
+    assert x["scientific_inputs_changed"] is False
