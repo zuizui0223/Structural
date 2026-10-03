@@ -1,0 +1,242 @@
+name: GEB neutralized anonymous review bundle v1.91
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - manuscript/submission/GEB_v1_90/anonymous_bundle_request_v1_91.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate frozen-only bundle request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("manuscript/submission/GEB_v1_90/anonymous_bundle_request_v1_91.json").read_text())
+          assert x["status"]=="REQUEST_NEUTRALIZED_REVIEW_BUNDLE_FROM_FROZEN_OUTPUTS"
+          assert x["scientific_freeze"]=="development/current_status_v1_88.json"
+          assert x["raw_response_access_authorized"] is False
+          assert x["new_scientific_analysis_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+
+      - name: Download frozen pilot snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v171-exploratory-pilot-6dd3917166633381d88f7d9c4f95ee38b11d63f8-36743891802
+          path: build/geb_v191/source/pilot
+          repository: zuizui0223/Structural
+          run-id: 36743891802
+          github-token: ${{ github.token }}
+
+      - name: Download frozen response-independent reference
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/geb_v191/source/reference
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+
+      - name: Download frozen safe island metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/geb_v191/source/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Download frozen pilot/heldout routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/geb_v191/source/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Download frozen preconfirmatory prediction surface
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v173-preconfirmatory-2dfb3ce75e57b0d6a44584a8fd68158d05310e91-36745389315
+          path: build/geb_v191/source/preconfirmatory
+          repository: zuizui0223/Structural
+          run-id: 36745389315
+          github-token: ${{ github.token }}
+
+      - name: Download frozen heldout score surface
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v175-exploratory-score-33f0a6a85ff7480f1fac30d8fcf26f355a7687ef-36746823761
+          path: build/geb_v191/source/heldout_score
+          repository: zuizui0223/Structural
+          run-id: 36746823761
+          github-token: ${{ github.token }}
+
+      - name: Download frozen geographic diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v177-diagnostics-3778a2c53e76ec83a871b1415ba2e27eb1affb98-36787772910
+          path: build/geb_v191/source/geographic_diagnostics
+          repository: zuizui0223/Structural
+          run-id: 36787772910
+          github-token: ${{ github.token }}
+
+      - name: Download frozen species-breadth diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v181-species-breadth-291a5a803c070215bd25fb46449e62f1821a1378-36789642593
+          path: build/geb_v191/source/species_breadth
+          repository: zuizui0223/Structural
+          run-id: 36789642593
+          github-token: ${{ github.token }}
+
+      - name: Download frozen prediction-behavior diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v184-prediction-behavior-08b046de1a63eba861bf5ab31802e8743d8da085-36808403888
+          path: build/geb_v191/source/prediction_behavior
+          repository: zuizui0223/Structural
+          run-id: 36808403888
+          github-token: ${{ github.token }}
+
+      - name: Download frozen isolation-empty-support audit
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v187-isolation-empty-6e7a9c815719d0eebbe324efea2b48777c70ad83-37084441628
+          path: build/geb_v191/source/isolation_empty_support
+          repository: zuizui0223/Structural
+          run-id: 37084441628
+          github-token: ${{ github.token }}
+
+      - name: Download frozen main figures
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v1831-figures-80a3bf71e4c0a69d1fb3364cb89185f12771af94-36809002965
+          path: build/geb_v191/source/figures/main
+          repository: zuizui0223/Structural
+          run-id: 36809002965
+          github-token: ${{ github.token }}
+
+      - name: Download frozen prediction-behavior figure
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v186-prediction-behavior-19c2f9908bad0d5353a6ac589268761bcf1e231e-37084116950
+          path: build/geb_v191/source/figures/prediction_behavior
+          repository: zuizui0223/Structural
+          run-id: 37084116950
+          github-token: ${{ github.token }}
+
+      - name: Verify exact scientific input identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/geb_v191/source/pilot/exploratory_pilot_species_universe.csv":"c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+            "build/geb_v191/source/pilot/exploratory_pilot_matrix.csv":"77be952a6c45707e5e71cd0f192551f6365d6fde1ac1ba5aaaef2755c03366e2",
+            "build/geb_v191/source/reference/state_reference.csv":"5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+            "build/geb_v191/source/reference/source_graph_edges.csv":"92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+            "build/geb_v191/source/reference/reference_receipt.json":"55a0581c7c7d0136ecb6a025fa2a41f5ddeeb8ec674b8500bf7c37f81763954a",
+            "build/geb_v191/source/safe/appendix2_safe_rows.csv":"b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+            "build/geb_v191/source/routing/pilot_ids.csv":"ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+            "build/geb_v191/source/routing/confirmatory_ids.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+            "build/geb_v191/source/preconfirmatory/confirmatory_predictions.f64le":"f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+            "build/geb_v191/source/preconfirmatory/confirmatory_entity_order.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+            "build/geb_v191/source/preconfirmatory/model_receipt.json":"b0cb7c8a46eef99f0024984a991cb821cee69a17e7e5e0490160880eddcac9c8",
+            "build/geb_v191/source/heldout_score/exploratory_confirmatory_matrix.csv":"25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252",
+            "build/geb_v191/source/heldout_score/block_scores.csv":"c0a0642800db060b61a78933ae5d86b0f976688c68fd0a39ea85c8c2eb5723a1",
+            "build/geb_v191/source/geographic_diagnostics/block_context.csv":"36f452c2db01f55d6bd43951fb2f744c98772484f033330153e26b5da6d82195",
+            "build/geb_v191/source/geographic_diagnostics/bioregion_summary.csv":"46c3542a0e7a79255433134b0ea3ce38afa86356f2677b98d9e07d7357ef5f3d",
+            "build/geb_v191/source/species_breadth/species_effects.csv":"c87e32f74bffb65255f9f639d3050da3d5109ad0409f97c7a9d8c58e1da02648",
+            "build/geb_v191/source/species_breadth/breadth_quartiles.csv":"6f217a762273feea388b46e344520741b9fd46dfba5f6d5ca247ae63576d5b3e",
+            "build/geb_v191/source/prediction_behavior/block_prediction_behavior.csv":"8abce72e8ce349e536a1bd7287508a24975ba0eb5f4a50db39b67d1c8a34d50e",
+            "build/geb_v191/source/isolation_empty_support/isolation_empty_support_result.json":"c891d0a38d2d3dcf96837e054e5813f512579071b7b3ad744f6323f8911eeace",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Build neutralized anonymous peer-review bundle
+        run: |
+          python scripts/build_geb_anonymous_review_bundle_v1_91.py             --repo-root .             --source-root build/geb_v191/source             --output-dir build/geb_v191/review_bundle
+
+      - name: Verify review bundle can identify no public development repository
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          root=Path("build/geb_v191/review_bundle")
+          forbidden=[
+            "github.com","zuizui0223","workflow_run_id","workflow_head_sha",
+            "workflow_job_id","artifact_id","artifact_name",".github/workflows",
+            "structural.","global_mammals_","global_island_native_mammals_barreto_2024"
+          ]
+          text_ext={".md",".txt",".json",".py",".csv",".svg"}
+          hits=[]
+          commit=re.compile(r"\b[0-9a-fA-F]{40}\b")
+          for p in root.rglob("*"):
+              if not p.is_file() or p.suffix.lower() not in text_ext:
+                  continue
+              try:s=p.read_text(encoding="utf-8")
+              except UnicodeDecodeError:continue
+              low=s.casefold()
+              for x in forbidden:
+                  if x.casefold() in low:hits.append((str(p),x))
+              if commit.search(s):hits.append((str(p),"40-hex-token"))
+          assert not hits,hits[:20]
+          prov=__import__("json").loads((root/"ANONYMIZED_PROVENANCE.json").read_text())
+          assert prov["payloads_identical"] is True
+          assert prov["raw_biological_response_included"] is False
+          assert prov["public_repository_identifiers_included"] is False
+          PY
+
+      - name: Archive neutralized review bundle
+        run: |
+          set -euo pipefail
+          cd build/geb_v191
+          zip -qr GEB_anonymous_review_SI_v1_91.zip review_bundle
+          sha256sum GEB_anonymous_review_SI_v1_91.zip > GEB_anonymous_review_SI_v1_91.zip.sha256
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path("GEB_anonymous_review_SI_v1_91.zip")
+          out={
+            "schema":"review.anonymous_bundle_archive_result",
+            "status":"READY_FOR_DIRECT_GEB_SUPPORTING_INFORMATION_UPLOAD",
+            "zip_bytes":p.stat().st_size,
+            "zip_sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
+            "raw_biological_response_included":False,
+            "new_scientific_analysis_performed":False,
+            "public_repository_identifiers_included":False
+          }
+          Path("bundle_archive_receipt.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Upload neutralized review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: geb-neutralized-review-si-v191-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/geb_v191/GEB_anonymous_review_SI_v1_91.zip
+            build/geb_v191/GEB_anonymous_review_SI_v1_91.zip.sha256
+            build/geb_v191/bundle_archive_receipt.json
+          if-no-files-found: error
+          retention-days: 30
