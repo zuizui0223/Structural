@@ -128,6 +128,7 @@ def clean_string(value: str, prediction_sha_old: str | None = None, prediction_s
     s = re.sub(r"https?://github\.com/[^\s\"']+", "<public-development-url-redacted>", s)
     s = re.sub(r"\.github/workflows/[^\s\"']+", "<workflow-redacted>", s)
     s = COMMIT_RE.sub("<commit-redacted>", s)
+    s = VERSION_TOKEN_RE.sub("review", s)
     if prediction_sha_old and prediction_sha_new:
         s = s.replace(prediction_sha_old, prediction_sha_new)
     return s
