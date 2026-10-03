@@ -2,7 +2,6 @@
 
 **Running title:** Source-network isolation
 
-**Blinded GEB submission draft v1.90.** The empirical core is the global 5,401-island mammal analysis. All global mammal and GIFT ecological directions are explicitly nonconfirmatory. The valid fresh boreal result is non-support. This draft must not be read as fresh global or two-taxon confirmation. Reference roles and novelty boundaries are audited in `manuscript/macro_dual_isolation_verified_references_v1_86.md`.
 
 ## Abstract
 
@@ -248,55 +247,11 @@ The GIFT endpoint-available subset shows the same overall C−R3 sign using the 
 
 That result cannot establish plant generality and cannot repair the terminal fresh plant attempt. It is retained solely as descriptive concordance.
 
-## 5. Evidence status and claim boundary
+## 5. Conclusions
 
-The manuscript distinguishes scale, direction, and evidentiary status.
+Across a global held-out mammal occurrence surface, species-conditioned graph-path source topology contained information beyond a strong reference representing external isolation, generic island structure, occupancy breadth, regional prevalence and direct/diffuse occupied-source proximity. The gain was broad across spatial blocks, bioregions and species, but it was strongly asymmetric: graph topology primarily improved probability assignment for true absences and did not improve realized-presence log loss. Its incremental value weakened with greater external isolation, broader species occupancy and graph-source emptiness.
 
-- **Global 5,401-island mammals:** broad nonconfirmatory exploratory macro evidence.
-- **318-island mammals:** independent design-frozen nonfresh stress context.
-- **GIFT fresh lane:** terminal without ecological score.
-- **GIFT endpoint-available lane:** strongly selected nonconfirmatory descriptive context.
-- **Boreal beetles:** valid fresh local non-support.
-
-Permitted central claim:
-
-> In a global nonconfirmatory mammal macroanalysis, graph-path occupied-source topology contained information beyond a strong external-isolation and source-proximity reference. The natural-prevalence gain was geographically broad but primarily reflected better prediction of true absences, and it weakened as external isolation, species occupancy breadth, and graph-source emptiness increased.
-
-Permitted qualification:
-
-> The candidate did not improve true-presence log loss or a post-hoc class-balanced diagnostic, although ROC-AUC improved, so the result is better interpreted as asymmetric occupancy-constraint information than as improved presence detection.
-
-Forbidden claims include fresh global confirmation, two-taxon replication, improved presence detection, realized graph-path dispersal, causal rescue, or universal source-network attenuation.
-
-## 6. Future test
-
-The next independent response-sealed system should preregister both the overall natural-prevalence C−R3 primary and the prediction-behaviour signatures needed to distinguish opportunity from constraint.
-
-The future protocol should report, without changing the primary:
-
-1. presence-cell and absence-cell C−R3;
-2. class-balanced block score;
-3. ROC-AUC and average precision;
-4. graph-empty versus graph-nonempty effects;
-5. attenuation with external isolation and occupancy breadth.
-
-A repeated constraint signature would support the idea that internal source topology acts mainly by delimiting where species are unlikely to establish or persist. A repeated opportunity signature would imply a different role. Predictive signatures alone would still not establish causal dispersal pathways.
-
-## Positioning
-
-**Preferred title:**  
-*Island isolation is not one-dimensional: source-network information is widespread but asymmetric*
-
-**Alternative title:**  
-*Source-network topology sharpens island occupancy constraints but weakens with isolation and species breadth*
-
-The paper should remain an island-biogeography/macroecology paper, not a methods paper. Its strongest contribution is the separation of external isolation, direct occupied-source proximity, and internal source topology—and the finding that the final topological increment is broad, attenuating, and strongly asymmetric in what it predicts.
-
-## Data and Code Availability Statement
-
-The global island mammal occurrence data are publicly available from Dryad (DOI: 10.5061/dryad.hmgqnk9j2; version 6). Response-independent global island geography derives from the public island reference dataset archived at Figshare/UvA (DOI: 10.21942/uva.22788464.v5). The plant context uses GIFT database version 3.2.
-
-Analysis scripts, frozen analysis contracts, provenance records and figure-generation code will be supplied through an anonymized stable peer-review archive at submission and deposited in a permanent public archive. **[INSERT ANONYMIZED STABLE REVIEW LINK BEFORE SUBMISSION.]** The public repository URL is intentionally omitted from the blinded manuscript. No new biological response access is required to regenerate the submission-facing figures from the frozen outputs.
+These patterns motivate a source-network contrast-window hypothesis: internal topology should be most informative when occupied insular source networks exist and retain enough heterogeneity to differentiate targets, while becoming increasingly redundant when source support is depleted or broadly saturated. The current analysis is explicitly nonconfirmatory and predictive rather than causal. A future independent response-sealed system should test the overall C−R3 increment together with its external-isolation, occupancy-breadth and prediction-behaviour signatures.
 
 ## References
 
@@ -313,3 +268,9 @@ Analysis scripts, frozen analysis contracts, provenance records and figure-gener
 - Sillero, N., Biaggini, M. & Corti, C. (2018). Analysing the importance of stepping-stone islands in maintaining structural connectivity and endemicity. *Biological Journal of the Linnean Society* 124:113–125. https://doi.org/10.1093/biolinnean/bly033
 - Wang, D., Zhao, Y., Tang, S., Liu, X., Li, W., Han, P., Zeng, D., Yang, Y., Wei, G., Kang, Y. & Si, X. (2023). Nearby large islands diminish biodiversity of the focal island by a negative target effect. *Journal of Animal Ecology* 92:492–502. https://doi.org/10.1111/1365-2656.13856
 - Weigelt, P. & Kreft, H. (2013). Quantifying island isolation—insights from global patterns of insular plant species richness. *Ecography* 36:417–429. https://doi.org/10.1111/j.1600-0587.2012.07669.x
+
+## Data and Code Availability Statement
+
+The global island mammal occurrence data are publicly available from Dryad (DOI: 10.5061/dryad.hmgqnk9j2; version 6). Response-independent global island geography derives from the public island reference dataset archived at Figshare/UvA (DOI: 10.21942/uva.22788464.v5). The plant context uses GIFT database version 3.2.
+
+Analysis scripts, frozen analysis contracts, provenance records and figure-generation code will be supplied through an anonymized stable peer-review archive at submission and deposited in a permanent public archive. **[INSERT ANONYMIZED STABLE REVIEW LINK BEFORE SUBMISSION.]** The public development-repository URL is intentionally omitted from the blinded manuscript. No new biological response access is required to regenerate the submission-facing figures from the frozen outputs.
