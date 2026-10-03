@@ -1,0 +1,102 @@
+{
+  "schema": "structural.global_mammals_sealed_species_result_freeze.v1_97",
+  "status": "PROSPECTIVE_SPECIES_LAYER_NONREPLICATION_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "replication_role": "preregistered heldout species-layer validation within the same geographic system",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-sealed-species-execute-v1_96.yml",
+    "workflow_run_id": 37109723586,
+    "workflow_head_sha": "82b6222006b9366186b9713cfeaac79f33cd6b69",
+    "workflow_job_id": 111165124281,
+    "artifact_id": 11269176943,
+    "artifact_name": "global-mammals-v196-sealed-species-result-82b6222006b9366186b9713cfeaac79f33cd6b69-37109723586",
+    "artifact_digest": "sha256:604425afe06b84dfe2eb7f6f7b4b589da0c4e3c1aa95ede6b4a51be953a71b4f",
+    "expires_at": "2026-11-02T08:27:22Z"
+  },
+  "artifact_files": {
+    "second_layer_heldout_matrix.csv": {"sha256":"9510c0114d98fb299acc56fab09eef664f586f599a709a5857ee258888a13703"},
+    "second_layer_response_receipt.json": {"sha256":"f9fbc228c8e737daa6fd9ec22069eba5f7990e999540e67d2647ebfcf9e6bc52"},
+    "second_layer_block_scores.csv": {"sha256":"adf1ef3b16552a79e06c34128c1f70fedd897ef3c48f97c60683117e1b28427c"},
+    "second_layer_null_scores.csv": {"sha256":"4f2af725b0a6b4ba61069a510175cc118c26449c2008917945a82da90caf4ad4"},
+    "second_layer_result.json": {"sha256":"ac3411801f5b56d44c4728ee1733a46745de09ef8e827f523c97de310e673e3a"}
+  },
+  "response_firewall": {
+    "heldout_entities_decoded": 4126,
+    "heldout_second_layer_species": 96,
+    "heldout_second_layer_values_decoded": 396096,
+    "heldout_non_second_layer_values_decoded": 0,
+    "pilot_occurrence_values_decoded_during_run": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "rerun_authorized": false,
+    "raw_response_retained": false
+  },
+  "species_layer": {
+    "pilot_presence_range": [5,12],
+    "species": 96,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "target_cells": 396096,
+    "positive_cells": 1233,
+    "negative_cells": 394863,
+    "heldout_prevalence": 0.0031128817256422686
+  },
+  "P1_primary": {
+    "point_C_minus_R3": -0.00044242277078691746,
+    "bootstrap_ci95_low": -0.0010981838771027365,
+    "bootstrap_ci95_high": 0.0002038048880791948,
+    "supported": false
+  },
+  "P2_constraint_signature": {
+    "estimable": true,
+    "presence_blocks": 101,
+    "absence_point": 0.0004297992584762837,
+    "absence_ci95_low": -0.000059522687154515306,
+    "absence_ci95_high": 0.0009277247761607099,
+    "presence_point": -0.2774434469982346,
+    "presence_ci95_low": -0.396515189697641,
+    "presence_ci95_high": -0.15878146533740953,
+    "class_balanced_equal_block": -0.13840622422220555,
+    "supported": false,
+    "direction_relative_to_original_79_species": "reversed: rare-layer presence prediction improves while absence prediction does not"
+  },
+  "P3_source_support_signature": {
+    "paired_blocks": 166,
+    "point_nonempty_minus_empty_delta": -0.006031600269272194,
+    "bootstrap_ci95_low": -0.01625952734814901,
+    "bootstrap_ci95_high": 0.0011753598223374928,
+    "pooled_graph_nonempty_C_minus_R3": -0.004125254765672314,
+    "pooled_graph_empty_C_minus_R3": -0.0000904128580676056,
+    "supported": false
+  },
+  "P4_topology_specificity": {
+    "point_actualC_minus_mean_rewiredC": 0.000001557483439289808,
+    "bootstrap_ci95_low": -0.00021175229148074804,
+    "bootstrap_ci95_high": 0.0002040661074521595,
+    "actual_C_better_than_n_of_20_nulls": 11,
+    "null_block_weighted_C_minus_R3_min": -0.0005077209355955824,
+    "null_block_weighted_C_minus_R3_max": -0.00038363445784589,
+    "null_block_weighted_C_minus_R3_mean": -0.00044398025422620716,
+    "supported": false
+  },
+  "interpretation": {
+    "P1_primary_species_layer_replication_supported": false,
+    "all_three_secondary_signatures_supported": false,
+    "all_four_predictions_supported": false,
+    "allowed_primary_wording": "A preregistered, previously sealed 96-species layer did not replicate the overall C-minus-R3 gain within the same 5,401-island geographic system.",
+    "boundary_condition": "For species with only 5-12 pilot presences, actual graph topology was not distinguishable from degree- and edge-length-matched rewired nulls, and the original absence-focused predictive asymmetry reversed toward improved presence prediction.",
+    "consistent_with_contrast_window": true,
+    "formal_unimodality_established": false,
+    "causal_mechanism_established": false,
+    "geographically_independent_replication": false,
+    "independent_taxonomic_system_replication": false,
+    "fresh_global_system_confirmation": false,
+    "secondary_signatures_can_rescue_failed_P1": false
+  },
+  "evidence_status": {
+    "prospective_preregistered_species_layer_evidence": true,
+    "same_geographic_system": true,
+    "response_layer_was_heldout_from_original_exploratory_analysis": true,
+    "counts_as_independent_system_confirmation": false,
+    "fresh_system_denominator_contribution": 0
+  }
+}

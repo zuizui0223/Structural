@@ -1,0 +1,48 @@
+{
+  "schema": "structural.current_status.v1_97",
+  "status": "canonical_current_status_after_sealed_species_validation",
+  "supersedes": "development/current_status_v1_88.json",
+  "global_mammal_exploratory_layer": {
+    "species": 79,
+    "pilot_presence_threshold": ">=13 and >=13 absences",
+    "heldout_islands": 4126,
+    "P1_C_minus_R3": -0.0018141589038615496,
+    "bootstrap_ci95": [-0.002817220627012837,-0.0009974506971953355],
+    "evidence_status": "nonconfirmatory exploratory",
+    "prediction_behavior": "natural-prevalence gain dominated by improved absences"
+  },
+  "global_mammal_sealed_species_layer": {
+    "species": 96,
+    "pilot_presence_range": [5,12],
+    "heldout_islands": 4126,
+    "heldout_target_cells": 396096,
+    "P1_C_minus_R3": -0.00044242277078691746,
+    "P1_bootstrap_ci95": [-0.0010981838771027365,0.0002038048880791948],
+    "P1_supported": false,
+    "P2_absence_C_minus_R3": 0.0004297992584762837,
+    "P2_presence_C_minus_R3": -0.2774434469982346,
+    "P3_nonempty_minus_empty_delta": -0.006031600269272194,
+    "P3_bootstrap_ci95": [-0.01625952734814901,0.0011753598223374928],
+    "P4_actual_minus_mean_rewired": 0.000001557483439289808,
+    "P4_bootstrap_ci95": [-0.00021175229148074804,0.0002040661074521595],
+    "actual_better_than_nulls": "11/20",
+    "evidence_status": "prospective preregistered species-layer non-replication within the same geographic system",
+    "result_freeze": "development/global_mammals_sealed_species_result_freeze_v1_97.json"
+  },
+  "revised_ecological_synthesis": {
+    "core": "source-network information is occupancy-regime dependent rather than uniformly beneficial",
+    "rare_species_boundary": "the 5-12 pilot-presence layer shows no supported overall gain and no topology-specific advantage over rewired graphs",
+    "original_layer_boundary": "the >=13-presence exploratory layer shows a broad natural-prevalence gain dominated by absence constraints",
+    "interpretive_consequence": "the original source-network contrast-window idea is strengthened as a boundary-condition hypothesis but not confirmed as a formal unimodal law",
+    "presence_absence_asymmetry_is_not_general": true
+  },
+  "fresh_systems": {
+    "boreal_19island_beetles": "valid fresh local primary not supported",
+    "GIFT_native_angiosperms": "terminal fresh attempt without ecological primary score"
+  },
+  "analysis_state": {
+    "same_lineage_second_layer_rerun_authorized": false,
+    "new_same_data_rescue_analysis_authorized": false,
+    "next_scientific_event": "independent system or genuinely preregistered new response layer, not post-hoc rescue of the 96-species result"
+  }
+}
