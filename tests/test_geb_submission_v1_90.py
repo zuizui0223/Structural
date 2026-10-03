@@ -35,12 +35,15 @@ def test_geb_cover_letter_emphasizes_generality_without_overclaim():
     assert "fresh local boreal test was non-support" in s
     assert "manufacture cross-taxon confirmation" in s
 
-def test_geb_data_code_statement_is_blinded_and_requires_stable_archive():
+def test_geb_data_code_statement_is_blinded_and_uses_anonymous_si():
     s=(GEB/"blinded_main_text.md").read_text()
     block=s.split("## Data and Code Availability Statement",1)[1]
     assert "10.5061/dryad.hmgqnk9j2" in block
     assert "10.21942/uva.22788464.v5" in block
-    assert "ANONYMIZED STABLE REVIEW LINK" in block
+    assert "anonymized peer-review reproducibility ZIP" in block
+    assert "Supporting Information" in block
+    assert "permanent stable public archive with a DOI no later than publication" in block
+    assert "ANONYMIZED STABLE REVIEW LINK" not in block
     assert "github.com" not in block.lower()
 
 def test_title_page_requires_author_confirmation():
@@ -61,8 +64,10 @@ def test_anonymous_review_bundle_excludes_raw_response_and_public_repo_link():
     assert "direct identity leakage" in w
     assert "GEB_anonymous_review_bundle_v1_90.zip" in w
 
-def test_geb_checklist_requires_anonymous_stable_link_before_submission():
+def test_geb_checklist_uses_anonymous_si_and_permanent_archive_later():
     s=(GEB/"submission_checklist.md").read_text()
-    assert "Insert an anonymized stable peer-review code archive link" in s
-    assert "GitHub" in s
+    assert "Peer-review code/provenance is supplied as a neutralized Supporting Information ZIP" in s
+    assert "Download the final v1.91 SI ZIP and upload it with the submission" in s
+    assert "permanent DOI" in s
+    assert "temporarily make the public development repository private during peer review" in s
     assert "double-anonymous" in s.lower()
