@@ -1,0 +1,56 @@
+{
+  "schema": "structural.global_mammals_isolation_empty_support_audit_contract.v1_87",
+  "status": "POSTHOC_REVIEWER_DEFENSE_CONFOUND_AUDIT_PREDECLARED",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "analysis_route": "frozen_output_only_nonconfirmatory_diagnostic",
+  "parents": [
+    "development/global_mammals_exploratory_diagnostics_freeze_v1_79.json",
+    "development/global_mammals_prediction_behavior_freeze_v1_85.json"
+  ],
+  "question": "Is the positive association between current external isolation and C-minus-R3 merely a restatement of blocks having more graph-source-empty cells?",
+  "inputs": {
+    "block_context": {
+      "artifact_id": 11130602935,
+      "sha256": "36f452c2db01f55d6bd43951fb2f744c98772484f033330153e26b5da6d82195",
+      "rows": 168
+    },
+    "block_prediction_behavior": {
+      "artifact_id": 11139081593,
+      "sha256": "8abce72e8ce349e536a1bd7287508a24975ba0eb5f4a50db39b67d1c8a34d50e",
+      "rows": 168
+    }
+  },
+  "variables": {
+    "x": "block mean z_Current_isolation",
+    "y": "block mean C-minus-R3 log loss",
+    "z": "block graph_empty_fraction"
+  },
+  "estimands": {
+    "raw": [
+      "Spearman rho(x,y)",
+      "Spearman rho(x,z)",
+      "Spearman rho(y,z)",
+      "partial Spearman rho(x,y | z) using the three rank correlations"
+    ],
+    "within_bioregion": [
+      "center x,y,z by their bioregion arithmetic means",
+      "compute the same three Spearman correlations on centered values",
+      "compute partial Spearman rho(centered x, centered y | centered z)"
+    ]
+  },
+  "partial_formula": "(r_xy - r_xz*r_yz) / sqrt((1-r_xz^2)*(1-r_yz^2))",
+  "interpretation": {
+    "if_partial_collapses_toward_zero": "external-isolation attenuation is largely redundant with graph-source emptiness",
+    "if_partial_remains_close_to_unadjusted": "external-isolation attenuation is not explained by graph-source emptiness alone",
+    "causal_mediation_claim_authorized": false
+  },
+  "anti_fishing": [
+    "only Current_isolation and graph_empty_fraction are tested in this audit",
+    "no additional covariate search is authorized",
+    "no p-value threshold is used",
+    "no block, bioregion or species is removed",
+    "the frozen v1.76 primary and all v1.85 claim boundaries remain unchanged"
+  ],
+  "counts_as_confirmatory_evidence": false,
+  "new_response_access_authorized": false
+}
