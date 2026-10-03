@@ -1,0 +1,44 @@
+{
+  "schema": "structural.global_mammals_isolation_empty_support_audit_freeze.v1_88",
+  "status": "SUCCESSFUL_POSTHOC_REVIEWER_DEFENSE_AUDIT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-isolation-empty-support-v1_87.yml",
+    "workflow_run_id": 37084441628,
+    "workflow_head_sha": "6e7a9c815719d0eebbe324efea2b48777c70ad83",
+    "workflow_job_id": 111091691154,
+    "artifact_id": 11259672183,
+    "artifact_name": "global-mammals-v187-isolation-empty-6e7a9c815719d0eebbe324efea2b48777c70ad83-37084441628",
+    "artifact_digest": "sha256:8f283f99c257a2a7828580f3432f39e820c324ea4721f4cdfef32124589a7c7d",
+    "expires_at": "2026-11-02T01:01:15Z"
+  },
+  "artifact_file": {
+    "isolation_empty_support_result.json": {
+      "sha256": "c891d0a38d2d3dcf96837e054e5813f512579071b7b3ad744f6323f8911eeace"
+    }
+  },
+  "result": {
+    "blocks": 168,
+    "bioregions": 12,
+    "raw": {
+      "rho_isolation_vs_C_minus_R3": 0.28743057515243015,
+      "rho_isolation_vs_graph_empty_fraction": 0.04713918029646398,
+      "rho_graph_empty_fraction_vs_C_minus_R3": 0.28275132813113774,
+      "partial_rho_isolation_vs_C_minus_R3_given_graph_empty_fraction": 0.2860809953580879
+    },
+    "within_bioregion_centered": {
+      "rho_isolation_vs_C_minus_R3": 0.2278413095720483,
+      "rho_isolation_vs_graph_empty_fraction": 0.006140461653862857,
+      "rho_graph_empty_fraction_vs_C_minus_R3": 0.05273594125562633,
+      "partial_rho_isolation_vs_C_minus_R3_given_graph_empty_fraction": 0.227838815483369
+    }
+  },
+  "interpretation": "The external-isolation attenuation is not a restatement of graph-source emptiness. Isolation and graph-empty fraction are nearly uncorrelated across blocks, and controlling graph-empty fraction leaves the isolation-C-minus-R3 association essentially unchanged.",
+  "guardrails": {
+    "posthoc": true,
+    "causal_mediation_claimed": false,
+    "may_change_primary_status": false,
+    "counts_as_confirmatory_evidence": false,
+    "new_response_accessed": false
+  }
+}
