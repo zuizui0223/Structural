@@ -1,4 +1,4 @@
-# GEB submission checklist v1.97
+# GEB submission checklist v1.100
 
 ## Format
 
@@ -27,7 +27,7 @@
 - [x] Figure 1 — geographic breadth of original exploratory effect.
 - [x] Figure 2 — external-isolation attenuation in original layer.
 - [x] Figure 3 — occupancy-breadth attenuation in original layer.
-- [ ] Figure 4 — preregistered sealed rare-species validation.
+- [x] Figure 4 — preregistered sealed rare-species validation (polished v1.98 render frozen).
 - [x] Figure S1 — GIFT endpoint attrition.
 - [x] Figure S2 — original-layer prediction behaviour.
 
@@ -35,7 +35,7 @@
 
 - [x] Public repository URL omitted from blinded manuscript.
 - [x] Neutralized SI strategy available.
-- [ ] Rebuild neutralized SI to include v1.96/v1.97 sealed-species artifacts and scripts.
+- [x] Rebuilt neutralized SI includes v1.96/v1.97 sealed-species artifacts, neutralized scripts, held-out matrix, null scores, and Figure 4.
 - [ ] Inspect final DOCX/PDF/SVG metadata.
 - [ ] Consider making public development repository private during peer review.
 
@@ -50,6 +50,11 @@
 
 ## Archive
 
-- [ ] Update anonymous review SI with sealed-species result.
-- [ ] Upload neutralized SI ZIP with submission.
+- [x] Final neutralized SI bundle passed identifier scan: no GitHub URL/owner, workflow IDs, commit SHA-like tokens, or author names.
+- [x] Final neutralized SI artifact: GitHub Actions artifact 11269048949; archive digest sha256:b898f06339db95068cde94d417fb6bd7df320f8c0466bf7215892b4c667fe684.
+- [x] Inner SI ZIP SHA-256: dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d.
+- [x] Figure 4 artifact: 11269267611; artifact digest sha256:adf3ab52fd39f23df558ec5845d9b3daf2d06739c7a7b969b6d34b278c1b8863.
+
+- [x] Anonymous review SI updated with sealed-species result.
+- [ ] Upload exact neutralized SI ZIP (inner SHA-256: dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d) with submission.
 - [ ] Mint permanent public archive DOI no later than publication.
