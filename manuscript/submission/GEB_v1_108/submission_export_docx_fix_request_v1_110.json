@@ -1,0 +1,17 @@
+{
+  "schema": "structural.geb_submission_export_docx_fix_request.v1_110",
+  "status": "REQUEST_DOCX_VALIDITY_FIX_SAME_V1108_CONTENT",
+  "parent_request": "manuscript/submission/GEB_v1_108/submission_export_request_v1_109.json",
+  "reason": "final local QA found docProps/custom.xml had been deleted while its relationship and content-type override remained, making the DOCX package structurally incomplete for python-docx",
+  "repair": "retain an empty valid custom-properties XML part instead of deleting docProps/custom.xml",
+  "runner": "ubuntu-22.04",
+  "scientific_content_changed": false,
+  "manuscript_content_changed": false,
+  "figure_mapping_changed": false,
+  "artifact_bindings_changed": false,
+  "docx_metadata_anonymization_changed": false,
+  "new_package_validation": "open all five DOCX files with python-docx before upload",
+  "new_scientific_analysis_authorized": false,
+  "new_response_access_authorized": false,
+  "one_shot": true
+}
