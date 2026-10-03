@@ -1,0 +1,114 @@
+{
+  "schema": "structural.geb_final_submission_manifest.v1_106",
+  "status": "GEB_SUBMISSION_PACKAGE_WORDING_FINALIZED",
+  "scientific_freeze": "development/current_status_v1_97.json",
+  "manuscript": "manuscript/submission/GEB_v1_106/blinded_main_text.md",
+  "title_page_template": "manuscript/submission/GEB_v1_106/title_page_template.md",
+  "cover_letter": "manuscript/submission/GEB_v1_106/cover_letter.md",
+  "checklist": "manuscript/submission/GEB_v1_106/submission_checklist.md",
+  "scientific_result": {
+    "exploratory_layer": {
+      "species": 79,
+      "heldout_islands": 4126,
+      "C_minus_R3": -0.0018141589038615496,
+      "bootstrap_ci95": [
+        -0.002817220627012837,
+        -0.0009974506971953355
+      ],
+      "evidence_class": "nonconfirmatory exploratory"
+    },
+    "sealed_species_layer": {
+      "species": 96,
+      "pilot_presence_range": [
+        5,
+        12
+      ],
+      "heldout_islands": 4126,
+      "target_cells": 396096,
+      "P1_C_minus_R3": -0.00044242277078691746,
+      "P1_bootstrap_ci95": [
+        -0.0010981838771027365,
+        0.0002038048880791948
+      ],
+      "P1_supported": false,
+      "P2_absence_C_minus_R3": 0.0004297992584762837,
+      "P2_presence_C_minus_R3": -0.2774434469982346,
+      "P3_nonempty_minus_empty": -0.006031600269272194,
+      "P3_bootstrap_ci95": [
+        -0.01625952734814901,
+        0.0011753598223374928
+      ],
+      "P4_actual_minus_mean_rewired": 0.000001557483439289808,
+      "P4_bootstrap_ci95": [
+        -0.00021175229148074804,
+        0.0002040661074521595
+      ],
+      "actual_graph_better_than_nulls": "11/20",
+      "evidence_class": "preregistered heldout species-layer non-replication within same geography"
+    }
+  },
+  "figures": {
+    "figures_1_3_S1_S2": {
+      "artifact_id": 11139705415,
+      "role": "frozen-output main and supplementary figures"
+    },
+    "figure_4": {
+      "artifact_id": 11269267611,
+      "artifact_digest": "sha256:adf3ab52fd39f23df558ec5845d9b3daf2d06739c7a7b969b6d34b278c1b8863",
+      "png_sha256": "83a2489578771c283febad371457f7eee99715fde92627e105b7a99cfb6d5abe",
+      "svg_sha256": "0191a1563cdeed3ad9f6a3d08567264b13e63aa8d5da873da82e28fa88693d35"
+    }
+  },
+  "anonymous_review_SI": {
+    "artifact_id": 11269048949,
+    "artifact_digest": "sha256:b898f06339db95068cde94d417fb6bd7df320f8c0466bf7215892b4c667fe684",
+    "inner_zip": "GEB_anonymous_review_SI_v1_99.zip",
+    "inner_zip_sha256": "dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d",
+    "files": 76,
+    "direct_identifier_hits": 0,
+    "commit_like_40_hex_hits": 0,
+    "raw_biological_response_included": false
+  },
+  "format": {
+    "journal": "Global Ecology and Biogeography",
+    "article_type": "Research Article",
+    "title": "Island isolation is not one-dimensional: source-network information differs across species occupancy regimes",
+    "running_title": "Source networks across occupancy",
+    "main_text_words_approx": 4453,
+    "abstract_words_approx": 214,
+    "structured_abstract_headings": [
+      "Aim",
+      "Innovation",
+      "Main conclusions"
+    ],
+    "double_anonymous": true
+  },
+  "remaining_manual_actions": [
+    "final author list/order and affiliations",
+    "corresponding author/email/ORCID",
+    "funding and acknowledgements",
+    "conflict-of-interest statement",
+    "AI-assisted technology disclosure",
+    "final DOCX/PDF metadata anonymity check",
+    "upload exact neutralized SI ZIP",
+    "optionally make public development repository private during peer review",
+    "mint permanent public code/provenance DOI no later than publication"
+  ],
+  "new_scientific_analysis_authorized": false,
+  "same_data_rescue_authorized": false,
+  "narrative_order": {
+    "methods": "prospective sealed layer precedes post-hoc diagnostics",
+    "results": "prospective sealed non-replication is Results 3.2 immediately after exploratory primary",
+    "discussion": "boundary-condition interpretation is Discussion 4.1"
+  },
+  "figure_caption_file": "manuscript/submission/GEB_v1_106/figure_captions.md",
+  "figure_order": {
+    "Figure 1": "exploratory bioregion breadth",
+    "Figure 2": "preregistered sealed rare-species validation",
+    "Figure 3": "external-isolation attenuation",
+    "Figure 4": "species-breadth attenuation",
+    "Supplementary Figure S1": "GIFT endpoint attrition",
+    "Supplementary Figure S2": "prediction behaviour"
+  },
+  "wording_guardrail": "claims limited to occupancy regimes tested; no universal mammalian source-topology claim"
+}
