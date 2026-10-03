@@ -189,6 +189,8 @@ class NeutralizePython(ast.NodeTransformer):
                 ast.Constant(clean_string(node.value, self.prediction_sha_old, self.prediction_sha_new)),
                 node,
             )
+        if isinstance(node.value, bytes) and node.value == ORIGINAL_MAGIC:
+            return ast.copy_location(ast.Constant(REVIEW_MAGIC), node)
         return node
 
 
