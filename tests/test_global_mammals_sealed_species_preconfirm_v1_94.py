@@ -1,8 +1,10 @@
 from pathlib import Path
 import importlib.util,json
+import pytest
 ROOT=Path(__file__).resolve().parents[1]
 
 def load_module():
+    pytest.importorskip("numpy")
     p=ROOT/"scripts/freeze_global_mammals_sealed_species_predictions_v1_94.py"
     spec=importlib.util.spec_from_file_location("second",p)
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m

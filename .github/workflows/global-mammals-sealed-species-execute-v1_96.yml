@@ -1,0 +1,191 @@
+name: Global mammals sealed species replication v1.96
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_sealed_species_execution_request_v1_96.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  replicate:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install exact numerical dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.3.3"
+
+      - name: Validate irreversible authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_sealed_species_execution_request_v1_96.json").read_text())
+          f=json.loads(Path("development/global_mammals_sealed_species_preconfirm_freeze_v1_96.json").read_text())
+          c=json.loads(Path("development/global_mammals_sealed_species_scoring_contract_v1_95.json").read_text())
+          assert r["status"]=="AUTHORIZE_ONE_SHOT_SECOND_LAYER_HELDOUT_REPLICATION"
+          assert r["preconfirm_artifact_id"]==11267287545
+          assert r["heldout_islands"]==4126
+          assert r["second_layer_species"]==96
+          assert r["expected_target_cells"]==396096
+          assert r["heldout_response_authorized"] is True
+          assert r["decode_only_second_layer_species"] is True
+          assert r["score_P1_P2_P3_P4_immediately"] is True
+          assert r["refit_after_heldout_access"] is False
+          assert r["threshold_change_after_heldout_access"] is False
+          assert r["null_change_after_heldout_access"] is False
+          assert r["same_lineage_rerun_after_first_decode"] is False
+          assert r["one_shot"] is True
+          assert f["response_boundary"]["heldout_second_layer_response_opened"] is False
+          assert f["response_independent_estimability"]["cells_with_abs_pC_minus_pR3_gt_1e_12"]==396096
+          assert f["response_independent_estimability"]["cells_with_abs_actualC_minus_mean_rewiredC_gt_1e_12"]==396096
+          assert c["result_interpretation"]["P1_is_the_only_primary"] is True
+          assert c["result_interpretation"]["secondary_signatures_cannot_rescue_failed_P1"] is True
+          PY
+
+      - name: Download exact preconfirmatory prediction artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v1941-sealed-species-preconfirm-37ee18ef2d1ede796d680bd2d95a276c8b42d0fb-37105060398
+          path: build/global_mammals_v196/preconfirm
+          repository: zuizui0223/Structural
+          run-id: 37105060398
+          github-token: ${{ github.token }}
+
+      - name: Download exact second-layer pilot artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v193-sealed-species-pilot-6e424830a571caa4c44139c1e7eb343b7aebc7aa-37104248208
+          path: build/global_mammals_v196/pilot
+          repository: zuizui0223/Structural
+          run-id: 37104248208
+          github-token: ${{ github.token }}
+
+      - name: Download exact corrected species schema
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v169-corrected-schema-c1ba487b5df7c9558048f69a2747243d59edd58c-36743248729
+          path: build/global_mammals_v196/schema
+          repository: zuizui0223/Structural
+          run-id: 36743248729
+          github-token: ${{ github.token }}
+
+      - name: Download exact pilot and heldout routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v196/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify every frozen input and prediction surface before response
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          import numpy as np
+          from scripts.score_global_mammals_sealed_species_v1_95 import parse_predictions,parse_mask
+          checks={
+            "build/global_mammals_v196/preconfirm/second_layer_predictions.f64le":"5aa63c4be6344598f8d641f092ee4e9a6801eec8869eda48479e5bbec38f304c",
+            "build/global_mammals_v196/preconfirm/heldout_entity_order.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+            "build/global_mammals_v196/preconfirm/actual_graph_empty_mask.u8":"ebc4321888f2f3b9c12530037c20f1ea4d9df369482fe516c065f2882cdde0b3",
+            "build/global_mammals_v196/preconfirm/preconfirm_receipt.json":"3e710cad5bdf98abd65b3f999e30711a90b34467421d090f605a50681700363c",
+            "build/global_mammals_v196/pilot/second_layer_species_universe.csv":"beac14fb7eb119b7fd1a1952fdbb9c072518aaa7fcaa0b6e8e87f37e881c18e2",
+            "build/global_mammals_v196/pilot/second_layer_pilot_matrix.csv":"669bc288212a89a6676516c63178a2ea84fc1dd18c33a1c077337fa5219218fc",
+            "build/global_mammals_v196/schema/corrected_species_manifest.csv":"882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6",
+            "build/global_mammals_v196/routing/pilot_ids.csv":"ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+            "build/global_mammals_v196/routing/confirmatory_ids.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          pre=json.loads(Path("build/global_mammals_v196/preconfirm/preconfirm_receipt.json").read_text())
+          assert pre["status"]=="SECOND_LAYER_R3_C_AND_REWIRED_PREDICTIONS_FROZEN_BEFORE_HELDOUT_ACCESS"
+          assert pre["heldout_second_layer_response_opened"] is False
+          assert pre["heldout_second_layer_target_values_used"] is False
+          assert len(pre["null_graphs"])==20
+          assert all(len(n["regions"])==12 for n in pre["null_graphs"])
+          assert all(r["accepted_swaps"]==r["target_swaps"] for n in pre["null_graphs"] for r in n["regions"])
+          ne,ns,k,pred=parse_predictions(Path("build/global_mammals_v196/preconfirm/second_layer_predictions.f64le"))
+          me,ms,mask=parse_mask(Path("build/global_mammals_v196/preconfirm/actual_graph_empty_mask.u8"))
+          assert (ne,ns,k)==(4126,96,20) and (me,ms)==(4126,96)
+          assert np.isfinite(pred).all()
+          assert np.all((pred>0)&(pred<1))
+          assert np.all((mask==0)|(mask==1))
+          # Minimal scorer-function preflight under the execution environment.
+          from scripts.score_global_mammals_sealed_species_v1_95 import bootstrap
+          assert bootstrap({"a":-1.0,"b":0.0,"c":1.0},100,123)==bootstrap({"a":-1.0,"b":0.0,"c":1.0},100,123)
+          PY
+
+      - name: Prepare exact Dryad token only after prediction preflight passes
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v196/result
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v196/result/token_receipt.json
+
+      - name: Consume exactly the 96 sealed heldout species once
+        run: |
+          python scripts/run_global_mammals_sealed_species_response_v1_95.py             --corrected-manifest build/global_mammals_v196/schema/corrected_species_manifest.csv             --universe build/global_mammals_v196/pilot/second_layer_species_universe.csv             --pilot-routing build/global_mammals_v196/routing/pilot_ids.csv             --heldout-routing build/global_mammals_v196/routing/confirmatory_ids.csv             --matrix build/global_mammals_v196/result/second_layer_heldout_matrix.csv             --receipt build/global_mammals_v196/result/second_layer_response_receipt.json
+
+      - name: Score preregistered P1-P4 immediately with no refit
+        run: |
+          python scripts/score_global_mammals_sealed_species_v1_95.py             build/global_mammals_v196/preconfirm/second_layer_predictions.f64le             build/global_mammals_v196/preconfirm/heldout_entity_order.csv             build/global_mammals_v196/preconfirm/actual_graph_empty_mask.u8             build/global_mammals_v196/preconfirm/preconfirm_receipt.json             build/global_mammals_v196/pilot/second_layer_species_universe.csv             build/global_mammals_v196/result/second_layer_heldout_matrix.csv             build/global_mammals_v196/result/second_layer_response_receipt.json             --block-output build/global_mammals_v196/result/second_layer_block_scores.csv             --null-output build/global_mammals_v196/result/second_layer_null_scores.csv             --result build/global_mammals_v196/result/second_layer_result.json
+
+      - name: Enforce terminal one-shot result semantics
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("build/global_mammals_v196/result/second_layer_response_receipt.json").read_text())
+          r=json.loads(Path("build/global_mammals_v196/result/second_layer_result.json").read_text())
+          assert q["status"]=="SECOND_LAYER_HELDOUT_RESPONSE_CONSUMED_ONCE"
+          assert q["heldout_entities_decoded"]==4126
+          assert q["heldout_second_layer_species"]==96
+          assert q["heldout_second_layer_values_decoded"]==396096
+          assert q["heldout_non_second_layer_values_decoded"]==0
+          assert q["pilot_occurrence_values_decoded_during_run"]==0
+          assert q["excluded_occurrence_values_decoded"]==0
+          assert q["rerun_authorized"] is False
+          assert r["status"]=="PROSPECTIVE_SECOND_SPECIES_LAYER_SCORED_ONCE"
+          assert r["species_layer"]["species"]==96
+          assert r["species_layer"]["target_cells"]==396096
+          assert r["heldout_second_layer_response_consumed"] is True
+          assert r["rerun_authorized"] is False
+          assert r["interpretation"]["geographically_independent_replication"] is False
+          assert r["interpretation"]["fresh_system_confirmation"] is False
+          PY
+
+      - name: Upload terminal second-layer result bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v196-sealed-species-result-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v196/result/second_layer_heldout_matrix.csv
+            build/global_mammals_v196/result/second_layer_response_receipt.json
+            build/global_mammals_v196/result/second_layer_block_scores.csv
+            build/global_mammals_v196/result/second_layer_null_scores.csv
+            build/global_mammals_v196/result/second_layer_result.json
+          if-no-files-found: warn
+          retention-days: 30

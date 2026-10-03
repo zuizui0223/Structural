@@ -1,0 +1,40 @@
+{
+  "schema": "structural.global_mammals_sealed_species_preconfirm_freeze.v1_96",
+  "status": "SUCCESSFUL_SECOND_LAYER_PRECONFIRM_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow_run_id": 37105060398,
+    "workflow_head_sha": "37ee18ef2d1ede796d680bd2d95a276c8b42d0fb",
+    "artifact_id": 11267287545,
+    "artifact_name": "global-mammals-v1941-sealed-species-preconfirm-37ee18ef2d1ede796d680bd2d95a276c8b42d0fb-37105060398",
+    "artifact_digest": "sha256:1f525a594f0c2c75cf0242800163e76c6a2dcebbaf9db3331793e9c317e57421",
+    "expires_at": "2026-11-02T07:18:38Z"
+  },
+  "files": {
+    "second_layer_predictions.f64le": {"sha256":"5aa63c4be6344598f8d641f092ee4e9a6801eec8869eda48479e5bbec38f304c","bytes":69712947},
+    "heldout_entity_order.csv": {"sha256":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715","bytes":132986},
+    "actual_graph_empty_mask.u8": {"sha256":"ebc4321888f2f3b9c12530037c20f1ea4d9df369482fe516c065f2882cdde0b3","bytes":396150},
+    "preconfirm_receipt.json": {"sha256":"3e710cad5bdf98abd65b3f999e30711a90b34467421d090f605a50681700363c","bytes":199361}
+  },
+  "dimensions": {
+    "heldout_islands": 4126,
+    "species": 96,
+    "target_cells": 396096,
+    "prediction_fields": 22,
+    "null_graphs": 20
+  },
+  "response_independent_estimability": {
+    "cells_with_abs_pC_minus_pR3_gt_1e_12": 396096,
+    "cells_with_abs_actualC_minus_mean_rewiredC_gt_1e_12": 396096,
+    "unique_occupied_pilot_source_islands": 385,
+    "all_20_nulls_completed_every_preregistered_regional_swap_target": true,
+    "all_20_null_graph_ensembles_have_distinct_fingerprints": true
+  },
+  "response_boundary": {
+    "heldout_second_layer_target_values_used": false,
+    "heldout_second_layer_response_opened": false,
+    "heldout_response_authorized": false,
+    "counts_as_empirical_result": false
+  },
+  "next_action": "one-shot v1.96 execution may decode exactly the 96 second-layer heldout species and immediately score preregistered P1-P4"
+}
