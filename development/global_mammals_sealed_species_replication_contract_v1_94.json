@@ -1,0 +1,131 @@
+{
+  "schema": "structural.global_mammals_sealed_species_replication_contract.v1_94",
+  "status": "PREREGISTERED_SPECIES_LAYER_REPLICATION_BEFORE_HELDOUT_SECOND_LAYER_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "replication_role": "prospective_species_layer_validation_within_same_geographic_system",
+  "parents": [
+    "development/global_mammals_sealed_species_pilot_freeze_v1_94.json",
+    "development/global_mammals_macro_model_contract_v1_67.json",
+    "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "development/macro_source_feature_empty_support_contract_v1_56.json",
+    "development/global_mammals_exploratory_scoring_freeze_v1_76.json"
+  ],
+  "population": {
+    "islands": 5401,
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "bioregions": 12,
+    "second_layer_species": 96,
+    "pilot_presence_min": 5,
+    "pilot_presence_max": 12,
+    "heldout_target_cells": 396096,
+    "species_universe_sha256": "beac14fb7eb119b7fd1a1952fdbb9c072518aaa7fcaa0b6e8e87f37e881c18e2",
+    "pilot_matrix_sha256": "669bc288212a89a6676516c63178a2ea84fc1dd18c33a1c077337fa5219218fc"
+  },
+  "model_reuse": {
+    "R0_R1_R2_R3_C_definition": "exactly development/global_mammals_macro_model_contract_v1_67.json",
+    "ridge_lambda": 1.0,
+    "response_based_hyperparameter_tuning": false,
+    "R3_contains": [
+      "environment_and_bioregion",
+      "island_area_current_and_past_external_isolation",
+      "generic_island_network_context",
+      "training_only_global_occupancy_breadth",
+      "training_only_species_x_bioregion_prevalence",
+      "training_only_nearest_occupied_source_euclidean_distance",
+      "training_only_diffuse_occupied_source_pressure"
+    ],
+    "C_adds_only": [
+      "training_only_nearest_occupied_source_graph_path_distance",
+      "training_only_graph_path_occupied_source_pressure"
+    ],
+    "pilot_crossfit_source_rule": "exclude the complete focal validation block from every species-conditioned pilot source feature",
+    "heldout_source_rule": "all 1275 pilot islands only; no heldout response enters any source feature"
+  },
+  "predictions": {
+    "P1_primary_overall_increment": {
+      "estimand": "equal-weight mean across 168 heldout blocks of binary_log_loss(C,y)-binary_log_loss(R3,y) over all frozen second-layer island_x_species cells",
+      "favourable_direction": "negative",
+      "support_rule": "point_estimate < 0 AND block-bootstrap 95% upper bound < 0",
+      "bootstrap_replicates": 10000,
+      "bootstrap_seed": 20261003
+    },
+    "P2_constraint_signature": {
+      "absence_estimand": "equal-block mean C-minus-R3 among y=0 cells",
+      "presence_estimand": "equal-block mean C-minus-R3 among y=1 cells in blocks containing at least one presence",
+      "prediction_absence": "absence C-minus-R3 < 0 with block-bootstrap 95% upper bound < 0",
+      "prediction_presence": "presence C-minus-R3 >= 0",
+      "minimum_presence_blocks_for_estimability": 10,
+      "if_below_minimum": "P2 presence component is NOT_ESTIMABLE; no threshold or pooling rule may be changed"
+    },
+    "P3_source_support_signature": {
+      "graph_source_empty_definition": "no graph-reachable occupied pilot source for the focal species in the target bioregion under the actual frozen graph",
+      "estimand": "within blocks containing both classes, mean(C-minus-R3 | graph_nonempty) - mean(C-minus-R3 | graph_empty), then equal-weight mean across eligible blocks",
+      "prediction": "contrast < 0 with block-bootstrap 95% upper bound < 0",
+      "minimum_paired_blocks_for_estimability": 10
+    },
+    "P4_topology_specificity": {
+      "estimand": "for each heldout cell, logloss(actual_C,y) minus mean logloss across the 20 rewired-C models; average within block then equally across blocks",
+      "prediction": "actual-minus-rewired < 0 with block-bootstrap 95% upper bound < 0",
+      "interpretation": "evidence that the realized graph adjacency contains information beyond unchanged Euclidean source context and matched degree/edge-length-bin null topology"
+    }
+  },
+  "rewired_graph_null": {
+    "null_graphs": 20,
+    "base_seed": 2026100300,
+    "seed_rule": "null_seed = base_seed + null_index for null_index 1..20; within each null, region_seed = null_seed + 1000*zero_based_sorted_bioregion_rank; disconnected retries add 100000*retry_index",
+    "scope": "rewire independently within each of the 12 bioregions",
+    "node_coordinates": "unchanged",
+    "node_set": "unchanged",
+    "edge_count": "exactly preserved within bioregion",
+    "degree_sequence": "exactly preserved within bioregion by undirected double-edge swaps",
+    "distance_bins": 5,
+    "distance_bin_definition": "within-bioregion original-edge-length quintile boundaries using type-7 quantiles at 0.2,0.4,0.6,0.8",
+    "distance_bin_constraint": "every accepted replacement edge must remain in the same original distance bin as the edge it replaces; therefore bin counts are exactly preserved",
+    "target_accepted_swaps_per_bioregion": "2 * original_edge_count",
+    "maximum_swap_attempts_per_bioregion": "200 * target_accepted_swaps",
+    "self_edges_allowed": false,
+    "duplicate_edges_allowed": false,
+    "final_graph_connected_required": true,
+    "deterministic_retry_if_disconnected": "restart only the affected bioregion from its original graph using region_seed + 100000*retry_index, retry_index 1..20; STOP if no connected null is produced",
+    "null_selection_from_response_forbidden": true,
+    "R3_recomputed_for_nulls": false,
+    "R3_prediction_surface_identical_across_actual_and_null_models": true,
+    "null_C_fitting": "each null graph recomputes only the two graph-path source features, standardizes them from cross-fitted pilot rows, and refits C with the exact frozen ridge method",
+    "heldout_response_used_to_build_nulls": false
+  },
+  "preconfirmatory_freeze": {
+    "freeze_before_any_new_heldout_value_decode": [
+      "R3 coefficients",
+      "actual_C coefficients",
+      "20 rewired-C coefficient sets",
+      "all 4126x96 R3/actual-C/rewired-C probabilities",
+      "actual graph-source-empty mask for all 4126x96 cells",
+      "exact null seeds, swap counts, connectivity checks and fingerprints"
+    ],
+    "heldout_response_authorized_during_prediction_freeze": false,
+    "prediction_difference_threshold": 1e-12,
+    "if_any_model_or_null_fails_before_heldout_access": "STOP; any repair requires a new committed contract and cannot use heldout response"
+  },
+  "scoring_order_after_prediction_freeze": [
+    "decode exactly the 96 second-layer species on the 4126 heldout islands once",
+    "score P1 immediately",
+    "score P2-P4 without refitting or changing species, blocks, nulls or thresholds",
+    "freeze terminal result; no same-lineage rerun after first heldout second-layer value decode"
+  ],
+  "evidence_language": {
+    "if_P1_supported": "prospective preregistered species-layer replication within the same geographic system",
+    "if_P1_not_supported": "prospective species-layer non-replication within the same geographic system",
+    "geographically_independent_replication": false,
+    "independent_taxonomic_system_replication": false,
+    "fresh_global_system_confirmation": false
+  },
+  "response_boundary": {
+    "original_79_heldout_response_already_opened": true,
+    "second_layer_96_heldout_response_opened": false,
+    "other_5219_nonfocal_heldout_species_remain_sealed": true,
+    "heldout_second_layer_response_authorized_now": false,
+    "counts_as_current_empirical_result": false
+  }
+}

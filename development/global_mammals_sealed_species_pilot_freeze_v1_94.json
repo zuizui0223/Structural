@@ -1,0 +1,32 @@
+{
+  "schema": "structural.global_mammals_sealed_species_pilot_freeze.v1_94",
+  "status": "SUCCESSFUL_PILOT_ONLY_SECOND_SPECIES_LAYER_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-sealed-species-pilot-v1_93.yml",
+    "workflow_run_id": 37104248208,
+    "workflow_head_sha": "6e424830a571caa4c44139c1e7eb343b7aebc7aa",
+    "workflow_job_id": 111149576875,
+    "artifact_id": 11267341176,
+    "artifact_name": "global-mammals-v193-sealed-species-pilot-6e424830a571caa4c44139c1e7eb343b7aebc7aa-37104248208",
+    "artifact_digest": "sha256:a0137f01729c711264f82dd960ccab37d477e849d1d7c51a0df5ef534b4b344e",
+    "expires_at": "2026-11-02T06:48:33Z"
+  },
+  "result": {
+    "pilot_islands": 1275,
+    "selected_species": 96,
+    "pilot_presence_range": [5,12],
+    "selected_pilot_positive_cells": 756,
+    "selected_pilot_negative_cells": 121644,
+    "selected_pilot_target_cells": 122400,
+    "species_universe_sha256": "beac14fb7eb119b7fd1a1952fdbb9c072518aaa7fcaa0b6e8e87f37e881c18e2",
+    "pilot_matrix_sha256": "669bc288212a89a6676516c63178a2ea84fc1dd18c33a1c077337fa5219218fc"
+  },
+  "response_boundary": {
+    "heldout_islands": 4126,
+    "heldout_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "heldout_second_layer_response_still_sealed": true,
+    "counts_as_current_empirical_result": false
+  }
+}
