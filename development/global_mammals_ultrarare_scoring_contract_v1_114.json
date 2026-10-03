@@ -1,0 +1,97 @@
+{
+  "schema": "structural.global_mammals_ultrarare_scoring_contract.v1_114",
+  "status": "SCORING_FROZEN_BEFORE_ULTRARARE_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scientific_parent": "development/global_mammals_sealed_ultrarare_species_pilot_contract_v1_112.json",
+  "preconfirm_freeze": "development/global_mammals_ultrarare_preconfirm_freeze_v1_114.json",
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "expected_data_rows": 5592
+  },
+  "physical_schema": {
+    "corrected_manifest_sha256": "882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6",
+    "species_fields": 5394,
+    "data_fields": 5395
+  },
+  "routing": {
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "heldout_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "excluded_rows": 191,
+    "heldout_blocks": 168
+  },
+  "species_layer": {
+    "species": 529,
+    "species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "pilot_presence_range": [1,4],
+    "heldout_target_cells": 2182654
+  },
+  "prediction_binary": {
+    "magic": "STRUCTURAL_MAMMAL_ULTRARARE_PRED_V1\n",
+    "shape": [4126,529,2],
+    "fields": ["p_R3","p_C"]
+  },
+  "graph_empty_mask": {
+    "magic": "STRUCTURAL_MAMMAL_ULTRARARE_GRAPH_EMPTY_V1\n",
+    "shape": [4126,529],
+    "domain": [0,1]
+  },
+  "P1_presence_opportunity": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261010,
+    "minimum_presence_blocks": 10,
+    "estimand": "equal-weight mean across presence-bearing heldout blocks of within-block mean C-minus-R3 among y=1 cells",
+    "support": "point < 0 and 95% block-bootstrap upper bound < 0"
+  },
+  "P2_absence_signature": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261011,
+    "estimand": "equal-weight mean across 168 blocks of within-block mean C-minus-R3 among y=0 cells",
+    "predicted_point_direction": "nonnegative",
+    "support": "point >= 0; CI reported but not required",
+    "may_rescue_P1": false
+  },
+  "P3_external_isolation_attenuation": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261012,
+    "minimum_presence_blocks": 10,
+    "estimand": "Spearman rho across presence-bearing blocks between mean presence-cell C-minus-R3 and block-mean z_Current_isolation",
+    "support": "rho > 0 and bootstrap 95% lower bound > 0",
+    "may_rescue_P1": false
+  },
+  "P4_source_support": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261013,
+    "minimum_paired_blocks": 10,
+    "estimand": "within each eligible block, mean presence-cell C-minus-R3 for graph-nonempty cells minus graph-empty cells; then equal-weight across blocks",
+    "support": "point < 0 and 95% upper bound < 0",
+    "may_rescue_P1": false
+  },
+  "descriptive_outputs": [
+    "overall natural-prevalence C-minus-R3",
+    "heldout prevalence",
+    "presence-block count",
+    "graph-empty and graph-nonempty presence-cell counts"
+  ],
+  "response_firewall": {
+    "decode_exactly_ultrarare_columns_on_heldout_rows": true,
+    "heldout_non_ultrarare_occurrence_decode_forbidden": true,
+    "pilot_occurrence_decode_during_heldout_run_forbidden": true,
+    "excluded_occurrence_decode_forbidden": true,
+    "raw_response_persistence_forbidden": true,
+    "first_ultrarare_heldout_decode_consumes_surface": true,
+    "same_lineage_rerun_after_first_decode": false
+  },
+  "evidence_language": {
+    "if_P1_supported": "prospective replication of the rare-species presence-opportunity signature in an independent sealed species layer within the same geographic system",
+    "if_P1_not_supported": "prospective non-replication of the presence-opportunity signature in an independent sealed species layer within the same geographic system",
+    "geographic_independence_claim_authorized": false,
+    "fresh_system_confirmation_claim_authorized": false
+  },
+  "heldout_response_authorized_now": false
+}
