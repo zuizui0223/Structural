@@ -1,0 +1,91 @@
+{
+  "schema": "structural.global_mammals_sealed_species_scoring_contract.v1_95",
+  "status": "SCORING_IMPLEMENTATION_FROZEN_BEFORE_SECOND_LAYER_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scientific_contract": "development/global_mammals_sealed_species_replication_contract_v1_94.json",
+  "execution_not_authorized_until": "a successful exact v1.94 preconfirmatory prediction artifact is separately frozen by artifact ID, digest, prediction SHA, entity-order SHA and graph-empty-mask SHA",
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";",
+    "expected_data_rows": 5592
+  },
+  "physical_schema": {
+    "header_species_fields": 5394,
+    "data_fields": 5395,
+    "corrected_manifest_sha256": "882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6"
+  },
+  "routing": {
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "heldout_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "excluded_rows": 191,
+    "heldout_blocks": 168
+  },
+  "species_layer": {
+    "species": 96,
+    "species_universe_sha256": "beac14fb7eb119b7fd1a1952fdbb9c072518aaa7fcaa0b6e8e87f37e881c18e2",
+    "pilot_presence_range": [5,12],
+    "heldout_target_cells": 396096
+  },
+  "prediction_binary": {
+    "magic": "STRUCTURAL_MAMMAL_SECOND_LAYER_PRED_V1\n",
+    "shape": [4126,96,22],
+    "fields": ["p_R3","p_C_actual","p_C_rewired_01","p_C_rewired_02","p_C_rewired_03","p_C_rewired_04","p_C_rewired_05","p_C_rewired_06","p_C_rewired_07","p_C_rewired_08","p_C_rewired_09","p_C_rewired_10","p_C_rewired_11","p_C_rewired_12","p_C_rewired_13","p_C_rewired_14","p_C_rewired_15","p_C_rewired_16","p_C_rewired_17","p_C_rewired_18","p_C_rewired_19","p_C_rewired_20"]
+  },
+  "graph_empty_mask": {
+    "magic": "STRUCTURAL_MAMMAL_SECOND_LAYER_GRAPH_EMPTY_V1\n",
+    "shape": [4126,96],
+    "domain": [0,1],
+    "semantics": "1 means no graph-reachable occupied pilot source for the focal species in the target bioregion under the actual frozen graph"
+  },
+  "P1": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261003,
+    "support": "point < 0 and 95% block-bootstrap upper bound < 0"
+  },
+  "P2": {
+    "absence_bootstrap_replicates": 10000,
+    "absence_bootstrap_seed": 20261004,
+    "presence_bootstrap_replicates": 10000,
+    "presence_bootstrap_seed": 20261005,
+    "minimum_presence_blocks": 10,
+    "support": "absence point < 0 and absence 95% upper < 0 and presence point >= 0",
+    "class_balanced_equal_block": "reported as a guardrail, not a support criterion"
+  },
+  "P3": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261006,
+    "minimum_paired_blocks": 10,
+    "support": "equal-block mean of [nonempty delta minus empty delta] < 0 and 95% upper < 0"
+  },
+  "P4": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261007,
+    "cell_contrast": "logloss(actual_C,y) - mean_j logloss(rewired_C_j,y), j=1..20",
+    "support": "equal-block point < 0 and 95% upper < 0",
+    "also_report": "block-weighted C_rewired_j-minus-R3 for all 20 fixed nulls and the count of nulls worse than actual C"
+  },
+  "response_firewall": {
+    "decode_exactly_second_layer_columns_on_heldout_rows": true,
+    "heldout_non_second_layer_occurrence_decode_forbidden": true,
+    "pilot_occurrence_decode_during_heldout_run_forbidden": true,
+    "excluded_occurrence_decode_forbidden": true,
+    "raw_response_persistence_forbidden": true,
+    "first_second_layer_heldout_decode_consumes_the_surface": true,
+    "same_lineage_rerun_after_first_decode": false
+  },
+  "result_interpretation": {
+    "P1_is_the_only_primary": true,
+    "P2_P3_P4_are_preregistered_secondary_signatures": true,
+    "secondary_signatures_cannot_rescue_failed_P1": true,
+    "P1_support_wording": "prospective preregistered species-layer replication within the same geographic system",
+    "geographic_independence_claim_authorized": false,
+    "fresh_system_confirmation_claim_authorized": false
+  },
+  "heldout_response_authorized_now": false
+}
