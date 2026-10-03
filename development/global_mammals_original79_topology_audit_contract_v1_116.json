@@ -1,0 +1,54 @@
+{
+  "schema": "structural.global_mammals_original79_topology_audit_contract.v1_116",
+  "status": "POSTHOC_NONRESCUING_ACTUAL_VS_REWIRED_TOPOLOGY_AUDIT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "evidence_class": "posthoc frozen-output diagnostic on already-open 79-species exploratory layer",
+  "parents": [
+    "development/global_mammals_exploratory_pilot_freeze_v1_72.json",
+    "development/global_mammals_exploratory_preconfirmatory_freeze_v1_74.json",
+    "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+    "development/global_mammals_ultrarare_topology_null_contract_v1_114.json"
+  ],
+  "question": "Was the exploratory 79-species gain specific to the actual island-network adjacency, or would degree- and edge-length-matched surrogate topologies yield the same gain?",
+  "population": {
+    "species": 79,
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "heldout_target_cells": 325954
+  },
+  "frozen_inputs": {
+    "pilot_species_universe_sha256": "c15cb86ba0b0bd88e8d22fd566c495adcec113a3c9f7dd65f4b7c3415796335e",
+    "pilot_matrix_sha256": "77be952a6c45707e5e71cd0f192551f6365d6fde1ac1ba5aaaef2755c03366e2",
+    "actual_predictions_sha256": "f48ab1f09c825f99bced712a64e7c5f1ff927d024fdbe1aaf80db588b0372ef8",
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "heldout_matrix_sha256": "25db7bf42396c66452c7611503522e68b6b4262bc83770c737be43076677a252"
+  },
+  "null_ensemble": {
+    "source": "development/global_mammals_ultrarare_topology_null_contract_v1_114.json",
+    "null_graphs": 20,
+    "exact_same_graph_fingerprints_required": true,
+    "response_based_selection_forbidden": true
+  },
+  "estimands": {
+    "all_cells": "equal-weight across 168 blocks of logloss(actual_C,y) minus mean_j logloss(rewired_C_j,y)",
+    "presence_cells": "equal-weight across presence-bearing blocks of the same actual-minus-rewired contrast among y=1 cells",
+    "absence_cells": "equal-weight across blocks of the same actual-minus-rewired contrast among y=0 cells",
+    "actual_vs_each_null": "report block-weighted C_rewired_j-minus-R3 for all 20 nulls and count nulls worse than actual C"
+  },
+  "uncertainty": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed_all": 20261013,
+    "bootstrap_seed_presence": 20261014,
+    "bootstrap_seed_absence": 20261015
+  },
+  "interpretation": {
+    "negative": "actual topology is descriptively better than the matched null ensemble",
+    "near_zero": "the exploratory gain is not topology-specific and is better described as network-transformed source context",
+    "positive": "matched surrogate topology outperforms the actual adjacency",
+    "may_change_original_exploratory_status": false,
+    "counts_as_confirmatory_evidence": false,
+    "may_rescue_any_failed_primary": false
+  },
+  "new_response_access_authorized": false
+}

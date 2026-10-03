@@ -1,0 +1,7 @@
+{
+  "schema": "structural.global_mammals_original79_topology_audit_request.v1_116",
+  "status": "REQUEST_POSTHOC_ORIGINAL79_ACTUAL_VS_REWIRED_AUDIT",
+  "contract": "development/global_mammals_original79_topology_audit_contract_v1_116.json",
+  "new_response_access_authorized": false,
+  "one_shot": true
+}
