@@ -1,0 +1,14 @@
+{
+  "schema": "structural.geb_anonymous_review_bundle_request.v1_99",
+  "status": "REQUEST_NEUTRALIZED_REVIEW_BUNDLE_WITH_SEALED_SPECIES_VALIDATION",
+  "scientific_freeze": "development/current_status_v1_97.json",
+  "base_anonymous_si_artifact_id": 11261832785,
+  "base_inner_zip_sha256": "fa84e30a5f07de424b52269f17d0d5627589edd0a1cab652fa14b79ead14cc3b",
+  "sealed_pilot_artifact_id": 11267341176,
+  "sealed_preconfirm_artifact_id": 11267287545,
+  "sealed_result_artifact_id": 11269176943,
+  "sealed_figure_artifact_id": 11269267611,
+  "raw_response_access_authorized": false,
+  "new_scientific_analysis_authorized": false,
+  "one_shot": true
+}
