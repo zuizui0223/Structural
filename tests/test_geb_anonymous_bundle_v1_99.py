@@ -23,6 +23,8 @@ def test_v199_augmentation_includes_sealed_evidence_not_raw_prediction_binary():
     assert "raw biological response" not in s.lower()
     assert 'r"from scripts\\.[A-Za-z0-9_]+ import"' in s
     assert 'r"import scripts\\.[A-Za-z0-9_]+"' in s
+    assert 'out=out.replace("global_mammals_","island_mammal_")' in s
+    assert 'out=out.replace("structural.","review.")' in s
 
 def test_v199_workflow_uses_exact_frozen_runs_only():
     req=json.loads((ROOT/"manuscript/submission/GEB_v1_97/anonymous_bundle_request_v1_99.json").read_text())
@@ -42,6 +44,6 @@ def test_v199_workflow_uses_exact_frozen_runs_only():
 
 def test_v199_retry_is_operational_only():
     x=json.loads((ROOT/"manuscript/submission/GEB_v1_97/anonymous_bundle_request_v1_99.json").read_text())
-    assert x["operational_retry_revision"]=="v1.99.1"
-    assert x["prior_failed_run_id"]==37110743445
+    assert x["operational_retry_revision"]=="v1.99.2"
+    assert x["prior_failed_run_id"]==37110986543
     assert x["scientific_inputs_changed"] is False

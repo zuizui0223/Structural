@@ -25,8 +25,13 @@ def neutralize_source(src:Path,dst:Path):
     tree=base.NeutralizePython(None,None).visit(tree)
     ast.fix_missing_locations(tree)
     out="# Review-only neutralized source snapshot\n"+ast.unparse(tree)+"\n"
+    # AST import nodes are not string constants, so neutralize public module paths explicitly.
     out=re.sub(r"from scripts\\.[A-Za-z0-9_]+ import", "from review_dependencies import", out)
     out=re.sub(r"import scripts\\.[A-Za-z0-9_]+", "import review_dependencies", out)
+    # Final fail-safe for public-project identifier fragments that can appear in symbols or paths.
+    out=out.replace("global_mammals_","island_mammal_")
+    out=out.replace("global_island_native_mammals_barreto_2024","global_island_mammals")
+    out=out.replace("structural.","review.")
     dst.parent.mkdir(parents=True,exist_ok=True)
     dst.write_text(out,encoding="utf-8")
 
