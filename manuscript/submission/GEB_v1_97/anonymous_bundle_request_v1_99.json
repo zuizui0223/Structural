@@ -10,5 +10,8 @@
   "sealed_figure_artifact_id": 11269267611,
   "raw_response_access_authorized": false,
   "new_scientific_analysis_authorized": false,
-  "one_shot": true
+  "one_shot": true,
+  "operational_retry_revision": "v1.99.1",
+  "prior_failed_run_id": 37110743445,
+  "scientific_inputs_changed": false
 }
