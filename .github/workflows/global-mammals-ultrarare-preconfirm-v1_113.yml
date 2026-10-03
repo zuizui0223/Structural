@@ -1,0 +1,126 @@
+name: Global mammals ultrarare preconfirm freeze v1.113
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_ultrarare_preconfirm_request_v1_113.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install exact numerics
+        run: python -m pip install --disable-pip-version-check --no-cache-dir numpy==2.3.3
+
+      - name: Validate preconfirm request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_ultrarare_preconfirm_request_v1_113.json").read_text())
+          c=json.loads(Path("development/global_mammals_ultrarare_preconfirm_contract_v1_113.json").read_text())
+          assert r["status"]=="REQUEST_FREEZE_ULTRARARE_R3_C_BEFORE_HELDOUT_ACCESS"
+          assert r["pilot_artifact_id"]==11285057696
+          assert r["expected_species"]==529
+          assert r["expected_heldout_cells"]==2182654
+          assert r["heldout_response_authorized"] is False
+          assert r["one_shot"] is True
+          assert c["response_boundary"]["heldout_response_authorized"] is False
+          PY
+
+      - name: Download ultrarare pilot snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728
+          path: build/global_mammals_v113/pilot
+          repository: zuizui0223/Structural
+          run-id: 37153960728
+          github-token: ${{ github.token }}
+
+      - name: Download response-independent reference
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/global_mammals_v113/reference
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+
+      - name: Download safe Appendix 2 projection
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v113/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Download exact routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v113/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify exact pilot identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v113/pilot/ultrarare_species_universe.csv":"4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+            "build/global_mammals_v113/pilot/ultrarare_pilot_matrix.csv":"476c35e7e197c6b7a9daf7fc6697101add9e0bda1690de94f64efffd5468fb79",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Freeze R3/C predictions without heldout response
+        run: |
+          mkdir -p build/global_mammals_v113/output
+          python scripts/freeze_global_mammals_ultrarare_predictions_v1_113.py             build/global_mammals_v113/pilot/ultrarare_species_universe.csv             build/global_mammals_v113/pilot/ultrarare_pilot_matrix.csv             build/global_mammals_v113/reference/state_reference.csv             build/global_mammals_v113/reference/source_graph_edges.csv             build/global_mammals_v113/reference/reference_receipt.json             build/global_mammals_v113/safe/appendix2_safe_rows.csv             build/global_mammals_v113/routing/pilot_ids.csv             build/global_mammals_v113/routing/confirmatory_ids.csv             --predictions build/global_mammals_v113/output/ultrarare_predictions.f64le             --entity-order build/global_mammals_v113/output/ultrarare_entity_order.csv             --graph-empty-mask build/global_mammals_v113/output/ultrarare_graph_empty.u8             --block-context build/global_mammals_v113/output/ultrarare_block_context.csv             --receipt build/global_mammals_v113/output/ultrarare_preconfirm_receipt.json
+
+      - name: Enforce heldout seal and estimability
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v113/output/ultrarare_preconfirm_receipt.json").read_text())
+          assert x["status"]=="ULTRARARE_R3_C_PREDICTIONS_FROZEN_BEFORE_HELDOUT_ACCESS"
+          assert x["species"]==529
+          assert x["heldout_islands"]==4126
+          assert x["heldout_blocks"]==168
+          assert x["heldout_target_cells"]==2182654
+          assert x["cells_with_abs_pC_minus_pR3_gt_threshold"]>0
+          assert x["blocks_with_mean_abs_difference_gt_threshold"]>=10
+          assert x["heldout_target_values_used"] is False
+          assert x["heldout_response_opened"] is False
+          assert x["heldout_response_authorized"] is False
+          PY
+
+      - name: Upload preconfirm freeze
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v113-ultrarare-preconfirm-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v113/output/ultrarare_predictions.f64le
+            build/global_mammals_v113/output/ultrarare_entity_order.csv
+            build/global_mammals_v113/output/ultrarare_graph_empty.u8
+            build/global_mammals_v113/output/ultrarare_block_context.csv
+            build/global_mammals_v113/output/ultrarare_preconfirm_receipt.json
+          if-no-files-found: error
+          retention-days: 30

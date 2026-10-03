@@ -1,0 +1,29 @@
+{
+  "schema": "structural.global_mammals_sealed_ultrarare_species_pilot_freeze.v1_113",
+  "status": "SUCCESSFUL_PILOT_ONLY_ULTRARARE_LAYER_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow_run_id": 37153960728,
+    "workflow_head_sha": "03c170e50de4bd21f3c9148b36905e20aecc51d6",
+    "workflow_job_id": 111293386093,
+    "artifact_id": 11285057696,
+    "artifact_name": "global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728",
+    "artifact_digest": "sha256:ffd06b6cffb96c60f969fe169e595156fbdb26c00408274e373b10ec40ff5f81"
+  },
+  "result": {
+    "species": 529,
+    "pilot_islands": 1275,
+    "pilot_presence_range": [1,4],
+    "pilot_positive_cells": 877,
+    "pilot_negative_cells": 673598,
+    "pilot_target_cells": 674475,
+    "species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "pilot_matrix_sha256": "476c35e7e197c6b7a9daf7fc6697101add9e0bda1690de94f64efffd5468fb79"
+  },
+  "response_boundary": {
+    "heldout_islands": 4126,
+    "heldout_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "heldout_response_still_sealed": true
+  }
+}
