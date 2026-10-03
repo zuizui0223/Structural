@@ -1,0 +1,87 @@
+{
+  "schema": "structural.global_mammals_ultrarare_topology_null_contract.v1_114",
+  "status": "FREEZE_MATCHED_REWIRED_TOPOLOGY_NULLS_BEFORE_ULTRARARE_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parents": [
+    "development/global_mammals_sealed_ultrarare_species_pilot_contract_v1_112.json",
+    "development/global_mammals_sealed_ultrarare_species_pilot_freeze_v1_113.json",
+    "development/global_mammals_ultrarare_preconfirm_contract_v1_113.json",
+    "development/global_mammals_sealed_species_replication_contract_v1_94.json"
+  ],
+  "scientific_question": "If the ultrarare 1-4-pilot-presence layer shows a presence-opportunity gain, does that gain depend on the actual island-network topology or is it reproduced by degree- and edge-length-matched surrogate topologies?",
+  "population": {
+    "species": 529,
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "heldout_target_cells": 2182654
+  },
+  "actual_preconfirm_parent": {
+    "workflow_run_id": 37154791882,
+    "artifact_id": 11284534666,
+    "artifact_digest": "sha256:c69ef73a1f4b68d29b6c3528a64b367f60e7939afec676fa7ec9b85403147375",
+    "prediction_sha256": "3307a2e058f5f8223eaf0c2d69241acd938e96b93cb02643b1b7d63b425fae04",
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "graph_empty_mask_sha256": "e992497666d388d451a328ffaa41df53b0511af04b54719fa8ed74c7e9b7a4ae",
+    "block_context_sha256": "314aba152580ff84c933d0a1c8f7675327d381052f458aa997ff9d70d50ab7ba",
+    "heldout_response_opened": false
+  },
+  "null_ensemble": {
+    "reuse_exact_graph_null_definition_from": "development/global_mammals_sealed_species_replication_contract_v1_94.json",
+    "null_graphs": 20,
+    "base_seed": 2026100300,
+    "scope": "independently within each bioregion",
+    "preserves": [
+      "node set",
+      "edge count",
+      "degree sequence",
+      "original edge-length quintile-bin counts"
+    ],
+    "connected_required": true,
+    "expected_combined_graph_fingerprints": [
+      "933368ed9d8565dacc320a856d8cbd8871bd7576efe6f26dbd4976eba10acae3",
+      "be2326f8ffaeafb45ecf030d2ce4070a4a8704011f94c6373c72c020c5b2c32f",
+      "938a6aeb9b5b33f644b023261270259452d1893146c9feb1fa6d5c2de0448450",
+      "b55561c592518db15e81f45e8b6d242d49862f9dbd1a9e00eca775a1f14ec3af",
+      "3ee0f16a06728c42c203dc732876cc259ac67f20a883eeb573693e1aba4ae491",
+      "b98c2c0ae22fc3dcfbff5da64f8811cec6d40eef1f995544810e504733ac8338",
+      "3c9a4ff819068b64046aa3d118773ccf0c9f52c68bc1b20a5a4e6fc314650891",
+      "6bc25e0f6c856ba74b5ea610adbb31532c955bcca9edfa8900eb55ff8bd3564d",
+      "9d7f7d1cc7bd0319f041b690d208e0a74cc366eebb9db6ff0f60129823f16092",
+      "9a0b4734186a7985ab8d772e29b2eef17748cdeb21e043e3e5623e8db790b7f4",
+      "f6dc0d73dc661f2911e83a6e28061a74228e7cb704c62ef76a55019ffb5a4f90",
+      "0d83b9b6ed8f966f7e0ba7481adcd8bafce4d9dcdd78e3fac877fa7c72838ee1",
+      "a941ff12dff884ed9bd54a0f00b505ee8e09a1343ef4b9d3a87d371c6a8adc79",
+      "b6839703c13b5d3bc99c50fd61bb0b02dff6925ad0260e60402082334d9bb5cd",
+      "ff0ef513a351454aabbe59bbc87af24cd4bfd2da77af9681f1191be31675804e",
+      "c8a2a95d2b15edbd616767fe52704e4f8aeb5560f90cf2748d89bd518756ead4",
+      "61426b15bfed3a1477c647a2f5908a9c729ec958995be84aea397648bc37ba6c",
+      "fa98cdc8877c08fa3e896bb642a9cd84885d3f65c65ed5441773a4e1547b832f",
+      "0559b84014d1e312a75c63c78883daef8fddf815457eb22fdc7c8a0e61b885fd",
+      "067a01fcca6c4f68ffd7d776f47e55ad1d6dfc61139b58eebb89bfdff57fc8f5"
+    ],
+    "response_based_null_selection_forbidden": true
+  },
+  "additional_prospective_hypothesis": {
+    "name": "ultrarare_presence_topology_specificity",
+    "estimand": "equal-weight mean across presence-bearing heldout blocks of logloss(actual_C,y=1) minus mean logloss across the same cells under 20 matched rewired-C models",
+    "prediction": "negative",
+    "support_rule": "point < 0 and block-bootstrap 95% upper bound < 0",
+    "minimum_presence_blocks": 10,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261004,
+    "role": "secondary prospective test; cannot rescue a failed ultrarare presence-opportunity primary"
+  },
+  "pre_response_requirements": {
+    "actual_R3_C_surface_must_replay_with_max_abs_probability_difference_lte": 1e-12,
+    "every_null_graph_fingerprint_must_match_the_frozen_96_species_null_ensemble": true,
+    "all_20_null_C_prediction_surfaces_frozen_before_any_ultrarare_heldout_value_decode": true,
+    "minimum_cells_with_abs_actualC_minus_mean_nullC_gt_1e_12": 1,
+    "minimum_blocks_with_mean_abs_actualC_minus_mean_nullC_gt_1e_12": 10
+  },
+  "response_boundary": {
+    "heldout_ultrarare_response_opened": false,
+    "heldout_response_authorized": false,
+    "counts_as_current_empirical_result": false
+  }
+}
