@@ -1,4 +1,4 @@
-# Global Ecology and Biogeography — Title page template v1.90
+# Global Ecology and Biogeography — Title page template v1.91
 
 **Manuscript title:**  
 Island isolation is not one-dimensional: source-network information is widespread but asymmetric
@@ -46,8 +46,8 @@ Draft disclosure:
 
 > OpenAI ChatGPT was used as an AI-assisted tool during code development and review, workflow/provenance auditing, and manuscript drafting and editing. All data sources, analysis contracts, code, numerical outputs, citations, interpretations and final text were reviewed by the authors. The authors take full responsibility for the accuracy and integrity of the submitted work. Generative-AI tools were not authors and were not used to fabricate or alter original research data.
 
-The selected journal's submission form may require an additional disclosure of AI-assisted use.
+The submission form may require an additional disclosure of AI-assisted use.
 
 ## Data and code availability
 
-The blinded manuscript contains an anonymized Data and Code Availability Statement. Before submission, insert a stable anonymized peer-review archive link that does not reveal author identity. GitHub alone is not the permanent archive for this journal.
+The blinded manuscript supplies the public source-data DOIs and states that an anonymized, review-neutralized reproducibility ZIP is submitted directly as Supporting Information for peer review. The code/provenance bundle will be deposited in a permanent stable public archive with a DOI no later than publication. The public development-repository URL is intentionally excluded from the blinded manuscript and review ZIP.
