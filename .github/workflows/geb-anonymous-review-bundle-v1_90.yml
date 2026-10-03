@@ -1,0 +1,188 @@
+name: GEB anonymized review bundle v1.90
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - manuscript/submission/GEB_v1_90/anonymized_review_bundle_manifest.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-free bundle request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("manuscript/submission/GEB_v1_90/anonymized_review_bundle_manifest.json")
+          x=json.loads(p.read_text())
+          assert x["status"]=="ANONYMIZED_REVIEW_BUNDLE_CONTENTS_FROZEN"
+          assert x["new_response_access_authorized"] is False
+          assert "raw Dryad biological response bytes" in x["exclude"]
+          PY
+
+      - name: Create bundle skeleton
+        run: |
+          set -euo pipefail
+          ROOT=build/geb_v190/review_bundle
+          mkdir -p "$ROOT/repository_files" "$ROOT/frozen_outputs" "$ROOT/figures"
+          cp manuscript/submission/GEB_v1_90/ANONYMOUS_REVIEW_README.md "$ROOT/README.md"
+          cp manuscript/submission/GEB_v1_90/blinded_main_text.md "$ROOT/repository_files/"
+          cp manuscript/submission/macro_v1_89/figure_captions.md "$ROOT/repository_files/"
+          for f in             development/global_mammals_macro_model_contract_v1_67.json             development/global_mammals_exploratory_preconfirmatory_contract_v1_72.json             development/global_mammals_exploratory_scoring_contract_v1_74.json             development/global_mammals_exploratory_scoring_freeze_v1_76.json             development/global_mammals_exploratory_diagnostics_freeze_v1_79.json             development/global_mammals_species_breadth_diagnostics_freeze_v1_82.json             development/global_mammals_prediction_behavior_freeze_v1_85.json             development/global_mammals_isolation_empty_support_audit_freeze_v1_88.json             development/macro_source_feature_empty_support_contract_v1_56.json             scripts/freeze_global_mammals_exploratory_preconfirmatory_v1_72.py             scripts/score_global_mammals_exploratory_v1_74.py             scripts/run_global_mammals_exploratory_diagnostics_v1_77.py             scripts/run_global_mammals_species_breadth_diagnostics_v1_81.py             scripts/run_global_mammals_prediction_behavior_v1_84.py             scripts/audit_global_mammals_isolation_empty_support_v1_87.py             scripts/build_macro_figures_v1_83.py             scripts/build_prediction_behavior_figure_v1_86.py
+          do
+            mkdir -p "$ROOT/repository_files/$(dirname "$f")"
+            cp "$f" "$ROOT/repository_files/$f"
+          done
+
+      - name: Download frozen preconfirmatory predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v173-preconfirmatory-2dfb3ce75e57b0d6a44584a8fd68158d05310e91-36745389315
+          path: build/geb_v190/review_bundle/frozen_outputs/preconfirmatory
+          repository: zuizui0223/Structural
+          run-id: 36745389315
+          github-token: ${{ github.token }}
+
+      - name: Download frozen heldout score surface
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v175-exploratory-score-33f0a6a85ff7480f1fac30d8fcf26f355a7687ef-36746823761
+          path: build/geb_v190/review_bundle/frozen_outputs/heldout_score
+          repository: zuizui0223/Structural
+          run-id: 36746823761
+          github-token: ${{ github.token }}
+
+      - name: Download frozen geographic diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v177-diagnostics-3778a2c53e76ec83a871b1415ba2e27eb1affb98-36787772910
+          path: build/geb_v190/review_bundle/frozen_outputs/geographic_diagnostics
+          repository: zuizui0223/Structural
+          run-id: 36787772910
+          github-token: ${{ github.token }}
+
+      - name: Download frozen species-breadth diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v181-species-breadth-291a5a803c070215bd25fb46449e62f1821a1378-36789642593
+          path: build/geb_v190/review_bundle/frozen_outputs/species_breadth
+          repository: zuizui0223/Structural
+          run-id: 36789642593
+          github-token: ${{ github.token }}
+
+      - name: Download frozen prediction-behavior diagnostics
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v184-prediction-behavior-08b046de1a63eba861bf5ab31802e8743d8da085-36808403888
+          path: build/geb_v190/review_bundle/frozen_outputs/prediction_behavior
+          repository: zuizui0223/Structural
+          run-id: 36808403888
+          github-token: ${{ github.token }}
+
+      - name: Download frozen isolation-empty-support audit
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v187-isolation-empty-6e7a9c815719d0eebbe324efea2b48777c70ad83-37084441628
+          path: build/geb_v190/review_bundle/frozen_outputs/isolation_empty_support
+          repository: zuizui0223/Structural
+          run-id: 37084441628
+          github-token: ${{ github.token }}
+
+      - name: Download main submission figures
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v1831-figures-80a3bf71e4c0a69d1fb3364cb89185f12771af94-36809002965
+          path: build/geb_v190/review_bundle/figures/main
+          repository: zuizui0223/Structural
+          run-id: 36809002965
+          github-token: ${{ github.token }}
+
+      - name: Download supplementary prediction-behavior figure
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v186-prediction-behavior-19c2f9908bad0d5353a6ac589268761bcf1e231e-37084116950
+          path: build/geb_v190/review_bundle/figures/prediction_behavior
+          repository: zuizui0223/Structural
+          run-id: 37084116950
+          github-token: ${{ github.token }}
+
+      - name: Check bundle for direct identity leakage
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root=Path("build/geb_v190/review_bundle")
+          forbidden=[
+            "zuizui0223",
+            "github.com/zuizui0223",
+            "ZHANG Ruiqi",
+            "張瑞琪",
+            "Rachel Zhang",
+          ]
+          text_suffix={".md",".txt",".json",".py",".csv",".svg"}
+          hits=[]
+          for p in root.rglob("*"):
+              if not p.is_file() or p.suffix.lower() not in text_suffix:
+                  continue
+              try:
+                  s=p.read_text(encoding="utf-8")
+              except UnicodeDecodeError:
+                  continue
+              for needle in forbidden:
+                  if needle.casefold() in s.casefold():
+                      hits.append((str(p),needle))
+          if hits:
+              raise SystemExit(f"direct identity leakage detected: {hits[:20]}")
+          PY
+
+      - name: Write checksums and archive
+        run: |
+          set -euo pipefail
+          ROOT=build/geb_v190/review_bundle
+          (
+            cd "$ROOT"
+            find . -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt
+          )
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path("build/geb_v190/review_bundle")
+          files=[p for p in root.rglob("*") if p.is_file()]
+          out={
+            "schema":"structural.geb_anonymized_review_bundle_result.v1_90",
+            "status":"ANONYMIZED_REVIEW_BUNDLE_BUILT_FROM_FROZEN_OUTPUTS",
+            "file_count":len(files),
+            "bundle_source_commit":os.environ["GITHUB_SHA"],
+            "raw_biological_response_included":False,
+            "new_response_accessed":False,
+            "public_development_repository_url_included":False
+          }
+          Path("build/geb_v190/bundle_receipt.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+          cd build/geb_v190
+          zip -qr GEB_anonymous_review_bundle_v1_90.zip review_bundle
+          sha256sum GEB_anonymous_review_bundle_v1_90.zip > GEB_anonymous_review_bundle_v1_90.zip.sha256
+
+      - name: Upload anonymous review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: geb-anonymous-review-bundle-v190-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/geb_v190/GEB_anonymous_review_bundle_v1_90.zip
+            build/geb_v190/GEB_anonymous_review_bundle_v1_90.zip.sha256
+            build/geb_v190/bundle_receipt.json
+          if-no-files-found: error
+          retention-days: 30
