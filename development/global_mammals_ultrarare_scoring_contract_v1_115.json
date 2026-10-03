@@ -1,0 +1,114 @@
+{
+  "schema": "structural.global_mammals_ultrarare_scoring_contract.v1_115",
+  "status": "SCORING_AND_RESPONSE_FIREWALL_FROZEN_BEFORE_ULTRARARE_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scientific_parent": "development/global_mammals_sealed_ultrarare_species_pilot_contract_v1_112.json",
+  "preconfirm_parent": "development/global_mammals_ultrarare_preconfirm_contract_v1_113.json",
+  "topology_null_parent": "development/global_mammals_ultrarare_topology_null_contract_v1_114.json",
+  "execution_not_authorized_until": "successful v1.114 topology-null artifact is frozen by artifact ID/digest and exact file SHA identities",
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";",
+    "expected_data_rows": 5592
+  },
+  "physical_schema": {
+    "header_species_fields": 5394,
+    "data_fields": 5395,
+    "corrected_manifest_sha256": "882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6"
+  },
+  "routing": {
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "heldout_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "excluded_rows": 191,
+    "heldout_blocks": 168
+  },
+  "species_layer": {
+    "species": 529,
+    "species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "pilot_presence_range": [
+      1,
+      4
+    ],
+    "heldout_target_cells": 2182654
+  },
+  "actual_prediction_parent": {
+    "artifact_id": 11284534666,
+    "prediction_sha256": "3307a2e058f5f8223eaf0c2d69241acd938e96b93cb02643b1b7d63b425fae04",
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "graph_empty_mask_sha256": "e992497666d388d451a328ffaa41df53b0511af04b54719fa8ed74c7e9b7a4ae",
+    "block_context_sha256": "314aba152580ff84c933d0a1c8f7675327d381052f458aa997ff9d70d50ab7ba"
+  },
+  "primary_presence_opportunity": {
+    "estimand": "equal-weight mean across heldout blocks containing >=1 realized ultrarare presence of mean presence-cell [logloss(C,y)-logloss(R3,y)]",
+    "favourable_direction": "negative",
+    "minimum_presence_blocks": 10,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261008,
+    "support": "point < 0 and 95% block-bootstrap upper bound < 0"
+  },
+  "secondary_absence_signature": {
+    "estimand": "equal-weight mean across heldout blocks of mean absence-cell C-minus-R3",
+    "prediction": "nonnegative point direction",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261009,
+    "may_rescue_primary": false
+  },
+  "secondary_external_isolation_attenuation": {
+    "estimand": "Spearman rho across presence-bearing heldout blocks between block-mean presence-cell C-minus-R3 and frozen block-mean z_Current_isolation",
+    "prediction": "positive",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261010,
+    "minimum_valid_bootstrap_replicates": 9500,
+    "support": "rho > 0 and bootstrap 95% lower bound > 0",
+    "may_rescue_primary": false
+  },
+  "secondary_source_support": {
+    "estimand": "within heldout blocks containing both support classes among realized presences, mean presence-cell C-minus-R3(graph-nonempty) minus mean presence-cell C-minus-R3(graph-empty); then equal-weight across eligible blocks",
+    "prediction": "negative",
+    "minimum_paired_blocks": 10,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261011,
+    "support": "point < 0 and 95% block-bootstrap upper bound < 0",
+    "may_rescue_primary": false
+  },
+  "secondary_topology_specificity": {
+    "estimand": "within presence-bearing heldout blocks, mean [logloss(actual_C,y=1) - mean_j logloss(rewired_C_j,y=1)], then equal-weight across blocks",
+    "prediction": "negative",
+    "minimum_presence_blocks": 10,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261012,
+    "support": "point < 0 and 95% block-bootstrap upper bound < 0",
+    "also_report": "for each of 20 nulls, block-weighted presence-cell C_rewired-minus-R3 and count of nulls worse than actual C",
+    "may_rescue_primary": false
+  },
+  "descriptive_only": [
+    "natural-prevalence all-cell C-minus-R3",
+    "class-balanced equal-block C-minus-R3 among blocks with realized presences",
+    "heldout prevalence",
+    "graph-empty fraction",
+    "pooled presence-cell C-minus-R3 in graph-empty and graph-nonempty cells"
+  ],
+  "response_firewall": {
+    "decode_exactly_529_ultrarare_species_on_4126_heldout_rows": true,
+    "heldout_non_ultrarare_occurrence_decode_forbidden": true,
+    "pilot_occurrence_decode_during_heldout_run_forbidden": true,
+    "excluded_occurrence_decode_forbidden": true,
+    "raw_response_persistence_forbidden": true,
+    "first_ultrarare_heldout_decode_consumes_surface": true,
+    "same_lineage_rerun_after_first_decode": false
+  },
+  "evidence_language": {
+    "if_primary_supported": "prospective preregistered presence-opportunity replication in an even rarer species layer within the same geographic system",
+    "if_primary_not_supported": "prospective ultrarare species-layer non-replication within the same geographic system",
+    "geographic_independence_claim_authorized": false,
+    "independent_taxonomic_replication_claim_authorized": false,
+    "causal_colonization_or_rescue_claim_authorized": false
+  },
+  "heldout_response_authorized_now": false
+}
