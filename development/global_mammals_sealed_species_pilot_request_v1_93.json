@@ -1,0 +1,12 @@
+{
+  "schema": "structural.global_mammals_sealed_species_pilot_request.v1_93",
+  "status": "REQUEST_PILOT_ONLY_SECOND_SPECIES_LAYER_CENSUS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "contract": "development/global_mammals_sealed_species_pilot_contract_v1_93.json",
+  "corrected_schema_artifact_id": 11112070309,
+  "routing_artifact_id": 11060106528,
+  "pilot_presence_min_inclusive": 5,
+  "pilot_presence_max_inclusive": 12,
+  "heldout_occurrence_authorized": false,
+  "one_shot": true
+}

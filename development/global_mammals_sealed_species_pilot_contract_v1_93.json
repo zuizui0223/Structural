@@ -1,0 +1,81 @@
+{
+  "schema": "structural.global_mammals_sealed_species_pilot_contract.v1_93",
+  "status": "PROSPECTIVE_SECOND_SPECIES_LAYER_SELECTION_BEFORE_ANY_NEW_HELDOUT_RESPONSE_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "replication_role": "prospective_species_layer_validation_within_the_same_geographic_system",
+  "parents": [
+    "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+    "development/global_mammals_corrected_physical_schema_freeze_v1_71.json",
+    "development/global_mammals_macro_pilot_routing_freeze_v1_64.json",
+    "development/current_status_v1_88.json"
+  ],
+  "why_new_response_exists": {
+    "source_species_columns": 5394,
+    "previously_scored_heldout_species": 79,
+    "heldout_nonfocal_species_columns_remaining_sealed": 5315,
+    "previous_confirmatory_nonfocal_values_decoded": 0,
+    "previous_confirmatory_focal_values_decoded": 325954,
+    "evidence": "development/global_mammals_exploratory_scoring_freeze_v1_76.json"
+  },
+  "response_identity": {
+    "name": "Appendix_1_presence_absence.csv",
+    "dryad_file_id": 3242161,
+    "download_url": "https://datadryad.org/api/v2/files/3242161/download",
+    "expected_size_bytes": 60486843,
+    "expected_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6",
+    "delimiter": ";",
+    "expected_data_rows": 5592
+  },
+  "physical_schema": {
+    "header_species_fields": 5394,
+    "data_fields": 5395,
+    "data_field_1": "source-local island ID / unlabeled row-name field",
+    "data_fields_2_5395": "binary occurrence values aligned one-to-one to the 5394 corrected species headers",
+    "species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81"
+  },
+  "routing": {
+    "routing_artifact_id": 11060106528,
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "excluded_rows": 191,
+    "block_partition_change_authorized": false
+  },
+  "second_layer_species_rule": {
+    "selection_uses_pilot_response_only": true,
+    "pilot_presence_min_inclusive": 5,
+    "pilot_presence_max_inclusive": 12,
+    "pilot_absence_min_inclusive": 13,
+    "species_identity_exceptions_allowed": false,
+    "original_79_species_can_enter": false,
+    "reason_original_79_cannot_enter": "the original exploratory layer required pilot presence >=13 and pilot absence >=13, so the 5-12 presence layer is disjoint by construction",
+    "heldout_response_may_not_change_species_membership": true,
+    "threshold_change_after_census_authorized": false,
+    "minimum_species_count_gate": 1,
+    "maximum_species_count_gate": null
+  },
+  "pilot_access_boundary": {
+    "pilot_rows_were_already_semantically_opened_in_v1_71": true,
+    "pilot_rows_may_be_redecoded_for_this_fixed_selection_rule": true,
+    "heldout_rows_may_be_routed_by_ID_only": true,
+    "heldout_occurrence_values_may_open": false,
+    "excluded_occurrence_values_may_open": false,
+    "nonpilot_record_remainder_utf8_decode_forbidden": true,
+    "raw_response_persistence_forbidden": true
+  },
+  "outputs": [
+    "second_layer_species_universe.csv",
+    "second_layer_pilot_matrix.csv",
+    "second_layer_pilot_receipt.json"
+  ],
+  "next_gate": "after this pilot-only census is frozen, preregister predictions 1-4 and freeze all R3/C/rewired-C heldout predictions before any second-layer heldout occurrence value is decoded",
+  "evidence_boundary": {
+    "same_geographic_system_as_v1_76": true,
+    "geographically_independent_replication": false,
+    "species_response_layer_independent_of_v1_76_heldout_response": true,
+    "fresh_heldout_species_response_available": true,
+    "heldout_response_authorized": false,
+    "counts_as_current_empirical_result": false
+  }
+}

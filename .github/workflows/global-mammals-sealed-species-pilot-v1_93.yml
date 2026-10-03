@@ -1,0 +1,116 @@
+name: Global mammals sealed species pilot census v1.93
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_sealed_species_pilot_request_v1_93.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate preregistered pilot-only census
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_sealed_species_pilot_contract_v1_93.json").read_text())
+          r=json.loads(Path("development/global_mammals_sealed_species_pilot_request_v1_93.json").read_text())
+          assert c["second_layer_species_rule"]["pilot_presence_min_inclusive"]==5
+          assert c["second_layer_species_rule"]["pilot_presence_max_inclusive"]==12
+          assert c["why_new_response_exists"]["heldout_nonfocal_species_columns_remaining_sealed"]==5315
+          assert c["why_new_response_exists"]["previous_confirmatory_nonfocal_values_decoded"]==0
+          assert c["pilot_access_boundary"]["heldout_occurrence_values_may_open"] is False
+          assert r["heldout_occurrence_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact corrected species schema
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v169-corrected-schema-c1ba487b5df7c9558048f69a2747243d59edd58c-36743248729
+          path: build/global_mammals_v193/schema
+          repository: zuizui0223/Structural
+          run-id: 36743248729
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen pilot and heldout routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v193/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify exact nonresponse parents
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v193/schema/corrected_species_manifest.csv":"882af8216d94dcb18fdafe8f9b3d363cadc2e7afbc1c227ba65d29848dea63d6",
+            "build/global_mammals_v193/routing/pilot_ids.csv":"ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+            "build/global_mammals_v193/routing/confirmatory_ids.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Prepare exact Dryad access token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/global_mammals_v193/output
+          python scripts/prepare_dryad_token_v0_73.py             --github-env "$GITHUB_ENV"             --receipt build/global_mammals_v193/output/token_receipt.json
+
+      - name: Re-read pilot only and freeze 5-to-12 layer
+        run: |
+          python scripts/freeze_global_mammals_sealed_species_pilot_v1_93.py             --corrected-manifest build/global_mammals_v193/schema/corrected_species_manifest.csv             --pilot-routing build/global_mammals_v193/routing/pilot_ids.csv             --heldout-routing build/global_mammals_v193/routing/confirmatory_ids.csv             --species-universe build/global_mammals_v193/output/second_layer_species_universe.csv             --pilot-matrix build/global_mammals_v193/output/second_layer_pilot_matrix.csv             --receipt build/global_mammals_v193/output/second_layer_pilot_receipt.json
+
+      - name: Enforce heldout response seal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v193/output/second_layer_pilot_receipt.json").read_text())
+          assert x["status"]=="SECOND_SPECIES_LAYER_FROZEN_FROM_PILOT_ONLY"
+          assert x["pilot_presence_min_inclusive"]==5
+          assert x["pilot_presence_max_inclusive"]==12
+          assert x["selected_species"]>=1
+          assert x["minimum_selected_pilot_presence"]>=5
+          assert x["maximum_selected_pilot_presence"]<=12
+          assert x["heldout_occurrence_values_decoded"]==0
+          assert x["excluded_occurrence_values_decoded"]==0
+          assert x["heldout_second_layer_response_still_sealed"] is True
+          assert x["heldout_response_authorized"] is False
+          assert x["counts_as_current_empirical_result"] is False
+          PY
+
+      - name: Upload pilot-only second-layer snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v193-sealed-species-pilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v193/output/second_layer_species_universe.csv
+            build/global_mammals_v193/output/second_layer_pilot_matrix.csv
+            build/global_mammals_v193/output/second_layer_pilot_receipt.json
+          if-no-files-found: error
+          retention-days: 30
