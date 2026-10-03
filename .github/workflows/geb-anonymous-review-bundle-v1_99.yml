@@ -1,0 +1,157 @@
+name: GEB anonymous SI with sealed species v1.99
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - manuscript/submission/GEB_v1_97/anonymous_bundle_request_v1_99.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate frozen-output-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("manuscript/submission/GEB_v1_97/anonymous_bundle_request_v1_99.json").read_text())
+          assert x["scientific_freeze"]=="development/current_status_v1_97.json"
+          assert x["base_anonymous_si_artifact_id"]==11261832785
+          assert x["sealed_result_artifact_id"]==11269176943
+          assert x["raw_response_access_authorized"] is False
+          assert x["new_scientific_analysis_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+
+      - name: Download exact neutralized v1.91 base SI
+        uses: actions/download-artifact@v4
+        with:
+          name: geb-neutralized-review-si-v191-9694281fda39bdf3ea38c963ced23692ab96d18a-37090054699
+          path: build/v199/base
+          repository: zuizui0223/Structural
+          run-id: 37090054699
+          github-token: ${{ github.token }}
+
+      - name: Verify and expand exact anonymous base
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("build/v199/base/GEB_anonymous_review_SI_v1_91.zip")
+          got=hashlib.sha256(p.read_bytes()).hexdigest()
+          assert got=="fa84e30a5f07de424b52269f17d0d5627589edd0a1cab652fa14b79ead14cc3b",got
+          PY
+          mkdir -p build/v199/unpacked
+          unzip -q build/v199/base/GEB_anonymous_review_SI_v1_91.zip -d build/v199/unpacked
+          test -d build/v199/unpacked/review_bundle
+
+      - name: Download exact sealed pilot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v193-sealed-species-pilot-6e424830a571caa4c44139c1e7eb343b7aebc7aa-37104248208
+          path: build/v199/source/sealed_pilot
+          repository: zuizui0223/Structural
+          run-id: 37104248208
+          github-token: ${{ github.token }}
+
+      - name: Download exact sealed preconfirm receipt and mask
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v1941-sealed-species-preconfirm-37ee18ef2d1ede796d680bd2d95a276c8b42d0fb-37105060398
+          path: build/v199/source/sealed_preconfirm
+          repository: zuizui0223/Structural
+          run-id: 37105060398
+          github-token: ${{ github.token }}
+
+      - name: Download exact sealed heldout result
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v196-sealed-species-result-82b6222006b9366186b9713cfeaac79f33cd6b69-37109723586
+          path: build/v199/source/sealed_result
+          repository: zuizui0223/Structural
+          run-id: 37109723586
+          github-token: ${{ github.token }}
+
+      - name: Download polished Figure 4
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v198-sealed-species-figure-f1059a4267e26de7a59b2b17e42186762362dbf2-37110412829
+          path: build/v199/source/sealed_figure
+          repository: zuizui0223/Structural
+          run-id: 37110412829
+          github-token: ${{ github.token }}
+
+      - name: Verify exact sealed-species inputs
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/v199/source/sealed_pilot/second_layer_species_universe.csv":"beac14fb7eb119b7fd1a1952fdbb9c072518aaa7fcaa0b6e8e87f37e881c18e2",
+            "build/v199/source/sealed_pilot/second_layer_pilot_matrix.csv":"669bc288212a89a6676516c63178a2ea84fc1dd18c33a1c077337fa5219218fc",
+            "build/v199/source/sealed_preconfirm/preconfirm_receipt.json":"3e710cad5bdf98abd65b3f999e30711a90b34467421d090f605a50681700363c",
+            "build/v199/source/sealed_preconfirm/actual_graph_empty_mask.u8":"ebc4321888f2f3b9c12530037c20f1ea4d9df369482fe516c065f2882cdde0b3",
+            "build/v199/source/sealed_result/second_layer_heldout_matrix.csv":"9510c0114d98fb299acc56fab09eef664f586f599a709a5857ee258888a13703",
+            "build/v199/source/sealed_result/second_layer_block_scores.csv":"adf1ef3b16552a79e06c34128c1f70fedd897ef3c48f97c60683117e1b28427c",
+            "build/v199/source/sealed_result/second_layer_null_scores.csv":"4f2af725b0a6b4ba61069a510175cc118c26449c2008917945a82da90caf4ad4",
+            "build/v199/source/sealed_result/second_layer_result.json":"ac3411801f5b56d44c4728ee1733a46745de09ef8e827f523c97de310e673e3a",
+            "build/v199/source/sealed_figure/fig4_sealed_species_validation.png":"83a2489578771c283febad371457f7eee99715fde92627e105b7a99cfb6d5abe",
+            "build/v199/source/sealed_figure/fig4_sealed_species_validation.svg":"0191a1563cdeed3ad9f6a3d08567264b13e63aa8d5da873da82e28fa88693d35",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Add sealed-species validation anonymously
+        run: |
+          python scripts/augment_geb_bundle_sealed_species_v1_99.py             --repo-root .             --source-root build/v199/source             --bundle-root build/v199/unpacked/review_bundle
+
+      - name: Archive final anonymous SI
+        run: |
+          set -euo pipefail
+          cd build/v199/unpacked
+          zip -qr ../GEB_anonymous_review_SI_v1_99.zip review_bundle
+          cd ..
+          sha256sum GEB_anonymous_review_SI_v1_99.zip > GEB_anonymous_review_SI_v1_99.zip.sha256
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path("GEB_anonymous_review_SI_v1_99.zip")
+          out={
+            "schema":"review.anonymous_bundle_archive_result.v1_99",
+            "status":"READY_FOR_GEB_REVIEW_WITH_SEALED_SPECIES_VALIDATION",
+            "zip_bytes":p.stat().st_size,
+            "zip_sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
+            "raw_biological_response_included":False,
+            "new_scientific_analysis_performed":False,
+            "public_repository_identifiers_included":False,
+            "sealed_species_validation_included":True
+          }
+          Path("bundle_archive_receipt.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Upload final anonymous SI
+        uses: actions/upload-artifact@v4
+        with:
+          name: geb-anonymous-review-si-v199-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/v199/GEB_anonymous_review_SI_v1_99.zip
+            build/v199/GEB_anonymous_review_SI_v1_99.zip.sha256
+            build/v199/bundle_archive_receipt.json
+          if-no-files-found: error
+          retention-days: 30
