@@ -138,7 +138,20 @@ def sanitize_json_value(obj, prediction_sha_old: str | None = None, prediction_s
     if isinstance(obj, dict):
         out = {}
         for k, v in obj.items():
-            if k in DROP_JSON_KEYS or any(k.startswith(p) for p in DROP_JSON_KEYS_PREFIX):
+            key_l = str(k).lower()
+            provenance_key = (
+                k in DROP_JSON_KEYS
+                or any(k.startswith(p) for p in DROP_JSON_KEYS_PREFIX)
+                or "artifact_id" in key_l
+                or "artifact_name" in key_l
+                or "workflow" in key_l
+                or key_l.endswith("_run_id")
+                or key_l.endswith("_job_id")
+                or key_l.endswith("_head_sha")
+                or "git_blob" in key_l
+                or key_l.endswith("_commit")
+            )
+            if provenance_key:
                 continue
             if k == "parents":
                 continue
