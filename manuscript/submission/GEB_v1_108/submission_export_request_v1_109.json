@@ -1,0 +1,56 @@
+{
+  "schema": "structural.geb_submission_export_request.v1_109",
+  "status": "REQUEST_FINAL_GEB_SUBMISSION_EXPORT_FROM_V1108",
+  "scientific_freeze": "development/current_status_v1_97.json",
+  "blinded_manuscript": "manuscript/submission/GEB_v1_108/blinded_main_text.md",
+  "title_page_template": "manuscript/submission/GEB_v1_108/title_page_template.md",
+  "cover_letter": "manuscript/submission/GEB_v1_108/cover_letter.md",
+  "base_figure_captions": "manuscript/submission/macro_v1_89/figure_captions.md",
+  "figure4_caption": "manuscript/submission/GEB_v1_108/figure_captions.md",
+  "highlights": "manuscript/submission/macro_v1_89/highlights.txt",
+  "final_manifest": "manuscript/submission/GEB_v1_108/submission_manifest.json",
+  "final_readiness": "manuscript/submission/GEB_v1_108/final_readiness.md",
+  "artifacts": {
+    "figures_1_3_S1": {
+      "artifact_id": 11139705415,
+      "run_id": 36809002965,
+      "name": "macro-v1831-figures-80a3bf71e4c0a69d1fb3364cb89185f12771af94-36809002965"
+    },
+    "figure_S2": {
+      "artifact_id": 11259686592,
+      "run_id": 37084116950,
+      "name": "macro-v186-prediction-behavior-19c2f9908bad0d5353a6ac589268761bcf1e231e-37084116950"
+    },
+    "figure_4": {
+      "artifact_id": 11269267611,
+      "run_id": 37110412829,
+      "name": "macro-v198-sealed-species-figure-f1059a4267e26de7a59b2b17e42186762362dbf2-37110412829",
+      "png_sha256": "83a2489578771c283febad371457f7eee99715fde92627e105b7a99cfb6d5abe",
+      "svg_sha256": "0191a1563cdeed3ad9f6a3d08567264b13e63aa8d5da873da82e28fa88693d35"
+    },
+    "anonymous_SI": {
+      "artifact_id": 11269048949,
+      "run_id": 37111145709,
+      "name": "geb-anonymous-review-si-v199-a3d5f8c5b562ba31571076e0fb5eabd7ab8f26af-37111145709",
+      "inner_zip": "GEB_anonymous_review_SI_v1_99.zip",
+      "inner_zip_sha256": "dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d"
+    }
+  },
+  "docx_metadata": {
+    "creator": "",
+    "last_modified_by": "",
+    "company": "",
+    "manager": ""
+  },
+  "new_scientific_analysis_authorized": false,
+  "new_response_access_authorized": false,
+  "one_shot": true,
+  "figure_mapping": {
+    "Figure_1": "fig1_bioregion_effects",
+    "Figure_2": "fig4_sealed_species_validation",
+    "Figure_3": "fig2_external_isolation_attenuation",
+    "Figure_4": "fig3_species_breadth_attenuation",
+    "Figure_S1": "figS1_gift_endpoint_attrition",
+    "Figure_S2": "figS2_prediction_behavior"
+  }
+}
