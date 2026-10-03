@@ -1,4 +1,4 @@
-name: GEB editable submission export operational retry v1.109.1.1
+name: GEB editable submission export operational retry v1.109.1
 
 on:
   push:
@@ -23,21 +23,32 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq pandoc zip
 
-      - name: Validate frozen export request
+      - name: Validate operational-only export retry
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p=Path("manuscript/submission/GEB_v1_108/submission_export_retry_request_v1_109_1.json")
-          x=json.loads(p.read_text())
-          assert x["status"]=="REQUEST_FINAL_GEB_SUBMISSION_EXPORT_FROM_V1108"
-          assert x["scientific_freeze"]=="development/current_status_v1_97.json"
-          assert x["artifacts"]["figure_4"]["artifact_id"]==11269267611
-          assert x["artifacts"]["anonymous_SI"]["artifact_id"]==11269048949
-          assert x["artifacts"]["anonymous_SI"]["inner_zip_sha256"]=="dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d"
-          assert x["new_scientific_analysis_authorized"] is False
-          assert x["new_response_access_authorized"] is False
-          assert x["one_shot"] is True
+          retry=json.loads(Path("manuscript/submission/GEB_v1_108/submission_export_retry_request_v1_109_1.json").read_text())
+          parent=json.loads(Path("manuscript/submission/GEB_v1_108/submission_export_request_v1_109.json").read_text())
+          assert retry["status"]=="REQUEST_OPERATIONAL_EXPORT_RETRY_SAME_V1108_CONTENT"
+          assert retry["parent_request"]=="manuscript/submission/GEB_v1_108/submission_export_request_v1_109.json"
+          assert retry["repair"]=="change runner image only from ubuntu-24.04 to ubuntu-22.04"
+          assert retry["scientific_content_changed"] is False
+          assert retry["manuscript_content_changed"] is False
+          assert retry["figure_mapping_changed"] is False
+          assert retry["artifact_bindings_changed"] is False
+          assert retry["docx_scrub_logic_changed"] is False
+          assert retry["new_scientific_analysis_authorized"] is False
+          assert retry["new_response_access_authorized"] is False
+          assert retry["one_shot"] is True
+
+          assert parent["status"]=="REQUEST_FINAL_GEB_SUBMISSION_EXPORT_FROM_V1108"
+          assert parent["scientific_freeze"]=="development/current_status_v1_97.json"
+          assert parent["artifacts"]["figure_4"]["artifact_id"]==11269267611
+          assert parent["artifacts"]["anonymous_SI"]["artifact_id"]==11269048949
+          assert parent["artifacts"]["anonymous_SI"]["inner_zip_sha256"]=="dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d"
+          assert parent["new_scientific_analysis_authorized"] is False
+          assert parent["new_response_access_authorized"] is False
           PY
 
       - name: Build editable DOCX files
