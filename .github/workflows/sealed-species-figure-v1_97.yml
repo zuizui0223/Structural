@@ -1,0 +1,77 @@
+name: Sealed species validation figure v1.97
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/sealed_species_figure_request_v1_97.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  figure:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install plotting dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "matplotlib>=3.8,<4"
+      - name: Validate frozen-output-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/sealed_species_figure_request_v1_97.json").read_text())
+          assert x["result_artifact_id"]==11269176943
+          assert x["new_response_access_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+      - name: Download exact sealed-species result
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v196-sealed-species-result-82b6222006b9366186b9713cfeaac79f33cd6b69-37109723586
+          path: build/v197/input
+          repository: zuizui0223/Structural
+          run-id: 37109723586
+          github-token: ${{ github.token }}
+      - name: Verify null-score identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("build/v197/input/second_layer_null_scores.csv")
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=="4f2af725b0a6b4ba61069a510175cc118c26449c2008917945a82da90caf4ad4"
+          PY
+      - name: Render Figure 4
+        run: |
+          mkdir -p build/v197/output
+          python scripts/build_sealed_species_figure_v1_97.py             --original-scoring-freeze development/global_mammals_exploratory_scoring_freeze_v1_76.json             --original-behavior-freeze development/global_mammals_prediction_behavior_freeze_v1_85.json             --sealed-freeze development/global_mammals_sealed_species_result_freeze_v1_97.json             --null-scores build/v197/input/second_layer_null_scores.csv             --output-dir build/v197/output             --receipt build/v197/output/figure_receipt.json
+      - name: Enforce response-free rendering
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/v197/output/figure_receipt.json").read_text())
+          assert r["status"]=="FROZEN_OUTPUT_ONLY_FIGURE_RENDERED"
+          assert r["null_graphs"]==20
+          assert r["new_response_accessed"] is False
+          for ext in ("png","svg"):
+              p=Path(f"build/v197/output/fig4_sealed_species_validation.{ext}")
+              assert p.exists() and p.stat().st_size>1000
+          PY
+      - name: Upload Figure 4
+        uses: actions/upload-artifact@v4
+        with:
+          name: macro-v197-sealed-species-figure-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/v197/output/fig4_sealed_species_validation.png
+            build/v197/output/fig4_sealed_species_validation.svg
+            build/v197/output/figure_receipt.json
+          if-no-files-found: error
+          retention-days: 30
