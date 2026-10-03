@@ -1,0 +1,35 @@
+{
+  "schema": "structural.global_mammals_ultrarare_preconfirm_freeze.v1_114",
+  "status": "SUCCESSFUL_ULTRARARE_PRECONFIRM_ARTIFACT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow_run_id": 37154791882,
+    "workflow_head_sha": "dc558569303879c858c5588ba158a414dc3fda3d",
+    "workflow_job_id": 111295867044,
+    "artifact_id": 11284534666,
+    "artifact_name": "global-mammals-v113-ultrarare-preconfirm-dc558569303879c858c5588ba158a414dc3fda3d-37154791882",
+    "artifact_digest": "sha256:c69ef73a1f4b68d29b6c3528a64b367f60e7939afec676fa7ec9b85403147375"
+  },
+  "files": {
+    "ultrarare_predictions.f64le": {"sha256":"3307a2e058f5f8223eaf0c2d69241acd938e96b93cb02643b1b7d63b425fae04"},
+    "ultrarare_entity_order.csv": {"sha256":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"},
+    "ultrarare_graph_empty.u8": {"sha256":"e992497666d388d451a328ffaa41df53b0511af04b54719fa8ed74c7e9b7a4ae"},
+    "ultrarare_block_context.csv": {"sha256":"314aba152580ff84c933d0a1c8f7675327d381052f458aa997ff9d70d50ab7ba"},
+    "ultrarare_preconfirm_receipt.json": {"sha256":"36cabfe5047745950882f6912fac2bc5c8ee26c3cfa47989f67b0d1e0c0d93a6"}
+  },
+  "result": {
+    "species": 529,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "heldout_target_cells": 2182654,
+    "prediction_cells_with_difference": 2182647,
+    "blocks_with_prediction_difference": 168,
+    "graph_empty_fraction": 0.8812835199715575,
+    "unique_occupied_pilot_source_islands": 207
+  },
+  "response_boundary": {
+    "heldout_target_values_used": false,
+    "heldout_response_opened": false,
+    "heldout_response_authorized": false
+  }
+}
