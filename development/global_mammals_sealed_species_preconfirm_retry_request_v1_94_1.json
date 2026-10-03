@@ -1,0 +1,16 @@
+{
+  "schema": "structural.global_mammals_sealed_species_preconfirm_retry_request.v1_94_1",
+  "status": "REQUEST_OPERATIONAL_RETRY_SAME_V194_SCIENTIFIC_CONTRACT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "failed_run": {
+    "workflow_run_id": 37104726789,
+    "workflow_job_id": 111150906102,
+    "failure": "ModuleNotFoundError: No module named scripts",
+    "failed_before_prediction_script_body": true,
+    "heldout_response_accessed": false
+  },
+  "repair": "set PYTHONPATH to repository root and src; no scientific contract, data input, graph-null, model, threshold, seed, or prediction change",
+  "scientific_contract_changed": false,
+  "heldout_response_authorized": false,
+  "one_retry_only": true
+}
