@@ -1,0 +1,145 @@
+name: Global mammals sealed species preconfirmatory freeze v1.94
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_sealed_species_preconfirm_request_v1_94.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  freeze-predictions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      OMP_NUM_THREADS: 1
+      OPENBLAS_NUM_THREADS: 1
+      MKL_NUM_THREADS: 1
+      NUMEXPR_NUM_THREADS: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install frozen numerical dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.3.3"
+
+      - name: Validate preregistration before heldout access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_sealed_species_replication_contract_v1_94.json").read_text())
+          r=json.loads(Path("development/global_mammals_sealed_species_preconfirm_request_v1_94.json").read_text())
+          assert c["population"]["second_layer_species"]==96
+          assert c["population"]["heldout_target_cells"]==396096
+          assert c["predictions"]["P1_primary_overall_increment"]["support_rule"].startswith("point_estimate < 0")
+          assert c["predictions"]["P2_constraint_signature"]["prediction_presence"]=="presence C-minus-R3 >= 0"
+          assert c["rewired_graph_null"]["null_graphs"]==20
+          assert c["rewired_graph_null"]["degree_sequence"].startswith("exactly preserved")
+          assert c["rewired_graph_null"]["distance_bins"]==5
+          assert c["preconfirmatory_freeze"]["heldout_response_authorized_during_prediction_freeze"] is False
+          assert c["response_boundary"]["second_layer_96_heldout_response_opened"] is False
+          assert r["heldout_second_layer_response_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact second-layer pilot snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v193-sealed-species-pilot-6e424830a571caa4c44139c1e7eb343b7aebc7aa-37104248208
+          path: build/global_mammals_v194/pilot
+          repository: zuizui0223/Structural
+          run-id: 37104248208
+          github-token: ${{ github.token }}
+
+      - name: Download exact response-independent reference
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/global_mammals_v194/reference
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+
+      - name: Download exact safe island metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v194/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v194/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify every exact input
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v194/pilot/second_layer_species_universe.csv":"beac14fb7eb119b7fd1a1952fdbb9c072518aaa7fcaa0b6e8e87f37e881c18e2",
+            "build/global_mammals_v194/pilot/second_layer_pilot_matrix.csv":"669bc288212a89a6676516c63178a2ea84fc1dd18c33a1c077337fa5219218fc",
+            "build/global_mammals_v194/reference/state_reference.csv":"5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+            "build/global_mammals_v194/reference/source_graph_edges.csv":"92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+            "build/global_mammals_v194/reference/reference_receipt.json":"55a0581c7c7d0136ecb6a025fa2a41f5ddeeb8ec674b8500bf7c37f81763954a",
+            "build/global_mammals_v194/safe/appendix2_safe_rows.csv":"b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+            "build/global_mammals_v194/routing/pilot_ids.csv":"ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+            "build/global_mammals_v194/routing/confirmatory_ids.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Freeze R3 actual-C and 20 rewired-C predictions
+        run: |
+          mkdir -p build/global_mammals_v194/output
+          python scripts/freeze_global_mammals_sealed_species_predictions_v1_94.py             build/global_mammals_v194/pilot/second_layer_species_universe.csv             build/global_mammals_v194/pilot/second_layer_pilot_matrix.csv             build/global_mammals_v194/reference/state_reference.csv             build/global_mammals_v194/reference/source_graph_edges.csv             build/global_mammals_v194/reference/reference_receipt.json             build/global_mammals_v194/safe/appendix2_safe_rows.csv             build/global_mammals_v194/routing/pilot_ids.csv             build/global_mammals_v194/routing/confirmatory_ids.csv             --predictions build/global_mammals_v194/output/second_layer_predictions.f64le             --entity-order build/global_mammals_v194/output/heldout_entity_order.csv             --graph-empty-mask build/global_mammals_v194/output/actual_graph_empty_mask.u8             --receipt build/global_mammals_v194/output/preconfirm_receipt.json
+
+      - name: Enforce pre-response prediction freeze
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/global_mammals_v194/output/preconfirm_receipt.json").read_text())
+          assert x["status"]=="SECOND_LAYER_R3_C_AND_REWIRED_PREDICTIONS_FROZEN_BEFORE_HELDOUT_ACCESS"
+          assert x["second_layer_species"]==96
+          assert x["heldout_islands"]==4126
+          assert x["heldout_target_cells"]==396096
+          assert len(x["null_graphs"])==20
+          assert all(len(n["regions"])==12 for n in x["null_graphs"])
+          assert x["heldout_second_layer_target_values_used"] is False
+          assert x["heldout_second_layer_response_opened"] is False
+          assert x["heldout_response_authorized"] is False
+          assert x["counts_as_current_empirical_result"] is False
+          assert x["cells_with_abs_pC_minus_pR3_gt_threshold"]>0
+          assert x["cells_with_abs_actualC_minus_mean_rewiredC_gt_threshold"]>0
+          PY
+
+      - name: Upload complete preconfirmatory freeze
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v194-sealed-species-preconfirm-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v194/output/second_layer_predictions.f64le
+            build/global_mammals_v194/output/heldout_entity_order.csv
+            build/global_mammals_v194/output/actual_graph_empty_mask.u8
+            build/global_mammals_v194/output/preconfirm_receipt.json
+          if-no-files-found: error
+          retention-days: 30
