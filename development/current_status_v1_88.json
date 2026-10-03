@@ -1,0 +1,68 @@
+{
+  "schema": "structural.current_status.v1_88",
+  "status": "canonical_current_status_submission_freeze",
+  "supersedes": "development/current_status_v1_85.json",
+  "scientific_analysis_state": {
+    "new_response_access_authorized": false,
+    "new_same_data_mechanism_search_authorized": false,
+    "primary_estimand_change_authorized": false,
+    "species_block_bioregion_removal_authorized": false,
+    "status": "FROZEN_FOR_SUBMISSION_PACKAGING"
+  },
+  "global_mammal_macro": {
+    "analysis_route": "separate_nonconfirmatory_exploratory_macro_lineage",
+    "islands": 5401,
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "focal_species": 79,
+    "heldout_blocks": 168,
+    "target_cells": 325954,
+    "positive_fraction": 0.017241696681126784,
+    "primary_C_minus_R3": -0.0018141589038615496,
+    "primary_bootstrap_ci95": [-0.002817220627012837,-0.0009974506971953355],
+    "block_weighted_relative_logloss_reduction": 0.03770988990745495,
+    "negative_blocks": 108,
+    "negative_bioregions": 10,
+    "negative_species": 64,
+    "external_isolation_rho": 0.28743057515243015,
+    "external_isolation_partial_given_graph_empty_rho": 0.2860809953580879,
+    "within_bioregion_external_isolation_rho": 0.2278413095720483,
+    "within_bioregion_partial_given_graph_empty_rho": 0.227838815483369,
+    "species_breadth_rho": 0.27643959301238685,
+    "absence_C_minus_R3": -0.005801435444703651,
+    "presence_C_minus_R3": 0.11643800501898788,
+    "class_balanced_equal_block_C_minus_R3": 0.04941170770534662,
+    "R3_ROC_AUC": 0.9094690468425005,
+    "C_ROC_AUC": 0.918508736444059,
+    "R3_average_precision": 0.3561225304367006,
+    "C_average_precision": 0.35015538387585554,
+    "graph_empty_fraction": 0.7825367996711192,
+    "graph_empty_C_minus_R3": -0.0007992552987686575,
+    "graph_nonempty_C_minus_R3": -0.014109851236894143,
+    "evidence_status": "nonconfirmatory exploratory"
+  },
+  "cross_system_context": {
+    "historical_318_mammals": "nonfresh stress test; external-isolation attenuation direction concordant",
+    "GIFT_fresh": "terminal unscored fresh attempt",
+    "GIFT_endpoint_available": "118-island / 18-archipelago strongly selected nonconfirmatory descriptive concordance",
+    "boreal_19island_beetles": "valid fresh local non-support"
+  },
+  "current_ecological_synthesis": {
+    "name": "source-network contrast window with asymmetric occupancy-constraint information",
+    "claim": "occupied-source graph topology adds natural-prevalence held-out information beyond R3 across much of the global mammal system, mainly by improving true-absence probability assignment; the increment weakens with external isolation, species breadth, and graph-source emptiness",
+    "causal_mechanism_claim_authorized": false,
+    "fresh_global_confirmation_authorized": false,
+    "cross_taxon_confirmation_authorized": false
+  },
+  "submission_assets": {
+    "manuscript": "manuscript/macro_dual_isolation_mammal_v1_88.md",
+    "verified_references": "manuscript/macro_dual_isolation_verified_references_v1_86.md",
+    "main_and_GIFT_figures": {
+      "artifact_id": 11139705415,
+      "render_revision": "v1.83.1_layout_only"
+    },
+    "prediction_behavior_figure": "development/macro_prediction_behavior_figure_freeze_v1_88.json",
+    "isolation_empty_support_audit": "development/global_mammals_isolation_empty_support_audit_freeze_v1_88.json"
+  },
+  "active_priority": "development/structural_active_priority_v1_88.json"
+}
