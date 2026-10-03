@@ -21,8 +21,9 @@ def test_v199_augmentation_includes_sealed_evidence_not_raw_prediction_binary():
     assert "fig4_sealed_species_validation" in s
     assert "second_layer_predictions.f64le" not in s
     assert "raw biological response" not in s.lower()
-    assert 'r"from scripts\\.[A-Za-z0-9_]+ import"' in s
-    assert 'r"import scripts\\.[A-Za-z0-9_]+"' in s
+    assert "from review_dependencies import" in s
+    assert "import review_dependencies" in s
+    assert "re.sub(" in s
     assert 'out=out.replace("global_mammals_","island_mammal_")' in s
     assert 'out=out.replace("structural.","review.")' in s
 
