@@ -1,0 +1,25 @@
+{
+  "schema": "structural.global_mammals_sealed_broad_species_pilot_terminal.v1_112",
+  "status": "BROAD_OCCUPANCY_LAYER_TERMINAL_NOT_ESTIMABLE_AT_FROZEN_PILOT_GATE",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "source_execution": {
+    "workflow_run_id": 37153726139,
+    "workflow_job_id": 111292687812,
+    "head_sha": "e9bed14c5ce73c227f51e7f540547d94bb4b3b02"
+  },
+  "frozen_rule": {
+    "pilot_absence_min_inclusive": 1,
+    "pilot_absence_max_inclusive": 12,
+    "minimum_species_count_gate": 10
+  },
+  "result": {
+    "selected_species": 0,
+    "reason": "broad layer below frozen minimum species gate: 0",
+    "heldout_occurrence_values_decoded": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "heldout_broad_layer_response_still_sealed": true
+  },
+  "interpretation": "The broad-end source-saturation hypothesis is not biologically tested in this dataset because no species met the prospectively frozen near-ubiquitous pilot rule. The threshold is not widened after seeing this census.",
+  "same_dataset_retry_with_wider_broad_threshold_authorized": false,
+  "counts_as_empirical_support_or_non_support": false
+}
