@@ -1,0 +1,9 @@
+{
+  "schema": "structural.macro_prediction_behavior_figure_request.v1_86",
+  "status": "REQUEST_FROZEN_SUMMARY_ONLY_PREDICTION_BEHAVIOR_FIGURE",
+  "source": "development/global_mammals_prediction_behavior_freeze_v1_85.json",
+  "source_git_blob_sha1": "6efcf12d88dc84f0c1da75553bc4d08f946fbf7e",
+  "output_stem": "figS2_prediction_behavior",
+  "new_response_access_authorized": false,
+  "one_shot": true
+}

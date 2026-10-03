@@ -1,0 +1,69 @@
+name: Macro prediction-behavior supplementary figure v1.86
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/macro_prediction_behavior_figure_request_v1_86.json
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install plotting dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "matplotlib>=3.8,<4"
+
+      - name: Validate frozen-summary-only request
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          r=json.loads(Path("development/macro_prediction_behavior_figure_request_v1_86.json").read_text())
+          assert r["status"]=="REQUEST_FROZEN_SUMMARY_ONLY_PREDICTION_BEHAVIOR_FIGURE"
+          assert r["source"]=="development/global_mammals_prediction_behavior_freeze_v1_85.json"
+          assert r["new_response_access_authorized"] is False
+          assert r["one_shot"] is True
+          got=subprocess.check_output(["git","rev-parse","HEAD:development/global_mammals_prediction_behavior_freeze_v1_85.json"],text=True).strip()
+          assert got==r["source_git_blob_sha1"],(got,r["source_git_blob_sha1"])
+          PY
+
+      - name: Render supplementary figure S2
+        run: |
+          mkdir -p build/macro_v186
+          python scripts/build_prediction_behavior_figure_v1_86.py             --freeze development/global_mammals_prediction_behavior_freeze_v1_85.json             --output-dir build/macro_v186             --receipt build/macro_v186/figure_receipt.json
+
+      - name: Enforce frozen-output boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("build/macro_v186")
+          x=json.loads((root/"figure_receipt.json").read_text())
+          assert x["status"]=="FROZEN_SUMMARY_ONLY_FIGURE_RENDERED"
+          assert x["new_response_accessed"] is False
+          for name in x["output_files"]:
+              p=root/name
+              assert p.exists() and p.stat().st_size>1000,(name,p.stat().st_size if p.exists() else None)
+          PY
+
+      - name: Upload supplementary figure
+        uses: actions/upload-artifact@v4
+        with:
+          name: macro-v186-prediction-behavior-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/macro_v186/figS2_prediction_behavior.png
+            build/macro_v186/figS2_prediction_behavior.svg
+            build/macro_v186/figure_receipt.json
+          if-no-files-found: error
+          retention-days: 30
