@@ -54,7 +54,7 @@ jobs:
 
           pandoc manuscript/submission/GEB_v1_104/cover_letter.md             --from=gfm --to=docx --standalone             --metadata title="" --metadata author=""             -o "$UP/Manuscript/GEB_cover_letter_TEMPLATE.docx"
 
-          cat manuscript/submission/macro_v1_89/figure_captions.md               manuscript/submission/GEB_v1_104/figure_captions.md             > "$ROOT/figure_captions_combined.md"
+          cp manuscript/submission/GEB_v1_104/figure_captions.md "$ROOT/figure_captions_combined.md"
 
           pandoc "$ROOT/figure_captions_combined.md"             --from=gfm --to=docx --standalone             --metadata title="" --metadata author=""             -o "$UP/Manuscript/GEB_figure_captions.docx"
 
