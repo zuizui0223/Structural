@@ -1,0 +1,13 @@
+{
+  "schema": "structural.global_mammals_isolation_empty_support_audit_request.v1_87",
+  "status": "REQUEST_FROZEN_BLOCK_ISOLATION_EMPTY_SUPPORT_AUDIT",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "diagnostics_run_id": 36787772910,
+  "diagnostics_artifact_id": 11130602935,
+  "prediction_behavior_run_id": 36808403888,
+  "prediction_behavior_artifact_id": 11139081593,
+  "expected_blocks": 168,
+  "new_response_access_authorized": false,
+  "confirmatory_status_change_authorized": false,
+  "one_shot": true
+}
