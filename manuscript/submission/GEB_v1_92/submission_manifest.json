@@ -1,0 +1,34 @@
+{
+  "schema": "structural.geb_submission_manifest.v1_92",
+  "status": "GEB_PACKAGE_CORRECTED_TO_CURRENT_RESEARCH_ARTICLE_ABSTRACT_FORMAT",
+  "scientific_freeze": "development/current_status_v1_88.json",
+  "blinded_manuscript": "manuscript/submission/GEB_v1_92/blinded_main_text.md",
+  "title_page_template": "manuscript/submission/GEB_v1_92/title_page_template.md",
+  "cover_letter": "manuscript/submission/GEB_v1_92/cover_letter.md",
+  "checklist": "manuscript/submission/GEB_v1_92/submission_checklist.md",
+  "policy_snapshot": "manuscript/submission/GEB_v1_92/policy_snapshot_2026_10.md",
+  "anonymous_review_si": {
+    "workflow_run_id": 37090054699,
+    "artifact_id": 11261832785,
+    "artifact_digest": "sha256:43ab8fe156f37708e960dce71b41f9f1a384a8473fa0d2c1d5cc59eb96e7f340",
+    "inner_zip_name": "GEB_anonymous_review_SI_v1_91.zip",
+    "inner_zip_sha256": "fa84e30a5f07de424b52269f17d0d5627589edd0a1cab652fa14b79ead14cc3b",
+    "raw_biological_response_included": false,
+    "public_repository_identifiers_included": false
+  },
+  "current_GEB_research_article_abstract": {
+    "max_words": 300,
+    "required_headings": ["Aim","Innovation","Main conclusions"],
+    "obsolete_in_this_package": ["Location","Time period","Major taxa studied","Methods","Results"]
+  },
+  "scientific_analysis_changed": false,
+  "new_response_accessed": false,
+  "remaining_author_actions": [
+    "confirm final author list/order and affiliations",
+    "confirm corresponding author/email/ORCID",
+    "confirm acknowledgements, funding, conflict-of-interest and AI disclosure",
+    "perform final file-metadata anonymity check",
+    "upload neutralized SI ZIP",
+    "optionally make public development repository private during peer review for strongest anonymity"
+  ]
+}
