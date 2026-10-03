@@ -1,0 +1,20 @@
+{
+  "schema": "structural.geb_anonymous_review_bundle_request.v1_91",
+  "status": "REQUEST_NEUTRALIZED_REVIEW_BUNDLE_FROM_FROZEN_OUTPUTS",
+  "scientific_freeze": "development/current_status_v1_88.json",
+  "pilot_artifact_id": 11112360652,
+  "reference_artifact_id": 11059506168,
+  "safe_metadata_artifact_id": 11013887248,
+  "routing_artifact_id": 11060106528,
+  "prediction_artifact_id": 11112450910,
+  "heldout_score_artifact_id": 11113225988,
+  "geographic_diagnostics_artifact_id": 11130602935,
+  "species_breadth_artifact_id": 11131608867,
+  "prediction_behavior_artifact_id": 11139081593,
+  "isolation_empty_support_artifact_id": 11259672183,
+  "main_figure_artifact_id": 11139705415,
+  "prediction_behavior_figure_artifact_id": 11259686592,
+  "raw_response_access_authorized": false,
+  "new_scientific_analysis_authorized": false,
+  "one_shot": true
+}
