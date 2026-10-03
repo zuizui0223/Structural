@@ -1,0 +1,16 @@
+{
+  "schema": "structural.global_mammals_sealed_species_preconfirm_request.v1_94",
+  "status": "REQUEST_FREEZE_ALL_SECOND_LAYER_PREDICTIONS_BEFORE_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "contract": "development/global_mammals_sealed_species_replication_contract_v1_94.json",
+  "pilot_artifact_id": 11267341176,
+  "pilot_species_universe_sha256": "beac14fb7eb119b7fd1a1952fdbb9c072518aaa7fcaa0b6e8e87f37e881c18e2",
+  "pilot_matrix_sha256": "669bc288212a89a6676516c63178a2ea84fc1dd18c33a1c077337fa5219218fc",
+  "reference_artifact_id": 11059506168,
+  "safe_metadata_artifact_id": 11013887248,
+  "routing_artifact_id": 11060106528,
+  "second_layer_species": 96,
+  "null_graphs": 20,
+  "heldout_second_layer_response_authorized": false,
+  "one_shot": true
+}
