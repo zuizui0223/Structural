@@ -188,7 +188,7 @@ The earlier 318-island mammal stress test showed the same qualitative external-i
 
 The GIFT fresh lane remained terminal and unscored. In a strongly filtered endpoint-available continuation, 118 of 404 confirmatory islands in 18 of 59 archipelagos remained. The original frozen plant prediction surface yielded C−R3 = −0.04749 (95% bootstrap interval −0.11333 to −0.00432). This is descriptive concordance only because endpoint attrition was severe.
 
-### 3.7 A preregistered rarer-species layer did not replicate the exploratory signal
+### 3.7 A preregistered rarer-species layer does not replicate the exploratory source-network signal
 
 The sealed second layer contained 96 species with 5–12 pilot presences and 396,096 held-out island × species cells. Only 1,233 held-out cells were presences (0.311%).
 
@@ -200,7 +200,7 @@ The source-support contrast had the expected point direction but was not support
 
 Finally, actual graph topology did not outperform the preregistered rewired nulls. Actual C minus mean rewired C was **+1.56 × 10⁻⁶**, with 95% interval **−2.12 × 10⁻⁴ to +2.04 × 10⁻⁴**. The actual graph was better than 11 of 20 null graphs on block-weighted C−R3, essentially chance relative to the fixed null ensemble.
 
-The second layer therefore constitutes a **prospective species-layer non-replication within the same geographic system**, not geographically independent confirmation.
+The second layer therefore constitutes a **prospective species-layer non-replication within the same geographic system**, not geographically independent confirmation (Figure 4).
 
 
 ## 4. Discussion
@@ -248,7 +248,7 @@ It also reinforces the source-network contrast idea: topology can only be inform
 
 ### 4.5 Species occupancy is a boundary condition on source-network information
 
-The sealed second layer changes the interpretation of the original exploratory result.
+The sealed second layer changes the interpretation of the original exploratory result (Figure 4).
 
 The original 79-species layer cannot be generalized as a universal mammalian source-topology effect. Species with only 5–12 pilot presences did not replicate the overall C−R3 gain, and the actual graph had no detectable advantage over degree- and edge-length-matched rewired graphs.
 
