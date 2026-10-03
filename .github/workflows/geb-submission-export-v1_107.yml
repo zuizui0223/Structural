@@ -1,0 +1,274 @@
+name: GEB editable submission export v1.107
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - manuscript/submission/GEB_v1_106/submission_export_request_v1_107.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install document tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq pandoc zip
+
+      - name: Validate frozen export request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("manuscript/submission/GEB_v1_106/submission_export_request_v1_107.json")
+          x=json.loads(p.read_text())
+          assert x["status"]=="REQUEST_FINAL_EDITABLE_GEB_SUBMISSION_EXPORT_FROM_V1106"
+          assert x["scientific_freeze"]=="development/current_status_v1_97.json"
+          assert x["artifacts"]["figure_4"]["artifact_id"]==11269267611
+          assert x["artifacts"]["anonymous_SI"]["artifact_id"]==11269048949
+          assert x["artifacts"]["anonymous_SI"]["inner_zip_sha256"]=="dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d"
+          assert x["new_scientific_analysis_authorized"] is False
+          assert x["new_response_access_authorized"] is False
+          assert x["one_shot"] is True
+          PY
+
+      - name: Build editable DOCX files
+        run: |
+          set -euo pipefail
+          ROOT=build/geb_v107
+          UP="$ROOT/UPLOAD_FILES"
+          AUTH="$ROOT/AUTHOR_CHECKLIST"
+          mkdir -p "$UP/Manuscript" "$UP/Figures" "$UP/Supporting_Information" "$AUTH"
+
+          pandoc manuscript/submission/GEB_v1_106/blinded_main_text.md             --from=gfm --to=docx --standalone             --metadata title="" --metadata author=""             -o "$UP/Manuscript/GEB_blinded_main_text.docx"
+
+          pandoc manuscript/submission/GEB_v1_106/title_page_template.md             --from=gfm --to=docx --standalone             --metadata title="" --metadata author=""             -o "$UP/Manuscript/GEB_title_page_TEMPLATE.docx"
+
+          pandoc manuscript/submission/GEB_v1_106/cover_letter.md             --from=gfm --to=docx --standalone             --metadata title="" --metadata author=""             -o "$UP/Manuscript/GEB_cover_letter_TEMPLATE.docx"
+
+          cp manuscript/submission/GEB_v1_106/figure_captions.md "$ROOT/figure_captions_combined.md"
+
+          pandoc "$ROOT/figure_captions_combined.md"             --from=gfm --to=docx --standalone             --metadata title="" --metadata author=""             -o "$UP/Manuscript/GEB_figure_captions.docx"
+
+          pandoc manuscript/submission/macro_v1_89/highlights.txt             --from=markdown --to=docx --standalone             --metadata title="" --metadata author=""             -o "$UP/Manuscript/GEB_highlights.docx"
+
+          cp manuscript/submission/GEB_v1_106/submission_checklist.md "$AUTH/"
+          cp manuscript/submission/GEB_v1_106/final_readiness.md "$AUTH/"
+          cp manuscript/submission/GEB_v1_106/submission_manifest.json "$AUTH/"
+
+      - name: Scrub DOCX identity metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile, tempfile, shutil
+          import xml.etree.ElementTree as ET
+
+          NS={
+            "cp":"http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+            "dc":"http://purl.org/dc/elements/1.1/",
+            "dcterms":"http://purl.org/dc/terms/",
+            "ep":"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties",
+          }
+
+          def scrub(path):
+              path=Path(path)
+              with tempfile.TemporaryDirectory() as td:
+                  td=Path(td)
+                  with zipfile.ZipFile(path,"r") as z:
+                      z.extractall(td)
+
+                  core=td/"docProps/core.xml"
+                  if core.exists():
+                      root=ET.parse(core)
+                      rr=root.getroot()
+                      for xpath in (".//dc:creator",".//cp:lastModifiedBy",".//dc:subject",".//dc:description",".//cp:keywords",".//cp:category"):
+                          for e in rr.findall(xpath,NS):
+                              e.text=""
+                      root.write(core,encoding="UTF-8",xml_declaration=True)
+
+                  app=td/"docProps/app.xml"
+                  if app.exists():
+                      root=ET.parse(app); rr=root.getroot()
+                      for tag in ("Company","Manager"):
+                          for e in rr.findall(f".//ep:{tag}",NS):
+                              e.text=""
+                      root.write(app,encoding="UTF-8",xml_declaration=True)
+
+                  custom=td/"docProps/custom.xml"
+                  if custom.exists():
+                      custom.unlink()
+
+                  out=path.with_suffix(".scrubbed.docx")
+                  with zipfile.ZipFile(out,"w",zipfile.ZIP_DEFLATED) as z:
+                      for p in sorted(td.rglob("*")):
+                          if p.is_file():
+                              z.write(p,p.relative_to(td).as_posix())
+                  out.replace(path)
+
+          for p in Path("build/geb_v107/UPLOAD_FILES/Manuscript").glob("*.docx"):
+              scrub(p)
+          PY
+
+      - name: Download exact main figure bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v1831-figures-80a3bf71e4c0a69d1fb3364cb89185f12771af94-36809002965
+          path: build/geb_v107/input_figures/main
+          repository: zuizui0223/Structural
+          run-id: 36809002965
+          github-token: ${{ github.token }}
+
+      - name: Download exact prediction-behavior figure
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v186-prediction-behavior-19c2f9908bad0d5353a6ac589268761bcf1e231e-37084116950
+          path: build/geb_v107/input_figures/s2
+          repository: zuizui0223/Structural
+          run-id: 37084116950
+          github-token: ${{ github.token }}
+
+      - name: Download exact sealed-species Figure 4
+        uses: actions/download-artifact@v4
+        with:
+          name: macro-v198-sealed-species-figure-f1059a4267e26de7a59b2b17e42186762362dbf2-37110412829
+          path: build/geb_v107/input_figures/fig4
+          repository: zuizui0223/Structural
+          run-id: 37110412829
+          github-token: ${{ github.token }}
+
+      - name: Download exact anonymous review SI
+        uses: actions/download-artifact@v4
+        with:
+          name: geb-anonymous-review-si-v199-a3d5f8c5b562ba31571076e0fb5eabd7ab8f26af-37111145709
+          path: build/geb_v107/input_si
+          repository: zuizui0223/Structural
+          run-id: 37111145709
+          github-token: ${{ github.token }}
+
+      - name: Verify and normalize frozen figures and SI
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil
+
+          def sha(p):
+              h=hashlib.sha256()
+              with Path(p).open("rb") as f:
+                  for b in iter(lambda:f.read(1024*1024),b""): h.update(b)
+              return h.hexdigest()
+
+          root=Path("build/geb_v107")
+          out=root/"UPLOAD_FILES"
+          figs=out/"Figures"
+
+          copies={
+            root/"input_figures/main/fig1_bioregion_effects.png":figs/"Figure_1.png",
+            root/"input_figures/main/fig1_bioregion_effects.svg":figs/"Figure_1.svg",
+            root/"input_figures/main/fig2_external_isolation_attenuation.png":figs/"Figure_3.png",
+            root/"input_figures/main/fig2_external_isolation_attenuation.svg":figs/"Figure_3.svg",
+            root/"input_figures/main/fig3_species_breadth_attenuation.png":figs/"Figure_4.png",
+            root/"input_figures/main/fig3_species_breadth_attenuation.svg":figs/"Figure_4.svg",
+            root/"input_figures/main/figS1_gift_endpoint_attrition.png":figs/"Figure_S1.png",
+            root/"input_figures/main/figS1_gift_endpoint_attrition.svg":figs/"Figure_S1.svg",
+            root/"input_figures/s2/figS2_prediction_behavior.png":figs/"Figure_S2.png",
+            root/"input_figures/s2/figS2_prediction_behavior.svg":figs/"Figure_S2.svg",
+            root/"input_figures/fig4/fig4_sealed_species_validation.png":figs/"Figure_2.png",
+            root/"input_figures/fig4/fig4_sealed_species_validation.svg":figs/"Figure_2.svg",
+          }
+          for src,dst in copies.items():
+              if not src.exists(): raise SystemExit(f"missing figure: {src}")
+              shutil.copy2(src,dst)
+
+          assert sha(figs/"Figure_2.png")=="83a2489578771c283febad371457f7eee99715fde92627e105b7a99cfb6d5abe"
+          assert sha(figs/"Figure_2.svg")=="0191a1563cdeed3ad9f6a3d08567264b13e63aa8d5da873da82e28fa88693d35"
+
+          si=root/"input_si/GEB_anonymous_review_SI_v1_99.zip"
+          assert si.exists()
+          assert sha(si)=="dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d"
+          shutil.copy2(si,out/"Supporting_Information/GEB_anonymous_review_SI.zip")
+          PY
+
+      - name: Enforce blinded manuscript metadata and direct identity scan
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile, xml.etree.ElementTree as ET, re
+
+          doc=Path("build/geb_v107/UPLOAD_FILES/Manuscript/GEB_blinded_main_text.docx")
+          with zipfile.ZipFile(doc) as z:
+              core=ET.fromstring(z.read("docProps/core.xml"))
+              text=z.read("word/document.xml").decode("utf-8",errors="ignore")
+          all_core=" ".join(x.text or "" for x in core.iter())
+          forbidden=["zuizui0223","ZHANG Ruiqi","張瑞琪","Rachel Zhang","github.com/zuizui0223"]
+          for needle in forbidden:
+              assert needle.casefold() not in (all_core+" "+text).casefold(),needle
+
+          # Ensure creator/last modifier are blank if present.
+          ns={
+            "cp":"http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+            "dc":"http://purl.org/dc/elements/1.1/",
+          }
+          creator=core.find("dc:creator",ns)
+          last=core.find("cp:lastModifiedBy",ns)
+          assert creator is None or not (creator.text or "").strip()
+          assert last is None or not (last.text or "").strip()
+          PY
+
+      - name: Write submission package manifest and checksums
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          root=Path("build/geb_v107")
+          up=root/"UPLOAD_FILES"
+
+          def sha(p):
+              h=hashlib.sha256()
+              with p.open("rb") as f:
+                  for b in iter(lambda:f.read(1024*1024),b""):h.update(b)
+              return h.hexdigest()
+
+          files=sorted(p for p in up.rglob("*") if p.is_file())
+          out={
+            "schema":"structural.geb_submission_export_result.v1_107",
+            "status":"FINAL_EDITABLE_GEB_SUBMISSION_PACKAGE_BUILT_FROM_V1106",
+            "source_commit":os.environ["GITHUB_SHA"],
+            "upload_files":[
+              {"path":p.relative_to(up).as_posix(),"sha256":sha(p),"bytes":p.stat().st_size}
+              for p in files
+            ],
+            "anonymous_SI_sha256":"dda3357556760079f0e801173e21758b821f0ce98f22717774475c235dcfd08d",
+            "new_scientific_analysis_performed":False,
+            "new_response_accessed":False,
+            "author_fields_still_placeholders":True,
+          }
+          (root/"submission_export_receipt.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          with (root/"UPLOAD_FILES/SHA256SUMS.txt").open("w") as h:
+              for p in files:
+                  h.write(f"{sha(p)}  {p.relative_to(up).as_posix()}\n")
+          PY
+
+      - name: Zip final package
+        run: |
+          cd build/geb_v107
+          zip -qr GEB_submission_package_v1_107.zip UPLOAD_FILES AUTHOR_CHECKLIST submission_export_receipt.json
+          sha256sum GEB_submission_package_v1_107.zip > GEB_submission_package_v1_107.zip.sha256
+
+      - name: Upload final editable package
+        uses: actions/upload-artifact@v4
+        with:
+          name: geb-submission-package-v107-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/geb_v107/GEB_submission_package_v1_107.zip
+            build/geb_v107/GEB_submission_package_v1_107.zip.sha256
+            build/geb_v107/submission_export_receipt.json
+          if-no-files-found: error
+          retention-days: 30
