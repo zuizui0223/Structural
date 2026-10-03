@@ -1,0 +1,11 @@
+{
+  "schema": "structural.global_mammals_ultrarare_preconfirm_request.v1_113",
+  "status": "REQUEST_FREEZE_ULTRARARE_R3_C_BEFORE_HELDOUT_ACCESS",
+  "pilot_artifact_id": 11285057696,
+  "pilot_species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+  "pilot_matrix_sha256": "476c35e7e197c6b7a9daf7fc6697101add9e0bda1690de94f64efffd5468fb79",
+  "expected_species": 529,
+  "expected_heldout_cells": 2182654,
+  "heldout_response_authorized": false,
+  "one_shot": true
+}
