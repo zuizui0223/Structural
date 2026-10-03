@@ -1,0 +1,145 @@
+name: Global mammals ultrarare topology-null freeze v1.114
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_ultrarare_topology_null_request_v1_114.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-22.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install exact numerics
+        run: python -m pip install --disable-pip-version-check --no-cache-dir numpy==2.3.3
+
+      - name: Validate response-sealed topology-null request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ultrarare_topology_null_contract_v1_114.json").read_text())
+          r=json.loads(Path("development/global_mammals_ultrarare_topology_null_request_v1_114.json").read_text())
+          assert r["status"]=="REQUEST_FREEZE_ULTRARARE_MATCHED_TOPOLOGY_NULLS_BEFORE_HELDOUT_ACCESS"
+          assert r["actual_preconfirm_artifact_id"]==11284534666
+          assert r["ultrarare_pilot_artifact_id"]==11285057696
+          assert r["expected_species"]==529
+          assert r["expected_heldout_cells"]==2182654
+          assert r["heldout_response_authorized"] is False
+          assert r["one_shot"] is True
+          assert c["null_ensemble"]["null_graphs"]==20
+          assert c["null_ensemble"]["base_seed"]==2026100300
+          assert len(c["null_ensemble"]["expected_combined_graph_fingerprints"])==20
+          assert c["response_boundary"]["heldout_response_authorized"] is False
+          PY
+
+      - name: Download ultrarare pilot snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728
+          path: build/global_mammals_v114/pilot
+          repository: zuizui0223/Structural
+          run-id: 37153960728
+          github-token: ${{ github.token }}
+
+      - name: Download exact ultrarare actual preconfirm surface
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v113-ultrarare-preconfirm-dc558569303879c858c5588ba158a414dc3fda3d-37154791882
+          path: build/global_mammals_v114/actual
+          repository: zuizui0223/Structural
+          run-id: 37154791882
+          github-token: ${{ github.token }}
+
+      - name: Download response-independent reference
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/global_mammals_v114/reference
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+
+      - name: Download safe Appendix 2 projection
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v114/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Download exact routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/global_mammals_v114/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Verify exact frozen parent identities
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/global_mammals_v114/pilot/ultrarare_species_universe.csv":"4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+            "build/global_mammals_v114/pilot/ultrarare_pilot_matrix.csv":"476c35e7e197c6b7a9daf7fc6697101add9e0bda1690de94f64efffd5468fb79",
+            "build/global_mammals_v114/actual/ultrarare_predictions.f64le":"3307a2e058f5f8223eaf0c2d69241acd938e96b93cb02643b1b7d63b425fae04",
+            "build/global_mammals_v114/actual/ultrarare_entity_order.csv":"afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+            "build/global_mammals_v114/actual/ultrarare_graph_empty.u8":"e992497666d388d451a328ffaa41df53b0511af04b54719fa8ed74c7e9b7a4ae",
+            "build/global_mammals_v114/actual/ultrarare_block_context.csv":"314aba152580ff84c933d0a1c8f7675327d381052f458aa997ff9d70d50ab7ba",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Freeze matched null predictions before heldout response
+        run: |
+          mkdir -p build/global_mammals_v114/output
+          python scripts/freeze_global_mammals_ultrarare_topology_nulls_v1_114.py             build/global_mammals_v114/pilot/ultrarare_species_universe.csv             build/global_mammals_v114/pilot/ultrarare_pilot_matrix.csv             build/global_mammals_v114/reference/state_reference.csv             build/global_mammals_v114/reference/source_graph_edges.csv             build/global_mammals_v114/reference/reference_receipt.json             build/global_mammals_v114/safe/appendix2_safe_rows.csv             build/global_mammals_v114/routing/pilot_ids.csv             build/global_mammals_v114/routing/confirmatory_ids.csv             build/global_mammals_v114/actual/ultrarare_predictions.f64le             build/global_mammals_v114/actual/ultrarare_entity_order.csv             --null-predictions build/global_mammals_v114/output/ultrarare_rewired_predictions.f64le             --receipt build/global_mammals_v114/output/ultrarare_topology_null_receipt.json
+
+      - name: Enforce response seal and exact null ensemble
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ultrarare_topology_null_contract_v1_114.json").read_text())
+          x=json.loads(Path("build/global_mammals_v114/output/ultrarare_topology_null_receipt.json").read_text())
+          assert x["status"]=="ULTRARARE_MATCHED_TOPOLOGY_NULLS_FROZEN_BEFORE_HELDOUT_ACCESS"
+          assert x["species"]==529
+          assert x["heldout_target_cells"]==2182654
+          assert x["null_graphs"]==20
+          assert x["null_graph_fingerprints"]==c["null_ensemble"]["expected_combined_graph_fingerprints"]
+          assert x["actual_R3_replay_max_abs_difference"]<=1e-12
+          assert x["actual_C_replay_max_abs_difference"]<=1e-12
+          assert x["cells_with_abs_actualC_minus_mean_nullC_gt_1e_12"]>=1
+          assert x["blocks_with_mean_abs_actualC_minus_mean_nullC_gt_1e_12"]>=10
+          assert x["heldout_target_values_used"] is False
+          assert x["heldout_response_opened"] is False
+          assert x["heldout_response_authorized"] is False
+          PY
+
+      - name: Upload topology-null freeze
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v114-ultrarare-topology-null-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v114/output/ultrarare_rewired_predictions.f64le
+            build/global_mammals_v114/output/ultrarare_topology_null_receipt.json
+          if-no-files-found: error
+          retention-days: 30
