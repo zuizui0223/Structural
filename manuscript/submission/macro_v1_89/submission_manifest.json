@@ -1,0 +1,38 @@
+{
+  "schema": "structural.macro_submission_manifest.v1_89",
+  "status": "JOURNAL_NEUTRAL_SUBMISSION_PACKAGE_PREPARED_FROM_V188_FROZEN_SCIENCE",
+  "scientific_freeze": "development/current_status_v1_88.json",
+  "manuscript": "manuscript/macro_dual_isolation_mammal_v1_88.md",
+  "verified_references": "manuscript/macro_dual_isolation_verified_references_v1_86.md",
+  "package_files": [
+    "highlights.txt",
+    "figure_captions.md",
+    "data_code_availability.md",
+    "evidence_status.md",
+    "declarations_template.md"
+  ],
+  "figure_artifacts": {
+    "main_and_S1": {
+      "artifact_id": 11139705415,
+      "name": "macro-v1831-figures-80a3bf71e4c0a69d1fb3364cb89185f12771af94-36809002965",
+      "expires_at": "2026-10-31T03:17:26Z"
+    },
+    "S2": {
+      "artifact_id": 11259686592,
+      "name": "macro-v186-prediction-behavior-19c2f9908bad0d5353a6ac589268761bcf1e231e-37084116950",
+      "expires_at": "2026-11-02T00:56:36Z"
+    }
+  },
+  "author_confirmation_required": [
+    "final author list and order",
+    "affiliations and corresponding author",
+    "funding and grant numbers",
+    "acknowledgements",
+    "competing interests",
+    "AI disclosure wording under selected journal policy",
+    "permanent code archive DOI"
+  ],
+  "journal_selection_required": true,
+  "new_response_accessed": false,
+  "new_scientific_analysis_performed": false
+}

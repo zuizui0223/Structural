@@ -1,0 +1,4 @@
+Occupied-source topology added information beyond strong island-isolation controls.
+Source-network gains weakened with external isolation and species breadth.
+Natural-prevalence gains were driven mainly by better prediction of absences.
+Source-network effects were strongest when graph-reachable sources existed.
