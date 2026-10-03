@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Freeze a ultrarare mammal species layer from already-open pilot rows only.
+"""Freeze an ultrarare mammal species layer from already-open pilot rows only.
 
-Membership is fixed prospectively to species with 1-12 pilot absences.
+Membership is fixed prospectively to species with 1-4 pilot presences.
 Heldout rows are routed by their first field only; no heldout occurrence field
 is decoded.
 """
@@ -117,7 +117,7 @@ def consume(raw:bytes,species:list[str],pilot_order:list[str],pilot_meta:dict[st
       "heldout_occurrence_values_decoded":0,
       "excluded_occurrence_values_decoded":0,
       "heldout_ultrarare_layer_response_still_sealed":True,
-      ""primary_future_prediction_frozen":"presence-cell C-minus-R3 < 0 with block-bootstrap upper CI < 0",
+      "primary_future_prediction_frozen":"presence-cell C-minus-R3 < 0 with block-bootstrap upper CI < 0",
       "counts_as_current_empirical_result":False
     }
 
