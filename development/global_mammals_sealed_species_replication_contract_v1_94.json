@@ -74,7 +74,7 @@
   "rewired_graph_null": {
     "null_graphs": 20,
     "base_seed": 2026100300,
-    "seed_rule": "base_seed + null_index for null_index 1..20",
+    "seed_rule": "null_seed = base_seed + null_index for null_index 1..20; within each null, region_seed = null_seed + 1000*zero_based_sorted_bioregion_rank; disconnected retries add 100000*retry_index",
     "scope": "rewire independently within each of the 12 bioregions",
     "node_coordinates": "unchanged",
     "node_set": "unchanged",
@@ -88,7 +88,7 @@
     "self_edges_allowed": false,
     "duplicate_edges_allowed": false,
     "final_graph_connected_required": true,
-    "deterministic_retry_if_disconnected": "restart the affected bioregion from the original graph using seed + 100000*retry_index, retry_index 1..20; STOP if no connected null is produced",
+    "deterministic_retry_if_disconnected": "restart only the affected bioregion from its original graph using region_seed + 100000*retry_index, retry_index 1..20; STOP if no connected null is produced",
     "null_selection_from_response_forbidden": true,
     "R3_recomputed_for_nulls": false,
     "R3_prediction_surface_identical_across_actual_and_null_models": true,
