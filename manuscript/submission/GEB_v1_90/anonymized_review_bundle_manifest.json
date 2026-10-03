@@ -1,0 +1,87 @@
+{
+  "schema": "structural.geb_anonymized_review_bundle_manifest.v1_90",
+  "status": "ANONYMIZED_REVIEW_BUNDLE_CONTENTS_FROZEN",
+  "purpose": "prepare a private stable peer-review archive without reopening biological response data",
+  "manuscript": "manuscript/submission/GEB_v1_90/blinded_main_text.md",
+  "include_repository_files": [
+    "manuscript/submission/GEB_v1_90/blinded_main_text.md",
+    "manuscript/submission/macro_v1_89/figure_captions.md",
+    "development/global_mammals_macro_model_contract_v1_67.json",
+    "development/global_mammals_exploratory_preconfirmatory_contract_v1_72.json",
+    "development/global_mammals_exploratory_scoring_contract_v1_74.json",
+    "development/global_mammals_exploratory_scoring_freeze_v1_76.json",
+    "development/global_mammals_exploratory_diagnostics_freeze_v1_79.json",
+    "development/global_mammals_species_breadth_diagnostics_freeze_v1_82.json",
+    "development/global_mammals_prediction_behavior_freeze_v1_85.json",
+    "development/global_mammals_isolation_empty_support_audit_freeze_v1_88.json",
+    "development/macro_source_feature_empty_support_contract_v1_56.json",
+    "scripts/freeze_global_mammals_exploratory_preconfirmatory_v1_72.py",
+    "scripts/score_global_mammals_exploratory_v1_74.py",
+    "scripts/run_global_mammals_exploratory_diagnostics_v1_77.py",
+    "scripts/run_global_mammals_species_breadth_diagnostics_v1_81.py",
+    "scripts/run_global_mammals_prediction_behavior_v1_84.py",
+    "scripts/audit_global_mammals_isolation_empty_support_v1_87.py",
+    "scripts/build_macro_figures_v1_83.py",
+    "scripts/build_prediction_behavior_figure_v1_86.py"
+  ],
+  "include_frozen_artifacts": [
+    {
+      "role": "preconfirmatory predictions and model receipt",
+      "run_id": 36745389315,
+      "artifact_id": 11112450910,
+      "artifact_name": "global-mammals-v173-preconfirmatory-2dfb3ce75e57b0d6a44584a8fd68158d05310e91-36745389315"
+    },
+    {
+      "role": "heldout focal matrix and primary block scores",
+      "run_id": 36746823761,
+      "artifact_id": 11113225988,
+      "artifact_name": "global-mammals-v175-exploratory-score-33f0a6a85ff7480f1fac30d8fcf26f355a7687ef-36746823761"
+    },
+    {
+      "role": "geographic attenuation diagnostics",
+      "run_id": 36787772910,
+      "artifact_id": 11130602935,
+      "artifact_name": "global-mammals-v177-diagnostics-3778a2c53e76ec83a871b1415ba2e27eb1affb98-36787772910"
+    },
+    {
+      "role": "species-breadth diagnostics",
+      "run_id": 36789642593,
+      "artifact_id": 11131608867,
+      "artifact_name": "global-mammals-v181-species-breadth-291a5a803c070215bd25fb46449e62f1821a1378-36789642593"
+    },
+    {
+      "role": "prediction-behavior diagnostics",
+      "run_id": 36808403888,
+      "artifact_id": 11139081593,
+      "artifact_name": "global-mammals-v184-prediction-behavior-08b046de1a63eba861bf5ab31802e8743d8da085-36808403888"
+    },
+    {
+      "role": "isolation-empty-support reviewer audit",
+      "run_id": 37084441628,
+      "artifact_id": 11259672183,
+      "artifact_name": "global-mammals-v187-isolation-empty-6e7a9c815719d0eebbe324efea2b48777c70ad83-37084441628"
+    },
+    {
+      "role": "main figures and GIFT attrition figure",
+      "run_id": 36809002965,
+      "artifact_id": 11139705415,
+      "artifact_name": "macro-v1831-figures-80a3bf71e4c0a69d1fb3364cb89185f12771af94-36809002965"
+    },
+    {
+      "role": "prediction-behavior supplementary figure",
+      "run_id": 37084116950,
+      "artifact_id": 11259686592,
+      "artifact_name": "macro-v186-prediction-behavior-19c2f9908bad0d5353a6ac589268761bcf1e231e-37084116950"
+    }
+  ],
+  "exclude": [
+    ".git metadata",
+    "title page and author names",
+    "public repository URL",
+    "funding and acknowledgements",
+    "GitHub workflow YAML files",
+    "raw Dryad biological response bytes"
+  ],
+  "new_response_access_authorized": false,
+  "intended_next_step": "upload generated ZIP to a stable private-for-peer-review archive and insert its anonymous link into the blinded manuscript"
+}
