@@ -1,0 +1,11 @@
+{
+  "schema": "structural.global_mammals_ultrarare_topology_null_request.v1_114",
+  "status": "REQUEST_FREEZE_ULTRARARE_MATCHED_TOPOLOGY_NULLS_BEFORE_HELDOUT_ACCESS",
+  "contract": "development/global_mammals_ultrarare_topology_null_contract_v1_114.json",
+  "actual_preconfirm_artifact_id": 11284534666,
+  "ultrarare_pilot_artifact_id": 11285057696,
+  "expected_species": 529,
+  "expected_heldout_cells": 2182654,
+  "heldout_response_authorized": false,
+  "one_shot": true
+}
