@@ -1,0 +1,19 @@
+{
+  "schema": "structural.global_mammals_ultrarare_execution_request.v1_114",
+  "status": "AUTHORIZE_ONE_SHOT_ULTRARARE_HELDOUT_TEST",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scoring_contract": "development/global_mammals_ultrarare_scoring_contract_v1_114.json",
+  "preconfirm_artifact_id": 11284534666,
+  "preconfirm_artifact_digest": "sha256:c69ef73a1f4b68d29b6c3528a64b367f60e7939afec676fa7ec9b85403147375",
+  "prediction_sha256": "3307a2e058f5f8223eaf0c2d69241acd938e96b93cb02643b1b7d63b425fae04",
+  "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+  "graph_empty_mask_sha256": "e992497666d388d451a328ffaa41df53b0511af04b54719fa8ed74c7e9b7a4ae",
+  "block_context_sha256": "314aba152580ff84c933d0a1c8f7675327d381052f458aa997ff9d70d50ab7ba",
+  "pilot_artifact_id": 11285057696,
+  "species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+  "expected_species": 529,
+  "expected_target_cells": 2182654,
+  "heldout_response_authorized": true,
+  "same_lineage_rerun_after_first_decode": false,
+  "one_shot": true
+}
