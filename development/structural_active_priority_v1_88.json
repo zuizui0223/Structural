@@ -1,0 +1,24 @@
+{
+  "schema": "structural.active_priority.v1_88",
+  "status": "submission_packaging_only_scientific_analysis_frozen",
+  "canonical_current_status": "development/current_status_v1_88.json",
+  "do_now": [
+    "freeze submission-facing figure artifacts and exact captions",
+    "finalize journal-neutral title abstract keywords and references",
+    "prepare Data and Code Availability from existing public sources and repository state",
+    "prepare author contributions declarations acknowledgements and AI disclosure for author confirmation",
+    "prepare journal-specific cover letter and formatting only after target journal is selected",
+    "run reproducibility and claim-boundary checks without opening any new response"
+  ],
+  "do_not": [
+    "open any new biological response",
+    "run new same-data mechanism or subgroup searches",
+    "retune isolation, breadth, source-support or endpoint thresholds",
+    "change the natural-prevalence primary",
+    "remove absences, species, blocks or bioregions",
+    "retry terminal fresh GIFT or mammal protocols",
+    "promote exploratory mammal or GIFT evidence to fresh confirmation",
+    "claim improved presence detection or causal dispersal/rescue"
+  ],
+  "next_new_scientific_event": "a genuinely independent response-sealed system testing the frozen future hypothesis, not another analysis of the present response"
+}
