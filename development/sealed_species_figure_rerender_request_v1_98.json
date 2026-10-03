@@ -1,0 +1,9 @@
+{
+  "schema": "structural.sealed_species_figure_rerender_request.v1_98",
+  "status": "REQUEST_LAYOUT_ONLY_RERENDER_OF_FROZEN_SEALED_SPECIES_FIGURE",
+  "source_result_artifact_id": 11269176943,
+  "source_result_artifact_digest": "sha256:604425afe06b84dfe2eb7f6f7b4b589da0c4e3c1aa95ede6b4a51be953a71b4f",
+  "scientific_values_changed": false,
+  "new_response_access_authorized": false,
+  "one_shot": true
+}
