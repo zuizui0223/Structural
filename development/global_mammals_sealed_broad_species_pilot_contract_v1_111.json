@@ -1,0 +1,69 @@
+{
+  "schema": "structural.global_mammals_sealed_broad_species_pilot_contract.v1_111",
+  "status": "PROSPECTIVE_BROAD_OCCUPANCY_LAYER_FROZEN_BEFORE_PILOT_CENSUS_AND_ANY_NEW_HELDOUT_ACCESS",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "scientific_question": "Does the incremental value of occupied-source graph topology attenuate again when a species is so widespread across pilot islands that its occupied source pool is close to saturated?",
+  "hypothesis": {
+    "name": "broad_occupancy_source_saturation",
+    "statement": "For species with very few pilot absences, occupied-source topology should add less heldout information beyond R3 than it did in the original 79-species exploratory layer.",
+    "primary_future_contrast": "equal-block mean[(C-R3)_broad_layer - (C-R3)_original79] across the same 168 heldout blocks",
+    "predicted_direction": "positive",
+    "future_support_rule": "paired-block contrast point > 0 and paired block-bootstrap 95% lower bound > 0",
+    "original79_block_scores_sha256": "c0a0642800db060b61a78933ae5d86b0f976688c68fd0a39ea85c8c2eb5723a1",
+    "original79_global_C_minus_R3": -0.0018141589038615496,
+    "secondary_future_external_isolation_prediction": "within the broad layer, block C-minus-R3 is positively associated with response-independent Current_isolation; this secondary cannot rescue a failed primary",
+    "formal_unimodality_claim_authorized": false
+  },
+  "why_new_response_exists": {
+    "total_species_columns": 5394,
+    "original79_heldout_species_opened": 79,
+    "sealed_rare96_heldout_species_opened": 96,
+    "remaining_non79_non96_species_columns": 5219,
+    "broad_layer_membership_uses_pilot_response_only": true,
+    "broad_layer_heldout_values_are_unopened_if_membership_rule_is_disjoint": true
+  },
+  "broad_layer_rule": {
+    "pilot_islands": 1275,
+    "pilot_absence_min_inclusive": 1,
+    "pilot_absence_max_inclusive": 12,
+    "pilot_presence_min_inclusive": 13,
+    "pilot_presence_max_inclusive": 1274,
+    "exclude_zero_absence_species": true,
+    "reason_zero_absence_excluded": "at least one pilot absence is required so the species has both response classes in the pilot",
+    "original79_disjointness": "original 79-species layer required pilot absence >=13",
+    "rare96_disjointness": "sealed rare layer required pilot presence between 5 and 12",
+    "species_identity_exceptions_allowed": false,
+    "threshold_change_after_census_authorized": false,
+    "heldout_response_may_not_change_membership": true,
+    "minimum_species_count_gate": 10,
+    "if_fewer_than_minimum": "terminal NOT_ESTIMABLE for this broad-end test; do not widen the absence range using heldout outcomes"
+  },
+  "routing": {
+    "pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "excluded_rows": 191,
+    "pilot_ids_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "confirmatory_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "physical_schema": {
+    "species_count": 5394,
+    "species_order_sha256": "e596a7424d00ce958a65dae747d5a71a70f106e9dabcf299815c1479cb2fad81",
+    "response_sha256": "32bf3f077af7e66ddcbf05fc675d6c51656f59111c27cd37129e14c658430fa6"
+  },
+  "pilot_access_boundary": {
+    "pilot_rows_already_opened": true,
+    "pilot_rows_may_be_redecoded": true,
+    "heldout_rows_routing_field_may_be_read": true,
+    "heldout_occurrence_values_may_be_decoded": false,
+    "excluded_occurrence_values_may_be_decoded": false,
+    "raw_response_may_be_retained": false
+  },
+  "next_step_if_gate_passes": "freeze exact R3/C predictions and a response-independent broad-layer source-saturation diagnostic before opening any broad-layer heldout occurrence",
+  "evidence_boundary": {
+    "same_geographic_system": true,
+    "new_species_response_layer": true,
+    "geographically_independent_replication": false,
+    "counts_as_current_empirical_result": false,
+    "heldout_response_authorized": false
+  }
+}
