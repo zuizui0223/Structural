@@ -395,8 +395,9 @@ def main()->int:
                 rew,meta=rewire_region(reg,region_nodes[reg],original,coords,region_seed,target_swaps,max_attempts,all_ids)
                 null_regions[reg]=rew;regions_meta.append(meta)
             nadj=adjacency(len(all_ids),null_regions)
+            null_max_edge={reg:max(e[2] for e in null_regions[reg]) for reg in pool_levels}
             ndg=graph_distance_to_sources(len(all_ids),source_global,nadj)
-            ngtrain,ngheld,_=build_graph_raw(Y,pilot_ids,all_ids,smap,pilot_block,all_pool,source_pos,ndg,scales,node_count,max_edge)
+            ngtrain,ngheld,_=build_graph_raw(Y,pilot_ids,all_ids,smap,pilot_block,all_pool,source_pos,ndg,scales,node_count,null_max_edge)
             ngz_train,ngz_held,nmu,nsd=standardize(ngtrain,ngheld,f"null{k}")
             nfit=fit_ridge(np.column_stack([X3_train,ngz_train]),y,cols_base+common_names+[
               "z_log1p_nearest_graph_source_km","z_log1p_graph_source_pressure"])
