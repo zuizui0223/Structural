@@ -1,0 +1,27 @@
+{
+  "schema": "structural.macro_prediction_behavior_figure_freeze.v1_88",
+  "status": "SUCCESSFUL_FROZEN_SUMMARY_ONLY_SUPPLEMENTARY_FIGURE_FROZEN",
+  "source_execution": {
+    "workflow": ".github/workflows/macro-prediction-behavior-figure-v1_86.yml",
+    "workflow_run_id": 37084116950,
+    "workflow_head_sha": "19c2f9908bad0d5353a6ac589268761bcf1e231e",
+    "artifact_id": 11259686592,
+    "artifact_name": "macro-v186-prediction-behavior-19c2f9908bad0d5353a6ac589268761bcf1e231e-37084116950",
+    "artifact_digest": "sha256:4f3276751603d66d3228aa722c4d0332806566fcb1d7c41b51871c0ec933b33a",
+    "expires_at": "2026-11-02T00:56:36Z"
+  },
+  "files": {
+    "figS2_prediction_behavior.png": {
+      "sha256": "a38635b69dcf53fb54403b2c070e6dac9989e17afb3d4dea2fd40dc101046556"
+    },
+    "figS2_prediction_behavior.svg": {
+      "sha256": "e728e9149bebc87405e127567689bb5ad80067582db7c624db608727ee455427"
+    },
+    "figure_receipt.json": {
+      "sha256": "774f1da4f6ed313428cbce2f4a5c8062d7c9510cce2bda67c4e6868430b9154a"
+    }
+  },
+  "figure_role": "Supplementary Figure S2; exposes outcome asymmetry, graph-empty versus nonempty support, and ranking metrics from frozen v1.85 summaries",
+  "new_response_accessed": false,
+  "counts_as_empirical_evidence": false
+}
