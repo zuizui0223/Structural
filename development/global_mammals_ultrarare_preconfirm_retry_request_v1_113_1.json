@@ -1,0 +1,16 @@
+{
+  "schema": "structural.global_mammals_ultrarare_preconfirm_retry_request.v1_113_1",
+  "status": "REQUEST_OPERATIONAL_RETRY_SAME_V113_SCIENTIFIC_CONTRACT",
+  "failed_run": {
+    "workflow_run_id": 37154417940,
+    "workflow_job_id": 111294731330,
+    "failure": "ModuleNotFoundError: No module named scripts",
+    "failed_before_prediction_script_body": true,
+    "heldout_response_opened": false,
+    "heldout_target_values_used": false
+  },
+  "repair": "set PYTHONPATH to repository root plus src only; no code, contract, model, species, block, threshold, or input change",
+  "scientific_contract_changed": false,
+  "heldout_response_authorized": false,
+  "one_retry_only": true
+}
