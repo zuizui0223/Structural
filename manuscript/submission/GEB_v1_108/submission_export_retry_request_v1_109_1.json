@@ -1,0 +1,15 @@
+{
+  "schema": "structural.geb_submission_export_retry_request.v1_109_1",
+  "status": "REQUEST_OPERATIONAL_EXPORT_RETRY_SAME_V1108_CONTENT",
+  "parent_request": "manuscript/submission/GEB_v1_108/submission_export_request_v1_109.json",
+  "reason": "original v1.109 GitHub-hosted runner remained queued before job start",
+  "repair": "change runner image only from ubuntu-24.04 to ubuntu-22.04",
+  "scientific_content_changed": false,
+  "manuscript_content_changed": false,
+  "figure_mapping_changed": false,
+  "artifact_bindings_changed": false,
+  "docx_scrub_logic_changed": false,
+  "new_scientific_analysis_authorized": false,
+  "new_response_access_authorized": false,
+  "one_shot": true
+}
