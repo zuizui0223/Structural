@@ -1,0 +1,72 @@
+{
+  "schema": "structural.bala_official_core_code_audit_contract.v1_131",
+  "status": "RESPONSE_UNOPENED_OFFICIAL_CORE_LINEAGE_AUDIT_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_core_panel_stop_v1_130.json",
+    "development/bala_core_event_excess_audit_contract_v1_130.json"
+  ],
+  "publication_semantics": {
+    "source": "Pozsgai et al. 2024 Scientific Data",
+    "doi": "10.1038/s41597-024-03174-7",
+    "core_statement": "the same 30 core transects were sampled across three phases; one Faial BALA1 transect FAI-NFCF-T-11 was replaced by FAI-NFCF-TB26 for later phases because Rubus ulmifolius prevented trap installation",
+    "core_database_site_codes": 31,
+    "foundational_core_events_reported": 4929
+  },
+  "official_core_codes": {
+    "unchanged_29": [
+      "FLO-NFFR-T-07","FLO-NFFR-T-06","FLO-NFMA-T-08","FLO-NFMA-T-16",
+      "FAI-NFCG-T-01","FAI-NFCG-T-03","FAI-NFCF-T-10",
+      "PIC-NFMP-T-10","PIC-NFMP-T-01","PIC-NFCA-T-09","PIC-NFCA-T-08",
+      "SJG-NFPP-T-02","SJG-NFPP-T-09","SJG-NFTO-T-12","SJG-NFTO-T-06",
+      "TER-NFSB-T-06","TER-NFSB-T-11","TER-NFBF-T-02","TER-NFPG-T-22","TER-NFPG-T-33",
+      "TER-NFBF-T-01","TER-NFTB-T-15","TER-NFTB-T-18",
+      "SMG-NFGR-T-03","SMG-NFGR-T-07","SMG-NFPV-T-01","SMG-NFPV-T-04",
+      "SMR-NFPA-T-01","SMR-NFPA-T-03"
+    ],
+    "BALA1_replaced_site_code": "FAI-NFCF-T-11",
+    "BALA2_BALA3_replacement_site_code": "FAI-NFCF-TB26",
+    "explicitly_not_publication_core_codes": [
+      "FAI-NFCF-TB11",
+      "TER-NFBF-TY01","TER-NFBF-TY02","TER-NFPG-TY33",
+      "TER-NFSB-TY06","TER-NFSB-TY11","TER-NFTB-TY15","TER-NFTB-TY18"
+    ]
+  },
+  "phase_windows": {
+    "BALA1": [1997,2004],
+    "BALA2": [2010,2011],
+    "BALA3": [2019,2022]
+  },
+  "audit_questions": [
+    "How many Event rows remain after restricting to publication-defined phase-specific core site codes?",
+    "How are any remaining rows beyond the reported 4929 distributed by site, year, protocol and fieldNumber prefix?",
+    "How many duplicate standardized sample slots exist, where a slot is phase + core lineage + samplingProtocol + fieldNumber?",
+    "Does the response-independent sample-slot structure explain the residual without using occurrence data?"
+  ],
+  "sample_slot_definition": {
+    "key": "phase + conceptual_core_lineage + samplingProtocol + fieldNumber",
+    "conceptual_lineage": "FAI-NFCF-T-11 in BALA1 and FAI-NFCF-TB26 in BALA2/BALA3 share one lineage; every unchanged code is its own lineage",
+    "purpose": "audit repeated or enriched Event rows under a standardized campaign; not yet an authorized deduplication rule",
+    "final_deduplication_rule_selected": false
+  },
+  "outputs": [
+    "official_code_phase_counts.csv",
+    "official_core_site_phase_counts.csv",
+    "official_core_fieldprefix_counts.csv",
+    "duplicate_sample_slots.csv",
+    "official_core_code_audit.json"
+  ],
+  "anti_selection": [
+    "do not add or remove site codes to hit 4929",
+    "do not choose a fieldNumber prefix because excluding it hits 4929",
+    "do not inspect occurrence rows or taxa",
+    "do not deduplicate Event rows until a later contract justifies a rule from protocol semantics"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_this_audit": false
+  }
+}
