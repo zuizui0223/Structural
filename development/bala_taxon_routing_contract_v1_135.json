@@ -1,0 +1,91 @@
+{
+  "schema": "structural.bala_taxon_routing_contract.v1_135",
+  "status": "RESPONSE_UNOPENED_OCCURRENCE_SCHEMA_AND_TAXON_PARTITION_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_pitfall_quality_freeze_v1_135.json",
+    "development/bala_event_core_audit_freeze_v1_129.json",
+    "development/bala_source_loss_preintake_v1_126.json",
+    "development/source_loss_leverage_protocol_v1_125.json"
+  ],
+  "frozen_schema_source": {
+    "workflow_run_id": 37187589920,
+    "artifact_id": 11297581242,
+    "meta_manifest_sha256": "35df3c8a1e92f7cdeb56f760491a1faf903d9ed46beb2c9b2b84fcc79f784691",
+    "occurrence_extension_sha256_opaque_bytes": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5",
+    "occurrence_location": "occurrence.txt",
+    "rowType": "http://rs.tdwg.org/dwc/terms/Occurrence",
+    "encoding": "UTF-8",
+    "fieldsTerminatedBy": "\t",
+    "ignoreHeaderLines": 1,
+    "coreid_index": 0
+  },
+  "public_builder_identity": {
+    "repository": "pozsgaig/BALA_database",
+    "occurrence_builder_path": "Occ_table_creation_G.R",
+    "occurrence_builder_git_blob_sha1": "d9af3bfb6399904386bde21d7d08ffbb54dc00dc",
+    "semantic_mapping": "Occ_table identificationRemarks is copied directly from BALA_all_data$MF",
+    "routing_token_interpretation": "identificationRemarks is the stable BALA morphospecies/species reference token MF"
+  },
+  "required_occurrence_fields_from_meta_xml": {
+    "event_core_link": {"index":0,"role":"core eventID reference; forbidden to read during opaque taxon routing"},
+    "organismQuantity": {"index":12,"role":"pilot/confirmatory response quantity; forbidden during opaque taxon routing"},
+    "eventID": {"index":17,"role":"event identity; forbidden during opaque taxon routing"},
+    "identificationRemarks": {"index":20,"role":"MF taxon routing token; the only Occurrence data field authorized during opaque partition routing"},
+    "scientificName": {"index":21,"role":"taxon label; forbidden during opaque partition routing"},
+    "order": {"index":25,"role":"later taxonomic eligibility audit; forbidden during opaque partition routing"},
+    "family": {"index":26,"role":"later taxonomic eligibility audit; forbidden during opaque partition routing"},
+    "taxonRank": {"index":30,"role":"later taxonomic eligibility audit; forbidden during opaque partition routing"}
+  },
+  "taxon_token_normalization": {
+    "source_field": "identificationRemarks",
+    "unicode": "NFC",
+    "whitespace": "strip leading and trailing ASCII/Unicode whitespace",
+    "case": "preserve exact case",
+    "blank_token": "STOP row routing and do not assign the row",
+    "token_value_logging_during_schema_gate": false
+  },
+  "deterministic_partition": {
+    "hash": "SHA-256",
+    "salt": "Structural-BALA-source-loss-v1.135|",
+    "hash_input": "salt + normalized MF token encoded UTF-8",
+    "bucket_rule": "unsigned integer from the first 8 hexadecimal SHA-256 digits modulo 4",
+    "pilot_buckets": [0],
+    "confirmatory_buckets": [1,2,3],
+    "expected_fraction_only_not_a_gate": {"pilot":0.25,"confirmatory":0.75},
+    "partition_may_not_be_rebalanced_after_token_counts_are_known": true,
+    "taxa_may_not_move_between_partitions": true
+  },
+  "opaque_router_semantics_for_next_gate": {
+    "authorized_field_decode": ["identificationRemarks"],
+    "all_other_occurrence_fields": "opaque bytes copied unchanged with the row to its assigned partition",
+    "event_by_taxon_combination_may_be_summarized": false,
+    "organismQuantity_may_be_decoded": false,
+    "scientificName_order_family_taxonRank_may_be_decoded": false,
+    "confirmatory_token_list_may_be_persisted": false,
+    "pilot_token_list_may_be_persisted_after_routing": true,
+    "raw_occurrence_archive_may_be_persisted": false
+  },
+  "future_stage_order": [
+    "v1.135 schema/partition rule only; zero Occurrence data rows decoded",
+    "opaque row routing reads MF token only and writes disjoint pilot versus confirmatory byte surfaces",
+    "pilot taxon rows may then open eventID, quantity and taxonomic fields for estimability/eligibility only; no source-leverage effect estimate",
+    "confirmatory rows remain semantically sealed",
+    "after a clean pilot gate, freeze t0/t1 confirmatory exposure/source-leverage features and all t2 predictions before any confirmatory t2 response is opened"
+  ],
+  "response_boundary": {
+    "occurrence_data_rows_decoded_in_v1_135": 0,
+    "taxon_tokens_opened_in_v1_135": 0,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_v1_135": false
+  },
+  "anti_selection": [
+    "do not choose a different partition salt or pilot fraction after taxon counts are known",
+    "do not inspect eventID, quantity, scientificName or taxonomic fields while routing confirmatory rows",
+    "do not select pilot taxa by prevalence, trend or source-loss behaviour",
+    "do not use confirmatory token identities to refine taxonomic scope",
+    "do not change the pitfall surveyed-zero quality thresholds after pilot occurrence access"
+  ]
+}
