@@ -1,0 +1,72 @@
+name: BALA publication protocol grammar audit v1.132
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_protocol_grammar_audit_request_v1_132.json
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-unopened request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_protocol_grammar_audit_contract_v1_132.json").read_text())
+          r=json.loads(Path("development/bala_protocol_grammar_audit_request_v1_132.json").read_text())
+          assert c["status"]=="RESPONSE_UNOPENED_PUBLICATION_PROTOCOL_GRAMMAR_AUDIT_FROZEN"
+          assert c["publication_basis"]["core_events_reported"]==4929
+          assert c["publication_basis"]["pitfall_protocol"]["traps_per_site_phase"]==30
+          assert c["publication_basis"]["beating_protocol"]["tree_species_per_site_phase_max"]==3
+          assert c["publication_basis"]["beating_protocol"]["samples_per_tree_species_max"]==10
+          assert c["field_number_grammar"]["prefix_aliases_are_not_resolved_in_this_audit"] is True
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Execute Event-only protocol grammar audit
+        run: |
+          mkdir -p build/bala_v132
+          PYTHONPATH="$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"           python scripts/audit_bala_protocol_grammar_v1_132.py             --output-dir build/bala_v132
+
+      - name: Enforce response firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v132/protocol_grammar_result.json").read_text())
+          assert x["status"]=="BALA_PUBLICATION_PROTOCOL_GRAMMAR_AUDIT_COMPLETE_RESPONSE_UNOPENED"
+          assert x["publication_core_selected_event_rows"]==4997
+          assert x["final_core_rule_selected"] is False
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["source_loss_effects_computed"]==0
+          assert x["confirmatory_eligible"] is False
+          PY
+
+      - name: Upload response-unopened protocol audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v132-protocol-grammar-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v132/protocol_grammar_result.json
+            build/bala_v132/protocol_invalid_rows.csv
+            build/bala_v132/site_phase_protocol_summary.csv
+            build/bala_v132/prefix_slot_summary.csv
+            build/bala_v132/duplicate_protocol_slots.csv
+          if-no-files-found: error
+          retention-days: 30
