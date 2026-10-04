@@ -1,0 +1,86 @@
+{
+  "schema": "structural.bala_event_core_audit_contract.v1_128",
+  "status": "RESPONSE_UNOPENED_DWCA_EVENT_CORE_AUDIT_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_preintake": "development/bala_source_loss_preintake_v1_126.json",
+  "parent_protocol": "development/source_loss_leverage_protocol_v1_125.json",
+  "source": {
+    "dataset_doi": "10.15468/rpdkx9",
+    "gbif_uuid": "8a4be36d-18cd-484c-b8ce-f67194cf4bac",
+    "ipt_resource": "bala_arthropods",
+    "ipt_version": "1.0",
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "expected_core_row_type_suffix": "/Event",
+    "expected_event_records_reported": 10379,
+    "expected_occurrence_records_reported": 63904
+  },
+  "allowed_before_occurrence_access": [
+    "download exact public DwC-A archive",
+    "record archive byte size and SHA-256",
+    "list ZIP member paths, compressed/uncompressed sizes, CRC32 and raw-member SHA-256",
+    "parse meta.xml",
+    "parse EML metadata XML",
+    "decode and summarize only the Darwin Core Event core",
+    "inspect Event-core identifiers, dates, coordinates, island/locality fields, protocol/remarks and phase-label text",
+    "construct response-independent candidate site keys from Event-core fields",
+    "derive response-independent temporal clusters from Event dates under the frozen rule below"
+  ],
+  "forbidden_before_occurrence_access": [
+    "decode Occurrence extension text",
+    "parse any event-by-taxon combination",
+    "summarize taxon identity, abundance or presence from the Occurrence extension",
+    "derive taxon-by-island-by-phase occupancy",
+    "compute source loss, persistence, contraction or source-leverage effects"
+  ],
+  "phase_audit": {
+    "explicit_label_rule": "search Event-core text fields only for case-insensitive whole-token BALA1/BALA 1, BALA2/BALA 2, BALA3/BALA 3; a row is explicitly labelled only when exactly one phase token is found",
+    "date_cluster_fallback": {
+      "allowed_only_if_explicit_labels_do_not_cover_all_core_rows": true,
+      "date_source": "parsed Event-core eventDate or verbatimEventDate only",
+      "year_rule": "extract the first valid four-digit year 1900-2100 from the first available date field",
+      "cluster_rule": "sort distinct observed years; choose the two largest adjacent year gaps; require both gaps >= 3 years and unique in rank; split into exactly three chronological clusters",
+      "no_prose_calendar_boundary_use": true
+    },
+    "phase_names": ["BALA1","BALA2","BALA3"]
+  },
+  "site_key_audit": {
+    "candidate_keys_in_priority_order": [
+      "locationID",
+      "parentEventID",
+      "island_plus_locality",
+      "rounded_latitude_longitude_plus_island"
+    ],
+    "coordinate_rounding_decimals": 5,
+    "do_not_select_final_site_key_in_v1_128": true,
+    "report_for_each_candidate": [
+      "nonblank_fraction",
+      "unique_keys_total",
+      "unique_keys_by_phase",
+      "three_phase_intersection_count",
+      "islands_in_three_phase_intersection",
+      "coordinate_inconsistency_count_when_coordinates_available"
+    ]
+  },
+  "core_panel_gate_for_next_version": {
+    "minimum_three_phase_sites": 20,
+    "minimum_three_phase_islands": 5,
+    "final_site_key_must_be_frozen_only_after_v1_128_event_audit": true,
+    "30_vs_31_discrepancy_must_be_resolved_from_event_core": true,
+    "phase_date_discrepancies_must_be_resolved_from_event_core": true,
+    "if_event_metadata_cannot_resolve": "STOP"
+  },
+  "outputs": [
+    "archive_inventory.csv",
+    "meta_manifest.json",
+    "event_field_manifest.csv",
+    "event_core_audit.json",
+    "site_key_candidates.csv"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_this_audit": false
+  }
+}
