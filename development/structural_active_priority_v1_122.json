@@ -1,0 +1,20 @@
+{
+  "schema": "structural.active_priority.v1_122",
+  "status": "source_leverage_mechanism_diagnostic_frozen_stop_same_dataset_mechanism_mining",
+  "canonical_heldout_evidence_status": "development/current_status_v1_119.json",
+  "supplementary_mechanism_freeze": "development/global_mammals_ultrarare_source_leverage_freeze_v1_122.json",
+  "evidence_hierarchy_changed": false,
+  "do_now": [
+    "use effective source number and source leverage only to sharpen the conservation hypothesis in discussion",
+    "state explicitly that graph paths traverse the full island graph and are not occupied-source stepping-stone chains",
+    "design an independent temporal or response-sealed test comparing subsequent occupancy contraction after loss of high- versus low-leverage sources while holding nominal source count and ordinary distance constant"
+  ],
+  "do_not": [
+    "open another species layer from the same mammal response",
+    "search alternative leverage kernels, graph scales, occupancy cutpoints or null definitions in the same dataset",
+    "promote the posthoc source-leverage diagnostic to confirmatory evidence",
+    "interpret source leverage as realized dispersal, rescue, extinction risk or demographic contribution",
+    "call 1-4 pilot presences the last 1-4 global populations"
+  ],
+  "next_scientific_event": "independent temporal or response-sealed validation of source-loss leverage, or independent occupancy-regime replication already required by v1_119"
+}

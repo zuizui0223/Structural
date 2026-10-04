@@ -1,0 +1,88 @@
+{
+  "schema": "structural.global_mammals_ultrarare_source_leverage_freeze.v1_122",
+  "status": "SUCCESSFUL_POSTHOC_RESPONSE_FREE_SOURCE_LEVERAGE_DIAGNOSTIC_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "evidence_class": "posthoc pilot-plus-geometry descriptive mechanism diagnostic; no new heldout occurrence endpoint",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-ultrarare-source-leverage-v1_121.yml",
+    "workflow_run_id": 37172329648,
+    "workflow_head_sha": "d66a0a8e033af3a7def9ddc1dfc4b340c98b55f9",
+    "artifact_id": 11292135863,
+    "artifact_name": "global-mammals-v121-ultrarare-source-leverage-d66a0a8e033af3a7def9ddc1dfc4b340c98b55f9-37172329648",
+    "artifact_digest": "sha256:803869d3eadf1f5880273cd730b6d016114b6b1a98dd558394be13638621b06b",
+    "expires_at": "2026-11-03T02:51:48Z"
+  },
+  "response_boundary": {
+    "heldout_occurrence_values_used": false,
+    "heldout_occurrence_values_opened": false,
+    "heldout_geometry_targets_used": 4126
+  },
+  "population": {
+    "species": 529,
+    "pilot_positive_cells": 877,
+    "nominal_source_count_species": {
+      "1": 317,
+      "2": 116,
+      "3": 56,
+      "4": 40
+    },
+    "multi_source_species": 212
+  },
+  "result": {
+    "multi_source": {
+      "median_dominant_source_pressure_share": 0.6606971572134337,
+      "median_effective_over_nominal": 0.7436344778424323,
+      "multi_bioregion_species": 19,
+      "species_where_any_removal_creates_graph_empty": 18,
+      "actual_effective_count_gt_matched_null_mean": 141,
+      "actual_effective_count_gt_null_q975": 32,
+      "actual_effective_count_lt_null_q025": 1,
+      "paired_mean_actual_minus_null_effective_count": 0.28242921346906974,
+      "paired_mean_bootstrap_ci95": [
+        0.20500912701472415,
+        0.362361925385512
+      ]
+    },
+    "by_nominal_source_count": {
+      "2": {
+        "median_effective_source_count": 1.5842750099417735,
+        "median_effective_over_nominal": 0.7921375049708868,
+        "median_dominant_source_pressure_share": 0.7561284281400207,
+        "mean_actual_effective_source_count": 1.554949966200844,
+        "mean_null_effective_source_count": 1.3840703450664598,
+        "mean_actual_minus_null": 0.17087962113438387,
+        "species_where_any_removal_creates_graph_empty": 5
+      },
+      "3": {
+        "median_effective_source_count": 2.121026439938349,
+        "median_effective_over_nominal": 0.707008813312783,
+        "median_dominant_source_pressure_share": 0.5735725036605592,
+        "mean_actual_effective_source_count": 2.0327441895725586,
+        "mean_null_effective_source_count": 1.6926621441042358,
+        "mean_actual_minus_null": 0.3400820454683231,
+        "species_where_any_removal_creates_graph_empty": 5
+      },
+      "4": {
+        "median_effective_source_count": 2.567153446112492,
+        "median_effective_over_nominal": 0.641788361528123,
+        "median_dominant_source_pressure_share": 0.474475769787183,
+        "mean_actual_effective_source_count": 2.5587655732402084,
+        "mean_null_effective_source_count": 2.033556506799504,
+        "mean_actual_minus_null": 0.5252090664407042,
+        "species_where_any_removal_creates_graph_empty": 8
+      }
+    }
+  },
+  "output_fingerprints": {
+    "source_table_sha256": "feb0b05c850e73f7b25d0a31cae7efca66d59f4fc01950a3448cd0be9bed03b6",
+    "species_table_sha256": "54d24af386527d8189c6e738abe30b34c61f3cf6ebe09ea9e6b410bda17e8ad5"
+  },
+  "interpretation": {
+    "key_correction": "the Structural graph operator measures distance through the full island graph; occupied pilot sources are endpoints, not required intermediate stepping-stone populations",
+    "positive_readout": "raw occupied-source count overstates spatially independent source leverage for many ultrarare species, yet observed multi-source configurations are on average more complementary than bioregion-matched random source placements",
+    "ecological_hypothesis": "population loss should be evaluated by lost source-access leverage or effective-source-number decrement, not population count alone",
+    "management_status": "hypothesis only; no intervention, extinction-risk, rescue, recolonization or demographic-persistence effect is identified",
+    "evidence_hierarchy_change": false,
+    "current_v1_119_heldout_result_unchanged": true
+  }
+}
