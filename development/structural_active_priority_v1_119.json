@@ -1,0 +1,23 @@
+{
+  "schema": "structural.active_priority.v1_119",
+  "status": "occupancy_regime_synthesis_frozen_no_more_same_dataset_threshold_mining",
+  "canonical_current_status": "development/current_status_v1_119.json",
+  "do_now": [
+    "update manuscript framing from generic source-network information to occupancy-regime-dependent island connectivity",
+    "place the preregistered ultrarare presence/topology result ahead of exploratory post-hoc attenuation results",
+    "retain the preregistered 5-12 non-replication as a separate boundary result",
+    "retain the original79 actual-vs-rewired failure visibly",
+    "add conservation implications only as hypotheses, not intervention claims",
+    "prepare an independent-system protocol from development/prospective_occupancy_regime_source_network_hypothesis_v1_119.json"
+  ],
+  "do_not": [
+    "open another species layer from the same mammal response",
+    "widen the failed near-ubiquitous broad-species threshold",
+    "search alternative occupancy cutpoints in the same dataset",
+    "reinterpret graph paths as realized movement or rescue",
+    "drop the 5-12 non-replication",
+    "hide that the original79 actual adjacency was worse than matched nulls",
+    "claim monotonic rarity dependence or a formal contrast window"
+  ],
+  "next_new_scientific_event": "independent response-sealed island system with occupancy strata and topology-null test frozen before heldout response"
+}
