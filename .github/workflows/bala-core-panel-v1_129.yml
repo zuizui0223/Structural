@@ -1,0 +1,87 @@
+name: BALA 30-site core panel freeze v1.129
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_core_panel_request_v1_129.json
+
+permissions:
+  contents: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-22.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate frozen Event-only core-panel rule
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_core_panel_contract_v1_129.json").read_text())
+          r=json.loads(Path("development/bala_core_panel_request_v1_129.json").read_text())
+          assert c["official_response_independent_metadata"]["core_sampling_events_reported"]==4929
+          assert c["official_response_independent_metadata"]["core_transects_reported"]==30
+          assert c["official_response_independent_metadata"]["core_fragments_reported"]==15
+          assert c["official_response_independent_metadata"]["core_islands_reported"]==7
+          assert c["site_identity"]["expected_core_sites"]==30
+          assert c["site_identity"]["expected_core_islands"]==7
+          assert c["response_boundary"]["occurrence_extension_semantically_opened"] is False
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Freeze Event-only repeated core panel
+        run: |
+          mkdir -p build/bala_v129
+          python scripts/freeze_bala_core_panel_v1_129.py             --output-dir build/bala_v129
+
+      - name: Enforce 30-site three-wave panel and response firewall
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path("build/bala_v129")
+          x=json.loads((root/"core_panel_result.json").read_text())
+          assert x["status"]=="BALA_30_SITE_THREE_WAVE_CORE_PANEL_FROZEN_RESPONSE_UNOPENED"
+          assert x["core_sites"]==30
+          assert x["core_islands"]==7
+          assert x["core_fragments"]==15
+          assert x["core_event_rows"]==4929
+          assert x["site_counts_by_phase"]=={"BALA1":30,"BALA2":30,"BALA3":30}
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["source_loss_effects_computed"]==0
+          assert x["confirmatory_eligible"] is False
+
+          sites=list(csv.DictReader((root/"core_panel_sites.csv").open()))
+          phases=list(csv.DictReader((root/"core_panel_site_phase.csv").open()))
+          cross=list(csv.DictReader((root/"locationID_crosswalk.csv").open()))
+          assert len(sites)==30
+          assert len(phases)==90
+          assert len(cross)==30
+          assert len({r["site_key"] for r in sites})==30
+          assert {r["phase"] for r in phases}=={"BALA1","BALA2","BALA3"}
+          PY
+
+      - name: Upload response-unopened core panel
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v129-core-panel-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v129/core_panel_sites.csv
+            build/bala_v129/core_panel_site_phase.csv
+            build/bala_v129/locationID_crosswalk.csv
+            build/bala_v129/core_panel_result.json
+          if-no-files-found: error
+          retention-days: 30
