@@ -1,0 +1,97 @@
+{
+  "schema": "structural.prospective_source_loss_leverage_transition_hypothesis.v1_123",
+  "status": "FUTURE_ONLY_INDEPENDENT_TEMPORAL_RESPONSE_SEALED_HYPOTHESIS",
+  "supersedes_for_next_test": "development/structural_active_priority_v1_122.json",
+  "scientific_question": "After equal numbers of occupied island populations are lost, does the spatial leverage of the lost populations predict subsequent contraction among the populations that initially remained?",
+  "minimum_temporal_design": {
+    "required_response_times": 3,
+    "t0": "baseline occupied-source state used to compute source leverage from lagged occurrence plus response-independent geometry only",
+    "t1": "loss-event census used to identify which t0 occupied sources disappeared",
+    "t2": "future census used once as the downstream contraction endpoint",
+    "reason": "the source-loss event and the downstream contraction endpoint must occur in different transitions"
+  },
+  "source_loss_exposure": {
+    "baseline_sources": "For target i, S0_minus_i = occupied populations at t0 excluding target i itself under the prospectively frozen occurrence rule",
+    "lost_sources": "For target i, L01_minus_i = sources in S0_minus_i that are absent at t1",
+    "self_anchor_exclusion": true,
+    "kernel": "K_is = prospectively frozen nonnegative source-access kernel based on response-independent geometry and an externally justified or response-independently frozen operator; it may not be tuned on t1 or t2 outcomes; K_ii is never used",
+    "target_specific_baseline_pressure": "P_i = sum over s in S0_minus_i of K_is",
+    "target_specific_lost_access_fraction": "E_i = sum over s in L01_minus_i of K_is / P_i, defined only where P_i > 0",
+    "event_level_lost_leverage": "Q_loss = sum over globally lost t0 sources s of A_s / sum over all t0 sources r of A_r, where A_s sums K_is over prospectively eligible geometry targets i with i != s",
+    "nominal_loss_count": "global number of t0 occupied populations absent at t1; the target-specific reference also records the number of other-source losses affecting the target's source set",
+    "primary_exposure": "E_i",
+    "secondary_exposure": "Q_loss"
+  },
+  "future_endpoint": {
+    "analysis_population": "sites/populations occupied at t1 that were not members of the t0-to-t1 lost set and satisfy the frozen t2 survey/applicability rule",
+    "binary_endpoint": "1 = occupied/use state at t1 but absent/non-use at t2; 0 = occupied/use at both t1 and t2",
+    "claim_term": "subsequent observed occupancy/use contraction unless a system-specific latent-occupancy endpoint is prospectively justified",
+    "lost_source_sites_excluded_from_endpoint": true
+  },
+  "reference_ladder": {
+    "R0": [
+      "system/region/time structure fixed before t2 access",
+      "prospectively frozen habitat/current-state covariates"
+    ],
+    "R1": [
+      "R0",
+      "t0 nominal occupied-source count excluding target self-anchor where target-specific",
+      "t0-to-t1 nominal source-loss count"
+    ],
+    "R2": [
+      "R1",
+      "generic species-independent network context",
+      "ordinary Euclidean distance to surviving t1 sources excluding target self-anchor",
+      "diffuse Euclidean surviving-source pressure excluding target self-anchor"
+    ],
+    "C": [
+      "R2",
+      "target-specific lost-access fraction E_i"
+    ],
+    "primary_contrast": "heldout predictive loss of C minus R2 for the t2 contraction endpoint",
+    "favorable_direction": "negative"
+  },
+  "primary_prediction": {
+    "statement": "After nominal source count, number of lost populations, habitat/current state, generic network context and ordinary surviving-source distance are represented, adding E_i improves held-out prediction of which t1-surviving populations contract by t2.",
+    "support_rule": "prospectively frozen cluster-macro C-minus-R2 point estimate < 0 and cluster-bootstrap 95% upper bound < 0",
+    "required_cluster_unit": "independent archipelago, species, or predeclared species-by-archipelago event cluster appropriate to the admitted system",
+    "minimum_estimable_clusters": 3
+  },
+  "secondary_predictions": [
+    {
+      "name": "event_level_loss_leverage",
+      "statement": "For transitions with equal nominal source-loss count, greater Q_loss is associated with greater subsequent contraction among t1 survivors.",
+      "cannot_rescue_primary": true
+    },
+    {
+      "name": "high_vs_low_leverage_single_loss",
+      "statement": "Among one-source-loss events, loss of a source above the prospectively frozen leverage split predicts greater subsequent contraction than loss below that split.",
+      "split_must_be_frozen_without_t2": true,
+      "cannot_rescue_primary": true
+    }
+  ],
+  "admission_requirements": {
+    "independent_of_global_mammal_discovery_dataset": true,
+    "minimum_three_response_times": true,
+    "stable_or_crosswalkable_spatial_units": true,
+    "survey_effort_or_detection_rule_freezable_before_t2": true,
+    "response_independent_geometry_available": true,
+    "self_anchor_exclusion_implementable": true,
+    "at_least_two_realized_source_loss_counts_or_count_matched_loss_events_in_burned_pilot": true,
+    "burned_pilot_used_for_estimability_only": true,
+    "confirmatory_t2_rows_disjoint_and_sealed_until_full_protocol_freeze": true,
+    "v0_31_v0_42_v0_32_v0_33_gate_sequence_required": true
+  },
+  "anti_selection": [
+    "do not choose a candidate because a known source loss was followed by a known decline",
+    "do not inspect confirmatory t2 occupancy before the operator, endpoint, exposure, reference ladder and heldout design are frozen",
+    "do not tune the graph scale, kernel, leverage split or occupancy threshold on t2 outcomes",
+    "do not redefine L01 using t2",
+    "do not include t0-to-t1 lost-source sites in the t1-to-t2 endpoint denominator",
+    "do not include the target population itself as one of its own occupied sources",
+    "do not claim causality, rescue, recolonization or demographic persistence from predictive support alone",
+    "do not reuse the v1_121 global mammal system as confirmation"
+  ],
+  "candidate_selection_rule": "metadata-first only: repeated-census structure, unit identity, geometry, survey design, temporal coverage and data accessibility may be inspected; focal response directions and candidate-specific decline stories may not be used for admission",
+  "counts_as_current_evidence": false
+}

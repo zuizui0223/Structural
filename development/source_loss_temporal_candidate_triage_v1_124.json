@@ -1,0 +1,112 @@
+{
+  "schema": "structural.source_loss_temporal_candidate_triage.v1_124",
+  "status": "METADATA_ONLY_CANDIDATE_TRIAGE_FROZEN_NO_NEW_SOURCE_LEVERAGE_EFFECTS_COMPUTED",
+  "parent_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+  "selection_rule": "candidate decisions use repeated-census structure, stable unit identity, geometry, survey design, data accessibility and prior Structural provenance; no candidate is promoted because a source-leverage effect direction is known",
+  "candidates": [
+    {
+      "candidate_id": "azores_bala_arthropods_1997_2022",
+      "system": "Azores BALA repeated native-forest arthropod surveys",
+      "public_dataset_doi": "10.15468/rpdkx9",
+      "metadata": {
+        "three_wave_core_design": true,
+        "core_sites_reported": "30 in description; 31 in one Project Data sentence; raw Event audit required",
+        "core_fragments": 15,
+        "core_islands": 7,
+        "core_sampling_events_reported": 4929,
+        "archive_event_records": 10379,
+        "archive_occurrence_records": 63904,
+        "event_occurrence_separation": true,
+        "phase_prose": "BALA1, BALA2, BALA3 with internally inconsistent date ranges requiring raw Event resolution"
+      },
+      "decision": "QUALIFY_RESPONSE_UNOPENED_PREINTAKE",
+      "decision_reason": "BALA is the closest structural match to the v1.123 three-time hypothesis because the same core sites were deliberately resampled in three major phases under a common protocol. It is not confirmatory-eligible until raw Event rows resolve the 30-versus-31 core-site and phase-date discrepancies, a stable repeated panel is frozen, and a deterministic taxon-level pilot/confirmatory split is created without semantic confirmatory occurrence access.",
+      "next_gate": "development/bala_source_loss_preintake_v1_126.json"
+    },
+    {
+      "candidate_id": "azores_slam_arthropods_2012_2021",
+      "system": "Azores long-term forest arthropod SLAM monitoring",
+      "public_dataset_doi": "10.15468/3r5xw6",
+      "metadata": {
+        "islands": 7,
+        "plots_or_traps": 42,
+        "event_core_records_reported": 893,
+        "occurrence_extension_records_reported": "14922 in Data Records section versus 14924 in methods text; raw archive must resolve",
+        "sampling_frequency": "approximately four standardized SLAM-trap collections per year",
+        "event_occurrence_separation": true,
+        "critical_taxonomic_gap": "Pico and Terceira Araneae are intentionally excluded from the main archive and published separately"
+      },
+      "decision": "QUALIFY_RESPONSE_UNOPENED_PREINTAKE",
+      "decision_reason": "Event/occurrence separation permits a clean effort audit before taxon outcomes. It remains a strong backup candidate, but BALA now ranks ahead because BALA has an explicit repeated three-wave core panel rather than requiring three-time windows to be constructed from annual coverage.",
+      "next_gate": "development/azores_slam_source_loss_preintake_v1_125.json"
+    },
+    {
+      "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+      "system": "Finnish Archipelago Bird Census / Common Eider (Somateria mollissima)",
+      "public_dataset_doi": "10.5281/zenodo.15723441",
+      "publication_doi": "10.1007/s10980-025-02152-7",
+      "metadata": {
+        "years": "1997-2020",
+        "unique_islands": 3648,
+        "island_year_counts": 18516,
+        "stable_unit_identifier": "Island_ID",
+        "standard_monitoring": "breeding numbers estimated by at least two annual counts under Archipelago Bird Census guidelines for the core monitoring programme",
+        "known_data_complication": "some grouped-island counts were redistributed to individual islands; publication reports about 6.2% of observations per year affected"
+      },
+      "firewall_status": {
+        "candidate_response_direction_broadly_public": true,
+        "source_leverage_effect_direction_known": false,
+        "pristine_fresh_confirmatory_eligible": false
+      },
+      "decision": "QUALIFY_RETROSPECTIVE_SCHEMA_AUDIT",
+      "decision_reason": "Strong independent retrospective stress-test geometry, but broad response direction is already published and some island counts were reconstructed from grouped reports. It cannot count as pristine confirmation.",
+      "next_gate": "schema_only_no_effect_audit"
+    },
+    {
+      "candidate_id": "thousand_island_lake_birds",
+      "system": "Thousand Island Lake breeding birds",
+      "decision": "HOLD_RAW_TIME_SERIES_ACCESS",
+      "decision_reason": "Long-term repeated island monitoring exists, but the required raw annual island-by-species sequence with a frozen survey-effort rule has not been located.",
+      "next_gate": "raw_island_by_year_by_species_data_or_authoritative_export"
+    },
+    {
+      "candidate_id": "thousand_island_lake_vegetation",
+      "system": "Thousand Island Lake long-term vegetation plots",
+      "decision": "HOLD_THREE_CENSUS_IDENTITY_AND_ACCESS",
+      "decision_reason": "A same-protocol three-census island-by-species matrix has not yet been established from the located public material.",
+      "next_gate": "authoritative_three_census_crosswalk_and_raw_species_matrix"
+    },
+    {
+      "candidate_id": "global_ebird_islands_2002_2019",
+      "system": "Global island eBird derivative",
+      "public_dataset_doi": "10.5061/dryad.8931zcrpc",
+      "decision": "HOLD_ENDPOINT",
+      "decision_reason": "The archived derivative does not document the complete-checklist and effort fields needed to distinguish surveyed zero from non-reporting for a focal species.",
+      "next_gate": "complete_checklist_and_effort_aware_export_with_predeclared_absence_rule"
+    },
+    {
+      "candidate_id": "a_islands_temporal_plants",
+      "system": "A-Islands Australian continental island plants",
+      "decision": "STOP_AS_INDEPENDENT_CONFIRMATION",
+      "decision_reason": "A-Islands is already a Structural discovery system for source-network hypotheses and cannot independently confirm this mechanism.",
+      "next_gate": "none_for_confirmatory_lane"
+    }
+  ],
+  "preferred_response_unopened_preintake": {
+    "candidate_id": "azores_bala_arthropods_1997_2022",
+    "reason": "BALA supplies an explicit three-wave repeated core-site panel under a common protocol, matching t0 source state, t1 source loss and t2 downstream contraction without selecting calendar windows from outcomes.",
+    "confirmatory_eligible_now": false
+  },
+  "secondary_response_unopened_preintake": {
+    "candidate_id": "azores_slam_arthropods_2012_2021",
+    "confirmatory_eligible_now": false
+  },
+  "preferred_immediate_retrospective_stress_test": {
+    "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+    "may_count_as_confirmation": false
+  },
+  "preferred_confirmatory_candidate": null,
+  "confirmatory_candidate_status": "NONE_QUALIFIED_YET",
+  "response_values_opened_for_source_leverage_analysis": false,
+  "source_leverage_effects_computed": 0
+}

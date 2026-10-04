@@ -1,0 +1,23 @@
+{
+  "schema": "structural.active_priority.v1_123",
+  "status": "source_loss_leverage_temporal_hypothesis_frozen_before_candidate_response_search",
+  "supersedes": "development/structural_active_priority_v1_122.json",
+  "canonical_heldout_evidence_status": "development/current_status_v1_119.json",
+  "supplementary_mechanism_freeze": "development/global_mammals_ultrarare_source_leverage_freeze_v1_122.json",
+  "prospective_temporal_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+  "do_now": [
+    "triage independent repeated-census island systems using metadata only",
+    "require at least three response times so source loss precedes the downstream contraction endpoint",
+    "admit a system only through the existing burned-pilot estimability and response-quality gate sequence",
+    "freeze the system-specific source-access operator from external natural-history evidence or response-independent geometry before confirmatory t2 access"
+  ],
+  "do_not": [
+    "use the global mammal system again as temporal confirmation",
+    "select a dataset because a famous population loss was followed by a known decline",
+    "inspect candidate-specific t2 outcome directions during metadata triage",
+    "relax the three-time design to two times",
+    "tune leverage scale, kernel or endpoint after confirmatory response access",
+    "equate predictive source leverage with causal rescue or demographic value"
+  ],
+  "next_scientific_event": "metadata-only identification of a three-census island system that can enter a new v0.31 burned-pilot protocol"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "structural.active_priority.v1_126",
+  "status": "bala_three_wave_response_unopened_preintake_is_next_gate",
+  "supersedes": "development/structural_active_priority_v1_123.json",
+  "canonical_heldout_evidence_status": "development/current_status_v1_119.json",
+  "source_leverage_mechanism_freeze": "development/global_mammals_ultrarare_source_leverage_freeze_v1_122.json",
+  "prospective_temporal_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+  "candidate_triage": "development/source_loss_temporal_candidate_triage_v1_124.json",
+  "preferred_candidate_preintake": "development/bala_source_loss_preintake_v1_126.json",
+  "backup_candidate_preintake": "development/azores_slam_source_loss_preintake_v1_125.json",
+  "do_now": [
+    "obtain the BALA DwC-A archive without semantically parsing the Occurrence extension",
+    "fingerprint archive members and inspect meta.xml/EML plus Event core only",
+    "resolve the published 30-versus-31 core-site and phase-date discrepancies from Event metadata",
+    "freeze one repeated core-panel denominator across BALA1, BALA2 and BALA3",
+    "define a deterministic taxon routing token and opaque pilot-versus-confirmatory partition before occurrence-response access",
+    "enter the existing v0.31/v0.42/v0.32/v0.33 gate sequence only after the core panel and routing surface are frozen"
+  ],
+  "do_not": [
+    "open BALA event-by-taxon occurrence combinations before the file-role firewall and core-panel audit are complete",
+    "choose taxa because their BALA1-to-BALA3 trend is interesting",
+    "change the three-wave ordering based on occurrence values",
+    "use a target island as its own source",
+    "treat missing sampling as absence",
+    "claim whole-island extinction from native-forest core-site occurrence",
+    "promote BALA or SLAM to confirmation before admission gates pass"
+  ],
+  "next_scientific_event": "response-independent BALA archive inventory and Event-core repeated-panel audit; confirmatory queue remains empty until it passes"
+}

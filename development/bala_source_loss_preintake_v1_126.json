@@ -1,0 +1,97 @@
+{
+  "schema": "structural.bala_source_loss_preintake.v1_126",
+  "status": "RESPONSE_UNOPENED_THREE_WAVE_CORE_PANEL_PREINTAKE",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+  "source": {
+    "dataset_title": "Long-term monitoring of Azorean forest arthropods: the BALA Project (1997-2022)",
+    "dataset_doi": "10.15468/rpdkx9",
+    "gbif_uuid": "8a4be36d-18cd-484c-b8ce-f67194cf4bac",
+    "license": "CC-BY-4.0",
+    "archive_records_reported": {
+      "event_core": 10379,
+      "occurrence_extension": 63904
+    }
+  },
+  "why_candidate_is_special": {
+    "three_wave_design": true,
+    "published_description": "the same core sites were repetitively sampled in BALA1, BALA2 and BALA3 under the BALA protocol",
+    "core_sampling_events_reported": 4929,
+    "core_fragments_reported": 15,
+    "core_islands_reported": 7,
+    "sampling_protocol": "150 m transect; 30 pitfall traps at 5 m intervals using alternating preservative solutions plus beating of the three most prevalent native tree species"
+  },
+  "metadata_inconsistencies_that_must_be_resolved_before_response_parse": [
+    "description says 30 identical core sites whereas Project Data text also says 31 core sites",
+    "description gives BALA2 as 2010-2012 whereas Study Extent gives 2010-2011",
+    "Project Data text gives later round as 2021-2022 whereas Study Extent gives BALA3 as 2019-2022",
+    "geographic coverage lists eight islands for the enriched full dataset whereas the core repeated panel is described as seven islands"
+  ],
+  "file_role_firewall": {
+    "may_open_first": [
+      "archive member names, sizes and hashes",
+      "meta.xml and EML",
+      "Event core fields needed to reconstruct sampling phase, transect/site, fragment, island, date, coordinates, method and core-panel membership"
+    ],
+    "must_remain_semantically_unopened": [
+      "Occurrence extension event-by-taxon combinations",
+      "Occurrence extension counts/abundances",
+      "derived taxon-by-island-by-phase presence/absence",
+      "any source-loss or t2 contraction statistic"
+    ],
+    "event_core_role": "response-independent repeated-panel identity and sampling-effort audit",
+    "occurrence_extension_role": "ecological response"
+  },
+  "core_panel_gate": {
+    "required_result": "one deterministic set of repeatedly sampled core transects/sites present under comparable BALA methodology in all three phases",
+    "minimum_core_sites": 20,
+    "minimum_core_islands": 5,
+    "phase_labels_must_be_derivable_from_event_data_without_occurrence": true,
+    "same_sampling_unit_crosswalk_must_be_deterministic": true,
+    "metadata_30_vs_31_discrepancy_must_be_resolved": true,
+    "phase_date_discrepancies_must_be_resolved": true,
+    "if_not_resolved": "STOP"
+  },
+  "three_wave_mapping": {
+    "t0": "BALA1 core panel after Event-only audit",
+    "t1": "BALA2 core panel after Event-only audit",
+    "t2": "BALA3 core panel after Event-only audit",
+    "calendar_ranges": "not frozen from prose; exact phase membership must come from raw Event metadata",
+    "no_time_window_selection_from_occurrence": true
+  },
+  "taxon_partition_problem": {
+    "reason": "there is only one three-wave temporal sequence, so a burned pilot and confirmation cannot be made temporally disjoint",
+    "required_solution": "freeze a deterministic disjoint taxon partition before semantic occurrence access",
+    "preferred_partition": "hash partition on a stable taxon identifier or normalized scientific-name token whose exact field and normalization are fixed after meta.xml/header audit but before occurrence rows are semantically parsed",
+    "pilot_role": "estimability and response-quality audit only; no source-leverage effect estimate",
+    "confirmatory_role": "remains sealed until v0.31/v0.42/v0.32/v0.33 and full source-loss protocol are frozen",
+    "opaque_transport_requirement": "routing may inspect only the frozen routing token needed to copy rows into pilot versus confirmatory byte surfaces and may not summarize event-by-taxon occurrence combinations for confirmatory taxa"
+  },
+  "provisional_endpoint": {
+    "spatial_state_level": "island-by-taxon-by-BALA-phase, aggregated only from the frozen repeated core panel",
+    "presence": "at least one eligible core-panel occurrence in that island-phase",
+    "surveyed_zero": "no eligible occurrence for the taxon on an island-phase only after Event metadata establishes the frozen repeated sampling effort on that island-phase",
+    "claim_ceiling": "observed occurrence in repeatedly sampled native-forest core sites, not whole-island extinction",
+    "self_anchor_exclusion_required": true
+  },
+  "taxonomic_scope_firewall": {
+    "metadata_statement": "Acari and Collembola were excluded from collection; Diptera and Hymenoptera other than Formicidae were not separated to morphospecies",
+    "primary_taxa_rule": "eligible focal taxa must have a stable species/morphospecies identity that is prospectively crosswalkable across all three BALA phases",
+    "do_not_zero_fill_unresolved_or_intentionally_unidentified_groups": true,
+    "freeze_before_pilot_occurrence_access": true
+  },
+  "evidence_status": {
+    "focal_occurrence_values_opened_by_structural": false,
+    "source_loss_effect_computed": false,
+    "confirmatory_eligible": false,
+    "preferred_next_gate": "raw_archive_inventory_then_event_core_only_core_panel_audit"
+  },
+  "stop_conditions": [
+    "raw Event data do not resolve a stable core panel across all three phases",
+    "fewer than five islands remain in the repeated core panel",
+    "phase membership requires occurrence outcomes to reconstruct",
+    "stable taxon routing cannot be defined before semantic confirmatory occurrence access",
+    "confirmatory event-by-taxon occurrence combinations are summarized during routing",
+    "surveyed zero cannot be distinguished from missing or incomparable sampling effort"
+  ]
+}

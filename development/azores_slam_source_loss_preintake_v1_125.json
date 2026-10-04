@@ -1,0 +1,90 @@
+{
+  "schema": "structural.azores_slam_source_loss_preintake.v1_125",
+  "status": "RESPONSE_UNOPENED_EVENT_FIRST_PREINTAKE",
+  "candidate_id": "azores_slam_arthropods_2012_2021",
+  "parent_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+  "source": {
+    "dataset_title": "Long-term standardized monitoring of arthropods in native and exotic forests of the Azores using SLAM traps",
+    "dataset_doi": "10.15468/3r5xw6",
+    "gbif_uuid": "079c8358-0b4f-479b-97dd-1f2f775256f9",
+    "archive_version": "1.7",
+    "license": "CC-BY-4.0"
+  },
+  "metadata_only_facts": {
+    "islands": ["Flores", "Faial", "Pico", "Graciosa", "Terceira", "Sao Miguel", "Santa Maria"],
+    "plots_or_traps": 42,
+    "event_core_records_reported": 893,
+    "occurrence_extension_records_reported": {
+      "data_records_section": 14922,
+      "methods_text": 14924,
+      "status": "MUST_RESOLVE_FROM_RAW_ARCHIVE_BEFORE_ANY_OCCURRENCE_PARSE"
+    },
+    "nominal_temporal_coverage": "2012-2021 with metadata date range extending to 2022-06-16",
+    "sampling_frequency": "approximately four standardized SLAM-trap collections per year around March 15, June 15, September 15 and December 15",
+    "sampling_unit": "one SLAM trap per 50x50 m plot"
+  },
+  "file_role_firewall": {
+    "may_open_before_focal_occurrence_protocol_freeze": [
+      "archive member names, byte sizes and checksums",
+      "meta.xml",
+      "eml.xml",
+      "Darwin Core Event core fields required for event identity, island/locality, plot identity, eventDate, coordinates and sampling protocol"
+    ],
+    "must_remain_unparsed": [
+      "Occurrence extension taxon identity",
+      "Occurrence extension occurrence/abundance/count fields",
+      "any derived focal-taxon presence/absence table"
+    ],
+    "event_core_role": "response-independent sampling geometry and effort only",
+    "occurrence_extension_role": "focal response; sealed until the temporal protocol, taxon universe, event applicability and pilot/confirmatory routing are frozen"
+  },
+  "taxonomic_completeness_firewall": {
+    "primary_universe_rule": "Araneae are excluded from the primary universe unless the Pico and Terceira companion spider datasets are merged under a separately frozen pre-response crosswalk",
+    "reason": "the main archive explicitly omits Pico and Terceira spiders because they were published separately, so treating their non-records as absences would create structural false absences",
+    "other_intentionally_untargeted_higher_taxa": [
+      "Acari",
+      "Collembola",
+      "Diptera",
+      "Lepidoptera",
+      "Hymenoptera except Formicidae"
+    ],
+    "universe_must_be_frozen_before_occurrence_parse": true
+  },
+  "event_only_admission_audit": {
+    "required_fields_or_crosswalks": [
+      "stable eventID",
+      "stable plot/trap identifier",
+      "island/locality identifier",
+      "eventDate or year plus sampling occasion",
+      "response-independent coordinates or deterministic island/plot geometry",
+      "sampling protocol sufficient to identify comparable SLAM events"
+    ],
+    "coverage_rule": "construct island-year applicability from Event rows only; occurrence values may not be used to decide which years, islands, plots or seasons are complete",
+    "provisional_three_time_windows": "NOT_FROZEN",
+    "window_selection_rule_to_freeze_after_event_audit": "among non-overlapping consecutive 3-year windows meeting the same response-independent event-completeness rule, use the earliest eligible window as burned pilot and the latest eligible window as confirmatory; if fewer than two disjoint eligible windows exist, STOP",
+    "minimum_islands_per_window": 3,
+    "minimum_standardized_sampling_occasions_per_island_year": 3,
+    "preferred_complete_occasions_per_island_year": 4,
+    "plot_core_rule": "must be derived from Event continuity only and then frozen before any focal occurrence parse",
+    "effect_estimation_allowed": false
+  },
+  "future_endpoint_semantics": {
+    "claim_ceiling": "observed occurrence/use in the standardized sampled forest network, not whole-island extinction",
+    "island_level_state_requires": "a frozen aggregation from eligible plot-events to island-year taxon state, with surveyed zero defined only when the eligible event rule is satisfied",
+    "self_anchor_exclusion_required": true,
+    "three_time_order_required": true
+  },
+  "evidence_status": {
+    "source_leverage_effect_computed": false,
+    "focal_occurrence_values_opened_by_structural": false,
+    "confirmatory_eligible": false,
+    "next_gate": "raw_archive_inventory_plus_event_core_only_coverage_audit"
+  },
+  "stop_conditions": [
+    "raw archive cannot reconcile the reported occurrence-extension row-count discrepancy",
+    "Event core cannot deterministically map repeated sampling units to islands and years",
+    "no two disjoint eligible three-time windows survive the same event-only completeness rule",
+    "taxonomic completeness cannot be frozen without consulting candidate effect direction",
+    "occurrence extension is parsed before pilot/confirmatory routing and endpoint semantics are frozen"
+  ]
+}
