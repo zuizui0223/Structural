@@ -1,0 +1,138 @@
+{
+  "schema": "structural.source_loss_leverage_protocol.v1_125",
+  "status": "FUTURE_ONLY_INDEPENDENT_THREE_WAVE_VALIDATION_PROTOCOL",
+  "parent_hypothesis": "development/prospective_source_loss_leverage_hypothesis_v1_123.json",
+  "scientific_question": "Does loss of a high-leverage occupied source island predict greater subsequent contraction of other occupied island populations than loss of a low-leverage source, after nominal source count, ordinary distance, environment and external isolation are represented?",
+  "minimum_temporal_structure": {
+    "required_waves": 3,
+    "t0": "baseline occupancy used to define source islands and freeze source leverage",
+    "t0_to_t1": "exposure window in which occupied source losses are observed",
+    "t1_to_t2": "outcome window in which subsequent target-population persistence/loss is scored",
+    "reason": "source-loss exposure and target-population outcome must not be defined from the same transition window"
+  },
+  "analysis_population": {
+    "species_requirement": "focal species has at least two occupied source islands at t0 within the prospectively eligible island system",
+    "source_loss_event": "an island occupied at t0 and unoccupied at t1",
+    "target_population": "a different island occupied at t1 and eligible for t2 scoring",
+    "lost_source_is_never_scored_as_its_own_target": true,
+    "event_count_rule": "nominal number of lost sources per focal species-event must be prospectively fixed before t2 access; preferred primary design is exactly one source loss so leverage is not confounded with loss count",
+    "same_species_multiple_events": "must be clustered or otherwise dependency-adjusted under a rule frozen before t2 access"
+  },
+  "preloss_source_leverage": {
+    "information_allowed": [
+      "t0 occupancy only",
+      "response-independent island geometry",
+      "pre-t0 or t0 environment/habitat",
+      "predeclared graph scale/operator"
+    ],
+    "information_forbidden": [
+      "t1 target outcomes other than source-loss identity",
+      "any t2 occupancy",
+      "future abundance or demographic outcomes"
+    ],
+    "source_pressure_mass": "sum over prospectively eligible target geometries of exp(-graph_distance(target,source)/lambda_region), with unreachable targets zero",
+    "source_share": "source_pressure_mass divided by total pressure mass over occupied t0 sources",
+    "effective_source_number": "1/sum(source_share^2)",
+    "lost_source_leverage_primary_exposure": "decrement in effective source number if the actually lost source is removed from the t0 occupied-source set",
+    "secondary_exposure": "preloss source_share of the actually lost source",
+    "graph_semantics": "paths traverse the full frozen island graph; occupied sources are endpoints and intermediate islands need not be occupied"
+  },
+  "reference_and_candidate": {
+    "R0": [
+      "target environment/habitat",
+      "bioregion/archipelago context",
+      "target occupancy history through t1 where prospectively legitimate"
+    ],
+    "R1_add": [
+      "island area",
+      "current external isolation",
+      "past/historical isolation where available"
+    ],
+    "R2_add": [
+      "generic island-network context",
+      "preloss nominal source count",
+      "number of source losses in the exposure window",
+      "nearest remaining source Euclidean distance",
+      "diffuse remaining-source pressure"
+    ],
+    "C_add": [
+      "lost-source effective-source-number decrement",
+      "or another leverage term frozen before confirmatory outcome access"
+    ],
+    "principle": "the leverage candidate must earn heldout information beyond source count and ordinary source geometry"
+  },
+  "primary_endpoint": {
+    "unit": "target island population present at t1",
+    "outcome": "persistence to t2 (1) versus loss by t2 (0), or the inverse coding if frozen prospectively",
+    "preferred_score": "binary log loss",
+    "primary_estimand": "cluster-weighted heldout candidate-minus-reference log loss",
+    "favourable_direction": "negative",
+    "support_rule": "point estimate < 0 and prospectively frozen cluster-bootstrap 95% upper confidence limit < 0"
+  },
+  "directional_secondary": {
+    "prediction": "greater lost-source leverage is associated with lower subsequent target persistence / greater subsequent contraction",
+    "role": "secondary mechanistic-direction check",
+    "may_rescue_failed_primary": false,
+    "thresholding": "continuous leverage preferred; any high/low threshold must be frozen before t2 access and cannot be chosen from the outcome"
+  },
+  "matching_and_adjustment_requirements": {
+    "must_control_or_match": [
+      "nominal t0 source count",
+      "number of source losses",
+      "ordinary Euclidean source distance",
+      "external island isolation",
+      "environment/habitat",
+      "bioregion/archipelago"
+    ],
+    "strongly_recommended": [
+      "species identity or species-level clustering",
+      "sampling effort / detectability where available",
+      "target occupancy history prior to t1"
+    ],
+    "forbidden_rescue": [
+      "post-outcome leverage cutpoint search",
+      "post-outcome graph scale search",
+      "dropping low-leverage events to strengthen direction",
+      "selecting taxa by observed leverage effect"
+    ]
+  },
+  "validation_design": {
+    "response_sealed_requirement": true,
+    "disjoint_burned_pilot_required": true,
+    "pilot_role": "estimability and schema/quality checks only; no predictive effect estimate may enter manuscript evidence",
+    "confirmatory_partition": "must be disjoint by the prospectively declared validation unit",
+    "preferred_validation_unit": "archipelago, bioregion block, or species cluster chosen before t2 access",
+    "source_features": "all response-derived leverage/source features must be constructed without using the heldout confirmatory t2 outcome",
+    "minimum_confirmatory_blocks": "system-specific value must be frozen before pilot access; no universal number is imposed here"
+  },
+  "estimability_gates": {
+    "before_confirmatory_access_require": [
+      "both persistence and loss outcomes are present in each estimable training complement under the frozen heldout design",
+      "enough source-loss events exist to identify the leverage contrast separately from loss count",
+      "lost-source leverage has nonzero variation after matching/reference adjustment",
+      "confirmatory units remain after response-quality attrition"
+    ],
+    "if_failed": "STOP without confirmatory scoring; thresholds may not be relaxed after seeing pilot outcomes"
+  },
+  "mechanism_claim_boundary": {
+    "if_supported_can_claim": "preloss source leverage predicts future occupancy contraction beyond population count and ordinary source geometry in the tested system",
+    "cannot_claim_without_additional_data": [
+      "realized dispersal along graph paths",
+      "demographic rescue",
+      "causal extinction prevention",
+      "successful recolonization",
+      "management intervention benefit"
+    ],
+    "stronger_mechanism_evidence": [
+      "individual movement or genetic connectivity",
+      "demographic immigration/emigration estimates",
+      "experimental or quasi-experimental source loss/restoration"
+    ]
+  },
+  "relationship_to_current_structural_evidence": {
+    "v1_119_ultrarare_presence_result": "hypothesis generation and occupancy-regime evidence only",
+    "v1_122_source_leverage": "response-free mechanism diagnostic only",
+    "current_results_count_as_future_confirmation": false,
+    "same_global_mammal_dataset_may_not_be_used_for_this_confirmatory test": true
+  }
+}
