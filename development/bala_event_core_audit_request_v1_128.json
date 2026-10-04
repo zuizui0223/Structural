@@ -1,0 +1,9 @@
+{
+  "schema": "structural.bala_event_core_audit_request.v1_128",
+  "status": "REQUEST_RESPONSE_UNOPENED_BALA_EVENT_CORE_AUDIT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_event_core_audit_contract_v1_128.json",
+  "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+  "occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}
