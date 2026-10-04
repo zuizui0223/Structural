@@ -2,8 +2,26 @@
   "schema": "structural.source_loss_temporal_candidate_triage.v1_124",
   "status": "METADATA_ONLY_CANDIDATE_TRIAGE_FROZEN_NO_NEW_SOURCE_LEVERAGE_EFFECTS_COMPUTED",
   "parent_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
-  "selection_rule": "candidate decisions use repeated-census structure, stable unit identity, geometry, survey design, public data schema and prior Structural provenance; no candidate is promoted because a source-leverage effect direction is known",
+  "selection_rule": "candidate decisions use repeated-census structure, stable unit identity, geometry, survey design, data accessibility and prior Structural provenance; no candidate is promoted because a source-leverage effect direction is known",
   "candidates": [
+    {
+      "candidate_id": "azores_slam_arthropods_2012_2021",
+      "system": "Azores long-term forest arthropod SLAM monitoring",
+      "public_dataset_doi": "10.15468/3r5xw6",
+      "metadata": {
+        "islands": 7,
+        "plots_or_traps": 42,
+        "event_core_records_reported": 893,
+        "occurrence_extension_records_reported": "14922 in Data Records section versus 14924 in methods text; raw archive must resolve",
+        "sampling_frequency": "approximately four standardized SLAM-trap collections per year",
+        "event_occurrence_separation": true,
+        "response_unopened_event_first_audit_possible": true,
+        "critical_taxonomic_gap": "Pico and Terceira Araneae are intentionally excluded from the main archive and published separately"
+      },
+      "decision": "QUALIFY_RESPONSE_UNOPENED_PREINTAKE",
+      "decision_reason": "The event-core/occurrence-extension separation allows survey timing, plot continuity and island-year completeness to be audited before focal species response values are parsed. This is the cleanest currently located route toward an independent temporal source-loss test, but it is not confirmatory-eligible until the raw archive passes an event-only coverage audit, taxonomic completeness is frozen and two disjoint three-time windows are shown to exist.",
+      "next_gate": "development/azores_slam_source_loss_preintake_v1_125.json"
+    },
     {
       "candidate_id": "finnish_common_eider_archipelago_1997_2020",
       "system": "Finnish Archipelago Bird Census / Common Eider (Somateria mollissima)",
@@ -27,7 +45,7 @@
         "pristine_fresh_confirmatory_eligible": false
       },
       "decision": "QUALIFY_RETROSPECTIVE_SCHEMA_AUDIT",
-      "decision_reason": "This is the strongest immediately available temporal stress-test geometry: many repeated island counts, stable island IDs and annual coverage over 24 years. It cannot count as pristine confirmation because the publication already reports broad eider decline and redistribution. Before any Structural source-leverage score is computed, a schema-only audit must establish whether the public 2x2-km spatial representation is recoverable as a deterministic geometry, whether Eider_pairs=0 is an observed surveyed zero rather than missingness, and whether redistributed multi-island counts can be prospectively identified or must remain part of the endpoint.",
+      "decision_reason": "This remains the strongest immediately available retrospective stress-test geometry: many repeated island counts, stable island IDs and annual coverage over 24 years. It cannot count as pristine confirmation because the publication already reports broad eider decline and redistribution. Before any Structural source-leverage score is computed, a schema-only audit must establish whether public spatial support is deterministic, whether zeros are surveyed zeros, and whether redistributed multi-island counts can be identified or prospectively retained.",
       "next_gate": "schema_only_no_effect_audit"
     },
     {
@@ -88,10 +106,14 @@
       "next_gate": "none_for_confirmatory_lane"
     }
   ],
-  "preferred_immediate_stress_test": {
+  "preferred_response_unopened_preintake": {
+    "candidate_id": "azores_slam_arthropods_2012_2021",
+    "reason": "Sampling events can be audited separately from focal taxon occurrence, giving the cleanest current response firewall.",
+    "confirmatory_eligible_now": false
+  },
+  "preferred_immediate_retrospective_stress_test": {
     "candidate_id": "finnish_common_eider_archipelago_1997_2020",
     "evidence_class": "independent_existing_response_public_retrospective",
-    "reason": "It is the only currently located candidate combining a public island-year response, stable island identity, many years and a published coarse spatial representation.",
     "may_count_as_confirmation": false
   },
   "preferred_confirmatory_candidate": null,
