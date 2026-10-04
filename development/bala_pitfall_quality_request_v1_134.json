@@ -1,0 +1,8 @@
+{
+  "schema": "structural.bala_pitfall_quality_request.v1_134",
+  "status": "REQUEST_RESPONSE_UNOPENED_PITFALL_QUALITY_FREEZE",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_pitfall_quality_contract_v1_134.json",
+  "occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}
