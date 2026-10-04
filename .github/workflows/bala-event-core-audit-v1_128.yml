@@ -1,0 +1,83 @@
+name: BALA response-unopened Event-core audit v1.128
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_event_core_audit_request_v1_128.json
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-unopened authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_event_core_audit_contract_v1_128.json").read_text())
+          r=json.loads(Path("development/bala_event_core_audit_request_v1_128.json").read_text())
+          assert c["status"]=="RESPONSE_UNOPENED_DWCA_EVENT_CORE_AUDIT_FROZEN"
+          assert c["source"]["dataset_doi"]=="10.15468/rpdkx9"
+          assert c["source"]["ipt_version"]=="1.0"
+          assert "decode Occurrence extension text" in c["forbidden_before_occurrence_access"]
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Audit DwC-A inventory metadata and Event core only
+        run: |
+          mkdir -p build/bala_v128
+          python scripts/audit_bala_event_core_v1_128.py             --output-dir build/bala_v128
+
+      - name: Enforce occurrence firewall and event-only result
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path("build/bala_v128")
+          x=json.loads((root/"event_core_audit.json").read_text())
+          assert x["status"]=="BALA_EVENT_CORE_RESPONSE_UNOPENED_AUDIT_COMPLETE"
+          assert x["event_records"]==10379
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["confirmatory_eligible"] is False
+          assert x["event_year_min"]>=1997
+          assert x["event_year_max"]<=2022
+          assert x["phase_assignment_unresolved_rows"]==0
+
+          inv=list(csv.DictReader((root/"archive_inventory.csv").open()))
+          assert len(inv)>=4
+          meta=json.loads((root/"meta_manifest.json").read_text())
+          assert meta["core"]["rowType"].endswith("/Event")
+          assert meta["occurrence_extension_location"]
+          sites=list(csv.DictReader((root/"site_key_candidates.csv").open()))
+          assert len(sites)==4
+          assert {r["candidate_key"] for r in sites}=={
+            "locationID","parentEventID","island_plus_locality","rounded_latitude_longitude_plus_island"
+          }
+          PY
+
+      - name: Upload response-unopened BALA audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v128-event-core-audit-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v128/archive_inventory.csv
+            build/bala_v128/meta_manifest.json
+            build/bala_v128/event_field_manifest.csv
+            build/bala_v128/event_core_audit.json
+            build/bala_v128/site_key_candidates.csv
+          if-no-files-found: error
+          retention-days: 30
