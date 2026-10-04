@@ -2,61 +2,55 @@
 
 ## Current ordering
 
-The v1.123 three-time hypothesis was frozen before candidate-specific source-leverage analysis. Candidate search then used monitoring structure, island identity, survey effort, geometry, public data schema and prior Structural provenance.
+The preferred response-unopened pre-intake is now **Azores BALA**, followed by Azores SLAM. Finnish common eider remains the best independent retrospective stress-test lane.
 
-No candidate has yet earned confirmatory status.
+No candidate is confirmatory-eligible yet.
 
-The search now separates two useful lanes:
+## 1. BALA — best match to the actual hypothesis
 
-1. **response-unopened prospective pre-intake:** Azores SLAM arthropods;
-2. **independent retrospective stress test:** Finnish common eider.
+BALA is unusually close to the v1.123 design because its core native-forest sites were deliberately revisited in three major campaigns under a common sampling protocol.
 
-## Best response-unopened pre-intake: Azores SLAM arthropods
+That gives a natural temporal ordering:
 
-The Azores archive is currently the cleanest route because its Darwin Core Archive separates **sampling events** from **species occurrences**.
+    BALA1 -> BALA2 -> BALA3
+      t0       t1       t2
 
-Metadata report 42 SLAM traps across seven islands and approximately quarterly sampling through the long-term programme. The Event core can therefore be audited for island, plot, date, coordinates and sampling completeness while focal taxon occurrence values remain unparsed.
+The published resource describes a repeated core of roughly 30 sites in 15 fragments across seven islands. It is a sampling-event archive with separate Event and Occurrence tables.
 
-This is not yet confirmatory evidence. It first has to pass v1.125:
+This is stronger than constructing arbitrary three-year windows from an annual series: the three resurvey phases already exist as part of the study design.
 
-- resolve the raw archive and its reported 14,922-versus-14,924 occurrence-row discrepancy;
-- establish deterministic event→plot→island identity;
-- freeze a response-independent event-completeness rule;
-- demonstrate two disjoint eligible three-time windows;
-- freeze the taxonomic universe before occurrence parsing.
+### Why it is still only pre-intake
 
-A critical taxonomic guardrail is already clear from metadata: Pico and Terceira spider records were published separately and are omitted from the main archive. Araneae are therefore excluded from the primary universe unless companion archives are merged under a prospectively frozen crosswalk.
+The metadata contain inconsistencies that directly affect the denominator: 30 versus 31 core sites and conflicting prose date ranges for BALA2 and BALA3. These must be resolved from Event rows before any species occurrence is read.
 
-## Best immediately available retrospective system: Finnish Common Eider
+BALA also has only one meaningful three-wave sequence. Therefore the burned pilot and confirmation cannot be split by time. The v1.126 solution is a prospectively frozen **taxon partition**, implemented through an opaque router so confirmatory event-by-taxon occurrence combinations are not summarized during pilot routing.
 
-The Finnish Archipelago Bird Census series remains an excellent independent stress-test system: 1997–2020, 3,648 islands and 18,516 island-year counts with a stable island identifier.
+## 2. SLAM — strong backup
 
-It is not response-sealed in the strongest sense because broad decline and geographic redistribution have already been published. It therefore cannot become pristine confirmation of the source-leverage hypothesis.
+The annual SLAM archive remains attractive because sampling events are separate from occurrences and survey effort can be audited first.
 
-There is also a provenance issue that matters directly for island-level source loss: some counts originally reported for groups of islands were redistributed among individual islands, affecting roughly 6.2% of observations per year in the publication. A schema audit must determine whether those observations can be prospectively identified. If not, their treatment must be frozen before any Structural effect is calculated.
+Its disadvantage relative to BALA is that t0/t1/t2 windows have to be constructed from annual event coverage, and its main archive has a known taxonomic completeness gap for Pico and Terceira spiders.
 
-## Other candidates
+## 3. Finnish Common Eider — retrospective only
 
-**Thousand Island Lake birds** have the right monitoring concept but the required raw annual island×species series has not been located.
+The eider series has excellent scale and repeated island counts, but broad decline and spatial redistribution are already published. Some grouped-island counts were also redistributed among individual islands.
 
-**Thousand Island Lake vegetation** may offer cleaner detection, but a public same-protocol three-census island×species matrix has not yet been established.
+It can stress-test the hypothesis after a frozen schema audit, but it cannot provide pristine confirmation.
 
-**The global eBird island derivative** has exceptional scale but not an effort-aware absence rule in the documented derivative.
+## The ecological question is now concrete
 
-**A-Islands** cannot independently confirm a source-network mechanism discovered within Structural because it is already part of the discovery denominator.
+The target claim is no longer “configuration matters.”
 
-## Scientific consequence
+It is:
 
-The candidate search sharpened a methodological point with ecological consequences:
+> **Among species that lose the same number of occupied islands, does losing populations that carried a larger share of external source access predict more later contraction among the populations that survived the first loss event?**
 
-> A source-loss test requires not merely repeated presences, but an independently defensible **surveyed zero** at both the loss transition and the downstream transition.
+BALA is the first located dataset whose original sampling design naturally separates the loss event from the later response.
 
-Azores is promising precisely because sampling effort can be defined from Event rows before taxon outcomes are opened.
+## Next gate
 
-## Current next step
+The immediate next event is deliberately non-ecological:
 
-The next executable route is:
+> obtain the BALA raw archive → inventory members without parsing occurrences → open Event core only → reconstruct the exact repeated core panel and phase membership.
 
-> Azores raw-archive inventory → Event-core-only coverage audit → freeze disjoint three-time windows and taxon universe → burned-pilot estimability gate → only then open pilot occurrence rows.
-
-The Finnish eider system remains the parallel retrospective stress-test lane. The confirmatory queue intentionally stays empty until a candidate earns admission.
+If the Event core cannot reconcile the published sampling description, BALA stops before any species-level outcome is opened.
