@@ -1,0 +1,42 @@
+{
+  "schema": "structural.bala_pitfall_core_audit_freeze.v1_134",
+  "status": "SUCCESSFUL_RESPONSE_UNOPENED_PITFALL_CORE_AUDIT_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "source_execution": {
+    "workflow_run_id": 37210647626,
+    "workflow_head_sha": "e38e1576860655ce6cf1852b808ff9c6f154e8c8",
+    "artifact_id": 11306387222,
+    "artifact_name": "bala-v133-pitfall-core-e38e1576860655ce6cf1852b808ff9c6f154e8c8-37210647626",
+    "artifact_digest": "sha256:240269f3bb9e922a2667b0deea99b14f5f99dbfea2068f44ae6d33274bdaa462",
+    "expires_at": "2026-11-03T14:49:22Z"
+  },
+  "result": {
+    "conceptual_lineages": 30,
+    "lineages_with_all_three_phases": 30,
+    "core_islands": 7,
+    "islands_with_all_three_phases": 7,
+    "site_phases": 90,
+    "total_pitfall_event_rows": 2568,
+    "nominal_pitfall_trap_slots": 2700,
+    "minimum_site_phase_event_effort_fraction": 0.7,
+    "minimum_island_phase_event_effort_fraction": 0.8833333333333333,
+    "maximum_unique_parseable_positions_in_site_phase": 30,
+    "pitfall_malformed_or_unmapped_event_rows": 46,
+    "pitfall_duplicate_parseable_position_rows": 18,
+    "alternating_preservative_orientation": "ETHY_even_TUR_odd",
+    "alternating_preservative_mismatches": 3,
+    "pitfall_only_core_structurally_qualified_for_quality_threshold_gate": true
+  },
+  "beating_context": {
+    "total_beating_event_rows": 2429,
+    "events_above_30_per_site_phase": 72,
+    "publication_selected_minus_reported_event_rows": 68,
+    "interpretation": "beating effort contains extra/irregular samples beyond the simple three-tree-species x ten-event protocol, so the primary source-loss design will use pitfall-only sampling rather than outcome-blind selection among beating events"
+  },
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0
+  }
+}

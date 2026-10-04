@@ -1,0 +1,71 @@
+name: BALA pitfall survey-quality freeze v1.134
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_pitfall_quality_request_v1_134.json
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate frozen quality thresholds
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_pitfall_quality_contract_v1_134.json").read_text())
+          r=json.loads(Path("development/bala_pitfall_quality_request_v1_134.json").read_text())
+          q=c["surveyed_zero_quality_rule"]
+          assert q["site_phase_minimum_unique_trap_positions"]==20
+          assert q["island_phase_minimum_unique_trap_fraction"]==0.80
+          assert q["thresholds_are_frozen_before_occurrence_semantic_access"] is True
+          assert q["threshold_retuning_after_pilot_or_confirmatory_occurrence"] is False
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Execute response-unopened pitfall position recovery and quality gate
+        run: |
+          mkdir -p build/bala_v134
+          PYTHONPATH="$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"           python scripts/freeze_bala_pitfall_quality_v1_134.py             --output-dir build/bala_v134
+
+      - name: Enforce response firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v134/pitfall_quality_result.json").read_text())
+          assert x["status"]=="BALA_PITFALL_SURVEY_QUALITY_FROZEN_RESPONSE_UNOPENED"
+          assert x["site_phases"]==90
+          assert x["island_phases"]==21
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["source_loss_effects_computed"]==0
+          assert x["confirmatory_eligible"] is False
+          PY
+
+      - name: Upload frozen pitfall quality surface
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v134-pitfall-quality-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v134/pitfall_quality_result.json
+            build/bala_v134/pitfall_position_recovery.csv
+            build/bala_v134/pitfall_duplicate_position_groups.csv
+            build/bala_v134/pitfall_site_phase_quality.csv
+            build/bala_v134/pitfall_island_phase_quality.csv
+          if-no-files-found: error
+          retention-days: 30

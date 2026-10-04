@@ -1,0 +1,82 @@
+{
+  "schema": "structural.bala_pitfall_quality_contract.v1_134",
+  "status": "RESPONSE_UNOPENED_PITFALL_SURVEY_QUALITY_AND_POSITION_RECOVERY_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_pitfall_core_audit_freeze_v1_134.json",
+    "development/bala_source_loss_preintake_v1_126.json",
+    "development/source_loss_leverage_protocol_v1_125.json"
+  ],
+  "publication_and_code_basis": {
+    "publication_doi": "10.1038/s41597-024-03174-7",
+    "public_event_builder_repo": "pozsgaig/BALA_database",
+    "event_builder_path": "Event_table_creation_G.R",
+    "event_builder_git_blob_sha1": "9e39690b5dbcd7461c7bae98a254eb28f12c59d6",
+    "eventID_semantics": "eventID is the unique sample identifier; published builder derives fieldNumber from the sample-code component of eventID"
+  },
+  "source": {
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "event_core_sha256": "b6f8a7fa380bc6372e79e097583d7d62a2a0d9a6e4ba2c6c50922d5c401d51bd",
+    "occurrence_extension_sha256_opaque_bytes": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5"
+  },
+  "core_identity": {
+    "conceptual_lineages": 30,
+    "core_islands": 7,
+    "phases": ["BALA1","BALA2","BALA3"],
+    "site_replacement": "FAI-NFCF-T-11 at BALA1 maps to FAI-NFCF-TB26 at BALA2/BALA3"
+  },
+  "pitfall_position_recovery": {
+    "primary_source": "parse fieldNumber as ETHY/TUR/TURQ-Snn with nn 1..30",
+    "fallback_source": "only when fieldNumber is missing/malformed, parse the same preservative+Snn token from eventID",
+    "fallback_requires_unique_match": true,
+    "canonical_preservative_families": {
+      "ETHY": ["ETHY"],
+      "TUR": ["TUR","TURQ"]
+    },
+    "canonical_trap_position": "integer nn in 1..30, independent of preservative alias",
+    "duplicate_event_rows_at_same_site_phase_position": "count once for survey-effort coverage; retain all eventIDs for later occurrence linkage until a separate occurrence aggregation rule is frozen",
+    "unrecoverable_event": "does not contribute a known trap position but remains documented as sampling effort"
+  },
+  "surveyed_zero_quality_rule": {
+    "site_phase_minimum_unique_trap_positions": 20,
+    "site_phase_fraction_of_nominal": "20/30 = 0.6666666667",
+    "island_phase_minimum_unique_trap_fraction": 0.80,
+    "every_core_site_on_island_must_have_at_least_one_recovered_trap_position": true,
+    "rationale": "require at least two-thirds of nominal trap positions at every repeated core transect and at least 80% aggregate pitfall-position coverage for the island-phase before a taxon can receive a surveyed zero",
+    "thresholds_are_frozen_before_occurrence_semantic_access": true,
+    "threshold_retuning_after_pilot_or_confirmatory_occurrence": false
+  },
+  "audit_outputs": [
+    "pitfall_position_recovery.csv",
+    "pitfall_duplicate_position_groups.csv",
+    "pitfall_site_phase_quality.csv",
+    "pitfall_island_phase_quality.csv",
+    "pitfall_quality_result.json"
+  ],
+  "advance_rule": {
+    "required": [
+      "all 30 conceptual lineages have all three phases",
+      "all seven core islands have all three phases",
+      "every site-phase has at least 20 recovered unique trap positions",
+      "every island-phase has at least 80% recovered unique trap positions",
+      "no site-phase has more than 30 canonical trap positions"
+    ],
+    "if_pass": "freeze Occurrence schema/header-only taxon routing token and deterministic pilot/confirmatory taxon partition before semantic occurrence access",
+    "if_fail": "STOP BALA primary source-loss route; do not weaken quality thresholds"
+  },
+  "anti_selection": [
+    "do not use taxon occurrences to repair pitfall positions",
+    "do not change 20/30 site threshold or 0.80 island threshold after occurrence access",
+    "do not deduplicate occurrence evidence yet; this gate only defines survey-effort coverage",
+    "do not reintroduce beating data to rescue failed pitfall effort",
+    "do not compute source loss or leverage"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_this_gate": false
+  }
+}
