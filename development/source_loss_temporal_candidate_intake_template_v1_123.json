@@ -1,0 +1,36 @@
+{
+  "schema": "structural.source_loss_temporal_candidate_intake.v1_123",
+  "status": "TEMPLATE_METADATA_ONLY_NO_FOCAL_RESPONSE_VALUES",
+  "candidate_id": "<FILL>",
+  "dataset_title": "<FILL>",
+  "source_url_or_doi": "<FILL>",
+  "system_type": "island_or_archipelago_repeated_census",
+  "metadata_checks": {
+    "three_or_more_response_times": "<true/false>",
+    "stable_or_crosswalkable_spatial_units": "<true/false>",
+    "response_independent_geometry_available": "<true/false>",
+    "survey_effort_or_detection_metadata_available": "<true/false>",
+    "taxon_identity_stable_or_crosswalkable": "<true/false>",
+    "raw_or_unit_level_response_accessible": "<true/false>",
+    "disjoint_burned_pilot_and_confirmatory_partition_possible": "<true/false>"
+  },
+  "allowed_pre_admission_information": [
+    "years/occasions available",
+    "island/site identifiers",
+    "coordinate/geometry fields",
+    "survey protocol and effort fields",
+    "taxonomic scope",
+    "licence and access path",
+    "row counts that do not reveal focal response direction"
+  ],
+  "forbidden_pre_admission_information": [
+    "which candidate species declined",
+    "whether a high-leverage source was lost",
+    "candidate-specific t2 contraction direction",
+    "effect estimates or predictive scores",
+    "choosing time windows based on observed decline"
+  ],
+  "decision": "<QUALIFY/HOLD/STOP>",
+  "decision_reason": "<FILL>",
+  "response_values_opened": false
+}
