@@ -1,0 +1,86 @@
+{
+  "schema": "structural.global_mammals_ultrarare_result_freeze.v1_119",
+  "status": "PROSPECTIVE_ULTRARARE_PRESENCE_OPPORTUNITY_RESULT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "replication_role": "prospective preregistered presence-opportunity replication in a previously unread 1-4-pilot-presence species layer within the same geographic system",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-ultrarare-execute-v1_118.yml",
+    "workflow_run_id": 37156698326,
+    "workflow_head_sha": "4f01449a7404df198b2a9c53e2a0adf75eea2ac2",
+    "workflow_job_id": 111301442708,
+    "artifact_id": 11286003145,
+    "artifact_name": "global-mammals-v118-ultrarare-result-4f01449a7404df198b2a9c53e2a0adf75eea2ac2-37156698326",
+    "artifact_digest": "sha256:fa67ae8770639e55dd303b721618c8541478d85328fb22c7e1a5b3981fb4a952",
+    "expires_at": "2026-11-02T21:57:46Z"
+  },
+  "species_layer": {
+    "pilot_presence_range": [1,4],
+    "species": 529,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "target_cells": 2182654,
+    "positive_cells": 2347,
+    "negative_cells": 2180307,
+    "heldout_prevalence": 0.0010752964052021072,
+    "graph_empty_fraction": 0.8812835199715575
+  },
+  "response_firewall": {
+    "heldout_ultrarare_values_decoded": 2182654,
+    "heldout_non_ultrarare_values_decoded": 0,
+    "pilot_occurrence_values_decoded_during_run": 0,
+    "excluded_occurrence_values_decoded": 0,
+    "raw_response_retained": false,
+    "rerun_authorized": false
+  },
+  "primary_presence_opportunity": {
+    "point_C_minus_R3": -0.5962586684916777,
+    "bootstrap_ci95_low": -0.743854761144673,
+    "bootstrap_ci95_high": -0.46445672203892047,
+    "presence_blocks": 110,
+    "supported": true
+  },
+  "secondary_absence_signature": {
+    "point_C_minus_R3": 0.0002359552379291134,
+    "bootstrap_ci95_low": 0.00007714549744094138,
+    "bootstrap_ci95_high": 0.00041843817015060615,
+    "predicted_nonnegative_direction_supported": true
+  },
+  "secondary_source_support": {
+    "paired_blocks": 41,
+    "point_nonempty_minus_empty": -0.6705112358205588,
+    "bootstrap_ci95_low": -0.8008798328612879,
+    "bootstrap_ci95_high": -0.5426921629399104,
+    "pooled_presence_empty_C_minus_R3": -0.2033090705426211,
+    "pooled_presence_nonempty_C_minus_R3": -0.6947668598894774,
+    "supported": true
+  },
+  "secondary_topology_specificity": {
+    "point_actualC_minus_mean_rewiredC": -0.058525177248239975,
+    "bootstrap_ci95_low": -0.0993094892212265,
+    "bootstrap_ci95_high": -0.01629111180393469,
+    "presence_blocks": 110,
+    "actual_C_better_than_n_of_20_nulls_on_presence_metric": 20,
+    "null_presence_C_minus_R3_mean": -0.5377334912434378,
+    "supported": true
+  },
+  "secondary_external_isolation_attenuation": {
+    "spearman_rho": -0.160372382390731,
+    "bootstrap_ci95_low": -0.3467451810934897,
+    "bootstrap_ci95_high": 0.03084278861355404,
+    "supported": false
+  },
+  "descriptive": {
+    "natural_prevalence_all_cell_C_minus_R3": -0.00044342417191936214,
+    "class_balanced_equal_block_C_minus_R3": -0.2979518840472777
+  },
+  "interpretation": {
+    "presence_opportunity_primary_supported": true,
+    "source_support_supported": true,
+    "topology_specificity_supported": true,
+    "absence_nonimprovement_supported": true,
+    "external_isolation_attenuation_supported": false,
+    "geographically_independent_replication": false,
+    "causal_colonization_or_rescue_claimed": false,
+    "allowed_wording": "In a preregistered, previously unread ultrarare mammal layer, graph-path source information improved realized-presence prediction, the benefit was stronger when a graph-reachable occupied source existed, and the actual island adjacency outperformed all 20 degree- and edge-length-matched null topologies on the preregistered presence metric."
+  }
+}

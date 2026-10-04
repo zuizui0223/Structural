@@ -1,0 +1,39 @@
+{
+  "schema": "structural.prospective_occupancy_regime_source_network_hypothesis.v1_119",
+  "status": "FUTURE_ONLY_INDEPENDENT_RESPONSE_SEALED_HYPOTHESIS",
+  "name": "occupancy_regime_changes_the_role_of_island_source_networks",
+  "motivation": "Within the global mammal system, a preregistered ultrarare 1-4-presence layer showed topology-specific presence-opportunity information, a separate preregistered 5-12-presence layer did not replicate the overall gain and showed no topology specificity, and an exploratory >=13-presence layer showed absence-focused natural-prevalence gains that were not specific to the actual adjacency in a post-hoc null audit.",
+  "ecological_statement": "The ecological meaning of island connectivity depends on the focal species' occupancy state. When very few occupied source populations remain, the exact arrangement of those remaining sources may constrain where realized occurrences are possible; at higher occupancy, source-network representations may shift toward broader source-context or exclusion information and need not depend on the exact observed adjacency.",
+  "future_test": {
+    "required_system": "independent response-sealed island occurrence system with enough taxa to predeclare at least two occupancy strata before heldout response access",
+    "occupancy_strata": "must be fixed from a disjoint pilot or external data before confirmatory response access; thresholds cannot be selected from the current mammal cutpoints merely to reproduce the observed pattern unless justified independently",
+    "reference_R3": [
+      "environment/current state",
+      "island area",
+      "current and historical external isolation",
+      "generic island-network context",
+      "global occupancy breadth",
+      "species-by-regional-pool prevalence",
+      "nearest occupied-source Euclidean distance",
+      "diffuse occupied-source pressure"
+    ],
+    "candidate_C": "species-conditioned graph-path occupied-source features only beyond R3",
+    "topology_null": "degree- and edge-length-matched rewired graph ensemble frozen before confirmatory response",
+    "required_outputs": [
+      "natural-prevalence C-minus-R3",
+      "presence-cell C-minus-R3",
+      "absence-cell C-minus-R3",
+      "graph-nonempty versus graph-empty contrast",
+      "actual versus rewired topology contrast"
+    ]
+  },
+  "conservation_prediction": "If the ultrarare pattern generalizes, conservation assessments for species occupying only a few islands should distinguish the spatial arrangement of remaining occupied source populations rather than relying only on mainland distance, source count, or generic archipelago connectivity.",
+  "guardrails": [
+    "do not infer contemporary colonization, rescue or demographic persistence from occurrence prediction alone",
+    "do not claim a monotonic rarity effect from the current mammal strata",
+    "do not widen the failed broad-species gate in the current dataset",
+    "do not select a future occupancy threshold because it reproduces the current result",
+    "one independent system is required before claiming general island-conservation applicability"
+  ],
+  "counts_as_current_evidence": false
+}

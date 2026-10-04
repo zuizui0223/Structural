@@ -1,0 +1,50 @@
+{
+  "schema": "structural.global_mammals_original79_topology_audit_freeze.v1_119",
+  "status": "SUCCESSFUL_POSTHOC_ORIGINAL79_TOPOLOGY_SPECIFICITY_AUDIT_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "evidence_class": "posthoc frozen-output diagnostic on already-open exploratory 79-species layer",
+  "source_execution": {
+    "workflow": ".github/workflows/global-mammals-original79-topology-audit-v1_116.yml",
+    "workflow_run_id": 37156290426,
+    "workflow_head_sha": "f41b6abab7ee3146cd3d6e8bd4acca202e46a51c",
+    "workflow_job_id": 111300230530,
+    "artifact_id": 11286362885,
+    "artifact_name": "global-mammals-v116-original79-topology-audit-f41b6abab7ee3146cd3d6e8bd4acca202e46a51c-37156290426",
+    "artifact_digest": "sha256:b8e31c5ec37a078969bf1bf46e42215fdd14c61b508a2404f7a133caaf8bb4fa",
+    "expires_at": "2026-11-02T22:04:43Z"
+  },
+  "population": {
+    "species": 79,
+    "heldout_islands": 4126,
+    "heldout_blocks": 168,
+    "heldout_cells": 325954
+  },
+  "actual_vs_rewired": {
+    "all_cells": {
+      "actual_minus_mean_rewired": 0.00022539021852879452,
+      "bootstrap_ci95_low": 0.00012351194591525214,
+      "bootstrap_ci95_high": 0.000330101777365609,
+      "actual_better_than_n_of_20_nulls": 0
+    },
+    "presence_cells": {
+      "actual_minus_mean_rewired": 0.0026928429342522736,
+      "bootstrap_ci95_low": -0.004743908433598272,
+      "bootstrap_ci95_high": 0.010140977115510562,
+      "presence_blocks": 124,
+      "actual_better_than_n_of_20_nulls": 2
+    },
+    "absence_cells": {
+      "actual_minus_mean_rewired": 0.00015544445209732575,
+      "bootstrap_ci95_low": 0.00007329343719475028,
+      "bootstrap_ci95_high": 0.00023672311446186072
+    }
+  },
+  "interpretation": {
+    "actual_topology_specificity_supported": false,
+    "all_cell_direction": "matched rewired topologies outperform the actual graph on average",
+    "revised_role_of_original_C_gain": "the original 79-species C-minus-R3 gain is not evidence that the exact observed island-network adjacency is uniquely predictive; it is better described as information in a network-transformed occupied-source representation",
+    "may_change_original_exploratory_status": false,
+    "counts_as_confirmatory_evidence": false,
+    "new_response_accessed": false
+  }
+}

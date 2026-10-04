@@ -1,0 +1,50 @@
+{
+  "schema": "structural.geb_submission_manifest.v1_120",
+  "status": "GEB_OCCUPANCY_REGIME_REFRAME_PREPARED",
+  "scientific_freeze": "development/current_status_v1_119.json",
+  "manuscript": "manuscript/submission/GEB_v1_120/blinded_main_text.md",
+  "title_page_template": "manuscript/submission/GEB_v1_120/title_page_template.md",
+  "cover_letter": "manuscript/submission/GEB_v1_120/cover_letter.md",
+  "format": {
+    "journal": "Global Ecology and Biogeography",
+    "article_type": "Research Article",
+    "title": "When do source islands matter? Species occupancy changes the role of connectivity across islands",
+    "running_title": "Source islands across occupancy",
+    "main_text_words_approx": 4274,
+    "abstract_words_approx": 269,
+    "reference_count": 14
+  },
+  "central_evidence": {
+    "ultrarare_1_4": {
+      "species": 529,
+      "primary_presence_C_minus_R3": -0.5962586684916777,
+      "primary_supported": true,
+      "topology_specificity_supported": true,
+      "actual_better_than_nulls": "20/20"
+    },
+    "rare_5_12": {
+      "species": 96,
+      "overall_C_minus_R3": -0.00044242277078691746,
+      "overall_supported": false,
+      "topology_specificity_supported": false
+    },
+    "exploratory_13_plus": {
+      "species": 79,
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "evidence_status": "nonconfirmatory exploratory",
+      "actual_topology_specificity_supported": false
+    },
+    "broad_near_ubiquitous": {
+      "selected_species": 0,
+      "status": "not estimable"
+    }
+  },
+  "claim_boundary": {
+    "causal_colonization_or_rescue": false,
+    "monotonic_rarity_effect": false,
+    "formal_unimodal_relationship": false,
+    "geographically_independent_replication": false,
+    "management_intervention_effect": false
+  },
+  "new_same_dataset_threshold_search_authorized": false
+}
