@@ -14,13 +14,21 @@ def test_v124_candidate_triage_keeps_confirmation_empty():
     assert x["response_values_opened_for_source_leverage_analysis"] is False
     assert x["source_leverage_effects_computed"] == 0
 
+def test_v124_azores_is_response_unopened_preintake_only():
+    x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
+    a = next(c for c in x["candidates"] if c["candidate_id"] == "azores_slam_arthropods_2012_2021")
+    assert a["decision"] == "QUALIFY_RESPONSE_UNOPENED_PREINTAKE"
+    assert a["metadata"]["event_occurrence_separation"] is True
+    assert x["preferred_response_unopened_preintake"]["candidate_id"] == a["candidate_id"]
+    assert x["preferred_response_unopened_preintake"]["confirmatory_eligible_now"] is False
+
 def test_v124_eider_is_retrospective_not_fresh():
     x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
     e = next(c for c in x["candidates"] if c["candidate_id"] == "finnish_common_eider_archipelago_1997_2020")
     assert e["decision"] == "QUALIFY_RETROSPECTIVE_SCHEMA_AUDIT"
     assert e["firewall_status"]["candidate_response_direction_broadly_public"] is True
     assert e["firewall_status"]["pristine_fresh_confirmatory_eligible"] is False
-    assert x["preferred_immediate_stress_test"]["may_count_as_confirmation"] is False
+    assert x["preferred_immediate_retrospective_stress_test"]["may_count_as_confirmation"] is False
 
 def test_v124_presence_only_ebird_does_not_define_absence():
     x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
