@@ -1,0 +1,8 @@
+{
+  "schema": "structural.bala_official_core_code_audit_request.v1_131",
+  "status": "REQUEST_RESPONSE_UNOPENED_OFFICIAL_CORE_CODE_AUDIT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_official_core_code_audit_contract_v1_131.json",
+  "occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}
