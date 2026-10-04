@@ -1,0 +1,8 @@
+{
+  "schema": "structural.bala_protocol_grammar_audit_request.v1_132",
+  "status": "REQUEST_RESPONSE_UNOPENED_PUBLICATION_PROTOCOL_GRAMMAR_AUDIT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_protocol_grammar_audit_contract_v1_132.json",
+  "occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}
