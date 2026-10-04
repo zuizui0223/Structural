@@ -18,13 +18,13 @@
 
 Classical island biogeography links isolation to colonization from a source region, most often a mainland. Later work showed that immigration can also reduce local extinction through the rescue effect (Brown & Kodric-Brown 1977), and that islands within an archipelago can function as sources, stepping stones or alternative colonization targets rather than as passive points between a mainland and a focal island (Sillero et al. 2018; Wang et al. 2023).
 
-This makes island isolation inherently relational. Mainland distance, surrounding land area and generic network position describe important properties of the landscape, but they do not specify whether a neighbouring island actually contains the focal species. Global comparisons accordingly recover several distinct isolation dimensions rather than one universal distance metric (Weigelt & Kreft 2013; Carter et al. 2020).
+This makes island isolation inherently relational. Mainland distance, surrounding land area and generic network position describe important properties of the landscape, but they do not specify whether a neighbouring island actually contains the focal species. Global comparisons accordingly recover several distinct isolation dimensions rather than one universal distance metric (Weigelt & Kreft 2013; Carter et al. 2020), while surrounding habitat amount can alter effective isolation by changing the pool of potential immigrants (Fahrig 2013). Functional island-biogeographic frameworks likewise emphasize that dispersal and establishment processes can change the meaning of isolation among taxa (Schrader et al. 2021).
 
 For a particular species, two islands with the same mainland distance can therefore have different source environments. One may lie near several occupied islands; the other may be surrounded by islands on which that species is absent. The relevant source landscape is partly a property of the species, not only of the focal island.
 
 ### 1.2 The same archipelago need not mean the same thing to every species
 
-Species-pool theory emphasizes that regional availability constrains local assembly (Cornell & Harrison 2014), while occupancy and habitat-network models show that surrounding occupied patches can affect local occurrence (Hanski 1994; Berlow et al. 2013; Ortiz-Rodríguez et al. 2019). Island studies similarly distinguish mainland isolation, stepping stones and nearby source or target islands.
+Species-pool theory emphasizes that regional availability constrains local assembly (Cornell & Harrison 2014), and island-flora work has explicitly shown that the identity of source pools matters for insular composition (König et al. 2021). Occupancy and habitat-network models similarly show that surrounding occupied patches can affect local occurrence (Hanski 1994; Berlow et al. 2013; Ortiz-Rodríguez et al. 2019). Island studies similarly distinguish mainland isolation, stepping stones and nearby source or target islands.
 
 What remains less clear is whether the **arrangement of occupied source islands** carries information after simpler explanations have already been supplied. A nearby occupied island can matter simply because it is nearby; a species occupying many islands can appear well connected simply because its source pool is large. To isolate anything more specific, source-network information must be tested after island area, external isolation, regional prevalence, occupancy breadth and direct source proximity have already been represented.
 
@@ -137,7 +137,7 @@ For topology-specificity tests, we generated 20 deterministic null graphs indepe
 
 Rewiring used undirected degree-preserving double-edge swaps. Replacement edges were constrained to the same original edge-length quintile, preserving both degree sequence and edge-length-bin counts. Self-edges and duplicate edges were forbidden, and each final regional graph was required to remain connected.
 
-The null ensemble therefore preserved the number of islands, coordinates, degree sequence, edge-length distribution, R3 variables and Euclidean occupied-source context. Only graph adjacency changed.
+The null ensemble therefore preserved the number of islands, coordinates, degree sequence, edge-length distribution, R3 variables and Euclidean occupied-source context. Only graph adjacency changed. This explicit null comparison is important because graph-based connectivity is a model representation that requires empirical validation rather than an assumed dispersal mechanism (Daniel et al. 2023).
 
 For the 5–12 and 1–4 prospective layers, all null graphs and null predictions were frozen before held-out response access.
 
@@ -149,7 +149,7 @@ An earlier independent 318-island mammal stress test examined whether internal s
 
 A fresh 19-island boreal beetle system tested overall internal-source nonredundancy and also returned a non-supportive primary.
 
-A separate GIFT plant system reached a pristine global design but its fresh confirmatory execution terminated after response access began because one frozen checklist returned zero species rows. No fresh plant ecological primary was scored.
+A separate GIFT plant system, using the Global Inventory of Floras and Traits framework (Denelle et al. 2023), reached a pristine global design but its fresh confirmatory execution terminated after response access began because one frozen checklist returned zero species rows. No fresh plant ecological primary was scored.
 
 These systems constrain generality but are not pooled with the mammal occupancy-layer estimands.
 
