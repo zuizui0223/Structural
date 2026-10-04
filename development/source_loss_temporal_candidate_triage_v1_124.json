@@ -1,0 +1,101 @@
+{
+  "schema": "structural.source_loss_temporal_candidate_triage.v1_124",
+  "status": "METADATA_ONLY_CANDIDATE_TRIAGE_FROZEN_NO_NEW_SOURCE_LEVERAGE_EFFECTS_COMPUTED",
+  "parent_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+  "selection_rule": "candidate decisions use repeated-census structure, stable unit identity, geometry, survey design, public data schema and prior Structural provenance; no candidate is promoted because a source-leverage effect direction is known",
+  "candidates": [
+    {
+      "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+      "system": "Finnish Archipelago Bird Census / Common Eider (Somateria mollissima)",
+      "public_dataset_doi": "10.5281/zenodo.15723441",
+      "publication_doi": "10.1007/s10980-025-02152-7",
+      "metadata": {
+        "years": "1997-2020",
+        "unique_islands": 3648,
+        "island_year_counts": 18516,
+        "stable_unit_identifier": "Island_ID",
+        "response_field": "Eider_pairs",
+        "time_fields": ["Year", "Year_f"],
+        "standard_monitoring": "breeding numbers estimated by at least two annual counts under Archipelago Bird Census guidelines for the core monitoring programme",
+        "spatial_support": "islands assigned to 2x2 km grid cells for published spatial covariance; public dataset description includes pos2 plus rounded standardized latitude/longitude",
+        "sampling_balance": "unbalanced; average about 500 islands surveyed annually, with 100-1200 depending on year",
+        "known_data_complication": "some additional-source counts were reported for groups of islands and redistributed to individual islands; publication reports about 6.2% of observations per year affected"
+      },
+      "firewall_status": {
+        "candidate_response_direction_broadly_public": true,
+        "source_leverage_effect_direction_known": false,
+        "pristine_fresh_confirmatory_eligible": false
+      },
+      "decision": "QUALIFY_RETROSPECTIVE_SCHEMA_AUDIT",
+      "decision_reason": "This is the strongest immediately available temporal stress-test geometry: many repeated island counts, stable island IDs and annual coverage over 24 years. It cannot count as pristine confirmation because the publication already reports broad eider decline and redistribution. Before any Structural source-leverage score is computed, a schema-only audit must establish whether the public 2x2-km spatial representation is recoverable as a deterministic geometry, whether Eider_pairs=0 is an observed surveyed zero rather than missingness, and whether redistributed multi-island counts can be prospectively identified or must remain part of the endpoint.",
+      "next_gate": "schema_only_no_effect_audit"
+    },
+    {
+      "candidate_id": "thousand_island_lake_birds",
+      "system": "Thousand Island Lake breeding birds",
+      "metadata": {
+        "consistent_islands": 36,
+        "monitoring_start": "bird surveys began 2003; 42 islands since 2007; 36 reported to have consistent data through the long-term programme",
+        "three_or_more_response_times": true,
+        "public_temporal_raw_matrix_located": false
+      },
+      "decision": "HOLD_RAW_TIME_SERIES_ACCESS",
+      "decision_reason": "The field programme is an excellent design match, but the located public deposits do not expose the required annual island-by-species raw sequence with a frozen survey-effort rule. Aggregate community outputs cannot identify t0 sources, t0-to-t1 losses and t1-to-t2 contraction without reconstruction from unavailable response values.",
+      "next_gate": "raw_island_by_year_by_species_data_or_authoritative_export"
+    },
+    {
+      "candidate_id": "thousand_island_lake_vegetation",
+      "system": "Thousand Island Lake long-term vegetation plots",
+      "metadata": {
+        "islands": 29,
+        "programme_statement": "29 island vegetation plots surveyed every five years since 2009",
+        "published_woody_censuses_located": ["2014-2015", "2019"],
+        "same_protocol_three_census_public_matrix_located": false
+      },
+      "decision": "HOLD_THREE_CENSUS_IDENTITY_AND_ACCESS",
+      "decision_reason": "Plant occurrence is attractive because detection is less problematic than bird occurrence, but the public material located so far does not establish an accessible three-census island-by-species matrix under one frozen census protocol. The 2009-2010 establishment period and later woody censuses cannot be assumed equivalent without an authoritative crosswalk.",
+      "next_gate": "authoritative_three_census_crosswalk_and_raw_species_matrix"
+    },
+    {
+      "candidate_id": "global_ebird_islands_2002_2019",
+      "system": "Global island eBird derivative",
+      "public_dataset_doi": "10.5061/dryad.8931zcrpc",
+      "metadata": {
+        "years": "2002-2019",
+        "islands_with_occurrence_information": 4205,
+        "well_surveyed_islands_reported": 1644,
+        "archive": "6573 RData files organized by date",
+        "archived_fields_described": ["SCI_NAME", "SUB_ID", "longitude", "latitude", "ISLAND_ID"]
+      },
+      "decision": "HOLD_ENDPOINT",
+      "decision_reason": "The temporal and geographic coverage are exceptional, but the archived derivative is observation-positive oriented. Its documented file schema does not include the complete-checklist, duration, protocol and effort fields needed to distinguish a true surveyed zero from non-reporting for a focal species. Species-specific t0/t1/t2 absence would therefore be unsafe from this archive alone.",
+      "next_gate": "complete_checklist_and_effort_aware_export_with_predeclared_absence_rule"
+    },
+    {
+      "candidate_id": "a_islands_temporal_plants",
+      "system": "A-Islands Australian continental island plants",
+      "public_dataset": "A-Islands version 1.0",
+      "metadata": {
+        "islands": 844,
+        "repeatedly_sampled_islands": 251,
+        "maximum_surveys_per_island": 11,
+        "mean_surveys_among_resurveyed_islands": 3,
+        "median_surveys_among_resurveyed_islands": 2,
+        "specific_year_lists_reported": 150
+      },
+      "decision": "STOP_AS_INDEPENDENT_CONFIRMATION",
+      "decision_reason": "A-Islands is already a Structural discovery system for source-network hypotheses, so it cannot serve as an independent confirmation of the source-loss leverage mechanism. Its heterogeneous asynchronous resurvey structure also makes the three-time transition less clean. It may be used only for retrospective engineering that is explicitly excluded from the confirmation denominator.",
+      "next_gate": "none_for_confirmatory_lane"
+    }
+  ],
+  "preferred_immediate_stress_test": {
+    "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+    "evidence_class": "independent_existing_response_public_retrospective",
+    "reason": "It is the only currently located candidate combining a public island-year response, stable island identity, many years and a published coarse spatial representation.",
+    "may_count_as_confirmation": false
+  },
+  "preferred_confirmatory_candidate": null,
+  "confirmatory_candidate_status": "NONE_QUALIFIED_YET",
+  "response_values_opened_for_source_leverage_analysis": false,
+  "source_leverage_effects_computed": 0
+}
