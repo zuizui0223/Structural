@@ -1,0 +1,91 @@
+name: BALA schema-only MF taxon routing freeze v1.135
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_taxon_routing_request_v1_135.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate zero-row-access contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_taxon_routing_contract_v1_135.json").read_text())
+          r=json.loads(Path("development/bala_taxon_routing_request_v1_135.json").read_text())
+          assert c["status"]=="RESPONSE_UNOPENED_OCCURRENCE_SCHEMA_AND_TAXON_PARTITION_FROZEN"
+          assert c["deterministic_partition"]["pilot_buckets"]==[0]
+          assert c["deterministic_partition"]["confirmatory_buckets"]==[1,2,3]
+          assert c["deterministic_partition"]["partition_may_not_be_rebalanced_after_token_counts_are_known"] is True
+          assert c["response_boundary"]["occurrence_data_rows_decoded_in_v1_135"]==0
+          assert r["occurrence_data_row_access_authorized"] is False
+          assert r["taxon_token_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact frozen BALA meta manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v128-event-core-audit-bad5a69486e32a917575d9e5b6e84c67af10d69e-37187589920
+          path: build/bala_v135/input
+          repository: zuizui0223/Structural
+          run-id: 37187589920
+          github-token: ${{ github.token }}
+
+      - name: Verify exact meta manifest
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("build/bala_v135/input/meta_manifest.json")
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=="35df3c8a1e92f7cdeb56f760491a1faf903d9ed46beb2c9b2b84fcc79f784691"
+          PY
+
+      - name: Freeze schema and partition rule only
+        run: |
+          mkdir -p build/bala_v135/output
+          python scripts/freeze_bala_taxon_routing_schema_v1_135.py             --meta-manifest build/bala_v135/input/meta_manifest.json             --partition-spec build/bala_v135/output/taxon_partition_spec.json             --receipt build/bala_v135/output/taxon_routing_schema_result.json
+
+      - name: Enforce zero Occurrence row access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v135/output/taxon_routing_schema_result.json").read_text())
+          assert x["status"]=="BALA_OCCURRENCE_SCHEMA_AND_MF_PARTITION_RULE_FROZEN_RESPONSE_UNOPENED"
+          assert x["routing_field"]=="identificationRemarks"
+          assert x["routing_field_index"]==20
+          assert x["eventID_index"]==17
+          assert x["organismQuantity_index"]==12
+          assert x["occurrence_data_rows_decoded"]==0
+          assert x["taxon_tokens_opened"]==0
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["source_loss_effects_computed"]==0
+          assert x["confirmatory_eligible"] is False
+          PY
+
+      - name: Upload schema-only routing freeze
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v135-taxon-routing-schema-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v135/output/taxon_partition_spec.json
+            build/bala_v135/output/taxon_routing_schema_result.json
+          if-no-files-found: error
+          retention-days: 30

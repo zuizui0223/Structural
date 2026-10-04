@@ -1,0 +1,40 @@
+{
+  "schema": "structural.bala_pitfall_quality_freeze.v1_135",
+  "status": "SUCCESSFUL_RESPONSE_UNOPENED_PITFALL_QUALITY_GATE_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "source_execution": {
+    "workflow_run_id": 37211022254,
+    "workflow_head_sha": "771e52a6bda4e6c58c58e7e2625cc709454bfb52",
+    "artifact_id": 11306547489,
+    "artifact_name": "bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254",
+    "artifact_digest": "sha256:0e168b5e55c2d672d20d6ffe31b73f2a6bd9b31ba7d9203fd4c526b175348848",
+    "expires_at": "2026-11-03T14:55:40Z"
+  },
+  "artifact_files": {
+    "pitfall_quality_result.json": {"sha256":"010d5ae6a495b9250bafd526ab0a5ded391a4ce604b8e217220c5f1a2df4dab9"},
+    "pitfall_position_recovery.csv": {"sha256":"a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27"},
+    "pitfall_duplicate_position_groups.csv": {"sha256":"7e61460dcd76893f444e8d76856bfaa27cffdb0560a3fdaa05c15df76b845183"},
+    "pitfall_site_phase_quality.csv": {"sha256":"7ae10da5e2039610d2732d2b084da586012d5ad7b516a9ad0fc19cae0e359a00"},
+    "pitfall_island_phase_quality.csv": {"sha256":"24ccd2db6438f899a36eeb9443dad432ca78c256b07837f3f4faa1b3c1d905c8"}
+  },
+  "result": {
+    "site_phases": 90,
+    "island_phases": 21,
+    "pitfall_event_rows": 2568,
+    "eventID_fallback_recoveries": 45,
+    "unresolved_event_rows": 1,
+    "duplicate_position_rows": 19,
+    "minimum_site_phase_unique_positions": 21,
+    "minimum_island_phase_coverage_fraction": 0.875,
+    "all_site_phases_pass_20_of_30": true,
+    "all_island_phases_pass_80_percent": true,
+    "quality_gate_passed": true
+  },
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0
+  },
+  "next_gate": "freeze Occurrence schema and deterministic MF taxon routing before any Occurrence data-row semantics are opened"
+}
