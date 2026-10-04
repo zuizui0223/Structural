@@ -1,0 +1,26 @@
+{
+  "schema": "structural.bala_protocol_grammar_stop.v1_133",
+  "status": "V132_AUDIT_SEMANTIC_ASSUMPTION_CORRECTED_RESPONSE_UNOPENED",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_run": {
+    "workflow_run_id": 37210049606,
+    "artifact_id": 11305469162,
+    "artifact_digest": "sha256:8b0f15eb4bea911e2e1efe02bb03f1a6b87a32721cac4310074d1d94ffcb46f1"
+  },
+  "problem": "v1.132 incorrectly interpreted the pitfall fieldNumber suffix as 1-15 within each preservative class. In the published/Event encoding, S01-S30 indexes the 30 trap positions along the transect and preservative classes alternate across those positions.",
+  "evidence": {
+    "publication_protocol": "30 pitfall traps at 5-m intervals, every second trap ethylene-glycol and the remaining 15 Turquin solution",
+    "event_encoding_examples": [
+      "ETHY occurs at even-numbered S positions through S30",
+      "TURQ occurs at odd-numbered S positions through S29"
+    ],
+    "v132_pitfall_out_of_range_count_is_not_a_data_quality_failure": true
+  },
+  "scientific_consequence": {
+    "occurrence_opened": false,
+    "source_loss_effect_computed": false,
+    "confirmatory_status_changed": false,
+    "v132_may_not_define_core_denominator": true
+  },
+  "next_action": "audit a pitfall-only repeated core using S01-S30 position semantics and Event metadata only"
+}

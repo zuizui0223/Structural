@@ -1,0 +1,8 @@
+{
+  "schema": "structural.bala_pitfall_core_audit_request.v1_133",
+  "status": "REQUEST_RESPONSE_UNOPENED_PITFALL_ONLY_CORE_AUDIT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_pitfall_core_audit_contract_v1_133.json",
+  "occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}

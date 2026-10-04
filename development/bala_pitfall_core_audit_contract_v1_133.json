@@ -1,0 +1,87 @@
+{
+  "schema": "structural.bala_pitfall_core_audit_contract.v1_133",
+  "status": "RESPONSE_UNOPENED_PITFALL_ONLY_REPEATED_CORE_AUDIT_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_protocol_grammar_stop_v1_133.json",
+    "development/bala_official_core_code_audit_contract_v1_131.json",
+    "development/bala_source_loss_preintake_v1_126.json"
+  ],
+  "publication_basis": {
+    "source": "Pozsgai et al. 2024 Scientific Data",
+    "doi": "10.1038/s41597-024-03174-7",
+    "conceptual_repeated_sites": 30,
+    "physical_core_codes": 31,
+    "pitfall_protocol": "30 traps along a 150-m transect at 5-m intervals; 15 ethylene-glycol and 15 Turquin solution in alternating positions",
+    "beating_protocol": "10 samples from each of the three most common native tree species",
+    "foundational_core_events_reported": 4929
+  },
+  "source": {
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "event_core_sha256": "b6f8a7fa380bc6372e79e097583d7d62a2a0d9a6e4ba2c6c50922d5c401d51bd",
+    "occurrence_extension_sha256_opaque_bytes": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5"
+  },
+  "phase_windows": {
+    "BALA1": [1997,2004],
+    "BALA2": [2010,2011],
+    "BALA3": [2019,2022]
+  },
+  "official_core_codes": {
+    "unchanged_29": [
+      "FLO-NFFR-T-07","FLO-NFFR-T-06","FLO-NFMA-T-08","FLO-NFMA-T-16",
+      "FAI-NFCG-T-01","FAI-NFCG-T-03","FAI-NFCF-T-10",
+      "PIC-NFMP-T-10","PIC-NFMP-T-01","PIC-NFCA-T-09","PIC-NFCA-T-08",
+      "SJG-NFPP-T-02","SJG-NFPP-T-09","SJG-NFTO-T-12","SJG-NFTO-T-06",
+      "TER-NFSB-T-06","TER-NFSB-T-11","TER-NFBF-T-02","TER-NFPG-T-22","TER-NFPG-T-33",
+      "TER-NFBF-T-01","TER-NFTB-T-15","TER-NFTB-T-18",
+      "SMG-NFGR-T-03","SMG-NFGR-T-07","SMG-NFPV-T-01","SMG-NFPV-T-04",
+      "SMR-NFPA-T-01","SMR-NFPA-T-03"
+    ],
+    "BALA1_replaced_site_code": "FAI-NFCF-T-11",
+    "BALA2_BALA3_replacement_site_code": "FAI-NFCF-TB26"
+  },
+  "event_semantics": {
+    "pitfall_samplingProtocol": "Pitfall solution",
+    "beating_samplingProtocol": "Open beating tray (with bag)",
+    "pitfall_fieldNumber_parse": "ETHY-Snn, TURQ-Snn or TUR-Snn with nn in 1..30; raw missing/malformed fieldNumber remains an observed pitfall event but is not assigned a trap position",
+    "turquin_prefix_family": ["TURQ","TUR"],
+    "pitfall_position_range": [1,30],
+    "expected_positions_per_site_phase": 30,
+    "beating_expected_max_events_per_site_phase": 30
+  },
+  "audit_questions": [
+    "How many pitfall Event rows exist in each publication-defined core site-phase?",
+    "How many distinct parseable pitfall positions 1..30 are represented, and how many pitfall rows have missing/malformed position labels?",
+    "Are parseable ETHY and TUR/TURQ labels consistent with an alternating odd/even trap layout?",
+    "How much pitfall effort is retained per site-phase and per island-phase relative to the nominal 30 traps per site?",
+    "Does the total excess above the publication's 4929 Event count equal the number of beating Event rows above 30 per site-phase?",
+    "Can a pitfall-only repeated panel be defined without choosing among extra beating tree-species samples?"
+  ],
+  "decision_rule": {
+    "this_audit_does_not_open_occurrence": true,
+    "this_audit_does_not_choose_taxa": true,
+    "this_audit_does_not_score_source_loss": true,
+    "pitfall_only_core_can_advance_to_next_gate_if": [
+      "all 30 conceptual lineages have pitfall Event coverage in all three phases",
+      "all seven core islands remain represented in all three phases",
+      "no site-phase has more than 30 distinct parseable trap positions",
+      "response-independent effort summaries are sufficient to freeze a surveyed-zero quality rule before occurrence access"
+    ],
+    "final_surveyed_zero_threshold_selected_here": false
+  },
+  "anti_selection": [
+    "do not choose a pitfall effort threshold based on taxon occurrence or source-loss effects",
+    "do not use the 4929 total to delete pitfall events",
+    "do not inspect Occurrence extension rows or taxon identities",
+    "do not repair malformed fieldNumber labels using occurrence content",
+    "beating events are excluded from the proposed primary method for comparability, not because their ecological outcomes are known"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_this_audit": false
+  }
+}
