@@ -1,0 +1,25 @@
+{
+  "schema": "structural.source_loss_candidate.v1_127",
+  "candidate_id": "apostle_islands_carnivores_2014_2017",
+  "system_name": "Apostle Islands National Lakeshore carnivore guild camera-trap monitoring",
+  "taxon_scope": "terrestrial carnivores",
+  "island_or_island_like_units": "Apostle Islands, Lake Superior",
+  "ordered_wave_count": 4,
+  "wave_labels": [2014,2015,2016,2017],
+  "stable_unit_ids": true,
+  "stable_species_ids": true,
+  "response_is_occupancy_or_presence_absence": true,
+  "response_values_currently_unopened": false,
+  "geometry_available_response_independently": true,
+  "environment_or_habitat_available_response_independently": true,
+  "sampling_effort_or_detection_metadata_available": true,
+  "known_overlap_with_existing_structural_systems": "none",
+  "public_source": {
+    "report_doi": "10.7287/peerj.preprints.26835",
+    "monitored_islands": 19,
+    "camera_traps": 160,
+    "trap_nights": 49280,
+    "monitoring_period": "2014-2017"
+  },
+  "intake_issue": "published report already exposes island-level carnivore occupancy/distribution results, so the future response is not pristine for a new confirmatory source-loss leverage test"
+}
