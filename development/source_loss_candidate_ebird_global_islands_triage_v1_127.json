@@ -1,0 +1,19 @@
+{
+  "schema": "structural.source_loss_candidate_triage_result.v1_127",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "status": "HOLD_METADATA_INCOMPLETE",
+  "reason": "three-wave temporal ordering, stable island IDs and response-independent geometry are available, but occupancy/non-detection semantics are not yet frozen from the archive metadata; observed-species rows alone cannot be treated as absences",
+  "what_is_resolved": [
+    "18 ordered annual waves",
+    "4205 represented islands",
+    "stable ISLAND_ID crosswalk",
+    "species-level raw archive remains unopened for Structural"
+  ],
+  "what_must_be_resolved_without_opening_species_outcomes": [
+    "whether archived checklists are complete checklists or otherwise support defensible non-detection",
+    "whether effort/detection metadata are present or recoverable response-independently",
+    "a prospectively frozen island-year survey-quality rule for defining occupancy absence"
+  ],
+  "response_access_authorized": false,
+  "counts_as_empirical_evidence": false
+}
