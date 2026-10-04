@@ -1,0 +1,84 @@
+name: BALA publication core-code audit v1.131
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_official_core_code_audit_request_v1_131.json
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-22.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate publication-defined core lineage audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_official_core_code_audit_contract_v1_131.json").read_text())
+          r=json.loads(Path("development/bala_official_core_code_audit_request_v1_131.json").read_text())
+          codes=set(c["official_core_codes"]["unchanged_29"])
+          codes.add(c["official_core_codes"]["BALA1_replaced_site_code"])
+          codes.add(c["official_core_codes"]["BALA2_BALA3_replacement_site_code"])
+          assert len(codes)==31
+          assert c["publication_semantics"]["foundational_core_events_reported"]==4929
+          assert c["sample_slot_definition"]["final_deduplication_rule_selected"] is False
+          assert c["response_boundary"]["occurrence_extension_semantically_opened"] is False
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Audit publication core codes and standardized sample slots
+        run: |
+          mkdir -p build/bala_v131
+          python scripts/audit_bala_official_core_codes_v1_131.py             --output-dir build/bala_v131
+
+      - name: Enforce response firewall and no core-rule selection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("build/bala_v131")
+          x=json.loads((root/"official_core_code_audit.json").read_text())
+          assert x["status"]=="BALA_PUBLICATION_CORE_CODE_AUDIT_COMPLETE_RESPONSE_UNOPENED"
+          assert x["publication_core_physical_codes"]==31
+          assert x["conceptual_core_lineages"]==30
+          assert x["reported_foundational_core_event_rows"]==4929
+          assert x["publication_noncore_alias_codes_present_in_selected"]==[]
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["source_loss_effects_computed"]==0
+          assert x["final_core_rule_selected"] is False
+          assert x["confirmatory_eligible"] is False
+          for name in [
+            "official_code_phase_counts.csv","official_core_site_phase_counts.csv",
+            "official_core_fieldprefix_counts.csv","duplicate_sample_slots.csv"
+          ]:
+              assert (root/name).exists(),name
+          PY
+
+      - name: Upload response-unopened publication core audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v131-official-core-audit-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v131/official_core_code_audit.json
+            build/bala_v131/official_code_phase_counts.csv
+            build/bala_v131/official_core_site_phase_counts.csv
+            build/bala_v131/official_core_fieldprefix_counts.csv
+            build/bala_v131/duplicate_sample_slots.csv
+          if-no-files-found: error
+          retention-days: 30
