@@ -31,7 +31,7 @@ def test_source_loss_transition_v123_holds_count_and_distance_reference():
     assert "source-loss count" in r1
     assert "ordinary Euclidean distance" in r2
     assert "self-anchor" in r2
-    assert "E_i" in x["reference_ladder"]["C"]
+    assert "E_i" in " ".join(x["reference_ladder"]["C"])
     assert any("do not redefine L01 using t2" in s for s in x["anti_selection"])
 
 def test_v123_priority_requires_metadata_first_candidate_triage():
