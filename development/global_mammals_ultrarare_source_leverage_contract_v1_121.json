@@ -1,0 +1,58 @@
+{
+  "schema": "structural.global_mammals_ultrarare_source_leverage_contract.v1_121",
+  "status": "POSTHOC_RESPONSE_FREE_MECHANISM_DIAGNOSTIC_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "evidence_class": "posthoc pilot-plus-geometry descriptive diagnostic; no new heldout occurrence endpoint",
+  "parents": [
+    "development/global_mammals_sealed_ultrarare_species_pilot_freeze_v1_113.json",
+    "development/global_mammals_ultrarare_result_freeze_v1_119.json",
+    "development/current_status_v1_119.json"
+  ],
+  "question": "Among ultrarare species with the same nominal number of occupied pilot sources, how unequal or complementary are the sources' graph-weighted contributions to the remaining island source-access surface?",
+  "operator_semantics": {
+    "important_correction": "graph paths may traverse occupied or unoccupied islands; this is not an occupied-source stepping-stone chain",
+    "source_pressure_mass": "for source s, sum over all 4,126 heldout geometry targets of exp(-d_graph(target,s)/lambda_bioregion), with unreachable targets contributing zero",
+    "source_share": "source_pressure_mass divided by the sum across the focal species' occupied pilot sources",
+    "effective_source_count": "inverse Simpson Hill number 1/sum(source_share^2)",
+    "interpretation": "number of equally influential sources that would yield the same concentration of graph-pressure leverage",
+    "source_removal_graph_empty": "target changes from at least one graph-reachable source to zero graph-reachable sources after deletion of one pilot source"
+  },
+  "population": {
+    "species": 529,
+    "pilot_islands": 1275,
+    "heldout_geometry_targets": 4126,
+    "pilot_presence_rule": "1-4",
+    "heldout_occurrence_values_authorized": false
+  },
+  "frozen_inputs": {
+    "ultrarare_species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "ultrarare_pilot_matrix_sha256": "476c35e7e197c6b7a9daf7fc6697101add9e0bda1690de94f64efffd5468fb79",
+    "source_graph_edges_sha256": "92e0ec3e5335233f6430b18a972235481845848796d0d7e1cd12cc6fb10d090f",
+    "reference_receipt_sha256": "55a0581c7c7d0136ecb6a025fa2a41f5ddeeb8ec674b8500bf7c37f81763954a",
+    "pilot_routing_sha256": "ac3898162331ce4217ea63d8b9330051acaa3a39ddca425cd0b48246a11caec0",
+    "heldout_routing_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "matched_random_placement_null": {
+    "applies_to_species_with_nominal_sources": "2-4",
+    "replicates_per_species": 1000,
+    "seed": 20261004,
+    "preserves": [
+      "nominal occupied-source count",
+      "exact count of occupied sources in each bioregion"
+    ],
+    "sampling_frame": "pilot islands in the corresponding bioregion, without replacement within replicate",
+    "primary_descriptive_contrast": "actual effective source count minus species-specific mean matched-null effective source count",
+    "species_bootstrap_replicates": 10000,
+    "species_bootstrap_seed": 2026100401,
+    "no_support_threshold": true
+  },
+  "guardrails": [
+    "do not interpret graph paths as realized dispersal routes",
+    "do not call pilot occupied sources the last remaining global populations",
+    "do not infer demographic rescue, persistence, recolonization or extinction risk",
+    "do not use this posthoc diagnostic to rescue or upgrade the v1.119 heldout evidence hierarchy",
+    "do not select a new occupancy threshold from this diagnostic",
+    "do not open or use heldout occurrence values"
+  ],
+  "manuscript_role": "mechanistic clarification of why source count and source arrangement are distinct; any management claim remains a hypothesis requiring independent dynamic or response-sealed validation"
+}
