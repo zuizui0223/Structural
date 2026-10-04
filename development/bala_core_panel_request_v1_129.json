@@ -1,0 +1,8 @@
+{
+  "schema": "structural.bala_core_panel_request.v1_129",
+  "status": "REQUEST_RESPONSE_UNOPENED_BALA_CORE_PANEL_FREEZE",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_core_panel_contract_v1_129.json",
+  "occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}

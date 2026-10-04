@@ -1,0 +1,51 @@
+{
+  "schema": "structural.bala_event_core_audit_freeze.v1_129",
+  "status": "SUCCESSFUL_RESPONSE_UNOPENED_EVENT_CORE_AUDIT_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "source_execution": {
+    "workflow": ".github/workflows/bala-event-core-audit-v1_128.yml",
+    "workflow_run_id": 37187589920,
+    "workflow_head_sha": "bad5a69486e32a917575d9e5b6e84c67af10d69e",
+    "workflow_job_id": 111392736881,
+    "artifact_id": 11297581242,
+    "artifact_name": "bala-v128-event-core-audit-bad5a69486e32a917575d9e5b6e84c67af10d69e-37187589920",
+    "artifact_digest": "sha256:8355d84e80d25dd996639eb880457d7ac58c56fd05c5916aa442c49fb354972d",
+    "expires_at": "2026-11-03T08:01:48Z"
+  },
+  "archive": {
+    "bytes": 2761423,
+    "sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "member_count": 4,
+    "event_core_path": "event.txt",
+    "event_core_sha256": "b6f8a7fa380bc6372e79e097583d7d62a2a0d9a6e4ba2c6c50922d5c401d51bd",
+    "occurrence_extension_path": "occurrence.txt",
+    "occurrence_extension_sha256_opaque_bytes": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5",
+    "occurrence_extension_semantically_opened": false
+  },
+  "event_audit": {
+    "event_records": 10379,
+    "event_year_min": 1997,
+    "event_year_max": 2022,
+    "date_cluster_ranges": {
+      "BALA1": [1997,2005],
+      "BALA2": [2010,2011],
+      "BALA3": [2019,2022]
+    },
+    "event_rows_by_cluster": {
+      "BALA1": 7097,
+      "BALA2": 1660,
+      "BALA3": 1622
+    },
+    "three_phase_coordinate_sites": 30,
+    "three_phase_coordinate_islands": 7,
+    "three_phase_locationID_sites": 29,
+    "coordinate_key_rounding_decimals": 5,
+    "coordinate_inconsistency_count": 0
+  },
+  "response_boundary": {
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible": false
+  }
+}

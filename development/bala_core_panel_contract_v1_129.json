@@ -1,0 +1,60 @@
+{
+  "schema": "structural.bala_core_panel_contract.v1_129",
+  "status": "RESPONSE_UNOPENED_THREE_WAVE_CORE_PANEL_RULE_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_audit": "development/bala_event_core_audit_freeze_v1_129.json",
+  "parent_preintake": "development/bala_source_loss_preintake_v1_126.json",
+  "source": {
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "event_core_sha256": "b6f8a7fa380bc6372e79e097583d7d62a2a0d9a6e4ba2c6c50922d5c401d51bd",
+    "occurrence_extension_sha256_opaque_bytes": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5"
+  },
+  "official_response_independent_metadata": {
+    "source": "GBIF IPT Study Extent for version 1.0",
+    "core_sampling_events_reported": 4929,
+    "core_transects_reported": 30,
+    "core_fragments_reported": 15,
+    "core_islands_reported": 7,
+    "phase_windows": {
+      "BALA1": [1997,2004],
+      "BALA2": [2010,2011],
+      "BALA3": [2019,2022]
+    },
+    "reason": "Study Extent explicitly defines the foundational core dataset and is internally consistent with the Event-core 30-coordinate-site intersection; Project Data contains the known 30-versus-31 inconsistency"
+  },
+  "site_identity": {
+    "rule": "island code plus decimalLatitude and decimalLongitude rounded to 5 decimal places",
+    "why_not_locationID": "locationID yields only 29 three-phase intersections whereas the coordinate key yields exactly 30 across seven islands with zero coordinate inconsistency",
+    "rounding_decimals": 5,
+    "final_core_site_set": "the intersection of site keys occurring in Event-core rows within all three frozen phase windows",
+    "expected_core_sites": 30,
+    "expected_core_islands": 7
+  },
+  "core_event_rule": {
+    "retain": "Event-core row whose site key belongs to the frozen 30-site intersection and whose year lies inside its phase window",
+    "expected_total_events": 4929,
+    "expected_fragments_from_locationRemarks": 15,
+    "sampling_protocols_must_be_response_independent": true,
+    "each_core_site_phase_must_have_at_least_one_event": true,
+    "occurrence_rows_may_not_be_used_to_define_core_membership": true
+  },
+  "locationID_discrepancy_audit": {
+    "report_locationIDs_by_site_and_phase": true,
+    "report_sites_with_multiple_locationIDs_within_or_across_phases": true,
+    "site_membership_may_not_be_changed_to_force_30_or_31": true
+  },
+  "outputs": [
+    "core_panel_sites.csv",
+    "core_panel_site_phase.csv",
+    "locationID_crosswalk.csv",
+    "core_panel_result.json"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_core_panel_only": false
+  }
+}
