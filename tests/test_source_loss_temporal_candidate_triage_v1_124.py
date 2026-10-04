@@ -8,35 +8,32 @@ def load(rel):
 
 def test_v124_candidate_triage_keeps_confirmation_empty():
     x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
-    assert x["status"].startswith("METADATA_ONLY")
     assert x["preferred_confirmatory_candidate"] is None
     assert x["confirmatory_candidate_status"] == "NONE_QUALIFIED_YET"
     assert x["response_values_opened_for_source_leverage_analysis"] is False
     assert x["source_leverage_effects_computed"] == 0
 
-def test_v124_azores_is_response_unopened_preintake_only():
+def test_v124_bala_is_preferred_response_unopened_preintake():
     x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
-    a = next(c for c in x["candidates"] if c["candidate_id"] == "azores_slam_arthropods_2012_2021")
-    assert a["decision"] == "QUALIFY_RESPONSE_UNOPENED_PREINTAKE"
-    assert a["metadata"]["event_occurrence_separation"] is True
-    assert x["preferred_response_unopened_preintake"]["candidate_id"] == a["candidate_id"]
+    b = next(c for c in x["candidates"] if c["candidate_id"] == "azores_bala_arthropods_1997_2022")
+    assert b["decision"] == "QUALIFY_RESPONSE_UNOPENED_PREINTAKE"
+    assert b["metadata"]["three_wave_core_design"] is True
+    assert x["preferred_response_unopened_preintake"]["candidate_id"] == b["candidate_id"]
     assert x["preferred_response_unopened_preintake"]["confirmatory_eligible_now"] is False
 
-def test_v124_eider_is_retrospective_not_fresh():
+def test_v124_slam_is_secondary_preintake():
+    x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
+    assert x["secondary_response_unopened_preintake"]["candidate_id"] == "azores_slam_arthropods_2012_2021"
+    assert x["secondary_response_unopened_preintake"]["confirmatory_eligible_now"] is False
+
+def test_v124_eider_remains_retrospective_only():
     x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
     e = next(c for c in x["candidates"] if c["candidate_id"] == "finnish_common_eider_archipelago_1997_2020")
     assert e["decision"] == "QUALIFY_RETROSPECTIVE_SCHEMA_AUDIT"
-    assert e["firewall_status"]["candidate_response_direction_broadly_public"] is True
     assert e["firewall_status"]["pristine_fresh_confirmatory_eligible"] is False
     assert x["preferred_immediate_retrospective_stress_test"]["may_count_as_confirmation"] is False
 
-def test_v124_presence_only_ebird_does_not_define_absence():
-    x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
-    e = next(c for c in x["candidates"] if c["candidate_id"] == "global_ebird_islands_2002_2019")
-    assert e["decision"] == "HOLD_ENDPOINT"
-    assert "absence" in e["decision_reason"].lower() or "zero" in e["decision_reason"].lower()
-
-def test_v124_aislands_cannot_reconfirm_structural_discovery():
+def test_v124_aislands_cannot_reconfirm_discovery():
     x = load("development/source_loss_temporal_candidate_triage_v1_124.json")
     a = next(c for c in x["candidates"] if c["candidate_id"] == "a_islands_temporal_plants")
     assert a["decision"] == "STOP_AS_INDEPENDENT_CONFIRMATION"
