@@ -1,0 +1,29 @@
+{
+  "schema": "structural.source_loss_candidate.v1_127",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "system_name": "The island biogeography of the eBird citizen-science program",
+  "taxon_scope": "non-marine birds",
+  "island_or_island_like_units": "global islands",
+  "ordered_wave_count": 18,
+  "wave_labels": [2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],
+  "stable_unit_ids": true,
+  "stable_species_ids": true,
+  "response_is_occupancy_or_presence_absence": false,
+  "response_values_currently_unopened": true,
+  "geometry_available_response_independently": true,
+  "environment_or_habitat_available_response_independently": true,
+  "sampling_effort_or_detection_metadata_available": false,
+  "known_overlap_with_existing_structural_systems": "none",
+  "public_source": {
+    "dataset_doi": "10.5061/dryad.8931zcrpc",
+    "island_geometry_crosswalk": "ISLAND_ID corresponds to OBJECTID in Sayre et al. 2018 global islands database",
+    "represented_islands": 4205,
+    "reported_well_surveyed_islands": 1644,
+    "archive_description": "6573 RData files organized by month/day/year; each contains observed non-pelagic bird species, checklist submission ID, coordinates and ISLAND_ID"
+  },
+  "intake_issue": "the archived-file description exposes observed-species rows but does not yet establish a frozen non-detection/absence surface or explicit checklist-completeness/effort fields sufficient for the source-loss persistence endpoint",
+  "response_firewall": {
+    "species_level_archive_values_opened_for_structural": false,
+    "future_t2_outcomes_opened_for_source_loss_hypothesis": false
+  }
+}
