@@ -15,12 +15,22 @@ def test_source_loss_transition_v123_is_three_time_and_non_tautological():
     assert x["reference_ladder"]["primary_contrast"].startswith("heldout predictive loss of C minus R2")
     assert x["counts_as_current_evidence"] is False
 
+def test_source_loss_transition_v123_excludes_target_self_anchor():
+    x = load("development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json")
+    s = x["source_loss_exposure"]
+    assert s["self_anchor_exclusion"] is True
+    assert "excluding target i itself" in s["baseline_sources"]
+    assert "K_ii is never used" in s["kernel"]
+    assert any("target population itself" in z for z in x["anti_selection"])
+
 def test_source_loss_transition_v123_holds_count_and_distance_reference():
     x = load("development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json")
     r1 = " ".join(x["reference_ladder"]["R1"])
     r2 = " ".join(x["reference_ladder"]["R2"])
-    assert "nominal source-loss count" in r1
+    assert "occupied-source count" in r1
+    assert "source-loss count" in r1
     assert "ordinary Euclidean distance" in r2
+    assert "self-anchor" in r2
     assert "E_i" in x["reference_ladder"]["C"]
     assert any("do not redefine L01 using t2" in s for s in x["anti_selection"])
 
