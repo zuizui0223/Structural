@@ -1,0 +1,23 @@
+{
+  "schema": "structural.active_priority.v1_125",
+  "status": "independent_source_loss_leverage_validation_only",
+  "supersedes": "development/structural_active_priority_v1_122.json",
+  "completed": [
+    "integrated v1.122 effective-source-number diagnostic into conservation framing",
+    "clarified that graph paths traverse the full island graph and are not occupied-source stepping-stone chains",
+    "froze a future source-loss leverage hypothesis and three-wave validation protocol"
+  ],
+  "do_now": [
+    "identify only genuinely independent datasets capable of t0/t1/t2 occupancy ordering",
+    "require response-independent geometry and source identity before opening future outcomes",
+    "freeze system-specific estimability thresholds, validation units and leverage operator before burned-pilot access"
+  ],
+  "do_not": [
+    "open another response layer from the existing global mammal dataset",
+    "search alternative leverage kernels, graph scales or source-count cutpoints in existing Structural outcomes",
+    "treat the v1.122 diagnostic as confirmatory evidence",
+    "use a two-wave source-loss/outcome design as causal ordering evidence",
+    "claim rescue, extinction prevention or recolonization without temporal mechanism data"
+  ],
+  "next_scientific_event": "independent three-wave source-loss leverage intake or independent occupancy-regime replication"
+}
