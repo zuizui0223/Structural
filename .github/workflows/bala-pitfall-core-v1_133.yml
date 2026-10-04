@@ -1,0 +1,72 @@
+name: BALA pitfall-only repeated core audit v1.133
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_pitfall_core_audit_request_v1_133.json
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-unopened pitfall audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_pitfall_core_audit_contract_v1_133.json").read_text())
+          r=json.loads(Path("development/bala_pitfall_core_audit_request_v1_133.json").read_text())
+          assert c["status"]=="RESPONSE_UNOPENED_PITFALL_ONLY_REPEATED_CORE_AUDIT_FROZEN"
+          assert c["event_semantics"]["pitfall_position_range"]==[1,30]
+          assert c["publication_basis"]["pitfall_protocol"].startswith("30 traps")
+          assert c["decision_rule"]["final_surveyed_zero_threshold_selected_here"] is False
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Execute Event-only pitfall core audit
+        run: |
+          mkdir -p build/bala_v133
+          PYTHONPATH="$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"           python scripts/audit_bala_pitfall_core_v1_133.py             --output-dir build/bala_v133
+
+      - name: Enforce response firewall and structural gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v133/pitfall_core_audit.json").read_text())
+          assert x["status"]=="BALA_PITFALL_ONLY_CORE_AUDIT_COMPLETE_RESPONSE_UNOPENED"
+          assert x["site_phases"]==90
+          assert x["conceptual_lineages"]==30
+          assert x["core_islands"]==7
+          assert x["surveyed_zero_quality_threshold_selected"] is False
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["source_loss_effects_computed"]==0
+          assert x["confirmatory_eligible"] is False
+          PY
+
+      - name: Upload response-unopened pitfall audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v133-pitfall-core-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v133/pitfall_core_audit.json
+            build/bala_v133/pitfall_site_phase_effort.csv
+            build/bala_v133/pitfall_island_phase_effort.csv
+            build/bala_v133/pitfall_label_anomalies.csv
+            build/bala_v133/beating_excess_site_phase.csv
+          if-no-files-found: error
+          retention-days: 30
