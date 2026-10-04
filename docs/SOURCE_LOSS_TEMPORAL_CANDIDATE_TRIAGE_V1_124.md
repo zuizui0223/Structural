@@ -1,48 +1,62 @@
 # Source-loss leverage candidate triage v1.124
 
-## What changed
+## Current ordering
 
-The v1.123 three-time hypothesis was frozen before candidate-specific source-leverage analysis. Candidate search was then restricted to metadata: repeated census structure, island identity, geometry, survey design, data accessibility and whether the system has already contributed to Structural discovery.
+The v1.123 three-time hypothesis was frozen before candidate-specific source-leverage analysis. Candidate search then used monitoring structure, island identity, survey effort, geometry, public data schema and prior Structural provenance.
 
 No candidate has yet earned confirmatory status.
 
-## Best immediately usable system: Finnish Common Eider
+The search now separates two useful lanes:
 
-The strongest located stress-test system is the Finnish Archipelago Bird Census common-eider series.
+1. **response-unopened prospective pre-intake:** Azores SLAM arthropods;
+2. **independent retrospective stress test:** Finnish common eider.
 
-The published dataset spans 1997–2020, contains 18,516 island-year counts from 3,648 islands, and exposes a stable `Island_ID`, annual breeding-pair counts, year fields and a coarse public spatial representation. The core Archipelago Bird Census estimates breeding numbers using at least two annual counts under a standardized protocol. Monitoring is unbalanced in time, with roughly 100–1,200 islands surveyed per year.
+## Best response-unopened pre-intake: Azores SLAM arthropods
 
-This is unusually close to the v1.123 design: the same species can experience many independent source-loss events through time, and later occupancy can be evaluated on islands that survived the first transition.
+The Azores archive is currently the cleanest route because its Darwin Core Archive separates **sampling events** from **species occurrences**.
 
-However, it is **not pristine confirmatory evidence**. The associated paper already reports broad population decline and geographic redistribution. Candidate selection therefore cannot be represented as response-sealed in the strongest sense. The correct evidence class is an independent, design-frozen retrospective stress test.
+Metadata report 42 SLAM traps across seven islands and approximately quarterly sampling through the long-term programme. The Event core can therefore be audited for island, plot, date, coordinates and sampling completeness while focal taxon occurrence values remain unparsed.
 
-Before any source-leverage effect is computed, a schema-only gate must answer four questions:
+This is not yet confirmatory evidence. It first has to pass v1.125:
 
-1. Can `pos2` or another public field reconstruct a deterministic 2×2-km geometry without opening or tuning on the Structural endpoint?
-2. Does `Eider_pairs = 0` always mean a surveyed zero for that island-year rather than missing/non-surveyed?
-3. Can the subset of observations produced by redistribution of grouped-island counts be identified from the public data? If not, their inclusion rule must be frozen rather than chosen after seeing the Structural effect.
-4. Are enough island sequences observed at t0, t1 and t2 to generate source-loss events and subsequent survivor contraction under disjoint burned-pilot and confirmatory partitions?
+- resolve the raw archive and its reported 14,922-versus-14,924 occurrence-row discrepancy;
+- establish deterministic event→plot→island identity;
+- freeze a response-independent event-completeness rule;
+- demonstrate two disjoint eligible three-time windows;
+- freeze the taxonomic universe before occurrence parsing.
 
-Only if these pass should the eider dataset enter a retrospective v0.31-style estimability pilot.
+A critical taxonomic guardrail is already clear from metadata: Pico and Terceira spider records were published separately and are omitted from the main archive. Araneae are therefore excluded from the primary universe unless companion archives are merged under a prospectively frozen crosswalk.
+
+## Best immediately available retrospective system: Finnish Common Eider
+
+The Finnish Archipelago Bird Census series remains an excellent independent stress-test system: 1997–2020, 3,648 islands and 18,516 island-year counts with a stable island identifier.
+
+It is not response-sealed in the strongest sense because broad decline and geographic redistribution have already been published. It therefore cannot become pristine confirmation of the source-leverage hypothesis.
+
+There is also a provenance issue that matters directly for island-level source loss: some counts originally reported for groups of islands were redistributed among individual islands, affecting roughly 6.2% of observations per year in the publication. A schema audit must determine whether those observations can be prospectively identified. If not, their treatment must be frozen before any Structural effect is calculated.
 
 ## Other candidates
 
-**Thousand Island Lake birds** have the right biological monitoring structure: 36 of 42 long-term islands are reported to have consistent bird data. The blocker is access to the raw annual island×species sequence, not the ecological design.
+**Thousand Island Lake birds** have the right monitoring concept but the required raw annual island×species series has not been located.
 
-**Thousand Island Lake vegetation** may ultimately be even cleaner for occupancy because plants avoid many detection problems. The programme reports 29 island plots surveyed every five years since 2009, but the public material located so far does not establish one accessible, same-protocol three-census island×species matrix.
+**Thousand Island Lake vegetation** may offer cleaner detection, but a public same-protocol three-census island×species matrix has not yet been established.
 
-**The global eBird island derivative** is enormous—4,205 islands across 2002–2019—but the archived files are occurrence records with checklist IDs and coordinates. The documented derivative does not include the complete-checklist and effort fields required for a safe species-specific absence rule. It therefore remains an endpoint HOLD.
+**The global eBird island derivative** has exceptional scale but not an effort-aware absence rule in the documented derivative.
 
-**A-Islands** has 251 repeatedly sampled islands, but it is already a Structural discovery system and cannot provide independent confirmation. Its resurvey timing is also heterogeneous.
+**A-Islands** cannot independently confirm a source-network mechanism discovered within Structural because it is already part of the discovery denominator.
 
 ## Scientific consequence
 
-This search sharpened the empirical requirement further. A useful source-loss dataset is not simply “long term.” It must contain **surveyed zeros**, because the mechanism is defined by disappearance between t0 and t1 and additional disappearance between t1 and t2. Presence-only archives can describe sources but cannot identify population loss without an effort-aware absence rule.
+The candidate search sharpened a methodological point with ecological consequences:
+
+> A source-loss test requires not merely repeated presences, but an independently defensible **surveyed zero** at both the loss transition and the downstream transition.
+
+Azores is promising precisely because sampling effort can be defined from Event rows before taxon outcomes are opened.
 
 ## Current next step
 
-The immediate executable route is therefore:
+The next executable route is:
 
-> Finnish eider metadata/schema audit → response-free reconstruction of a coarse island geometry → estimability-only three-time pilot → only then freeze a retrospective source-leverage score.
+> Azores raw-archive inventory → Event-core-only coverage audit → freeze disjoint three-time windows and taxon universe → burned-pilot estimability gate → only then open pilot occurrence rows.
 
-The parallel confirmatory search remains open; no currently located system is promoted merely to avoid an empty confirmatory queue.
+The Finnish eider system remains the parallel retrospective stress-test lane. The confirmatory queue intentionally stays empty until a candidate earns admission.
