@@ -1,0 +1,75 @@
+{
+  "schema": "structural.current_status.v1_119",
+  "status": "canonical_current_status_after_ultrarare_validation_and_topology_audit",
+  "supersedes": "development/current_status_v1_97.json",
+  "global_mammal_occupancy_layers": {
+    "ultrarare_1_4": {
+      "species": 529,
+      "evidence_status": "prospective preregistered heldout species-layer evidence in the same geographic system",
+      "primary": "presence-cell C-minus-R3",
+      "primary_point": -0.5962586684916777,
+      "primary_ci95": [-0.743854761144673,-0.46445672203892047],
+      "primary_supported": true,
+      "absence_point": 0.0002359552379291134,
+      "source_support_contrast": -0.6705112358205588,
+      "topology_specificity_actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20",
+      "external_isolation_attenuation_supported": false,
+      "result_freeze": "development/global_mammals_ultrarare_result_freeze_v1_119.json"
+    },
+    "rare_5_12": {
+      "species": 96,
+      "evidence_status": "prospective preregistered species-layer non-replication in the same geographic system",
+      "overall_C_minus_R3": -0.00044242277078691746,
+      "overall_ci95": [-0.0010981838771027365,0.0002038048880791948],
+      "overall_supported": false,
+      "absence_point": 0.0004297992584762837,
+      "presence_point": -0.2774434469982346,
+      "topology_specificity_actual_minus_mean_rewired": 0.000001557483439289808,
+      "actual_better_than_nulls": "11/20",
+      "result_freeze": "development/global_mammals_sealed_species_result_freeze_v1_97.json"
+    },
+    "exploratory_13_plus": {
+      "species": 79,
+      "evidence_status": "nonconfirmatory exploratory",
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "overall_ci95": [-0.002817220627012837,-0.0009974506971953355],
+      "absence_point": -0.005801435444703651,
+      "presence_point": 0.11643800501898788,
+      "actual_topology_specificity_all_cells": 0.00022539021852879452,
+      "actual_better_than_nulls": "0/20",
+      "topology_audit": "development/global_mammals_original79_topology_audit_freeze_v1_119.json"
+    },
+    "near_ubiquitous_broad": {
+      "pilot_rule": "1-12 pilot absences",
+      "selected_species": 0,
+      "status": "terminal not estimable before heldout access",
+      "same_dataset_threshold_widening_authorized": false,
+      "result": "development/global_mammals_sealed_broad_species_pilot_terminal_v1_112.json"
+    }
+  },
+  "revised_ecological_synthesis": {
+    "core": "occupied-source information changes qualitative role across species occupancy regimes",
+    "ultrarare": "for species present on only 1-4 pilot islands, source-network information is a prospectively supported realized-presence opportunity signal and is specific to the actual island adjacency relative to matched rewired nulls",
+    "rare": "for species present on 5-12 pilot islands, the earlier overall source-network gain does not replicate and actual topology is not distinguishable from matched nulls",
+    "higher_occupancy": "for the exploratory >=13-presence layer, natural-prevalence improvement is dominated by absence prediction, but post-hoc actual-vs-rewired analysis shows that this gain is not specific to the observed adjacency",
+    "broad_end": "near-ubiquitous saturation could not be prospectively tested because no species met the frozen broad-layer gate",
+    "conservation_readout": "connectivity should not be treated as one invariant property of an island; in the ultrarare layer, the spatial arrangement of the few remaining occupied source islands contains presence information, whereas at higher occupancy the predictive role changes or loses actual-topology specificity",
+    "formal_monotonic_or_unimodal_law_established": false,
+    "causal_dispersal_or_rescue_established": false
+  },
+  "cross_system_evidence": {
+    "A_Islands_original_and_strong_reference": "supports reference-conditioned structural adequacy, not universal topology benefit",
+    "Tanzania": "strong-reference generic structural increment adverse under LOSO and uncertain under spatial blocking",
+    "historical_318_mammals": "source information descriptively useful but extreme-isolation amplification unsupported",
+    "boreal_beetles": "valid fresh local primary non-support",
+    "GIFT_fresh": "terminal unscored fresh attempt",
+    "GIFT_endpoint_subset": "strongly selected nonconfirmatory descriptive concordance only"
+  },
+  "analysis_state": {
+    "same_data_rescue_analysis_authorized": false,
+    "broad_threshold_widening_authorized": false,
+    "ultrarare_rerun_authorized": false,
+    "next_scientific_event": "independent response-sealed system testing occupancy-regime-specific source-network roles, not further same-dataset threshold mining"
+  }
+}
