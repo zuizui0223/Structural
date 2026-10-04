@@ -1,0 +1,10 @@
+{
+  "schema": "structural.bala_taxon_routing_request.v1_135",
+  "status": "REQUEST_SCHEMA_ONLY_MF_ROUTING_FREEZE",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_taxon_routing_contract_v1_135.json",
+  "meta_manifest_artifact_id": 11297581242,
+  "occurrence_data_row_access_authorized": false,
+  "taxon_token_access_authorized": false,
+  "one_shot": true
+}
