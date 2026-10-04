@@ -1,0 +1,84 @@
+{
+  "schema": "structural.source_loss_leverage_intake_contract.v1_126",
+  "status": "METADATA_ONLY_INDEPENDENT_CANDIDATE_INTAKE_GATE",
+  "parent_protocol": "development/source_loss_leverage_protocol_v1_125.json",
+  "purpose": "decide whether a candidate dataset can support the three-wave source-loss leverage test before any future occupancy outcome is opened",
+  "required_metadata_fields": [
+    "candidate_id",
+    "system_name",
+    "taxon_scope",
+    "island_or_island_like_units",
+    "ordered_wave_count",
+    "wave_labels",
+    "stable_unit_ids",
+    "stable_species_ids",
+    "response_is_occupancy_or_presence_absence",
+    "response_values_currently_unopened",
+    "geometry_available_response_independently",
+    "environment_or_habitat_available_response_independently",
+    "sampling_effort_or_detection_metadata_available",
+    "known_overlap_with_existing_structural_systems"
+  ],
+  "hard_gates": {
+    "ordered_wave_count_min": 3,
+    "stable_unit_ids_required": true,
+    "stable_species_ids_required": true,
+    "occupancy_or_presence_absence_required": true,
+    "geometry_required_before_response": true,
+    "independent_of_existing_structural_response_systems": true,
+    "future_outcome_must_not_be_preinspected": true
+  },
+  "temporal_semantics_gate": {
+    "must_support": [
+      "t0 baseline occupied-source definition",
+      "t0_to_t1 source-loss exposure",
+      "t1_to_t2 subsequent target persistence/loss outcome"
+    ],
+    "two_wave_system": "STOP",
+    "same_transition_used_for_exposure_and_outcome": "STOP"
+  },
+  "detectability_gate": {
+    "preferred": "replicated surveys or an explicit detection/non-detection design",
+    "acceptable_if_absent": "single-visit occupancy only if the source publication/data documentation justifies comparable effort and the limitation is frozen before response access",
+    "forbidden": "post-outcome exclusion of low-effort units"
+  },
+  "source_loss_estimability_precheck": {
+    "metadata_only_question": "does the design plausibly contain repeated island occupancy with possible source loss events and later target follow-up?",
+    "must_not_compute_before_pilot": [
+      "effect direction",
+      "high-versus-low leverage outcome contrast",
+      "candidate-minus-reference score"
+    ],
+    "burned_pilot_required_after_metadata_qualification": true
+  },
+  "independence_gate": {
+    "existing_systems_that_cannot_count_as_independent_confirmation": [
+      "A-Islands",
+      "Tanzania",
+      "Zenodo 318-island mammals",
+      "global 5592/5401-island mammal system",
+      "boreal 19-island beetles",
+      "GIFT plant lane",
+      "PNW temporal system",
+      "RMNP temporal system",
+      "Indo-Pacific atoll plant system"
+    ],
+    "shared_geography_with_existing_system": "allowed only if biological response and temporal process are genuinely independent and the intended evidence class is declared non-independent geographically",
+    "same_response_reuse": "STOP"
+  },
+  "outcomes": {
+    "QUALIFIED_METADATA_ONLY": "candidate may proceed to system-specific v0.31-style partition/estimability freeze; future response remains sealed",
+    "HOLD_METADATA_INCOMPLETE": "missing metadata may be resolved without opening response values",
+    "STOP_TWO_WAVE": "insufficient temporal ordering",
+    "STOP_RESPONSE_EXPOSED": "future outcome already inspected for the proposed hypothesis",
+    "STOP_NONINDEPENDENT_RESPONSE": "reuses an existing Structural biological response",
+    "STOP_NO_GEOMETRY": "cannot define leverage response-independently"
+  },
+  "anti_selection": [
+    "do not choose a candidate because published results suggest a favourable leverage effect",
+    "do not inspect t2 occupancy to decide whether the candidate is worth using",
+    "do not select taxa by known persistence after source loss",
+    "do not loosen the three-wave requirement because a two-wave dataset is convenient",
+    "do not use a candidate publication's fitted connectivity coefficient as intake evidence"
+  ]
+}
