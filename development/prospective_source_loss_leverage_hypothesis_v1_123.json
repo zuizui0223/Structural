@@ -1,0 +1,44 @@
+{
+  "schema": "structural.prospective_source_loss_leverage_hypothesis.v1_123",
+  "status": "FUTURE_ONLY_INDEPENDENT_TEMPORAL_OR_RESPONSE_SEALED_HYPOTHESIS",
+  "name": "source_loss_leverage",
+  "origin": {
+    "heldout_ultrarare_evidence": "development/current_status_v1_119.json",
+    "response_free_leverage_diagnostic": "development/global_mammals_ultrarare_source_leverage_freeze_v1_122.json",
+    "current_evidence_may_not_count_as_confirmation": true
+  },
+  "ecological_statement": "For species occupying few islands, losses of equal population number can have unequal subsequent occupancy consequences because occupied source islands differ in source-access leverage and spatial complementarity.",
+  "future_primary": {
+    "required_system": "independent temporal island occupancy system or genuinely independent response-sealed source-loss system",
+    "exposure": "loss of an occupied source island between t and t+1",
+    "preloss_leverage": "source leverage frozen from t occupancy and response-independent island geometry before t+1 occupancy access",
+    "outcome": "subsequent contraction in occupancy or loss of occurrence support at t+1",
+    "primary_prediction": "loss of a higher-leverage source produces greater subsequent contraction than loss of a lower-leverage source",
+    "matching_or_adjustment_must_include": [
+      "nominal source count",
+      "ordinary source distance",
+      "external island isolation",
+      "environment or habitat",
+      "bioregion or archipelago context"
+    ]
+  },
+  "source_leverage_definition": {
+    "effective_source_number": "inverse Simpson Hill number of normalized graph-pressure mass across target islands",
+    "high_leverage_source": "defined prospectively from the pre-loss source-pressure contribution; threshold or continuous contrast must be frozen before future response access",
+    "graph_semantics": "paths traverse the full island graph; occupied sources are endpoints and intermediate islands need not be occupied"
+  },
+  "secondary_predictions": {
+    "effective_source_number_decrement": "larger N_eff loss predicts larger subsequent occupancy contraction",
+    "graph_empty_creation": "losses that newly remove graph-reachable source support from target islands predict stronger contraction",
+    "spatial_complementarity": "systems with complementary sources are more robust to loss of low-leverage sources but more sensitive to loss of unique high-leverage sources"
+  },
+  "guardrails": [
+    "do not use v1.122 source-leverage diagnostic as confirmatory evidence",
+    "do not choose leverage kernels, graph scales or high-leverage thresholds after future response access",
+    "do not infer rescue, extinction or recolonization without temporal demographic or occupancy evidence",
+    "do not call graph paths realized dispersal routes",
+    "do not select a future system because its known result is favourable",
+    "same-dataset mammal threshold mining is closed"
+  ],
+  "counts_as_current_evidence": false
+}
