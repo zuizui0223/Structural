@@ -1,0 +1,91 @@
+{
+  "schema": "structural.bala_protocol_grammar_audit_contract.v1_132",
+  "status": "RESPONSE_UNOPENED_PUBLICATION_PROTOCOL_GRAMMAR_AUDIT_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_official_core_code_audit_contract_v1_131.json",
+    "development/bala_source_loss_preintake_v1_126.json"
+  ],
+  "publication_basis": {
+    "source": "Pozsgai et al. 2024 Scientific Data",
+    "doi": "10.1038/s41597-024-03174-7",
+    "core_events_reported": 4929,
+    "conceptual_repeated_sites": 30,
+    "physical_core_codes": 31,
+    "site_replacement": "FAI-NFCF-T-11 in BALA1 is replaced by FAI-NFCF-TB26 in BALA2/BALA3",
+    "pitfall_protocol": {
+      "traps_per_site_phase": 30,
+      "preservative_classes": 2,
+      "traps_per_preservative_class": 15,
+      "published_preservatives": ["ethylene-glycol","Turquin solution"]
+    },
+    "beating_protocol": {
+      "tree_species_per_site_phase_max": 3,
+      "samples_per_tree_species_max": 10
+    }
+  },
+  "source": {
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "event_core_sha256": "b6f8a7fa380bc6372e79e097583d7d62a2a0d9a6e4ba2c6c50922d5c401d51bd",
+    "occurrence_extension_sha256_opaque_bytes": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5"
+  },
+  "phase_windows": {
+    "BALA1": [1997,2004],
+    "BALA2": [2010,2011],
+    "BALA3": [2019,2022]
+  },
+  "official_core_codes": {
+    "unchanged_29": [
+      "FLO-NFFR-T-07","FLO-NFFR-T-06","FLO-NFMA-T-08","FLO-NFMA-T-16",
+      "FAI-NFCG-T-01","FAI-NFCG-T-03","FAI-NFCF-T-10",
+      "PIC-NFMP-T-10","PIC-NFMP-T-01","PIC-NFCA-T-09","PIC-NFCA-T-08",
+      "SJG-NFPP-T-02","SJG-NFPP-T-09","SJG-NFTO-T-12","SJG-NFTO-T-06",
+      "TER-NFSB-T-06","TER-NFSB-T-11","TER-NFBF-T-02","TER-NFPG-T-22","TER-NFPG-T-33",
+      "TER-NFBF-T-01","TER-NFTB-T-15","TER-NFTB-T-18",
+      "SMG-NFGR-T-03","SMG-NFGR-T-07","SMG-NFPV-T-01","SMG-NFPV-T-04",
+      "SMR-NFPA-T-01","SMR-NFPA-T-03"
+    ],
+    "BALA1_replaced_site_code": "FAI-NFCF-T-11",
+    "BALA2_BALA3_replacement_site_code": "FAI-NFCF-TB26"
+  },
+  "event_protocol_labels": {
+    "pitfall": "Pitfall solution",
+    "beating": "Open beating tray (with bag)"
+  },
+  "field_number_grammar": {
+    "expected_form": "alphabetic prefix + '-S' + positive integer sample number",
+    "pitfall_sample_number_range": [1,15],
+    "beating_sample_number_range": [1,10],
+    "prefix_aliases_are_not_resolved_in_this_audit": true,
+    "reason": "this audit reports the raw prefix structure before any response-unopened alias normalization rule is frozen"
+  },
+  "audit_questions": [
+    "How many publication-core Event rows have parseable fieldNumber slots under the published BALA protocol?",
+    "Where do unparsable or out-of-range slots occur?",
+    "Which site-phases exceed two pitfall prefixes, fifteen slots per pitfall prefix, three beating prefixes, or ten slots per beating prefix?",
+    "How many exact protocol+fieldNumber duplicate rows remain?",
+    "Does strict publication-protocol grammar alone explain the 25 unique-slot excess without inspecting occurrence data?"
+  ],
+  "outputs": [
+    "protocol_grammar_result.json",
+    "protocol_invalid_rows.csv",
+    "site_phase_protocol_summary.csv",
+    "prefix_slot_summary.csv",
+    "duplicate_protocol_slots.csv"
+  ],
+  "anti_selection": [
+    "do not drop a syntactically valid slot merely because dropping it moves the count toward 4929",
+    "do not resolve TUR/TURQ or plant-prefix aliases in this audit",
+    "do not inspect occurrence rows or taxon identities",
+    "do not select a final core denominator in this audit",
+    "any later alias/deduplication rule must be justified from publication or Event/EML semantics in a new committed contract"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_this_audit": false
+  }
+}
