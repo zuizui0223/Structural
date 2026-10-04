@@ -12,7 +12,7 @@ def test_azores_v125_is_event_first_and_response_unopened():
     assert x["evidence_status"]["source_leverage_effect_computed"] is False
     assert x["evidence_status"]["focal_occurrence_values_opened_by_structural"] is False
     assert x["evidence_status"]["confirmatory_eligible"] is False
-    assert "Event core" in x["file_role_firewall"]["event_core_role"]
+    assert "sampling geometry and effort" in x["file_role_firewall"]["event_core_role"]
     assert any("Occurrence extension taxon identity" == s for s in x["file_role_firewall"]["must_remain_unparsed"])
 
 def test_azores_v125_freezes_spider_completeness_boundary():
