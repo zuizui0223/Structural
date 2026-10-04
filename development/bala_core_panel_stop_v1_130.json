@@ -1,0 +1,21 @@
+{
+  "schema": "structural.bala_core_panel_stop.v1_130",
+  "status": "RESPONSE_UNOPENED_CORE_PANEL_RULE_STOPPED_ON_EVENT_COUNT_MISMATCH",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "failed_execution": {
+    "workflow": ".github/workflows/bala-core-panel-v1_129.yml",
+    "workflow_run_id": 37187927003,
+    "workflow_head_sha": "65932141fd32a9f78eda48473c224addf9d421b8",
+    "workflow_job_id": 111393770950,
+    "failure": "coordinate-defined 30-site intersection within official phase windows contained 5467 Event rows rather than the official foundational-core count of 4929"
+  },
+  "scientific_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible": false
+  },
+  "interpretation": "The 30 repeated coordinates and official phase windows identify the repeated geography, but additional response-independent Event rows from enriched projects remain at those same coordinates/time windows. A further Event-only discriminator audit is required before the core denominator can be frozen.",
+  "same_rule_retry_authorized": false
+}

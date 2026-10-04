@@ -1,0 +1,87 @@
+name: BALA Event metadata excess audit v1.130
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_core_event_excess_audit_request_v1_130.json
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-22.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-unopened excess audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_core_event_excess_audit_contract_v1_130.json").read_text())
+          r=json.loads(Path("development/bala_core_event_excess_audit_request_v1_130.json").read_text())
+          assert c["repeated_geography_rule"]["observed_event_rows_before_discriminator"]==5467
+          assert c["repeated_geography_rule"]["official_foundational_core_event_rows"]==4929
+          assert c["repeated_geography_rule"]["excess_event_rows"]==538
+          assert "do not search combinations of Event fields solely to force the total to 4929" in c["anti_selection"]
+          assert c["response_boundary"]["occurrence_extension_semantically_opened"] is False
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Audit Event-only metadata discriminators
+        run: |
+          mkdir -p build/bala_v130
+          python scripts/audit_bala_core_event_excess_v1_130.py             --output-dir build/bala_v130
+
+      - name: Enforce response firewall and no final rule selection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("build/bala_v130")
+          x=json.loads((root/"event_excess_audit.json").read_text())
+          assert x["status"]=="BALA_EVENT_METADATA_EXCESS_AUDIT_COMPLETE_RESPONSE_UNOPENED"
+          assert x["repeated_coordinate_sites"]==30
+          assert x["event_rows_before_discriminator"]==5467
+          assert x["official_foundational_core_event_rows"]==4929
+          assert x["excess_event_rows"]==538
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["source_loss_effects_computed"]==0
+          assert x["final_core_rule_selected"] is False
+          assert x["confirmatory_eligible"] is False
+          for name in [
+            "phase_year_counts.csv","habitat_phase_counts.csv","protocol_phase_counts.csv",
+            "fragment_phase_counts.csv","locationID_phase_counts.csv","fieldNumber_phase_counts.csv",
+            "site_phase_event_counts.csv","locationID_alias_cases.csv"
+          ]:
+              assert (root/name).exists(),name
+          PY
+
+      - name: Upload response-unopened excess audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v130-event-excess-audit-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v130/event_excess_audit.json
+            build/bala_v130/phase_year_counts.csv
+            build/bala_v130/habitat_phase_counts.csv
+            build/bala_v130/protocol_phase_counts.csv
+            build/bala_v130/fragment_phase_counts.csv
+            build/bala_v130/locationID_phase_counts.csv
+            build/bala_v130/fieldNumber_phase_counts.csv
+            build/bala_v130/site_phase_event_counts.csv
+            build/bala_v130/locationID_alias_cases.csv
+          if-no-files-found: error
+          retention-days: 30

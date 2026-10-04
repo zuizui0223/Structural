@@ -1,0 +1,61 @@
+{
+  "schema": "structural.bala_core_event_excess_audit_contract.v1_130",
+  "status": "RESPONSE_UNOPENED_EVENT_METADATA_DISCRIMINATOR_AUDIT_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_stop": "development/bala_core_panel_stop_v1_130.json",
+  "parent_event_audit": "development/bala_event_core_audit_freeze_v1_129.json",
+  "source": {
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "event_core_sha256": "b6f8a7fa380bc6372e79e097583d7d62a2a0d9a6e4ba2c6c50922d5c401d51bd",
+    "occurrence_extension_sha256_opaque_bytes": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5"
+  },
+  "repeated_geography_rule": {
+    "site_key": "island + decimalLatitude/decimalLongitude rounded to 5 decimals",
+    "phase_windows": {
+      "BALA1": [1997,2004],
+      "BALA2": [2010,2011],
+      "BALA3": [2019,2022]
+    },
+    "expected_site_intersection": 30,
+    "expected_islands": 7,
+    "observed_event_rows_before_discriminator": 5467,
+    "official_foundational_core_event_rows": 4929,
+    "excess_event_rows": 538
+  },
+  "candidate_event_metadata_discriminators": [
+    "habitat",
+    "samplingProtocol",
+    "locationRemarks",
+    "locationID",
+    "fieldNumber",
+    "event year",
+    "eventDate"
+  ],
+  "audit_outputs": {
+    "phase_year_counts": true,
+    "habitat_by_phase_counts": true,
+    "protocol_by_phase_counts": true,
+    "fragment_by_phase_counts": true,
+    "locationID_by_phase_counts": true,
+    "fieldNumber_by_phase_counts": true,
+    "site_phase_event_counts": true,
+    "site_phase_protocol_coverage": true,
+    "site_phase_habitat_coverage": true,
+    "locationID_aliases_within_coordinate_site": true
+  },
+  "anti_selection": [
+    "do not inspect Occurrence extension rows",
+    "do not search combinations of Event fields solely to force the total to 4929",
+    "do not remove sites, phases or protocols because taxon outcomes would improve",
+    "do not use taxon identity, abundance or occurrence to choose the Event denominator",
+    "a later core rule must be justified by Event/EML semantics and frozen in a new version before occurrence access"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_this_audit": false
+  }
+}

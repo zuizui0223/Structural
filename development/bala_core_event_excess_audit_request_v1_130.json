@@ -1,0 +1,8 @@
+{
+  "schema": "structural.bala_core_event_excess_audit_request.v1_130",
+  "status": "REQUEST_RESPONSE_UNOPENED_EVENT_METADATA_EXCESS_AUDIT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_core_event_excess_audit_contract_v1_130.json",
+  "occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}
