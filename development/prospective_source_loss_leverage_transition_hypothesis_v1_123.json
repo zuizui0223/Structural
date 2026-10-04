@@ -11,18 +11,19 @@
     "reason": "the source-loss event and the downstream contraction endpoint must occur in different transitions"
   },
   "source_loss_exposure": {
-    "baseline_sources": "S0 = occupied populations at t0 under the prospectively frozen occurrence rule",
-    "lost_sources": "L01 = S0 minus S1, where S1 is occupancy at t1",
-    "kernel": "K_is = prospectively frozen nonnegative source-access kernel based on response-independent geometry and an externally justified or response-independently frozen operator; it may not be tuned on t1 or t2 outcomes",
-    "target_specific_baseline_pressure": "P_i(S0) = sum over s in S0 of K_is",
-    "target_specific_lost_access_fraction": "E_i = sum over s in L01 of K_is / P_i(S0), defined only where P_i(S0) > 0",
-    "event_level_lost_leverage": "Q_loss = sum over s in L01 of A_s / sum over r in S0 of A_r, where A_s = sum over prospectively eligible geometry targets i of K_is",
-    "nominal_loss_count": "|L01|",
+    "baseline_sources": "For target i, S0_minus_i = occupied populations at t0 excluding target i itself under the prospectively frozen occurrence rule",
+    "lost_sources": "For target i, L01_minus_i = sources in S0_minus_i that are absent at t1",
+    "self_anchor_exclusion": true,
+    "kernel": "K_is = prospectively frozen nonnegative source-access kernel based on response-independent geometry and an externally justified or response-independently frozen operator; it may not be tuned on t1 or t2 outcomes; K_ii is never used",
+    "target_specific_baseline_pressure": "P_i = sum over s in S0_minus_i of K_is",
+    "target_specific_lost_access_fraction": "E_i = sum over s in L01_minus_i of K_is / P_i, defined only where P_i > 0",
+    "event_level_lost_leverage": "Q_loss = sum over globally lost t0 sources s of A_s / sum over all t0 sources r of A_r, where A_s sums K_is over prospectively eligible geometry targets i with i != s",
+    "nominal_loss_count": "global number of t0 occupied populations absent at t1; the target-specific reference also records the number of other-source losses affecting the target's source set",
     "primary_exposure": "E_i",
     "secondary_exposure": "Q_loss"
   },
   "future_endpoint": {
-    "analysis_population": "sites/populations occupied at t1 that were not members of L01 and satisfy the frozen t2 survey/applicability rule",
+    "analysis_population": "sites/populations occupied at t1 that were not members of the t0-to-t1 lost set and satisfy the frozen t2 survey/applicability rule",
     "binary_endpoint": "1 = occupied/use state at t1 but absent/non-use at t2; 0 = occupied/use at both t1 and t2",
     "claim_term": "subsequent observed occupancy/use contraction unless a system-specific latent-occupancy endpoint is prospectively justified",
     "lost_source_sites_excluded_from_endpoint": true
@@ -34,14 +35,14 @@
     ],
     "R1": [
       "R0",
-      "t0 nominal occupied-source count",
+      "t0 nominal occupied-source count excluding target self-anchor where target-specific",
       "t0-to-t1 nominal source-loss count"
     ],
     "R2": [
       "R1",
       "generic species-independent network context",
-      "ordinary Euclidean distance to surviving t1 sources",
-      "diffuse Euclidean surviving-source pressure"
+      "ordinary Euclidean distance to surviving t1 sources excluding target self-anchor",
+      "diffuse Euclidean surviving-source pressure excluding target self-anchor"
     ],
     "C": [
       "R2",
@@ -75,6 +76,7 @@
     "stable_or_crosswalkable_spatial_units": true,
     "survey_effort_or_detection_rule_freezable_before_t2": true,
     "response_independent_geometry_available": true,
+    "self_anchor_exclusion_implementable": true,
     "at_least_two_realized_source_loss_counts_or_count_matched_loss_events_in_burned_pilot": true,
     "burned_pilot_used_for_estimability_only": true,
     "confirmatory_t2_rows_disjoint_and_sealed_until_full_protocol_freeze": true,
@@ -86,6 +88,7 @@
     "do not tune the graph scale, kernel, leverage split or occupancy threshold on t2 outcomes",
     "do not redefine L01 using t2",
     "do not include t0-to-t1 lost-source sites in the t1-to-t2 endpoint denominator",
+    "do not include the target population itself as one of its own occupied sources",
     "do not claim causality, rescue, recolonization or demographic persistence from predictive support alone",
     "do not reuse the v1_121 global mammal system as confirmation"
   ],
