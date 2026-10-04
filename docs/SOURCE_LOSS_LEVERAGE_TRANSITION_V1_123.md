@@ -13,22 +13,32 @@ This is not tested with a two-time comparison. With only two censuses, “a sour
 ## Three-time causal ordering
 
 - **t0 — baseline source state.** Occupied sources are defined under a frozen occurrence rule. Their leverage is computed from t0 state plus response-independent geography only.
-- **t1 — source-loss event.** Sources present at t0 but absent at t1 form the lost set L01.
+- **t1 — source-loss event.** Sources present at t0 but absent at t1 form the lost set.
 - **t2 — downstream endpoint.** Among populations that were still occupied at t1, ask which are absent at t2.
 
-The lost t0 sources themselves are excluded from the t1→t2 endpoint. This prevents the predictor from mechanically containing the response.
+The lost t0 sources themselves are excluded from the t1→t2 endpoint. This prevents the source-loss event from being identical to the future response.
+
+## Self-anchor exclusion
+
+For every target population **i**, the target itself is never allowed to act as one of its own sources.
+
+Define `S0\i` as the populations occupied at t0 other than i, and `L01\i` as the members of that external source set that disappear by t1. The kernel value `K_ii` is never used.
+
+This matters in temporal data because a target surviving to t1 is necessarily occupied. Allowing it to contribute its own source pressure would mechanically dilute the leverage of losses elsewhere and would make the temporal operator inconsistent with the original Structural source operator.
 
 ## Target-specific loss of source access
 
-For target population i and baseline source s, let K_is be a frozen nonnegative source-access kernel. Define baseline pressure
+For target population i and external baseline source s, let K_is be a frozen nonnegative source-access kernel. Define baseline external-source pressure
 
-    P_i(S0) = sum_s K_is
+    P_i = sum_{s in S0\i} K_is
 
-and the fraction of that baseline access contributed by sources lost between t0 and t1,
+and the fraction of that external baseline access contributed by sources lost between t0 and t1,
 
-    E_i = sum_{s in L01} K_is / P_i(S0).
+    E_i = sum_{s in L01\i} K_is / P_i.
 
-E_i has a direct interpretation. E_i=0.10 means the loss event removed 10% of the target's frozen baseline source-access pressure; E_i=0.80 means it removed 80%.
+E_i is defined only when P_i > 0.
+
+E_i has a direct interpretation. E_i=0.10 means the earlier loss event removed 10% of the target's frozen **external** source-access pressure; E_i=0.80 means it removed 80%.
 
 This is more informative than counting lost populations. Two one-population losses can therefore have the same nominal magnitude but radically different spatial consequences.
 
@@ -37,10 +47,10 @@ This is more informative than counting lost populations. Two one-population loss
 The reference model already receives:
 
 - habitat/current-state covariates;
-- baseline occupied-source count;
+- baseline occupied-source count, with target self-anchor excluded for target-specific quantities;
 - number of sources lost from t0 to t1;
 - generic species-independent network context;
-- Euclidean distance and diffuse pressure from surviving t1 sources.
+- Euclidean distance and diffuse pressure from surviving **external** t1 sources.
 
 The candidate adds only E_i.
 
@@ -52,13 +62,13 @@ Support requires a prospectively frozen cluster-macro C−R2 log-loss contrast b
 
 The hypothesis now has a falsifiable management-scale counterfactual:
 
-> Losing one population is not a unit-sized perturbation. Its structural magnitude is the fraction of source access that disappears from the remaining network.
+> Losing one population is not a unit-sized perturbation. Its structural magnitude is the fraction of external source access that disappears from the remaining network.
 
 If supported independently, population-loss accounting based only on the number of local populations lost would be incomplete. A low-leverage loss and a high-leverage loss would represent different perturbations even when both equal “one population.”
 
 ## Event-level summary
 
-For source s, define A_s as its source-access mass summed over eligible geometry targets. Normalizing A_s across the t0 sources gives q_s. For the actual lost set L01,
+For source s, define A_s as its source-access mass summed over eligible geometry targets other than s. Normalizing A_s across the t0 sources gives q_s. For the actual globally lost set L01,
 
     Q_loss = sum_{s in L01} q_s.
 
