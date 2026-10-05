@@ -1,0 +1,93 @@
+{
+  "schema": "structural.azores_slam_event_core_audit_contract.v1_146",
+  "status": "RESPONSE_UNOPENED_SLAM_EVENT_CORE_AUDIT_FROZEN_AFTER_BALA_CLOSURE",
+  "candidate_id": "azores_slam_arthropods_2012_2021",
+  "parents": [
+    "development/azores_slam_source_loss_preintake_v1_125.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/current_status_v1_144.json"
+  ],
+  "independence": {
+    "registered_before_BALA_outcome": true,
+    "selected_because_BALA_failed": false,
+    "allowed_after_BALA": true,
+    "reason": "this backup candidate and its Event-first pre-intake were frozen before BALA3 outcome access"
+  },
+  "source": {
+    "dataset_doi": "10.15468/3r5xw6",
+    "gbif_uuid": "079c8358-0b4f-479b-97dd-1f2f775256f9",
+    "ipt_resource": "arthropods_slam_azores",
+    "ipt_version": "1.7",
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=arthropods_slam_azores&v=1.7",
+    "expected_core_row_type_suffix": "/Event",
+    "expected_event_records": 893,
+    "published_occurrence_extension_records": 14922,
+    "published_methods_occurrence_records": 14924
+  },
+  "allowed_semantic_access": [
+    "ZIP member paths, sizes, CRC32 and SHA-256",
+    "meta.xml",
+    "EML metadata XML",
+    "Darwin Core Event core only",
+    "Event eventID, parentEventID, locationID, island, locality, coordinates, eventDate and samplingProtocol",
+    "response-independent site-key and year-coverage summaries"
+  ],
+  "occurrence_extension_firewall": {
+    "text_decode_allowed": false,
+    "taxon_identity_parse_allowed": false,
+    "occurrence_or_abundance_parse_allowed": false,
+    "opaque_sha256_allowed": true,
+    "opaque_physical_line_count_allowed": true,
+    "reason": "the pre-intake explicitly requires reconciling the 14922-versus-14924 published row-count discrepancy before focal occurrence semantics are opened"
+  },
+  "site_key_audit": {
+    "candidate_keys": [
+      "locationID",
+      "parentEventID",
+      "island_plus_locality",
+      "rounded_latitude_longitude_plus_island"
+    ],
+    "coordinate_rounding_decimals": 5,
+    "final_site_key_selected_here": false
+  },
+  "event_coverage_audit": {
+    "year_source": "Event eventDate/verbatimEventDate only",
+    "expected_program_year_min": 2012,
+    "expected_program_year_max_at_least": 2021,
+    "provisional_min_events_per_island_year": 3,
+    "preferred_events_per_island_year": 4,
+    "minimum_islands_per_window": 3,
+    "window_width_years": 3,
+    "enumerate_all_consecutive_windows": true,
+    "enumerate_for_each_candidate_site_key": true,
+    "report": [
+      "unique sites by year and island",
+      "event rows by year and island",
+      "islands with at least three Event rows in every year of each 3-year window",
+      "candidate sites observed in all three years of each window",
+      "whether each window meets the provisional three-island rule"
+    ],
+    "window_selection_here": false,
+    "future_selection_rule": "after the Event audit, freeze one site key and use the earliest eligible window as burned pilot and latest non-overlapping eligible window as confirmatory; STOP if two disjoint windows do not exist"
+  },
+  "taxonomic_firewall": {
+    "Araneae_primary_excluded_unless_companion_datasets_are_premerged": true,
+    "other_intentionally_untargeted_taxa_may_not_be_zero_filled": true,
+    "taxon_universe_opened_here": false
+  },
+  "outputs": [
+    "archive_inventory.csv",
+    "meta_manifest.json",
+    "event_field_manifest.csv",
+    "site_key_candidates.csv",
+    "site_year_coverage.csv",
+    "three_year_window_candidates.csv",
+    "event_core_audit.json"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_this_audit": false
+  }
+}
