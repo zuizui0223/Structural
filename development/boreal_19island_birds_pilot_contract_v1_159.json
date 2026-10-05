@@ -1,0 +1,57 @@
+{
+  "schema": "structural.boreal_19island_birds_pilot_contract.v1_159",
+  "status": "ONE_SHOT_BIRD_PILOT_FIREWALL_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "parents": {
+    "scientific_contract": "development/boreal_19island_birds_topology_sensitivity_contract_v1_158.json",
+    "null_receipt": "development/boreal_19island_birds_topology_null_receipt_v1_158.json",
+    "sensitivity_surface": "development/boreal_19island_birds_configuration_sensitivity_v1_158.csv",
+    "full_island_universe": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json"
+  },
+  "response_file": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "download_url": "https://datadryad.org/api/v2/files/4569037/download",
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "expected_species_columns": 54,
+    "expected_full_source_island_rows": 42
+  },
+  "frozen_partition": {
+    "pilot_islands": ["DN", "FD", "HU", "IL", "IS", "PP"],
+    "confirmatory_islands": ["BB", "BT", "DF", "EB", "HF", "MI", "NH", "OS", "PR", "SF", "SK", "WD", "WF"],
+    "excluded_island_count": 23
+  },
+  "semantic_access": {
+    "routing_island_field_all_42_rows": true,
+    "species_header_names": true,
+    "pilot_occurrence_cells": true,
+    "expected_pilot_target_values_parsed": 324,
+    "confirmatory_occurrence_cells": false,
+    "required_confirmatory_target_values_parsed": 0,
+    "excluded_occurrence_cells": false,
+    "required_excluded_target_values_parsed": 0
+  },
+  "eligibility_gate": {
+    "pilot_support_min": 1,
+    "pilot_support_max": 4,
+    "minimum_eligible_species": 12,
+    "rule_frozen_before_response": true,
+    "if_failed": "terminal pilot stop; do not widen 1-4 rule or lower the 12-species minimum"
+  },
+  "router": {
+    "implementation": "src/structural/boreal_19island_bird_pilot_router.py",
+    "single_semantic_pass": true,
+    "raw_confirmatory_values_may_be_persisted": false,
+    "raw_excluded_values_may_be_persisted": false
+  },
+  "success_ceiling": {
+    "status": "BIRD_PILOT_SNAPSHOT_FROZEN_CONFIRMATORY_REMAINS_SEALED",
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "next_action": "freeze R3, actual-C and all 20 null-C confirmatory prediction surfaces from the bird pilot snapshot before any confirmatory bird value opens"
+  },
+  "execution_authorized_now": false,
+  "bird_response_values_opened_by_this_revision": false
+}
