@@ -2,7 +2,7 @@
   "schema": "structural.boreal_19island_birds_topology_null_receipt.v1_158",
   "status": "RESPONSE_INDEPENDENT_NULL_FEASIBILITY_AND_IDENTITY_FROZEN",
   "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
-  "actual_operator_fingerprint": "82e1afbd728bd677d4b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+  "actual_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
   "actual_edge_count": 35,
   "edge_length_cutpoints_km_hex": [
     "0x1.29ae63a281587p+2",
