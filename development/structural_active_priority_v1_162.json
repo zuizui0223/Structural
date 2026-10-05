@@ -1,0 +1,33 @@
+{
+  "schema": "structural.active_priority.v1_162",
+  "status": "non_ebird_independent_temporal_colonization_candidate_preintake",
+  "supersedes": "development/structural_active_priority_v1_161.json",
+  "canonical_status": "development/current_status_v1_161.json",
+  "project_policy": {
+    "ebird_enabled": false,
+    "eBird_objects": "dormant provenance only"
+  },
+  "candidate": {
+    "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+    "status": "METADATA_ONLY_PREINTAKE_FROZEN_ROW_LEVEL_OUTCOME_UNOPENED",
+    "evidence_class": "independent temporal literature-outcome-aware mechanism stress test; not pristine fresh confirmation",
+    "preintake": "development/sw_finland_plant_colonization_preintake_v1_162.json",
+    "column_firewall": "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "next_gate": "header-only audit of colonization_select.csv; outcome values remain sealed"
+  },
+  "why_selected": [
+    "471 true archipelago islands and 587 vascular plant species",
+    "historical and recent inventories separated by roughly 70 years",
+    "future endpoint is successful colonization of historically unoccupied islands",
+    "published controls already include historical source count and nearest historical source distance",
+    "exact historical source topology beyond those simple controls was not the published test"
+  ],
+  "do_not": [
+    "do not call this pristine fresh confirmation because broad colonization results are published",
+    "do not read outcome values during header or t0-state projection",
+    "do not reuse the published AIC-simplified model as a response-independent reference",
+    "do not reopen boreal beetle or BALA outcomes for rescue analyses",
+    "do not use eBird"
+  ],
+  "next_scientific_event": "header-only schema qualification followed, only if clean, by a separately frozen t0-only source-state projection"
+}
