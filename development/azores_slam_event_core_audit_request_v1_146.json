@@ -1,0 +1,9 @@
+{
+  "schema": "structural.azores_slam_event_core_audit_request.v1_146",
+  "status": "REQUEST_RESPONSE_UNOPENED_SLAM_EVENT_CORE_AUDIT",
+  "candidate_id": "azores_slam_arthropods_2012_2021",
+  "contract": "development/azores_slam_event_core_audit_contract_v1_146.json",
+  "occurrence_semantic_access_authorized": false,
+  "taxon_response_access_authorized": false,
+  "one_shot": true
+}
