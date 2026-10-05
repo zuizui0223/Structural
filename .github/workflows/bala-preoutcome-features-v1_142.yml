@@ -1,0 +1,122 @@
+name: BALA pre-outcome confirmatory feature freeze v1.142
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_preoutcome_feature_execution_request_v1_142.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preoutcome:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot t0/t1-only authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/bala_preoutcome_feature_execution_request_v1_142.json").read_text())
+          p=json.loads(Path("development/bala_preoutcome_feature_protocol_v1_140.json").read_text())
+          s=json.loads(Path("development/bala_source_loss_confirmatory_protocol_v1_139.json").read_text())
+          assert r["status"]=="REQUEST_ONE_SHOT_CONFIRMATORY_T0_T1_PREOUTCOME_FEATURE_FREEZE"
+          assert r["temporal_firewall"]["artifact_id"]==11326825183
+          assert r["t0_t1_semantic_access_authorized"] is True
+          assert r["t2_semantic_access_authorized"] is False
+          assert r["candidate_effect_scoring_authorized"] is False
+          assert r["one_shot"] is True
+          assert p["pre_t2_gate"]["minimum_exactly_one_loss_taxa"]==10
+          assert p["pre_t2_gate"]["minimum_exactly_one_loss_target_rows"]==30
+          assert s["pre_t2_gate"]["minimum_distinct_E_i_values"]==3
+          PY
+
+      - name: Download exact v1.138 temporal firewall
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v138-temporal-firewall-d3df10c48fc65d64f91833f263325b0bceb986a0-37264285424
+          path: build/bala_v142/temporal
+          repository: zuizui0223/Structural
+          run-id: 37264285424
+          github-token: ${{ github.token }}
+
+      - name: Download exact v1.135 pitfall quality
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254
+          path: build/bala_v142/pitfall
+          repository: zuizui0223/Structural
+          run-id: 37211022254
+          github-token: ${{ github.token }}
+
+      - name: Download exact v1.137 geometry
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v1361-geometry-opaque-routing-d80de5dff7ee185bc4afcb6cf52acc22d70d7cd6-37251215741
+          path: build/bala_v142/geometry
+          repository: zuizui0223/Structural
+          run-id: 37251215741
+          github-token: ${{ github.token }}
+
+      - name: Verify exact frozen parents
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/bala_v142/temporal/confirmatory_t0_t1_rows.sealed.tsv":"1ff9708dc7b182a2df27ebdd4f7b394bee71867abf4c79b3e5a9387935b9c016",
+            "build/bala_v142/temporal/confirmatory_t2_rows.sealed.tsv":"cf320dca37f17641219f80fc98b302994c9062c5a89dda01419e57cb7800d967",
+            "build/bala_v142/temporal/bala_temporal_firewall_result.json":"c051983024bcf6ec404cd2770146f8458d13018e7310ebc6f3f56983a6030ada",
+            "build/bala_v142/pitfall/pitfall_position_recovery.csv":"a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+            "build/bala_v142/pitfall/pitfall_island_phase_quality.csv":"24ccd2db6438f899a36eeb9443dad432ca78c256b07837f3f4faa1b3c1d905c8",
+            "build/bala_v142/geometry/bala_island_geometry.csv":"b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+            "build/bala_v142/geometry/bala_island_graph_edges.csv":"912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Open confirmatory BALA1/BALA2 only and freeze all pre-t2 features
+        run: |
+          mkdir -p build/bala_v142/output
+          python scripts/build_bala_preoutcome_features_v1_140.py             build/bala_v142/temporal/confirmatory_t0_t1_rows.sealed.tsv             build/bala_v142/pitfall/pitfall_position_recovery.csv             build/bala_v142/pitfall/pitfall_island_phase_quality.csv             build/bala_v142/geometry/bala_island_geometry.csv             build/bala_v142/geometry/bala_island_graph_edges.csv             --expected-preoutcome-sha 1ff9708dc7b182a2df27ebdd4f7b394bee71867abf4c79b3e5a9387935b9c016             --taxon-summary build/bala_v142/output/confirmatory_t0_t1_taxon_summary.csv             --features build/bala_v142/output/confirmatory_source_loss_features.csv             --fold-manifest build/bala_v142/output/confirmatory_fold_manifest.csv             --fold-standardization build/bala_v142/output/confirmatory_fold_standardization.json             --result build/bala_v142/output/bala_preoutcome_feature_result.json
+
+      - name: Enforce pre-t2 gate and BALA3 seal
+        run: |
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v142/output/bala_preoutcome_feature_result.json").read_text())
+          assert x["status"] in {"BALA_PREOUTCOME_FEATURE_GATE_PASSED","BALA_PREOUTCOME_FEATURE_GATE_STOPPED"}
+          assert x["t2_rows_opened"]==0
+          assert x["t2_taxon_identities_opened"]==0
+          assert x["t2_occurrence_values_opened"]==0
+          assert x["candidate_minus_reference_effects_computed"]==0
+          assert x["counts_as_empirical_support_or_non_support"] is False
+          # Also prove the sealed BALA3 bytes are unchanged after t0/t1 opening.
+          p=Path("build/bala_v142/temporal/confirmatory_t2_rows.sealed.tsv")
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=="cf320dca37f17641219f80fc98b302994c9062c5a89dda01419e57cb7800d967"
+          PY
+
+      - name: Upload pre-t2 feature freeze
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v142-preoutcome-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v142/output/confirmatory_t0_t1_taxon_summary.csv
+            build/bala_v142/output/confirmatory_source_loss_features.csv
+            build/bala_v142/output/confirmatory_fold_manifest.csv
+            build/bala_v142/output/confirmatory_fold_standardization.json
+            build/bala_v142/output/bala_preoutcome_feature_result.json
+          if-no-files-found: error
+          retention-days: 30
