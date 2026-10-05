@@ -1,0 +1,58 @@
+{
+  "schema": "structural.current_status.v1_144",
+  "status": "canonical_current_status_after_independent_temporal_source_loss_test",
+  "supersedes": "development/current_status_v1_119.json",
+  "mammal_occupancy_regime_evidence": {
+    "ultrarare_1_4": {
+      "species": 529,
+      "status": "prospective heldout presence-opportunity and actual-topology specificity supported within same geography",
+      "presence_C_minus_R3": -0.5962586684916777,
+      "actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20"
+    },
+    "rare_5_12": {
+      "species": 96,
+      "status": "prospective species-layer non-replication",
+      "overall_C_minus_R3": -0.00044242277078691746,
+      "overall_ci95": [-0.0010981838771027365,0.0002038048880791948],
+      "actual_better_than_nulls": "11/20"
+    },
+    "exploratory_13_plus": {
+      "species": 79,
+      "status": "nonconfirmatory exploratory",
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "actual_better_than_nulls": "0/20"
+    }
+  },
+  "source_leverage_conservation_test": {
+    "system": "Azores BALA arthropods",
+    "evidence_status": "independent prospective three-wave confirmatory primary not supported",
+    "result_freeze": "development/bala_source_loss_result_freeze_v1_144.json",
+    "taxa": 20,
+    "target_rows": 64,
+    "contractions": 20,
+    "persistences": 44,
+    "primary_C_minus_R2": 0.00067423414692237,
+    "bootstrap_ci95": [-0.02130441194511585,0.025579070508640226],
+    "primary_supported": false,
+    "rerun_authorized": false
+  },
+  "revised_ecological_synthesis": {
+    "core": "species occupancy changes the predictive role of occupied source islands, but spatial source leverage is not yet validated as a general predictor of future contraction after source loss",
+    "conservation_boundary": "do not rank island populations for management using Structural source leverage as if its temporal consequence were established",
+    "causal_rescue_or_extinction_established": false
+  },
+  "fresh_or_confirmatory_context": {
+    "BALA_three_wave": "independent confirmatory primary not supported",
+    "boreal_19island_beetles": "fresh local primary not supported",
+    "GIFT_native_angiosperms": "fresh attempt terminal without ecological primary score"
+  },
+  "analysis_state": {
+    "same_BALA_lineage_rerun_authorized": false,
+    "BALA_subgroup_rescue_authorized": false,
+    "same_global_mammal_threshold_mining_authorized": false,
+    "next_scientific_event": "only a candidate prospectively frozen before the BALA result may proceed; prioritize response-independent eBird checklist/effort semantics or the previously frozen Azores SLAM backup"
+  },
+  "cross_system_synthesis": "development/source_loss_leverage_cross_system_synthesis_v1_144.json",
+  "active_priority": "development/structural_active_priority_v1_144.json"
+}

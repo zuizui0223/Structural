@@ -1,0 +1,81 @@
+{
+  "schema": "structural.geb_submission_manifest.v1_145",
+  "status": "GEB_OCCUPANCY_REGIME_WITH_INDEPENDENT_TEMPORAL_BOUNDARY_PREPARED",
+  "scientific_freeze": "development/current_status_v1_144.json",
+  "manuscript": "manuscript/submission/GEB_v1_145/blinded_main_text.md",
+  "title_page_template": "manuscript/submission/GEB_v1_145/title_page_template.md",
+  "cover_letter": "manuscript/submission/GEB_v1_145/cover_letter.md",
+  "format": {
+    "journal": "Global Ecology and Biogeography",
+    "article_type": "Research Article",
+    "title": "When do source islands matter? Species occupancy changes the role of connectivity across islands",
+    "running_title": "Source islands across occupancy",
+    "main_text_words_approx": 4464,
+    "abstract_words_approx": 229,
+    "reference_count": 15
+  },
+  "central_evidence": {
+    "ultrarare_1_4": {
+      "species": 529,
+      "primary_presence_C_minus_R3": -0.5962586684916777,
+      "primary_supported": true,
+      "topology_specificity_supported": true,
+      "actual_better_than_nulls": "20/20"
+    },
+    "rare_5_12": {
+      "species": 96,
+      "overall_C_minus_R3": -0.00044242277078691746,
+      "overall_supported": false,
+      "topology_specificity_supported": false
+    },
+    "exploratory_13_plus": {
+      "species": 79,
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "evidence_status": "nonconfirmatory exploratory",
+      "actual_topology_specificity_supported": false
+    },
+    "broad_near_ubiquitous": {
+      "selected_species": 0,
+      "status": "not estimable"
+    }
+  },
+  "claim_boundary": {
+    "causal_colonization_or_rescue": false,
+    "monotonic_rarity_effect": false,
+    "formal_unimodal_relationship": false,
+    "geographically_independent_replication": false,
+    "management_intervention_effect": false,
+    "source_leverage_validated_management_metric": false,
+    "temporal_source_loss_consequence_supported": false
+  },
+  "new_same_dataset_threshold_search_authorized": false,
+  "conservation_leverage_diagnostic": {
+    "evidence_class": "posthoc response-free pilot-plus-geometry diagnostic",
+    "species_with_2_4_sources": 212,
+    "median_dominant_source_share": 0.6606971572134337,
+    "median_effective_over_nominal": 0.7436344778424323,
+    "mean_actual_minus_null_effective_count": 0.28242921346906974,
+    "bootstrap_ci95": [
+      0.20500912701472415,
+      0.362361925385512
+    ],
+    "evidence_hierarchy_changed": false
+  },
+  "future_hypothesis": "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+  "new_same_dataset_mechanism_search_authorized": false,
+  "independent_temporal_boundary": {
+    "system": "Azores BALA arthropods",
+    "result_freeze": "development/bala_source_loss_result_freeze_v1_144.json",
+    "taxa": 20,
+    "target_rows": 64,
+    "contractions": 20,
+    "persistences": 44,
+    "primary_C_minus_R2": 0.00067423414692237,
+    "bootstrap_ci95": [
+      -0.02130441194511585,
+      0.025579070508640226
+    ],
+    "primary_supported": false,
+    "same_lineage_rerun_authorized": false
+  }
+}
