@@ -1,0 +1,75 @@
+name: Azores SLAM response-unopened Event audit v1.146
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/azores_slam_event_core_audit_request_v1_146.json
+
+permissions:
+  contents: read
+
+jobs:
+  event-audit:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/azores_slam_event_core_audit_contract_v1_146.json").read_text())
+          r=json.loads(Path("development/azores_slam_event_core_audit_request_v1_146.json").read_text())
+          assert c["independence"]["registered_before_BALA_outcome"] is True
+          assert c["occurrence_extension_firewall"]["text_decode_allowed"] is False
+          assert c["event_coverage_audit"]["window_selection_here"] is False
+          assert r["occurrence_semantic_access_authorized"] is False
+          assert r["taxon_response_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Audit archive and Event core only
+        run: |
+          mkdir -p build/slam_v146
+          python scripts/audit_azores_slam_event_core_v1_146.py             --output-dir build/slam_v146
+
+      - name: Enforce zero occurrence semantic access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/slam_v146/event_core_audit.json").read_text())
+          assert x["status"]=="SLAM_EVENT_CORE_RESPONSE_UNOPENED_AUDIT_COMPLETE"
+          assert x["event_records"]==893
+          assert x["occurrence_extension_semantically_opened"] is False
+          assert x["event_by_taxon_rows_parsed"]==0
+          assert x["taxon_occurrence_values_opened"]==0
+          assert x["final_site_key_selected"] is False
+          assert x["temporal_windows_selected"] is False
+          assert x["source_loss_effects_computed"]==0
+          assert x["confirmatory_eligible"] is False
+          PY
+
+      - name: Upload response-unopened Event audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-slam-v146-event-audit-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/slam_v146/archive_inventory.csv
+            build/slam_v146/meta_manifest.json
+            build/slam_v146/event_field_manifest.csv
+            build/slam_v146/site_key_candidates.csv
+            build/slam_v146/site_year_coverage.csv
+            build/slam_v146/three_year_window_candidates.csv
+            build/slam_v146/event_core_audit.json
+          if-no-files-found: error
+          retention-days: 30
