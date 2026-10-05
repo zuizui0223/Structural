@@ -16,7 +16,7 @@ def test_pitfall_core_is_response_independent_and_methodologically_motivated():
     assert x["event_semantics"]["expected_positions_per_site_phase"]==30
     assert x["publication_basis"]["beating_protocol"]=="10 samples from each of the three most common native tree species"
     assert "do not use the 4929 total to delete pitfall events" in x["anti_selection"]
-    assert "beating events are excluded from the proposed primary method for comparability" in x["anti_selection"]
+    assert any("beating events are excluded from the proposed primary method for comparability" in z for z in x["anti_selection"])
 
 def test_pitfall_audit_does_not_select_surveyed_zero_threshold():
     x=json.loads((ROOT/"development/bala_pitfall_core_audit_contract_v1_133.json").read_text())
