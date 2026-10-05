@@ -1,0 +1,4671 @@
+{
+  "actual_edges": [
+    {
+      "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+      "edge_length_bin": 3,
+      "left": "BB",
+      "right": "BT"
+    },
+    {
+      "distance_km_hex": "0x1.4b5fc285c964bp+3",
+      "edge_length_bin": 2,
+      "left": "BB",
+      "right": "DF"
+    },
+    {
+      "distance_km_hex": "0x1.1602939f536f8p+4",
+      "edge_length_bin": 3,
+      "left": "BB",
+      "right": "WD"
+    },
+    {
+      "distance_km_hex": "0x1.faf9fe2e904cap+1",
+      "edge_length_bin": 0,
+      "left": "BT",
+      "right": "DF"
+    },
+    {
+      "distance_km_hex": "0x1.1c7711152f2e4p+4",
+      "edge_length_bin": 3,
+      "left": "BT",
+      "right": "EB"
+    },
+    {
+      "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+      "edge_length_bin": 0,
+      "left": "BT",
+      "right": "WD"
+    },
+    {
+      "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+      "edge_length_bin": 3,
+      "left": "DF",
+      "right": "EB"
+    },
+    {
+      "distance_km_hex": "0x1.c2cce726274b3p+2",
+      "edge_length_bin": 1,
+      "left": "DF",
+      "right": "WD"
+    },
+    {
+      "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+      "edge_length_bin": 0,
+      "left": "DN",
+      "right": "FD"
+    },
+    {
+      "distance_km_hex": "0x1.42ab5a97deb34p+4",
+      "edge_length_bin": 4,
+      "left": "DN",
+      "right": "IL"
+    },
+    {
+      "distance_km_hex": "0x1.c2f1a697d956dp-2",
+      "edge_length_bin": 0,
+      "left": "DN",
+      "right": "PP"
+    },
+    {
+      "distance_km_hex": "0x1.255ded1ca0a97p+3",
+      "edge_length_bin": 2,
+      "left": "EB",
+      "right": "OS"
+    },
+    {
+      "distance_km_hex": "0x1.0572c504821b1p+4",
+      "edge_length_bin": 3,
+      "left": "FD",
+      "right": "IL"
+    },
+    {
+      "distance_km_hex": "0x1.e81038221cb57p+1",
+      "edge_length_bin": 0,
+      "left": "FD",
+      "right": "PP"
+    },
+    {
+      "distance_km_hex": "0x1.113f6451251c8p+3",
+      "edge_length_bin": 1,
+      "left": "HF",
+      "right": "HU"
+    },
+    {
+      "distance_km_hex": "0x1.c7998b1f8990ap+3",
+      "edge_length_bin": 3,
+      "left": "HF",
+      "right": "IL"
+    },
+    {
+      "distance_km_hex": "0x1.a452f9a573314p+3",
+      "edge_length_bin": 2,
+      "left": "HF",
+      "right": "IS"
+    },
+    {
+      "distance_km_hex": "0x1.05106d126a0ecp+2",
+      "edge_length_bin": 0,
+      "left": "HF",
+      "right": "NH"
+    },
+    {
+      "distance_km_hex": "0x1.d8a5105686b98p+3",
+      "edge_length_bin": 3,
+      "left": "HU",
+      "right": "MI"
+    },
+    {
+      "distance_km_hex": "0x1.93b8889fcb098p+3",
+      "edge_length_bin": 2,
+      "left": "HU",
+      "right": "NH"
+    },
+    {
+      "distance_km_hex": "0x1.7dde37228b6f1p+4",
+      "edge_length_bin": 4,
+      "left": "HU",
+      "right": "WF"
+    },
+    {
+      "distance_km_hex": "0x1.42ab5c63f0728p+0",
+      "edge_length_bin": 0,
+      "left": "IL",
+      "right": "IS"
+    },
+    {
+      "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+      "edge_length_bin": 2,
+      "left": "IL",
+      "right": "NH"
+    },
+    {
+      "distance_km_hex": "0x1.3baee11009be6p+4",
+      "edge_length_bin": 4,
+      "left": "IL",
+      "right": "PP"
+    },
+    {
+      "distance_km_hex": "0x1.2c5702cd80debp+3",
+      "edge_length_bin": 2,
+      "left": "IS",
+      "right": "NH"
+    },
+    {
+      "distance_km_hex": "0x1.6c4808a0057e7p+3",
+      "edge_length_bin": 2,
+      "left": "MI",
+      "right": "PR"
+    },
+    {
+      "distance_km_hex": "0x1.5a4762ec268dap+2",
+      "edge_length_bin": 1,
+      "left": "MI",
+      "right": "SF"
+    },
+    {
+      "distance_km_hex": "0x1.94bc70e6c7084p+2",
+      "edge_length_bin": 1,
+      "left": "MI",
+      "right": "SK"
+    },
+    {
+      "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+      "edge_length_bin": 4,
+      "left": "MI",
+      "right": "WF"
+    },
+    {
+      "distance_km_hex": "0x1.37743c0f34a1ep+4",
+      "edge_length_bin": 4,
+      "left": "OS",
+      "right": "PR"
+    },
+    {
+      "distance_km_hex": "0x1.72e621cf56c56p+4",
+      "edge_length_bin": 4,
+      "left": "OS",
+      "right": "SF"
+    },
+    {
+      "distance_km_hex": "0x1.9068816e24f53p+2",
+      "edge_length_bin": 1,
+      "left": "PR",
+      "right": "SF"
+    },
+    {
+      "distance_km_hex": "0x1.c27943723b55ep+2",
+      "edge_length_bin": 1,
+      "left": "PR",
+      "right": "SK"
+    },
+    {
+      "distance_km_hex": "0x1.3105ed40165ecp+2",
+      "edge_length_bin": 1,
+      "left": "SF",
+      "right": "SK"
+    },
+    {
+      "distance_km_hex": "0x1.c4b0c43631709p+4",
+      "edge_length_bin": 4,
+      "left": "SF",
+      "right": "WF"
+    }
+  ],
+  "actual_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+  "bird_response_values_opened": 0,
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "counts_as_empirical_evidence": false,
+  "edge_length_bin_cut_hex": [
+    "0x1.29ae63a281587p+2",
+    "0x1.1d51b664d5a45p+3",
+    "0x1.b1d3aa7729966p+3",
+    "0x1.21dce67a6378ap+4"
+  ],
+  "ensemble_fingerprint": "ec482ecd2cc359dc09ef4bff0f0ae7bee1c9a418776237d2aa8c77e90b9fd1fe",
+  "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+  "kernel_scale_km_hex": "0x1.4ccfd7aac74e4p+3",
+  "nulls": [
+    {
+      "accepted_swaps": 350,
+      "attempts": 22601,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.76a55b02fef15p+5",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.3baee11009be6p+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.faa32c44426a7p+4",
+          "edge_length_bin": 4,
+          "left": "PR",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N01",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=0|variant=0",
+      "shared_edge_count": 31,
+      "symmetric_edge_difference_count": 8,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 18675,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.c71005460f223p+5",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.31ddafc57431ap+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.b42be261706ecp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.ce4c862c67c43p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N02",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=1|variant=0",
+      "shared_edge_count": 28,
+      "symmetric_edge_difference_count": 14,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 17626,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.76a55b02fef15p+5",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.3684ebebbd818p+5",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.2fe8b36fca55ap+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.faa32c44426a7p+4",
+          "edge_length_bin": 4,
+          "left": "PR",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N03",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=2|variant=0",
+      "shared_edge_count": 30,
+      "symmetric_edge_difference_count": 10,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 20900,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.699a4cb19dbafp+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.ce4c862c67c43p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.faa32c44426a7p+4",
+          "edge_length_bin": 4,
+          "left": "PR",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N04",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=3|variant=0",
+      "shared_edge_count": 30,
+      "symmetric_edge_difference_count": 10,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 23272,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.b62defd172ad1p+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.2f0c4c6bc8f6ap+5",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.b42be261706ecp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.c441ffffda718p+5",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N05",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=4|variant=0",
+      "shared_edge_count": 29,
+      "symmetric_edge_difference_count": 12,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 17626,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.b62defd172ad1p+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.c799957d19539p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N06",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=5|variant=0",
+      "shared_edge_count": 30,
+      "symmetric_edge_difference_count": 10,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 21124,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.c71005460f223p+5",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.72e8b996d7816p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c799957d19539p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N07",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=6|variant=0",
+      "shared_edge_count": 30,
+      "symmetric_edge_difference_count": 10,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 20066,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.c71005460f223p+5",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.699a4cb19dbafp+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.ce4c862c67c43p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.faa32c44426a7p+4",
+          "edge_length_bin": 4,
+          "left": "PR",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N08",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=7|variant=0",
+      "shared_edge_count": 28,
+      "symmetric_edge_difference_count": 14,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 20307,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.b42be261706ecp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.ce4c862c67c43p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N09",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=8|variant=0",
+      "shared_edge_count": 32,
+      "symmetric_edge_difference_count": 6,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 21733,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.d3397da3b1938p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.b42be261706ecp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.c441ffffda718p+5",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N10",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=9|variant=0",
+      "shared_edge_count": 29,
+      "symmetric_edge_difference_count": 12,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 19803,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.d3397da3b1938p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.958cb30fa301cp+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.756342b08bdd2p+5",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N11",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=10|variant=0",
+      "shared_edge_count": 29,
+      "symmetric_edge_difference_count": 12,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 19910,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.d3397da3b1938p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.72e8b996d7816p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.b42be261706ecp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c441ffffda718p+5",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N12",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=11|variant=0",
+      "shared_edge_count": 30,
+      "symmetric_edge_difference_count": 10,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 18995,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.c799957d19539p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N13",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=12|variant=0",
+      "shared_edge_count": 32,
+      "symmetric_edge_difference_count": 6,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 18784,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.31ddafc57431ap+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.72e8b996d7816p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.37743c0f34a1ep+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.c441ffffda718p+5",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N14",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=13|variant=1",
+      "shared_edge_count": 32,
+      "symmetric_edge_difference_count": 6,
+      "variant": 1
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 19428,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.76a55b02fef15p+5",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c799957d19539p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N15",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=14|variant=0",
+      "shared_edge_count": 31,
+      "symmetric_edge_difference_count": 8,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 18451,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.31ddafc57431ap+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.c47830e738104p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c441ffffda718p+5",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.faa32c44426a7p+4",
+          "edge_length_bin": 4,
+          "left": "PR",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N16",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=15|variant=0",
+      "shared_edge_count": 30,
+      "symmetric_edge_difference_count": 10,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 21695,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.c71005460f223p+5",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.699a4cb19dbafp+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.3baee11009be6p+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.37743c0f34a1ep+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N17",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=16|variant=0",
+      "shared_edge_count": 33,
+      "symmetric_edge_difference_count": 4,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 20552,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c515bc9cafe75p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.7dde37228b6f1p+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.75e589b79645cp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.756342b08bdd2p+5",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.faa32c44426a7p+4",
+          "edge_length_bin": 4,
+          "left": "PR",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        }
+      ],
+      "null_id": "N18",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=17|variant=0",
+      "shared_edge_count": 30,
+      "symmetric_edge_difference_count": 10,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 20827,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.c515bc9cafe75p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.31ddafc57431ap+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.b42be261706ecp+4",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.6646dd82e2067p+5",
+          "edge_length_bin": 4,
+          "left": "IL",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.756342b08bdd2p+5",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N19",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=18|variant=0",
+      "shared_edge_count": 29,
+      "symmetric_edge_difference_count": 12,
+      "variant": 0
+    },
+    {
+      "accepted_swaps": 350,
+      "attempts": 20857,
+      "edge_count": 35,
+      "edges": [
+        {
+          "distance_km_hex": "0x1.c614b3b1bb2e2p+3",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "BT"
+        },
+        {
+          "distance_km_hex": "0x1.4b5fc285c964bp+3",
+          "edge_length_bin": 2,
+          "left": "BB",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1602939f536f8p+4",
+          "edge_length_bin": 3,
+          "left": "BB",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.faf9fe2e904cap+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "DF"
+        },
+        {
+          "distance_km_hex": "0x1.1c7711152f2e4p+4",
+          "edge_length_bin": 3,
+          "left": "BT",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.9f304fddb2b9dp+1",
+          "edge_length_bin": 0,
+          "left": "BT",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.181d2cc0adcb5p+4",
+          "edge_length_bin": 3,
+          "left": "DF",
+          "right": "EB"
+        },
+        {
+          "distance_km_hex": "0x1.c2cce726274b3p+2",
+          "edge_length_bin": 1,
+          "left": "DF",
+          "right": "WD"
+        },
+        {
+          "distance_km_hex": "0x1.0c503d2c2d3f1p+2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "FD"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5a97deb34p+4",
+          "edge_length_bin": 4,
+          "left": "DN",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.c2f1a697d956dp-2",
+          "edge_length_bin": 0,
+          "left": "DN",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.255ded1ca0a97p+3",
+          "edge_length_bin": 2,
+          "left": "EB",
+          "right": "OS"
+        },
+        {
+          "distance_km_hex": "0x1.0572c504821b1p+4",
+          "edge_length_bin": 3,
+          "left": "FD",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.e81038221cb57p+1",
+          "edge_length_bin": 0,
+          "left": "FD",
+          "right": "PP"
+        },
+        {
+          "distance_km_hex": "0x1.113f6451251c8p+3",
+          "edge_length_bin": 1,
+          "left": "HF",
+          "right": "HU"
+        },
+        {
+          "distance_km_hex": "0x1.c7998b1f8990ap+3",
+          "edge_length_bin": 3,
+          "left": "HF",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.a452f9a573314p+3",
+          "edge_length_bin": 2,
+          "left": "HF",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.05106d126a0ecp+2",
+          "edge_length_bin": 0,
+          "left": "HF",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.699a4cb19dbafp+4",
+          "edge_length_bin": 4,
+          "left": "HU",
+          "right": "IL"
+        },
+        {
+          "distance_km_hex": "0x1.d8a5105686b98p+3",
+          "edge_length_bin": 3,
+          "left": "HU",
+          "right": "MI"
+        },
+        {
+          "distance_km_hex": "0x1.93b8889fcb098p+3",
+          "edge_length_bin": 2,
+          "left": "HU",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.42ab5c63f0728p+0",
+          "edge_length_bin": 0,
+          "left": "IL",
+          "right": "IS"
+        },
+        {
+          "distance_km_hex": "0x1.4ccfd7aac74e4p+3",
+          "edge_length_bin": 2,
+          "left": "IL",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.2c5702cd80debp+3",
+          "edge_length_bin": 2,
+          "left": "IS",
+          "right": "NH"
+        },
+        {
+          "distance_km_hex": "0x1.6c4808a0057e7p+3",
+          "edge_length_bin": 2,
+          "left": "MI",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.5a4762ec268dap+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.94bc70e6c7084p+2",
+          "edge_length_bin": 1,
+          "left": "MI",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c9d78c5ce1777p+4",
+          "edge_length_bin": 4,
+          "left": "MI",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.72e621cf56c56p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.df29dfd802579p+4",
+          "edge_length_bin": 4,
+          "left": "OS",
+          "right": "WF"
+        },
+        {
+          "distance_km_hex": "0x1.c799957d19539p+4",
+          "edge_length_bin": 4,
+          "left": "PP",
+          "right": "PR"
+        },
+        {
+          "distance_km_hex": "0x1.9068816e24f53p+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SF"
+        },
+        {
+          "distance_km_hex": "0x1.c27943723b55ep+2",
+          "edge_length_bin": 1,
+          "left": "PR",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.3105ed40165ecp+2",
+          "edge_length_bin": 1,
+          "left": "SF",
+          "right": "SK"
+        },
+        {
+          "distance_km_hex": "0x1.c4b0c43631709p+4",
+          "edge_length_bin": 4,
+          "left": "SF",
+          "right": "WF"
+        }
+      ],
+      "null_id": "N20",
+      "seed": "boreal-birds-sparse-topology-v1.161|null=19|variant=0",
+      "shared_edge_count": 32,
+      "symmetric_edge_difference_count": 6,
+      "variant": 0
+    }
+  ],
+  "schema": "structural.boreal_birds_topology_null_ensemble.v1_161",
+  "status": "RESPONSE_INDEPENDENT_NULL_ENSEMBLE_FROZEN"
+}

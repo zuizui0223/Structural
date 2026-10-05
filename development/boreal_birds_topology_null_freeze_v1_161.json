@@ -1,0 +1,27 @@
+{
+  "beetle_response_used": false,
+  "bird_file_opened": false,
+  "bird_response_values_opened": 0,
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "ensemble_fingerprint": "ec482ecd2cc359dc09ef4bff0f0ae7bee1c9a418776237d2aa8c77e90b9fd1fe",
+  "ensemble_json_sha256": "069eae639ed8a544d09680b7034c697bad608b7652a0cee60e92d41029d48e12",
+  "next_action": "commit and exact-replay verify the response-independent null ensemble and S_i(n) surface; only then may a one-shot bird pilot authorization be designed",
+  "null_count": 20,
+  "pilot_response_authorized": false,
+  "plant_response_used": false,
+  "schema": "structural.boreal_birds_topology_null_freeze.v1_161",
+  "sensitivity_csv_sha256": "70f36be8cb2318ad7589491fb448f5787be9df3e8457e5b919953243a6c08d79",
+  "sensitivity_n_values": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "sensitivity_row_count": 78,
+  "sensitivity_target_count": 13,
+  "status": "NULL_ENSEMBLE_AND_SENSITIVITY_FROZEN_RESPONSE_INDEPENDENTLY"
+}
