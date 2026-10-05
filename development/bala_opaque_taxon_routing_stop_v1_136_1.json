@@ -1,0 +1,42 @@
+{
+  "schema": "structural.bala_opaque_taxon_routing_stop.v1_136_1",
+  "status": "V136_ROUTING_STOPPED_BEFORE_ANY_TAXON_TOKEN_OR_RESPONSE_SEMANTIC_DECODE",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "failed_execution": {
+    "workflow_run_id": 37250948166,
+    "workflow_job_id": 111578256612,
+    "workflow_head_sha": "1a5681fa2e918881284b8f40bbf414e0fc508a39",
+    "failure": "Occurrence field-count drift at row 1"
+  },
+  "response_boundary_at_stop": {
+    "occurrence_member_sha_verified": true,
+    "data_row_1_split_for_physical_field_count_only": true,
+    "mf_tokens_decoded": 0,
+    "eventID_values_decoded": 0,
+    "organismQuantity_values_decoded": 0,
+    "taxonomy_values_decoded": 0,
+    "event_by_taxon_combinations_summarized": 0,
+    "source_loss_effects_computed": 0,
+    "pilot_semantic_response_opened": false,
+    "confirmatory_semantic_response_opened": false
+  },
+  "geometry_step_before_stop": {
+    "status": "BALA_RESPONSE_INDEPENDENT_GABRIEL_GRAPH_FROZEN_IN_FAILED_JOB_WORKSPACE",
+    "islands": 7,
+    "conceptual_lineages": 30,
+    "graph_edges": 6,
+    "graph_connected": true,
+    "kernel_lambda_km": 78.93702465087111,
+    "geometry_sha256": "b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+    "edges_sha256": "912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f",
+    "artifact_uploaded": false
+  },
+  "correction": {
+    "cause": "v1.136 confused the number of DwC extension <field> declarations with the physical TSV column count; coreid is a separate physical column",
+    "response_independent_fix": "derive physical field count from the already-frozen v1.128 meta_manifest as max(coreid_index and all Occurrence field indices)+1",
+    "expected_physical_field_count": 32,
+    "partition_rule_changed": false,
+    "geometry_rule_changed": false,
+    "response_semantics_changed": false
+  }
+}
