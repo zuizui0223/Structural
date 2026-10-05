@@ -1,0 +1,47 @@
+{
+  "schema": "structural.bala_opaque_taxon_routing_freeze.v1_137",
+  "status": "SUCCESSFUL_RESPONSE_UNOPENED_GEOMETRY_AND_TAXON_ROUTING_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "source_execution": {
+    "workflow_run_id": 37251215741,
+    "workflow_head_sha": "d80de5dff7ee185bc4afcb6cf52acc22d70d7cd6",
+    "workflow_job_id": 111579069480,
+    "artifact_id": 11320128924,
+    "artifact_name": "bala-v1361-geometry-opaque-routing-d80de5dff7ee185bc4afcb6cf52acc22d70d7cd6-37251215741",
+    "artifact_digest": "sha256:fb43956cda369185ac7b603545e7a4310569c31b8abc83ddf5def1db6881b77d",
+    "expires_at": "2026-11-04T01:23:17Z"
+  },
+  "geometry": {
+    "islands": 7,
+    "conceptual_lineages": 30,
+    "graph_edges": 6,
+    "graph_connected": true,
+    "kernel_lambda_km": 78.93702465087111,
+    "geometry_sha256": "b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+    "edges_sha256": "912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f"
+  },
+  "routing": {
+    "occurrence_rows": 63904,
+    "physical_field_count": 32,
+    "pilot_rows": 20958,
+    "confirmatory_rows": 42946,
+    "pilot_distinct_taxa": 142,
+    "confirmatory_distinct_taxa": 400,
+    "pilot_surface_sha256": "1735652e93232c0291d0c29b1df292010807ce4d9dc1791aeebed86e99341127",
+    "confirmatory_surface_sha256": "c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+    "pilot_token_manifest_sha256": "f591cdc28d0f0796600a24a5ca3063c32a9bf2cda644722aa567f68b5086843e",
+    "confirmatory_token_set_fingerprint": "bda0a897c761fccf97b6206f4d916a3146b58b755ee4477d44408f3a708797cb"
+  },
+  "response_boundary": {
+    "routing_tokens_decoded": 63904,
+    "organismQuantity_values_decoded": 0,
+    "eventID_values_decoded": 0,
+    "taxonomy_values_decoded": 0,
+    "event_by_taxon_combinations_summarized": 0,
+    "source_loss_effects_computed": 0,
+    "confirmatory_token_identities_persisted": false,
+    "pilot_occurrence_semantic_access_authorized": false,
+    "confirmatory_occurrence_semantic_access_authorized": false
+  },
+  "next_gate": "open the 142 pilot taxa only for taxonomic eligibility and three-wave estimability; no source-leverage effect estimate"
+}
