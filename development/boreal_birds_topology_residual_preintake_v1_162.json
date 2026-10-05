@@ -1,0 +1,80 @@
+{
+  "schema": "structural.boreal_birds_topology_residual_preintake.v1_162",
+  "status": "RESPONSE_SEALED_TOPOLOGY_RESIDUAL_MODERATOR_FROZEN",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "supersedes_primary_moderator_from": "development/boreal_birds_sparse_topology_preintake_v1_160.json",
+  "response_identity_unchanged": {
+    "file_name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "response_values_opened": false
+  },
+  "reason_for_pre_response_refinement": "R3 already represents direct Euclidean occupied-source distance and pressure, whereas C adds graph-path source terms. The mechanism moderator should therefore measure heterogeneity in topology beyond Euclidean source geometry rather than heterogeneity in raw graph access that partially duplicates R3.",
+  "frozen_geometry_and_operator": {
+    "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+    "actual_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "kernel_scale_km_hex": "0x1.4ccfd7aac74e4p+3",
+    "possible_sources": ["DN", "FD", "HU", "IL", "IS", "PP"],
+    "targets": ["BB", "BT", "DF", "EB", "HF", "MI", "NH", "OS", "PR", "SF", "SK", "WD", "WF"],
+    "bird_response_used": false
+  },
+  "topology_residual_definition": {
+    "d_euclid": "great-circle distance between target i and possible source j",
+    "d_graph": "shortest-path distance on the frozen actual k=3 source graph",
+    "q_ij": "exp(-(d_graph-d_euclid)/lambda)",
+    "interpretation": "q_ij=1 when graph path adds no detour beyond direct distance; smaller values mean topology reduces source accessibility beyond Euclidean R3",
+    "H_topo_i": "population variance(q_ij) / mean(q_ij)^2 across the six possible pilot sources",
+    "scarcity_factor_n": "(M-n)/(n*(M-1)), M=6",
+    "S_topo_i_n": "scarcity_factor_n * H_topo_i",
+    "eligible_n": [1,2,3,4,5],
+    "n_zero_rule": "no occupied pilot source; ineligible",
+    "n_six_rule": "scarcity factor is zero; exclude from primary mechanism species universe"
+  },
+  "response_free_support_audit": {
+    "role": "establish whether the independent boreal geography contains enough topology-residual heterogeneity to test the mechanism before bird response access",
+    "required_condition": "H_topo_i must be nonconstant across the thirteen confirmatory targets",
+    "effect_selection_from_bird_response_forbidden": true
+  },
+  "null_ensemble": {
+    "parent_contract": "development/boreal_birds_topology_null_contract_v1_161.json",
+    "raw_graph_S_surface_role": "historical response-free diagnostic only; may not define the primary moderator after v1.162",
+    "twenty_matched_null_graphs_remain_required": true,
+    "null_generation_rule_changed": false
+  },
+  "pilot_gate": {
+    "species_rule": "retain species with 1 to 5 occupied pilot islands",
+    "minimum_eligible_species": 8,
+    "minimum_distinct_n_values": 2,
+    "confirmatory_response_may_not_define_species_eligibility": true,
+    "if_failed": "STOP before confirmatory response"
+  },
+  "primary_scoring": {
+    "cell_contrast": "D_is = logloss(actual_C,y=1) - mean_k logloss(null_C_k,y=1)",
+    "primary_moderator": "z-score of log1p(S_topo_i(n_s)) over the complete eligible confirmatory prediction surface, frozen after pilot but before confirmatory response",
+    "within_block_statistic": "OLS slope of D_is on the frozen moderator among realized presence cells",
+    "minimum_presence_cells_per_block": 3,
+    "positive_moderator_variance_required": true,
+    "minimum_estimable_blocks": 4,
+    "estimand": "equal-weight mean of estimable confirmatory-block slopes",
+    "favourable_direction": "negative",
+    "bootstrap": "10000 deterministic replicates over estimable confirmatory blocks",
+    "support_rule": "point estimate < 0 and 95% bootstrap upper bound < 0",
+    "all_cell_fallback_authorized": false
+  },
+  "secondary_nonrescuing": [
+    "raw-graph S_i(n) moderator from v1.161",
+    "overall presence-cell actual-versus-null contrast",
+    "descriptive H_topo by target",
+    "descriptive results by pilot occupancy n"
+  ],
+  "evidence_boundary": {
+    "bird_file_opened": false,
+    "bird_response_values_opened": 0,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "may_change_completed_beetle_primary": false,
+    "may_establish_dispersal_or_rescue": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_action": "freeze a response-independent target-by-n S_topo surface and verify nonconstant H_topo before any bird pilot access"
+}
