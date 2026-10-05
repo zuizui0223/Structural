@@ -1,0 +1,20 @@
+{
+  "schema": "structural.bala_confirmatory_temporal_firewall_retry_request.v1_138_1",
+  "status": "REQUEST_OPERATIONAL_RETRY_SAME_V138_SCIENTIFIC_CONTRACT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_request": "development/bala_confirmatory_temporal_firewall_request_v1_138.json",
+  "parent_contract": "development/bala_confirmatory_temporal_firewall_contract_v1_138.json",
+  "original_run": {
+    "workflow_run_id": 37264285424,
+    "status_at_retry_authorization": "queued_before_job_start",
+    "ecological_semantics_opened": false,
+    "source_leverage_computed": false,
+    "t2_outcomes_opened": false
+  },
+  "repair": "change GitHub runner image only from ubuntu-24.04 to ubuntu-22.04; use identical script, inputs, contract and assertions",
+  "scientific_contract_changed": false,
+  "input_artifacts_changed": false,
+  "authorized_semantics_changed": false,
+  "one_successful_temporal_artifact_may_be_canonical": true,
+  "one_retry_only": true
+}
