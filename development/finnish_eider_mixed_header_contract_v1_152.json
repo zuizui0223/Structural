@@ -1,0 +1,63 @@
+{
+  "schema": "structural.finnish_eider_mixed_header_contract.v1_152",
+  "status": "MIXED_RESPONSE_FILE_HEADER_ONLY_AUDIT_FROZEN",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "parents": [
+    "development/finnish_eider_zenodo_inventory_freeze_v1_152.json",
+    "development/finnish_eider_source_loss_retrospective_preintake_v1_150.json"
+  ],
+  "source_file": {
+    "name": "Ekblad_et_al_data_WTEs_and_Eiders_LandscapeEcology_2025.txt",
+    "size_bytes": 2227517,
+    "md5": "4f48d8faf2b6dbb8c967449356beab87",
+    "download_url": "https://zenodo.org/api/records/15723442/files/Ekblad_et_al_data_WTEs_and_Eiders_LandscapeEcology_2025.txt/content",
+    "role": "mixed response + covariate file"
+  },
+  "published_expected_headers": [
+    "Eider_pairs",
+    "lnSize",
+    "Year",
+    "Lon",
+    "Lat",
+    "Land",
+    "WTE",
+    "Forcov",
+    "Island_ID",
+    "Year_f",
+    "pos2"
+  ],
+  "allowed_semantic_access": [
+    "file byte length",
+    "whole-file MD5 and SHA-256",
+    "first physical line only",
+    "delimiter inference from the first physical line",
+    "column names decoded from the first physical line"
+  ],
+  "forbidden_semantic_access": [
+    "decode any byte after the first line terminator",
+    "parse Eider_pairs values",
+    "parse Island_ID row values",
+    "parse year row values",
+    "parse pos2 row values",
+    "count source-loss events",
+    "derive occupancy or surveyed-zero rates",
+    "inspect temporal response direction"
+  ],
+  "success_rule": {
+    "exact_file_identity": true,
+    "all_published_expected_headers_present": true,
+    "unique_nonblank_headers": true
+  },
+  "decision_rules": {
+    "if_pos2_header_absent": "STOP retrospective topology lane unless an independently archived response-independent spatial object is identified without using effect direction",
+    "if_no_group_or_reconstruction_flag_header": "HOLD grouped-island exclusion gate; do not infer reconstructed rows from Eider_pairs patterns",
+    "if_no_survey_effort_or_sampling_flag_header": "HOLD surveyed-zero gate pending external metadata or ancillary source; zero values alone cannot establish surveyed absence"
+  },
+  "raw_file_retention": "forbidden after header audit artifact creation",
+  "evidence_boundary": {
+    "retrospective_only": true,
+    "may_count_as_confirmation": false,
+    "response_row_values_opened": 0,
+    "counts_as_empirical_source_loss_evidence": false
+  }
+}
