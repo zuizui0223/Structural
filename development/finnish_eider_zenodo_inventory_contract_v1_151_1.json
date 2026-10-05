@@ -1,0 +1,39 @@
+{
+  "schema": "structural.finnish_eider_zenodo_inventory_contract.v1_151_1",
+  "status": "OPERATIONAL_IDENTIFIER_CORRECTION_METADATA_ONLY_INVENTORY",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "parents": [
+    "development/finnish_eider_zenodo_inventory_contract_v1_151.json",
+    "development/finnish_eider_zenodo_inventory_stop_v1_151_1.json"
+  ],
+  "source_identity": {
+    "requested_record_or_concept_id": 15723441,
+    "doi": "10.5281/zenodo.15723441",
+    "api_url": "https://zenodo.org/api/records/15723441",
+    "accept_if": "returned id == 15723441 OR returned conceptrecid == 15723441 OR returned doi == 10.5281/zenodo.15723441 OR returned conceptdoi == 10.5281/zenodo.15723441"
+  },
+  "allowed_access": [
+    "Zenodo record metadata",
+    "file names",
+    "file byte sizes",
+    "file checksums supplied by Zenodo",
+    "file MIME/type metadata",
+    "file download URLs may be recorded but not followed"
+  ],
+  "forbidden_access": [
+    "download any dataset file",
+    "parse Eider_pairs values",
+    "load RData/RDS objects",
+    "open CSV/TSV data rows",
+    "compute island-year occupancy",
+    "compute source-loss events",
+    "compute source leverage"
+  ],
+  "scientific_rules_unchanged_from_v151": true,
+  "evidence_boundary": {
+    "retrospective_only": true,
+    "may_count_as_confirmation": false,
+    "dataset_response_values_opened_for_structural_source_leverage": false,
+    "counts_as_empirical_source_loss_evidence": false
+  }
+}
