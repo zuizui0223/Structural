@@ -1,0 +1,12 @@
+{
+  "schema": "structural.bala_pilot_estimability_request.v1_137",
+  "status": "REQUEST_ONE_SHOT_PILOT_ONLY_THREE_WAVE_ESTIMABILITY_AUDIT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_pilot_estimability_contract_v1_137.json",
+  "routing_artifact_id": 11320128924,
+  "pitfall_quality_artifact_id": 11306547489,
+  "pilot_semantic_access_authorized": true,
+  "confirmatory_semantic_access_authorized": false,
+  "source_leverage_effect_authorized": false,
+  "one_shot": true
+}
