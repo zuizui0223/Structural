@@ -1,0 +1,112 @@
+name: BALA confirmatory temporal byte firewall v1.138
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_confirmatory_temporal_firewall_request_v1_138.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  split:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate pilot pass and byte-only authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path("development/bala_pilot_estimability_freeze_v1_138.json").read_text())
+          c=json.loads(Path("development/bala_confirmatory_temporal_firewall_contract_v1_138.json").read_text())
+          r=json.loads(Path("development/bala_confirmatory_temporal_firewall_request_v1_138.json").read_text())
+          assert p["pilot_result"]["advance_authorized"] is True
+          assert p["response_boundary"]["confirmatory_occurrence_values_opened"]==0
+          assert c["authorized_semantics"]["coreid_routing_match"] is True
+          assert c["authorized_semantics"]["identificationRemarks_MF_token"] is False
+          assert c["authorized_semantics"]["organismQuantity"] is False
+          assert c["response_boundary"]["confirmatory_t2_outcomes_opened"]==0
+          assert r["confirmatory_semantic_access_authorized"] is False
+          assert r["t2_semantic_access_authorized"] is False
+          assert r["source_leverage_computation_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact opaque confirmatory surface
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v1361-geometry-opaque-routing-d80de5dff7ee185bc4afcb6cf52acc22d70d7cd6-37251215741
+          path: build/bala_v138/routing
+          repository: zuizui0223/Structural
+          run-id: 37251215741
+          github-token: ${{ github.token }}
+
+      - name: Download exact safe Event pitfall map
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254
+          path: build/bala_v138/pitfall
+          repository: zuizui0223/Structural
+          run-id: 37211022254
+          github-token: ${{ github.token }}
+
+      - name: Verify exact parents
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/bala_v138/routing/confirmatory_occurrence_rows.sealed.tsv":"c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+            "build/bala_v138/pitfall/pitfall_position_recovery.csv":"a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Split confirmatory bytes by safe Event phase only
+        run: |
+          mkdir -p build/bala_v138/output
+          python scripts/split_bala_confirmatory_temporal_v1_138.py             build/bala_v138/routing/confirmatory_occurrence_rows.sealed.tsv             build/bala_v138/pitfall/pitfall_position_recovery.csv             --preoutcome build/bala_v138/output/confirmatory_t0_t1_rows.sealed.tsv             --t2 build/bala_v138/output/confirmatory_t2_rows.sealed.tsv             --irrelevant build/bala_v138/output/confirmatory_nonpitfall_rows.irrelevant.sealed.tsv             --receipt build/bala_v138/output/bala_temporal_firewall_result.json
+
+      - name: Enforce zero ecological semantics at temporal split
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v138/output/bala_temporal_firewall_result.json").read_text())
+          assert x["status"]=="BALA_CONFIRMATORY_TEMPORAL_BYTE_FIREWALL_COMPLETE"
+          assert x["input_confirmatory_rows"]==42946
+          assert x["rows_conserved"] is True
+          assert x["preoutcome_t0_t1_rows"]>0
+          assert x["t2_rows"]>0
+          assert x["confirmatory_MF_tokens_opened"]==0
+          assert x["confirmatory_quantity_values_opened"]==0
+          assert x["confirmatory_taxonomy_values_opened"]==0
+          assert x["confirmatory_t2_outcomes_opened"]==0
+          assert x["source_leverage_values_computed"]==0
+          assert x["candidate_minus_reference_effects_computed"]==0
+          assert x["counts_as_empirical_support_or_non_support"] is False
+          assert x["advance_authorized"] is True
+          PY
+
+      - name: Upload sealed temporal surfaces
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v138-temporal-firewall-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v138/output/confirmatory_t0_t1_rows.sealed.tsv
+            build/bala_v138/output/confirmatory_t2_rows.sealed.tsv
+            build/bala_v138/output/confirmatory_nonpitfall_rows.irrelevant.sealed.tsv
+            build/bala_v138/output/bala_temporal_firewall_result.json
+          if-no-files-found: error
+          retention-days: 30
