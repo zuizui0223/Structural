@@ -1,0 +1,94 @@
+{
+  "schema": "structural.ebird_sampling_event_gate.v1_146",
+  "status": "RESPONSE_UNOPENED_SAMPLING_EVENT_DATA_REQUIRED_BEFORE_OCCUPANCY_SEMANTICS",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "parents": [
+    "development/source_loss_candidate_ebird_global_islands_v1_127.json",
+    "development/source_loss_candidate_ebird_global_islands_triage_v1_127.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/current_status_v1_144.json"
+  ],
+  "dryad_response_boundary": {
+    "dataset_doi": "10.5061/dryad.8931zcrpc",
+    "archive": "eBird-dataset.zip",
+    "archive_semantics": "observed non-pelagic bird species rows only",
+    "documented_columns": ["SCI_NAME","SUB_ID","longitude","latitude","ISLAND_ID"],
+    "species_archive_may_open_now": false,
+    "reason": "the Dryad archive alone cannot distinguish an unreported species from a checklist-level nondetection"
+  },
+  "official_ebird_sampling_event_resolution": {
+    "required_product": "eBird Sampling Event Data / checklist-level export covering the intended 2002-2019 analysis period",
+    "access": "official eBird data download for a logged-in user; separate from the Dryad species archive",
+    "scientific_role": "response-independent checklist completeness and effort only",
+    "required_fields": [
+      "SAMPLING EVENT IDENTIFIER",
+      "OBSERVATION DATE",
+      "LATITUDE",
+      "LONGITUDE",
+      "PROTOCOL TYPE",
+      "PROTOCOL CODE",
+      "DURATION MINUTES",
+      "EFFORT DISTANCE KM",
+      "EFFORT AREA HA",
+      "NUMBER OBSERVERS",
+      "ALL SPECIES REPORTED",
+      "GROUP IDENTIFIER"
+    ],
+    "critical_absence_field": "ALL SPECIES REPORTED",
+    "complete_checklist_semantics": "only checklists with ALL SPECIES REPORTED=1 may later contribute nondetection information",
+    "effort_fields_are_response_independent": true,
+    "species_identity_or_observation_rows_needed_for_this_gate": false
+  },
+  "schema_only_gate": {
+    "allowed_before_species_response_access": [
+      "file names, byte sizes and hashes",
+      "header/schema",
+      "checklist identifiers",
+      "dates",
+      "coordinates",
+      "protocol",
+      "effort",
+      "ALL SPECIES REPORTED",
+      "GROUP IDENTIFIER",
+      "response-independent mapping of checklist coordinates to frozen island geometry"
+    ],
+    "forbidden": [
+      "scientific name",
+      "observation count",
+      "species-level detection",
+      "species-level island-year occupancy",
+      "source-loss events",
+      "t2 contraction outcomes",
+      "source-leverage effect direction"
+    ]
+  },
+  "next_metadata_audit": {
+    "goal": "establish whether enough complete and effort-described checklists exist to define an island-year surveyed surface before any species outcomes are opened",
+    "report_only": [
+      "complete-checklist counts by island-year",
+      "distinct sampling months by island-year",
+      "duration and observer coverage",
+      "protocol composition",
+      "duplicate-group frequency",
+      "fraction of Dryad-era island-years that would have defensible checklist-level nondetection support"
+    ],
+    "do_not_freeze_from_outcome": true,
+    "final_island_year_quality_rule_status": "NOT_YET_FROZEN",
+    "reason": "first inspect only the response-independent Sampling Event Data support surface"
+  },
+  "candidate_status": {
+    "current": "HOLD_SAMPLING_EVENT_DATA_REQUIRED",
+    "not_stop_reason": "official eBird Sampling Event Data can provide checklist-level completeness and effort independently of species outcomes",
+    "not_qualified_reason": "the required Sampling Event Data extract is not currently present in Structural",
+    "next_action": "obtain the official Sampling Event Data extract, then run a schema/coverage-only audit before opening the Dryad species archive"
+  },
+  "anti_selection": [
+    "do not treat the published richness survey-completeness metric as species-specific absence",
+    "do not infer absence from missing Dryad species rows",
+    "do not inspect species outcomes to choose effort thresholds",
+    "do not use the eBird public API recent/summary endpoints as a substitute for the historical Sampling Event Data surface",
+    "do not promote the candidate after the non-supportive BALA result unless the pre-BALA frozen intake gates are satisfied"
+  ],
+  "counts_as_empirical_evidence": false,
+  "response_access_authorized": false
+}
