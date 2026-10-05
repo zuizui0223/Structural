@@ -1,0 +1,77 @@
+{
+  "schema": "structural.current_status.v1_161",
+  "status": "canonical_current_status_static_occurrence_vs_temporal_consequence",
+  "supersedes": "development/current_status_v1_144.json",
+  "mammal_occupancy_regime_evidence": {
+    "ultrarare_1_4": {
+      "species": 529,
+      "evidence_status": "prospective heldout species-layer support within one geographic system",
+      "presence_C_minus_R3": -0.5962586684916777,
+      "presence_ci95": [-0.743854761144673,-0.46445672203892047],
+      "actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20"
+    },
+    "rare_5_12": {
+      "species": 96,
+      "evidence_status": "prospective species-layer non-replication",
+      "overall_C_minus_R3": -0.00044242277078691746,
+      "overall_ci95": [-0.0010981838771027365,0.0002038048880791948],
+      "actual_better_than_nulls": "11/20"
+    },
+    "higher_occupancy_13_plus": {
+      "species": 79,
+      "evidence_status": "nonconfirmatory exploratory",
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "actual_better_than_nulls": "0/20"
+    }
+  },
+  "static_source_leverage": {
+    "evidence_status": "posthoc response-free descriptive mechanism diagnostic",
+    "species_with_2_4_sources": 212,
+    "median_dominant_source_share": 0.6606971572134337,
+    "median_effective_over_nominal": 0.7436344778424323,
+    "mean_actual_minus_null_effective_source_count": 0.28242921346906974,
+    "bootstrap_ci95": [0.20500912701472415,0.362361925385512]
+  },
+  "independent_temporal_consequence_test": {
+    "system": "Azores BALA arthropods",
+    "evidence_status": "independent prospective three-wave confirmatory primary not supported",
+    "taxa": 20,
+    "target_rows": 64,
+    "contractions": 20,
+    "persistences": 44,
+    "primary_C_minus_R2": 0.00067423414692237,
+    "bootstrap_ci95": [-0.02130441194511585,0.025579070508640226],
+    "primary_supported": false,
+    "same_lineage_rerun_authorized": false
+  },
+  "ecological_synthesis": {
+    "core": "species occupancy changes the predictive role of source islands, but static source-network importance is not equivalent to temporal conservation consequence",
+    "occurrence_information": "prospective topology-specific presence information exists in the ultrarare mammal layer",
+    "structural_irreplaceability": "nominal source count and spatial source leverage differ within ultrarare mammals",
+    "temporal_boundary": "lost-source leverage did not improve independent BALA heldout prediction of later contraction beyond strong controls",
+    "conservation_statement": "connectivity metrics require endpoint-specific temporal or demographic validation before use as population-prioritization metrics",
+    "causal_rescue_or_extinction_established": false
+  },
+  "cross_system_boundaries": {
+    "boreal_beetles": "valid fresh local primary not supported",
+    "historical_318_mammals": "extreme-isolation amplification not supported",
+    "A_Islands_Tanzania": "structural information is reference-conditioned",
+    "GIFT_plants": "fresh attempt terminal without ecological primary; selected exploratory context only"
+  },
+  "project_policy": {
+    "ebird_active_scientific_lane": false,
+    "reason": "project decision: do not use eBird",
+    "existing_ebird_response_independent_infrastructure": "retained as dormant provenance only; no SED or species-response acquisition authorized"
+  },
+  "analysis_state": {
+    "same_global_mammal_threshold_mining_authorized": false,
+    "same_BALA_lineage_rerun_authorized": false,
+    "BALA_subgroup_rescue_authorized": false,
+    "ebird_response_access_authorized": false,
+    "new_active_confirmatory_candidate": null,
+    "next_scientific_event": "only a genuinely independent non-eBird temporal island system prospectively frozen before response access, if later selected"
+  },
+  "synthesis": "docs/STATIC_SOURCE_INFORMATION_VS_TEMPORAL_CONSEQUENCE_V1_161.md",
+  "active_priority": "development/structural_active_priority_v1_161.json"
+}
