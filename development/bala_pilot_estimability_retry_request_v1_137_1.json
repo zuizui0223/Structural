@@ -1,0 +1,19 @@
+{
+  "schema": "structural.bala_pilot_estimability_retry_request.v1_137_1",
+  "status": "REQUEST_OPERATIONAL_RETRY_SAME_V137_SCIENTIFIC_GATE",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_contract": "development/bala_pilot_estimability_contract_v1_137.json",
+  "failed_run_id": 37251618084,
+  "failed_job_id": 111580247660,
+  "routing_artifact_id": 11320128924,
+  "pitfall_quality_artifact_id": 11306547489,
+  "scientific_contract_changed": false,
+  "advance_thresholds_changed": false,
+  "taxonomic_scope_changed": false,
+  "surveyed_zero_rule_changed": false,
+  "taxon_partition_changed": false,
+  "pilot_semantic_access_authorized": true,
+  "confirmatory_semantic_access_authorized": false,
+  "source_leverage_effect_authorized": false,
+  "one_retry_only": true
+}
