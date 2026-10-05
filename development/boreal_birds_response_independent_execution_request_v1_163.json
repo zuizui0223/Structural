@@ -1,0 +1,22 @@
+{
+  "schema": "structural.boreal_birds_response_independent_execution_request.v1_163",
+  "status": "REQUEST_CANONICAL_RESPONSE_INDEPENDENT_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "freeze_parent_sha": "665420fa6abb5caac882b7147c1f397695907b1b",
+  "target_workflow": ".github/workflows/boreal-birds-response-independent-freeze-v1_163.yml",
+  "target_branch": "science/boreal-birds-topology-canonical-v1-163",
+  "one_shot": true,
+  "expected_children": {
+    "null_ensemble_sha256": "069eae639ed8a544d09680b7034c697bad608b7652a0cee60e92d41029d48e12",
+    "raw_configuration_surface_sha256": "70f36be8cb2318ad7589491fb448f5787be9df3e8457e5b919953243a6c08d79",
+    "topology_residual_surface_sha256": "d7913be64b62ae92378ab8279c6eea9fa69289d3908d9c3916694f7ea83a22e7"
+  },
+  "bird_file_opened": false,
+  "bird_header_opened": false,
+  "bird_response_values_opened": 0,
+  "beetle_response_used": false,
+  "plant_response_used": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false
+}
