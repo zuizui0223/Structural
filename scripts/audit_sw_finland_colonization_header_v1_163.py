@@ -51,7 +51,7 @@ def audit(path:Path,contract:dict)->dict:
         raise Stop(f"missing required/protected headers: {missing}")
     if protected!={"outcome"}:
         raise Stop("future endpoint contract drift")
-    unknown=sorted(set(header)-(safe|protected))
+    unknown=sorted(set(header)-(safe|required|protected))
     return {
       "schema":"structural.sw_finland_plant_colonization_header_audit.v1_163",
       "status":"HEADER_ONLY_AUDIT_COMPLETE_FUTURE_OUTCOME_ROWS_UNREAD",
