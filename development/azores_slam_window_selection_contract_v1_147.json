@@ -1,0 +1,59 @@
+{
+  "schema": "structural.azores_slam_window_selection_contract.v1_147",
+  "status": "PREDECLARED_RESPONSE_UNOPENED_SITE_KEY_AND_TEMPORAL_WINDOW_SELECTION_RULE",
+  "candidate_id": "azores_slam_arthropods_2012_2021",
+  "parents": [
+    "development/azores_slam_source_loss_preintake_v1_125.json",
+    "development/azores_slam_event_core_audit_contract_v1_146.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/current_status_v1_144.json"
+  ],
+  "site_key_selection": {
+    "priority_order": [
+      "locationID",
+      "parentEventID",
+      "island_plus_locality",
+      "rounded_latitude_longitude_plus_island"
+    ],
+    "admissible_if": [
+      "nonblank_event_fraction == 1.0",
+      "unique_islands >= 3",
+      "at least two provisionally eligible 3-year windows exist",
+      "at least one non-overlapping eligible-window pair exists"
+    ],
+    "selection": "choose the first admissible key in the frozen priority order",
+    "if_none_admissible": "STOP",
+    "outcome_information_allowed": false
+  },
+  "temporal_window_selection": {
+    "eligible_input": "rows in three_year_window_candidates.csv with eligible_provisional=true for the selected site key",
+    "nonoverlap": "pilot.end_year < confirmatory.start_year",
+    "pilot_rule": "among eligible windows that have at least one later non-overlapping eligible window, choose the smallest start_year; tie-break smallest end_year",
+    "confirmatory_rule": "among eligible windows non-overlapping and later than the selected pilot, choose the largest end_year; tie-break largest start_year",
+    "minimum_year_gap_between_windows": 0,
+    "if_no_nonoverlapping_pair": "STOP",
+    "no_window_selection_from_occurrence": true
+  },
+  "window_specific_sampling_universe": {
+    "eligible_islands": "exact island_names reported by the Event-only audit for the selected window",
+    "core_sites": "selected-key sites with at least one Event row in each of the three years of the selected window",
+    "surveyed_zero_future_rule": "a taxon may be zero-filled for an island-year only after future response routing is restricted to the frozen core sites and the island-year satisfies the already-frozen Event completeness rule",
+    "whole_island_extinction_claim_allowed": false
+  },
+  "pilot_confirmatory_roles": {
+    "burned_pilot": "earliest selected three-year window; may be used only for endpoint quality and estimability",
+    "confirmatory": "latest non-overlapping selected three-year window; occurrence extension remains sealed until taxon universe, response routing, endpoint and scoring are fully frozen",
+    "pilot_effect_estimation_allowed": false,
+    "confirmatory_response_access_authorized_here": false
+  },
+  "taxonomic_boundary": {
+    "Araneae": "exclude from primary unless the previously declared companion-dataset crosswalk is frozen before any occurrence parse",
+    "other_intentionally_untargeted_taxa": "may not be zero-filled",
+    "taxon_universe_selected_here": false
+  },
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "source_loss_effects_computed": 0,
+    "counts_as_empirical_evidence": false
+  }
+}
