@@ -1,0 +1,30 @@
+{
+  "schema": "structural.azores_slam_window_selection_stop.v1_148",
+  "status": "STOP_NO_DISJOINT_PILOT_CONFIRMATORY_THREE_YEAR_WINDOWS",
+  "candidate_id": "azores_slam_arthropods_2012_2021",
+  "parent_rule": "development/azores_slam_window_selection_contract_v1_147.json",
+  "parent_audit": "development/azores_slam_event_core_audit_freeze_v1_148.json",
+  "adjudication": {
+    "first_priority_site_key": "locationID",
+    "site_key_nonblank_fraction": 1.0,
+    "eligible_three_year_windows": [
+      {"start":2013,"end":2015,"islands":["Faial","Pico","Santa Maria","São Miguel","Terceira"],"core_sites":26},
+      {"start":2014,"end":2016,"islands":["Graciosa","Pico","Terceira"],"core_sites":24}
+    ],
+    "nonoverlap_rule": "pilot.end_year < confirmatory.start_year",
+    "nonoverlapping_pairs": 0,
+    "reason": "the only two eligible three-year windows overlap in 2014-2015, so the frozen burned-pilot/confirmatory temporal-independence rule cannot be satisfied"
+  },
+  "forbidden_repairs": [
+    "lower minimum islands per window from 3 to 2 after seeing Event coverage",
+    "shorten the three-wave window below three years",
+    "allow overlapping pilot and confirmatory years",
+    "choose a different site key to manufacture a disjoint pair",
+    "open Occurrence rows to decide whether a later sparse window is useful"
+  ],
+  "ecological_result": "NOT_SCORED",
+  "confirmatory_eligible": false,
+  "occurrence_response_opened": false,
+  "counts_as_confirmatory_evidence": false,
+  "future_role": "response-unopened terminal design failure under the frozen SLAM temporal protocol"
+}
