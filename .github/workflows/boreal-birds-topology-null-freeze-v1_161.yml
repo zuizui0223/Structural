@@ -1,0 +1,91 @@
+name: Boreal birds topology-null freeze v1.161
+
+on:
+  push:
+    branches:
+      - science/boreal-birds-sparse-topology-v1-158
+    paths:
+      - development/boreal_birds_topology_null_execution_request_v1_161.json
+
+permissions:
+  contents: write
+
+jobs:
+  freeze-response-independent-null-surface:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: science/boreal-birds-sparse-topology-v1-158
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("development/boreal_birds_topology_null_execution_request_v1_161.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.boreal_birds_topology_null_execution_request.v1_161"
+          assert x["status"]=="REQUEST_RESPONSE_INDEPENDENT_NULL_FREEZE"
+          assert x["candidate_id"]=="lac_la_ronge_boreal_19island_birds_sparse_topology_2026"
+          assert x["one_shot"] is True
+          assert x["bird_file_opened"] is False
+          assert x["bird_response_values_opened"]==0
+          assert x["counts_as_empirical_evidence"] is False
+          for path in (
+            "development/boreal_birds_topology_null_ensemble_v1_161.json",
+            "development/boreal_birds_configuration_sensitivity_v1_161.csv",
+            "development/boreal_birds_topology_null_freeze_v1_161.json",
+          ):
+              if Path(path).exists():
+                  raise SystemExit(f"frozen output already exists: {path}")
+          PY
+
+      - name: Generate null ensemble and S surface
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src
+        run: |
+          python scripts/freeze_boreal_birds_topology_nulls_v1_161.py \
+            --ensemble development/boreal_birds_topology_null_ensemble_v1_161.json \
+            --sensitivity development/boreal_birds_configuration_sensitivity_v1_161.csv \
+            --receipt development/boreal_birds_topology_null_freeze_v1_161.json
+
+      - name: Verify response boundary and output shape
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          e=json.loads(Path("development/boreal_birds_topology_null_ensemble_v1_161.json").read_text())
+          r=json.loads(Path("development/boreal_birds_topology_null_freeze_v1_161.json").read_text())
+          s=list(csv.DictReader(Path("development/boreal_birds_configuration_sensitivity_v1_161.csv").open()))
+          assert e["status"]=="RESPONSE_INDEPENDENT_NULL_ENSEMBLE_FROZEN"
+          assert len(e["nulls"])==20
+          assert r["status"]=="NULL_ENSEMBLE_AND_SENSITIVITY_FROZEN_RESPONSE_INDEPENDENTLY"
+          assert r["bird_file_opened"] is False
+          assert r["bird_response_values_opened"]==0
+          assert r["pilot_response_authorized"] is False
+          assert r["confirmatory_response_authorized"] is False
+          assert len(s)==78
+          PY
+
+      - name: Commit frozen response-independent outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            development/boreal_birds_topology_null_ensemble_v1_161.json \
+            development/boreal_birds_configuration_sensitivity_v1_161.csv \
+            development/boreal_birds_topology_null_freeze_v1_161.json
+          if git diff --cached --quiet; then
+            echo "no frozen outputs to commit"
+            exit 1
+          fi
+          git commit -m "Freeze boreal-bird response-independent topology nulls v1.161"
+          git push origin HEAD:science/boreal-birds-sparse-topology-v1-158
