@@ -1,0 +1,121 @@
+{
+  "schema": "structural.ebird_sampling_event_metadata_audit_contract.v1_154",
+  "status": "RESPONSE_UNOPENED_SED_SCHEMA_AND_COVERAGE_AUDIT_CURRENT_SCHEMA_COMPATIBILITY_FROZEN",
+  "supersedes": "development/ebird_sampling_event_metadata_audit_contract_v1_149.json",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "scientific_role": "establish checklist completeness and effort support before any species-level annual occupancy is constructed",
+  "schema_compatibility": {
+    "reason": "eBird Basic Dataset metadata v1.16 renamed PROTOCOL TYPE to OBSERVATION TYPE and added PROTOCOL NAME; current official Sampling Event Data therefore must not be rejected solely because it uses the post-Feb-2025 header schema",
+    "modern_schema": "EBD/SED v1.16+ (revised 2025-02-19)",
+    "legacy_schema": "pre-v1.16 EBD/SED",
+    "scientific_semantics_changed": false,
+    "species_response_boundary_changed": false
+  },
+  "official_semantics": {
+    "product": "eBird Sampling Event Data",
+    "row_unit": "one checklist / sampling event",
+    "complete_checklist_field": "ALL SPECIES REPORTED",
+    "complete_value": true,
+    "ecological_use": "only complete checklists may later support species nondetection; missing species rows in incomplete checklists are never absences",
+    "species_rows_needed_for_this_audit": false
+  },
+  "input": {
+    "accepted_extensions": [".txt", ".tsv", ".txt.gz", ".tsv.gz"],
+    "delimiter": "tab",
+    "analysis_years": [2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],
+    "required_common_headers": [
+      "SAMPLING EVENT IDENTIFIER",
+      "OBSERVATION DATE",
+      "LATITUDE",
+      "LONGITUDE",
+      "PROTOCOL CODE",
+      "DURATION MINUTES",
+      "EFFORT DISTANCE KM",
+      "EFFORT AREA HA",
+      "NUMBER OBSERVERS",
+      "ALL SPECIES REPORTED",
+      "GROUP IDENTIFIER"
+    ],
+    "protocol_schema_variants": {
+      "modern_v1_16_plus": {
+        "required_headers": ["OBSERVATION TYPE", "PROTOCOL NAME"],
+        "observation_type_header": "OBSERVATION TYPE",
+        "protocol_name_header": "PROTOCOL NAME"
+      },
+      "legacy_pre_v1_16": {
+        "required_headers": ["PROTOCOL TYPE"],
+        "observation_type_header": "PROTOCOL TYPE",
+        "protocol_name_header": null
+      }
+    },
+    "forbidden_species_headers": [
+      "SCIENTIFIC NAME",
+      "COMMON NAME",
+      "OBSERVATION COUNT",
+      "TAXONOMIC ORDER",
+      "CATEGORY",
+      "TAXON CONCEPT ID",
+      "SPECIES COMMENTS"
+    ],
+    "extra_checklist_metadata_headers_allowed": true
+  },
+  "validation": {
+    "sampling_event_identifier": "nonblank and globally unique within the supplied SED extract",
+    "observation_date": "ISO YYYY-MM-DD parse required",
+    "latitude": "finite and in [-90,90]",
+    "longitude": "finite and in [-180,180]",
+    "all_species_reported": "must normalize to TRUE/FALSE from true,false,1,0 only",
+    "duration_minutes": "blank allowed; otherwise finite and >=0",
+    "effort_distance_km": "blank allowed; otherwise finite and >=0",
+    "effort_area_ha": "blank allowed; otherwise finite and >=0",
+    "number_observers": "blank allowed; otherwise integer >=1",
+    "protocol_fields": "blank values are counted, not silently dropped; exactly one supported protocol-header schema must be identifiable",
+    "group_identifier": "blank allowed; repeated nonblank groups are audited as potential duplicate-party checklists"
+  },
+  "fixed_effort_bins_for_audit_only": {
+    "duration_minutes": ["missing","0-5","6-15","16-30","31-60","61-120",">120"],
+    "effort_distance_km": ["missing","0","(0,1]","(1,5]","(5,10]",">10"],
+    "number_observers": ["missing","1","2","3-5",">5"],
+    "role": "descriptive coverage bins only; they are not future survey-quality thresholds"
+  },
+  "outputs": [
+    "ebird_sed_schema_receipt.json",
+    "ebird_sed_year_support.csv",
+    "ebird_sed_year_month_support.csv",
+    "ebird_sed_protocol_counts.csv",
+    "ebird_sed_effort_bins.csv"
+  ],
+  "report_only": [
+    "detected SED protocol-header schema (modern v1.16+ or legacy pre-v1.16)",
+    "total checklist rows",
+    "complete versus incomplete checklist rows",
+    "complete-checklist counts by year",
+    "distinct sampled months by year",
+    "observation-type/protocol-name/protocol-code composition",
+    "effort missingness and fixed-bin counts",
+    "nonblank group-identifier frequency and repeated-group frequency",
+    "coordinate completeness and range validity",
+    "rows inside versus outside 2002-2019"
+  ],
+  "privacy_and_response_boundary": {
+    "species_identity_may_be_read": false,
+    "species_detection_may_be_read": false,
+    "species_nondetection_may_be_constructed": false,
+    "sampling_event_ids_may_be_aggregated_but_not_persisted": true,
+    "coordinates_may_be_validated_but_not_persisted": true,
+    "observer_identity_may_be_read": false,
+    "raw_sampling_event_rows_may_be_persisted": false,
+    "counts_as_empirical_source_loss_evidence": false
+  },
+  "next_gate": "only after this audit succeeds may a separate response-independent contract freeze checklist deduplication, effort quality rules and checklist-to-island geometry mapping; species outcomes remain closed until that second contract is frozen",
+  "anti_selection": [
+    "do not choose duration, distance, observer-count or protocol thresholds from species persistence/source-loss outcomes",
+    "do not treat incomplete checklists as nondetection support",
+    "do not use Dryad observed-species rows to fill missing SED metadata",
+    "do not infer island-year occupancy in this audit",
+    "do not promote the eBird candidate because BALA was non-supportive",
+    "do not reject a current official SED solely because it uses OBSERVATION TYPE and PROTOCOL NAME rather than legacy PROTOCOL TYPE"
+  ],
+  "response_access_authorized": false,
+  "counts_as_empirical_evidence": false
+}
