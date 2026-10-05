@@ -1,0 +1,138 @@
+{
+  "schema": "structural.bala_burned_pilot_contract.v1_137",
+  "status": "PILOT_ONLY_THREE_WAVE_ESTIMABILITY_GATE_FROZEN_BEFORE_PILOT_OCCURRENCE_ACCESS",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/bala_pitfall_quality_freeze_v1_135.json",
+    "development/bala_taxon_routing_contract_v1_135.json",
+    "development/bala_geometry_operator_contract_v1_136.json",
+    "development/bala_opaque_taxon_routing_contract_v1_136_1.json"
+  ],
+  "frozen_inputs": {
+    "routing_run_id": 37251215741,
+    "routing_artifact_id": 11320128924,
+    "routing_artifact_digest": "sha256:fb43956cda369185ac7b603545e7a4310569c31b8abc83ddf5def1db6881b77d",
+    "pilot_surface_sha256": "1735652e93232c0291d0c29b1df292010807ce4d9dc1791aeebed86e99341127",
+    "sealed_confirmatory_surface_sha256": "c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+    "pilot_token_manifest_sha256": "f591cdc28d0f0796600a24a5ca3063c32a9bf2cda644722aa567f68b5086843e",
+    "pilot_distinct_taxa": 142,
+    "confirmatory_distinct_taxa": 400,
+    "pitfall_quality_run_id": 37211022254,
+    "pitfall_quality_artifact_id": 11306547489,
+    "pitfall_position_recovery_sha256": "a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+    "pitfall_island_phase_quality_sha256": "24ccd2db6438f899a36eeb9443dad432ca78c256b07837f3f4faa1b3c1d905c8",
+    "geometry_sha256": "b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+    "graph_edges_sha256": "912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f",
+    "graph_lambda_km": 78.93702465087111
+  },
+  "pilot_semantic_access": {
+    "authorized_surface": "pilot_occurrence_rows.tsv only",
+    "authorized_fields": [
+      "organismQuantity",
+      "organismQuantityType",
+      "establishmentMeans",
+      "eventID",
+      "identificationRemarks",
+      "scientificName",
+      "class",
+      "order",
+      "family",
+      "taxonRank"
+    ],
+    "confirmatory_surface_semantic_access_authorized": false,
+    "confirmatory_taxon_identity_access_authorized": false,
+    "confirmatory_eventID_access_authorized": false,
+    "confirmatory_quantity_access_authorized": false,
+    "source_leverage_effect_estimation_authorized": false,
+    "candidate_minus_reference_prediction_authorized": false
+  },
+  "sampling_endpoint": {
+    "method": "pitfall only",
+    "eligible_eventIDs": "exact eventID rows in frozen pitfall_position_recovery.csv",
+    "phase_map": {
+      "t0": "BALA1",
+      "t1": "BALA2",
+      "t2": "BALA3"
+    },
+    "island": "three-letter island prefix of the frozen core lineage in pitfall_position_recovery.csv",
+    "presence": "at least one eligible pitfall Occurrence row for the MF token with numeric organismQuantity > 0 in the island-phase",
+    "surveyed_zero": "no positive eligible pitfall Occurrence row for the taxon in an island-phase whose frozen island-phase quality_pass is true",
+    "quantity_rule": "organismQuantity must be finite numeric and nonnegative on every routed pilot pitfall row; any violation is STOP",
+    "organismQuantityType_required": "individuals",
+    "beating_rows": "ignored for the primary pilot state and may not rescue pitfall zeros",
+    "all_21_island_phases_must_pass_frozen_quality_gate": true,
+    "claim_ceiling": "observed occurrence in standardized repeated native-forest pitfall sampling, not whole-island occupancy or extinction"
+  },
+  "taxon_eligibility": {
+    "analysis_unit": "normalized MF identificationRemarks token fixed by v1.135 routing",
+    "require_at_least_one_eligible_pitfall_row": true,
+    "require_nonblank_order": true,
+    "order_must_be_unique_within_MF_on_nonblank_values": true,
+    "native_status_rule": "at least one nonblank establishmentMeans value and every nonblank value must be native or endemic",
+    "exclude_order": ["Diptera"],
+    "hymenoptera_rule": "Hymenoptera eligible only if every nonblank family value is Formicidae and at least one family value is Formicidae",
+    "metadata_excluded_groups_guard": "if Acari or Collembola appears explicitly in scientificName/class/order, exclude the MF token rather than zero-fill it",
+    "scientificName_and_taxonRank": "audit only; MF token remains the cross-phase identity and nomenclatural label variation does not split a token",
+    "rule_change_after_pilot_access_authorized": false
+  },
+  "three_wave_transition": {
+    "t0_sources": "islands present for the eligible pilot taxon in BALA1",
+    "minimum_t0_sources": 2,
+    "lost_sources": "t0 occupied islands absent at BALA2",
+    "primary_pilot_route": "exactly one lost source between BALA1 and BALA2",
+    "target_population": "a different island occupied at BALA2; the lost source is excluded and target self-anchor is excluded from its own t0 source set",
+    "t2_endpoint_for_estimability_only": "1 if the BALA2 target is absent at BALA3, 0 if it remains present",
+    "new_BALA2_colonizations_may_be_targets": true,
+    "source_loss_effect_size_or_association": "forbidden in pilot"
+  },
+  "source_leverage_exposure": {
+    "operator": "frozen seven-island Gabriel graph v1.136",
+    "kernel": "exp(-shortest_graph_distance_km / 78.93702465087111)",
+    "target_self_anchor_excluded": true,
+    "E_i": "sum kernel(target,lost t0 sources) / sum kernel(target,all t0 sources excluding target self)",
+    "Q_loss": "sum target-geometry pressure mass of the actually lost source divided by total pressure mass of all t0 sources, each source excluded from its own target geometry",
+    "pilot_use": "compute exposure values only to test finite support and variation; do not relate exposure to t2 outcome direction or estimate predictive gain"
+  },
+  "estimability_gate": {
+    "minimum_eligible_pilot_taxa": 20,
+    "minimum_pilot_taxa_with_at_least_two_t0_sources": 12,
+    "minimum_exactly_one_loss_taxa": 8,
+    "minimum_t1_surviving_target_rows": 20,
+    "minimum_t2_contraction_rows": 5,
+    "minimum_t2_persistence_rows": 10,
+    "minimum_taxa_with_any_t2_contraction": 3,
+    "minimum_taxa_with_any_t2_persistence": 5,
+    "minimum_distinct_lost_source_islands": 3,
+    "minimum_distinct_target_islands": 3,
+    "minimum_distinct_E_i_values_rounded_1e_6": 5,
+    "leverage_identifiability_beyond_source_count": "within at least one t0 nominal source-count stratum, require >=5 target rows and >=3 distinct E_i values rounded to 1e-6; if only one source-count stratum exists overall, the same rule applies to that stratum",
+    "minimum_estimable_confirmatory_clusters_for_future_protocol": 3,
+    "pass_rule": "all listed pilot thresholds must pass",
+    "if_fail": "STOP BALA primary source-loss route; no threshold, taxon-scope, pitfall-quality or loss-count rule may be relaxed after pilot response access"
+  },
+  "pilot_outputs": [
+    "pilot_taxon_eligibility.csv",
+    "pilot_taxon_phase_presence.csv",
+    "pilot_source_loss_exposure.csv",
+    "pilot_estimability_result.json"
+  ],
+  "anti_selection": [
+    "do not compute C-minus-R2, a leverage coefficient, correlation, odds ratio or outcome-stratified leverage summary in pilot",
+    "do not select taxa by source-loss direction or t2 outcome",
+    "do not switch from exactly-one-loss to a different primary loss-count route after pilot",
+    "do not alter the 20/30 site or 80-percent island pitfall quality thresholds",
+    "do not inspect sealed confirmatory row semantics",
+    "do not use beating data to rescue pitfall estimability",
+    "do not change the graph, lambda, taxon partition salt or native/endemic scope after pilot access"
+  ],
+  "advance_if_pass": "freeze confirmatory taxonomy eligibility and a phase-specific response firewall; then open confirmatory t0/t1 exposure rows only, freeze all source-loss features/reference/predictions, and keep confirmatory t2 outcomes sealed until final authorization",
+  "response_boundary": {
+    "pilot_occurrence_semantic_access_authorized": true,
+    "confirmatory_occurrence_semantic_access_authorized": false,
+    "confirmatory_t2_access_authorized": false,
+    "pilot_predictive_effect_estimate_authorized": false,
+    "counts_as_empirical_effect_evidence": false
+  }
+}
