@@ -2,6 +2,7 @@ from pathlib import Path
 import csv
 import importlib.util
 import json
+import hashlib
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/freeze_boreal_birds_topology_nulls_v1_158.py"
