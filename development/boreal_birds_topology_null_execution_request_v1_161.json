@@ -1,0 +1,17 @@
+{
+  "schema": "structural.boreal_birds_topology_null_execution_request.v1_161",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_NULL_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "contract": "development/boreal_birds_topology_null_contract_v1_161.json",
+  "target_workflow": ".github/workflows/boreal-birds-topology-null-freeze-v1_161.yml",
+  "target_branch": "science/boreal-birds-sparse-topology-v1-158",
+  "one_shot": true,
+  "bird_file_opened": false,
+  "bird_header_opened": false,
+  "bird_response_values_opened": 0,
+  "beetle_response_used": false,
+  "plant_response_used": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false
+}
