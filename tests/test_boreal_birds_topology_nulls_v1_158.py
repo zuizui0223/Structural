@@ -88,3 +88,46 @@ def test_cli_writes_only_response_free_objects(tmp_path):
         "nearest_possible_source_km_hex",
         "furthest_possible_source_km_hex",
     }
+
+
+def test_committed_response_free_receipt_exact_replays():
+    module = load_module()
+    contract = json.loads(CONTRACT.read_text())
+    operator = json.loads(OPERATOR.read_text())
+    freeze, surface = module.freeze(
+        contract=contract,
+        geometry=module.load_geometry(GEOMETRY),
+        operator_freeze=operator,
+    )
+    receipt = json.loads(
+        (
+            ROOT
+            / "development/boreal_19island_birds_topology_null_receipt_v1_158.json"
+        ).read_text()
+    )
+    assert receipt["actual_operator_fingerprint"] == freeze[
+        "actual_operator_fingerprint"
+    ]
+    observed = []
+    for null in freeze["nulls"]:
+        payload = "\n".join(
+            f'{edge["left"]}|{edge["right"]}' for edge in null["edges"]
+        ).encode("utf-8")
+        observed.append(hashlib.sha256(payload).hexdigest())
+    expected = [row["edge_set_sha256"] for row in receipt["nulls"]]
+    assert observed == expected
+
+    committed_surface = list(
+        csv.DictReader(
+            (
+                ROOT
+                / "development/boreal_19island_birds_configuration_sensitivity_v1_158.csv"
+            ).open()
+        )
+    )
+    assert [row["Island"] for row in committed_surface] == [
+        row["Island"] for row in surface
+    ]
+    assert [row["H_hex"] for row in committed_surface] == [
+        row["H_hex"] for row in surface
+    ]
