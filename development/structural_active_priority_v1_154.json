@@ -1,0 +1,47 @@
+{
+  "schema": "structural.active_priority.v1_154",
+  "status": "ebird_only_live_confirmatory_candidate_current_sed_schema_compatibility_frozen",
+  "supersedes": "development/structural_active_priority_v1_153.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "confirmatory_lane": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_NOT_PRESENT",
+    "gate": "development/ebird_sampling_event_metadata_audit_contract_v1_154.json",
+    "audit_script": "scripts/audit_ebird_sampling_event_metadata_v1_154.py",
+    "next_action": "obtain official eBird Sampling Event Data and run the response-independent v1.154 checklist/effort audit before any species response access"
+  },
+  "schema_repair": {
+    "finding": "the frozen v1.149 auditor required legacy PROTOCOL TYPE, but current eBird EBD/SED v1.16+ uses OBSERVATION TYPE and adds PROTOCOL NAME",
+    "repair": "v1.154 accepts exactly one of the modern v1.16+ or legacy pre-v1.16 protocol-header schemas, reports the detected schema, and leaves every species-response boundary unchanged",
+    "response_opened": false,
+    "counts_as_empirical_evidence": false
+  },
+  "retrospective_lane": {
+    "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+    "status": "STOP_RECONSTRUCTED_ROWS_NOT_IDENTIFIABLE_FROM_PUBLIC_ARCHIVE",
+    "stop": "development/finnish_eider_source_loss_stop_v1_153.json",
+    "may_count_as_confirmation": false
+  },
+  "completed": [
+    "Azores BALA: independent three-wave confirmatory primary not supported",
+    "Azores SLAM: response-unopened terminal design failure because no disjoint eligible three-year pilot/confirmatory windows",
+    "Finnish common eider: retrospective source-loss events not auditable because redistributed grouped-island rows are not identified in the public archive",
+    "eBird SED audit schema updated prospectively for the official post-Feb-2025 header names without reading species outcomes"
+  ],
+  "do_now": [
+    "obtain official eBird Sampling Event Data covering the intended 2002-2019 analysis period",
+    "run only the v1.154 checklist-metadata audit before any species response access",
+    "if v1.154 succeeds, freeze checklist deduplication, effort-quality and checklist-to-island mapping rules before opening Dryad species rows",
+    "preserve the BALA non-support as the only completed independent temporal source-loss leverage test"
+  ],
+  "do_not": [
+    "open the Dryad eBird species archive before SED support semantics are frozen",
+    "infer absence from missing observed-species rows",
+    "choose effort thresholds using species persistence or source-loss outcomes",
+    "mine BALA taxa or islands to rescue the failed primary",
+    "infer Finnish-eider reconstructed rows from response values",
+    "create another same-data mammal leverage diagnostic",
+    "promote static source leverage to a management ranking metric"
+  ],
+  "next_scientific_event": "a successful response-independent v1.154 eBird SED support audit; otherwise the conservation hypothesis remains unconfirmed"
+}
