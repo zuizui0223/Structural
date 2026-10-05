@@ -1,0 +1,38 @@
+{
+  "schema": "structural.bala_pilot_estimability_stop.v1_137_1",
+  "status": "V137_STOPPED_BEFORE_PILOT_SEMANTIC_ACCESS",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "failed_execution": {
+    "workflow_run_id": 37251618084,
+    "workflow_job_id": 111580247660,
+    "workflow_head_sha": "8803d38658a15b01490b9a845f3aeb7461d6c2f3",
+    "failure": "pitfall-quality artifact name typo caused download failure before the pilot runner step"
+  },
+  "response_boundary_at_stop": {
+    "pilot_runner_started": false,
+    "pilot_occurrence_rows_decoded": 0,
+    "pilot_organismQuantity_values_decoded": 0,
+    "pilot_eventID_values_decoded": 0,
+    "pilot_taxonomy_values_decoded": 0,
+    "confirmatory_rows_parsed": 0,
+    "confirmatory_occurrence_values_opened": 0,
+    "source_leverage_values_computed": 0,
+    "candidate_minus_reference_effects_computed": 0
+  },
+  "operational_repairs": {
+    "artifact_name": {
+      "wrong": "bala-v134-pitfall-quality-771e52a6bda4e6c58f58e7e2625cc709454bfb52-37211022254",
+      "correct": "bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254"
+    },
+    "event_map_island_field": {
+      "problem": "pitfall_position_recovery.csv contains phase,lineage,locationID,eventID,... but no island column",
+      "response_independent_fix": "derive island as the first three characters of the frozen conceptual lineage and require it to equal the first three characters of locationID for every row",
+      "expected_island_codes": ["FAI","FLO","PIC","SJG","SMG","SMR","TER"]
+    }
+  },
+  "scientific_contract_changed": false,
+  "advance_thresholds_changed": false,
+  "taxonomic_scope_changed": false,
+  "surveyed_zero_rule_changed": false,
+  "taxon_partition_changed": false
+}
