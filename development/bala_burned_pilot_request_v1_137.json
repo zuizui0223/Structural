@@ -1,0 +1,14 @@
+{
+  "schema": "structural.bala_burned_pilot_request.v1_137",
+  "status": "REQUEST_ONE_SHOT_PILOT_ONLY_THREE_WAVE_ESTIMABILITY_AUDIT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_burned_pilot_contract_v1_137.json",
+  "routing_run_id": 37251215741,
+  "routing_artifact_id": 11320128924,
+  "quality_run_id": 37211022254,
+  "quality_artifact_id": 11306547489,
+  "pilot_occurrence_semantic_access_authorized": true,
+  "confirmatory_occurrence_semantic_access_authorized": false,
+  "source_leverage_effect_estimation_authorized": false,
+  "one_shot": true
+}
