@@ -1,0 +1,114 @@
+name: BALA pilot-only estimability retry v1.137.1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_pilot_estimability_retry_request_v1_137_1.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  pilot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate operational-only retry
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path("development/bala_pilot_estimability_stop_v1_137_1.json").read_text())
+          c=json.loads(Path("development/bala_pilot_estimability_contract_v1_137.json").read_text())
+          r=json.loads(Path("development/bala_pilot_estimability_retry_request_v1_137_1.json").read_text())
+          assert s["status"]=="V137_STOPPED_BEFORE_PILOT_SEMANTIC_ACCESS"
+          assert s["response_boundary_at_stop"]["pilot_runner_started"] is False
+          assert s["response_boundary_at_stop"]["pilot_occurrence_rows_decoded"]==0
+          assert r["status"]=="REQUEST_OPERATIONAL_RETRY_SAME_V137_SCIENTIFIC_GATE"
+          assert r["scientific_contract_changed"] is False
+          assert r["advance_thresholds_changed"] is False
+          assert r["taxonomic_scope_changed"] is False
+          assert r["surveyed_zero_rule_changed"] is False
+          assert r["taxon_partition_changed"] is False
+          assert r["confirmatory_semantic_access_authorized"] is False
+          assert r["source_leverage_effect_authorized"] is False
+          assert r["one_retry_only"] is True
+          assert c["advance_gate"]["minimum_exactly_one_source_loss_taxa"]==5
+          assert c["advance_gate"]["minimum_t2_contractions_across_exactly_one_loss_targets"]==5
+          assert c["advance_gate"]["minimum_t2_persistences_across_exactly_one_loss_targets"]==5
+          PY
+
+      - name: Download exact routed pilot/sealed surfaces
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v1361-geometry-opaque-routing-d80de5dff7ee185bc4afcb6cf52acc22d70d7cd6-37251215741
+          path: build/bala_v1371/routing
+          repository: zuizui0223/Structural
+          run-id: 37251215741
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen pitfall survey map
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254
+          path: build/bala_v1371/pitfall
+          repository: zuizui0223/Structural
+          run-id: 37211022254
+          github-token: ${{ github.token }}
+
+      - name: Verify exact pilot-only inputs
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/bala_v1371/routing/pilot_occurrence_rows.tsv":"1735652e93232c0291d0c29b1df292010807ce4d9dc1791aeebed86e99341127",
+            "build/bala_v1371/routing/pilot_mf_tokens.csv":"f591cdc28d0f0796600a24a5ca3063c32a9bf2cda644722aa567f68b5086843e",
+            "build/bala_v1371/pitfall/pitfall_position_recovery.csv":"a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s,(p,s)
+          assert Path("build/bala_v1371/routing/confirmatory_occurrence_rows.sealed.tsv").exists()
+          PY
+
+      - name: Open pilot taxa once for the unchanged estimability gate
+        run: |
+          mkdir -p build/bala_v1371/output
+          python scripts/run_bala_pilot_estimability_v1_137_1.py             build/bala_v1371/routing/pilot_occurrence_rows.tsv             build/bala_v1371/routing/pilot_mf_tokens.csv             build/bala_v1371/pitfall/pitfall_position_recovery.csv             --eligibility-output build/bala_v1371/output/pilot_taxon_eligibility.csv             --presence-output build/bala_v1371/output/pilot_island_phase_presence.csv             --transition-output build/bala_v1371/output/pilot_transition_summary.csv             --result build/bala_v1371/output/pilot_estimability_result.json
+
+      - name: Enforce no pilot effect and no confirmatory semantic access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v1371/output/pilot_estimability_result.json").read_text())
+          assert x["status"] in {"BALA_PILOT_ESTIMABILITY_GATE_PASSED","BALA_PILOT_ESTIMABILITY_GATE_STOPPED"}
+          assert x["pilot_taxa_routed"]==142
+          assert x["pilot_occurrence_rows_decoded"]==20958
+          assert x["source_leverage_values_computed"]==0
+          assert x["candidate_minus_reference_effects_computed"]==0
+          assert x["confirmatory_rows_parsed"]==0
+          assert x["confirmatory_token_identities_opened"]==0
+          assert x["confirmatory_occurrence_values_opened"]==0
+          assert x["counts_as_empirical_support_or_non_support"] is False
+          PY
+
+      - name: Upload terminal burned-pilot estimability result
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v1371-pilot-estimability-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v1371/output/pilot_taxon_eligibility.csv
+            build/bala_v1371/output/pilot_island_phase_presence.csv
+            build/bala_v1371/output/pilot_transition_summary.csv
+            build/bala_v1371/output/pilot_estimability_result.json
+          if-no-files-found: error
+          retention-days: 30
