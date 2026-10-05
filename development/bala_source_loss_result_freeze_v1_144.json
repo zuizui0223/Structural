@@ -1,0 +1,70 @@
+{
+  "schema": "structural.bala_source_loss_result_freeze.v1_144",
+  "status": "INDEPENDENT_THREE_WAVE_CONFIRMATORY_PRIMARY_NOT_SUPPORTED",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "evidence_class": "prospective independent three-wave temporal confirmatory test",
+  "source_execution": {
+    "workflow": ".github/workflows/bala-source-loss-score-v1_143.yml",
+    "workflow_run_id": 37275262768,
+    "workflow_head_sha": "f4388736bcca89b502c77a0ccc8797126325b907",
+    "workflow_job_id": 111650778033,
+    "artifact_id": 11328879485,
+    "artifact_name": "bala-v143-source-loss-result-f4388736bcca89b502c77a0ccc8797126325b907-37275262768",
+    "artifact_digest": "sha256:1387a2bf34c43778bfd3c65acf44d3f3e64406a86181d3a609a8667e167c89d2",
+    "expires_at": "2026-11-04T06:59:47Z"
+  },
+  "artifact_files": {
+    "bala_t2_target_outcomes.csv": {
+      "sha256": "974071b9b771f1d7a6330cc1598ce7a89749dd2be336f34b03fc2b4e38986e5c"
+    },
+    "bala_taxon_scores.csv": {
+      "sha256": "951048894670ca2285e8731efc6260d696295125ab47e2142b89c1ee918f0c67"
+    },
+    "bala_t2_scoring_result.json": {
+      "sha256": "659f64d9252bb799507f43542a2296bb5ec4887e9ee38d54f8ca5f6733c72c9a"
+    }
+  },
+  "population": {
+    "eligible_taxa": 20,
+    "target_rows": 64,
+    "t2_contractions": 20,
+    "t2_persistences": 44,
+    "estimable_taxon_clusters": 20
+  },
+  "primary": {
+    "estimand": "equal-weight mean across estimable heldout MF taxa of within-taxon binary logloss(C)-binary logloss(R2)",
+    "candidate_addition": "target-specific pre-loss lost-access fraction E_i only",
+    "favourable_direction": "negative",
+    "point_C_minus_R2": 0.00067423414692237,
+    "bootstrap_ci95_low": -0.02130441194511585,
+    "bootstrap_ci95_high": 0.025579070508640226,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261005,
+    "primary_supported": false
+  },
+  "secondary_nonrescuing": {
+    "mean_E_i_contraction": 0.4659640925585486,
+    "mean_E_i_persistence": 0.28745616955060244,
+    "full_data_standardized_E_i_coefficient": 0.2794138545592927,
+    "event_delta_N_eff_vs_contraction_fraction_spearman": -0.17997088595781932,
+    "interpretation": "some descriptive direction is compatible with higher lost-access fraction among later contractions, but the heldout taxon-macro primary did not improve and secondary summaries may not rescue it"
+  },
+  "response_firewall": {
+    "t2_rows_scanned_for_token_only": 2678,
+    "eligible_t2_rows_semantically_decoded": 450,
+    "eligible_t2_quantity_values_decoded": 450,
+    "noneligible_t2_quantity_values_decoded": 0,
+    "raw_t2_surface_retained": false,
+    "rerun_authorized": false
+  },
+  "scientific_interpretation": {
+    "supported": "BALA provides an independent prospective three-wave test in which source-loss exposure precedes later occupancy contraction and all 20 heldout taxon folds are estimable.",
+    "not_supported": "Target-specific lost-source access fraction did not add generalizable heldout predictive information beyond source counts, remaining-source geometry, island identity and survey effort.",
+    "conservation_consequence": "Cross-sectional source leverage from the global mammal system is not validated as a general conservation-prioritization metric by this independent temporal test.",
+    "secondary_direction_may_not_rescue_primary": true,
+    "causal_rescue_or_extinction_claim_authorized": false,
+    "same_lineage_rerun_authorized": false
+  },
+  "counts_as_confirmatory_evidence": true,
+  "fresh_system_denominator_contribution": 1
+}
