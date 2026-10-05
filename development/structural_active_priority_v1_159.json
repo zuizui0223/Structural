@@ -1,0 +1,25 @@
+{
+  "schema": "structural.active_priority.v1_159",
+  "status": "ebird_external_file_only_blocker_full_prebiology_chain_ready",
+  "supersedes": "development/structural_active_priority_v1_158.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "live_candidate": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_REQUIRED",
+    "one_command_handoff": "scripts/run_ebird_prebiology_handoff_v1_159.py",
+    "response_access_authorized": false
+  },
+  "do_now": [
+    "obtain official eBird Basic Dataset Sampling Event Data through the logged-in request workflow",
+    "keep the downloaded SED bytes unchanged",
+    "run the v1.159 one-command prebiology handoff with official USGS Global Islands geometry",
+    "commit/freeze the exact successful v1.159 receipt before constructing any species-response firewall"
+  ],
+  "do_not": [
+    "open the Dryad eBird species archive before a successful v1.159 receipt is committed",
+    "alter checklist, island-year, three-wave or pilot/confirmatory rules after SED support is known",
+    "infer absence from missing observed-species rows",
+    "use BALA non-support to modify the eBird design"
+  ],
+  "next_scientific_event": "successful v1.159 response-independent handoff; still zero biological source-loss evidence"
+}
