@@ -1,0 +1,63 @@
+{
+  "schema": "structural.boreal_birds_topology_null_contract.v1_161",
+  "status": "RESPONSE_INDEPENDENT_TOPOLOGY_NULL_AND_SENSITIVITY_FREEZE_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "parents": {
+    "preintake": "development/boreal_birds_sparse_topology_preintake_v1_160.json",
+    "geometry": "development/boreal_19island_safe_geometry_v0_97.csv",
+    "geometry_freeze": "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "operator_freeze": "development/boreal_19island_source_operator_freeze_v1_01.json"
+  },
+  "required_identity": {
+    "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+    "spatial_freeze_sha256": "205f43ef8087918af8ab9540eaaa56c69d29e3e801d0c7f929a5ef2f8eb5c305",
+    "actual_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "actual_selected_k": 3,
+    "actual_edge_count": 35,
+    "actual_kernel_scale_km_hex": "0x1.4ccfd7aac74e4p+3"
+  },
+  "null_ensemble": {
+    "count": 20,
+    "edge_length_bin_quantiles": [0.2, 0.4, 0.6, 0.8],
+    "bin_rule": "bin index is the number of frozen actual-edge quantile cuts strictly below the candidate edge distance",
+    "degree_sequence": "preserve exactly node-by-node",
+    "edge_length_bin_counts": "preserve exactly across the five bins",
+    "connected_after_every_swap": true,
+    "accepted_swaps_per_null": 350,
+    "maximum_attempts_per_null": 500000,
+    "selection": "SHA-256 deterministic edge-pair and pairing choice from salt, null index, uniqueness variant and attempt",
+    "salt": "boreal-birds-sparse-topology-v1.161",
+    "unique_graphs_required": true,
+    "actual_graph_forbidden_as_null": true,
+    "minimum_symmetric_edge_difference_count": 4,
+    "kernel_scale_rule": "reuse actual operator kernel scale for every null; do not recompute lambda from null edges"
+  },
+  "configuration_sensitivity": {
+    "possible_sources": ["DN", "FD", "HU", "IL", "IS", "PP"],
+    "targets": ["BB", "BT", "DF", "EB", "HF", "MI", "NH", "OS", "PR", "SF", "SK", "WD", "WF"],
+    "M": 6,
+    "n_values": [1,2,3,4,5,6],
+    "weight": "exp(-actual_graph_shortest_path_km(target,source)/actual_lambda)",
+    "mu": "population mean across the six possible-source weights",
+    "sigma2": "population variance across the six possible-source weights",
+    "S": "((M-n)/(n*(M-1))) * (sigma2/(mu*mu))",
+    "bird_response_used": false
+  },
+  "response_boundary": {
+    "bird_file_opened": false,
+    "bird_header_opened": false,
+    "bird_response_values_opened": 0,
+    "beetle_response_used": false,
+    "plant_response_used": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "outputs": {
+    "ensemble": "development/boreal_birds_topology_null_ensemble_v1_161.json",
+    "sensitivity_surface": "development/boreal_birds_configuration_sensitivity_v1_161.csv",
+    "receipt": "development/boreal_birds_topology_null_freeze_v1_161.json"
+  },
+  "next_action": "commit and exact-replay verify the response-independent null ensemble and S_i(n) surface; only then may a one-shot bird pilot authorization be designed"
+}
