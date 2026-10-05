@@ -1,0 +1,51 @@
+{
+  "schema": "structural.finnish_eider_zenodo_inventory_contract.v1_151",
+  "status": "RETROSPECTIVE_SCHEMA_ONLY_ZENODO_INVENTORY_FROZEN",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "parents": [
+    "development/finnish_eider_source_loss_retrospective_preintake_v1_150.json",
+    "development/current_status_v1_144.json",
+    "development/structural_active_priority_v1_150.json"
+  ],
+  "source": {
+    "record_id": 15723441,
+    "doi": "10.5281/zenodo.15723441",
+    "api_url": "https://zenodo.org/api/records/15723441"
+  },
+  "allowed_access": [
+    "Zenodo record metadata",
+    "file names",
+    "file byte sizes",
+    "file checksums supplied by Zenodo",
+    "file MIME/type metadata",
+    "file download URLs may be recorded but not followed in this step"
+  ],
+  "forbidden_access": [
+    "download any dataset file",
+    "parse Eider_pairs values",
+    "load RData/RDS objects",
+    "open CSV/TSV data rows",
+    "compute island-year occupancy",
+    "compute source-loss events",
+    "compute source leverage",
+    "inspect any effect direction"
+  ],
+  "questions": [
+    "Which files are present in the archived record?",
+    "Is a response-independent spatial object such as pos2 present as a separable file?",
+    "Is the island-year response table separable from spatial objects?",
+    "Does the archive expose any metadata file or field that could identify redistributed grouped-island observations before source-loss scoring?"
+  ],
+  "success_rule": {
+    "record_id_matches": true,
+    "at_least_one_file": true,
+    "all_files_have_name_size_and_checksum": true
+  },
+  "evidence_boundary": {
+    "retrospective_only": true,
+    "may_count_as_confirmation": false,
+    "dataset_response_values_opened_for_structural_source_leverage": false,
+    "counts_as_empirical_source_loss_evidence": false
+  },
+  "next_gate": "freeze file-role assignments and, only for plainly tabular metadata-safe files, a header-only schema audit before any island-year response values are parsed"
+}
