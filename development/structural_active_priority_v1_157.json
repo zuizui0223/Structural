@@ -1,0 +1,37 @@
+{
+  "schema": "structural.active_priority.v1_157",
+  "status": "ebird_only_live_candidate_external_SED_acquisition_handoff_ready",
+  "supersedes": "development/structural_active_priority_v1_155.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "completed_boundaries": [
+    "global mammal occupancy-regime evidence frozen",
+    "BALA independent three-wave source-loss leverage primary not supported",
+    "Azores SLAM stopped before occurrence access because no disjoint eligible windows",
+    "Finnish eider retrospective source-loss route not auditable from public archive",
+    "eBird current-schema v1.154 audit, v1.155 island-year rule and v1.156 same-byte chain frozen",
+    "eBird external acquisition/local handoff frozen at v1.157"
+  ],
+  "live_candidate": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_REQUIRED",
+    "external_action": "submit/complete the official logged-in eBird Basic Dataset request and download Sampling Event Data",
+    "local_runner": "scripts/run_ebird_sed_handoff_v1_157.py",
+    "documentation": "docs/EBIRD_SED_ACQUISITION_HANDOFF_V1_157.md",
+    "species_response_access_authorized": false
+  },
+  "do_now": [
+    "obtain official eBird Sampling Event Data through the eBird data-request workflow",
+    "run v1.157 on the unchanged SED bytes and official USGS Global Islands geometry",
+    "if and only if v1.157 passes, freeze eligible three-wave windows and disjoint burned-pilot/confirmatory partitions from survey support only"
+  ],
+  "do_not": [
+    "open the Dryad observed-species archive before the v1.157 support surface passes",
+    "infer absence from unreported species rows",
+    "lower the frozen 10-checklist or 4-month survey minima",
+    "assign offshore points by nearest-island rescue",
+    "rerun or subgroup-mine BALA",
+    "open another global mammal response layer",
+    "promote source leverage to a management ranking metric"
+  ],
+  "next_scientific_event": "official eBird SED response-independent support surface; no ecological source-loss effect is authorized before it passes"
+}
