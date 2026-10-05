@@ -1,0 +1,114 @@
+name: BALA burned-pilot estimability audit v1.137
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_burned_pilot_request_v1_137.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  pilot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot pilot-only contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_burned_pilot_contract_v1_137.json").read_text())
+          r=json.loads(Path("development/bala_burned_pilot_request_v1_137.json").read_text())
+          assert c["status"]=="PILOT_ONLY_THREE_WAVE_ESTIMABILITY_GATE_FROZEN_BEFORE_PILOT_OCCURRENCE_ACCESS"
+          assert c["frozen_inputs"]["routing_artifact_id"]==11320128924
+          assert c["frozen_inputs"]["pitfall_quality_artifact_id"]==11306547489
+          assert c["taxon_eligibility"]["native_status_rule"].startswith("at least one nonblank")
+          assert c["three_wave_transition"]["primary_pilot_route"]=="exactly one lost source between BALA1 and BALA2"
+          assert c["pilot_semantic_access"]["confirmatory_surface_semantic_access_authorized"] is False
+          assert c["pilot_semantic_access"]["source_leverage_effect_estimation_authorized"] is False
+          assert r["pilot_occurrence_semantic_access_authorized"] is True
+          assert r["confirmatory_occurrence_semantic_access_authorized"] is False
+          assert r["source_leverage_effect_estimation_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact v1.136.1 routed pilot surface and frozen geometry
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v1361-geometry-opaque-routing-d80de5dff7ee185bc4afcb6cf52acc22d70d7cd6-37251215741
+          path: build/bala_v137/routing
+          repository: zuizui0223/Structural
+          run-id: 37251215741
+          github-token: ${{ github.token }}
+
+      - name: Download exact pitfall quality artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254
+          path: build/bala_v137/quality
+          repository: zuizui0223/Structural
+          run-id: 37211022254
+          github-token: ${{ github.token }}
+
+      - name: Verify exact pilot parents without opening confirmatory semantics
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/bala_v137/routing/pilot_occurrence_rows.tsv":"1735652e93232c0291d0c29b1df292010807ce4d9dc1791aeebed86e99341127",
+            "build/bala_v137/routing/confirmatory_occurrence_rows.sealed.tsv":"c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+            "build/bala_v137/routing/pilot_mf_tokens.csv":"f591cdc28d0f0796600a24a5ca3063c32a9bf2cda644722aa567f68b5086843e",
+            "build/bala_v137/routing/bala_island_geometry.csv":"b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+            "build/bala_v137/routing/bala_island_graph_edges.csv":"912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f",
+            "build/bala_v137/quality/pitfall_position_recovery.csv":"a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+            "build/bala_v137/quality/pitfall_island_phase_quality.csv":"24ccd2db6438f899a36eeb9443dad432ca78c256b07837f3f4faa1b3c1d905c8",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Open burned pilot only and audit three-wave estimability
+        run: |
+          mkdir -p build/bala_v137/output
+          python scripts/run_bala_burned_pilot_v1_137.py             build/bala_v137/routing/pilot_occurrence_rows.tsv             build/bala_v137/routing/pilot_mf_tokens.csv             build/bala_v137/quality/pitfall_position_recovery.csv             build/bala_v137/quality/pitfall_island_phase_quality.csv             build/bala_v137/routing/bala_island_geometry.csv             build/bala_v137/routing/bala_island_graph_edges.csv             --eligibility build/bala_v137/output/pilot_taxon_eligibility.csv             --presence build/bala_v137/output/pilot_taxon_phase_presence.csv             --exposure build/bala_v137/output/pilot_source_loss_exposure.csv             --result build/bala_v137/output/pilot_estimability_result.json
+
+      - name: Enforce burned-pilot evidence ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v137/output/pilot_estimability_result.json").read_text())
+          assert x["status"] in {"BALA_BURNED_PILOT_ESTIMABILITY_PASS","BALA_BURNED_PILOT_ESTIMABILITY_STOP"}
+          assert x["pilot_rows_semantically_opened"]==20958
+          assert x["pilot_distinct_routed_taxa"]==142
+          assert x["effect_estimate_computed"] is False
+          assert x["candidate_minus_reference_score_computed"] is False
+          assert x["leverage_outcome_association_computed"] is False
+          assert x["confirmatory_surface_semantically_opened"] is False
+          assert x["confirmatory_taxon_identity_opened"] is False
+          assert x["confirmatory_t2_opened"] is False
+          assert x["source_loss_effects_computed"]==0
+          PY
+
+      - name: Upload burned-pilot estimability artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v137-burned-pilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v137/output/pilot_taxon_eligibility.csv
+            build/bala_v137/output/pilot_taxon_phase_presence.csv
+            build/bala_v137/output/pilot_source_loss_exposure.csv
+            build/bala_v137/output/pilot_estimability_result.json
+          if-no-files-found: error
+          retention-days: 30
