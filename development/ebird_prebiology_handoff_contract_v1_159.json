@@ -1,0 +1,62 @@
+{
+  "schema": "structural.ebird_prebiology_handoff_contract.v1_159",
+  "status": "FULL_RESPONSE_INDEPENDENT_PREBIOLOGY_HANDOFF_FROZEN",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "parents": [
+    "development/ebird_sed_acquisition_handoff_v1_157.json",
+    "development/ebird_sed_support_chain_contract_v1_156.json",
+    "development/ebird_three_wave_design_contract_v1_158.json",
+    "development/structural_active_priority_v1_158.json"
+  ],
+  "purpose": "reduce the external eBird blocker to one local command that verifies unchanged official SED bytes, builds the response-independent survey-support surface, then freezes the deterministic three-wave burned-pilot/confirmatory design without opening any species response",
+  "execution_order": [
+    "hash original official SED and USGS Global Islands geometry",
+    "run v1.157 acquisition handoff, which exact-runs the v1.156 same-byte support chain",
+    "rehash and require identical SED and geometry bytes",
+    "run v1.158 three-wave design only on the frozen survey surface",
+    "rehash and require identical SED and geometry bytes",
+    "require all parent receipts pass their frozen response boundaries",
+    "write one compact prebiology handoff receipt"
+  ],
+  "required_parent_status": {
+    "acquisition": "OFFICIAL_SED_RESPONSE_INDEPENDENT_SUPPORT_SURFACE_READY",
+    "support_chain": "SAME_BYTE_RESPONSE_INDEPENDENT_SED_SUPPORT_CHAIN_FROZEN",
+    "three_wave_design": "RESPONSE_INDEPENDENT_THREE_WAVE_DESIGN_FROZEN"
+  },
+  "permitted_outputs": [
+    "acquisition/ebird_sed_handoff_receipt.json",
+    "acquisition/support_chain/ebird_sed_support_chain_receipt.json",
+    "acquisition/support_chain/audit/response-independent audit summaries",
+    "acquisition/support_chain/survey/ebird_island_year_survey_surface.csv",
+    "acquisition/support_chain/survey/response-independent survey summaries",
+    "design/ebird_three_wave_windows.csv",
+    "design/ebird_three_wave_islands.csv",
+    "design/ebird_three_wave_design_receipt.json",
+    "ebird_prebiology_handoff_receipt.json"
+  ],
+  "forbidden_outputs": [
+    "raw SED copy",
+    "sampling event IDs",
+    "checklist coordinates",
+    "species names",
+    "species detections",
+    "species nondetections",
+    "annual species occupancy",
+    "source-loss events",
+    "t2 outcomes"
+  ],
+  "success_requirements": {
+    "identical_SED_sha_before_after_all_children": true,
+    "identical_geometry_sha_before_after_all_children": true,
+    "species_identity_opened": false,
+    "species_detection_opened": false,
+    "species_nondetection_constructed": false,
+    "annual_species_occupancy_constructed": false,
+    "source_loss_events_constructed": false,
+    "t2_outcome_opened": false,
+    "minimum_confirmatory_windows": 3
+  },
+  "next_gate": "commit/freeze the exact v1.159 receipt and design identities, then define the first biological-response firewall; no species response access is authorized by v1.159 itself",
+  "response_access_authorized": false,
+  "counts_as_empirical_source_loss_evidence": false
+}
