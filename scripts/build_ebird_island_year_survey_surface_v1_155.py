@@ -72,7 +72,7 @@ def init_db(conn):
 def insert_or_merge(conn,e,tol=1e-6):
     old=conn.execute("SELECT sid,year,month,lat,lon,complete,conflict FROM events WHERE event_key=?",(e["event_key"],)).fetchone()
     if old is None:
-        conn.execute("INSERT INTO events VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)",
+        conn.execute("INSERT INTO events VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)",
           (e["event_key"],e["sid"],e["year"],e["month"],e["lat"],e["lon"],int(e["complete"]),
            e["duration"],e["distance"],e["area"],e["observers"],e["observation_type"],e["protocol_name"],e["protocol_code"]))
         return
