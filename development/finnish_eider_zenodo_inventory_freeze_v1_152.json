@@ -1,0 +1,38 @@
+{
+  "schema": "structural.finnish_eider_zenodo_inventory_freeze.v1_152",
+  "status": "SUCCESSFUL_METADATA_ONLY_ZENODO_INVENTORY_FROZEN",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "source_execution": {
+    "workflow": ".github/workflows/finnish-eider-zenodo-inventory-v1_151_1.yml",
+    "workflow_run_id": 37291152237,
+    "workflow_head_sha": "b787442b8e912200804ba620309857888d5e3e59",
+    "artifact_id": 11336655617,
+    "artifact_name": "finnish-eider-v1511-zenodo-inventory-b787442b8e912200804ba620309857888d5e3e59-37291152237",
+    "artifact_digest": "sha256:2c26aa99acc7ef044acba8bc83803a2d0249b3702cd6db2dd3d9034f31939196",
+    "expires_at": "2026-11-04T09:36:29Z"
+  },
+  "inventory": {
+    "inventory_sha256": "07755bda4b59e50319becc86c75fa46e91f19daffb124ddba33d4affcf84cf11",
+    "resolved_record_id": 15723442,
+    "concept_record_id": 15723441,
+    "record_doi": "10.5281/zenodo.15723442",
+    "concept_doi": "10.5281/zenodo.15723441",
+    "file_count": 1,
+    "total_file_bytes": 2227517,
+    "only_file": {
+      "name": "Ekblad_et_al_data_WTEs_and_Eiders_LandscapeEcology_2025.txt",
+      "size_bytes": 2227517,
+      "zenodo_checksum": "md5:4f48d8faf2b6dbb8c967449356beab87",
+      "content_url": "https://zenodo.org/api/records/15723442/files/Ekblad_et_al_data_WTEs_and_Eiders_LandscapeEcology_2025.txt/content"
+    },
+    "separate_pos2_file_present": false,
+    "separate_distance_file_present": false,
+    "separate_group_reconstruction_file_present": false
+  },
+  "response_boundary": {
+    "dataset_files_downloaded": 0,
+    "response_values_opened": 0,
+    "source_loss_events_computed": 0,
+    "counts_as_empirical_source_loss_evidence": false
+  }
+}
