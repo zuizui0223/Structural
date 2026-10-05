@@ -1,0 +1,48 @@
+{
+  "schema": "structural.active_priority.v1_160",
+  "status": "ebird_retired_boreal_birds_sparse_topology_response_sealed",
+  "supersedes": "development/structural_active_priority_v1_159.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "scope_decision": {
+    "ebird_route": "RETIRED_FROM_ACTIVE_PROGRAM",
+    "reason": "scientific scope decision: do not use eBird for the next Structural test",
+    "historical_contracts_retained": true,
+    "official_SED_acquisition_requested": false,
+    "species_response_access_authorized": false
+  },
+  "completed_boundaries": [
+    "global mammal occupancy-regime evidence frozen; ultrarare exact-topology specificity supported within that geography",
+    "boreal 19-island beetle fresh primary completed and not supported; rerun/rescue forbidden",
+    "BALA independent three-wave source-loss leverage primary completed and not supported; rerun/rescue forbidden",
+    "GIFT fresh plant route terminal without an ecological primary score"
+  ],
+  "active_candidate": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+    "matrix": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "matrix_file_id": 4569037,
+    "matrix_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "status": "RESPONSE_SEALED_PREINTAKE",
+    "evidence_role": "prospective taxonomic replication of the sparse-source topology mechanism in a geography independent of the global mammal system but shared with the completed boreal beetle system",
+    "preintake": "development/boreal_birds_sparse_topology_preintake_v1_160.json",
+    "bird_response_values_opened": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false
+  },
+  "scientific_question": "Does exact source topology become more informative for realized bird occurrences specifically where the response-free sparse-source configuration-sensitivity index S_i(n) is high, rather than producing a universal C-minus-R3 gain?",
+  "do_now": [
+    "freeze twenty response-independent degree- and edge-length-bin-matched null topologies on the existing 19-island geometry",
+    "freeze the response-free target-by-source-count configuration-sensitivity surface for n=1..6 using the existing actual graph and kernel scale",
+    "only after those objects are committed, build a one-shot bird pilot router that decodes the six frozen pilot islands while leaving all thirteen confirmatory bird targets sealed",
+    "freeze actual/null models and every confirmatory prediction before any confirmatory bird response access"
+  ],
+  "do_not": [
+    "use eBird or acquire eBird Sampling Event Data",
+    "rerun or subgroup-mine the completed boreal beetle primary",
+    "reuse beetle response values to select a bird threshold or topology null",
+    "open bird confirmatory response before the null ensemble, S_i(n) surface, pilot rule and scoring estimand are frozen",
+    "treat this bird test as geographically independent from the boreal beetle result",
+    "allow birds or plants to rescue the historical beetle primary",
+    "promote source leverage to a management ranking metric"
+  ],
+  "next_scientific_event": "response-independent boreal-bird null-topology ensemble plus S_i(n) surface; bird species response remains sealed until that event"
+}
