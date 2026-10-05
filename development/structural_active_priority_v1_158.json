@@ -1,0 +1,42 @@
+{
+  "schema": "structural.active_priority.v1_158",
+  "status": "ebird_only_live_candidate_three_wave_design_frozen_before_SED_arrival",
+  "supersedes": "development/structural_active_priority_v1_157.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "live_candidate": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_REQUIRED",
+    "acquisition_handoff": "docs/EBIRD_SED_ACQUISITION_HANDOFF_V1_157.md",
+    "same_byte_support_chain": "development/ebird_sed_support_chain_contract_v1_156.json",
+    "three_wave_design": "development/ebird_three_wave_design_contract_v1_158.json",
+    "species_response_access_authorized": false
+  },
+  "completed_before_SED_arrival": [
+    "modern/legacy official SED schema compatibility",
+    "complete-checklist-only support semantics",
+    "shared-checklist deduplication",
+    "strict point-in-polygon mapping to USGS Global Islands",
+    "10 complete checklists across 4 months annual support rule",
+    "same-byte SED provenance chain",
+    "six non-overlapping candidate three-wave windows",
+    "25 common-surveyed-island qualification floor",
+    "deterministic SHA-ranked burned-pilot/confirmatory temporal partition"
+  ],
+  "do_now": [
+    "obtain official eBird Sampling Event Data through the logged-in eBird data-request workflow",
+    "run v1.157 acquisition handoff on the unchanged SED bytes",
+    "require successful v1.156 same-byte support chain",
+    "run v1.158 only on the frozen response-independent survey surface",
+    "if v1.158 passes, freeze a separate species-response firewall before opening the Dryad species archive"
+  ],
+  "do_not": [
+    "open Dryad species rows before v1.156 and v1.158 succeed",
+    "change the six three-year window boundaries",
+    "lower the 25-island support floor",
+    "manually choose pilot or confirmatory years",
+    "infer absence from missing observed-species rows",
+    "use BALA secondary results to alter the eBird design",
+    "create more same-data mammal source-leverage diagnostics"
+  ],
+  "next_scientific_event": "official eBird SED arrival followed by response-independent v1.156 and v1.158 gates; species effects remain unopened"
+}
