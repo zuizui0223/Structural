@@ -1,0 +1,87 @@
+{
+  "schema": "structural.finnish_eider_source_loss_retrospective_preintake.v1_150",
+  "status": "RETROSPECTIVE_ONLY_SCHEMA_AUDIT_ELIGIBLE_WITH_SPATIAL_AND_RECONSTRUCTION_GATES",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "system": "Finnish Archipelago Bird Census / Common Eider (Somateria mollissima)",
+  "parents": [
+    "development/source_loss_temporal_candidate_triage_v1_124.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/current_status_v1_144.json"
+  ],
+  "evidence_class": {
+    "retrospective_only": true,
+    "may_count_as_confirmation": false,
+    "reason": "the broad temporal response direction is already published and some island counts were reconstructed from grouped-island reports"
+  },
+  "public_sources": {
+    "dataset_doi": "10.5281/zenodo.15723441",
+    "publication_doi": "10.1007/s10980-025-02152-7",
+    "public_metadata_only_used_here": true
+  },
+  "public_metadata": {
+    "years": [1997,2020],
+    "unique_islands": 3648,
+    "island_year_rows": 18516,
+    "response_field": "Eider_pairs",
+    "stable_unit_field": "Island_ID",
+    "available_covariates": [
+      "lnSize",
+      "Year",
+      "Lon",
+      "Lat",
+      "Land",
+      "WTE",
+      "Forcov",
+      "Year_f",
+      "pos2"
+    ],
+    "survey_protocol": "breeding numbers estimated by at least two annual counts under the Archipelago Bird Census guidelines for the core monitoring programme",
+    "annual_islands_surveyed_approx": "500 on average, range roughly 100-1200",
+    "grouped_island_redistribution": "published methods state that summed pair numbers for groups of islands were redistributed to individual islands in some years; on average about 6.2% of observations per year and 7.4% of breeding females were affected",
+    "coordinate_privacy": "published dataset metadata state that standardized latitude/longitude are rounded to one decimal",
+    "pos2_description": "distance matrix based on coordinates in 2x2 km geographical grid cells"
+  },
+  "why_candidate_is_still_useful": {
+    "ordered_repeated_counts": true,
+    "stable_island_identity": true,
+    "single_focal_species": true,
+    "many_islands": true,
+    "long_time_series": true,
+    "source_loss_events_in_principle_constructible": true
+  },
+  "blocking_risks_before_any_source_loss_score": {
+    "surveyed_zero_semantics": "must verify that an island-year row with Eider_pairs=0 is an explicit surveyed zero and that missing island-years are unsurveyed rather than zero",
+    "spatial_geometry": "rounded standardized Lat/Lon are not sufficient for a topology/source-leverage test unless exact keyed pos2 or another response-independent spatial object is present and usable",
+    "reconstructed_counts": "must determine whether redistributed grouped-island rows are identifiable; if not, source-loss events can be artifacts of imputation/reallocation",
+    "annual_effort": "must verify whether survey effort is comparable enough to distinguish true loss from varying survey coverage"
+  },
+  "schema_audit_success_rules": {
+    "exact_island_id_available": true,
+    "explicit_year_available": true,
+    "explicit_eider_pair_count_available": true,
+    "zero_is_surveyed_zero_documented": true,
+    "missing_year_is_not_zero_documented": true,
+    "response_independent_distance_object_keyed_to_island_id_available": true,
+    "redistributed_grouped_island_rows_identifiable": true,
+    "at_least_three_ordered_waves_for_a_nontrivial_repeated_panel": true
+  },
+  "stop_rules": [
+    "STOP if zeros cannot be distinguished from unsurveyed island-years",
+    "STOP if no exact response-independent spatial object can be keyed to Island_ID",
+    "STOP if grouped-island reconstructed rows cannot be identified or prospectively excluded in a source-loss analysis",
+    "STOP if any retrospective source-loss contrast is selected using its observed effect direction"
+  ],
+  "if_schema_audit_passes": {
+    "next_step": "freeze a retrospective three-wave event-construction rule using calendar windows and survey-support criteria before computing any source-loss leverage effect",
+    "preferred_event": "exactly one occupied-source loss between t0 and t1, followed by persistence/contraction of other occupied islands from t1 to t2",
+    "self_anchor_exclusion": true,
+    "same_operator_as_v1_125_where_geometry_permits": true,
+    "result_label": "independent retrospective stress test only"
+  },
+  "response_boundary": {
+    "dataset_values_opened_for_structural_source_leverage": false,
+    "source_loss_events_computed": 0,
+    "source_leverage_effects_computed": 0,
+    "counts_as_current_empirical_evidence": false
+  }
+}
