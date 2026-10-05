@@ -1,0 +1,47 @@
+{
+  "schema": "structural.active_priority.v1_154",
+  "status": "ebird_only_live_confirmatory_candidate_survey_surface_gate_frozen_waiting_for_official_SED",
+  "supersedes": "development/structural_active_priority_v1_153.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "confirmatory_lane": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_NOT_PRESENT",
+    "official_access": "request eBird Basic Dataset and select Sampling Event Data through the official logged-in eBird data-download workflow",
+    "metadata_audit": "development/ebird_sampling_event_metadata_audit_contract_v1_149.json",
+    "island_year_gate": "development/ebird_island_year_survey_contract_v1_154.json",
+    "geometry_source": {
+      "name": "USGS Global Islands",
+      "doi": "10.5066/P91ZCSGM",
+      "id": "OBJECTID"
+    },
+    "next_action": "supply official Sampling Event Data; run v1.149 and v1.154 on the same SED bytes before any species response access"
+  },
+  "frozen_next_rules": {
+    "complete_checklists_only": true,
+    "shared_checklists_deduplicated_by_group_identifier": true,
+    "island_mapping": "strict point-in-polygon to Sayre OBJECTID; no nearest rescue",
+    "surveyed_island_year": "at least 10 deduplicated complete checklists in at least 4 distinct months",
+    "species_response_opened": false
+  },
+  "closed_candidates": [
+    "Azores BALA: independent three-wave confirmatory primary not supported",
+    "Azores SLAM: no disjoint eligible three-year windows",
+    "Apostle Islands carnivores: response exposed before protocol",
+    "Finnish common eider: reconstructed rows not auditable from public archive"
+  ],
+  "do_now": [
+    "obtain official eBird Sampling Event Data for the intended period",
+    "run response-independent v1.149 SED schema/coverage audit",
+    "run response-independent v1.154 deduplication, point-in-polygon and island-year survey-support freeze on the identical SED bytes",
+    "only then freeze the temporal window and burned-pilot/confirmatory partition"
+  ],
+  "do_not": [
+    "open the Dryad observed-species archive before v1.149 and v1.154 succeed",
+    "infer absence from unreported Dryad species rows",
+    "retune the 10-checklist or 4-month rule after species outcomes",
+    "assign offshore checklist points to the nearest island",
+    "mine BALA or global mammals to rescue source leverage",
+    "promote static source leverage to a management ranking metric"
+  ],
+  "next_scientific_event": "response-independent eBird SED support surface, not a species effect"
+}
