@@ -1,0 +1,58 @@
+{
+  "schema": "structural.geb_submission_manifest.v1_154",
+  "status": "DRAFT_REFRAME_NO_EMPIRICAL_RESULT_CHANGED",
+  "branch": "reframe/occupancy-dependent-isolation-v1-154",
+  "generated_date": "2026-10-05",
+  "scientific_center": "occupancy-regime dependence of incremental exact-topology information in island isolation",
+  "evidence_boundary": "independent BALA source-loss leverage primary not supported; no rescue mining",
+  "format_checks": {
+    "article_type": "Research Article",
+    "abstract_structure": [
+      "Aim",
+      "Location",
+      "Time period",
+      "Major taxa studied",
+      "Methods",
+      "Results",
+      "Main conclusions"
+    ],
+    "abstract_words": 290,
+    "main_text_words": 4932,
+    "running_title_characters": 36,
+    "keywords": 9,
+    "references": 17
+  },
+  "response_free_mechanism": {
+    "document": "docs/SPARSE_SOURCE_CONFIGURATION_THEORY_V1_155.md",
+    "verifier": "scripts/verify_sparse_source_configuration_theory_v1_155.py",
+    "test": "tests/test_sparse_source_configuration_theory_v1_155.py",
+    "claim": "relative source-configuration sensitivity increases as occupied-source count falls when target-specific source weights are heterogeneous",
+    "empirical_response_used": false
+  },
+  "files": {
+    "manuscript/submission/GEB_v1_154/blinded_main_text.md": {
+      "blob_sha": "46e799c9e1da279931f8781c862bd617ed637ac0"
+    },
+    "manuscript/submission/GEB_v1_154/cover_letter.md": {
+      "blob_sha": "7c6a8cc311e1b89f6ff0ef80aa53923f73523993"
+    },
+    "manuscript/submission/GEB_v1_154/title_page_template.md": {
+      "blob_sha": "8dbcc20393b20beac4cec0bd29da72c08aff1814"
+    },
+    "manuscript/submission/GEB_v1_154/submission_checklist.md": {
+      "blob_sha": "a3104f850ada444b80876dcfd111d8e4c6082b1f"
+    },
+    "docs/OCCUPANCY_DEPENDENT_ISOLATION_SYNTHESIS_V1_154.md": {
+      "blob_sha": "908392e646a6d0427af5c21018e27a2500c803a9"
+    },
+    "docs/SPARSE_SOURCE_CONFIGURATION_THEORY_V1_155.md": {
+      "blob_sha": "06502a0a7148727c1ca740c285a6757fea39a130"
+    },
+    "scripts/verify_sparse_source_configuration_theory_v1_155.py": {
+      "blob_sha": "83652ff5a004b114646018fa5c130823d3a02877"
+    },
+    "tests/test_sparse_source_configuration_theory_v1_155.py": {
+      "blob_sha": "3af4e0e3dbe485d30b4a792b6959e319520b3620"
+    }
+  }
+}
