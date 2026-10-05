@@ -97,28 +97,40 @@ Structural therefore must not label the mammal result as a demonstrated rescue e
 
 ## Why very sparse occupancy is the natural regime
 
-For any target-specific non-negative source weights (w_{ij}), define normalized source leverage
+For a target with M possible source islands and fixed non-negative source-access weights, condition on exactly n occupied sources. The response-free finite-source identity gives:
 
-[
-L_{ij}=rac{w_{ij}}{sum_k w_{ik}}.
-]
+**CV²(A) = [(M−n)/(n(M−1))] × (σ²/μ²).**
 
-With (n) occupied sources,
+Thus low source number does not manufacture a topology effect. It makes existing heterogeneity among source positions proportionally more visible. If all possible sources contribute equally, σ² = 0 and configuration sensitivity is zero regardless of n.
 
-[
-max_j L_{ij} geq rac{1}{n}.
-]
+A complementary leverage bound is also immediate. If occupied-source weights are normalized to proportions p_j, then max(p_j) ≥ 1/n and the effective source number 1/Σp_j² cannot exceed n.
 
-Thus sparse source sets necessarily admit large individual leverage, and geographic heterogeneity can make the concentration much stronger than the (1/n) lower bound.
-
-The response-free ultrarare diagnostic matches this expectation:
+The response-free ultrarare mammal diagnostic matches this expectation:
 
 - among 212 species with 2–4 occupied pilot sources, the dominant source carried a median **66.1%** of graph-pressure leverage;
 - median effective-to-nominal source-number ratio = **0.744**;
 - four nominal sources corresponded to a median effective source number of **2.57**;
 - observed source configurations were nevertheless **more complementary** than bioregion-matched random placements (mean observed-minus-null effective source number = **+0.282**, 95% species-bootstrap interval **0.205–0.362**).
 
-So the ultrarare result is not explained by simple clustering of sources. Even configurations that are more complementary than random can remain strongly leverage-concentrated when only a few sources exist.
+So the mechanism is not simple source clustering. **Source scarcity exposes positional heterogeneity even when the occupied sources are more spatially complementary than random.**
+
+### Active prospective test of this mechanism
+
+The next active Structural route is now the still-sealed **boreal bird matrix on the frozen 19-island geography**. eBird is not part of the active research route.
+
+This is deliberately not presented as geographically independent replication: the boreal birds share the same 19-island geometry used by the completed beetle test. It is a different-taxon prospective test of the mechanism.
+
+Before any bird response access, Structural has frozen:
+
+- the same six pilot and thirteen confirmatory islands;
+- a 20-member null ensemble that exactly preserves node degree and five edge-length-bin counts;
+- the actual graph's response-free source-weight heterogeneity surface;
+- the finite-source sensitivity score S_i(n) = [(M−n)/(n(M−1))] × H_i;
+- a one-shot pilot rule retaining only bird species occupying 1–4 of the six pilot islands.
+
+For this geometry, H_i ranges from about **0.523 to 2.696**. Because most targets have similarly high H_i, the strongest predicted variation comes from n itself: the finite-source multiplier falls from **1.0 at n=1** to **0.4, 0.2 and 0.1** at n=2, 3 and 4.
+
+The prospective bird primary will therefore ask whether actual topology improves realized-presence prediction beyond both R3 and matched rewired graphs when prediction rows are weighted by their precomputed S_i(n). The bird result cannot rescue the failed beetle primary.
 
 ## What is genuinely new
 
@@ -173,10 +185,10 @@ Recommended conservation consequence:
 
 ## What would most strengthen the paper
 
-1. **Independent occupancy-regime replication** in a second island system, with species-disjoint or response-sealed low- versus higher-occupancy layers and a predeclared topology null.
-2. **Independent transition data** separating colonization from persistence/extinction, rather than another static occurrence snapshot.
-3. **A geographically independent, response-sealed occupancy-regime test** using a precomputed continuous configuration-sensitivity index rather than a new rarity threshold.
-4. A formal theory/simulation appendix showing why source-topology information should become identifiable as source number falls, while explicitly avoiding the claim that this guarantees demographic rescue.
+1. Complete the response-sealed boreal-bird test as a **same-geography, different-taxon** check of the finite-source mechanism.
+2. Obtain a **geographically independent occupancy-regime replication** using the same precomputed S_i(n) logic and a predeclared topology null.
+3. Obtain independent transition data separating colonization from persistence/extinction, rather than another static occurrence snapshot.
+4. Extend the finite-source identity into a compact theory/simulation appendix without claiming that configuration sensitivity guarantees demographic rescue.
 
 ## Immediate paper decision
 
