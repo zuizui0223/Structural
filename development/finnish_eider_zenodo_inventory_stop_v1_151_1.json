@@ -1,0 +1,15 @@
+{
+  "schema": "structural.finnish_eider_zenodo_inventory_stop.v1_151_1",
+  "status": "V151_STOPPED_ON_ZENODO_RECORD_ID_REDIRECT_BEFORE_ANY_DATASET_FILE_ACCESS",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "failed_execution": {
+    "workflow_run_id": 37290681035,
+    "workflow_job_id": 111700081483,
+    "failure": "Zenodo record id drift",
+    "failed_after_record_metadata_fetch": true,
+    "dataset_files_downloaded": 0,
+    "response_values_opened": 0
+  },
+  "scientific_contract_changed": false,
+  "reason_for_retry": "Zenodo can resolve a concept/version identifier to a different concrete record id; identity should be accepted only when the returned record id, concept record id, or DOI matches the prospectively frozen source identity."
+}
