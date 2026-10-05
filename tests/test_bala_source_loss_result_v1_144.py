@@ -33,7 +33,7 @@ def test_current_status_restricts_conservation_claim():
 def test_cross_system_synthesis_does_not_promote_source_leverage():
     x=json.loads((ROOT/"development/source_loss_leverage_cross_system_synthesis_v1_144.json").read_text())
     assert x["independent_temporal_test"]["primary_supported"] is False
-    assert any("not validated" in z for z in x["ecological_update"]["not_validated"])
+    assert any("general island-conservation prioritization metric" in z for z in x["ecological_update"]["not_validated"])
     assert "do not use BALA secondary E_i summaries to overturn the failed primary" in x["anti_rescue"]
 
 def test_geb_v145_reports_temporal_non_support_and_stays_within_format():
@@ -62,5 +62,5 @@ def test_priority_closes_bala_without_rescue():
     assert x["status"]=="bala_source_loss_primary_closed_non_support_no_rescue"
     do_not="\n".join(x["do_not"])
     assert "rerun BALA" in do_not
-    assert "secondary BALA E_i summaries" in do_not
+    assert "positive descriptive BALA E_i summaries" in do_not
     assert "search BALA taxa, islands or thresholds" in do_not
