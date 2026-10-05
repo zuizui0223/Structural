@@ -1,0 +1,149 @@
+name: BALA one-shot source-loss leverage scoring v1.143
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_t2_execution_request_v1_143.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  score:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate irreversible BALA3 authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/bala_t2_execution_request_v1_143.json").read_text())
+          f=json.loads(Path("development/bala_preoutcome_feature_freeze_v1_143.json").read_text())
+          s=json.loads(Path("development/bala_source_loss_confirmatory_protocol_v1_139.json").read_text())
+          i=json.loads(Path("development/bala_t2_scoring_implementation_v1_141.json").read_text())
+          assert r["status"]=="REQUEST_ONE_SHOT_BALA3_SOURCE_LOSS_LEVERAGE_SCORING"
+          assert f["pre_t2_gate"]["all_gate_checks_passed"] is True
+          assert f["pre_t2_gate"]["advance_authorized"] is True
+          assert f["response_boundary"]["t2_occurrence_values_opened"]==0
+          assert r["preoutcome_features"]["expected_exactly_one_loss_taxa"]==20
+          assert r["preoutcome_features"]["expected_target_rows"]==64
+          assert r["t2_semantic_access_authorized"] is True
+          assert r["noneligible_t2_quantity_decode_authorized"] is False
+          assert r["model_refit_or_feature_change_after_t2_authorized"] is False
+          assert r["same_lineage_rerun_after_first_eligible_t2_quantity_decode"] is False
+          assert r["one_shot"] is True
+          assert s["primary"]["bootstrap_seed"]==20261005
+          assert i["response_boundary"]["same_lineage_rerun_after_t2"] is False
+          PY
+
+      - name: Download exact sealed BALA3 surface
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v138-temporal-firewall-d3df10c48fc65d64f91833f263325b0bceb986a0-37264285424
+          path: build/bala_v143/temporal
+          repository: zuizui0223/Structural
+          run-id: 37264285424
+          github-token: ${{ github.token }}
+
+      - name: Download exact pre-outcome feature freeze
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v142-preoutcome-2a905201904a2b26822b06599db3a2cfcd5170e2-37274765227
+          path: build/bala_v143/preoutcome
+          repository: zuizui0223/Structural
+          run-id: 37274765227
+          github-token: ${{ github.token }}
+
+      - name: Download exact pitfall Event routing
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254
+          path: build/bala_v143/pitfall
+          repository: zuizui0223/Structural
+          run-id: 37211022254
+          github-token: ${{ github.token }}
+
+      - name: Verify all frozen scoring parents
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/bala_v143/temporal/confirmatory_t2_rows.sealed.tsv":"cf320dca37f17641219f80fc98b302994c9062c5a89dda01419e57cb7800d967",
+            "build/bala_v143/preoutcome/confirmatory_source_loss_features.csv":"0f0d4601ff4c06757df874f4d687699bb8084bc7bcf82ec99ea05cd917e469fd",
+            "build/bala_v143/preoutcome/confirmatory_fold_manifest.csv":"6af472fb97f1472c00b7b3ee6b69a5eb098104c5e5c60ecc94029583d32c042f",
+            "build/bala_v143/preoutcome/confirmatory_fold_standardization.json":"ea69f0d3ab5704caf2f34729ca77919d074f301096d8d023deee10333d3e965b",
+            "build/bala_v143/preoutcome/bala_preoutcome_feature_result.json":"bc47db31b51a65f6257f44b57c2be09981fd847ececce43697063b8619a539e2",
+            "build/bala_v143/pitfall/pitfall_position_recovery.csv":"a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Consume eligible BALA3 response once and score frozen primary
+        id: scoring
+        shell: bash
+        run: |
+          mkdir -p build/bala_v143/output
+          set +e
+          python scripts/score_bala_source_loss_t2_v1_141.py             build/bala_v143/temporal/confirmatory_t2_rows.sealed.tsv             build/bala_v143/preoutcome/confirmatory_source_loss_features.csv             build/bala_v143/preoutcome/confirmatory_fold_manifest.csv             build/bala_v143/preoutcome/confirmatory_fold_standardization.json             build/bala_v143/pitfall/pitfall_position_recovery.csv             --expected-t2-sha cf320dca37f17641219f80fc98b302994c9062c5a89dda01419e57cb7800d967             --expected-features-sha 0f0d4601ff4c06757df874f4d687699bb8084bc7bcf82ec99ea05cd917e469fd             --expected-fold-manifest-sha 6af472fb97f1472c00b7b3ee6b69a5eb098104c5e5c60ecc94029583d32c042f             --expected-fold-standardization-sha ea69f0d3ab5704caf2f34729ca77919d074f301096d8d023deee10333d3e965b             --outcomes build/bala_v143/output/bala_t2_target_outcomes.csv             --taxon-scores build/bala_v143/output/bala_taxon_scores.csv             --result build/bala_v143/output/bala_t2_scoring_result.json
+          code=$?
+          echo "scorer_exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Enforce terminal response ceiling
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/bala_v143/output/bala_t2_scoring_result.json")
+          assert p.exists(),"terminal scoring receipt missing"
+          x=json.loads(p.read_text())
+          assert x["status"] in {"BALA_SOURCE_LOSS_PRIMARY_SCORED_ONCE","STOP"}
+          assert x["rerun_authorized"] is False
+          assert x["noneligible_t2_quantity_values_decoded"]==0
+          if x["status"]=="BALA_SOURCE_LOSS_PRIMARY_SCORED_ONCE":
+              assert x["eligible_taxa"]==20
+              assert x["target_rows"]==64
+              assert x["estimable_taxon_clusters"]>=10
+              assert x["counts_as_confirmatory_evidence"] is True
+          else:
+              assert x["counts_as_confirmatory_evidence"] is False
+          PY
+
+      - name: Upload terminal BALA result bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v143-source-loss-result-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v143/output/bala_t2_target_outcomes.csv
+            build/bala_v143/output/bala_taxon_scores.csv
+            build/bala_v143/output/bala_t2_scoring_result.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Fail closed if scorer stopped
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/bala_v143/output/bala_t2_scoring_result.json").read_text())
+          if x["status"]=="STOP":
+              raise SystemExit("BALA3 was consumed but the frozen primary became terminal/non-estimable; no rerun is authorized")
+          assert x["status"]=="BALA_SOURCE_LOSS_PRIMARY_SCORED_ONCE"
+          PY
