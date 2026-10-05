@@ -1,0 +1,38 @@
+{
+  "schema": "structural.active_priority.v1_153",
+  "status": "ebird_only_live_confirmatory_candidate_eider_retrospective_stopped",
+  "supersedes": "development/structural_active_priority_v1_150.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "confirmatory_lane": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_NOT_PRESENT",
+    "gate": "development/ebird_sampling_event_metadata_audit_contract_v1_149.json",
+    "next_action": "obtain official eBird Sampling Event Data and run the response-independent checklist/effort audit before any species response access"
+  },
+  "retrospective_lane": {
+    "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+    "status": "STOP_RECONSTRUCTED_ROWS_NOT_IDENTIFIABLE_FROM_PUBLIC_ARCHIVE",
+    "stop": "development/finnish_eider_source_loss_stop_v1_153.json",
+    "may_count_as_confirmation": false
+  },
+  "closed_candidates": [
+    "Azores BALA: independent three-wave confirmatory primary not supported",
+    "Azores SLAM: response-unopened terminal design failure because no disjoint eligible three-year pilot/confirmatory windows",
+    "Apostle Islands carnivores: response exposed before source-loss protocol",
+    "Finnish common eider: retrospective source-loss events not auditable because redistributed grouped-island rows are not identified in the public archive"
+  ],
+  "do_now": [
+    "preserve the BALA non-support as the only completed independent temporal source-loss leverage test",
+    "keep eBird on HOLD until official Sampling Event Data are supplied",
+    "do not create another same-data mammal leverage diagnostic",
+    "use the occupancy-regime mammal result as occurrence-pattern evidence and BALA as the temporal conservation boundary"
+  ],
+  "do_not": [
+    "mine BALA taxa or islands to rescue the failed primary",
+    "infer eBird absences from observed-species rows",
+    "infer Finnish-eider reconstructed rows from response values",
+    "select a new temporal candidate because its published decline matches the leverage hypothesis",
+    "promote static source leverage to a management ranking metric"
+  ],
+  "next_scientific_event": "an independently admissible temporal dataset with auditable source-loss events, or official eBird Sampling Event Data satisfying v1.149; until then the conservation hypothesis remains unconfirmed"
+}
