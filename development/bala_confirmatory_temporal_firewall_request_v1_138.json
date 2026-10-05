@@ -1,0 +1,12 @@
+{
+  "schema": "structural.bala_confirmatory_temporal_firewall_request.v1_138",
+  "status": "REQUEST_CONFIRMATORY_BYTE_LEVEL_TEMPORAL_SPLIT_ONLY",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "confirmatory_routing_artifact_id": 11320128924,
+  "pitfall_quality_artifact_id": 11306547489,
+  "pilot_estimability_artifact_id": 11322245046,
+  "confirmatory_semantic_access_authorized": false,
+  "t2_semantic_access_authorized": false,
+  "source_leverage_computation_authorized": false,
+  "one_shot": true
+}
