@@ -1,0 +1,82 @@
+{
+  "schema": "structural.ebird_species_archive_firewall_contract.v1_160",
+  "status": "PREDECLARED_CONTENT_BLIND_SPECIES_ARCHIVE_INVENTORY_AFTER_V159_PASS",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "parents": [
+    "development/ebird_prebiology_handoff_contract_v1_159.json",
+    "development/ebird_three_wave_design_contract_v1_158.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/current_status_v1_144.json"
+  ],
+  "scientific_role": "freeze the first allowed Dryad species-archive access step after a successful response-independent v1.159 handoff and before any species identity, detection, nondetection, annual occupancy, source-loss event or t2 outcome is opened",
+  "prerequisites": {
+    "required_prebiology_status": "RESPONSE_INDEPENDENT_PREBIOLOGY_HANDOFF_COMPLETE",
+    "minimum_confirmatory_windows": 3,
+    "required_species_response_opened": false,
+    "required_source_loss_events_constructed": false,
+    "species_archive_access_if_prerequisite_missing": "STOP"
+  },
+  "species_archive": {
+    "source": "Dryad",
+    "dataset_doi": "10.5061/dryad.8931zcrpc",
+    "archive_name": "eBird-dataset.zip",
+    "published_date": "2021-10-27",
+    "documented_size_MB": 464.55,
+    "documented_RData_member_count": 6573,
+    "documented_member_semantics": "observed non-pelagic bird species rows organized by date",
+    "documented_future_columns": ["SCI_NAME","SUB_ID","longitude","latitude","ISLAND_ID"],
+    "ISLAND_ID_semantics": "OBJECTID in the global-islands reference",
+    "archive_values_opened_now": false
+  },
+  "v1_160_access_ceiling": {
+    "zip_central_directory_only": true,
+    "permitted_member_metadata": [
+      "member_path",
+      "basename",
+      "extension",
+      "compressed_size_bytes",
+      "uncompressed_size_bytes",
+      "CRC32",
+      "compression_method",
+      "local_header_offset",
+      "directory_flag"
+    ],
+    "member_decompression_allowed": false,
+    "member_bytes_read_allowed": false,
+    "RData_deserialization_allowed": false,
+    "object_names_opened": false,
+    "column_names_opened": false,
+    "species_identity_opened": false,
+    "species_detection_opened": false,
+    "species_nondetection_constructed": false,
+    "annual_species_occupancy_constructed": false,
+    "source_loss_events_constructed": false,
+    "t2_outcome_opened": false
+  },
+  "inventory_rules": {
+    "require_zip_readable": true,
+    "require_exact_RData_member_count": 6573,
+    "RData_extension_casefold": [".rdata",".rda"],
+    "directory_members_excluded_from_RData_count": true,
+    "duplicate_member_paths_forbidden": true,
+    "filename_date_parser_status": "NOT_AUTHORIZED_IN_V1_160",
+    "pilot_year_member_selection_status": "NOT_AUTHORIZED_IN_V1_160",
+    "confirmatory_year_member_selection_status": "NOT_AUTHORIZED_IN_V1_160"
+  },
+  "outputs": [
+    "ebird_species_archive_member_manifest.csv",
+    "ebird_species_archive_inventory_receipt.json"
+  ],
+  "next_gate_if_passed": "commit the exact archive SHA-256 and member-manifest SHA-256, then separately freeze the filename/date grammar and pilot-year-only member-routing rule from the committed manifest plus exact v1.159 pilot/confirmatory windows before any RData member is decompressed",
+  "anti_selection": [
+    "do not open an RData member to discover its date convention",
+    "do not choose archive members from species names, richness, detections or outcomes",
+    "do not open confirmatory-year RData members during burned-pilot access",
+    "do not infer nondetection from missing Dryad rows without membership in the frozen complete-checklist SED support set",
+    "do not change v1.158 window boundaries or pilot/confirmatory assignment after archive inventory"
+  ],
+  "response_boundary": {
+    "species_response_access_authorized": false,
+    "counts_as_empirical_source_loss_evidence": false
+  }
+}

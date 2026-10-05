@@ -1,0 +1,37 @@
+{
+  "schema": "structural.active_priority.v1_160",
+  "status": "ebird_only_live_candidate_SED_wait_species_archive_first_access_prefrozen",
+  "supersedes": "development/structural_active_priority_v1_159.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "live_candidate": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_REQUIRED",
+    "prebiology_handoff": "development/ebird_prebiology_handoff_contract_v1_159.json",
+    "species_archive_first_access": "development/ebird_species_archive_firewall_contract_v1_160.json",
+    "species_response_access_authorized": false
+  },
+  "completed_before_SED_arrival": [
+    "official SED schema compatibility",
+    "complete-checklist and effort support semantics",
+    "same-byte response-independent SED chain",
+    "fixed non-overlapping three-wave windows",
+    "deterministic pilot/confirmatory temporal partition",
+    "first Dryad species-archive access frozen to ZIP-central-directory inventory only"
+  ],
+  "do_now": [
+    "obtain official eBird Sampling Event Data through the logged-in data-request workflow",
+    "run the v1.159 prebiology handoff on unchanged SED and official USGS island geometry",
+    "if and only if v1.159 passes, download the Dryad eBird-dataset.zip as opaque bytes and run v1.160",
+    "commit the exact v1.160 archive and member-manifest fingerprints before any member-date parser or semantic species access is defined"
+  ],
+  "do_not": [
+    "open any RData member before successful v1.159 and committed v1.160 inventory",
+    "parse species identities or checklist IDs from Dryad during v1.160",
+    "choose pilot files after seeing species responses",
+    "change v1.158 temporal windows, 25-island floor or pilot/confirmatory assignment",
+    "infer absence from missing Dryad observations without complete-checklist membership from the official SED",
+    "rerun or subgroup-rescue the BALA non-support",
+    "run new same-data global-mammal mechanism searches"
+  ],
+  "next_scientific_event": "official SED arrival; current work remains response-independent and contributes zero new source-loss evidence"
+}
