@@ -1,0 +1,64 @@
+{
+  "schema": "structural.ebird_sed_support_chain_contract.v1_156",
+  "status": "RESPONSE_UNOPENED_SAME_BYTE_SED_AUDIT_CHAIN_FROZEN",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "parents": [
+    "development/ebird_sampling_event_metadata_audit_contract_v1_154.json",
+    "development/ebird_island_year_survey_contract_v1_155.json",
+    "development/current_status_v1_144.json",
+    "development/structural_active_priority_v1_155.json"
+  ],
+  "purpose": "bind the checklist schema/coverage audit and island-year survey-support construction to exactly the same official Sampling Event Data bytes before any species response access",
+  "execution_order": [
+    "hash SED input",
+    "run v1.154 checklist schema/coverage audit",
+    "rehash and require identical SED bytes",
+    "run v1.155 deduplication + island mapping + annual survey-support build",
+    "rehash and require identical SED bytes",
+    "require child receipts both pass and detect the same protocol-header schema",
+    "freeze child receipt hashes, survey-surface hash, SED hash and island-geometry hash"
+  ],
+  "child_contracts": {
+    "metadata_audit": "development/ebird_sampling_event_metadata_audit_contract_v1_154.json",
+    "island_year_surface": "development/ebird_island_year_survey_contract_v1_155.json"
+  },
+  "success_requirements": {
+    "metadata_status": "SED_SCHEMA_AND_COVERAGE_AUDIT_COMPLETE_RESPONSE_INDEPENDENTLY",
+    "survey_status": "RESPONSE_INDEPENDENT_ISLAND_YEAR_SURVEY_SURFACE_FROZEN",
+    "same_detected_protocol_schema": true,
+    "same_SED_sha256_before_between_after": true,
+    "species_headers_seen": 0,
+    "species_values_read": 0,
+    "species_nondetections_constructed": 0,
+    "annual_species_occupancy_constructed": false,
+    "source_loss_events_constructed": false
+  },
+  "geometry": {
+    "source": "USGS Global Islands",
+    "doi": "10.5066/P91ZCSGM",
+    "exact_geometry_bytes_are_frozen_by_output_sha_before_any_later_species_access": true
+  },
+  "permitted_outputs": [
+    "audit/ebird_sed_schema_receipt.json",
+    "audit/ebird_sed_year_support.csv",
+    "audit/ebird_sed_year_month_support.csv",
+    "audit/ebird_sed_protocol_counts.csv",
+    "audit/ebird_sed_effort_bins.csv",
+    "survey/ebird_island_year_survey_surface.csv",
+    "survey/ebird_island_year_survey_receipt.json",
+    "ebird_sed_support_chain_receipt.json"
+  ],
+  "forbidden_outputs": [
+    "raw SED rows",
+    "sampling event IDs",
+    "checklist coordinates",
+    "species names",
+    "species detections",
+    "species nondetections",
+    "annual species occupancy",
+    "source-loss events"
+  ],
+  "next_gate": "commit/freeze the exact successful chain receipt and survey-surface identity, then define eligible three-wave windows and a disjoint burned-pilot/confirmatory partition from survey support only",
+  "response_access_authorized": false,
+  "counts_as_empirical_source_loss_evidence": false
+}

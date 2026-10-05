@@ -1,0 +1,38 @@
+{
+  "schema": "structural.active_priority.v1_156",
+  "status": "ebird_only_live_confirmatory_candidate_same_byte_sed_chain_frozen",
+  "supersedes": "development/structural_active_priority_v1_155.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "confirmatory_lane": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_NOT_PRESENT",
+    "schema_audit": "development/ebird_sampling_event_metadata_audit_contract_v1_154.json",
+    "island_year_gate": "development/ebird_island_year_survey_contract_v1_155.json",
+    "same_byte_chain": "development/ebird_sed_support_chain_contract_v1_156.json",
+    "next_action": "obtain the official eBird Sampling Event Data file and execute only the response-independent v1.156 chain; keep the Dryad species archive closed"
+  },
+  "what_is_now_frozen_before_SED_arrival": [
+    "current and legacy official SED protocol-header compatibility",
+    "complete-checklist-only support semantics",
+    "GROUP IDENTIFIER shared-checklist deduplication",
+    "strict USGS Global Islands point-in-polygon mapping with no nearest rescue",
+    "surveyed island-year minimum of 10 deduplicated complete checklists across 4 distinct months",
+    "same-byte SHA binding between checklist audit and island-year construction",
+    "species-response firewall through the complete support chain"
+  ],
+  "closed_or_negative_context": [
+    "BALA independent three-wave source-loss primary not supported",
+    "SLAM no disjoint eligible three-wave windows",
+    "Finnish eider public archive cannot audit reconstructed source-loss rows",
+    "Apostle Islands response already exposed"
+  ],
+  "do_not": [
+    "open Dryad eBird observed-species rows before the response-independent SED chain succeeds",
+    "infer species absence from missing observed-species rows",
+    "alter the 10-checklist or 4-month support rule using species outcomes",
+    "assign unmatched points to nearest islands",
+    "use BALA secondary summaries to rescue source leverage",
+    "create another same-data mammal leverage diagnostic"
+  ],
+  "next_scientific_event": "successful response-independent v1.156 SED support chain; no species effect before that event"
+}
