@@ -1,0 +1,38 @@
+{
+  "schema": "structural.active_priority.v1_161",
+  "status": "ebird_disabled_static_vs_temporal_consequence_synthesis_and_submission",
+  "supersedes": "development/structural_active_priority_v1_160.json",
+  "canonical_status": "development/current_status_v1_161.json",
+  "project_decision": {
+    "ebird_enabled": false,
+    "action": "stop eBird candidate progression",
+    "existing_v1_146_to_v1_160_objects": "retain as dormant response-independent provenance only",
+    "official_SED_acquisition_authorized": false,
+    "Dryad_species_archive_access_authorized": false
+  },
+  "completed_scientific_chain": [
+    "prospective ultrarare mammal occupancy layer with topology-specific presence information",
+    "prospective rare mammal non-replication",
+    "exploratory higher-occupancy mammal source-context signal without actual-topology specificity",
+    "response-free ultrarare source-leverage diagnostic",
+    "independent prospective BALA three-wave source-loss leverage primary not supported",
+    "Azores SLAM stopped before occurrence access on temporal-independence gate",
+    "Finnish eider stopped on reconstruction traceability"
+  ],
+  "do_now": [
+    "treat static occurrence information and temporal conservation consequence as separate endpoints in the manuscript",
+    "integrate the BALA non-support as an independent conservation boundary rather than a failed rescue attempt",
+    "retain source leverage as a hypothesis-generating structural descriptor only",
+    "prepare GEB submission around occupancy-dependent source information and endpoint-specific validation"
+  ],
+  "do_not": [
+    "obtain or analyze eBird Sampling Event Data",
+    "open the eBird Dryad species archive",
+    "rerun or subgroup-mine BALA",
+    "create another same-data global-mammal leverage diagnostic",
+    "retune mammal occupancy thresholds",
+    "promote static source leverage to a management ranking metric",
+    "claim dynamic irrelevance from one BALA non-support"
+  ],
+  "next_scientific_event": "no active confirmatory system; any future system must be non-eBird, independent, temporal, and prospectively frozen before response access"
+}
