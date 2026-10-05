@@ -1,0 +1,39 @@
+{
+  "schema": "structural.finnish_eider_source_loss_stop.v1_153",
+  "status": "RETROSPECTIVE_SOURCE_LOSS_LANE_STOPPED_BEFORE_ROW_SEMANTIC_ACCESS",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "parents": [
+    "development/finnish_eider_source_loss_retrospective_preintake_v1_150.json",
+    "development/finnish_eider_zenodo_inventory_freeze_v1_152.json",
+    "development/finnish_eider_mixed_header_freeze_v1_153.json"
+  ],
+  "stop_basis": {
+    "published_grouped_island_redistribution_exists": true,
+    "published_mean_fraction_observations_redistributed_per_year": 0.062,
+    "archive_file_count": 1,
+    "separate_reconstruction_manifest_present": false,
+    "row_level_group_or_reconstruction_flag_present": false,
+    "response_independent_rule_can_identify_redistributed_rows": false,
+    "primary_reason": "source-loss events cannot be distinguished from possible grouped-island count redistribution without opening response patterns or obtaining an external row-level reconstruction key",
+    "secondary_risk": "the mixed public table has no survey-effort/surveyed flag column, so zero semantics also require external documentation rather than inference from missing rows"
+  },
+  "why_this_matters": "A redistributed grouped-island count can manufacture island-level presence, persistence, loss or recolonization. Because source-loss leverage is defined from changes in occupied island identity, such rows cannot be allowed into the event definition without a prospectively identifiable reconstruction flag.",
+  "forbidden_repairs": [
+    "infer reconstructed rows from fractional or unusual Eider_pairs values",
+    "choose source-loss years by inspecting the known decline",
+    "treat every missing island-year as zero",
+    "treat rounded Lon/Lat as exact topology",
+    "use pos2 response-row values to rescue the reconstruction problem",
+    "proceed because this lane is only retrospective"
+  ],
+  "what_would_reopen_schema_work": [
+    "an official row-level flag or ancillary key identifying redistributed grouped-island observations",
+    "an official exact keyed spatial object if topology beyond the public pos2 representation is required",
+    "explicit survey-support metadata sufficient to freeze surveyed-zero semantics"
+  ],
+  "ecological_result": "NOT_SCORED",
+  "source_loss_effect_computed": false,
+  "counts_as_confirmation": false,
+  "retrospective_stress_test_completed": false,
+  "response_rows_remain_semantically_unopened_by_structural_source_loss_lane": true
+}
