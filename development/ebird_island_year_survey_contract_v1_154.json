@@ -1,0 +1,93 @@
+{
+  "schema": "structural.ebird_island_year_survey_contract.v1_154",
+  "status": "RESPONSE_UNOPENED_ISLAND_YEAR_SURVEY_RULE_FROZEN_BEFORE_SED_ARRIVAL",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "parents": [
+    "development/ebird_sampling_event_metadata_audit_contract_v1_149.json",
+    "development/ebird_sampling_event_gate_v1_146.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/current_status_v1_144.json",
+    "development/structural_active_priority_v1_153.json"
+  ],
+  "scientific_role": "define a response-independent annual survey-support surface before any species detection, nondetection, occupancy, source-loss event or t2 outcome is opened",
+  "official_sampling_event_source": {
+    "product": "official eBird Sampling Event Data",
+    "access_semantics": "downloaded through the official eBird Basic Dataset data-request workflow by a logged-in user",
+    "row_unit": "one checklist / sampling event",
+    "complete_checklist_field": "ALL SPECIES REPORTED",
+    "species_rows_permitted": false,
+    "analysis_years": [2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019]
+  },
+  "island_geometry": {
+    "source": "USGS Global Islands",
+    "doi": "10.5066/P91ZCSGM",
+    "publication": "Sayre et al. global islands 30-m shoreline-derived polygon database",
+    "id_field": "OBJECTID",
+    "coordinate_reference": "geometry is transformed to EPSG:4326 before checklist mapping",
+    "mapping_rule": "point-in-polygon only",
+    "nearest_island_rescue_allowed": false,
+    "zero_polygon_matches": "exclude checklist from island-year support and count as outside_geometry",
+    "multiple_polygon_matches": "exclude checklist as ambiguous and count separately",
+    "dryad_crosswalk": "future species rows use ISLAND_ID corresponding to Sayre OBJECTID"
+  },
+  "checklist_deduplication": {
+    "eligible_first": "retain only ALL SPECIES REPORTED=TRUE rows before survey-support aggregation",
+    "event_key": "nonblank GROUP IDENTIFIER defines one shared sampling event; blank GROUP IDENTIFIER uses SAMPLING EVENT IDENTIFIER",
+    "shared_group_count": "a repeated nonblank GROUP IDENTIFIER contributes at most one survey event",
+    "canonical_representative": "lexicographically smallest SAMPLING EVENT IDENTIFIER within the event key",
+    "conflicting_group_date": "exclude the entire shared group from annual survey support",
+    "conflicting_group_coordinates": "exclude the entire shared group if latitude or longitude differs by more than 1e-6 degrees among members",
+    "conflicting_group_complete_status": "exclude the entire shared group",
+    "species_information_used": false
+  },
+  "annual_survey_quality_rule": {
+    "unit": "Sayre OBJECTID x calendar year",
+    "complete_deduplicated_checklists_min": 10,
+    "distinct_months_min": 4,
+    "surveyed_if": "both minima are satisfied",
+    "rationale": "pre-response effort and temporal-support rule anchored to eBird completeness literature: fewer than 10 checklists has been treated as low support, and four sampled months is a documented minimum temporal-support criterion; this is a survey-support proxy, not a replication of the published species-accumulation completeness estimator",
+    "duration_cutoff": null,
+    "distance_cutoff": null,
+    "observer_count_cutoff": null,
+    "protocol_exclusion": null,
+    "reason_no_effort_cutoffs": "avoid choosing hard effort thresholds before seeing the response-independent SED support surface; valid effort variables are retained for later frozen reference adjustment instead of outcome-informed filtering",
+    "threshold_change_after_species_access_authorized": false
+  },
+  "annual_output_fields": [
+    "OBJECTID",
+    "year",
+    "complete_deduplicated_checklists",
+    "distinct_months",
+    "duration_minutes_nonmissing",
+    "duration_minutes_sum",
+    "effort_distance_km_nonmissing",
+    "effort_distance_km_sum",
+    "effort_area_ha_nonmissing",
+    "number_observers_nonmissing",
+    "protocol_pairs",
+    "surveyed"
+  ],
+  "response_boundary": {
+    "species_identity_may_open": false,
+    "species_detection_may_open": false,
+    "species_nondetection_may_be_constructed": false,
+    "annual_species_occupancy_may_be_constructed": false,
+    "source_loss_events_may_be_constructed": false,
+    "t2_outcome_may_open": false,
+    "raw_sed_rows_may_be_persisted": false,
+    "sampling_event_ids_may_be_used_transiently_only": true,
+    "checklist_coordinates_may_be_used_transiently_only": true,
+    "counts_as_empirical_source_loss_evidence": false
+  },
+  "next_gate": "after v1.149 metadata audit and this v1.154 survey-surface build both succeed, freeze deterministic eligible-island and three-wave pilot/confirmatory window selection from survey support only; species outcomes remain sealed",
+  "anti_selection": [
+    "do not lower 10-checklist or 4-month minima after species outcomes are opened",
+    "do not select years because source-loss or persistence effects look favourable",
+    "do not infer absences from the Dryad observed-species archive before this survey surface is frozen",
+    "do not assign offshore points to their nearest island",
+    "do not inspect species identity to resolve ambiguous geometry",
+    "do not use BALA non-support to choose a more favourable eBird threshold"
+  ],
+  "response_access_authorized": false,
+  "counts_as_empirical_evidence": false
+}
