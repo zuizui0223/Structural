@@ -1,0 +1,43 @@
+name: Boreal birds response-free checks v1.159
+
+on:
+  push:
+    branches:
+      - reframe/occupancy-dependent-isolation-v1-154
+    paths:
+      - development/boreal_19island_birds_**
+      - development/structural_active_priority_v1_158.json
+      - docs/BOREAL_BIRDS_TOPOLOGY_SENSITIVITY_V1_158.md
+      - scripts/freeze_boreal_birds_topology_nulls_v1_158.py
+      - src/structural/boreal_19island_bird_pilot_router.py
+      - tests/test_boreal_birds_topology_nulls_v1_158.py
+      - tests/test_boreal_19island_bird_pilot_router_v1_159.py
+      - .github/workflows/boreal-birds-response-free-v1_159.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  response-free:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Run boreal bird response-free tests
+        run: |
+          pytest -q \
+            tests/test_boreal_birds_topology_nulls_v1_158.py \
+            tests/test_boreal_19island_bird_pilot_router_v1_159.py
+      - name: Assert no response artifact was created
+        run: |
+          test ! -e development/borealbirds_speciesmatrix_presenceabsence.csv
+          test ! -e build/borealbirds_speciesmatrix_presenceabsence.csv
