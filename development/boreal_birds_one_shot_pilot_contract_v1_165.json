@@ -1,0 +1,99 @@
+{
+  "schema": "structural.boreal_birds_one_shot_pilot_contract.v1_165",
+  "status": "ONE_SHOT_BOREAL_BIRD_PILOT_PREDECLARED_RESPONSE_UNOPENED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "parents": {
+    "response_independent_hash_freeze": "development/boreal_birds_response_independent_hash_freeze_v1_163.json",
+    "delta_topology_hash_freeze": "development/boreal_birds_delta_topology_hash_freeze_v1_164.json",
+    "delta_design": "development/boreal_birds_delta_topology_preintake_v1_164.json",
+    "full_island_universe": "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "state_reference": "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "router": "src/structural/boreal_bird_pilot_router.py"
+  },
+  "required_pre_access_replay": {
+    "v1_163_freeze_fingerprint": "f7cbb1596b13fc96e6cad61eb24794c9009fbf3431e089f714d179cf3138eb30",
+    "null_ensemble_sha256": "069eae639ed8a544d09680b7034c697bad608b7652a0cee60e92d41029d48e12",
+    "topology_residual_surface_sha256": "d7913be64b62ae92378ab8279c6eea9fa69289d3908d9c3916694f7ea83a22e7",
+    "delta_topology_surface_sha256": "d62e76e3addeba6af3ab47638386214c6d2c854e6dbda4003d7f74dc4f9feb3a",
+    "mismatch": "STOP before bird header or response semantic access"
+  },
+  "response_file": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "download_url": "https://datadryad.org/api/v2/files/4569037/download",
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "expected_species_columns": 54,
+    "expected_full_source_island_rows": 42,
+    "response_domain": ["0","1"]
+  },
+  "population": {
+    "full_source_island_count": 42,
+    "analysis_island_count": 19,
+    "pilot_island_count": 6,
+    "confirmatory_island_count": 13,
+    "excluded_island_count": 23,
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7
+  },
+  "semantic_access": {
+    "species_header_names": true,
+    "routing_island_field_all_42_rows": true,
+    "pilot_island_occurrence_cells": true,
+    "expected_pilot_target_values_parsed": 324,
+    "confirmatory_occurrence_cells": false,
+    "excluded_occurrence_cells": false,
+    "required_confirmatory_target_values_parsed": 0,
+    "required_excluded_target_values_parsed": 0,
+    "single_semantic_router_pass_required": true
+  },
+  "pilot_species_rule": {
+    "eligible_if_pilot_occupied_islands_n_in": [1,2,3,4,5],
+    "n_zero": "ineligible because no observed pilot source exists",
+    "n_six": "ineligible because the frozen scarcity factor is zero",
+    "minimum_eligible_species": 8,
+    "minimum_distinct_n_values": 2,
+    "confirmatory_response_may_not_define_eligibility": true
+  },
+  "pilot_output": {
+    "effect_size": null,
+    "prediction_score": null,
+    "predictive_denominator_contribution": 0,
+    "store": [
+      "eligible species names and SHA",
+      "pilot occupancy n for every eligible species",
+      "six pilot-island binary vectors restricted to the fixed eligible species universe",
+      "snapshot fingerprint"
+    ],
+    "confirmatory_values_stored": false,
+    "excluded_values_stored": false
+  },
+  "post_access_terminal_rules": [
+    "semantic router invocation consumes the one-shot authorization even if the gate later fails",
+    "any opened pilot value outside exact 0/1 is terminal",
+    "unexpected header width or routing island universe is terminal",
+    "any confirmatory occurrence decode above zero is a firewall violation",
+    "any excluded-island occurrence decode above zero is a firewall violation",
+    "fewer than eight eligible species is terminal",
+    "fewer than two distinct eligible n values is terminal",
+    "no change to n thresholds, species threshold, island split, endpoint or moderator is allowed after semantic access"
+  ],
+  "qualified_ceiling": {
+    "status": "QUALIFIED_TO_FREEZE_BIRD_ACTUAL_AND_NULL_MODELS",
+    "eligible_action": "freeze bird actual/null models and every confirmatory prediction only",
+    "pilot_response_opened": true,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "response_boundary": {
+    "bird_file_opened": false,
+    "bird_header_opened": false,
+    "bird_response_values_opened": 0,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "execution_authorized_now": false,
+  "next_action": "freeze a deterministic response-unopened pilot authorization bound to this contract and all parent hashes"
+}
