@@ -49,8 +49,10 @@
 
 ## GEB format
 
-- [x] Aim / Innovation / Main conclusions abstract.
-- [ ] Recheck abstract <=300 words after v1.154 edits.
-- [ ] Recheck main text <5,000 words after v1.154 edits.
+- [x] Current GEB Research Article guidance rechecked on 2026-10-05.
+- [x] Structured Research Article abstract uses Aim / Location / Time period / Major taxa studied / Methods / Results / Main conclusions and is 290 words.
+- [x] Main text is 4,753 words (Introduction through Conclusions).
+- [x] Running title is 36 characters (<40).
+- [x] Nine keywords are alphabetized and within the required 6–10 range.
 - [x] No direct author/repository identity in blinded text.
-- [ ] Re-run reference-list/citation consistency after adding Hanski & Ovaskainen (2000) and Drake et al. (2022).
+- [x] Hanski & Ovaskainen (2000) and Drake et al. (2022) are both cited in text and present in the reference list; references are alphabetized.
