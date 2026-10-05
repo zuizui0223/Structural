@@ -1,0 +1,61 @@
+{
+  "schema": "structural.bala_opaque_taxon_routing_contract.v1_136",
+  "status": "ONE_SHOT_MF_ONLY_OPAQUE_TAXON_ROUTING_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_taxon_routing_schema_freeze_v1_136.json",
+    "development/bala_taxon_routing_contract_v1_135.json",
+    "development/bala_geometry_operator_contract_v1_136.json"
+  ],
+  "source": {
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "occurrence_location": "occurrence.txt",
+    "occurrence_sha256": "1c2fa1376c8bfd2d17b4589e8ab57ea179b551e96f10cca1ea121a1fbed69ac5",
+    "expected_occurrence_data_rows": 63904,
+    "expected_field_count": 31,
+    "delimiter_byte": "TAB",
+    "header_lines": 1,
+    "encoding_for_routing_field_only": "UTF-8"
+  },
+  "partition": {
+    "partition_spec_sha256": "66682582eb47605e47c4d888437e608cf8e45100ea0cc9c07fc2dd70e884c27c",
+    "routing_field_index": 20,
+    "normalization": "Unicode NFC then strip leading/trailing Unicode whitespace; case preserved",
+    "salt": "Structural-BALA-source-loss-v1.135|",
+    "bucket": "int(first 8 hex SHA-256 digits of salt+normalized token, 16) mod 4",
+    "pilot_buckets": [0],
+    "confirmatory_buckets": [1,2,3],
+    "blank_token": "STOP",
+    "rebalancing": false
+  },
+  "authorized_semantics": {
+    "pilot_and_confirmatory_rows": "decode only identificationRemarks/MF token to route the entire raw row",
+    "pilot_token_identity_may_persist": true,
+    "confirmatory_token_identity_may_persist": false,
+    "confirmatory_distinct_token_count_may_persist": true,
+    "confirmatory_token_set_fingerprint": "SHA-256 over sorted salted token SHA-256 digests; no token strings persisted",
+    "all_nonrouting_fields": "remain opaque bytes in both routed surfaces"
+  },
+  "forbidden_during_routing": [
+    "decode coreid or eventID",
+    "decode organismQuantity",
+    "decode scientificName/order/family/taxonRank",
+    "summarize event-by-taxon combinations",
+    "summarize phase-by-taxon or island-by-taxon occurrence",
+    "compute presence/absence, source loss, persistence, contraction or source leverage"
+  ],
+  "outputs": {
+    "pilot_byte_surface": "pilot_occurrence_rows.tsv",
+    "sealed_confirmatory_byte_surface": "confirmatory_occurrence_rows.sealed.tsv",
+    "pilot_token_manifest": "pilot_mf_tokens.csv",
+    "receipt": "opaque_routing_result.json"
+  },
+  "next_gate": "semantic pilot-only occurrence opening for taxonomic eligibility and three-wave estimability; sealed confirmatory byte surface remains closed",
+  "response_boundary": {
+    "pilot_occurrence_semantic_access_authorized": false,
+    "confirmatory_occurrence_semantic_access_authorized": false,
+    "source_loss_effects_computed": 0,
+    "confirmatory_eligible_after_routing": false
+  }
+}
