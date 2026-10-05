@@ -1,0 +1,38 @@
+{
+  "schema": "structural.boreal_birds_delta_topology_hash_freeze.v1_164",
+  "status": "CANONICAL_DELTA_TOPOLOGY_HASH_FREEZE_RESPONSE_UNOPENED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "design": "development/boreal_birds_delta_topology_preintake_v1_164.json",
+  "generator": "scripts/freeze_boreal_birds_delta_topology_sensitivity_v1_164.py",
+  "parent_response_independent_freeze": {
+    "path": "development/boreal_birds_response_independent_hash_freeze_v1_163.json",
+    "freeze_fingerprint": "f7cbb1596b13fc96e6cad61eb24794c9009fbf3431e089f714d179cf3138eb30",
+    "null_ensemble_expected_sha256": "069eae639ed8a544d09680b7034c697bad608b7652a0cee60e92d41029d48e12"
+  },
+  "delta_surface": {
+    "expected_sha256": "d62e76e3addeba6af3ab47638386214c6d2c854e6dbda4003d7f74dc4f9feb3a",
+    "row_count": 78,
+    "target_count": 13,
+    "n_values": [1,2,3,4,5,6],
+    "targets_with_delta_H_positive": 10,
+    "delta_H_min_hex": "-0x1.ca731328d2bb2p-4",
+    "delta_H_max_hex": "0x1.f38c6960b55ebp+0"
+  },
+  "semantic_interpretation": "positive delta_H means the observed island topology creates more heterogeneity in source accessibility beyond Euclidean distance than the mean matched null topology; scarcity scales this target-specific contrast through n",
+  "pre_access_replay_rule": {
+    "required_before_bird_header_or_occurrence_access": true,
+    "replay_parent_v1_163": true,
+    "replay_delta_v1_164": true,
+    "require_exact_surface_sha256": "d62e76e3addeba6af3ab47638386214c6d2c854e6dbda4003d7f74dc4f9feb3a",
+    "mismatch": "STOP before semantic access"
+  },
+  "response_boundary": {
+    "bird_file_opened": false,
+    "bird_header_opened": false,
+    "bird_response_values_opened": 0,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_action": "freeze a one-shot pilot authorization that permits header plus six pilot-island occurrence rows only and binds species eligibility to n=1..5"
+}
