@@ -1,0 +1,74 @@
+name: Finnish eider mixed-file header audit v1.152
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/finnish_eider_mixed_header_request_v1_152.json
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate header-only contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/finnish_eider_mixed_header_contract_v1_152.json").read_text())
+          r=json.loads(Path("development/finnish_eider_mixed_header_request_v1_152.json").read_text())
+          f=json.loads(Path("development/finnish_eider_zenodo_inventory_freeze_v1_152.json").read_text())
+          assert c["status"]=="MIXED_RESPONSE_FILE_HEADER_ONLY_AUDIT_FROZEN"
+          assert r["status"]=="REQUEST_EXACT_FILE_HEADER_ONLY_AUDIT"
+          assert r["first_line_semantic_access_authorized"] is True
+          assert r["data_row_semantic_access_authorized"] is False
+          assert r["source_loss_scoring_authorized"] is False
+          assert f["inventory"]["file_count"]==1
+          assert f["inventory"]["only_file"]["zenodo_checksum"]=="md5:4f48d8faf2b6dbb8c967449356beab87"
+          PY
+
+      - name: Download exact mixed file and decode header only
+        run: |
+          mkdir -p build/finnish_eider_v152
+          python scripts/audit_finnish_eider_mixed_header_v1_152.py             --contract development/finnish_eider_mixed_header_contract_v1_152.json             --work-file build/finnish_eider_v152/raw_mixed_file.tmp             --header-output build/finnish_eider_v152/header_manifest.json             --receipt build/finnish_eider_v152/header_receipt.json
+
+      - name: Delete raw mixed response file
+        if: always()
+        run: rm -f build/finnish_eider_v152/raw_mixed_file.tmp
+
+      - name: Enforce semantic ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/finnish_eider_v152/header_receipt.json").read_text())
+          assert x["status"]=="EXACT_MIXED_FILE_HEADER_FROZEN_DATA_ROWS_UNOPENED"
+          assert x["data_row_semantic_values_opened"]==0
+          assert x["Eider_pairs_values_opened"]==0
+          assert x["Island_ID_values_opened"]==0
+          assert x["pos2_values_opened"]==0
+          assert x["source_loss_events_computed"]==0
+          assert x["source_leverage_effects_computed"]==0
+          assert x["raw_file_retained_in_artifact"] is False
+          assert not Path("build/finnish_eider_v152/raw_mixed_file.tmp").exists()
+          PY
+
+      - name: Upload header-only audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: finnish-eider-v152-header-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/finnish_eider_v152/header_manifest.json
+            build/finnish_eider_v152/header_receipt.json
+          if-no-files-found: error
+          retention-days: 30
