@@ -1,0 +1,115 @@
+{
+  "schema": "structural.bala_pilot_estimability_contract.v1_137",
+  "status": "BURNED_PILOT_TAXON_ONLY_ESTIMABILITY_GATE_FROZEN_BEFORE_PILOT_SEMANTIC_ACCESS",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_opaque_taxon_routing_freeze_v1_137.json",
+    "development/bala_pitfall_quality_freeze_v1_135.json",
+    "development/bala_source_loss_preintake_v1_126.json",
+    "development/source_loss_leverage_protocol_v1_125.json"
+  ],
+  "pilot_input": {
+    "artifact_id": 11320128924,
+    "pilot_surface_sha256": "1735652e93232c0291d0c29b1df292010807ce4d9dc1791aeebed86e99341127",
+    "pilot_token_manifest_sha256": "f591cdc28d0f0796600a24a5ca3063c32a9bf2cda644722aa567f68b5086843e",
+    "pilot_distinct_taxa": 142,
+    "pilot_occurrence_rows": 20958
+  },
+  "confirmatory_boundary": {
+    "confirmatory_surface_sha256": "c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+    "confirmatory_distinct_taxa": 400,
+    "confirmatory_occurrence_rows": 42946,
+    "confirmatory_surface_may_be_downloaded_as_opaque_bytes": true,
+    "confirmatory_surface_may_be_opened_or_parsed": false,
+    "confirmatory_token_identity_may_be_opened": false
+  },
+  "surveyed_zero_surface": {
+    "pitfall_quality_artifact_id": 11306547489,
+    "pitfall_position_recovery_sha256": "a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+    "site_phases": 90,
+    "island_phases": 21,
+    "all_site_phases_pass_20_of_30": true,
+    "all_island_phases_pass_80_percent": true,
+    "islands": 7,
+    "phases": ["BALA1","BALA2","BALA3"],
+    "presence": "at least one pilot occurrence row with organismQuantity > 0 linked by coreid to a frozen eligible pitfall event in the island-phase",
+    "absence": "no such positive occurrence for an eligible pilot taxon in an island-phase; absence is permitted only because all 21 island-phases passed the frozen surveyed-zero gate"
+  },
+  "pilot_decoded_fields": {
+    "coreid": 0,
+    "organismQuantity": 12,
+    "eventID": 17,
+    "identificationRemarks": 20,
+    "scientificName": 21,
+    "order": 25,
+    "family": 26,
+    "taxonRank": 30
+  },
+  "quantity_rule": {
+    "parser": "finite decimal number",
+    "presence_evidence": "organismQuantity > 0",
+    "zero_quantity": "does not create presence",
+    "negative_or_nonnumeric": "STOP pilot gate"
+  },
+  "taxonomic_scope_rule": {
+    "identity": "MF identificationRemarks token is the focal taxon identity",
+    "consistency": "each pilot MF token must map to at most one nonblank scientificName, order, family and taxonRank across its rows; conflict makes that pilot taxon ineligible",
+    "order_required_for_eligibility": true,
+    "exclude_order": ["Diptera"],
+    "hymenoptera_rule": "Hymenoptera eligible only when the unique nonblank family is Formicidae",
+    "exclude_if_taxonomy_mentions": ["Acari","Collembola"],
+    "reason": "metadata state that Acari/Collembola were excluded and Diptera plus non-Formicidae Hymenoptera were not separated to stable morphospecies",
+    "same_rule_must_later_apply_to_confirmatory_taxa": true,
+    "pilot_outcomes_may_not_change_rule": true
+  },
+  "three_wave_estimability_summary": {
+    "t0": "BALA1 island-level observed occurrence",
+    "t1": "BALA2 island-level observed occurrence",
+    "t2": "BALA3 island-level observed occurrence",
+    "t0_source_requirement": "at least two occupied islands at t0 for source-loss leverage eligibility",
+    "source_loss": "t0 occupied island absent at t1",
+    "preferred_primary_event": "exactly one t0-to-t1 source loss",
+    "downstream_target": "different island occupied at t1; the lost source itself is absent at t1 and cannot be its own target",
+    "t2_contraction": "target occupied at t1 and absent at t2",
+    "t2_persistence": "target occupied at both t1 and t2",
+    "self_anchor_leverage_not_computed_in_pilot": true,
+    "source_leverage_not_computed_in_pilot": true,
+    "candidate_minus_reference_effect_not_computed_in_pilot": true
+  },
+  "advance_gate": {
+    "minimum_taxonomically_eligible_pilot_taxa": 30,
+    "minimum_taxa_with_at_least_two_t0_sources": 10,
+    "minimum_taxa_with_any_t0_to_t1_source_loss_and_t1_survivor": 6,
+    "minimum_exactly_one_source_loss_taxa": 5,
+    "minimum_exactly_one_loss_target_rows": 20,
+    "minimum_t2_contractions_across_exactly_one_loss_targets": 5,
+    "minimum_t2_persistences_across_exactly_one_loss_targets": 5,
+    "minimum_taxon_clusters_with_at_least_one_contraction": 3,
+    "minimum_taxon_clusters_with_at_least_one_persistence": 3,
+    "minimum_taxa_with_within_taxon_both_t2_outcomes": 2,
+    "all_conditions_required": true,
+    "if_failed": "STOP BALA confirmatory source-loss route; do not lower thresholds or alter taxon partition",
+    "if_passed": "permit confirmatory protocol construction only; confirmatory occurrence remains sealed until t0/t1 versus t2 firewall and full prediction surface are frozen"
+  },
+  "pilot_outputs": [
+    "pilot_taxon_eligibility.csv",
+    "pilot_island_phase_presence.csv",
+    "pilot_transition_summary.csv",
+    "pilot_estimability_result.json"
+  ],
+  "anti_selection": [
+    "do not compute source leverage in the pilot",
+    "do not fit C versus R2 in the pilot",
+    "do not inspect confirmatory rows or token identities",
+    "do not change taxonomic exclusions after pilot results",
+    "do not lower estimability thresholds after pilot results",
+    "do not choose species by interesting loss or contraction direction"
+  ],
+  "evidence_boundary": {
+    "pilot_contributes_predictive_effect_evidence": false,
+    "pilot_source_loss_effect_estimate_authorized": false,
+    "confirmatory_occurrence_semantic_access_authorized": false,
+    "confirmatory_t2_access_authorized": false,
+    "counts_as_empirical_support_or_non_support": false
+  }
+}
