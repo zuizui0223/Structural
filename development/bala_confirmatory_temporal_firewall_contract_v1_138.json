@@ -1,0 +1,65 @@
+{
+  "schema": "structural.bala_confirmatory_temporal_firewall_contract.v1_138",
+  "status": "CONFIRMATORY_T0_T1_VS_T2_BYTE_FIREWALL_FROZEN_AFTER_CLEAN_PILOT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_pilot_estimability_freeze_v1_138.json",
+    "development/bala_opaque_taxon_routing_freeze_v1_137.json",
+    "development/bala_pitfall_quality_freeze_v1_135.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json"
+  ],
+  "input": {
+    "confirmatory_routing_artifact_id": 11320128924,
+    "confirmatory_surface_sha256": "c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+    "confirmatory_rows": 42946,
+    "physical_field_count": 32,
+    "coreid_field_index": 0,
+    "pitfall_quality_artifact_id": 11306547489,
+    "pitfall_position_recovery_sha256": "a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27"
+  },
+  "phase_routing": {
+    "phase_source": "pitfall_position_recovery.csv Event-safe metadata only",
+    "t0_t1_phases": ["BALA1","BALA2"],
+    "t2_phase": "BALA3",
+    "eligible_rows": "Occurrence rows whose raw coreid matches an eventID in the frozen pitfall-position map",
+    "nonmatching_rows": "route to a permanently irrelevant opaque surface; they are not eligible for the pitfall-only source-loss analysis",
+    "coreid_may_be_used_only_as_byte-level_routing_key": true,
+    "coreid_value_persistence": false
+  },
+  "authorized_semantics": {
+    "coreid_routing_match": true,
+    "phase_label_from_safe_Event_map": true,
+    "identificationRemarks_MF_token": false,
+    "organismQuantity": false,
+    "eventID_occurrence_field": false,
+    "scientificName": false,
+    "order": false,
+    "family": false,
+    "taxonRank": false,
+    "event_by_taxon_combinations": false
+  },
+  "outputs": {
+    "preoutcome_t0_t1_surface": "confirmatory_t0_t1_rows.sealed.tsv",
+    "outcome_t2_surface": "confirmatory_t2_rows.sealed.tsv",
+    "irrelevant_surface": "confirmatory_nonpitfall_rows.irrelevant.sealed.tsv",
+    "receipt": "bala_temporal_firewall_result.json"
+  },
+  "advance_rule": {
+    "all_input_rows_conserved_exactly_once": true,
+    "all_matched_rows_route_to_exactly_one_of_preoutcome_or_t2": true,
+    "both_t0_t1_and_t2_surfaces_nonempty": true,
+    "no_nonrouting_field_semantics_opened": true,
+    "if_pass": "authorize a separately committed BALA1/BALA2-only semantic-access protocol to freeze taxon eligibility, source-loss exposure, self-anchor exclusion, leverage features and heldout taxon folds before any BALA3 semantic access",
+    "if_fail": "STOP BALA source-loss route; do not inspect BALA3"
+  },
+  "response_boundary": {
+    "confirmatory_MF_tokens_opened": 0,
+    "confirmatory_quantity_values_opened": 0,
+    "confirmatory_taxonomy_values_opened": 0,
+    "confirmatory_t2_outcomes_opened": 0,
+    "source_leverage_values_computed": 0,
+    "candidate_minus_reference_effects_computed": 0,
+    "counts_as_empirical_support_or_non_support": false
+  }
+}
