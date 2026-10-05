@@ -1,0 +1,43 @@
+{
+  "schema": "structural.active_priority.v1_155",
+  "status": "ebird_only_live_confirmatory_candidate_island_year_gate_frozen_waiting_for_official_SED",
+  "supersedes": "development/structural_active_priority_v1_154.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "confirmatory_lane": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_NOT_PRESENT",
+    "metadata_audit": "development/ebird_sampling_event_metadata_audit_contract_v1_154.json",
+    "island_year_gate": "development/ebird_island_year_survey_contract_v1_155.json",
+    "geometry_source": {"name":"USGS Global Islands","doi":"10.5066/P91ZCSGM","id":"OBJECTID"},
+    "next_action": "obtain official eBird Sampling Event Data; run v1.154 audit and v1.155 island-year build on identical bytes before any species response access"
+  },
+  "frozen_next_rules": {
+    "complete_checklists_only": true,
+    "modern_and_legacy_protocol_headers_supported": true,
+    "shared_checklists_deduplicated_by_group_identifier": true,
+    "island_mapping": "strict point-in-polygon to Sayre OBJECTID; no nearest rescue",
+    "surveyed_island_year": "at least 10 deduplicated complete checklists in at least 4 distinct months",
+    "species_response_opened": false
+  },
+  "completed_boundaries": [
+    "BALA: independent three-wave source-loss primary not supported",
+    "SLAM: no disjoint eligible three-year windows",
+    "Finnish eider: reconstructed source-loss rows not traceable in public archive",
+    "current eBird SED schema compatibility frozen at v1.154"
+  ],
+  "do_now": [
+    "obtain official eBird Sampling Event Data",
+    "run response-independent v1.154 schema/coverage audit",
+    "run v1.155 deduplication, geometry mapping and island-year survey support on the identical SED bytes",
+    "then freeze three-wave windows and disjoint burned-pilot/confirmatory partitions from survey support only"
+  ],
+  "do_not": [
+    "open Dryad species rows before v1.154 and v1.155 succeed",
+    "infer absence from unreported observed-species rows",
+    "retune the 10-checklist or 4-month rule after species outcomes",
+    "assign checklist points to nearest islands",
+    "mine BALA or global mammals for rescue",
+    "promote static source leverage to management ranking"
+  ],
+  "next_scientific_event": "response-independent eBird SED survey-support surface"
+}
