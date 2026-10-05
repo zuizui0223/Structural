@@ -1,0 +1,105 @@
+name: Boreal birds canonical response-independent freeze v1.163
+
+on:
+  push:
+    branches:
+      - science/boreal-birds-topology-canonical-v1-163
+    paths:
+      - development/boreal_birds_response_independent_execution_request_v1_163.json
+
+permissions:
+  contents: write
+
+jobs:
+  canonical-freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact request commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate exact parent binding and sealed response
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          req=json.loads(Path("development/boreal_birds_response_independent_execution_request_v1_163.json").read_text())
+          assert req["schema"]=="structural.boreal_birds_response_independent_execution_request.v1_163"
+          assert req["status"]=="REQUEST_CANONICAL_RESPONSE_INDEPENDENT_FREEZE"
+          assert req["candidate_id"]=="lac_la_ronge_boreal_19island_birds_sparse_topology_2026"
+          assert req["bird_response_values_opened"]==0
+          assert req["pilot_response_authorized"] is False
+          assert req["confirmatory_response_authorized"] is False
+          assert req["one_shot"] is True
+          head=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          parent=subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()
+          assert head==os.environ["GITHUB_SHA"]
+          assert parent==req["freeze_parent_sha"], (parent,req["freeze_parent_sha"])
+          for p in (
+            "development/boreal_birds_topology_null_ensemble_v1_163.json",
+            "development/boreal_birds_configuration_sensitivity_v1_163.csv",
+            "development/boreal_birds_topology_residual_sensitivity_v1_163.csv",
+            "development/boreal_birds_response_independent_freeze_v1_163.json",
+          ):
+              if Path(p).exists():
+                  raise SystemExit(f"canonical output already exists: {p}")
+          PY
+
+      - name: Generate canonical response-independent surfaces
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src
+        run: |
+          PARENT_SHA=$(git rev-parse HEAD^)
+          python scripts/freeze_boreal_birds_response_independent_v1_163.py \
+            --freeze-parent-sha "$PARENT_SHA" \
+            --request-commit-sha "$GITHUB_SHA" \
+            --ensemble development/boreal_birds_topology_null_ensemble_v1_163.json \
+            --raw-surface development/boreal_birds_configuration_sensitivity_v1_163.csv \
+            --topology-surface development/boreal_birds_topology_residual_sensitivity_v1_163.csv \
+            --receipt development/boreal_birds_response_independent_freeze_v1_163.json
+
+      - name: Verify canonical freeze
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=json.loads(Path("development/boreal_birds_response_independent_freeze_v1_163.json").read_text())
+          e=json.loads(Path("development/boreal_birds_topology_null_ensemble_v1_163.json").read_text())
+          t=list(csv.DictReader(Path("development/boreal_birds_topology_residual_sensitivity_v1_163.csv").open()))
+          assert r["status"]=="CANONICAL_RESPONSE_INDEPENDENT_FREEZE"
+          assert r["response_boundary"]["bird_response_values_opened"]==0
+          assert r["response_boundary"]["pilot_response_authorized"] is False
+          assert r["response_boundary"]["confirmatory_response_authorized"] is False
+          assert len(e["nulls"])==20
+          assert len(t)==78
+          assert r["children"]["topology_residual_surface"]["H_topo_unique_count"]==13
+          PY
+
+      - name: Refuse push if canonical branch moved
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          REMOTE=$(git ls-remote origin refs/heads/science/boreal-birds-topology-canonical-v1-163 | cut -f1)
+          if [ "$REMOTE" != "$GITHUB_SHA" ]; then
+            echo "canonical branch moved after request; refusing output commit"
+            exit 1
+          fi
+
+      - name: Commit canonical frozen outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            development/boreal_birds_topology_null_ensemble_v1_163.json \
+            development/boreal_birds_configuration_sensitivity_v1_163.csv \
+            development/boreal_birds_topology_residual_sensitivity_v1_163.csv \
+            development/boreal_birds_response_independent_freeze_v1_163.json
+          git commit -m "Freeze canonical boreal-bird response-independent surfaces v1.163"
+          git push origin HEAD:science/boreal-birds-topology-canonical-v1-163
