@@ -1,0 +1,129 @@
+name: BALA response-unopened geometry and opaque taxon routing v1.136
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_opaque_taxon_routing_request_v1_136.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  route:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-unopened contracts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          g=json.loads(Path("development/bala_geometry_operator_contract_v1_136.json").read_text())
+          c=json.loads(Path("development/bala_opaque_taxon_routing_contract_v1_136.json").read_text())
+          r=json.loads(Path("development/bala_opaque_taxon_routing_request_v1_136.json").read_text())
+          assert g["response_boundary"]["occurrence_extension_semantically_opened"] is False
+          assert g["graph_operator"]["lambda_response_tuning_authorized"] is False
+          assert c["partition"]["partition_spec_sha256"]=="66682582eb47605e47c4d888437e608cf8e45100ea0cc9c07fc2dd70e884c27c"
+          assert c["authorized_semantics"]["confirmatory_token_identity_may_persist"] is False
+          assert r["partition_artifact_id"]==11306059954
+          assert r["pilot_occurrence_semantic_access_authorized"] is False
+          assert r["confirmatory_occurrence_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact frozen MF partition spec
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v135-taxon-routing-schema-2367ef4bab5c8d50109f15730accb34fb547bbde-37211623631
+          path: build/bala_v136/partition
+          repository: zuizui0223/Structural
+          run-id: 37211623631
+          github-token: ${{ github.token }}
+
+      - name: Verify partition spec identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("build/bala_v136/partition/taxon_partition_spec.json")
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=="66682582eb47605e47c4d888437e608cf8e45100ea0cc9c07fc2dd70e884c27c"
+          PY
+
+      - name: Download exact public BALA archive without semantic Occurrence parse
+        run: |
+          mkdir -p build/bala_v136/input build/bala_v136/output
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          url="https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0"
+          req=urllib.request.Request(url,headers={"User-Agent":"Structural-BALA-v136/1.0"})
+          with urllib.request.urlopen(req,timeout=90) as resp:
+              raw=resp.read()
+          got=hashlib.sha256(raw).hexdigest()
+          assert got=="4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",got
+          Path("build/bala_v136/input/bala.zip").write_bytes(raw)
+          PY
+
+      - name: Freeze response-independent seven-island geometry and Gabriel graph
+        run: |
+          python scripts/freeze_bala_geometry_operator_v1_136.py             build/bala_v136/input/bala.zip             --geometry build/bala_v136/output/bala_island_geometry.csv             --edges build/bala_v136/output/bala_island_graph_edges.csv             --receipt build/bala_v136/output/bala_geometry_operator_result.json
+
+      - name: Execute one MF-only opaque taxon routing pass
+        run: |
+          python scripts/route_bala_occurrence_opaque_v1_136.py             build/bala_v136/input/bala.zip             build/bala_v136/partition/taxon_partition_spec.json             --pilot-surface build/bala_v136/output/pilot_occurrence_rows.tsv             --confirmatory-surface build/bala_v136/output/confirmatory_occurrence_rows.sealed.tsv             --pilot-token-manifest build/bala_v136/output/pilot_mf_tokens.csv             --receipt build/bala_v136/output/opaque_routing_result.json
+
+      - name: Enforce semantic firewall before pilot opening
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          g=json.loads(Path("build/bala_v136/output/bala_geometry_operator_result.json").read_text())
+          r=json.loads(Path("build/bala_v136/output/opaque_routing_result.json").read_text())
+          assert g["status"]=="BALA_RESPONSE_INDEPENDENT_GABRIEL_GRAPH_FROZEN"
+          assert g["islands"]==7 and g["conceptual_lineages"]==30 and g["graph_connected"] is True
+          assert g["occurrence_extension_semantically_opened"] is False
+          assert r["status"]=="BALA_MF_ONLY_OPAQUE_TAXON_ROUTING_COMPLETE"
+          assert r["occurrence_data_rows_routed"]==63904
+          assert r["pilot_rows"]+r["confirmatory_rows"]==63904
+          assert r["pilot_distinct_taxa"]>0 and r["confirmatory_distinct_taxa"]>0
+          assert r["pilot_nonrouting_fields_semantically_opened"]==0
+          assert r["confirmatory_nonrouting_fields_semantically_opened"]==0
+          assert r["organismQuantity_values_decoded"]==0
+          assert r["eventID_values_decoded"]==0
+          assert r["taxonomy_values_decoded"]==0
+          assert r["event_by_taxon_combinations_summarized"]==0
+          assert r["source_loss_effects_computed"]==0
+          assert r["confirmatory_token_identities_persisted"] is False
+          assert r["confirmatory_occurrence_semantic_access_authorized"] is False
+          assert r["pilot_occurrence_semantic_access_authorized"] is False
+          assert r["confirmatory_eligible"] is False
+          PY
+
+      - name: Delete raw complete archive before artifact upload
+        if: always()
+        run: rm -f build/bala_v136/input/bala.zip
+
+      - name: Upload response-unopened geometry and disjoint byte surfaces
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v136-geometry-opaque-routing-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v136/output/bala_island_geometry.csv
+            build/bala_v136/output/bala_island_graph_edges.csv
+            build/bala_v136/output/bala_geometry_operator_result.json
+            build/bala_v136/output/pilot_occurrence_rows.tsv
+            build/bala_v136/output/confirmatory_occurrence_rows.sealed.tsv
+            build/bala_v136/output/pilot_mf_tokens.csv
+            build/bala_v136/output/opaque_routing_result.json
+          if-no-files-found: error
+          retention-days: 30

@@ -21,13 +21,16 @@ def test_partition_is_deterministic_and_immutable():
 def test_schema_runner_never_opens_occurrence_rows():
     s=(ROOT/"scripts/freeze_bala_taxon_routing_schema_v1_135.py").read_text()
     assert "meta_manifest" in s
-    assert "occurrence.txt" not in s
+    assert "zipfile" not in s
+    assert "urllib" not in s
+    assert "urlopen" not in s
     assert "occurrence_data_rows_decoded" in s
     assert "taxon_tokens_opened" in s
 
 def test_workflow_downloads_only_frozen_metadata_artifact():
     s=(ROOT/".github/workflows/bala-taxon-routing-schema-v1_135.yml").read_text()
-    assert "11297581242" in s
+    assert "37187589920" in s
+    assert "bala-v128-event-core-audit-" in s
     assert "meta_manifest.json" in s
     assert "occurrence.txt" not in s
     assert "taxon_token_access_authorized" in s

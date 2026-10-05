@@ -1,0 +1,26 @@
+{
+  "schema": "structural.bala_taxon_routing_schema_freeze.v1_136",
+  "status": "SUCCESSFUL_RESPONSE_UNOPENED_TAXON_ROUTING_SCHEMA_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "source_execution": {
+    "workflow_run_id": 37211623631,
+    "workflow_head_sha": "2367ef4bab5c8d50109f15730accb34fb547bbde",
+    "workflow_job_id": 111463808413,
+    "artifact_id": 11306059954,
+    "artifact_name": "bala-v135-taxon-routing-schema-2367ef4bab5c8d50109f15730accb34fb547bbde-37211623631",
+    "artifact_digest": "sha256:e00e38325de87dea4c087c5c11e4c456d027904386e1b9435d3809a3f578f5be",
+    "expires_at": "2026-11-03T15:04:39Z"
+  },
+  "result": {
+    "partition_spec_sha256": "66682582eb47605e47c4d888437e608cf8e45100ea0cc9c07fc2dd70e884c27c",
+    "routing_field": "identificationRemarks",
+    "routing_field_index": 20,
+    "eventID_index": 17,
+    "organismQuantity_index": 12,
+    "occurrence_field_count": 31,
+    "occurrence_data_rows_decoded": 0,
+    "taxon_tokens_opened": 0,
+    "taxon_occurrence_values_opened": 0
+  },
+  "next_gate": "freeze response-independent island geometry/operator, then execute exactly one MF-only opaque routing pass"
+}

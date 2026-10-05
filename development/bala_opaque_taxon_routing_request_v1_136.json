@@ -1,0 +1,12 @@
+{
+  "schema": "structural.bala_opaque_taxon_routing_request.v1_136",
+  "status": "REQUEST_RESPONSE_UNOPENED_GEOMETRY_AND_ONE_SHOT_OPAQUE_ROUTING",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "geometry_contract": "development/bala_geometry_operator_contract_v1_136.json",
+  "routing_contract": "development/bala_opaque_taxon_routing_contract_v1_136.json",
+  "partition_artifact_id": 11306059954,
+  "partition_spec_sha256": "66682582eb47605e47c4d888437e608cf8e45100ea0cc9c07fc2dd70e884c27c",
+  "pilot_occurrence_semantic_access_authorized": false,
+  "confirmatory_occurrence_semantic_access_authorized": false,
+  "one_shot": true
+}
