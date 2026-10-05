@@ -1,0 +1,30 @@
+{
+  "schema": "structural.active_priority.v1_150",
+  "status": "ebird_sed_wait_plus_prebala_eider_retrospective_schema_gate",
+  "supersedes": "development/structural_active_priority_v1_149.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "confirmatory_lane": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_NOT_PRESENT",
+    "next_gate": "development/ebird_sampling_event_metadata_audit_contract_v1_149.json"
+  },
+  "retrospective_lane": {
+    "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+    "status": "SCHEMA_AUDIT_ELIGIBLE_RETROSPECTIVE_ONLY",
+    "preintake": "development/finnish_eider_source_loss_retrospective_preintake_v1_150.json",
+    "may_count_as_confirmation": false
+  },
+  "do_now": [
+    "obtain official eBird Sampling Event Data and run v1.149 before any eBird species response access",
+    "for Finnish eider, resolve archive schema only: surveyed-zero semantics, exact pos2-to-Island_ID binding, and flags for redistributed grouped-island counts",
+    "freeze any retrospective eider three-wave event rule before calculating source-loss leverage"
+  ],
+  "do_not": [
+    "use the published eider decline direction to choose source-loss windows",
+    "treat rounded standardized eider coordinates as exact topology",
+    "include unidentified reconstructed grouped-island counts in source-loss events",
+    "use a retrospective eider result to overturn BALA confirmatory non-support",
+    "open eBird species rows before SED semantics are frozen"
+  ],
+  "next_scientific_event": "eBird SED response-independent audit or Finnish-eider retrospective schema audit; neither may open a new confirmatory source-loss outcome yet"
+}
