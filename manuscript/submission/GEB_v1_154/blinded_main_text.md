@@ -4,13 +4,21 @@
 
 ## Abstract
 
-**Aim:** Island isolation is usually summarized from physical geography, although metapopulation theory shows that effective connectivity can also depend on which populations are occupied. We asked a narrower island-biogeographic question: when does the exact arrangement of occupied conspecific source islands contain information beyond source number, source proximity and generic geography, and does that spatial information predict later contraction after source loss?
+**Aim:** We asked when the exact arrangement of occupied conspecific source islands contains information beyond physical isolation, source number, direct source proximity and generic island geography, and whether static source leverage predicts later contraction after source loss.
 
-**Innovation:** We analysed native mammals across a fixed geography of 5,401 islands using three disjoint species layers defined from pilot occupancy. An exploratory ≥13-presence layer showed a small source-context gain dominated by absences; a preregistered 5–12-presence layer did not replicate that overall gain or show topology specificity. In a second preregistered, previously unread layer of 529 species with only 1–4 pilot presences, graph-path source information strongly improved realized-presence prediction and the observed island adjacency outperformed 20 degree- and edge-length-matched null graphs. We then tested the stronger temporal implication in an independent three-wave Azores arthropod dataset, freezing source-loss exposure before opening later outcomes.
+**Location:** 5,401 islands worldwide; independent temporal test in the Azores.
 
-**Main conclusions:** Exact source topology became uniquely informative only in the sparsest prospectively tested occupancy regime, after controls for physical isolation, occupancy breadth, source number and direct source proximity. This is an occupancy-regime result, not evidence that connectivity monotonically strengthens with rarity. The independent BALA test further showed that spatial source leverage did not improve heldout prediction of later contraction (C−R2 = +0.00067; 95% interval −0.0213 to +0.0256). Thus, topology-specific occurrence information and temporal demographic consequence are distinct: spatially distinctive source populations need not be the populations whose loss has the greatest future effect.
+**Time period:** Contemporary compiled mammal distributions; Azorean BALA monitoring phases spanning 1999–2022.
 
-**Keywords:** island biogeography; isolation; source populations; stepping stones; occupancy; rare species; connectivity; mammals; macroecology
+**Major taxa studied:** Native mammals; Azorean forest arthropods.
+
+**Methods:** We analysed three disjoint mammal species layers defined from pilot occupancy while preserving later held-out responses. Candidate graph-path source information was tested beyond a strong source-aware reference and against 20 degree- and edge-length-matched rewired graphs. We then tested a derived source-loss prediction in an independent three-wave arthropod dataset with exposure frozen before later outcomes were opened.
+
+**Results:** An exploratory ≥13-presence layer showed an absence-focused source-context gain that was not topology-specific. A preregistered 5–12-presence layer did not replicate the overall gain or show topology specificity. In a second preregistered layer of 529 species with only 1–4 pilot presences, graph-path source information strongly improved realized-presence prediction (C−R3 = **−0.596**, 95% interval **−0.744 to −0.464**) and the observed island adjacency outperformed **20/20** matched null topologies. In BALA, lost-source leverage did not improve held-out prediction of later contraction (C−R2 = **+0.000674**, 95% interval **−0.02130 to +0.02558**).
+
+**Main conclusions:** Exact source topology was uniquely informative only in the sparsest prospectively tested occupancy regime. This does not establish a monotonic rarity gradient, realized dispersal or demographic rescue. Spatially distinctive source configurations can contain occurrence information without identifying populations whose loss has greater future consequences.
+
+**Keywords:** connectivity; island biogeography; isolation; macroecology; mammals; occupancy; rare species; source populations; stepping stones
 
 ## 1. Introduction
 
