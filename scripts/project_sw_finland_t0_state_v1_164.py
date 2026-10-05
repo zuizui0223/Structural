@@ -60,7 +60,7 @@ def project(csv_path:Path,header_receipt:dict,contract:dict,firewall:dict,outdir
         required={"outcome","spp.name","holmkod","Dist_to_historical_log"}|set(island_cols)|set(species_cols)
         miss=sorted(required-set(idx))
         if miss:raise Stop(f"projection header mismatch: {miss}")
-        outcome_index=idx["outcome"]  # index may be known; row[outcome_index] is never accessed.
+        outcome_index=idx["outcome"]  # endpoint position is verified only; its cell is never dereferenced.
         assert outcome_index>=0
         for row in rd:
             rows+=1
@@ -78,7 +78,7 @@ def project(csv_path:Path,header_receipt:dict,contract:dict,firewall:dict,outdir
             if sp in species and species[sp]!=sval:raise Stop(f"species-state drift for {sp}")
             species[sp]=sval
             nearest[key]=nval
-            # Deliberately no access to row[outcome_index].
+            # Deliberately no endpoint-cell dereference.
 
     exp=contract["expected_support"]
     if rows!=exp["potential_event_rows"]:raise Stop(f"unexpected event row count: {rows}")
