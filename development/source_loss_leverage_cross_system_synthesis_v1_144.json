@@ -1,0 +1,46 @@
+{
+  "schema": "structural.source_loss_leverage_cross_system_synthesis.v1_144",
+  "status": "SOURCE_LEVERAGE_TEMPORAL_VALIDATION_COMPLETE_PRIMARY_NOT_SUPPORTED",
+  "discovery_source": {
+    "global_mammal_ultrarare_layer": "prospective occupancy-regime result; actual topology specific on realized-presence prediction",
+    "response_free_leverage_diagnostic": "development/global_mammals_ultrarare_source_leverage_freeze_v1_122.json",
+    "finding": "nominal source count does not equal effective source leverage; among 2-4-source mammal species, dominant-source share median 0.661 and median effective/nominal ratio 0.744"
+  },
+  "independent_temporal_test": {
+    "system": "Azores BALA arthropods",
+    "result_freeze": "development/bala_source_loss_result_freeze_v1_144.json",
+    "design": "BALA1 source state -> BALA1-to-BALA2 exactly-one-source loss -> BALA2-to-BALA3 contraction, with leave-one-taxon-out heldout scoring",
+    "taxa": 20,
+    "target_rows": 64,
+    "primary_C_minus_R2": 0.00067423414692237,
+    "bootstrap_ci95": [-0.02130441194511585,0.025579070508640226],
+    "primary_supported": false
+  },
+  "ecological_update": {
+    "retained": [
+      "occupied source islands can differ strongly in spatial leverage within the global mammal geometry",
+      "the predictive role of occupied source information varies across mammal occupancy regimes",
+      "for ultrarare mammals, actual island adjacency contains prospective heldout realized-presence information"
+    ],
+    "not_validated": [
+      "loss of a higher-leverage occupied source generally predicts greater subsequent occupancy contraction beyond strong controls",
+      "source leverage can currently be used as a general island-conservation prioritization metric",
+      "cross-sectional source topology implies temporal rescue or persistence"
+    ],
+    "revised_conservation_statement": "Source configuration may identify structurally distinctive occupied populations, but conservation prioritization by source leverage requires independent temporal validation and did not improve heldout prediction in the first such BALA test."
+  },
+  "evidence_hierarchy": [
+    "prospective ultrarare mammal occupancy layer: topology-specific presence information supported within one geographic system",
+    "independent BALA three-wave temporal test: source-loss leverage primary not supported",
+    "prospective rare mammal layer: overall/source-topology replication not supported",
+    "fresh boreal beetle primary: universal source-topology increment not supported",
+    "global mammal 79-species layer: exploratory source-context signal only"
+  ],
+  "anti_rescue": [
+    "do not use BALA secondary E_i summaries to overturn the failed primary",
+    "do not change the exactly-one-loss restriction, E_i operator, graph scale or ridge model after BALA3 access",
+    "do not mine BALA taxa/islands for favourable subgroups",
+    "do not promote the mammal response-free leverage diagnostic to management evidence",
+    "do not immediately select a new dataset because BALA was non-supportive; only candidates frozen before the BALA result may remain in the prospective queue"
+  ]
+}
