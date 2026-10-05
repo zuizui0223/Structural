@@ -1,0 +1,75 @@
+{
+  "schema": "structural.boreal_birds_delta_topology_preintake.v1_164",
+  "status": "RESPONSE_SEALED_ACTUAL_MINUS_NULL_TOPOLOGY_MODERATOR_FROZEN",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "supersedes_primary_moderator_from": "development/boreal_birds_topology_residual_preintake_v1_162.json",
+  "parent_hash_freeze": {
+    "path": "development/boreal_birds_response_independent_hash_freeze_v1_163.json",
+    "freeze_fingerprint": "f7cbb1596b13fc96e6cad61eb24794c9009fbf3431e089f714d179cf3138eb30",
+    "null_ensemble_expected_sha256": "069eae639ed8a544d09680b7034c697bad608b7652a0cee60e92d41029d48e12"
+  },
+  "scientific_reason": "The empirical outcome compares the actual topology against matched null topologies. The mechanism moderator should use the same contrast rather than actual-topology heterogeneity alone. This refinement is response-independent and frozen before any bird header or response access.",
+  "topology_residual_per_graph": {
+    "q_gij": "exp(-(d_graph_g(i,j)-d_euclid(i,j))/lambda)",
+    "H_gi": "population variance_j(q_gij) / mean_j(q_gij)^2 across the six fixed pilot possible sources",
+    "lambda": "the actual-graph frozen kernel scale for the actual and every null graph",
+    "M": 6
+  },
+  "actual_minus_null_moderator": {
+    "delta_H_i": "H_actual_i - mean_k(H_null_k_i) over the twenty frozen null graphs",
+    "scarcity_factor_n": "(M-n)/(n*(M-1))",
+    "delta_S_topo_i_n": "scarcity_factor_n * delta_H_i",
+    "eligible_n": [1,2,3,4,5],
+    "n_zero_rule": "no occupied pilot source; ineligible",
+    "n_six_rule": "scarcity factor is zero; exclude from primary species universe",
+    "primary_standardization": "z-score delta_S_topo over the full target-by-eligible-species confirmatory prediction surface after pilot n is fixed, before confirmatory response"
+  },
+  "response_free_identifiability": {
+    "confirmatory_target_count": 13,
+    "targets_with_delta_H_positive": 10,
+    "delta_H_min_hex": "-0x1.ca731328d2bb2p-4",
+    "delta_H_max_hex": "0x1.f38c6960b55ebp+0",
+    "expected_surface_sha256": "d62e76e3addeba6af3ab47638386214c6d2c854e6dbda4003d7f74dc4f9feb3a",
+    "required": "delta_H must be nonconstant across targets",
+    "bird_response_used": false
+  },
+  "pilot_gate": {
+    "species_rule": "retain bird species occupying 1 to 5 of the six frozen pilot islands",
+    "minimum_eligible_species": 8,
+    "minimum_distinct_n_values": 2,
+    "effect_estimation_from_pilot": false,
+    "confirmatory_response_may_not_define_species_eligibility": true,
+    "if_failed": "STOP before confirmatory response; do not widen n or lower minima"
+  },
+  "primary_scoring": {
+    "endpoint": "realized confirmatory presence cells only",
+    "cell_contrast": "D_is = logloss(actual_C,y=1) - mean_k logloss(null_C_k,y=1); negative means actual topology predicts the presence better",
+    "moderator": "frozen z(delta_S_topo_i_n_s)",
+    "within_block_statistic": "OLS slope of D_is on the moderator among presence cells",
+    "block_estimability": "at least 3 presence cells and positive moderator variance",
+    "minimum_estimable_blocks": 4,
+    "estimand": "equal-weight mean across estimable confirmatory-block slopes",
+    "favourable_direction": "negative",
+    "uncertainty": "deterministic 10000-replicate bootstrap over estimable blocks",
+    "support_rule": "point estimate < 0 and 95% bootstrap upper bound < 0",
+    "all_cell_fallback_authorized": false,
+    "threshold_or_subgroup_rescue_authorized": false
+  },
+  "secondary_nonrescuing": [
+    "actual-only S_topo moderator from v1.162",
+    "raw graph-access S moderator from v1.161",
+    "overall presence-cell actual-versus-null contrast",
+    "descriptive results by pilot occupancy n",
+    "absence-cell actual-versus-null contrast"
+  ],
+  "response_boundary": {
+    "bird_file_opened": false,
+    "bird_header_opened": false,
+    "bird_response_values_opened": 0,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "beetle_primary_status_may_change": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_action": "implement and exact-hash-freeze the delta_S_topo target-by-n surface, then build the one-shot pilot router"
+}
