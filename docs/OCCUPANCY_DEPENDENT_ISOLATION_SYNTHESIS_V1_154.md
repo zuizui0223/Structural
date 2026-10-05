@@ -175,7 +175,7 @@ Recommended conservation consequence:
 
 1. **Independent occupancy-regime replication** in a second island system, with species-disjoint or response-sealed low- versus higher-occupancy layers and a predeclared topology null.
 2. **Independent transition data** separating colonization from persistence/extinction, rather than another static occurrence snapshot.
-3. **Official eBird Sampling Event Data**, if obtainable, because repeated checklist effort could provide auditable island-by-time absences without inferring non-detections from occurrence rows.
+3. **A geographically independent, response-sealed occupancy-regime test** using a precomputed continuous configuration-sensitivity index rather than a new rarity threshold.
 4. A formal theory/simulation appendix showing why source-topology information should become identifiable as source number falls, while explicitly avoiding the claim that this guarantees demographic rescue.
 
 ## Immediate paper decision
