@@ -1,0 +1,72 @@
+name: Finnish eider Zenodo metadata inventory retry v1.151.1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/finnish_eider_zenodo_inventory_retry_request_v1_151_1.json
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate operational-only retry
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/finnish_eider_zenodo_inventory_retry_request_v1_151_1.json").read_text())
+          c=json.loads(Path("development/finnish_eider_zenodo_inventory_contract_v1_151_1.json").read_text())
+          s=json.loads(Path("development/finnish_eider_zenodo_inventory_stop_v1_151_1.json").read_text())
+          assert r["status"]=="REQUEST_OPERATIONAL_METADATA_ONLY_INVENTORY_RETRY"
+          assert r["failed_before_dataset_file_access"] is True
+          assert r["dataset_file_download_authorized"] is False
+          assert r["response_value_access_authorized"] is False
+          assert r["one_retry_only"] is True
+          assert c["scientific_rules_unchanged_from_v151"] is True
+          assert s["failed_execution"]["dataset_files_downloaded"]==0
+          assert s["failed_execution"]["response_values_opened"]==0
+          PY
+
+      - name: Retry Zenodo record metadata inventory
+        run: |
+          mkdir -p build/finnish_eider_v1511
+          python scripts/audit_finnish_eider_zenodo_inventory_v1_151_1.py             --contract development/finnish_eider_zenodo_inventory_contract_v1_151_1.json             --output build/finnish_eider_v1511/zenodo_file_inventory.json             --receipt build/finnish_eider_v1511/inventory_receipt.json
+
+      - name: Enforce response-free boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/finnish_eider_v1511/zenodo_file_inventory.json").read_text())
+          r=json.loads(Path("build/finnish_eider_v1511/inventory_receipt.json").read_text())
+          assert x["status"]=="ZENODO_METADATA_ONLY_FILE_INVENTORY_COMPLETE"
+          assert x["identity"]["identity_rule_passed"] is True
+          assert x["dataset_files_downloaded"]==0
+          assert x["dataset_file_bytes_downloaded"]==0
+          assert x["response_values_opened"]==0
+          assert x["source_loss_events_computed"]==0
+          assert x["source_leverage_effects_computed"]==0
+          assert x["counts_as_empirical_source_loss_evidence"] is False
+          assert r["status"]=="RESPONSE_FREE_INVENTORY_FROZEN"
+          PY
+
+      - name: Upload metadata-only inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: finnish-eider-v1511-zenodo-inventory-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/finnish_eider_v1511/zenodo_file_inventory.json
+            build/finnish_eider_v1511/inventory_receipt.json
+          if-no-files-found: error
+          retention-days: 30
