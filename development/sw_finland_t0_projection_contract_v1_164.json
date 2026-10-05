@@ -1,0 +1,57 @@
+{
+  "schema": "structural.sw_finland_t0_projection_contract.v1_164",
+  "status": "T0_ONLY_PROJECTION_PREDECLARED_FUTURE_OUTCOME_SEALED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_plant_colonization_preintake_v1_162.json",
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json"
+  ],
+  "authorization": {
+    "required_header_receipt_schema": "structural.sw_finland_plant_colonization_header_audit.v1_163",
+    "required_header_status": "HEADER_ONLY_AUDIT_COMPLETE_FUTURE_OUTCOME_ROWS_UNREAD",
+    "require_t0_projection_authorized": true,
+    "require_outcome_values_read": 0
+  },
+  "expected_support": {
+    "potential_event_rows": 85063,
+    "island_count": 471,
+    "species_count": 587
+  },
+  "permitted_t0_semantics": [
+    "row key spp.name x holmkod means historically absent on that focal island",
+    "historical source set is complement of historical-absence row keys within frozen 471-island universe",
+    "EUREF original coordinates and recipient-island state",
+    "species traits and historical source-count/distance variables"
+  ],
+  "forbidden_future_semantics": [
+    "outcome value",
+    "successful colonization count",
+    "failed colonization count",
+    "any outcome-derived island/species filter",
+    "any outcome-derived graph scale, block, threshold or model choice"
+  ],
+  "invariants": {
+    "unique_event_key": true,
+    "island_level_values_constant_within_holmkod": true,
+    "species_level_values_constant_within_species": true,
+    "exact_island_count": 471,
+    "exact_species_count": 587,
+    "exact_event_row_count": 85063,
+    "source_reconstruction_uses_outcome": false
+  },
+  "outputs": [
+    "sw_finland_t0_island_state.csv",
+    "sw_finland_t0_species_state.csv",
+    "sw_finland_t0_historical_absent_pairs.csv",
+    "sw_finland_t0_historical_occupied_pairs.csv",
+    "sw_finland_t0_projection_receipt.json"
+  ],
+  "success_ceiling": "T0_SOURCE_STATE_FROZEN_FUTURE_OUTCOME_REMAINS_SEALED",
+  "response_boundary": {
+    "outcome_values_may_be_read": false,
+    "outcome_values_read": 0,
+    "future_outcome_opened": false,
+    "model_fit_count": 0,
+    "counts_as_empirical_evidence": false
+  }
+}
