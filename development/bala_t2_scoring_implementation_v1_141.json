@@ -1,0 +1,85 @@
+{
+  "schema": "structural.bala_t2_scoring_implementation.v1_141",
+  "status": "SCORER_IMPLEMENTATION_FROZEN_NO_T2_ACCESS_AUTHORIZATION",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_source_loss_confirmatory_protocol_v1_139.json",
+    "development/bala_preoutcome_feature_protocol_v1_140.json"
+  ],
+  "execution_authorized_now": false,
+  "required_inputs": [
+    "exact sealed BALA3 surface from successful v1.138",
+    "exact v1.140 confirmatory_source_loss_features.csv",
+    "exact v1.140 confirmatory_fold_manifest.csv",
+    "exact v1.140 confirmatory_fold_standardization.json",
+    "exact frozen pitfall_position_recovery.csv"
+  ],
+  "t2_decode_rule": {
+    "first_decode": "MF identificationRemarks token for row eligibility",
+    "if_token_not_in_frozen_feature_taxa": "skip row without decoding organismQuantity",
+    "if_token_is_eligible": "decode coreid and organismQuantity only",
+    "coreid_must_map": "BALA3 eligible pitfall Event map",
+    "positive_presence": "organismQuantity > 0",
+    "zero_or_absent_positive_rows": "surveyed absence under the frozen v1.135 BALA3 island-phase quality gate",
+    "taxonomy_reopened_at_t2": false
+  },
+  "design_columns": {
+    "intercept": true,
+    "island_dummies_reference_FAI": ["FLO","PIC","SJG","SMG","SMR","TER"],
+    "standardized_R2_continuous": [
+      "t0_other_source_count",
+      "t1_surviving_other_source_count",
+      "nearest_surviving_euclidean_km",
+      "diffuse_surviving_euclidean_pressure",
+      "log1p_t2_recovered_pitfall_positions"
+    ],
+    "R2_binary": [
+      "no_surviving_other_source",
+      "target_was_occupied_at_t0"
+    ],
+    "C_add": "standardized E_i_lost_access_fraction"
+  },
+  "fold_logic": {
+    "heldout_unit": "MF taxon",
+    "training_rows": "all target rows belonging to other frozen eligible MF taxa",
+    "use_pre_t2_standardization_only": true,
+    "R2_zero_variance_columns": "drop exactly as frozen in v1.140 fold manifest",
+    "prefeature_nonestimable_fold": "never fit",
+    "minimum_training_contractions": 5,
+    "minimum_training_persistences": 5,
+    "minimum_primary_estimable_taxa": 10
+  },
+  "model": {
+    "implementation": "src.structural.boreal_confirmatory_model.fit_ridge_logistic and predict_probability",
+    "ridge_lambda": 1.0,
+    "max_iterations": 100,
+    "tolerance": 1e-8,
+    "probability_clip": [1e-12,0.999999999999]
+  },
+  "primary": {
+    "within_taxon": "mean binary logloss(C,y) - mean binary logloss(R2,y)",
+    "across_taxa": "equal-weight mean of estimable heldout-taxon deltas",
+    "bootstrap": "10,000 resamples of heldout-taxon deltas with replacement",
+    "seed": 20261005,
+    "quantiles": [0.025,0.975],
+    "quantile_method": "linear_type7",
+    "support": "point < 0 and bootstrap upper < 0"
+  },
+  "secondary_nonrescuing": {
+    "full_data_E_i_coefficient": "fit the same R2/C design once to all eligible target rows and report the standardized E_i coefficient if both outcome classes have at least five rows",
+    "row_mean_E_i_by_outcome": "report mean E_i for contraction and persistence",
+    "taxon_event_delta_N_eff_vs_contraction_fraction": "Spearman across exactly-one-loss taxa with at least one target row",
+    "may_rescue_primary": false
+  },
+  "outputs": [
+    "bala_t2_target_outcomes.csv",
+    "bala_taxon_scores.csv",
+    "bala_t2_scoring_result.json"
+  ],
+  "response_boundary": {
+    "this_file_authorizes_t2_access": false,
+    "same_lineage_rerun_after_t2": false,
+    "noneligible_t2_quantities_may_be_decoded": false,
+    "counts_as_empirical_support_or_non_support_before_execution": false
+  }
+}
