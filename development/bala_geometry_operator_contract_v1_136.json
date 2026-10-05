@@ -1,0 +1,62 @@
+{
+  "schema": "structural.bala_geometry_operator_contract.v1_136",
+  "status": "RESPONSE_UNOPENED_ISLAND_GEOMETRY_AND_GRAPH_OPERATOR_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_event_core_audit_freeze_v1_129.json",
+    "development/bala_official_core_code_audit_contract_v1_131.json",
+    "development/bala_pitfall_quality_freeze_v1_135.json",
+    "development/source_loss_leverage_protocol_v1_125.json"
+  ],
+  "source": {
+    "dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "event_core_path": "event.txt",
+    "event_core_sha256": "b6f8a7fa380bc6372e79e097583d7d62a2a0d9a6e4ba2c6c50922d5c401d51bd"
+  },
+  "site_geometry": {
+    "eligible_site_codes": "exact publication-defined core codes from development/bala_official_core_code_audit_contract_v1_131.json",
+    "phase_windows": {
+      "BALA1": [1997,2004],
+      "BALA2": [2010,2011],
+      "BALA3": [2019,2022]
+    },
+    "replacement_lineage": "FAI-NFCF-T-11 in BALA1 and FAI-NFCF-TB26 in BALA2/BALA3 are one conceptual lineage",
+    "physical_site_coordinate": "median decimalLatitude and median decimalLongitude across eligible Event rows for that physical site code",
+    "conceptual_lineage_coordinate": "median of physical-site coordinate representatives belonging to the conceptual lineage",
+    "island_coordinate": "median conceptual-lineage latitude and longitude within the three-letter island code",
+    "event_row_weighting_for_island_centroid": false,
+    "occurrence_values_used": false
+  },
+  "graph_operator": {
+    "name": "Gabriel graph on frozen island centroids",
+    "reason": "parameter-free local-neighbour graph that contains the Euclidean MST, avoids choosing a distance threshold from occurrence response, and remains connected for nondegenerate point sets",
+    "projection_for_adjacency": "equirectangular kilometres using the mean latitude of the seven frozen island centroids",
+    "gabriel_edge_rule": "connect i-j iff no third island centroid lies strictly inside the circle having i-j as diameter",
+    "edge_weight": "great-circle haversine kilometres between frozen island centroids",
+    "self_edges": false,
+    "duplicate_edges": false,
+    "connected_graph_required": true,
+    "kernel": "exp(-graph_distance/lambda)",
+    "lambda": "median original Gabriel-edge haversine length in kilometres",
+    "lambda_response_tuning_authorized": false
+  },
+  "expected_structure": {
+    "islands": 7,
+    "conceptual_lineages": 30,
+    "phases": 3
+  },
+  "outputs": [
+    "bala_island_geometry.csv",
+    "bala_island_graph_edges.csv",
+    "bala_geometry_operator_result.json"
+  ],
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "taxon_tokens_opened": 0,
+    "taxon_occurrence_values_opened": 0,
+    "source_loss_effects_computed": 0,
+    "pilot_occurrence_access_authorized": false,
+    "confirmatory_occurrence_access_authorized": false
+  }
+}
