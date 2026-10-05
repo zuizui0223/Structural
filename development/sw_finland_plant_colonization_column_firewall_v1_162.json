@@ -1,0 +1,83 @@
+{
+  "schema": "structural.sw_finland_plant_colonization_column_firewall.v1_162",
+  "status": "HEADER_AND_TEMPORAL_COLUMN_ROLES_FROZEN_FROM_PUBLIC_METADATA",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parent": "development/sw_finland_plant_colonization_preintake_v1_162.json",
+  "file": "colonization_select.csv",
+  "protected_future_endpoint_columns": [
+    "outcome"
+  ],
+  "required_routing_and_t0_columns": [
+    "spp.name",
+    "holmkod",
+    "Euref_X_original",
+    "Euref_Y_original",
+    "Historical_total_log",
+    "Dist_to_historical_log"
+  ],
+  "safe_recipient_state_columns": [
+    "Euref_X",
+    "Euref_Y",
+    "Euref_X_original",
+    "Euref_Y_original",
+    "Residents_per_area_log",
+    "Area_log",
+    "Buffer_2_km_log",
+    "Buffer_5_km_log",
+    "Shannon_habitats",
+    "Convolution",
+    "Limestone",
+    "Buildings",
+    "Meadow_or_pasture",
+    "Deciduous_forest",
+    "Coniferous_forest",
+    "Mixed_forest",
+    "Scrub",
+    "Sand",
+    "Open_rock_or_bare_ground",
+    "Marsh",
+    "Shore_meadow"
+  ],
+  "safe_species_or_t0_columns": [
+    "Dist_to_historical_log",
+    "Historical_total_log",
+    "North_limit",
+    "Ellenberg_Light",
+    "Ellenberg_Temperature",
+    "Ellenberg_Moisture",
+    "Ellenberg_Reaction",
+    "Ellenberg_Nitrogen",
+    "Eklund_culture",
+    "Life_cycle",
+    "Life_form",
+    "SLA",
+    "Plant_height_log",
+    "Dispersal_vector",
+    "Seed_bank",
+    "Seed_mass_log",
+    "Pollen_vector",
+    "Apomictic",
+    "Veg_repr",
+    "spp.name",
+    "Family",
+    "Genus",
+    "Gowdis_traits"
+  ],
+  "row_semantics_rule": "row existence may be used as t0 historical absence of spp.name on holmkod because the archived table is documented as potential colonization events; outcome token remains opaque",
+  "historical_source_reconstruction": {
+    "island_universe": "freeze all unique holmkod values from the t0 projection",
+    "species_universe": "freeze all unique spp.name values from the t0 projection",
+    "t0_absent_pairs": "exact projected row keys (spp.name, holmkod)",
+    "t0_occupied_pairs": "complement of t0_absent_pairs within the frozen island x species universe",
+    "validation": "historical source counts must be internally consistent within species and with documented Historical_total_log semantics where transform can be verified response-independently"
+  },
+  "anti_leakage": [
+    "do not parse, normalize, count, summarize or persist outcome tokens during t0 projection",
+    "do not select islands or species from outcome",
+    "do not use the published AIC-simplified model as an outcome-selected reference specification",
+    "do not use future colonization success to choose graph scale, spatial blocks, rarity threshold or null topology ensemble"
+  ],
+  "success_ceiling": "authorize t0-only projection and reconstruction contract; future outcome remains sealed",
+  "response_access_authorized": false,
+  "counts_as_empirical_evidence": false
+}
