@@ -1,0 +1,39 @@
+{
+  "schema": "structural.finnish_eider_mixed_header_freeze.v1_153",
+  "status": "SUCCESSFUL_HEADER_ONLY_AUDIT_FROZEN_RESPONSE_ROWS_UNOPENED",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "source_execution": {
+    "workflow": ".github/workflows/finnish-eider-mixed-header-v1_152.yml",
+    "workflow_run_id": 37291727612,
+    "workflow_head_sha": "a9bccdfcdf92aa288c43b3bdaade8badb401ffa4",
+    "artifact_id": 11335664946,
+    "artifact_name": "finnish-eider-v152-header-a9bccdfcdf92aa288c43b3bdaade8badb401ffa4-37291727612",
+    "artifact_digest": "sha256:af4ee3ea1c4a41e9c266bd14b823c70d7b309d4f5550197d21ebeef952f58518",
+    "expires_at": "2026-11-04T09:41:47Z"
+  },
+  "exact_file": {
+    "name": "Ekblad_et_al_data_WTEs_and_Eiders_LandscapeEcology_2025.txt",
+    "size_bytes": 2227517,
+    "md5": "4f48d8faf2b6dbb8c967449356beab87",
+    "sha256": "a99b58364c3e609f8b0ddf8cd93c2d42d0f6a366366a2e73d655d35bfdc6ee5e"
+  },
+  "header": {
+    "delimiter": "tab",
+    "column_count": 11,
+    "columns": [
+      "Eider_pairs","lnSize","Year","Lon","Lat","Land","WTE","Forcov","Island_ID","Year_f","pos2"
+    ],
+    "pos2_header_present": true,
+    "group_or_reconstruction_flag_headers": [],
+    "survey_or_effort_flag_headers": []
+  },
+  "response_boundary": {
+    "data_row_semantic_values_opened": 0,
+    "Eider_pairs_values_opened": 0,
+    "Island_ID_values_opened": 0,
+    "pos2_values_opened": 0,
+    "raw_file_retained_in_artifact": false,
+    "source_loss_events_computed": 0,
+    "counts_as_empirical_source_loss_evidence": false
+  }
+}
