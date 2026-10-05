@@ -295,15 +295,7 @@ The result is predictive, not demographic. It does not show animals moving along
 
 ### 4.3 Why sparse occupancy exposes configuration
 
-A simple response-free sampling identity provides a mechanistic reason to expect source identity to become more visible when few sources remain. For a target with (M) possible source islands and fixed non-negative access weights (w_j), condition on exactly (n) occupied sources. Under a null in which the occupied set is an (n)-subset of the possible sources, total source access (A) has mean (n\mu) and variance (n(M-n)\sigma^2/(M-1)), where (\mu) and (\sigma^2) describe the target-specific source-weight field. Its relative variance is therefore
-
-[
-\frac{\mathrm{Var}(A)}{\mathrm{E}(A)^2}
-=
-\frac{M-n}{n(M-1)}\frac{\sigma^2}{\mu^2},
-]
-
-which decreases as (n) increases. Thus sparse occupancy does not create a topology effect by itself; rather, it **exposes heterogeneity among source positions** that is increasingly averaged over as more alternative sources are occupied. If all source weights are equal, the configuration term is zero at every occupancy. This identity motivates the observed regime pattern but does not turn the three empirical layers into a prospectively tested continuous gradient.
+A simple response-free sampling identity provides a mechanistic reason to expect source identity to become more visible when few sources remain. For a target with M possible source islands and fixed non-negative access weights w_j, condition on exactly n occupied sources. Under a null in which the occupied set is an n-subset of the possible sources, total source access A has E[A] = n μ and Var(A) = n(M−n)σ²/(M−1), where μ and σ² describe the target-specific source-weight field. Therefore CV²(A) = [(M−n)/(n(M−1))] × (σ²/μ²), which strictly decreases as n increases whenever σ² > 0. Thus sparse occupancy does not create a topology effect by itself; rather, it **exposes heterogeneity among source positions** that is increasingly averaged over as more alternative sources are occupied. If all source weights are equal, configuration sensitivity is zero at every occupancy. This identity motivates the observed regime pattern but does not turn the three empirical layers into a prospectively tested continuous gradient.
 
 ### 4.4 The 5–12-presence layer appears to be a transition rather than a weaker copy
 
