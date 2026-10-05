@@ -1,0 +1,141 @@
+name: BALA corrected opaque taxon routing v1.136.1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_opaque_taxon_routing_retry_request_v1_136_1.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  route:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate operational-only schema correction
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path("development/bala_opaque_taxon_routing_stop_v1_136_1.json").read_text())
+          c=json.loads(Path("development/bala_opaque_taxon_routing_contract_v1_136_1.json").read_text())
+          r=json.loads(Path("development/bala_opaque_taxon_routing_retry_request_v1_136_1.json").read_text())
+          assert s["response_boundary_at_stop"]["mf_tokens_decoded"]==0
+          assert s["response_boundary_at_stop"]["organismQuantity_values_decoded"]==0
+          assert s["correction"]["expected_physical_field_count"]==32
+          assert c["source"]["physical_field_count_rule"]=="max(coreid_index and all Occurrence field indices)+1"
+          assert c["scientific_invariants_from_v1_136"]["partition_rule_changed"] is False
+          assert r["partition_rule_changed"] is False
+          assert r["response_semantics_changed"] is False
+          assert r["one_retry_only"] is True
+          PY
+
+      - name: Download exact frozen MF partition spec
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v135-taxon-routing-schema-2367ef4bab5c8d50109f15730accb34fb547bbde-37211623631
+          path: build/bala_v1361/partition
+          repository: zuizui0223/Structural
+          run-id: 37211623631
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen meta manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v128-event-core-audit-bad5a69486e32a917575d9e5b6e84c67af10d69e-37187589920
+          path: build/bala_v1361/meta
+          repository: zuizui0223/Structural
+          run-id: 37187589920
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen schema parents
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/bala_v1361/partition/taxon_partition_spec.json":"66682582eb47605e47c4d888437e608cf8e45100ea0cc9c07fc2dd70e884c27c",
+            "build/bala_v1361/meta/meta_manifest.json":"35df3c8a1e92f7cdeb56f760491a1faf903d9ed46beb2c9b2b84fcc79f784691",
+          }
+          for p,s in checks.items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==s
+          PY
+
+      - name: Download exact public BALA archive
+        run: |
+          mkdir -p build/bala_v1361/input build/bala_v1361/output
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          url="https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0"
+          req=urllib.request.Request(url,headers={"User-Agent":"Structural-BALA-v1361/1.0"})
+          with urllib.request.urlopen(req,timeout=90) as resp: raw=resp.read()
+          got=hashlib.sha256(raw).hexdigest()
+          assert got=="4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2"
+          Path("build/bala_v1361/input/bala.zip").write_bytes(raw)
+          PY
+
+      - name: Reproduce response-independent geometry operator
+        run: |
+          python scripts/freeze_bala_geometry_operator_v1_136.py             build/bala_v1361/input/bala.zip             --geometry build/bala_v1361/output/bala_island_geometry.csv             --edges build/bala_v1361/output/bala_island_graph_edges.csv             --receipt build/bala_v1361/output/bala_geometry_operator_result.json
+
+      - name: Execute schema-corrected MF-only opaque routing
+        run: |
+          python scripts/route_bala_occurrence_opaque_v1_136_1.py             build/bala_v1361/input/bala.zip             build/bala_v1361/partition/taxon_partition_spec.json             build/bala_v1361/meta/meta_manifest.json             --pilot-surface build/bala_v1361/output/pilot_occurrence_rows.tsv             --confirmatory-surface build/bala_v1361/output/confirmatory_occurrence_rows.sealed.tsv             --pilot-token-manifest build/bala_v1361/output/pilot_mf_tokens.csv             --receipt build/bala_v1361/output/opaque_routing_result.json
+
+      - name: Enforce response boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          g=json.loads(Path("build/bala_v1361/output/bala_geometry_operator_result.json").read_text())
+          r=json.loads(Path("build/bala_v1361/output/opaque_routing_result.json").read_text())
+          assert g["status"]=="BALA_RESPONSE_INDEPENDENT_GABRIEL_GRAPH_FROZEN"
+          assert g["geometry_sha256"]=="b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946"
+          assert g["edges_sha256"]=="912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f"
+          assert r["status"]=="BALA_MF_ONLY_OPAQUE_TAXON_ROUTING_COMPLETE_AFTER_SCHEMA_CORRECTION"
+          assert r["physical_field_count"]==32
+          assert r["mapped_extension_field_definitions"]==31
+          assert r["occurrence_data_rows_routed"]==63904
+          assert r["pilot_rows"]+r["confirmatory_rows"]==63904
+          assert r["pilot_distinct_taxa"]>0 and r["confirmatory_distinct_taxa"]>0
+          assert r["organismQuantity_values_decoded"]==0
+          assert r["eventID_values_decoded"]==0
+          assert r["taxonomy_values_decoded"]==0
+          assert r["event_by_taxon_combinations_summarized"]==0
+          assert r["source_loss_effects_computed"]==0
+          assert r["confirmatory_token_identities_persisted"] is False
+          assert r["confirmatory_occurrence_semantic_access_authorized"] is False
+          assert r["pilot_occurrence_semantic_access_authorized"] is False
+          assert r["confirmatory_eligible"] is False
+          PY
+
+      - name: Delete raw complete archive before artifact upload
+        if: always()
+        run: rm -f build/bala_v1361/input/bala.zip
+
+      - name: Upload corrected response-unopened surfaces
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v1361-geometry-opaque-routing-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v1361/output/bala_island_geometry.csv
+            build/bala_v1361/output/bala_island_graph_edges.csv
+            build/bala_v1361/output/bala_geometry_operator_result.json
+            build/bala_v1361/output/pilot_occurrence_rows.tsv
+            build/bala_v1361/output/confirmatory_occurrence_rows.sealed.tsv
+            build/bala_v1361/output/pilot_mf_tokens.csv
+            build/bala_v1361/output/opaque_routing_result.json
+          if-no-files-found: error
+          retention-days: 30
