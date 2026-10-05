@@ -1,0 +1,35 @@
+{
+  "schema": "structural.active_priority.v1_158",
+  "status": "ebird_deprioritized_boreal_birds_topology_sensitivity_pre_response",
+  "supersedes": "development/structural_active_priority_v1_157.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "policy_change": {
+    "ebird": "DEPRIORITIZED_BY_RESEARCH_DIRECTION",
+    "reason": "current Structural development will not use eBird; frozen eBird contracts remain historical infrastructure only and authorize no response access",
+    "reactivation_authorized": false
+  },
+  "closed_boundaries": [
+    "BALA independent source-loss primary not supported",
+    "boreal 19-island beetle fresh primary not supported and may not be rerun or rescued",
+    "GIFT fresh plant lane terminal without ecological primary",
+    "Azores SLAM terminal before occurrence access",
+    "Finnish eider source-loss route not auditable from the released archive"
+  ],
+  "active_pre_response_route": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+    "contract": "development/boreal_19island_birds_topology_sensitivity_contract_v1_158.json",
+    "role": "same-geography different-taxon prospective test of the new finite-source topology-sensitivity mechanism",
+    "bird_response_opened": false,
+    "next_action": "freeze exact 20 matched topology nulls and H_i geometry surface before any bird pilot access"
+  },
+  "do_not": [
+    "use eBird in the active Structural route",
+    "rerun or subgroup-mine the closed beetle primary",
+    "use beetle confirmatory targets to tune the bird hypothesis",
+    "open bird confirmatory islands before a one-shot pilot gate passes",
+    "open the vascular-plant matrix to rescue a failed bird test",
+    "alter the 1-4 pilot-presence eligibility rule after bird pilot access",
+    "promote topology specificity to dispersal, rescue, or management causality"
+  ],
+  "next_scientific_event": "response-independent 19-island bird null-topology and configuration-sensitivity freeze"
+}
