@@ -1,0 +1,10 @@
+{
+  "schema": "structural.finnish_eider_zenodo_inventory_request.v1_151",
+  "status": "REQUEST_METADATA_ONLY_ZENODO_FILE_INVENTORY",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "contract": "development/finnish_eider_zenodo_inventory_contract_v1_151.json",
+  "zenodo_record_id": 15723441,
+  "dataset_file_download_authorized": false,
+  "response_value_access_authorized": false,
+  "one_shot": true
+}
