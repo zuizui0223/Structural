@@ -1,0 +1,42 @@
+{
+  "schema": "structural.bala_pilot_estimability_freeze.v1_138",
+  "status": "SUCCESSFUL_BURNED_PILOT_ESTIMABILITY_PASS_FROZEN",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "source_execution": {
+    "workflow_run_id": 37252203669,
+    "workflow_head_sha": "397a4c43836c8e760e8ef774ea9d57e100173390",
+    "workflow_job_id": 111581964522,
+    "artifact_id": 11322245046,
+    "artifact_name": "bala-v1371-pilot-estimability-397a4c43836c8e760e8ef774ea9d57e100173390-37252203669",
+    "artifact_digest": "sha256:741f8c7266a8f61496110173c08aa3811391525008b734c4a7f461c2abbf0ff0",
+    "expires_at": "2026-11-04T01:43:57Z"
+  },
+  "artifact_files": {
+    "pilot_estimability_result.json": {"sha256":"3977923773a283d44e3df4a4989d964b48f095b4a3362af04b0aa345e89eb58f"},
+    "pilot_island_phase_presence.csv": {"sha256":"e2f51045bb77e0f1cdc2eee80f42d5821cbc437ca0444b111be671e862c4bb39"},
+    "pilot_taxon_eligibility.csv": {"sha256":"8be6af69262c8e00fa811693c1f6f838b5af2c39f7cdd993c81bd82e9a6cfca2"},
+    "pilot_transition_summary.csv": {"sha256":"0db74c228449418d38ad6f5f2ecb4a75d2645e3d81c2d89bfda7106d6958bc59"}
+  },
+  "result": {
+    "pilot_taxa_routed": 142,
+    "taxonomically_eligible_pilot_taxa": 142,
+    "taxa_with_at_least_two_t0_sources": 23,
+    "taxa_with_any_t0_to_t1_source_loss_and_t1_survivor": 12,
+    "exactly_one_source_loss_taxa": 7,
+    "exactly_one_loss_target_rows": 22,
+    "t2_contractions": 13,
+    "t2_persistences": 9,
+    "taxon_clusters_with_contraction": 6,
+    "taxon_clusters_with_persistence": 4,
+    "taxa_with_both_t2_outcomes": 3,
+    "advance_authorized": true
+  },
+  "evidence_boundary": {
+    "source_leverage_values_computed": 0,
+    "candidate_minus_reference_effects_computed": 0,
+    "confirmatory_rows_parsed": 0,
+    "confirmatory_token_identities_opened": 0,
+    "confirmatory_occurrence_values_opened": 0,
+    "counts_as_empirical_support_or_non_support": false
+  }
+}
