@@ -1,0 +1,29 @@
+{
+  "schema": "structural.active_priority.v1_148",
+  "status": "post_bala_queue_narrows_to_ebird_sampling_event_metadata",
+  "canonical_status": "development/current_status_v1_144.json",
+  "completed_after_BALA": [
+    "eBird candidate retained on HOLD with checklist-completeness semantics unresolved",
+    "Azores SLAM Event core audited response-unopened",
+    "SLAM public occurrence-row discrepancy resolved to 14922 without semantic occurrence access",
+    "SLAM candidate stopped because no two eligible non-overlapping three-year windows satisfy the frozen design"
+  ],
+  "active_candidate": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_SAMPLING_EVENT_DATA_REQUIRED",
+    "gate": "development/ebird_sampling_event_gate_v1_146.json"
+  },
+  "do_now": [
+    "obtain official eBird Sampling Event Data/checklist-level export for the 2002-2019 candidate period",
+    "audit ALL SPECIES REPORTED and effort fields without opening Dryad species outcomes",
+    "freeze island-year survey-quality semantics before species-level annual occupancy is constructed"
+  ],
+  "do_not": [
+    "relax the stopped SLAM three-island or non-overlap rules",
+    "open SLAM Occurrence rows",
+    "rerun or subgroup-mine BALA",
+    "infer species absences from Dryad eBird observed-species rows",
+    "choose effort thresholds after inspecting species persistence or source-loss outcomes"
+  ],
+  "next_scientific_event": "response-independent eBird Sampling Event Data audit, or no further source-loss confirmation until such metadata are available"
+}
