@@ -1,0 +1,53 @@
+{
+  "schema": "structural.bala_preoutcome_feature_freeze.v1_143",
+  "status": "SUCCESSFUL_CONFIRMATORY_PREOUTCOME_GATE_FROZEN_BALA3_STILL_SEALED",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "source_execution": {
+    "workflow": ".github/workflows/bala-preoutcome-features-v1_142.yml",
+    "workflow_run_id": 37274765227,
+    "workflow_head_sha": "2a905201904a2b26822b06599db3a2cfcd5170e2",
+    "workflow_job_id": 111649266060,
+    "artifact_id": 11328838976,
+    "artifact_name": "bala-v142-preoutcome-2a905201904a2b26822b06599db3a2cfcd5170e2-37274765227",
+    "artifact_digest": "sha256:881033e9680c5b89b7eea6da1ff1b84b70278ac929b73b9d18a1e49f0b3928aa",
+    "expires_at": "2026-11-04T06:54:05Z"
+  },
+  "artifact_files": {
+    "confirmatory_t0_t1_taxon_summary.csv": {
+      "sha256": "6f2af948f704838ed3a30892ae1de4bc214cae422f45f5dd70bed06348ee62ea"
+    },
+    "confirmatory_source_loss_features.csv": {
+      "sha256": "0f0d4601ff4c06757df874f4d687699bb8084bc7bcf82ec99ea05cd917e469fd"
+    },
+    "confirmatory_fold_manifest.csv": {
+      "sha256": "6af472fb97f1472c00b7b3ee6b69a5eb098104c5e5c60ecc94029583d32c042f"
+    },
+    "confirmatory_fold_standardization.json": {
+      "sha256": "ea69f0d3ab5704caf2f34729ca77919d074f301096d8d023deee10333d3e965b"
+    },
+    "bala_preoutcome_feature_result.json": {
+      "sha256": "bc47db31b51a65f6257f44b57c2be09981fd847ececce43697063b8619a539e2"
+    }
+  },
+  "pre_t2_gate": {
+    "taxa_seen_t0_t1": 181,
+    "taxonomically_eligible_confirmatory_taxa": 181,
+    "exactly_one_loss_taxa": 20,
+    "exactly_one_loss_target_rows": 64,
+    "distinct_E_i_values": 53,
+    "E_i_population_sd": 0.40635058632420606,
+    "prefeature_estimable_taxon_folds": 20,
+    "all_gate_checks_passed": true,
+    "advance_authorized": true
+  },
+  "response_boundary": {
+    "t0_t1_semantics_opened": true,
+    "t2_surface_sha256": "cf320dca37f17641219f80fc98b302994c9062c5a89dda01419e57cb7800d967",
+    "t2_rows_opened": 0,
+    "t2_taxon_identities_opened": 0,
+    "t2_occurrence_values_opened": 0,
+    "candidate_minus_reference_effects_computed": 0,
+    "counts_as_empirical_support_or_non_support": false
+  },
+  "next_action": "authorize exactly one BALA3 semantic read bound to the frozen v1.141 scorer and these exact preoutcome features; no repair or redesign after first BALA3 eligible quantity decode"
+}
