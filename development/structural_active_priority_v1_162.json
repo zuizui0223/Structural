@@ -1,0 +1,37 @@
+{
+  "schema": "structural.active_priority.v1_162",
+  "status": "boreal_birds_topology_residual_moderator_response_sealed",
+  "supersedes": "development/structural_active_priority_v1_160.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "ebird_route": "RETIRED_FROM_ACTIVE_PROGRAM",
+  "active_candidate": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+    "response_status": "SEALED",
+    "primary_design": "development/boreal_birds_topology_residual_preintake_v1_162.json",
+    "matched_null_contract": "development/boreal_birds_topology_null_contract_v1_161.json",
+    "scientific_role": "prospective cross-taxon test in a geography independent of the global mammal result; same geography as completed boreal beetle boundary case"
+  },
+  "mechanism": "source scarcity should expose heterogeneity in topology-specific permeability beyond Euclidean source geometry",
+  "primary_moderator": "S_topo_i(n)=((M-n)/(n(M-1)))*CV2_j[exp(-(d_graph-d_euclid)/lambda)]",
+  "why_not_raw_S": "raw graph-access heterogeneity partly duplicates the Euclidean source terms already present in R3; topology-residual permeability aligns directly with C beyond R3",
+  "do_now": [
+    "complete the response-independent v1.161 twenty-null topology freeze",
+    "freeze the v1.162 S_topo target-by-n surface from geometry only",
+    "verify H_topo is nonconstant across confirmatory targets",
+    "only then construct a one-shot bird pilot router"
+  ],
+  "do_not": [
+    "use eBird",
+    "open bird response before both response-independent freeze surfaces are committed",
+    "modify null graphs using bird or beetle outcomes",
+    "rerun or rescue the completed beetle primary",
+    "replace the presence endpoint with all cells if the bird mechanism test is non-estimable"
+  ],
+  "response_boundary": {
+    "bird_response_values_opened": 0,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_scientific_event": "response-independent S_topo surface plus matched-null ensemble; no bird outcome access before both are frozen"
+}
