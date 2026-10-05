@@ -1,0 +1,42 @@
+{
+  "schema": "structural.azores_slam_event_core_audit_freeze.v1_148",
+  "status": "SUCCESSFUL_RESPONSE_UNOPENED_SLAM_EVENT_AUDIT_FROZEN",
+  "candidate_id": "azores_slam_arthropods_2012_2021",
+  "source_execution": {
+    "workflow": ".github/workflows/azores-slam-event-audit-v1_146.yml",
+    "workflow_run_id": 37283416237,
+    "workflow_head_sha": "e24ef0b9581ce7930e2796cf2114c1b8a9558436",
+    "workflow_job_id": 111676553753,
+    "artifact_id": 11333112398,
+    "artifact_name": "azores-slam-v146-event-audit-e24ef0b9581ce7930e2796cf2114c1b8a9558436-37283416237",
+    "artifact_digest": "sha256:350c2a774172b53d2ad8a924d018589c9d7574ebf71e0a27bce5ba03509a6e3a",
+    "expires_at": "2026-11-04T08:25:46Z"
+  },
+  "artifact_files": {
+    "site_key_candidates.csv": {"sha256":"2f92fd448cf8ffd3ac201d7da7a58a8b51ce5774e9794bf1fe1d358818bbeb35"},
+    "site_year_coverage.csv": {"sha256":"c161efa88bc9f08231db74d91d927790dfa0c44273af504b9068007c819bafd5"},
+    "three_year_window_candidates.csv": {"sha256":"758c27b01ba18de541e5a82c6429d197cd6846869af4d8d4b9750460db27dad9"},
+    "event_core_audit.json": {"sha256":"a7cc5e097447a82bbe8eab69ad0a69010362708c50fd1216a3a7d5ef3d89c180"}
+  },
+  "result": {
+    "event_records": 893,
+    "event_years": [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],
+    "sites": 42,
+    "islands": 7,
+    "locationID_nonblank_fraction": 1.0,
+    "locationID_unique_sites": 42,
+    "locationID_unique_islands": 7,
+    "occurrence_extension_physical_rows": 14922,
+    "published_14922_vs_14924_discrepancy_resolved_to": 14922,
+    "eligible_windows_locationID": [
+      {"start":2013,"end":2015,"islands":5,"sites_observed_all_years":26},
+      {"start":2014,"end":2016,"islands":3,"sites_observed_all_years":24}
+    ],
+    "nonoverlapping_eligible_window_pairs": 0
+  },
+  "response_boundary": {
+    "occurrence_extension_semantically_opened": false,
+    "event_by_taxon_rows_parsed": 0,
+    "source_loss_effects_computed": 0
+  }
+}
