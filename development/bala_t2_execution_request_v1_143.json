@@ -1,0 +1,37 @@
+{
+  "schema": "structural.bala_t2_execution_request.v1_143",
+  "status": "REQUEST_ONE_SHOT_BALA3_SOURCE_LOSS_LEVERAGE_SCORING",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "scientific_protocol": "development/bala_source_loss_confirmatory_protocol_v1_139.json",
+  "scoring_implementation": "development/bala_t2_scoring_implementation_v1_141.json",
+  "preoutcome_freeze": "development/bala_preoutcome_feature_freeze_v1_143.json",
+  "sealed_t2": {
+    "workflow_run_id": 37264285424,
+    "artifact_id": 11326825183,
+    "artifact_name": "bala-v138-temporal-firewall-d3df10c48fc65d64f91833f263325b0bceb986a0-37264285424",
+    "artifact_digest": "sha256:ad0b9cc7c3517826a9fe81238d1bc868e40e755e2feee7a9120ed56fb7fc9735",
+    "t2_surface_sha256": "cf320dca37f17641219f80fc98b302994c9062c5a89dda01419e57cb7800d967"
+  },
+  "preoutcome_features": {
+    "workflow_run_id": 37274765227,
+    "artifact_id": 11328838976,
+    "artifact_name": "bala-v142-preoutcome-2a905201904a2b26822b06599db3a2cfcd5170e2-37274765227",
+    "features_sha256": "0f0d4601ff4c06757df874f4d687699bb8084bc7bcf82ec99ea05cd917e469fd",
+    "fold_manifest_sha256": "6af472fb97f1472c00b7b3ee6b69a5eb098104c5e5c60ecc94029583d32c042f",
+    "fold_standardization_sha256": "ea69f0d3ab5704caf2f34729ca77919d074f301096d8d023deee10333d3e965b",
+    "preoutcome_result_sha256": "bc47db31b51a65f6257f44b57c2be09981fd847ececce43697063b8619a539e2",
+    "expected_exactly_one_loss_taxa": 20,
+    "expected_target_rows": 64
+  },
+  "pitfall_event_routing": {
+    "workflow_run_id": 37211022254,
+    "artifact_id": 11306547489,
+    "artifact_name": "bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254",
+    "pitfall_position_recovery_sha256": "a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27"
+  },
+  "t2_semantic_access_authorized": true,
+  "noneligible_t2_quantity_decode_authorized": false,
+  "model_refit_or_feature_change_after_t2_authorized": false,
+  "same_lineage_rerun_after_first_eligible_t2_quantity_decode": false,
+  "one_shot": true
+}
