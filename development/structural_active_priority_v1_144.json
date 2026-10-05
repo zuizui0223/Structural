@@ -1,0 +1,28 @@
+{
+  "schema": "structural.active_priority.v1_144",
+  "status": "bala_source_loss_primary_closed_non_support_no_rescue",
+  "canonical_status": "development/current_status_v1_144.json",
+  "completed": [
+    "prospective ultrarare mammal occupancy-regime test",
+    "response-free mammal source-leverage diagnostic",
+    "independent BALA three-wave burned-pilot estimability gate",
+    "BALA confirmatory t0/t1 pre-outcome feature freeze",
+    "one-shot BALA3 source-loss leverage primary"
+  ],
+  "do_now": [
+    "freeze and report the BALA primary exactly as non-support",
+    "update conservation wording so source leverage is not presented as a validated management metric",
+    "if another independent test is pursued, restrict intake to candidates registered before BALA outcome access",
+    "resolve eBird complete-checklist/effort semantics response-independently or continue the previously frozen Azores SLAM backup"
+  ],
+  "do_not": [
+    "rerun BALA",
+    "change the BALA exactly-one-loss population, leverage formula, graph, lambda, model or scoring rule",
+    "use positive descriptive BALA E_i summaries to rescue the failed primary",
+    "search BALA taxa, islands or thresholds for a favourable subgroup",
+    "open another global mammal response layer",
+    "select a new candidate because the BALA result was non-supportive",
+    "claim source leverage prevents extinction, causes rescue or identifies realized dispersal"
+  ],
+  "next_scientific_event": "pre-BALA-registered independent candidate metadata gate only; no same-data rescue"
+}
