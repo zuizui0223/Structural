@@ -1,0 +1,48 @@
+{
+  "schema": "structural.boreal_birds_response_independent_hash_freeze.v1_163",
+  "status": "CANONICAL_HASH_FREEZE_CHILDREN_DETERMINISTICALLY_REPLAYABLE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_sparse_topology_2026",
+  "freeze_parent_sha": "665420fa6abb5caac882b7147c1f397695907b1b",
+  "request_commit_sha": "366d26b2c8bef637f76ff16a06c0424ef28d4a70",
+  "canonical_generator": "scripts/freeze_boreal_birds_response_independent_v1_163.py",
+  "children": {
+    "null_ensemble": {
+      "expected_sha256": "069eae639ed8a544d09680b7034c697bad608b7652a0cee60e92d41029d48e12",
+      "expected_ensemble_fingerprint": "ec482ecd2cc359dc09ef4bff0f0ae7bee1c9a418776237d2aa8c77e90b9fd1fe",
+      "null_count": 20
+    },
+    "raw_configuration_surface": {
+      "expected_sha256": "70f36be8cb2318ad7589491fb448f5787be9df3e8457e5b919953243a6c08d79",
+      "row_count": 78,
+      "role": "nonprimary response-free diagnostic"
+    },
+    "topology_residual_surface": {
+      "expected_sha256": "d7913be64b62ae92378ab8279c6eea9fa69289d3908d9c3916694f7ea83a22e7",
+      "row_count": 78,
+      "H_topo_min_hex": "0x1.91df3c1a44aaap-9",
+      "H_topo_max_hex": "0x1.5dfe6126b8b8dp+1",
+      "H_topo_unique_count": 13,
+      "role": "response-free actual-topology mechanism surface"
+    },
+    "null_child_receipt_sha256": "058e0327a670e1f30ab6cd9482daf34ab7702e00962d8eef6319339fa96c3617",
+    "topology_child_receipt_sha256": "e0ceac4c470cb7318140d9f82627524b39dc91628aa85888099b50f6cf0092e8"
+  },
+  "freeze_fingerprint": "f7cbb1596b13fc96e6cad61eb24794c9009fbf3431e089f714d179cf3138eb30",
+  "materialization_rule": {
+    "children_need_not_be_git_tracked_before_pilot_protocol_design": true,
+    "before_any_bird_semantic_access": "exact replay the canonical generator from the frozen code lineage and require every expected child SHA/fingerprint above",
+    "mismatch": "STOP before bird header or response access",
+    "moving_branch_v1_161_workflow_is_canonical": false
+  },
+  "response_boundary": {
+    "bird_file_opened": false,
+    "bird_header_opened": false,
+    "bird_response_values_opened": 0,
+    "beetle_response_used": false,
+    "plant_response_used": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_action": "freeze actual-minus-null topology-residual moderator and then build a one-shot bird pilot router that exact-replays this hash freeze before semantic access"
+}
