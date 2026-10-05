@@ -20,6 +20,14 @@
 - [x] Original79 actual-vs-rewired audit is visible and adverse to an actual-topology claim.
 - [x] Broad near-ubiquitous layer remains non-estimable; threshold is not widened.
 
+## Response-free mechanism
+
+- [x] Finite-source identity is derived without mammal held-out response or BALA outcomes.
+- [x] CV²(A) = [(M−n)/(n(M−1))] × (σ²/μ²) decreases with occupied-source count n when source weights are heterogeneous.
+- [x] Uniform source weights give zero configuration sensitivity at every n.
+- [x] Identity is used as a mechanism/rationale, not as retrospective proof of a monotonic occupancy gradient.
+- [x] Standalone verifier and tests added under v1.155.
+
 ## Temporal falsification boundary
 
 - [x] BALA1/BALA2 source-loss features were frozen before any BALA3 confirmatory outcome access.
@@ -51,7 +59,7 @@
 
 - [x] Current GEB Research Article guidance rechecked on 2026-10-05.
 - [x] Structured Research Article abstract uses Aim / Location / Time period / Major taxa studied / Methods / Results / Main conclusions and is 290 words.
-- [x] Main text is 4,753 words (Introduction through Conclusions).
+- [x] Main text is 4,932 words (Introduction through Conclusions), including the response-free sparse-source mechanism.
 - [x] Running title is 36 characters (<40).
 - [x] Nine keywords are alphabetized and within the required 6–10 range.
 - [x] No direct author/repository identity in blinded text.
