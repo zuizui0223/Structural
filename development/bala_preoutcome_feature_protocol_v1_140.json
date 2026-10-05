@@ -1,0 +1,103 @@
+{
+  "schema": "structural.bala_preoutcome_feature_protocol.v1_140",
+  "status": "IMPLEMENTATION_FROZEN_AWAITING_SUCCESSFUL_V138_TEMPORAL_ARTIFACT",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parent_scientific_protocol": "development/bala_source_loss_confirmatory_protocol_v1_139.json",
+  "execution_authorized_now": false,
+  "inputs": {
+    "preoutcome_t0_t1_surface": "exact successful v1.138 artifact; SHA must be bound in a later execution request",
+    "pitfall_position_recovery_sha256": "a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+    "pitfall_island_phase_quality_sha256": "24ccd2db6438f899a36eeb9443dad432ca78c256b07837f3f4faa1b3c1d905c8",
+    "island_geometry_sha256": "b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+    "graph_edges_sha256": "912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f"
+  },
+  "allowed_preoutcome_fields": {
+    "coreid": 0,
+    "organismQuantity": 12,
+    "identificationRemarks_MF": 20,
+    "scientificName": 21,
+    "order": 25,
+    "family": 26,
+    "taxonRank": 30
+  },
+  "forbidden": [
+    "any BALA3 occurrence row",
+    "any BALA3 quantity or taxon identity",
+    "any candidate-minus-reference outcome score",
+    "any t2-informed taxon filtering",
+    "any change to the v1.139 exactly-one-loss population"
+  ],
+  "presence_rule": "within BALA1/BALA2, at least one eligible pitfall row with organismQuantity > 0 on the island-phase",
+  "surveyed_zero_rule": "absence is permitted because all frozen island-phases passed v1.135 quality; this stage uses only BALA1/BALA2",
+  "taxonomic_rule": "identical to v1.137 burned pilot",
+  "geometry": {
+    "islands": ["FAI","FLO","PIC","SJG","SMG","SMR","TER"],
+    "reference_island_for_dummy_encoding": "FAI",
+    "graph_lambda_km": 78.93702465087111,
+    "graph_kernel": "exp(-shortest_graph_path_km/lambda)",
+    "euclidean_kernel": "exp(-haversine_km/lambda)",
+    "nearest_surviving_source_sentinel": "max pairwise haversine distance among seven islands + lambda"
+  },
+  "target_feature_rows": {
+    "taxon_gate": "eligible taxon with at least two BALA1 occupied islands, exactly one BALA1-to-BALA2 lost island, and at least one BALA2 occupied island",
+    "row": "one row for each BALA2 occupied target island of an eligible taxon",
+    "self_anchor_exclusion": true,
+    "features": [
+      "MF_token",
+      "target_island",
+      "lost_source_island",
+      "t0_other_source_count",
+      "t1_surviving_other_source_count",
+      "nearest_surviving_euclidean_km",
+      "diffuse_surviving_euclidean_pressure",
+      "no_surviving_other_source",
+      "target_was_occupied_at_t0",
+      "log1p_t2_recovered_pitfall_positions",
+      "E_i_lost_access_fraction",
+      "event_delta_N_eff",
+      "event_lost_source_share"
+    ]
+  },
+  "fold_freeze": {
+    "outer_unit": "MF taxon",
+    "continuous_columns": [
+      "t0_other_source_count",
+      "t1_surviving_other_source_count",
+      "nearest_surviving_euclidean_km",
+      "diffuse_surviving_euclidean_pressure",
+      "log1p_t2_recovered_pitfall_positions",
+      "E_i_lost_access_fraction"
+    ],
+    "binary_columns": [
+      "no_surviving_other_source",
+      "target_was_occupied_at_t0"
+    ],
+    "island_dummy_columns": ["FLO","PIC","SJG","SMG","SMR","TER"],
+    "standardization": "mean and population SD on all target rows excluding the heldout MF taxon; no t2 outcomes required",
+    "zero_variance_R2_column": "mark dropped for that fold in both R2 and C",
+    "zero_variance_E_i": "fold is prefeature-nonestimable"
+  },
+  "pre_t2_gate": {
+    "minimum_taxonomically_eligible_confirmatory_taxa": 30,
+    "minimum_exactly_one_loss_taxa": 10,
+    "minimum_exactly_one_loss_target_rows": 30,
+    "minimum_distinct_E_i_values": 3,
+    "minimum_prefeature_estimable_taxon_folds": 10,
+    "E_i_population_sd_must_be_positive": true,
+    "if_failed": "STOP before any BALA3 semantic access"
+  },
+  "outputs": [
+    "confirmatory_t0_t1_taxon_summary.csv",
+    "confirmatory_source_loss_features.csv",
+    "confirmatory_fold_manifest.csv",
+    "confirmatory_fold_standardization.json",
+    "bala_preoutcome_feature_result.json"
+  ],
+  "response_boundary": {
+    "t0_t1_semantic_access_authorized_by_this_file": false,
+    "t2_semantic_access_authorized": false,
+    "t2_values_used": 0,
+    "candidate_effects_computed": 0,
+    "counts_as_empirical_support_or_non_support": false
+  }
+}
