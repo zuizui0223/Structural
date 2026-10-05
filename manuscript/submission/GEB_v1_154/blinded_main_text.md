@@ -293,7 +293,19 @@ This suggests that, for species occupying very few islands, **which islands rema
 
 The result is predictive, not demographic. It does not show animals moving along graph edges, nor does it demonstrate rescue or recolonization. But it narrows the ecological hypothesis considerably: the remaining occupied islands are not spatially interchangeable.
 
-### 4.3 The 5–12-presence layer appears to be a transition rather than a weaker copy
+### 4.3 Why sparse occupancy exposes configuration
+
+A simple response-free sampling identity provides a mechanistic reason to expect source identity to become more visible when few sources remain. For a target with (M) possible source islands and fixed non-negative access weights (w_j), condition on exactly (n) occupied sources. Under a null in which the occupied set is an (n)-subset of the possible sources, total source access (A) has mean (n\mu) and variance (n(M-n)\sigma^2/(M-1)), where (\mu) and (\sigma^2) describe the target-specific source-weight field. Its relative variance is therefore
+
+[
+\frac{\mathrm{Var}(A)}{\mathrm{E}(A)^2}
+=
+\frac{M-n}{n(M-1)}\frac{\sigma^2}{\mu^2},
+]
+
+which decreases as (n) increases. Thus sparse occupancy does not create a topology effect by itself; rather, it **exposes heterogeneity among source positions** that is increasingly averaged over as more alternative sources are occupied. If all source weights are equal, the configuration term is zero at every occupancy. This identity motivates the observed regime pattern but does not turn the three empirical layers into a prospectively tested continuous gradient.
+
+### 4.4 The 5–12-presence layer appears to be a transition rather than a weaker copy
 
 The 96-species layer is important precisely because it failed.
 
@@ -305,7 +317,7 @@ This argues against a simple linear rarity effect. A species can have few occupi
 
 The current evidence therefore supports **occupancy-regime dependence**, not monotonicity.
 
-### 4.4 The exploratory higher-occupancy gain is source-context information, not proof of topology
+### 4.5 The exploratory higher-occupancy gain is source-context information, not proof of topology
 
 The original 79-species result remains useful, but its interpretation changes after the matched-null audit.
 
@@ -315,7 +327,7 @@ The exploratory result therefore cannot support a claim that the real island top
 
 This distinction matters because “network metric improves prediction” and “the real network topology matters” are different ecological claims.
 
-### 4.5 Spatial source leverage is not yet a validated conservation-priority metric
+### 4.6 Spatial source leverage is not yet a validated conservation-priority metric
 
 The mammal occupancy layers show that source-island configuration can contain species-specific occurrence information, and the response-free leverage diagnostic shows that nominal population count does not equal spatially independent source access. Among ultrarare mammal species with 2–4 occupied pilot sources, the dominant source contributed a median **66.1%** of graph-pressure leverage and the median effective-to-nominal source ratio was **0.744**. Observed source configurations were also more complementary than matched random placements.
 
@@ -333,7 +345,7 @@ The strongest conservation statement is therefore deliberately limited:
 
 The present analyses do not show that protecting a high-leverage island prevents extinction, that restoring it causes recolonization, or that graph paths are realized dispersal routes. Such claims require additional independent temporal, demographic, genetic or intervention evidence.
 
-### 4.6 Relation to island-biogeographic and metapopulation theory
+### 4.7 Relation to island-biogeographic and metapopulation theory
 
 Classical island biogeography links occurrence and turnover to the supply of colonists from source regions, while modern isolation metrics recognize multiple mainland, stepping-stone and surrounding-land components. Spatial metapopulation theory adds another established idea: connectivity depends on the occupancy state and contribution of potential source patches (Hanski & Ovaskainen 2000), and empirical work has shown that this demographic component can make connectivity dynamically vary through time (Drake et al. 2022).
 
@@ -343,7 +355,7 @@ For ultrarare species, the exact arrangement of the few remaining source islands
 
 Thus island isolation is not only multidimensional. Its most informative spatial representation can also be **species-state dependent**.
 
-### 4.7 Evidence boundaries
+### 4.8 Evidence boundaries
 
 Several features prevent a stronger claim.
 
