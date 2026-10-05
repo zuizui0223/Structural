@@ -1,0 +1,13 @@
+{
+  "schema": "structural.bala_confirmatory_preaccess_request.v1_138",
+  "status": "REQUEST_T0_T1_EXPOSURE_OPEN_AND_T2_PREDICTION_FREEZE",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "contract": "development/bala_confirmatory_preaccess_contract_v1_138.json",
+  "routing_artifact_id": 11320128924,
+  "pilot_artifact_id": 11322245046,
+  "pitfall_quality_artifact_id": 11306547489,
+  "confirmatory_t0_t1_semantic_access_authorized": true,
+  "confirmatory_t2_semantic_access_authorized": false,
+  "confirmatory_t2_scoring_authorized": false,
+  "one_shot": true
+}

@@ -1,0 +1,136 @@
+name: BALA confirmatory pre-t2 prediction freeze v1.138
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/bala_confirmatory_preaccess_request_v1_138.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preconfirm:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install frozen numeric dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.3.3"
+
+      - name: Validate pre-t2 contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/bala_confirmatory_preaccess_contract_v1_138.json").read_text())
+          r=json.loads(Path("development/bala_confirmatory_preaccess_request_v1_138.json").read_text())
+          assert c["status"]=="CONFIRMATORY_T0_T1_EXPOSURE_AND_PREDICTION_FREEZE_BEFORE_T2_ACCESS"
+          assert c["pilot_parent"]["pilot_artifact_id"]==11322245046
+          assert c["source_operator_parent"]["routing_artifact_id"]==11320128924
+          assert c["transition_population"]["primary_loss_count"]=="exactly one t0 occupied island absent at t1"
+          assert c["model"]["ridge_lambda"]==1.0
+          assert c["future_scoring"]["minimum_estimable_taxon_clusters"]==10
+          assert c["response_boundary"]["confirmatory_t0_t1_semantic_access_authorized"] is True
+          assert c["response_boundary"]["confirmatory_t2_semantic_access_authorized"] is False
+          assert r["confirmatory_t0_t1_semantic_access_authorized"] is True
+          assert r["confirmatory_t2_semantic_access_authorized"] is False
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download exact routing / sealed confirmatory surface / geometry
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v1361-geometry-opaque-routing-d80de5dff7ee185bc4afcb6cf52acc22d70d7cd6-37251215741
+          path: build/bala_v138/routing
+          repository: zuizui0223/Structural
+          run-id: 37251215741
+          github-token: ${{ github.token }}
+
+      - name: Download exact burned-pilot artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v1371-pilot-estimability-397a4c43836c8e760e8ef774ea9d57e100173390-37252203669
+          path: build/bala_v138/pilot
+          repository: zuizui0223/Structural
+          run-id: 37252203669
+          github-token: ${{ github.token }}
+
+      - name: Download exact pitfall event map
+        uses: actions/download-artifact@v4
+        with:
+          name: bala-v134-pitfall-quality-771e52a6bda4e6c58c58e7e2625cc709454bfb52-37211022254
+          path: build/bala_v138/quality
+          repository: zuizui0223/Structural
+          run-id: 37211022254
+          github-token: ${{ github.token }}
+
+      - name: Verify exact frozen parents
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          checks={
+            "build/bala_v138/routing/confirmatory_occurrence_rows.sealed.tsv":"c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+            "build/bala_v138/routing/bala_island_geometry.csv":"b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+            "build/bala_v138/routing/bala_island_graph_edges.csv":"912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f",
+            "build/bala_v138/pilot/pilot_island_phase_presence.csv":"e2f51045bb77e0f1cdc2eee80f42d5821cbc437ca0444b111be671e862c4bb39",
+            "build/bala_v138/quality/pitfall_position_recovery.csv":"a7fcd14b11ff95abf93a007319830377dfed54e35e5937cac7ae9e5f00957e27",
+          }
+          for p,s in checks.items():
+              got=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+              assert got==s,(p,got,s)
+          PY
+
+      - name: Route confirmatory bytes into t0/t1 exposure and sealed t2 surfaces
+        run: |
+          mkdir -p build/bala_v138/output
+          python scripts/route_bala_confirmatory_phase_v1_138.py             build/bala_v138/routing/confirmatory_occurrence_rows.sealed.tsv             build/bala_v138/quality/pitfall_position_recovery.csv             --t0t1-output build/bala_v138/output/confirmatory_t0_t1_occurrence_rows.tsv             --t2-output build/bala_v138/output/confirmatory_t2_occurrence_rows.sealed.tsv             --receipt build/bala_v138/output/phase_routing_receipt.json
+
+      - name: Freeze all confirmatory predictions without t2
+        run: |
+          python scripts/freeze_bala_confirmatory_predictions_v1_138.py             build/bala_v138/pilot/pilot_island_phase_presence.csv             build/bala_v138/output/confirmatory_t0_t1_occurrence_rows.tsv             build/bala_v138/quality/pitfall_position_recovery.csv             build/bala_v138/routing/bala_island_geometry.csv             build/bala_v138/routing/bala_island_graph_edges.csv             --eligibility build/bala_v138/output/confirmatory_taxon_eligibility_t0_t1.csv             --predictors build/bala_v138/output/confirmatory_source_loss_predictors.csv             --predictions build/bala_v138/output/confirmatory_predictions.csv             --receipt build/bala_v138/output/preaccess_model_receipt.json
+
+      - name: Enforce t2 seal and prediction freeze
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("build/bala_v138/output/phase_routing_receipt.json").read_text())
+          m=json.loads(Path("build/bala_v138/output/preaccess_model_receipt.json").read_text())
+          assert q["status"]=="BALA_CONFIRMATORY_PHASE_BYTE_ROUTING_COMPLETE"
+          assert q["MF_tokens_decoded"]==0
+          assert q["organismQuantity_values_decoded"]==0
+          assert q["taxonomy_values_decoded"]==0
+          assert q["t2_semantically_opened"] is False
+          assert m["status"]=="BALA_CONFIRMATORY_PREDICTIONS_FROZEN_BEFORE_T2_ACCESS"
+          assert m["pilot_training_rows"]==22
+          assert m["confirmatory_exactly_one_loss_taxa"]>=10
+          assert m["confirmatory_target_rows"]>=30
+          assert m["prediction_difference_cells_gt_1e_12"]>=1
+          assert m["pilot_model_parameters_are_training_only_not_evidence"] is True
+          assert m["t2_surface_semantically_opened"] is False
+          assert m["t2_values_used"] is False
+          assert m["t2_scoring_authorized"] is False
+          assert m["source_loss_effect_claim_authorized"] is False
+          PY
+
+      - name: Upload t2-sealed preconfirmatory artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-v138-preconfirm-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bala_v138/output/confirmatory_t0_t1_occurrence_rows.tsv
+            build/bala_v138/output/confirmatory_t2_occurrence_rows.sealed.tsv
+            build/bala_v138/output/phase_routing_receipt.json
+            build/bala_v138/output/confirmatory_taxon_eligibility_t0_t1.csv
+            build/bala_v138/output/confirmatory_source_loss_predictors.csv
+            build/bala_v138/output/confirmatory_predictions.csv
+            build/bala_v138/output/preaccess_model_receipt.json
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,136 @@
+{
+  "schema": "structural.bala_confirmatory_preaccess_contract.v1_138",
+  "status": "CONFIRMATORY_T0_T1_EXPOSURE_AND_PREDICTION_FREEZE_BEFORE_T2_ACCESS",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/bala_pilot_estimability_freeze_v1_138.json",
+    "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/bala_geometry_operator_contract_v1_136.json",
+    "development/bala_opaque_taxon_routing_contract_v1_136_1.json"
+  ],
+  "confirmatory_input": {
+    "routing_artifact_id": 11320128924,
+    "sealed_surface_sha256": "c11c446a5e3dfeda9839f583a51617f6c909f46fe7088a304f7e6b63eb5eca6e",
+    "confirmatory_distinct_taxa_routed": 400,
+    "confirmatory_occurrence_rows": 42946
+  },
+  "phase_firewall": {
+    "routing_field": "coreid physical column 0 only",
+    "event_phase_map": "exact frozen pitfall_position_recovery.csv",
+    "t0_t1_rows": "pitfall rows whose frozen event map is BALA1 or BALA2",
+    "t2_rows": "pitfall rows whose frozen event map is BALA3",
+    "nonpitfall_rows": "ignored for primary analysis and never used to infer absence",
+    "t0_t1_semantic_access_authorized_after_byte_routing": true,
+    "t2_semantic_access_authorized": false,
+    "t2_taxon_identity_access_authorized": false,
+    "t2_quantity_access_authorized": false
+  },
+  "taxon_scope": {
+    "rule": "exactly the frozen v1.137 pilot taxonomic rule",
+    "identity": "MF identificationRemarks token",
+    "exclude_order": [
+      "Diptera"
+    ],
+    "hymenoptera": "Formicidae only",
+    "exclude_if_taxonomy_mentions": [
+      "Acari",
+      "Collembola"
+    ],
+    "taxonomy_conflict": "ineligible",
+    "rule_change_after_t0_t1_access_authorized": false
+  },
+  "transition_population": {
+    "t0": "BALA1 pitfall occurrence",
+    "t1": "BALA2 pitfall occurrence",
+    "primary_loss_count": "exactly one t0 occupied island absent at t1",
+    "minimum_t0_occupied_islands": 2,
+    "target": "island occupied at t1 and different from the lost source",
+    "target_self_anchor_excluded": true,
+    "minimum_confirmatory_taxon_clusters_before_t2": 10,
+    "minimum_confirmatory_target_rows_before_t2": 30,
+    "if_failed": "STOP before BALA3 semantic access; do not widen taxon scope or loss-count rule"
+  },
+  "source_operator": {
+    "graph": "frozen seven-island Gabriel graph v1.136",
+    "graph_kernel_lambda_km": 78.93702465087111,
+    "graph_kernel": "exp(-shortest_graph_distance/lambda)",
+    "euclidean_kernel_lambda_km": 78.93702465087111,
+    "euclidean_kernel": "exp(-great_circle_distance/lambda)",
+    "lost_access_fraction_E_i": "graph-kernel mass from the one lost t0 source divided by graph-kernel mass from all t0 sources excluding target self",
+    "response_tuning_authorized": false
+  },
+  "reference_R2": {
+    "island_state": "six target-island dummy variables with FAI as reference; this saturated static island control absorbs time-invariant area, external isolation, environment and generic network differences across the seven islands",
+    "continuous": [
+      "t0_other_source_count",
+      "nearest_surviving_source_euclidean_km",
+      "diffuse_surviving_source_euclidean_pressure"
+    ],
+    "binary": [
+      "surviving_source_empty"
+    ],
+    "empty_source_encoding": "nearest distance = 0 and diffuse pressure = 0 when no surviving other source; surviving_source_empty=1 distinguishes this state",
+    "continuous_standardization": "pilot training mean and population SD; zero variance is STOP",
+    "candidate_C_adds_only": [
+      "lost_access_fraction_E_i"
+    ]
+  },
+  "model": {
+    "training_rows": "22 frozen exactly-one-loss pilot target rows",
+    "training_endpoint": "1 = BALA2 target absent at BALA3; 0 = target persists to BALA3",
+    "model_family": "deterministic ridge logistic regression",
+    "ridge_lambda": 1,
+    "penalized_coefficients": "all non-intercept coefficients",
+    "optimizer": "Newton/IRLS with deterministic zero initialization",
+    "max_iterations": 200,
+    "coefficient_tolerance": 1e-10,
+    "probability_clip": [
+      1e-9,
+      0.999999999
+    ],
+    "hyperparameter_tuning": false,
+    "pilot_effect_reporting": false
+  },
+  "confirmatory_prediction_freeze": {
+    "freeze_before_t2_access": [
+      "eligible confirmatory MF token set from t0/t1 only",
+      "exactly-one-loss confirmatory target rows",
+      "all R2 feature values",
+      "all E_i values",
+      "pilot standardization parameters",
+      "R2 coefficients",
+      "C coefficients",
+      "R2 and C probability for every confirmatory target row",
+      "target row order and fingerprints"
+    ],
+    "t2_values_used": false,
+    "minimum_probability_difference_cells": 1,
+    "difference_threshold": 1e-12
+  },
+  "future_scoring": {
+    "primary_estimand": "equal-weight mean across confirmatory taxon clusters of within-taxon mean binary-log-loss(C)-binary-log-loss(R2)",
+    "favourable_direction": "negative",
+    "support_rule": "point < 0 and taxon-cluster bootstrap 95% upper bound < 0",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261005,
+    "minimum_estimable_taxon_clusters": 10,
+    "secondary_direction": "greater E_i predicts greater probability of subsequent contraction; cannot rescue failed primary"
+  },
+  "response_boundary": {
+    "pilot_response_already_opened": true,
+    "confirmatory_t0_t1_semantic_access_authorized": true,
+    "confirmatory_t2_semantic_access_authorized": false,
+    "confirmatory_t2_scoring_authorized": false,
+    "source_loss_effect_can_be_claimed_now": false
+  },
+  "pilot_parent": {
+    "pilot_artifact_id": 11322245046,
+    "presence_sha256": "e2f51045bb77e0f1cdc2eee80f42d5821cbc437ca0444b111be671e862c4bb39"
+  },
+  "source_operator_parent": {
+    "routing_artifact_id": 11320128924,
+    "geometry_sha256": "b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+    "edges_sha256": "912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f"
+  }
+}
