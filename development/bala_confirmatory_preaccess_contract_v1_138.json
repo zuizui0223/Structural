@@ -29,9 +29,14 @@
   "taxon_scope": {
     "rule": "exactly the frozen v1.137 pilot taxonomic rule",
     "identity": "MF identificationRemarks token",
-    "exclude_order": ["Diptera"],
+    "exclude_order": [
+      "Diptera"
+    ],
     "hymenoptera": "Formicidae only",
-    "exclude_if_taxonomy_mentions": ["Acari","Collembola"],
+    "exclude_if_taxonomy_mentions": [
+      "Acari",
+      "Collembola"
+    ],
     "taxonomy_conflict": "ineligible",
     "rule_change_after_t0_t1_access_authorized": false
   },
@@ -62,21 +67,28 @@
       "nearest_surviving_source_euclidean_km",
       "diffuse_surviving_source_euclidean_pressure"
     ],
-    "binary": ["surviving_source_empty"],
+    "binary": [
+      "surviving_source_empty"
+    ],
     "empty_source_encoding": "nearest distance = 0 and diffuse pressure = 0 when no surviving other source; surviving_source_empty=1 distinguishes this state",
     "continuous_standardization": "pilot training mean and population SD; zero variance is STOP",
-    "candidate_C_adds_only": ["lost_access_fraction_E_i"]
+    "candidate_C_adds_only": [
+      "lost_access_fraction_E_i"
+    ]
   },
   "model": {
     "training_rows": "22 frozen exactly-one-loss pilot target rows",
     "training_endpoint": "1 = BALA2 target absent at BALA3; 0 = target persists to BALA3",
     "model_family": "deterministic ridge logistic regression",
-    "ridge_lambda": 1.0,
+    "ridge_lambda": 1,
     "penalized_coefficients": "all non-intercept coefficients",
     "optimizer": "Newton/IRLS with deterministic zero initialization",
     "max_iterations": 200,
     "coefficient_tolerance": 1e-10,
-    "probability_clip": [1e-9,0.999999999],
+    "probability_clip": [
+      1e-9,
+      0.999999999
+    ],
     "hyperparameter_tuning": false,
     "pilot_effect_reporting": false
   },
@@ -111,5 +123,14 @@
     "confirmatory_t2_semantic_access_authorized": false,
     "confirmatory_t2_scoring_authorized": false,
     "source_loss_effect_can_be_claimed_now": false
+  },
+  "pilot_parent": {
+    "pilot_artifact_id": 11322245046,
+    "presence_sha256": "e2f51045bb77e0f1cdc2eee80f42d5821cbc437ca0444b111be671e862c4bb39"
+  },
+  "source_operator_parent": {
+    "routing_artifact_id": 11320128924,
+    "geometry_sha256": "b8e415dcdf4253dc0352d2ba55575fe815fbba6b774319a28a3f2b8246386946",
+    "edges_sha256": "912e1a81dee18191428b3f27632a0ccc466cc4c8c396a08705ddd7582194541f"
   }
 }
