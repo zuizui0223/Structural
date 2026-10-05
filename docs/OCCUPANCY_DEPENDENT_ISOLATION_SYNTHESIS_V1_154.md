@@ -18,9 +18,11 @@ This is the ecological interpretation of the current Structural evidence. It is 
 
 Classical island biogeography usually starts from physical separation of a target island from a source region. Modern island-biogeographic work has expanded isolation to include multiple geographic dimensions, nearby islands, source pools, environmental filtering and historical isolation.
 
-Spatial metapopulation theory goes further by allowing colonization pressure to depend on which other patches are occupied. That mathematical idea is not new.
+Spatial metapopulation theory goes further by allowing colonization pressure to depend on which other patches are occupied. That mathematical idea is not new. Empirical work has also shown that connectivity can be a dynamic property jointly determined by landscape structure and the changing distribution of occupied populations (e.g. Drake, Lambin & Sutherland 2022, *Journal of Animal Ecology*, doi:10.1111/1365-2656.13783).
 
-The present contribution is instead the empirical bridge between those traditions:
+Accordingly, Structural must **not** claim to discover occupancy-dependent connectivity itself. The present contribution is narrower: it tests whether the *incremental information in exact island adjacency* changes across species occupancy regimes at global scale, after source number, source proximity, prevalence and generic geography are already represented.
+
+The empirical bridge is:
 
 1. the same 5,401-island geography is held fixed;
 2. species are separated into disjoint occupancy layers;
@@ -144,7 +146,7 @@ Useful anchors:
 - source-pool island biogeography: source identity and proximity influence island composition.
 - empirical network metapopulations: occupancy/colonization and extinction can respond differently to connectivity.
 
-Structural adds a focal-species occupancy-state axis to these ideas and tests the management extrapolation separately rather than assuming it.
+Structural applies this established occupancy-state logic to global island biogeography and asks a more specific unresolved question: **when does exact source topology contain information beyond source count, source distance and generic island geography?** It then tests the management extrapolation separately rather than assuming it.
 
 ## Manuscript-level story
 
