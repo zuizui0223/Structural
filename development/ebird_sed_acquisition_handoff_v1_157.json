@@ -1,0 +1,36 @@
+{
+  "schema": "structural.ebird_sed_acquisition_handoff.v1_157",
+  "status": "EXTERNAL_OFFICIAL_SED_REQUIRED_LOCAL_HANDOFF_FROZEN",
+  "candidate_id": "ebird_global_islands_2002_2019",
+  "official_source": {
+    "product": "eBird Basic Dataset - Sampling Event Data",
+    "provider": "Cornell Lab of Ornithology eBird",
+    "access": "logged-in eBird data-request workflow",
+    "analysis_years": [2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],
+    "species_observation_table_requested_for_this_gate": false
+  },
+  "frozen_chain": {
+    "contract": "development/ebird_sed_support_chain_contract_v1_156.json",
+    "runner": "scripts/run_ebird_sed_support_chain_v1_156.py",
+    "metadata_contract": "development/ebird_sampling_event_metadata_audit_contract_v1_154.json",
+    "island_year_contract": "development/ebird_island_year_survey_contract_v1_155.json"
+  },
+  "geometry": {
+    "source": "USGS Global Islands",
+    "doi": "10.5066/P91ZCSGM",
+    "id_field": "OBJECTID",
+    "mapping": "strict point-in-polygon only"
+  },
+  "success_requirements": {
+    "support_chain_status": "SAME_BYTE_RESPONSE_INDEPENDENT_SED_SUPPORT_CHAIN_FROZEN",
+    "species_identity_read": false,
+    "species_detection_read": false,
+    "species_nondetection_constructed": false,
+    "annual_species_occupancy_constructed": false,
+    "source_loss_events_constructed": false,
+    "response_access_authorized": false
+  },
+  "next_gate": "freeze eligible three-wave windows and disjoint burned-pilot/confirmatory partitions using survey support only",
+  "raw_Dryad_species_archive_may_open": false,
+  "counts_as_empirical_source_loss_evidence": false
+}
