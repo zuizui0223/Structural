@@ -1,0 +1,11 @@
+{
+  "schema": "structural.finnish_eider_mixed_header_request.v1_152",
+  "status": "REQUEST_EXACT_FILE_HEADER_ONLY_AUDIT",
+  "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+  "contract": "development/finnish_eider_mixed_header_contract_v1_152.json",
+  "file_download_authorized_for_byte_verification": true,
+  "first_line_semantic_access_authorized": true,
+  "data_row_semantic_access_authorized": false,
+  "source_loss_scoring_authorized": false,
+  "one_shot": true
+}
