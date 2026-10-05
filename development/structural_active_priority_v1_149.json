@@ -1,0 +1,37 @@
+{
+  "schema": "structural.active_priority.v1_149",
+  "status": "ebird_sed_audit_implementation_frozen_waiting_for_official_sampling_event_data",
+  "supersedes": "development/structural_active_priority_v1_148.json",
+  "canonical_status": "development/current_status_v1_144.json",
+  "active_candidate": {
+    "candidate_id": "ebird_global_islands_2002_2019",
+    "status": "HOLD_OFFICIAL_SAMPLING_EVENT_DATA_NOT_PRESENT",
+    "gate": "development/ebird_sampling_event_metadata_audit_contract_v1_149.json"
+  },
+  "completed": [
+    "BALA independent three-wave source-loss primary not supported and terminal",
+    "Azores SLAM stopped prospectively because frozen non-overlapping three-wave windows were not available",
+    "official eBird semantics verified: Sampling Event Data provide checklist-level completeness/effort and are required for defensible nondetection",
+    "response-independent SED schema/coverage auditor frozen before any eBird species outcome access"
+  ],
+  "do_now": [
+    "obtain official eBird Sampling Event Data extract covering 2002-2019",
+    "run only the v1.149 checklist-metadata audit before any species response access",
+    "if v1.149 succeeds, freeze a separate checklist-deduplication, effort-quality and checklist-to-island geometry contract before opening Dryad species rows"
+  ],
+  "do_not": [
+    "open the Dryad eBird species archive before SED support semantics are frozen",
+    "infer absence from missing observed-species rows",
+    "choose effort thresholds using species persistence or source-loss outcomes",
+    "revive SLAM by relaxing the non-overlapping-window rule",
+    "rerun or subgroup-mine BALA",
+    "claim temporal validation of source leverage from the global mammal cross-sectional result"
+  ],
+  "parallel_nonconfirmatory_option": {
+    "candidate_id": "finnish_common_eider_archipelago_1997_2020",
+    "status": "retrospective schema audit permitted because it was registered before BALA outcome access",
+    "may_count_as_confirmation": false,
+    "reason": "annual island counts are public but broad temporal response direction is published and some grouped-island counts were reconstructed"
+  },
+  "next_scientific_event": "successful response-independent eBird SED support audit; otherwise no new confirmatory source-loss effect may be scored"
+}
