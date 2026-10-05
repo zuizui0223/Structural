@@ -1,0 +1,175 @@
+{
+  "schema": "structural.bala_source_loss_confirmatory_protocol.v1_139",
+  "status": "SCIENTIFIC_PROTOCOL_FROZEN_BEFORE_CONFIRMATORY_T0_T1_SEMANTIC_ACCESS",
+  "candidate_id": "azores_bala_arthropods_1997_2022",
+  "parents": [
+    "development/source_loss_leverage_protocol_v1_125.json",
+    "development/prospective_source_loss_leverage_transition_hypothesis_v1_123.json",
+    "development/bala_pilot_estimability_freeze_v1_138.json",
+    "development/bala_confirmatory_temporal_firewall_contract_v1_138.json",
+    "development/bala_geometry_operator_contract_v1_136.json",
+    "development/bala_pitfall_quality_freeze_v1_135.json"
+  ],
+  "scientific_question": "Among otherwise comparable Azorean island arthropod source-loss events with exactly one occupied source lost from BALA1 to BALA2, does the fraction of a surviving target population's pre-loss source access carried by that lost source predict subsequent BALA2-to-BALA3 contraction?",
+  "temporal_order": {
+    "t0": "BALA1 pitfall-only island-by-taxon occupancy",
+    "t1": "BALA2 pitfall-only island-by-taxon occupancy",
+    "t2": "BALA3 pitfall-only island-by-taxon occupancy",
+    "exposure_window": "BALA1 to BALA2",
+    "outcome_window": "BALA2 to BALA3",
+    "lost_source_site_never_scored_as_its_own_target": true
+  },
+  "analysis_population": {
+    "taxonomic_rule": "exactly the frozen v1.137 rule: exclude Diptera, non-Formicidae Hymenoptera, Acari/Collembola and taxonomy-conflict taxa",
+    "t0_minimum_occupied_islands": 2,
+    "source_loss_event": "exactly one BALA1 occupied island is absent in BALA2",
+    "target_row": "a different island occupied in BALA2 for the same eligible taxon",
+    "target_may_be_new_at_t1": true,
+    "target_was_occupied_at_t0_recorded_as_reference_predictor": true,
+    "t2_outcome_not_used_for_population_selection": true,
+    "broad_taxon_or_trait_subgroup_selection_after_t2": false
+  },
+  "source_operator": {
+    "graph": "exact frozen seven-island Gabriel graph from development/bala_geometry_operator_contract_v1_136.json",
+    "edge_weight": "haversine kilometres",
+    "kernel": "K_is = exp(-graph_distance(i,s)/lambda)",
+    "lambda_km": 78.93702465087111,
+    "paths_traverse_full_island_graph": true,
+    "occupied_intermediate_islands_required": false,
+    "self_anchor_exclusion": "for target island i, remove i from every source set before source count, distance, pressure or leverage is computed"
+  },
+  "primary_exposure": {
+    "name": "target_specific_lost_access_fraction_E_i",
+    "baseline_sources": "S0_minus_i = BALA1 occupied islands excluding target i",
+    "lost_sources": "L01_minus_i = members of S0_minus_i absent in BALA2; exactly one globally under the primary event rule",
+    "denominator": "P_i = sum K_is over s in S0_minus_i",
+    "numerator": "sum K_is over s in L01_minus_i",
+    "formula": "E_i = numerator / P_i",
+    "domain": "0 < E_i <= 1 under eligible exactly-one-loss target rows",
+    "t2_information_used": false
+  },
+  "secondary_exposure": {
+    "name": "event_level_effective_source_number_decrement",
+    "source_pressure_mass_A_s": "sum K_is over all seven frozen island geometry targets i != s",
+    "source_share_q_s": "A_s / sum A_r over BALA1 occupied sources r",
+    "N_eff_before": "1 / sum(q_s^2)",
+    "N_eff_after": "same quantity after deleting the actually lost BALA1 source",
+    "delta_N_eff": "N_eff_before - N_eff_after",
+    "role": "secondary descriptive direction only; cannot rescue primary"
+  },
+  "reference_R2": {
+    "static_island_control": "six dummy variables plus intercept for the seven island codes with alphabetically first code as reference; this intentionally absorbs all time-invariant island area, external isolation, habitat and generic-network differences",
+    "continuous_predictors": [
+      "other-source count at BALA1 after self-anchor exclusion",
+      "surviving-other-source count at BALA2 after self-anchor exclusion",
+      "nearest surviving-other-source Euclidean distance in km",
+      "diffuse surviving-other-source Euclidean pressure using exp(-distance/78.93702465087111)",
+      "target_was_occupied_at_t0 indicator",
+      "log1p BALA3 recovered pitfall positions for target island from response-independent Event metadata"
+    ],
+    "no_surviving_other_source_rule": {
+      "indicator": "no_surviving_other_source",
+      "nearest_distance_value": "D_sentinel = maximum pairwise haversine distance among the seven frozen islands + 78.93702465087111 km",
+      "diffuse_pressure": 0
+    },
+    "exactly_one_loss_count_control": "held fixed by the primary event restriction rather than entered as a zero-variance predictor",
+    "bioregion_archipelago": "constant Azores system; no separate coefficient",
+    "generic_graph_metrics": "not separately entered because the complete island fixed effects absorb every time-invariant seven-island generic graph property"
+  },
+  "candidate_C": {
+    "formula": "R2 + standardized E_i only",
+    "event_level_delta_N_eff_in_primary": false,
+    "interaction_terms": false,
+    "post_t2_feature_addition_authorized": false
+  },
+  "feature_standardization": {
+    "continuous_R2_and_E_i": "within each leave-one-taxon-out fold, mean and population SD from training target rows only",
+    "binary_indicators": "not standardized",
+    "zero_variance_training_predictor": "drop that predictor identically from R2 and C for that fold; E_i zero variance makes that fold non-estimable",
+    "heldout_row_never_contributes_to_standardization": true
+  },
+  "model": {
+    "family": "pooled binary ridge logistic regression",
+    "solver": "deterministic pure-Python IRLS from src/structural/boreal_confirmatory_model.py",
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "max_iterations": 100,
+    "tolerance": 1e-8,
+    "probability_clip": [1e-12,0.999999999999]
+  },
+  "validation": {
+    "outer_unit": "MF taxon",
+    "scheme": "leave-one-eligible-confirmatory-taxon-out",
+    "training_complement_minimum_contractions": 5,
+    "training_complement_minimum_persistences": 5,
+    "heldout_taxon_minimum_target_rows": 1,
+    "nonestimable_fold": "retained in accounting but contributes no effect value",
+    "minimum_estimable_taxon_clusters_for_primary": 10
+  },
+  "t2_endpoint": {
+    "analysis_row": "target taxon-island population present at BALA2",
+    "outcome_1": "contraction: target absent from all eligible BALA3 pitfall events",
+    "outcome_0": "persistence: at least one positive BALA3 pitfall occurrence",
+    "surveyed_zero_allowed": "only because every frozen island-phase passes the v1.135 pitfall surveyed-zero quality gate",
+    "t2_taxon_or_quantity_access_before_full_feature_freeze": false
+  },
+  "primary": {
+    "estimand": "equal-weight mean across estimable heldout MF taxa of within-taxon mean [binary logloss(C,y)-binary logloss(R2,y)]",
+    "favourable_direction": "negative",
+    "bootstrap_unit": "MF taxon cluster",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261005,
+    "quantile_method": "linear_type7",
+    "support_rule": "point estimate < 0 and taxon-cluster bootstrap 95% upper bound < 0"
+  },
+  "directional_secondary": {
+    "estimand": "coefficient/sign and descriptive contraction frequency gradient for continuous E_i under the frozen candidate model",
+    "predicted_direction": "higher E_i predicts greater contraction probability",
+    "may_rescue_failed_primary": false,
+    "high_low_threshold_search": false
+  },
+  "pre_t2_gate": {
+    "minimum_taxonomically_eligible_confirmatory_taxa": 30,
+    "minimum_exactly_one_loss_taxa": 10,
+    "minimum_exactly_one_loss_target_rows": 30,
+    "minimum_distinct_E_i_values": 3,
+    "E_i_population_sd_must_be_positive": true,
+    "all_t0_t1_features_and_outer_fold identities_frozen_before_t2": true,
+    "if_failed": "STOP before BALA3 semantic access; do not relax thresholds"
+  },
+  "confirmatory_stage_order": [
+    "v1.138 split exact confirmatory bytes into BALA1/2 and sealed BALA3 without ecological semantics",
+    "open only BALA1/2 and apply the unchanged taxonomic/presence rules",
+    "freeze eligible confirmatory taxa, exactly-one-loss events, target rows, E_i, secondary delta_N_eff, complete R2/C feature matrix and leave-one-taxon-out folds",
+    "verify the pre-t2 gate and freeze exact feature/fold fingerprints",
+    "only then authorize one BALA3 semantic read for eligible taxa/target islands",
+    "fit and score the frozen leave-one-taxon-out R2/C models once",
+    "freeze terminal result; no same-lineage rerun"
+  ],
+  "claim_boundary": {
+    "if_primary_supported": "pre-loss source-access leverage predicts future observed occupancy contraction beyond source count, ordinary remaining-source geometry, island identity and survey effort in the BALA system",
+    "cannot_claim": [
+      "causal extinction prevention",
+      "demographic rescue",
+      "realized dispersal along graph paths",
+      "recolonization mechanism",
+      "management intervention benefit"
+    ],
+    "independent_of_global_mammal_discovery_dataset": true
+  },
+  "anti_selection": [
+    "do not use pilot leverage-outcome association to choose the confirmatory operator",
+    "do not change exactly-one-loss restriction after BALA1/2 confirmatory access",
+    "do not tune lambda, graph structure, E_i formula or ridge strength on BALA3 outcomes",
+    "do not drop taxa or islands because their t2 direction is inconvenient",
+    "do not replace taxon-macro primary with row-weighted scoring after t2 access",
+    "do not use secondary delta_N_eff or subgroup results to rescue a failed primary"
+  ],
+  "response_boundary_now": {
+    "pilot_effect_estimate_used": false,
+    "confirmatory_t0_t1_semantics_opened": false,
+    "confirmatory_t2_semantics_opened": false,
+    "source_leverage_values_computed_for_confirmatory_taxa": false,
+    "counts_as_current_empirical_support_or_non_support": false
+  }
+}
