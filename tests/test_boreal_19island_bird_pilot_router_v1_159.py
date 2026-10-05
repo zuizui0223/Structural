@@ -1,5 +1,6 @@
 from pathlib import Path
 import importlib.util
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 ROUTER = ROOT / "src/structural/boreal_19island_bird_pilot_router.py"
@@ -16,6 +17,7 @@ CONFIRM = ["BB","BT","DF","EB","HF","MI","NH","OS","PR","SF","SK","WD","WF"]
 def load_module():
     spec = importlib.util.spec_from_file_location("bird_router", ROUTER)
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
