@@ -1,0 +1,148 @@
+{
+  "schema": "structural.boreal_19island_birds_topology_sensitivity_contract.v1_158",
+  "status": "PRE_RESPONSE_TOPOLOGY_SENSITIVITY_TEST_FROZEN",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "scientific_question": "In a second taxon on the same frozen 19-island geography, is exact occupied-source topology most informative for realized presences when finite-source configuration sensitivity is high?",
+  "evidence_class": {
+    "response_status": "bird species matrix unopened by Structural at freeze",
+    "same_geography_as_boreal_beetle_test": true,
+    "different_taxon_response": true,
+    "geographically_independent_replication": false,
+    "may_rescue_failed_beetle_primary": false,
+    "may_update_occupancy_regime_hypothesis": true
+  },
+  "parents": {
+    "theory": "docs/SPARSE_SOURCE_CONFIGURATION_THEORY_V1_155.md",
+    "geometry": "development/boreal_19island_safe_geometry_v0_97.csv",
+    "geometry_freeze": "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "source_operator_freeze": "development/boreal_19island_source_operator_freeze_v1_01.json",
+    "state_reference": "development/boreal_19island_state_reference_v0_99.csv",
+    "state_freeze": "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "dryad_metadata": "development/boreal_lake_islands_dryad_metadata_result_v0_65.json"
+  },
+  "bird_response_identity": {
+    "file_name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "reported_species_count": 54,
+    "response_domain": ["0", "1"],
+    "response_opened_at_this_freeze": false
+  },
+  "frozen_geography": {
+    "island_count": 19,
+    "pilot_islands": ["DN", "FD", "HU", "IL", "IS", "PP"],
+    "confirmatory_islands": ["BB", "BT", "DF", "EB", "HF", "MI", "NH", "OS", "PR", "SF", "SK", "WD", "WF"],
+    "pilot_source_candidate_count_M": 6,
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7,
+    "reuse_reason": "geometry and split were frozen response-independently before any boreal bird matrix value was opened"
+  },
+  "actual_topology": {
+    "operator": "minimal connected symmetrized kNN",
+    "selected_k": 3,
+    "edge_count": 35,
+    "operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "kernel_scale_km_hex": "0x1.4ccfd7aac74e4p+3"
+  },
+  "matched_topology_null": {
+    "null_count": 20,
+    "degree_sequence_exactly_preserved": true,
+    "edge_length_bins": 5,
+    "edge_length_bin_rule": "Hyndman-Fan type-7 q20/q40/q60/q80 of the 35 actual edge lengths",
+    "edge_length_bin_counts_exactly_preserved": true,
+    "connectedness_required": true,
+    "self_edges_forbidden": true,
+    "duplicate_edges_forbidden": true,
+    "accepted_double_edge_swaps_per_null": 70,
+    "scheduler": "SHA-256 deterministic attempt scheduler",
+    "scheduler_salt": "Structural-boreal-birds-null-v1.158",
+    "kernel_scale_rule": "reuse the frozen actual-topology kernel scale for every null; only adjacency changes",
+    "selection_by_bird_response_forbidden": true
+  },
+  "configuration_sensitivity": {
+    "possible_sources_M": 6,
+    "target_weight": "exp(-actual graph shortest-path distance / frozen kernel scale)",
+    "H_i": "population variance of the six possible-source weights divided by squared mean weight",
+    "S_i_n": "((M-n)/(n*(M-1))) * H_i",
+    "response_free_geometry_audit": {
+      "H_i_min_approx": 0.5226888794,
+      "H_i_max_approx": 2.6961040159,
+      "occupancy_factor_by_n": {
+        "1": 1.0,
+        "2": 0.4,
+        "3": 0.2,
+        "4": 0.1
+      },
+      "interpretation": "on this geometry occupancy count n is expected to dominate S variation because most confirmatory targets have similarly high H_i"
+    }
+  },
+  "pilot_access_rule": {
+    "authorized_now": false,
+    "future_one_shot_surface": "six frozen pilot islands x all 54 frozen bird species only",
+    "confirmatory_island_values_forbidden": true,
+    "species_eligibility_after_pilot": "retain species with 1-4 occupied pilot islands; zero-presence and 5-6-presence species are excluded",
+    "eligibility_threshold_frozen_before_bird_response": true,
+    "minimum_eligible_species": 12,
+    "if_gate_fails": "STOP bird route without opening any confirmatory bird response"
+  },
+  "reference_and_candidate": {
+    "R0": ["PC1", "PC2", "PC3", "TSF_Z"],
+    "R1_add": ["LOG_AREA_Z", "LOG_MAINLAND_DISTANCE_Z"],
+    "R2_add": ["graph_degree_fraction", "graph_mean_shortest_path_km", "graph_closeness_per_km"],
+    "R3_add": [
+      "pilot-only Jeffreys occupancy logit",
+      "pilot-only nearest Euclidean occupied-source distance",
+      "pilot-only Euclidean occupied-source pressure"
+    ],
+    "C_actual_add": [
+      "pilot-only nearest actual-graph-path occupied-source distance",
+      "pilot-only actual-graph-path occupied-source pressure"
+    ],
+    "C_null_add": "same two graph-path features recomputed separately on each of the 20 frozen null topologies",
+    "fit": "pooled ridge logistic regression, lambda=1, deterministic solver inherited from the completed boreal 19-island pipeline",
+    "confirmatory_predictions_must_be_frozen_before_response": true
+  },
+  "primary_test": {
+    "endpoint": "realized confirmatory bird presences only",
+    "weight": "S_i(n_s), computed only from frozen geography plus pilot occupancy count n_s",
+    "within_block_weighting": "normalize positive S weights to sum to one within each estimable confirmatory block",
+    "P1": "equal-block mean of S-weighted [binary logloss(C_actual)-binary logloss(R3)]",
+    "P2": "equal-block mean of S-weighted [binary logloss(C_actual)-mean binary logloss(C_null_1..20)]",
+    "support_requires": [
+      "P1 point estimate < 0 and 95% spatial-block bootstrap upper bound < 0",
+      "P2 point estimate < 0 and 95% spatial-block bootstrap upper bound < 0"
+    ],
+    "bootstrap_replicates": 10000,
+    "bootstrap_unit": "frozen confirmatory spatial block",
+    "favourable_direction": "negative",
+    "minimum_estimable_presence_blocks": 3,
+    "if_presence_gate_fails": "terminal non-estimable; do not alter species threshold, S definition, or endpoint"
+  },
+  "secondary_nonrescuing": [
+    "unweighted presence C_actual-R3",
+    "unweighted presence C_actual-mean(null)",
+    "high-versus-low S descriptive contrast",
+    "absence-cell contrasts",
+    "species-level summaries"
+  ],
+  "claim_boundary": {
+    "can_support": "same-geography cross-taxon prospective replication of occupancy-regime topology specificity",
+    "cannot_support": [
+      "geographically independent global generality",
+      "realized dispersal routes",
+      "rescue effect",
+      "temporal demographic consequence",
+      "management ranking by static leverage"
+    ]
+  },
+  "response_boundary": {
+    "bird_pilot_response_opened": false,
+    "bird_confirmatory_response_opened": false,
+    "plant_response_opened": false,
+    "new_beetle_response_analysis_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_action": "freeze and verify the exact 20-null topology ensemble plus response-free H_i surface; only after those objects are committed may a separate one-shot bird-pilot authorization be constructed"
+}
