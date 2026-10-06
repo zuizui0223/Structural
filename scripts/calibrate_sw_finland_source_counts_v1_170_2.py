@@ -5,7 +5,7 @@ No recent colonization outcome is read. Six already-frozen t0 source-count
 anchors calibrate the documented affine standardization of log10(n+1).
 """
 from __future__ import annotations
-import argparse,csv,json,math,unicodedata
+import argparse,csv,json,math,re,unicodedata
 from collections import Counter
 from pathlib import Path
 
@@ -23,8 +23,14 @@ def load_json(path:Path)->dict:
     if not isinstance(x,dict):raise Stop(f"{path.name} must contain object")
     return x
 
+DECIMAL_COMMA=re.compile(r"^[+-]?\\d+,\\d+(?:[eE][+-]?\\d+)?$")
+
 def parse_float(x:str,label:str)->float:
-    try:v=float(str(x).strip())
+    token=str(x).strip()
+    normalized=token
+    if "." not in token and DECIMAL_COMMA.fullmatch(token):
+        normalized=token.replace(",",".",1)
+    try:v=float(normalized)
     except ValueError as exc:raise Stop(f"invalid {label}") from exc
     if not math.isfinite(v):raise Stop(f"nonfinite {label}")
     return v
