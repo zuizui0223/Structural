@@ -316,7 +316,7 @@ def freeze(
         "candidate_id": contract["candidate_id"],
         "parents": {
             "geometry_sha256": geometry_freeze["geometry_sha256"],
-            "spatial_freeze_sha256": sha256_file(DEFAULT_SPATIAL),
+            "spatial_freeze_sha256": operator_freeze["parents"]["spatial_freeze_sha256"],
             "source_operator_fingerprint": operator_freeze["operator_fingerprint"],
             "bird_response_sha256": contract["response_file"]["expected_sha256"],
         },
