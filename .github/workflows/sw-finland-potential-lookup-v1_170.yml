@@ -1,0 +1,125 @@
+name: SW Finland supplementary Potential_islands lookup v1.170
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_potential_lookup_request_v1_170.json
+
+permissions:
+  contents: write
+
+jobs:
+  t0-supplement-lookup:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate response-boundary request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/sw_finland_potential_lookup_request_v1_170.json").read_text())
+          assert r["schema"]=="structural.sw_finland_potential_lookup_request.v1_170"
+          assert r["status"]=="REQUEST_SUPPLEMENTARY_T0_SOURCE_COUNT_LOOKUP"
+          assert r["future_outcome_values_opened_before_request"]==0
+          assert r["future_summary_values_requested"] is False
+          assert r["row_level_recent_outcome_access_requested"] is False
+          assert r["effect_estimate_requested"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Install deterministic PDF text extractor
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+
+      - name: Download fixed public supplement
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v170/raw build/swf_v170/safe build/swf_v170/out
+          python - <<'PY'
+          import hashlib,urllib.request,json
+          from pathlib import Path
+          url="https://www.ecography.org/sites/ecography.org/files/appendix/ecog-05013.pdf"
+          req=urllib.request.Request(url,headers={"User-Agent":"Structural-v1.170"})
+          out=Path("build/swf_v170/raw/ecog-05013.pdf")
+          h=hashlib.sha256()
+          with urllib.request.urlopen(req,timeout=120) as src,out.open("wb") as dst:
+              while True:
+                  b=src.read(1024*1024)
+                  if not b:break
+                  dst.write(b);h.update(b)
+          if not out.read_bytes().startswith(b"%PDF"):
+              raise SystemExit("supplement is not a PDF")
+          Path("build/swf_v170/out/pdf_identity.json").write_text(
+              json.dumps({
+                "schema":"structural.sw_finland_supplement_pdf_identity.v1_170",
+                "status":"FIXED_PUBLIC_SUPPLEMENT_DOWNLOADED",
+                "sha256":h.hexdigest(),
+                "size_bytes":out.stat().st_size,
+                "future_summary_values_persisted":0,
+                "row_level_recent_outcome_opened":False,
+                "counts_as_empirical_evidence":False
+              },indent=2,sort_keys=True)+"\n"
+          )
+          PY
+          pdftotext -layout build/swf_v170/raw/ecog-05013.pdf build/swf_v170/raw/ecog-05013.txt
+
+      - name: Project safe species and Potential_islands only
+        run: |
+          python scripts/project_sw_finland_potential_islands_v1_170.py             build/swf_v170/raw/ecog-05013.txt             --safe-output build/swf_v170/safe/species_potential.csv             --receipt build/swf_v170/out/projection.json
+
+      - name: Validate canonical t0 source-count lookup
+        run: |
+          python scripts/validate_sw_finland_potential_islands_lookup_v1_168.py             build/swf_v170/safe/species_potential.csv             --canonical-output build/swf_v170/out/sw_finland_species_potential_islands_v1_168.csv             --receipt build/swf_v170/out/validation.json
+
+      - name: Verify anchors and future-summary firewall
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          o=Path("build/swf_v170/out")
+          p=json.loads((o/"projection.json").read_text())
+          v=json.loads((o/"validation.json").read_text())
+          assert p["status"]=="SAFE_SPECIES_POTENTIAL_ISLANDS_PROJECTED"
+          assert p["species_count"]==587
+          assert p["future_summary_values_parsed"]==0
+          assert p["future_summary_values_persisted"]==0
+          assert v["status"]=="T0_SOURCE_COUNT_LOOKUP_VALIDATED_NO_FUTURE_SUMMARIES_PERSISTED"
+          assert v["species_count"]==587
+          assert v["future_summary_values_persisted"]==0
+          rows={r["species"]:int(r["Potential_islands"]) for r in csv.DictReader((o/"sw_finland_species_potential_islands_v1_168.csv").open())}
+          anchors={"Acer platanoides":464,"Allium schoenoprasum":56,"Aster tripolium":362,"Atriplex prostrata":429,"Anchusa arvensis":471,"Agrostis stolonifera":11}
+          assert all(rows.get(k)==x for k,x in anchors.items())
+          PY
+
+      - name: Delete source PDF, extracted text and intermediate projection
+        if: always()
+        run: |
+          rm -rf build/swf_v170/raw build/swf_v170/safe
+
+      - name: Commit only t0 lookup and receipts
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v170/raw
+          test ! -e build/swf_v170/safe
+          cp build/swf_v170/out/sw_finland_species_potential_islands_v1_168.csv development/sw_finland_species_potential_islands_v1_168.csv
+          cp build/swf_v170/out/pdf_identity.json development/sw_finland_supplement_pdf_identity_v1_170.json
+          cp build/swf_v170/out/projection.json development/sw_finland_potential_lookup_projection_receipt_v1_170.json
+          cp build/swf_v170/out/validation.json development/sw_finland_potential_lookup_validation_v1_170.json
+          git add             development/sw_finland_species_potential_islands_v1_168.csv             development/sw_finland_supplement_pdf_identity_v1_170.json             development/sw_finland_potential_lookup_projection_receipt_v1_170.json             development/sw_finland_potential_lookup_validation_v1_170.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze SW Finland supplementary t0 source-count lookup v1.170"
+          git push origin HEAD:main
