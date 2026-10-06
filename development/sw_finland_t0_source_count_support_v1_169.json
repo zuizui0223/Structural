@@ -1,0 +1,19 @@
+{
+  "archive_species_count": 587,
+  "archived_event_rows": 225345,
+  "counts_as_empirical_evidence": false,
+  "direct_inversion_exact_source_species": 0,
+  "direct_inversion_impossible_species": 0,
+  "direct_inversion_incomplete_species": 0,
+  "direct_inversion_source_count_histogram": {},
+  "direct_inversion_unresolved_species": 587,
+  "direct_inversion_zero_source_species": 0,
+  "future_outcome_opened": false,
+  "minimum_exact_species_required": 30,
+  "outcome_values_read": 0,
+  "protected_field_values_decoded": 0,
+  "schema": "structural.sw_finland_t0_source_count_support_audit.v1_169",
+  "status": "DIRECT_LOG_INVERSION_INSUFFICIENT_USE_FROZEN_SUPPLEMENT_LOOKUP",
+  "supplement_lookup_required": true,
+  "unique_island_count": 471
+}
