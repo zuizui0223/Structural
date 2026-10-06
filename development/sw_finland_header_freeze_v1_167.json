@@ -1,0 +1,17 @@
+{
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "counts_as_empirical_evidence": false,
+  "data_rows_semantically_opened": 0,
+  "download_receipt_canonical_sha256": "059cb2ec36788f36c6d997738731985b82510fa74e960587455a302fdc7da632",
+  "file_md5": "ff648878946ba430fb86c4ab2aa02baa",
+  "file_name": "colonization_select.csv",
+  "file_sha256": "72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957",
+  "file_size_bytes": 129157803,
+  "future_outcome_opened": false,
+  "header_receipt_canonical_sha256": "6c1e8306234ce92282ae3e7204d49a7a24b07156b7bd9df185f63d555546e391",
+  "header_sha256": "b6b06095784ed3888a0b4656a87175c5387f10ec72d07eea6919376c4ec7b4f8",
+  "outcome_values_read": 0,
+  "schema": "structural.sw_finland_header_freeze.v1_167",
+  "status": "HEADER_IDENTITY_VERIFIED_FUTURE_OUTCOME_REMAINS_SEALED",
+  "t0_projection_may_be_dispatched": true
+}
