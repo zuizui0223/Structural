@@ -1,0 +1,15 @@
+{
+  "schema": "structural.sw_finland_header_audit_dispatch_request.v1_166",
+  "status": "REQUEST_MAIN_ONLY_HEADER_AUDIT",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "target_workflow": ".github/workflows/sw-finland-header-audit-v1_166.yml",
+  "target_ref": "main",
+  "one_shot": true,
+  "source_md5": "ff648878946ba430fb86c4ab2aa02baa",
+  "data_rows_semantically_opened_before_request": 0,
+  "outcome_values_read_before_request": 0,
+  "t0_projection_requested": false,
+  "future_outcome_requested": false,
+  "eBird_used": false,
+  "counts_as_empirical_evidence": false
+}
