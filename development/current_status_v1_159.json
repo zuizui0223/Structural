@@ -1,0 +1,70 @@
+{
+  "schema": "structural.current_status.v1_159",
+  "status": "occupancy_regime_reframed_boreal_bird_pilot_ready_but_not_authorized",
+  "parent_empirical_status": "development/current_status_v1_144.json",
+  "core_ecological_claim": "exact occupied-source topology carries uniquely useful occurrence information in the sparsest prospectively tested global mammal occupancy regime, but static source leverage is not validated as a predictor of later contraction",
+  "mechanism": {
+    "name": "finite_source_configuration_sensitivity",
+    "identity": "CV^2(A)=[(M-n)/(n(M-1))]*(sigma^2/mu^2)",
+    "interpretation": "source scarcity exposes positional heterogeneity rather than creating a topology effect",
+    "response_free": true
+  },
+  "completed_evidence": {
+    "global_mammal_ultrarare": {
+      "species": 529,
+      "presence_C_minus_R3": -0.5962586684916777,
+      "actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20",
+      "status": "prospective topology-specific presence signal supported within one geography"
+    },
+    "global_mammal_5_12": {
+      "species": 96,
+      "status": "prospective overall non-replication and no topology specificity"
+    },
+    "global_mammal_13_plus": {
+      "species": 79,
+      "status": "exploratory absence-focused source-context gain, actual topology not uniquely informative"
+    },
+    "BALA_temporal": {
+      "status": "independent three-wave source-loss primary not supported",
+      "C_minus_R2": 0.00067423414692237,
+      "ci95": [-0.02130441194511585, 0.025579070508640226],
+      "rerun_authorized": false
+    },
+    "boreal_19island_beetles": {
+      "status": "fresh confirmatory overall C-minus-R3 primary not supported",
+      "rerun_or_rescue_authorized": false
+    }
+  },
+  "policy": {
+    "ebird_active_route": false,
+    "ebird_reactivation_authorized": false,
+    "reason": "research direction explicitly excludes eBird"
+  },
+  "active_pre_response_test": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+    "evidence_role": "same-geography different-taxon prospective mechanism test",
+    "geographically_independent": false,
+    "response_file_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "bird_response_opened": false,
+    "pilot_islands": 6,
+    "confirmatory_islands": 13,
+    "null_topologies": 20,
+    "null_rule": "connected degree-preserving and exact five-bin edge-length-count preserving rewires",
+    "response_free_null_checks_passed": true,
+    "response_free_ci_run_id": 37391533856,
+    "response_free_ci_conclusion": "success",
+    "pilot_rule": "read only 6 x 54 = 324 pilot cells; retain species with 1-4 pilot presences; require at least 12 eligible species",
+    "confirmatory_cells_authorized": 0,
+    "pilot_execution_authorized": false
+  },
+  "next_irreversible_event": {
+    "event": "one-shot boreal bird pilot semantic access",
+    "maximum_occurrence_cells_decoded": 324,
+    "confirmatory_occurrence_cells_decoded": 0,
+    "excluded_occurrence_cells_decoded": 0,
+    "authorization_condition": "merge or otherwise cryptographically fix the v1.158-v1.159 response-free design, then issue a separate one-shot pilot authorization bound to the exact bird response SHA"
+  },
+  "if_pilot_passes": "freeze R3, actual-C and all 20 null-C confirmatory predictions before opening any of the 13 confirmatory bird islands",
+  "if_pilot_fails": "terminal bird route; do not lower the 12-species gate or widen the 1-4 pilot-presence rule"
+}
