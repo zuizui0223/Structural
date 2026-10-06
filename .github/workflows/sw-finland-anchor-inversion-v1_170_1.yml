@@ -1,0 +1,104 @@
+name: SW Finland anchor-calibrated source inversion v1.170.1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_anchor_inversion_request_v1_170_1.json
+
+permissions:
+  contents: write
+
+jobs:
+  t0-anchor-inversion:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate t0-only one-shot request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/sw_finland_anchor_inversion_request_v1_170_1.json").read_text())
+          assert r["schema"]=="structural.sw_finland_anchor_inversion_request.v1_170_1"
+          assert r["status"]=="REQUEST_T0_ANCHOR_CALIBRATED_SOURCE_INVERSION"
+          assert r["future_outcome_access_requested"] is False
+          assert r["future_summary_access_requested"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Download exact archive bytes
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1701/raw build/swf_v1701/safe build/swf_v1701/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          url="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          expected_md5="ff648878946ba430fb86c4ab2aa02baa"
+          expected_sha="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957"
+          out=Path("build/swf_v1701/raw/colonization_select.csv");md5=hashlib.md5();sha=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Structural-v1.170.1"}),timeout=180) as src,out.open("wb") as dst:
+            while True:
+              b=src.read(1024*1024)
+              if not b:break
+              dst.write(b);md5.update(b);sha.update(b)
+          if md5.hexdigest()!=expected_md5 or sha.hexdigest()!=expected_sha:
+            out.unlink(missing_ok=True);raise SystemExit("archive identity mismatch")
+          PY
+
+      - name: Route t0-safe fields with future outcome opaque
+        run: |
+          python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf_v1701/raw/colonization_select.csv             --safe-output build/swf_v1701/safe/t0_safe.csv             --receipt build/swf_v1701/out/router.json
+
+      - name: Invert standardized historical source breadth and reconstruct exact sources
+        run: |
+          python scripts/invert_sw_finland_historical_source_counts_v1_170_1.py             build/swf_v1701/safe/t0_safe.csv             --router-receipt build/swf_v1701/out/router.json             --species-output build/swf_v1701/out/species.csv             --membership-output build/swf_v1701/out/membership.csv             --geometry-output build/swf_v1701/out/geometry.csv             --receipt build/swf_v1701/out/receipt.json
+
+      - name: Delete raw archive and row-level safe projection
+        if: always()
+        run: |
+          rm -rf build/swf_v1701/raw build/swf_v1701/safe
+
+      - name: Verify exact t0 source gate
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v1701/raw
+          test ! -e build/swf_v1701/safe
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v1701/out/receipt.json").read_text())
+          assert r["status"]=="T0_ANCHOR_INVERSION_AND_EXACT_SOURCE_IDENTITIES_FROZEN"
+          assert r["species_count"]==587
+          assert r["integer_inversion_species"]==587
+          assert r["integer_inversion_unresolved_species"]==0
+          assert r["exact_positive_source_species"]>=30
+          assert r["impossible_species"]==0
+          assert r["future_outcome_values_opened"]==0
+          assert r["protected_outcome_values_decoded"]==0
+          assert r["future_summary_values_used"]==0
+          assert r["pilot_future_outcome_authorized"] is False
+          assert r["confirmatory_future_outcome_authorized"] is False
+          PY
+
+      - name: Commit t0-only exact source products
+        run: |
+          cp build/swf_v1701/out/species.csv development/sw_finland_anchor_inversion_species_v1_170_1.csv
+          cp build/swf_v1701/out/membership.csv development/sw_finland_anchor_inversion_source_membership_v1_170_1.csv
+          cp build/swf_v1701/out/geometry.csv development/sw_finland_anchor_inversion_geometry_v1_170_1.csv
+          cp build/swf_v1701/out/receipt.json development/sw_finland_anchor_inversion_result_v1_170_1.json
+          git add             development/sw_finland_anchor_inversion_species_v1_170_1.csv             development/sw_finland_anchor_inversion_source_membership_v1_170_1.csv             development/sw_finland_anchor_inversion_geometry_v1_170_1.csv             development/sw_finland_anchor_inversion_result_v1_170_1.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze SW Finland anchor-calibrated historical sources v1.170.1"
+          git push origin HEAD:main
