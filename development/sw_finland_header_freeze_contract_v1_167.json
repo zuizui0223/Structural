@@ -1,0 +1,28 @@
+{
+  "schema": "structural.sw_finland_header_freeze_contract.v1_167",
+  "status": "HEADER_RECEIPT_FREEZER_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parent": "development/sw_finland_header_acquisition_contract_v1_166.json",
+  "required_download": {
+    "schema": "structural.sw_finland_download_identity.v1_166",
+    "status": "EXACT_ZENODO_FILE_MD5_VERIFIED",
+    "md5": "ff648878946ba430fb86c4ab2aa02baa",
+    "data_rows_semantically_opened": 0,
+    "outcome_values_read": 0
+  },
+  "required_header": {
+    "schema": "structural.sw_finland_plant_colonization_header_audit.v1_163",
+    "status": "HEADER_ONLY_AUDIT_COMPLETE_FUTURE_OUTCOME_ROWS_UNREAD",
+    "data_rows_semantically_opened": 0,
+    "outcome_values_read": 0,
+    "t0_projection_authorized": true,
+    "unknown_headers": []
+  },
+  "canonical_outputs": {
+    "exact_header_receipt": "development/sw_finland_header_audit_v1_167.json",
+    "freeze_wrapper": "development/sw_finland_header_freeze_v1_167.json"
+  },
+  "success_ceiling": "COMMITTED_HEADER_IDENTITY_MAY_AUTHORIZE_SEPARATE_T0_WORKFLOW",
+  "future_outcome_access_authorized": false,
+  "counts_as_empirical_evidence": false
+}
