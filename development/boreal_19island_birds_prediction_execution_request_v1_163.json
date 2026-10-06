@@ -1,0 +1,23 @@
+{
+  "schema": "structural.boreal_19island_birds_prediction_execution_request.v1_163",
+  "status": "REQUEST_RESPONSE_SEALED_PREDICTION_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "response_free_parent_head_sha": "5a1e2a0f2661067fc7777ed1cf9e9b5f99c41d5d",
+  "response_free_ci": {
+    "workflow_run_id": 37393235421,
+    "conclusion": "success"
+  },
+  "pilot_freeze": {
+    "path": "development/boreal_19island_bird_pilot_freeze_v1_162.json",
+    "snapshot_fingerprint": "41446435056972f25f0c400af9f1668fbc09af292111800c45073ae0553b6ab0",
+    "eligible_species_count": 18
+  },
+  "prediction_contract": "development/boreal_19island_birds_prediction_freeze_contract_v1_163.json",
+  "expected_prediction_rows": 234,
+  "expected_candidate_topologies": 21,
+  "confirmatory_response_opened": false,
+  "one_shot": true,
+  "counts_as_empirical_evidence": false,
+  "if_pass": "freeze artifact identities and exact-replay committed predictions before any confirmatory bird response authorization",
+  "if_fail": "STOP before confirmatory bird response and repair implementation only without altering scientific contract"
+}
