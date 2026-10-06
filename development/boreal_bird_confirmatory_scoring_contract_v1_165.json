@@ -65,5 +65,21 @@
   "rerun_rule": "one semantic confirmatory open only; any post-access failure is terminal and may not be repaired by threshold or subgroup changes",
   "project_policy": {
     "eBird_enabled": false
+  },
+  "required_committed_inputs": {
+    "pilot_execution": "development/boreal_bird_pilot_execution_v1_163.json",
+    "pilot_snapshot": "development/boreal_bird_pilot_snapshot_v1_163.json",
+    "preconfirmatory_freeze": "development/boreal_bird_preconfirmatory_freeze_v1_164.json",
+    "prediction_surface": "development/boreal_bird_confirmatory_predictions_v1_164.csv",
+    "rule": "all four files must be Git-tracked on main before confirmatory request; request must carry their exact SHA-256 values"
+  },
+  "confirmatory_execution_request": {
+    "path": "development/boreal_bird_confirmatory_execution_request_v1_165.json",
+    "schema": "structural.boreal_bird_confirmatory_execution_request.v1_165",
+    "status": "REQUEST_ONE_SHOT_BIRD_CONFIRMATORY_SCORING",
+    "one_shot": true,
+    "rerun_authorized": false,
+    "request_may_be_created_only_after_preconfirmatory_files_committed": true,
+    "response_based_editing_of_request_forbidden": true
   }
 }
