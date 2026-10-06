@@ -1,0 +1,88 @@
+name: SW Finland semicolon header freeze v1.166.2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_header_reaudit_request_v1_166_2.json
+
+permissions:
+  contents: write
+
+jobs:
+  canonical-header-freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/sw_finland_header_reaudit_request_v1_166_2.json").read_text())
+          assert r["status"]=="REQUEST_CANONICAL_SEMICOLON_HEADER_FREEZE"
+          assert r["prior_data_rows_opened"]==0
+          assert r["prior_outcome_values_read"]==0
+          assert r["selected_delimiter"]==";"
+          assert r["t0_row_projection_requested"] is False
+          PY
+      - name: Download exact frozen archive
+        run: |
+          mkdir -p build/swf_header2/raw build/swf_header2/out
+          python - <<'PY'
+          import hashlib,json,urllib.request
+          from pathlib import Path
+          url="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          expected="ff648878946ba430fb86c4ab2aa02baa"
+          out=Path("build/swf_header2/raw/colonization_select.csv");h=hashlib.md5();n=0
+          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Structural-v1.166.2"}),timeout=180) as src,out.open("wb") as dst:
+            while True:
+              b=src.read(1024*1024)
+              if not b:break
+              dst.write(b);h.update(b);n+=len(b)
+          if h.hexdigest()!=expected: raise SystemExit("MD5 mismatch")
+          d={"schema":"structural.sw_finland_download_identity.v1_166","status":"EXACT_ZENODO_FILE_MD5_VERIFIED","candidate_id":"sw_finland_archipelago_plants_1930s_1996_2017","record_id":4942881,"file_name":"colonization_select.csv","size_bytes":n,"md5":expected,"data_rows_semantically_opened":0,"outcome_values_read":0,"counts_as_empirical_evidence":False}
+          Path("build/swf_header2/out/download.json").write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
+          PY
+      - name: Re-audit exact header under committed grammar
+        run: |
+          python scripts/audit_sw_finland_colonization_header_v1_166_2.py \
+            build/swf_header2/raw/colonization_select.csv \
+            --receipt build/swf_header2/out/header.json
+      - name: Freeze canonical header identity
+        run: |
+          python scripts/freeze_sw_finland_header_audit_v1_167.py \
+            build/swf_header2/out/download.json build/swf_header2/out/header.json \
+            --exact-header-output development/sw_finland_header_audit_v1_167.json \
+            --freeze-output development/sw_finland_header_freeze_v1_167.json
+      - name: Delete raw archive and verify boundary
+        if: always()
+        run: |
+          rm -rf build/swf_header2/raw
+          test ! -e build/swf_header2/raw
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          h=json.loads(Path("development/sw_finland_header_audit_v1_167.json").read_text())
+          f=json.loads(Path("development/sw_finland_header_freeze_v1_167.json").read_text())
+          assert h["delimiter"]==";"
+          assert h["data_rows_semantically_opened"]==0
+          assert h["outcome_values_read"]==0
+          assert f["status"]=="HEADER_IDENTITY_VERIFIED_FUTURE_OUTCOME_REMAINS_SEALED"
+          assert f["data_rows_semantically_opened"]==0
+          assert f["outcome_values_read"]==0
+          PY
+      - name: Commit canonical response-free header freeze
+        run: |
+          git add development/sw_finland_header_audit_v1_167.json development/sw_finland_header_freeze_v1_167.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze canonical SW Finland semicolon header identity v1.167"
+          git push origin HEAD:main

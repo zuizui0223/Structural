@@ -1,0 +1,31 @@
+{
+  "schema": "structural.sw_finland_header_reaudit_contract.v1_166_2",
+  "status": "SEMICOLON_HEADER_REAUDIT_PREDECLARED_FROM_COMMITTED_ZERO_ROW_GRAMMAR_FREEZE",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_header_grammar_receipt_v1_166_1.json",
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_header_freeze_contract_v1_167.json"
+  ],
+  "exact_file": {
+    "md5": "ff648878946ba430fb86c4ab2aa02baa",
+    "zenodo_url": "https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+  },
+  "grammar": {
+    "required_status": "HEADER_GRAMMAR_UNIQUELY_IDENTIFIED",
+    "selected_delimiter": ";",
+    "selected_header_sha256": "4667495ee88ca6b91b10d99e84123767262334b965d0057793bce79bbd664c9c"
+  },
+  "audit_rule": "decode only first logical record using exactly the committed semicolon delimiter; validate against frozen firewall; read no data row",
+  "result_schema_compatibility": "emit structural.sw_finland_plant_colonization_header_audit.v1_163 because the result semantics/fields are unchanged; implementation revision and delimiter are recorded as extra provenance",
+  "canonical_outputs": [
+    "development/sw_finland_header_audit_v1_167.json",
+    "development/sw_finland_header_freeze_v1_167.json"
+  ],
+  "response_boundary": {
+    "data_rows_semantically_opened": 0,
+    "outcome_values_read": 0,
+    "t0_row_projection_authorized_during_this_revision": false,
+    "counts_as_empirical_evidence": false
+  }
+}

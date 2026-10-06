@@ -1,0 +1,14 @@
+{
+  "schema": "structural.sw_finland_header_reaudit_request.v1_166_2",
+  "status": "REQUEST_CANONICAL_SEMICOLON_HEADER_FREEZE",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "exact_file_md5": "ff648878946ba430fb86c4ab2aa02baa",
+  "grammar_receipt": "development/sw_finland_header_grammar_receipt_v1_166_1.json",
+  "selected_delimiter": ";",
+  "selected_header_sha256": "4667495ee88ca6b91b10d99e84123767262334b965d0057793bce79bbd664c9c",
+  "prior_data_rows_opened": 0,
+  "prior_outcome_values_read": 0,
+  "t0_row_projection_requested": false,
+  "future_outcome_requested": false,
+  "eBird_used": false
+}
