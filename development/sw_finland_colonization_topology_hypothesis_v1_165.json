@@ -8,7 +8,7 @@
     "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
     "development/sw_finland_t0_projection_contract_v1_164.json"
   ],
-  "central_hypothesis": "Exact configuration of historically occupied source islands contains future colonization information beyond historical source count, nearest historical source, diffuse Euclidean source pressure, recipient-island state and species traits; topology-specific gain should be strongest where response-free finite-source configuration sensitivity is high.",
+  "central_hypothesis": "Among species whose complete historical source identities can be reconstructed response-independently, exact configuration of historically occupied source islands contains future colonization information beyond historical source count, nearest historical source, diffuse Euclidean source pressure, recipient-island state and species/pair traits; topology-specific gain should be strongest where response-free finite-source configuration sensitivity is high.",
   "causal_order": {
     "source_state": "historical inventory only",
     "endpoint": "colonization success in recent inventory",
@@ -32,7 +32,7 @@
     "k_rule": "smallest integer k>=1 yielding a connected graph",
     "edge_weight": "Euclidean distance in EUREF-FIN metres converted to km",
     "kernel_scale": "type-7 median of positive selected graph edge lengths",
-    "source_set": "all islands historically occupied by the focal species; target excluded defensively",
+    "source_set": "exact reconstructed historical occupied-source islands for v1.164-eligible species only; target excluded defensively",
     "source_count_minimum": 1,
     "response_used": false
   },
@@ -51,7 +51,8 @@
   "reference_ladder": {
     "R0": [
       "full prospectively frozen recipient-island state from safe metadata, with ridge regularization rather than outcome-based variable selection",
-      "species traits from safe metadata"
+      "species traits from safe metadata",
+      "Gowdis_traits as pair-specific t0-safe historical recipient-community trait dissimilarity"
     ],
     "R1_add": [
       "broad spatial coordinates and external surrounding-land variables"
@@ -60,9 +61,9 @@
       "generic response-independent graph degree/closeness/path context"
     ],
     "R3_add": [
-      "reconstructed historical source count",
-      "nearest Euclidean historical source distance",
-      "diffuse Euclidean historical source pressure"
+      "recomputed historical source count from exact t0 source identity",
+      "recomputed nearest Euclidean historical source distance from exact t0 source identity",
+      "diffuse Euclidean historical source pressure from exact t0 source identity"
     ],
     "C_add": [
       "nearest graph-path historical source distance",
@@ -72,13 +73,13 @@
   },
   "finite_source_sensitivity": {
     "M": "number of eligible historical source positions in the frozen island universe excluding target",
-    "n": "reconstructed historical occupied-source count for focal species",
+    "n": "exact reconstructed historical occupied-source count for the focal eligible species",
     "H_i": "sigma_i^2/mu_i^2 across response-independent graph-kernel weights from target i to all possible source islands",
     "S_i_n": "[(M-n)/(n*(M-1))] * H_i",
     "computation_timing": "fully frozen from t0 state before any future outcome access"
   },
   "pilot_use": {
-    "future_outcomes_opened": "pilot spatial blocks only, one shot, after t0/graph/null freeze",
+    "future_outcomes_opened": "pilot spatial blocks for v1.164 exact-source eligible species only, one shot, after t0/graph/null freeze",
     "purpose": [
       "fit the frozen R0-R3-C and null-C models",
       "verify training numerical estimability"
@@ -87,7 +88,7 @@
     "confirmatory_outcomes_remain_sealed": true
   },
   "confirmatory_primary": {
-    "endpoint": "successful colonization rows (outcome=1) among frozen potential colonization events",
+    "endpoint": "successful colonization rows (outcome=1) among frozen v1.164 exact-source eligible potential-colonization events",
     "P1_nonredundancy": "equal-confirmatory-block mean successful-event binary-log-loss(C)-binary-log-loss(R3)",
     "P2_topology_specificity": "equal-confirmatory-block mean successful-event binary-log-loss(actual C)-mean binary-log-loss(20 rewired C models)",
     "favourable_direction": "negative for both",
@@ -102,6 +103,8 @@
     "may_rescue_failed_primary": false
   },
   "anti_selection": [
+    "do not treat archive rows omitted by the original complete-case modelling workflow as historical presences",
+    "do not admit a species without response-independent exact historical source identity",
     "do not use published AIC-selected final model as the Structural reference",
     "do not tune graph k, kernel scale, block size, null ensemble or S threshold using recent outcome",
     "do not alter source-count eligibility after pilot outcome",
@@ -109,10 +112,21 @@
     "do not call a favourable result pristine fresh confirmation"
   ],
   "response_boundary": {
-    "t0_projection_may_open_after_v1_163_header_pass": true,
+    "t0_projection_may_open_after_v1_163_header_pass": false,
     "pilot_future_outcome_authorized": false,
     "confirmatory_future_outcome_authorized": false,
     "future_outcome_values_opened": 0,
-    "counts_as_empirical_evidence": false
+    "counts_as_empirical_evidence": false,
+    "t0_projection_gate": "requires committed v1.167 header freeze, byte-level outcome-opaque routing, and v1.164 exact-source completeness gate"
+  },
+  "eligibility_gate": {
+    "source_identity_source": "v1.164 t0 projection only",
+    "eligible_species": "source_identity_exact=true only",
+    "minimum_exact_source_species": 30,
+    "exact_identity_rule": "known archived historical-absence row count + response-independently recovered historical occupied-source count == 471",
+    "incomplete_archive_species": "exclude before pilot/future outcome access; omitted rows are never treated as historical presences",
+    "zero_historical_source_species": "exclude because graph-source features are undefined",
+    "future_outcome_used_to_define_eligibility": false,
+    "if_minimum_not_met": "terminal pre-outcome STOP/HOLD; no future colonization outcome access"
   }
 }
