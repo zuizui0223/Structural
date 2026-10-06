@@ -1,0 +1,107 @@
+name: SW Finland numeric logx count recovery v1.173.4
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_standardized_count_request_v1_173_4.json
+
+permissions:
+  contents: write
+
+jobs:
+  numeric-logx-recovery:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify t0-only correction boundary
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/sw_finland_standardized_historical_count_contract_v1_173_4.json").read_text())
+          r=json.loads(Path("development/sw_finland_standardized_count_request_v1_173_4.json").read_text())
+          assert c["prior_stop"]["future_outcome_values_opened"]==0
+          assert c["published_transform_correction"]["future_outcome_used_to_choose_transform"] is False
+          assert c["eligibility"]["numeric_species"]==312
+          assert c["eligibility"]["excluded_nonnumeric_species"]==275
+          assert c["eligibility"]["nonnumeric_species_may_reenter"] is False
+          assert c["anchors"]["minimum_numeric_anchor_matches"]==20
+          assert c["anchors"]["expected_numeric_anchor_matches"]==21
+          assert c["calibration"]["thresholds_loosened_from_v1_173"] is False
+          assert r["future_outcome_values_opened_before_request"]==0
+          assert r["future_outcome_access_requested"] is False
+          assert r["effect_estimate_requested"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Download exact archive bytes
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1734/raw build/swf_v1734/safe build/swf_v1734/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          u="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          p=Path("build/swf_v1734/raw/colonization_select.csv");m=hashlib.md5();s=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":"Structural-v1.173.4"}),timeout=180) as src,p.open("wb") as dst:
+              while True:
+                  b=src.read(1024*1024)
+                  if not b:break
+                  dst.write(b);m.update(b);s.update(b)
+          if m.hexdigest()!="ff648878946ba430fb86c4ab2aa02baa" or s.hexdigest()!="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957":
+              p.unlink(missing_ok=True);raise SystemExit("archive identity mismatch")
+          PY
+
+      - name: Route t0 columns with outcome opaque
+        run: |
+          python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf_v1734/raw/colonization_select.csv             --safe-output build/swf_v1734/safe/t0_safe.csv             --receipt build/swf_v1734/out/router.json
+
+      - name: Recover numeric-pool source counts with published logx transform
+        run: |
+          python scripts/recover_sw_finland_numeric_counts_v1_173_4.py             build/swf_v1734/safe/t0_safe.csv             --router-receipt build/swf_v1734/out/router.json             --species-output build/swf_v1734/out/species_counts.csv             --excluded-output build/swf_v1734/out/excluded.csv             --anchor-output build/swf_v1734/out/anchor_audit.csv             --receipt build/swf_v1734/out/recovery.json
+
+      - name: Delete raw archive and row-level safe projection
+        if: always()
+        run: rm -rf build/swf_v1734/raw build/swf_v1734/safe
+
+      - name: Verify frozen gates and commit t0-only products
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v1734/raw
+          test ! -e build/swf_v1734/safe
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v1734/out/recovery.json").read_text())
+          assert r["status"]=="NUMERIC_T0_HISTORICAL_SOURCE_COUNTS_RECOVERED_LOGX"
+          assert r["calibration_transform"]=="log10(n)"
+          assert r["species_total"]==587
+          assert r["numeric_species"]==312
+          assert r["excluded_nonnumeric_species"]==275
+          assert r["anchors_matched_numeric"]==21
+          assert r["exact_source_species"]>=30
+          assert r["impossible_species"]==0
+          assert r["future_outcome_values_opened"]==0
+          assert r["protected_outcome_values_decoded"]==0
+          assert r["supplement_future_summary_values_used"]==0
+          PY
+          cp build/swf_v1734/out/species_counts.csv development/sw_finland_historical_source_count_recovery_v1_173_4.csv
+          cp build/swf_v1734/out/excluded.csv development/sw_finland_historical_source_count_excluded_v1_173_4.csv
+          cp build/swf_v1734/out/recovery.json development/sw_finland_historical_source_count_calibration_v1_173_4.json
+          git add development/sw_finland_historical_source_count_recovery_v1_173_4.csv development/sw_finland_historical_source_count_excluded_v1_173_4.csv development/sw_finland_historical_source_count_calibration_v1_173_4.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze SW Finland numeric historical source counts using log10(n) v1.173.4"
+          git push origin HEAD:main
