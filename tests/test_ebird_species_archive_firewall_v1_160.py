@@ -69,4 +69,4 @@ def test_priority_still_has_one_external_blocker():
     x=json.loads((ROOT/"development/structural_active_priority_v1_160.json").read_text())
     assert x["live_candidate"]["status"]=="HOLD_OFFICIAL_SAMPLING_EVENT_DATA_REQUIRED"
     assert x["live_candidate"]["species_response_access_authorized"] is False
-    assert "v1.160" in x["live_candidate"]["species_archive_first_access"]
+    assert "v1_160" in x["live_candidate"]["species_archive_first_access"]
