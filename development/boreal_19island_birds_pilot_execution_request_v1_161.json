@@ -1,0 +1,27 @@
+{
+  "schema": "structural.boreal_19island_birds_pilot_execution_request.v1_161",
+  "status": "REQUEST_ONE_SHOT_BIRD_PILOT_V161",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "scientific_design_head_sha": "46434a3d086396205c06c66bdef2aaa15d9eaafc",
+  "execution_workflow_parent_sha": "f32732a07a432e194f5bf0d5d9fd8ec11b6f8c15",
+  "response_free_ci": {
+    "workflow_run_id": 37392218114,
+    "conclusion": "success"
+  },
+  "v1_160_terminal": {
+    "workflow_run_id": 37391990932,
+    "artifact_id": 11381433048,
+    "reason": "routing header Island versus Islands only",
+    "species_header_names_parsed": 0,
+    "pilot_occurrence_values_parsed": 0,
+    "confirmatory_occurrence_values_parsed": 0
+  },
+  "response_file_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+  "frozen_routing_header": "Islands",
+  "scientific_rules_changed_after_v160": false,
+  "one_shot": true,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "if_pass": "freeze pilot snapshot and proceed only to response-sealed confirmatory prediction construction",
+  "if_fail": "terminal v1.161 bird route; no further schema or threshold rescue"
+}
