@@ -1,0 +1,10 @@
+{
+  "schema": "structural.sw_finland_historical_total_token_audit_request.v1_173_1",
+  "status": "REQUEST_T0_HISTORICAL_TOTAL_TOKEN_AUDIT",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "contract": "development/sw_finland_historical_total_token_audit_contract_v1_173_1.json",
+  "future_outcome_access_requested": false,
+  "effect_estimate_requested": false,
+  "one_shot": true,
+  "eBird_used": false
+}
