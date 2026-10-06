@@ -1,0 +1,88 @@
+{
+  "schema": "structural.sw_finland_anchor_inversion_contract.v1_170_1",
+  "status": "T0_STANDARDIZED_SOURCE_COUNT_INVERSION_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_plant_colonization_preintake_v1_162.json",
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_t0_byte_router_contract_v1_169.json",
+    "development/sw_finland_t0_source_count_support_v1_169.json"
+  ],
+  "rationale": "Historical_total_log is a response-independent historical source-breadth variable documented as log10(x+1)-transformed before zero-mean/unit-variance scaling. Two public Supplementary Appendix 2 Potential_islands anchors identify the global affine standardization; four disjoint anchors validate it.",
+  "published_transform": {
+    "pre_standardization": "L = log10(historical_source_count + 1)",
+    "archived_scale": "z = (L - mean) / sd",
+    "inverse": "historical_source_count = 10^(mean + sd*z) - 1"
+  },
+  "calibration_anchors": {
+    "Anchusa arvensis": {
+      "Potential_islands": 471,
+      "historical_source_count": 0
+    },
+    "Agrostis stolonifera": {
+      "Potential_islands": 11,
+      "historical_source_count": 460
+    }
+  },
+  "validation_anchors": {
+    "Acer platanoides": {
+      "Potential_islands": 464,
+      "historical_source_count": 7
+    },
+    "Allium schoenoprasum": {
+      "Potential_islands": 56,
+      "historical_source_count": 415
+    },
+    "Aster tripolium": {
+      "Potential_islands": 362,
+      "historical_source_count": 109
+    },
+    "Atriplex prostrata": {
+      "Potential_islands": 429,
+      "historical_source_count": 42
+    }
+  },
+  "anchor_provenance": {
+    "source": "Aikio et al. 2020 Ecography Supplementary material Appendix 2, species table",
+    "permitted_field": "Potential_islands only",
+    "future_summary_fields_used": [],
+    "future_summary_values_persisted": 0
+  },
+  "inversion_gate": {
+    "expected_species": 587,
+    "expected_islands": 471,
+    "Historical_total_log_must_be_constant_within_species": true,
+    "integer_domain": [0,471],
+    "maximum_absolute_raw_count_residual": 0.001,
+    "all_587_species_must_map_to_unique_nearest_integer": true,
+    "validation_anchors_must_match_exact_integer": true
+  },
+  "source_identity_gate": {
+    "archived_absent_count": "exact number of unique t0-safe spp.name x holmkod rows",
+    "exact_if": "archived_absent_count + historical_source_count == 471",
+    "incomplete_if": "sum < 471; exclude before future outcome",
+    "impossible_if": "sum > 471; terminal STOP",
+    "zero_source_if": "historical_source_count == 0; count as exact accounting but topology-ineligible",
+    "source_identity": "471-island universe minus exact archived absent-island set",
+    "minimum_positive_source_exact_species": 30
+  },
+  "outputs": {
+    "species_status": "development/sw_finland_anchor_inversion_species_v1_170_1.csv",
+    "source_membership": "development/sw_finland_anchor_inversion_source_membership_v1_170_1.csv",
+    "island_geometry": "development/sw_finland_anchor_inversion_geometry_v1_170_1.csv",
+    "receipt": "development/sw_finland_anchor_inversion_result_v1_170_1.json"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "future_summary_values_used": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "T0_ANCHOR_INVERSION_AND_EXACT_SOURCE_IDENTITIES_FROZEN",
+    "next_action": "freeze response-independent spatial blocks, actual source graph, matched topology nulls, configuration-sensitivity surface, reference models and scoring rules before any future colonization outcome access"
+  }
+}
