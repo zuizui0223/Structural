@@ -45,3 +45,9 @@ def test_species_factor_decreases_with_historical_source_count():
     vals=[(M-n)/(n*(M-1)) for n in (1,2,5,20,100,470)]
     assert all(a>=b for a,b in zip(vals,vals[1:]))
     assert vals[-1]==0
+
+
+def test_null_swap_multipliers_are_frozen_and_machine_readable():
+    c=json.loads(CONTRACT.read_text())
+    assert c["matched_nulls"]["target_swap_multiplier"]==2
+    assert c["matched_nulls"]["maximum_attempt_multiplier"]==400
