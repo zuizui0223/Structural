@@ -1,0 +1,50 @@
+name: Dispatch SW Finland exact sources v1.171
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/sw_finland_species_potential_islands_v1_168.csv
+      - development/sw_finland_potential_lookup_validation_v1_170.json
+permissions:
+  contents: write
+jobs:
+  dispatch:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Verify t0 lookup and create exact-SHA request
+        run: |
+          set -euo pipefail
+          test ! -e development/sw_finland_exact_source_reconstruction_request_v1_171.json
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          lookup=Path("development/sw_finland_species_potential_islands_v1_168.csv")
+          val=Path("development/sw_finland_potential_lookup_validation_v1_170.json")
+          v=json.loads(val.read_text())
+          assert v["status"]=="T0_SOURCE_COUNT_LOOKUP_VALIDATED_NO_FUTURE_SUMMARIES_PERSISTED"
+          assert v["species_count"]==587
+          assert v["future_summary_values_persisted"]==0
+          assert v["row_level_recent_outcome_opened"] is False
+          req={
+            "schema":"structural.sw_finland_exact_source_reconstruction_request.v1_171",
+            "status":"REQUEST_T0_EXACT_SOURCE_RECONSTRUCTION",
+            "candidate_id":"sw_finland_archipelago_plants_1930s_1996_2017",
+            "lookup_sha256":hashlib.sha256(lookup.read_bytes()).hexdigest(),
+            "future_outcome_access_requested":False,
+            "effect_estimate_requested":False,
+            "one_shot":True,
+            "eBird_used":False,
+          }
+          Path("development/sw_finland_exact_source_reconstruction_request_v1_171.json").write_text(
+            json.dumps(req,indent=2,sort_keys=True)+"\n"
+          )
+          PY
+          git add development/sw_finland_exact_source_reconstruction_request_v1_171.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Request SW Finland exact historical source reconstruction v1.171"
+          git push origin HEAD:main
