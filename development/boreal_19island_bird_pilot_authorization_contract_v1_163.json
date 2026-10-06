@@ -1,0 +1,59 @@
+{
+  "schema": "structural.boreal_19island_bird_pilot_authorization_contract.v1_163",
+  "status": "ONE_SHOT_BIRD_PILOT_AUTHORIZATION_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "parents": [
+    "development/boreal_bird_topology_sensitivity_contract_v1_162.json",
+    "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/boreal_19island_spatial_partition_freeze_v1_00.json"
+  ],
+  "required_parent_state": {
+    "protocol_status": "PROSPECTIVE_SECONDARY_TAXON_TOPOLOGY_SENSITIVITY_PROTOCOL_FROZEN_BEFORE_BIRD_RESPONSE",
+    "topology_status": "RESPONSE_FREE_TOPOLOGY_NULL_AND_SENSITIVITY_SURFACE_FROZEN",
+    "response_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "topology_null_count": 20,
+    "topology_unique_nulls": 20,
+    "eBird_enabled": false
+  },
+  "semantic_access": {
+    "species_header_names": true,
+    "routing_island_field_all_42_rows": true,
+    "pilot_island_occurrence_cells": true,
+    "confirmatory_island_occurrence_cells": false,
+    "excluded_island_occurrence_cells": false,
+    "expected_species_columns": 54,
+    "expected_full_source_rows": 42,
+    "expected_pilot_rows": 6,
+    "expected_confirmatory_rows": 13,
+    "expected_excluded_rows": 23
+  },
+  "pilot_gate": {
+    "minimum_fixed_species": 10,
+    "fixed_species_rule": "species present on at least two distinct frozen pilot islands",
+    "minimum_distinct_n": 3,
+    "allowed_n": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "effect_estimation_allowed": false,
+    "confirmatory_prediction_scoring_allowed": false
+  },
+  "one_shot": {
+    "authorization_consumed_when": "first semantic decode of any pilot occurrence cell",
+    "transport_failure_consumes_authorization": false,
+    "semantic_failure_consumes_authorization": true,
+    "rerun_after_semantic_open": false
+  },
+  "qualified_ceiling": {
+    "status": "BIRD_PILOT_QUALIFIED_TO_FREEZE_ACTUAL_AND_NULL_PREDICTIONS",
+    "allowed_next_action": "freeze R3 + actual-C + 20 null-C confirmatory prediction surfaces",
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "execution_authorized_now": false
+}
