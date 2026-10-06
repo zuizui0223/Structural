@@ -1,0 +1,139 @@
+name: Boreal bird one-shot pilot v1.165
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_bird_pilot_execution_request_v1_165.json
+
+permissions:
+  contents: read
+
+jobs:
+  one-shot-bird-pilot:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code with history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Enforce one-shot request
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          REQUEST="development/boreal_bird_pilot_execution_request_v1_165.json"
+          test "$(git rev-list --count HEAD -- "$REQUEST")" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req=json.loads(Path(
+            "development/boreal_bird_pilot_execution_request_v1_165.json"
+          ).read_text())
+          assert req["schema"]=="structural.boreal_bird_pilot_execution_request.v1_165"
+          assert req["status"]=="REQUEST_ONE_SHOT_BIRD_PILOT"
+          assert req["candidate_id"]=="lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity"
+          assert req["response_sha256"]=="3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c"
+          assert req["pilot_occurrence_cells_authorized"]==324
+          assert req["confirmatory_occurrence_cells_authorized"]==0
+          assert req["excluded_occurrence_cells_authorized"]==0
+          assert req["one_shot"] is True
+          assert req["raw_response_may_be_uploaded"] is False
+          assert req["counts_as_empirical_evidence"] is False
+          assert req["ebird_enabled"] is False
+          PY
+
+      - name: Verify pre-response contracts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/boreal_bird_pilot_contract_v1_163.json").read_text())
+          t=json.loads(Path("development/boreal_19island_topology_sensitivity_freeze_v1_162.json").read_text())
+          m=json.loads(Path("development/boreal_bird_preconfirmatory_contract_v1_164.json").read_text())
+          assert c["response_boundary"]["bird_pilot_opened"] is False
+          assert c["response_boundary"]["bird_confirmatory_opened"] is False
+          assert t["response_boundary"]["bird_values_read"]==0
+          assert t["null_ensemble"]["count"]==20
+          assert t["null_ensemble"]["unique_topologies"]==20
+          assert m["response_boundary"]["bird_confirmatory_response_authorized"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/boreal_bird_v165
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_bird_v165/token_receipt.json
+
+      - name: Transport exact bird response bytes without semantic opening
+        run: |
+          mkdir -p build/boreal_bird_v165/raw
+          python scripts/fetch_boreal_bird_response_v1_163.py \
+            build/boreal_bird_v165/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --receipt build/boreal_bird_v165/transport_receipt.json
+
+      - name: Consume bird pilot exactly once
+        id: pilot
+        run: |
+          set +e
+          python scripts/run_boreal_bird_pilot_v1_163.py \
+            build/boreal_bird_v165/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --result build/boreal_bird_v165/pilot_result.json \
+            --snapshot build/boreal_bird_v165/pilot_snapshot.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Delete raw response bytes before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_bird_v165/raw
+          test ! -d build/boreal_bird_v165/raw
+
+      - name: Audit artifact surface
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          allowed={
+            "token_receipt.json","transport_receipt.json",
+            "pilot_result.json","pilot_snapshot.json"
+          }
+          root=Path("build/boreal_bird_v165")
+          files={p.name for p in root.iterdir() if p.is_file()}
+          assert files <= allowed, files
+          assert not any(root.rglob("*.csv"))
+          PY
+
+      - name: Upload consumed pilot audit bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-bird-v165-pilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_bird_v165/token_receipt.json
+            build/boreal_bird_v165/transport_receipt.json
+            build/boreal_bird_v165/pilot_result.json
+            build/boreal_bird_v165/pilot_snapshot.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Fail workflow unless pilot gate qualifies
+        if: always()
+        env:
+          PILOT_EXIT_CODE: ${{ steps.pilot.outputs.exit_code }}
+        run: test "$PILOT_EXIT_CODE" = "0"
