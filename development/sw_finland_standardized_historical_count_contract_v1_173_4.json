@@ -1,0 +1,75 @@
+{
+  "schema": "structural.sw_finland_standardized_historical_count_contract.v1_173_4",
+  "status": "T0_ONLY_NUMERIC_SOURCE_COUNT_LOGX_CORRECTION_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "supersedes_after_preoutcome_calibration_stop": "development/sw_finland_standardized_historical_count_contract_v1_173_3.json",
+  "prior_stop": {
+    "workflow_run_id": 37480151477,
+    "stage": "t0-only anchor calibration",
+    "reason": "log10(n+1) inverse made Agrostis canina round to 141 instead of frozen 140",
+    "future_outcome_values_opened": 0,
+    "effect_estimate_produced": false
+  },
+  "published_transform_correction": {
+    "paper_doi": "10.1111/ecog.05013",
+    "method": "strongly right-skewed numeric variables were log10(x) transformed; log10(x+1) was reserved for original variables containing zeros; all numeric variables were then zero-mean/unit-variance standardized",
+    "numeric_pool_implication": "Historical_total_log is finite only for the frozen 312-species numeric pool; source-count recovery therefore uses log10(n), not log10(n+1)",
+    "future_outcome_used_to_choose_transform": false
+  },
+  "eligibility": {
+    "numeric_species": 312,
+    "excluded_nonnumeric_species": 275,
+    "nonnumeric_species_may_reenter": false,
+    "rule_unchanged_from_v1_173_3": true
+  },
+  "anchors": {
+    "base": "same original v1.173 anchor table, retaining the 18 species in the numeric pool",
+    "base_numeric_anchor_count": 18,
+    "additional_table_order_anchors": {
+      "Angelica archangelica ssp. litoralis": 300,
+      "Angelica sylvestris": 346,
+      "Antennaria dioeca": 170
+    },
+    "additional_anchor_provenance": "next three numeric species after the original alphabetic anchor block in Supplementary Appendix 2; source count = 471 - Potential_islands (171,125,301)",
+    "future_colonization_performance_used_to_select_additional_anchors": false,
+    "minimum_numeric_anchor_matches": 20,
+    "expected_numeric_anchor_matches": 21
+  },
+  "calibration": {
+    "fit": "OLS of log10(historical_source_count) on [1, archived numeric Historical_total_log]",
+    "inverse": "raw_n = 10^(intercept + slope*z)",
+    "slope_must_be_positive": true,
+    "integer_recovery": "round raw_n to nearest integer in [1,471]",
+    "every_matched_anchor_must_round_exactly": true,
+    "maximum_anchor_count_rounding_error": 0.01,
+    "maximum_all_numeric_species_count_rounding_error": 0.05,
+    "minimum_exact_source_species": 30,
+    "impossible_species_required": 0,
+    "thresholds_loosened_from_v1_173": false
+  },
+  "archive_support": {
+    "archived_absent_count": "unique holmkod rows per eligible numeric species",
+    "exact_if": "archived_absent_count + recovered historical_source_count == 471",
+    "incomplete_if": "sum < 471",
+    "impossible_if": "sum > 471",
+    "zero_source_numeric_species_allowed": false
+  },
+  "canonical_outputs": {
+    "species_table": "development/sw_finland_historical_source_count_recovery_v1_173_4.csv",
+    "excluded_table": "development/sw_finland_historical_source_count_excluded_v1_173_4.csv",
+    "receipt": "development/sw_finland_historical_source_count_calibration_v1_173_4.json"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "supplement_future_summary_values_used": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "NUMERIC_T0_HISTORICAL_SOURCE_COUNTS_RECOVERED_LOGX",
+    "next_action": "promote exact-source species to source identities under v1.174.2; keep all 275 nonnumeric species excluded; future outcome remains sealed"
+  }
+}
