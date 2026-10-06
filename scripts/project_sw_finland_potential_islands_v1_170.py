@@ -1,26 +1,18 @@
 #!/usr/bin/env python3
-"""Extract only species + Potential_islands from the frozen Ecography supplement.
+"""Project only species + Potential_islands from pdftotext bbox XHTML.
 
-Input is pdftotext -layout output. Future colonization summary fields are used
-only as trailing row-shape delimiters and are never persisted, returned, or
-used for eligibility.
+The parser uses word coordinates to read only the first two species-table
+columns. It never parses or stores the published future-summary values in later
+columns.
 """
 from __future__ import annotations
-import argparse,csv,hashlib,json,re,unicodedata
+import argparse,csv,hashlib,json,math,unicodedata,xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_CONTRACT=ROOT/"development/sw_finland_potential_islands_projection_contract_v1_170.json"
 
 class Stop(RuntimeError): pass
-
-ROW_RE=re.compile(
-    r"^\s*(?P<species>.+?)\s+"
-    r"(?P<potential>\d{1,3})\s+"
-    r"(?P<num>\d+)\s+"
-    r"(?P<prop>(?:\d+(?:\.\d*)?|\.\d+))\s+"
-    r"(?P<random>NA|[-+]?(?:\d+(?:\.\d*)?|\.\d+))\s*$"
-)
 
 def norm_species(x:str)->str:
     return " ".join(unicodedata.normalize("NFC",str(x)).strip().split())
@@ -36,43 +28,104 @@ def load(path:Path)->dict:
     if not isinstance(x,dict):raise Stop("contract must be JSON object")
     return x
 
-def extract(text:str,contract:dict):
+def tagname(node):
+    return node.tag.rsplit("}",1)[-1]
+
+def words_in_line(line):
+    out=[]
+    for node in line.iter():
+        if tagname(node)!="word":continue
+        text="".join(node.itertext()).strip()
+        if not text:continue
+        try:
+            xmin=float(node.attrib["xMin"]);xmax=float(node.attrib["xMax"])
+        except (KeyError,ValueError) as exc:
+            raise Stop("bbox word missing finite x coordinates") from exc
+        if not math.isfinite(xmin) or not math.isfinite(xmax) or xmax<xmin:
+            raise Stop("invalid bbox word coordinates")
+        out.append((text,xmin,xmax))
+    return out
+
+def page_lines(page):
+    return [node for node in page.iter() if tagname(node)=="line"]
+
+def extract_bbox(xml_text:str,contract:dict):
     if contract.get("schema")!="structural.sw_finland_potential_islands_projection_contract.v1_170":
         raise Stop("contract schema drift")
-    start_i=text.find("Potential_islands")
-    if start_i<0:raise Stop("species table start not found")
-    end_i=text.find("Island_name",start_i)
-    if end_i<0:raise Stop("island table end marker not found")
-    segment=text[start_i:end_i]
+    try:root=ET.fromstring(xml_text)
+    except ET.ParseError as exc:raise Stop("invalid pdftotext bbox XHTML") from exc
+    pages=[n for n in root.iter() if tagname(n)=="page"]
+    if not pages:raise Stop("bbox XHTML contains no pages")
 
-    rows=[];seen={};unparsed=[]
-    for raw in segment.splitlines()[1:]:
-        line=raw.strip()
-        if not line or line.isdigit():continue
-        if "Potential_islands" in line or line.startswith("ECOG-05013"):
-            continue
-        m=ROW_RE.match(line)
-        if not m:
-            if any(ch.isalpha() for ch in line):unparsed.append(line[:80])
-            continue
-        species=norm_species(m.group("species"))
-        potential=int(m.group("potential"))
-        if not species:raise Stop("blank species")
-        if not 0<=potential<=471:raise Stop(f"Potential_islands outside range for {species}")
-        if species in seen:raise Stop(f"duplicate species: {species}")
-        seen[species]=potential
-        rows.append({
-            "species":species,
-            "Potential_islands":potential,
-            "historical_source_count":471-potential,
-        })
+    start=None;end=None;potential_x=None;next_x=None
+    for pi,page in enumerate(pages):
+        for li,line in enumerate(page_lines(page)):
+            words=words_in_line(line)
+            texts=[w[0] for w in words]
+            if start is None and "species" in texts and "Potential_islands" in texts:
+                try:
+                    pword=next(w for w in words if w[0]=="Potential_islands")
+                    nword=next(w for w in words if w[0]=="Num_colonized")
+                except StopIteration as exc:
+                    raise Stop("species-table header lacks next-column boundary") from exc
+                potential_x=pword[1];next_x=nword[1]
+                if not potential_x<next_x:raise Stop("invalid supplement column order")
+                start=(pi,li)
+                continue
+            if start is not None and "Island_name" in texts:
+                end=(pi,li);break
+        if end is not None:break
+    if start is None:raise Stop("species-table bbox header not found")
+    if end is None:raise Stop("island-table bbox end marker not found")
+
+    # The Potential_islands values are right-aligned within the band bounded by
+    # the Potential_islands and Num_colonized header starts. Use a small margin
+    # around the left header start but never enter the next column.
+    band_left=potential_x-4.0
+    band_right=next_x-2.0
+
+    rows=[];seen={}
+    for pi,page in enumerate(pages):
+        if pi<start[0] or pi>end[0]:continue
+        for li,line in enumerate(page_lines(page)):
+            if pi==start[0] and li<=start[1]:continue
+            if pi==end[0] and li>=end[1]:break
+            words=words_in_line(line)
+            if not words:continue
+            texts=[w[0] for w in words]
+            if "Potential_islands" in texts or "species"==texts[0].lower():
+                continue
+
+            potential_words=[
+                (text,xmin,xmax) for text,xmin,xmax in words
+                if xmin>=band_left and xmin<band_right and text.isdigit()
+            ]
+            if len(potential_words)!=1:
+                continue
+            ptext,pxmin,_=potential_words[0]
+            potential=int(ptext)
+            if not 0<=potential<=471:
+                raise Stop("Potential_islands outside frozen range")
+
+            species_words=[
+                text for text,xmin,xmax in words
+                if xmax<band_left+1e-9
+            ]
+            species=norm_species(" ".join(species_words))
+            if not species:
+                raise Stop(f"blank species at Potential_islands={potential}")
+            # Do not inspect words to the right of the potential column.
+            if species in seen:raise Stop(f"duplicate species: {species}")
+            seen[species]=potential
+            rows.append({
+                "species":species,
+                "Potential_islands":potential,
+                "historical_source_count":471-potential,
+            })
 
     expected=int(contract["validation"]["expected_unique_species"])
     if len(rows)!=expected:
-        raise Stop(
-            f"expected {expected} parsed species, found {len(rows)}; "
-            f"unparsed_alpha_lines={len(unparsed)}"
-        )
+        raise Stop(f"expected {expected} parsed species, found {len(rows)}")
     for species,expected_p in contract["validation"]["sentinels"].items():
         if seen.get(species)!=int(expected_p):raise Stop(f"sentinel mismatch for {species}")
     rows.sort(key=lambda r:r["species"])
@@ -89,7 +142,7 @@ def write_safe(rows,path:Path):
 
 def main()->int:
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument("layout_text",type=Path)
+    p.add_argument("bbox_xhtml",type=Path)
     p.add_argument("--source-pdf",type=Path,required=True)
     p.add_argument("--contract",type=Path,default=DEFAULT_CONTRACT)
     p.add_argument("--safe-output",type=Path,required=True)
@@ -97,7 +150,7 @@ def main()->int:
     a=p.parse_args()
     try:
         c=load(a.contract)
-        rows=extract(a.layout_text.read_text(encoding="utf-8",errors="strict"),c)
+        rows=extract_bbox(a.bbox_xhtml.read_text(encoding="utf-8",errors="strict"),c)
         write_safe(rows,a.safe_output)
         receipt={
           "schema":"structural.sw_finland_potential_islands_projection_result.v1_170",
@@ -109,6 +162,7 @@ def main()->int:
           "minimum_Potential_islands":min(r["Potential_islands"] for r in rows),
           "maximum_Potential_islands":max(r["Potential_islands"] for r in rows),
           "species_with_zero_historical_sources":sum(r["historical_source_count"]==0 for r in rows),
+          "future_summary_values_decoded_by_structural_parser":0,
           "future_summary_values_persisted":0,
           "future_summary_values_used_for_eligibility":False,
           "archive_outcome_values_read":0,
@@ -122,6 +176,7 @@ def main()->int:
           "schema":"structural.sw_finland_potential_islands_projection_result.v1_170",
           "status":"STOP_SUPPLEMENT_T0_PROJECTION",
           "reason":str(exc),
+          "future_summary_values_decoded_by_structural_parser":0,
           "future_summary_values_persisted":0,
           "future_summary_values_used_for_eligibility":False,
           "archive_outcome_values_read":0,
