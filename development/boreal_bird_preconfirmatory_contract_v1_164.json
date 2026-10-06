@@ -1,0 +1,129 @@
+{
+  "schema": "structural.boreal_bird_preconfirmatory_contract.v1_164",
+  "status": "PREDECLARE_ALL_BIRD_MODELS_PREDICTIONS_AND_PRIMARY_BEFORE_PILOT_RESPONSE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "parents": [
+    "development/boreal_bird_topology_sensitivity_contract_v1_162.json",
+    "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "development/boreal_bird_pilot_contract_v1_163.json",
+    "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "development/boreal_19island_spatial_partition_freeze_v1_00.json"
+  ],
+  "execution_gate": {
+    "required_pilot_snapshot_schema": "structural.boreal_bird_pilot_snapshot.v1_163",
+    "required_pilot_snapshot_status": "BIRD_PILOT_GATE_PASSED",
+    "required_pilot_execution_status": "BIRD_PILOT_GATE_PASSED_FREEZE_MODELS_AND_PREDICTIONS_ONLY",
+    "confirmatory_response_must_still_be_unopened": true
+  },
+  "training_population": {
+    "islands": 6,
+    "species": "exact v1.163 fixed bird universe",
+    "rows": "6 x fixed_species_count",
+    "target": "exact v1.163 pilot bit-vectors only"
+  },
+  "prediction_population": {
+    "islands": 13,
+    "species": "same exact v1.163 fixed bird universe",
+    "rows": "13 x fixed_species_count",
+    "confirmatory_response_used": false
+  },
+  "reference_ladder": {
+    "R0": ["PC1","PC2","PC3","TSF_Z"],
+    "R1_add": ["LOG_AREA_Z","LOG_MAINLAND_DISTANCE_Z"],
+    "R2_add": [
+      "actual-graph degree fraction",
+      "actual-graph mean shortest path km",
+      "actual-graph closeness per km"
+    ],
+    "R3_add": [
+      "pilot-only Jeffreys occupancy logit",
+      "pilot-only log1p nearest Euclidean occupied-source distance",
+      "pilot-only log1p Euclidean occupied-source pressure"
+    ],
+    "C_actual_add": [
+      "pilot-only log1p nearest actual-graph path to occupied source",
+      "pilot-only log1p actual-graph occupied-source pressure"
+    ],
+    "C_null_add": "same two graph-path features recomputed separately on each of the exact 20 v1.162 null graphs",
+    "critical_invariant": "R0, R1, R2 and R3 are identical for actual C and every null C; rewiring changes only the two C graph-path source features"
+  },
+  "source_rules": {
+    "pilot_training_row": "exclude focal pilot island from its occupied-source set",
+    "confirmatory_prediction_row": "use all six pilot islands and no confirmatory bird value",
+    "no_occupied_source_after_focal_exclusion": "STOP preconfirmatory freeze",
+    "pressure_kernel_scale": "exact actual-operator kernel scale frozen at v1.162 for actual and all null graph path pressures",
+    "euclidean_features": "computed from frozen 19-island coordinates and unchanged across topology models"
+  },
+  "standardization": {
+    "base_R0_R2": "reuse committed response-independent v0.99/actual-graph values; population z-scoring rules unchanged",
+    "R3_species_features": "population z-score over complete pilot training rows, common to all models",
+    "actual_C_features": "population z-score over complete pilot training rows for actual topology",
+    "each_null_C_features": "population z-score over complete pilot training rows for that null topology",
+    "zS": "use the exact v1.163 frozen mean and population SD over the complete confirmatory S surface; no restandardization after confirmatory access"
+  },
+  "fitting": {
+    "model": "pooled binary ridge logistic regression",
+    "solver": "same deterministic IRLS plus pivoted Gaussian elimination as completed boreal beetle route",
+    "ridge_lambda": 1.0,
+    "penalty": "all non-intercept coefficients",
+    "max_iterations": 100,
+    "tolerance": 1e-8,
+    "probability_clip": [1e-12,0.999999999999],
+    "models": ["R3","C_actual","C_null_01_to_20"]
+  },
+  "preconfirmatory_outputs": {
+    "prediction_columns": [
+      "island","block","species","n_pilot","S_hex","zS_hex","p_R3_hex","p_C_actual_hex",
+      "p_C_null_01_hex","p_C_null_02_hex","p_C_null_03_hex","p_C_null_04_hex",
+      "p_C_null_05_hex","p_C_null_06_hex","p_C_null_07_hex","p_C_null_08_hex",
+      "p_C_null_09_hex","p_C_null_10_hex","p_C_null_11_hex","p_C_null_12_hex",
+      "p_C_null_13_hex","p_C_null_14_hex","p_C_null_15_hex","p_C_null_16_hex",
+      "p_C_null_17_hex","p_C_null_18_hex","p_C_null_19_hex","p_C_null_20_hex"
+    ],
+    "all_probabilities_and_zS_frozen_before_confirmatory_response": true,
+    "null_edge_fingerprints_must_exactly_match_v1_162": true
+  },
+  "primary_scoring": {
+    "endpoint": "realized confirmatory bird presences only",
+    "D_cell": "logloss(C_actual,y=1) minus mean_j logloss(C_null_j,y=1)",
+    "moderator": "zS frozen before confirmatory response",
+    "block_weight": "within each presence-bearing frozen spatial block, cell weights sum to one",
+    "estimand": "weighted least-squares slope beta_S in D = alpha + beta_S*zS",
+    "minimum_presence_blocks": 4,
+    "favourable_direction": "negative",
+    "bootstrap_unit": "frozen confirmatory spatial block",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261006,
+    "bootstrap_rule": "resample presence-bearing block IDs with replacement; each draw of a block contributes that block with total weight one; refit weighted slope",
+    "quantile_method": "Hyndman-Fan type 7",
+    "support_rule": "beta_S < 0 and 95% bootstrap upper bound < 0",
+    "unestimable_rule": "terminal non-estimable if fewer than four presence-bearing blocks or weighted zS denominator is zero; no rescue"
+  },
+  "secondary_nonrescuing": [
+    "equal-block mean D among realized presences",
+    "count of 20 null C models worse than actual C on equal-block realized-presence loss",
+    "all-cell beta_S under the same frozen prediction surface",
+    "descriptive beta_S by n category without inferential rescue"
+  ],
+  "claim_boundary": {
+    "positive_result_can_support": "same-geography cross-taxon support for the prediction that sparse heterogeneous source configurations are where exact topology carries extra occurrence information",
+    "cannot_support": [
+      "geographic replication",
+      "realized dispersal",
+      "colonization",
+      "rescue effect",
+      "temporal persistence",
+      "management prioritization",
+      "reversal of the completed beetle primary"
+    ]
+  },
+  "response_boundary": {
+    "bird_pilot_response_accessed_by_this_contract": false,
+    "bird_confirmatory_response_authorized": false,
+    "bird_confirmatory_response_opened": false,
+    "beetle_response_reopened": false,
+    "plant_response_opened": false,
+    "eBird_enabled": false,
+    "counts_as_empirical_evidence": false
+  }
+}
