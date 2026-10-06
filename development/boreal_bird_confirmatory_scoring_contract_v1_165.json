@@ -1,0 +1,85 @@
+{
+  "schema": "structural.boreal_bird_confirmatory_scoring_contract.v1_165",
+  "status": "PREDECLARE_ONE_SHOT_BIRD_CONFIRMATORY_SCORER_BEFORE_PILOT_RESPONSE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "parents": [
+    "development/boreal_bird_topology_sensitivity_contract_v1_162.json",
+    "development/boreal_bird_pilot_contract_v1_163.json",
+    "development/boreal_bird_preconfirmatory_contract_v1_164.json"
+  ],
+  "required_preconfirmatory": {
+    "schema": "structural.boreal_bird_preconfirmatory_freeze.v1_164",
+    "status": "BIRD_ACTUAL_AND_NULL_PREDICTIONS_FROZEN_BEFORE_CONFIRMATORY_RESPONSE",
+    "bird_confirmatory_values_opened": 0,
+    "bird_confirmatory_response_authorized": false
+  },
+  "response_file": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "download_url": "https://datadryad.org/api/v2/files/4569037/download",
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "reported_species_columns": 54,
+    "reported_island_rows": 42
+  },
+  "semantic_access": {
+    "species_header_names": true,
+    "routing_island_fields_all_42_rows": true,
+    "fixed_species_confirmatory_cells_only": true,
+    "pilot_occurrence_cells_reopened": false,
+    "excluded_island_occurrence_cells": false,
+    "nonfixed_confirmatory_species_cells": false,
+    "required_pilot_values_parsed": 0,
+    "required_excluded_values_parsed": 0,
+    "required_nonfixed_confirmatory_values_parsed": 0
+  },
+  "primary": {
+    "endpoint": "y=1 realized presences among exact fixed species on 13 frozen confirmatory islands",
+    "D": "logloss(p_C_actual,1) - mean_j logloss(p_C_null_j,1)",
+    "moderator": "zS from exact preconfirmatory prediction surface",
+    "block_weight": "each presence-bearing frozen spatial block has total weight one",
+    "slope": "weighted least-squares beta_S with intercept",
+    "minimum_presence_blocks": 4,
+    "favourable_direction": "negative",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261006,
+    "bootstrap_draw": "SHA256(seed|replicate|draw) first eight bytes modulo number of presence-bearing blocks",
+    "quantile": "Hyndman-Fan type 7",
+    "support_rule": "beta_S < 0 and bootstrap 95% upper bound < 0",
+    "unestimable": "terminal if fewer than four presence-bearing blocks or weighted zS denominator is zero"
+  },
+  "secondary_nonrescuing": [
+    "equal-block mean D among realized presences",
+    "actual C versus each null C on equal-block realized-presence loss",
+    "all-cell beta_S"
+  ],
+  "result_ceiling": {
+    "same_geography_cross_taxon_mechanism_evidence_only": true,
+    "geographically_independent_replication": false,
+    "temporal_consequence": false,
+    "causal_dispersal": false,
+    "rescue_effect": false,
+    "management_ranking": false,
+    "beetle_primary_status_change_authorized": false
+  },
+  "rerun_rule": "one semantic confirmatory open only; any post-access failure is terminal and may not be repaired by threshold or subgroup changes",
+  "project_policy": {
+    "eBird_enabled": false
+  },
+  "required_committed_inputs": {
+    "pilot_execution": "development/boreal_bird_pilot_execution_v1_163.json",
+    "pilot_snapshot": "development/boreal_bird_pilot_snapshot_v1_163.json",
+    "preconfirmatory_freeze": "development/boreal_bird_preconfirmatory_freeze_v1_164.json",
+    "prediction_surface": "development/boreal_bird_confirmatory_predictions_v1_164.csv",
+    "rule": "all four files must be Git-tracked on main before confirmatory request; request must carry their exact SHA-256 values"
+  },
+  "confirmatory_execution_request": {
+    "path": "development/boreal_bird_confirmatory_execution_request_v1_165.json",
+    "schema": "structural.boreal_bird_confirmatory_execution_request.v1_165",
+    "status": "REQUEST_ONE_SHOT_BIRD_CONFIRMATORY_SCORING",
+    "one_shot": true,
+    "rerun_authorized": false,
+    "request_may_be_created_only_after_preconfirmatory_files_committed": true,
+    "response_based_editing_of_request_forbidden": true
+  }
+}
