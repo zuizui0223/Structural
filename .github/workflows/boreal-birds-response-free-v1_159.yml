@@ -9,9 +9,12 @@ on:
       - development/structural_active_priority_v1_158.json
       - docs/BOREAL_BIRDS_TOPOLOGY_SENSITIVITY_V1_158.md
       - scripts/freeze_boreal_birds_topology_nulls_v1_158.py
+      - scripts/run_boreal_19island_bird_pilot_v1_160.py
+      - scripts/fetch_boreal_19island_bird_response_v1_160.py
       - src/structural/boreal_19island_bird_pilot_router.py
       - tests/test_boreal_birds_topology_nulls_v1_158.py
       - tests/test_boreal_19island_bird_pilot_router_v1_159.py
+      - tests/test_boreal_19island_bird_pilot_executor_v1_160.py
       - .github/workflows/boreal-birds-response-free-v1_159.yml
   workflow_dispatch:
 
@@ -36,7 +39,8 @@ jobs:
         run: |
           pytest -q \
             tests/test_boreal_birds_topology_nulls_v1_158.py \
-            tests/test_boreal_19island_bird_pilot_router_v1_159.py
+            tests/test_boreal_19island_bird_pilot_router_v1_159.py \\
+            tests/test_boreal_19island_bird_pilot_executor_v1_160.py
       - name: Assert no response artifact was created
         run: |
           test ! -e development/borealbirds_speciesmatrix_presenceabsence.csv
