@@ -1,0 +1,54 @@
+{
+  "schema": "structural.sw_finland_potential_lookup_execution_contract.v1_170",
+  "status": "SUPPLEMENTARY_T0_LOOKUP_EXECUTION_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_potential_islands_lookup_contract_v1_168.json",
+    "development/sw_finland_t0_source_count_support_v1_169.json",
+    "development/sw_finland_colonization_topology_hypothesis_v1_165.json"
+  ],
+  "source": {
+    "url": "https://www.ecography.org/sites/ecography.org/files/appendix/ecog-05013.pdf",
+    "document": "Supplementary material Appendix 2",
+    "table_header": "species Potential_islands Num_colonized Prop_colonized Random_effect"
+  },
+  "allowed_projection": {
+    "columns": ["species", "Potential_islands"],
+    "historical_source_count_formula": "471 - Potential_islands",
+    "expected_unique_species": 587,
+    "minimum_potential_islands": 0,
+    "maximum_potential_islands": 471
+  },
+  "forbidden_semantics": {
+    "columns": ["Num_colonized", "Prop_colonized", "Random_effect"],
+    "values_may_be_persisted": false,
+    "values_may_define_eligibility": false,
+    "values_may_be_used_for_validation": false
+  },
+  "parser_rule": {
+    "text_extractor": "pdftotext -layout",
+    "header_position_source": "fixed character offsets of Potential_islands and Num_colonized in the species-table header",
+    "row_prefix": "for each table line, discard all characters from Num_colonized column onward before parsing",
+    "wrapped_species_lines": "species-only prefix lines may be accumulated until an integer Potential_islands token appears",
+    "table_end": "first Island_name/Euref_X/Euref_Y/Potential_spp header"
+  },
+  "anchor_checks": {
+    "Acer platanoides": 464,
+    "Allium schoenoprasum": 56,
+    "Aster tripolium": 362,
+    "Atriplex prostrata": 429,
+    "Anchusa arvensis": 471,
+    "Agrostis stolonifera": 11
+  },
+  "response_boundary": {
+    "row_level_recent_outcome_access_authorized": false,
+    "archive_outcome_values_opened": 0,
+    "supplement_future_summary_values_persisted": 0,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "SUPPLEMENTARY_T0_SOURCE_COUNT_LOOKUP_FROZEN",
+    "next_action": "reroute exact archive t0-safe rows and require archived_absent_count == Potential_islands before reconstructing historical source complements; future outcome remains opaque"
+  }
+}
