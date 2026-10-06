@@ -1,0 +1,63 @@
+{
+  "schema": "structural.sw_finland_potential_islands_lookup_contract.v1_168",
+  "status": "SUPPLEMENTARY_T0_SOURCE_COUNT_LOOKUP_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "source": {
+    "paper_doi": "10.1111/ecog.05013",
+    "supplementary_id": "ecog-05013",
+    "public_pdf": "https://www.ecography.org/sites/ecography.org/files/appendix/ecog-05013.pdf",
+    "table_header": [
+      "species",
+      "Potential_islands",
+      "Num_colonized",
+      "Prop_colonized",
+      "Random_effect"
+    ],
+    "species_table_starts_after": "species Potential_islands Num_colonized Prop_colonized Random_effect",
+    "species_table_ends_before": "Island_name Euref_X Euref_Y Potential_spp Num_colonizing Prop_colonizing Random_effect"
+  },
+  "permitted_projection_columns": [
+    "species",
+    "Potential_islands"
+  ],
+  "forbidden_future_summary_columns": [
+    "Num_colonized",
+    "Prop_colonized",
+    "Random_effect"
+  ],
+  "semantics": {
+    "Potential_islands": "number of the 471 study islands from which the species was absent in the historical inventory and therefore potentially able to colonize",
+    "historical_source_count": "471 - Potential_islands"
+  },
+  "validation": {
+    "expected_unique_species": 587,
+    "Potential_islands_integer_min": 0,
+    "Potential_islands_integer_max": 471,
+    "duplicate_species_forbidden": true,
+    "future_summary_values_may_be_persisted": false,
+    "future_summary_values_may_define_eligibility": false
+  },
+  "canonical_output": {
+    "path": "development/sw_finland_species_potential_islands_v1_168.csv",
+    "columns": [
+      "species",
+      "Potential_islands",
+      "historical_source_count"
+    ]
+  },
+  "integration_rule": {
+    "priority": "if a validator-clean v1.168 lookup is committed, use it as the historical source-count authority in v1.164 rather than attempting inversion of model-scale Historical_total_log",
+    "join_key": "exact species string after Unicode NFC + trim; no fuzzy matching",
+    "missing_archive_species": "archive species lacking exact supplementary join are topology-ineligible",
+    "extra_supplement_species": "permitted only if not present in routed archive; they do not create archive rows",
+    "exact_source_identity": "for each archive species, routed historical-absence row count must equal Potential_islands; if equal and historical_source_count>=1, complement is exact",
+    "minimum_exact_source_species": 30
+  },
+  "evidence_boundary": {
+    "source_contains_published_future_summary_columns": true,
+    "project_is_literature_outcome_aware": true,
+    "future_summary_columns_used_by_structural": false,
+    "row_level_recent_outcome_access_authorized": false,
+    "counts_as_empirical_evidence": false
+  }
+}
