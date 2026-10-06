@@ -45,7 +45,7 @@ jobs:
           test -s build/swf_v170/ecog-05013.pdf
       - name: Convert supplement to layout text
         run: |
-          pdftotext -layout build/swf_v170/ecog-05013.pdf build/swf_v170/ecog-05013.txt
+          pdftotext -bbox-layout build/swf_v170/ecog-05013.pdf build/swf_v170/ecog-05013.xml
       - name: Project only species and Potential_islands
         run: |
           python scripts/project_sw_finland_potential_islands_v1_170.py             build/swf_v170/ecog-05013.txt             --source-pdf build/swf_v170/ecog-05013.pdf             --safe-output build/swf_v170/species_potential_islands.csv             --receipt build/swf_v170/receipt.json
@@ -65,7 +65,7 @@ jobs:
               assert rd.fieldnames==["species","Potential_islands","historical_source_count"]
               assert sum(1 for _ in rd)==587
           (root/"ecog-05013.pdf").unlink()
-          (root/"ecog-05013.txt").unlink()
+          (root/"ecog-05013.xml").unlink()
           PY
       - name: Upload t0-only lookup candidate
         uses: actions/upload-artifact@v4
