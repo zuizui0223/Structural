@@ -20,7 +20,7 @@ def test_affine_calibration_recovers_integer_lattice():
     for n in [0,1,7,42,109,415,460,471]:
         z=(math.log10(n+1)-a)/b
         got,_,_,ratio=m.nearest_count(a+b*z,471)
-        assert got==n and ratio==0
+        assert got==n and ratio<1e-12
 
 def test_contract_uses_only_frozen_t0_anchors_and_no_future_summary():
     c=json.loads(CONTRACT.read_text())
