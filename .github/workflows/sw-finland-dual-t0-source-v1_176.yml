@@ -1,0 +1,90 @@
+name: SW Finland dual t0 source identity gate v1.176
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_dual_t0_source_identity_request_v1_176.json
+
+permissions:
+  contents: write
+
+jobs:
+  dual-t0-source-gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify t0-only request and frozen tolerances
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/sw_finland_dual_t0_source_identity_contract_v1_176.json").read_text())
+          r=json.loads(Path("development/sw_finland_dual_t0_source_identity_request_v1_176.json").read_text())
+          assert c["count_consistency"]["exact_species_max_absolute_log10_residual"]==0.0001
+          assert c["distance_consistency"]["anchor_max_absolute_log10_residual"]==0.0001
+          assert c["exact_source_identity"]["minimum_exact_species"]==30
+          assert c["exact_source_identity"]["no_threshold_relaxation_after_run"] is True
+          assert r["future_outcome_values_opened_before_request"]==0
+          assert r["future_outcome_access_requested"] is False
+          assert r["effect_estimate_requested"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          PY
+      - name: Download exact archive bytes
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v176/raw build/swf_v176/safe build/swf_v176/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          u="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          p=Path("build/swf_v176/raw/a.csv");m=hashlib.md5();s=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":"Structural-v1.176"}),timeout=180) as src,p.open("wb") as dst:
+              while True:
+                  b=src.read(1024*1024)
+                  if not b:break
+                  dst.write(b);m.update(b);s.update(b)
+          if m.hexdigest()!="ff648878946ba430fb86c4ab2aa02baa" or s.hexdigest()!="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957":raise SystemExit("archive identity mismatch")
+          PY
+      - name: Route t0 columns with outcome opaque
+        run: |
+          python scripts/route_sw_finland_t0_columns_v1_169.py build/swf_v176/raw/a.csv             --safe-output build/swf_v176/safe/t0.csv --receipt build/swf_v176/out/router.json
+      - name: Run dual t0 source identity gate
+        run: |
+          python scripts/validate_sw_finland_dual_t0_sources_v1_176.py build/swf_v176/safe/t0.csv             --router-receipt build/swf_v176/out/router.json             --audit-output build/swf_v176/out/audit.csv             --species-output build/swf_v176/out/species.csv             --membership-output build/swf_v176/out/membership.csv             --geometry-output build/swf_v176/out/geometry.csv             --receipt build/swf_v176/out/receipt.json
+      - name: Delete raw and row-level safe data
+        if: always()
+        run: rm -rf build/swf_v176/raw build/swf_v176/safe
+      - name: Verify and commit canonical source products
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v176/out/receipt.json").read_text())
+          assert r["status"]=="T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED"
+          assert r["alphabetic_anchor_count"]==33
+          assert r["count_calibration_anchor_count"]==21
+          assert r["exact_source_species"]>=30
+          assert r["future_outcome_values_opened"]==0
+          assert r["protected_outcome_values_decoded"]==0
+          PY
+          cp build/swf_v176/out/audit.csv development/sw_finland_dual_t0_source_species_v1_176.csv
+          cp build/swf_v176/out/species.csv development/sw_finland_exact_source_species_v1_171.csv
+          cp build/swf_v176/out/membership.csv development/sw_finland_exact_source_membership_v1_171.csv
+          cp build/swf_v176/out/geometry.csv development/sw_finland_t0_island_geometry_v1_171.csv
+          cp build/swf_v176/out/receipt.json development/sw_finland_exact_source_reconstruction_v1_171.json
+          git add development/sw_finland_dual_t0_source_species_v1_176.csv development/sw_finland_exact_source_species_v1_171.csv development/sw_finland_exact_source_membership_v1_171.csv development/sw_finland_t0_island_geometry_v1_171.csv development/sw_finland_exact_source_reconstruction_v1_171.json
+          git config user.name "github-actions[bot]";git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze SW Finland exact source identities by dual t0 validation v1.176"
+          git push origin HEAD:main
