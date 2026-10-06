@@ -1,0 +1,366 @@
+{
+  "schema": "structural.boreal_19island_topology_sensitivity_freeze.v1_162",
+  "status": "RESPONSE_FREE_TOPOLOGY_NULL_AND_SENSITIVITY_SURFACE_FROZEN",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "parents": {
+    "geometry_sha256": "e8b29584ed98bc4bad154382b708f0ec51eb3cd57e819bc11b4b6c2c4fbf4f07",
+    "spatial_freeze_sha256": "205f43ef8087918af8ab9540eaaa56c69d29e3e801d0c7f929a5ef2f8eb5c305",
+    "source_operator_fingerprint": "82e1afbd728bd677d4d7b0af65ece16be12a0dc8ae39505bbbac3d5ae151b621",
+    "bird_response_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c"
+  },
+  "actual_graph": {
+    "selected_k": 3,
+    "edge_count": 35,
+    "edge_fingerprint": "caa1001a6e16b0407d37b544595735d4a4808d00f46aff244b258eb736c6501e",
+    "kernel_scale_km_hex": "0x1.4ccfd7aac74e4p+3",
+    "degree_sequence": {
+      "BB": 3,
+      "BT": 4,
+      "DF": 4,
+      "DN": 3,
+      "EB": 3,
+      "FD": 3,
+      "HF": 4,
+      "HU": 4,
+      "IL": 6,
+      "IS": 3,
+      "MI": 5,
+      "NH": 4,
+      "OS": 3,
+      "PP": 3,
+      "PR": 4,
+      "SF": 5,
+      "SK": 3,
+      "WD": 3,
+      "WF": 3
+    },
+    "edge_length_quintile_bounds_km_hex": [
+      "0x1.29ae63a281587p+2",
+      "0x1.1d51b664d5a45p+3",
+      "0x1.b1d3aa7729966p+3",
+      "0x1.21dce67a6378ap+4"
+    ],
+    "edge_length_bin_counts": [
+      7,
+      7,
+      7,
+      7,
+      7
+    ]
+  },
+  "null_ensemble": {
+    "count": 20,
+    "accepted_swaps_per_null": 80,
+    "all_connected": true,
+    "degree_sequence_exactly_preserved": true,
+    "edge_length_bin_counts_exactly_preserved": true,
+    "unique_topologies": 20,
+    "nulls": [
+      {
+        "seed": 20261006,
+        "accepted_swaps": 80,
+        "attempts": 556,
+        "edge_fingerprint": "c19dcf4c61bde6edbe9c7c26b811fad577c7508da7a9c595443dfa00ef1a3159"
+      },
+      {
+        "seed": 20261007,
+        "accepted_swaps": 80,
+        "attempts": 613,
+        "edge_fingerprint": "6d4578d5f2991f28459fc7e5b2faeb044809b43a27e1639c832416e037f26445"
+      },
+      {
+        "seed": 20261008,
+        "accepted_swaps": 80,
+        "attempts": 617,
+        "edge_fingerprint": "2d5fd6f3554b122e944636eae112cc7bec865f72b384af5501571fb5243fd070"
+      },
+      {
+        "seed": 20261009,
+        "accepted_swaps": 80,
+        "attempts": 608,
+        "edge_fingerprint": "6450c7c3541190a77b5fadcc41b3e62bd53260c6bbfb399243298ef2467112de"
+      },
+      {
+        "seed": 20261010,
+        "accepted_swaps": 80,
+        "attempts": 673,
+        "edge_fingerprint": "5310f1dcb03cdb0a90c3f8c0c29dbb3be0c1f71c219e64aca76612b53953c36a"
+      },
+      {
+        "seed": 20261011,
+        "accepted_swaps": 80,
+        "attempts": 620,
+        "edge_fingerprint": "a5cc85bd0cf850b2a252e91e7395b5272d55e0fccee48843b3f6bd24b079dbc7"
+      },
+      {
+        "seed": 20261012,
+        "accepted_swaps": 80,
+        "attempts": 688,
+        "edge_fingerprint": "458a31b86748b46eb04acb114d2f067dd8afc64b99f93f985d57bcfb451885ab"
+      },
+      {
+        "seed": 20261013,
+        "accepted_swaps": 80,
+        "attempts": 574,
+        "edge_fingerprint": "af5adf8364d8b9f6801b2422ffb1920f48240be59032b3ec32a5947954f9b4a1"
+      },
+      {
+        "seed": 20261014,
+        "accepted_swaps": 80,
+        "attempts": 612,
+        "edge_fingerprint": "8c22d91746a62462acee4c7a61dca1856099dc055cb1e72c82c6be5c2f67d3fb"
+      },
+      {
+        "seed": 20261015,
+        "accepted_swaps": 80,
+        "attempts": 626,
+        "edge_fingerprint": "d639f16ecf199d279c9dcb082789d26313a0d02a536523362ad30b499db8c883"
+      },
+      {
+        "seed": 20261016,
+        "accepted_swaps": 80,
+        "attempts": 573,
+        "edge_fingerprint": "6ecfedb0513bec5d5b3e392b54005dfdef711ba30d75ecf3b8e70d0bc9b87ff2"
+      },
+      {
+        "seed": 20261017,
+        "accepted_swaps": 80,
+        "attempts": 587,
+        "edge_fingerprint": "b6aedc9bbc3ed49ba8b3e3ff3c124b3fd5fb2bab715556ede189aa9d25110dcd"
+      },
+      {
+        "seed": 20261018,
+        "accepted_swaps": 80,
+        "attempts": 531,
+        "edge_fingerprint": "d60f3232d725dcb6e63ecd8dfcabcf108a9c168cb40ff27b32130f33f709cee6"
+      },
+      {
+        "seed": 20261019,
+        "accepted_swaps": 80,
+        "attempts": 540,
+        "edge_fingerprint": "cc0697ffc214e9fe28267724de09c8fb8b04e2d9cb9b5db2a3d80cf6b0000ad4"
+      },
+      {
+        "seed": 20261020,
+        "accepted_swaps": 80,
+        "attempts": 668,
+        "edge_fingerprint": "c67526942b873fdaefa288beeb486fbce241a3ddb24d7f28c25dd6c75095a69b"
+      },
+      {
+        "seed": 20261021,
+        "accepted_swaps": 80,
+        "attempts": 509,
+        "edge_fingerprint": "de872c168122a3b4aba9f5d9dac27bc0858e462657dc843cefced108b3d5d736"
+      },
+      {
+        "seed": 20261022,
+        "accepted_swaps": 80,
+        "attempts": 640,
+        "edge_fingerprint": "af473330355f755e83a8e30aa44688a824eb909aa5d9aaf5519809b6bdb74d7e"
+      },
+      {
+        "seed": 20261023,
+        "accepted_swaps": 80,
+        "attempts": 575,
+        "edge_fingerprint": "6a807b67607abd6ecf63d8d012cc2374fb9f226095fc363a8c70a86c7ad3f35b"
+      },
+      {
+        "seed": 20261024,
+        "accepted_swaps": 80,
+        "attempts": 672,
+        "edge_fingerprint": "3b034e5aa2f0cd29bcafbdcc59af5ca2d554ff40d13e7c202e9756cb33bd83d4"
+      },
+      {
+        "seed": 20261025,
+        "accepted_swaps": 80,
+        "attempts": 572,
+        "edge_fingerprint": "08336ba0792b09b38c5ca467adf2b8b8a686094e00f853a9d365a07b77cafff8"
+      }
+    ]
+  },
+  "configuration_sensitivity": {
+    "possible_source_count_M": 6,
+    "pilot_source_candidates": [
+      "DN",
+      "FD",
+      "HU",
+      "IL",
+      "IS",
+      "PP"
+    ],
+    "definition": "S_i(n)=[(M-n)/(n(M-1))]*(sigma_i^2/mu_i^2)",
+    "n_domain": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "targets": {
+      "BB": {
+        "mu_hex": "0x1.8d263286bca79p-14",
+        "sigma2_hex": "0x1.9f486eaebd81fp-26",
+        "heterogeneity_H_hex": "0x1.5919efb75e53bp+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50fcp+0",
+          "3": "0x1.1414bfc5e50fcp-1",
+          "4": "0x1.1414bfc5e50fcp-2",
+          "5": "0x1.b9bacc6fd4e60p-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "BT": {
+        "mu_hex": "0x1.05cab69620a47p-12",
+        "sigma2_hex": "0x1.68e4b4e1edc2dp-23",
+        "heterogeneity_H_hex": "0x1.5919efb75e537p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50f9p+0",
+          "3": "0x1.1414bfc5e50f9p-1",
+          "4": "0x1.1414bfc5e50f9p-2",
+          "5": "0x1.b9bacc6fd4e5bp-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "DF": {
+        "mu_hex": "0x1.0cba3687db2b3p-12",
+        "sigma2_hex": "0x1.7c44c8ad8f6a7p-23",
+        "heterogeneity_H_hex": "0x1.5919efb75e53bp+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50fcp+0",
+          "3": "0x1.1414bfc5e50fcp-1",
+          "4": "0x1.1414bfc5e50fcp-2",
+          "5": "0x1.b9bacc6fd4e60p-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "EB": {
+        "mu_hex": "0x1.69aa684bd56cbp-10",
+        "sigma2_hex": "0x1.5863fad8253ffp-18",
+        "heterogeneity_H_hex": "0x1.5919efb75e538p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50fap+0",
+          "3": "0x1.1414bfc5e50fap-1",
+          "4": "0x1.1414bfc5e50fap-2",
+          "5": "0x1.b9bacc6fd4e5cp-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "HF": {
+        "mu_hex": "0x1.79197d54eebfcp-3",
+        "sigma2_hex": "0x1.7f7ef1ebb9874p-6",
+        "heterogeneity_H_hex": "0x1.617991c4dd2b4p-1",
+        "S_by_n_hex": {
+          "2": "0x1.1ac7a7d0b0ef7p-2",
+          "3": "0x1.1ac7a7d0b0ef7p-3",
+          "4": "0x1.1ac7a7d0b0ef7p-4",
+          "5": "0x1.c472a61ab4b24p-6",
+          "6": "0x0.0p+0"
+        }
+      },
+      "MI": {
+        "mu_hex": "0x1.aa7c14d2552e0p-5",
+        "sigma2_hex": "0x1.dee60bc6c79b7p-8",
+        "heterogeneity_H_hex": "0x1.5919efb75e537p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50f9p+0",
+          "3": "0x1.1414bfc5e50f9p-1",
+          "4": "0x1.1414bfc5e50f9p-2",
+          "5": "0x1.b9bacc6fd4e5bp-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "NH": {
+        "mu_hex": "0x1.ac797c9924145p-3",
+        "sigma2_hex": "0x1.76d8af483ec57p-6",
+        "heterogeneity_H_hex": "0x1.0b9de07605cbap-1",
+        "S_by_n_hex": {
+          "2": "0x1.ac2fcd89a2df7p-3",
+          "3": "0x1.ac2fcd89a2df7p-4",
+          "4": "0x1.ac2fcd89a2df7p-5",
+          "5": "0x1.568ca46e1be5fp-6",
+          "6": "0x0.0p+0"
+        }
+      },
+      "OS": {
+        "mu_hex": "0x1.b49d88806de3fp-9",
+        "sigma2_hex": "0x1.f5eb95495f0b9p-16",
+        "heterogeneity_H_hex": "0x1.5919efb75e537p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50f9p+0",
+          "3": "0x1.1414bfc5e50f9p-1",
+          "4": "0x1.1414bfc5e50f9p-2",
+          "5": "0x1.b9bacc6fd4e5bp-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "PR": {
+        "mu_hex": "0x1.1d7a88d391447p-6",
+        "sigma2_hex": "0x1.ad279f8568020p-11",
+        "heterogeneity_H_hex": "0x1.5919efb75e535p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50f7p+0",
+          "3": "0x1.1414bfc5e50f7p-1",
+          "4": "0x1.1414bfc5e50f7p-2",
+          "5": "0x1.b9bacc6fd4e58p-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "SF": {
+        "mu_hex": "0x1.fafd79bd994f5p-6",
+        "sigma2_hex": "0x1.52617c3e0de7fp-9",
+        "heterogeneity_H_hex": "0x1.5919efb75e53ap+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50fbp+0",
+          "3": "0x1.1414bfc5e50fbp-1",
+          "4": "0x1.1414bfc5e50fbp-2",
+          "5": "0x1.b9bacc6fd4e5fp-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "SK": {
+        "mu_hex": "0x1.d05d221d6689bp-6",
+        "sigma2_hex": "0x1.1bdf5fcad6405p-9",
+        "heterogeneity_H_hex": "0x1.5919efb75e537p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50f9p+0",
+          "3": "0x1.1414bfc5e50f9p-1",
+          "4": "0x1.1414bfc5e50f9p-2",
+          "5": "0x1.b9bacc6fd4e5bp-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "WD": {
+        "mu_hex": "0x1.7f4cc03438721p-13",
+        "sigma2_hex": "0x1.82d30d92e0d1cp-24",
+        "heterogeneity_H_hex": "0x1.5919efb75e536p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50f8p+0",
+          "3": "0x1.1414bfc5e50f8p-1",
+          "4": "0x1.1414bfc5e50f8p-2",
+          "5": "0x1.b9bacc6fd4e5ap-4",
+          "6": "0x0.0p+0"
+        }
+      },
+      "WF": {
+        "mu_hex": "0x1.63b2a513d573bp-6",
+        "sigma2_hex": "0x1.4d1e6892fd9f5p-10",
+        "heterogeneity_H_hex": "0x1.5919efb75e535p+1",
+        "S_by_n_hex": {
+          "2": "0x1.1414bfc5e50f7p+0",
+          "3": "0x1.1414bfc5e50f7p-1",
+          "4": "0x1.1414bfc5e50f7p-2",
+          "5": "0x1.b9bacc6fd4e58p-4",
+          "6": "0x0.0p+0"
+        }
+      }
+    }
+  },
+  "response_boundary": {
+    "bird_values_read": 0,
+    "beetle_values_reopened": 0,
+    "plant_values_read": 0,
+    "eBird_enabled": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_action": "commit this response-free surface; only then may a separate bird-pilot authorization decode the six frozen pilot islands"
+}

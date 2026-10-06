@@ -67,8 +67,12 @@ def test_three_eligible_stops_before_species_access():
 
 def test_script_contains_no_species_response_fields():
     s=(ROOT/"scripts/build_ebird_three_wave_design_v1_158.py").read_text()
-    for forbidden in ("SCIENTIFIC NAME","OBSERVATION COUNT","annual_species_occupancy","source_loss_event"):
+    # Historical v1.158 may name unopened downstream products in negative
+    # receipt fields; it must not contain species-level data columns.
+    for forbidden in ("SCIENTIFIC NAME","OBSERVATION COUNT"):
         assert forbidden not in s
+    assert '"annual_species_occupancy_constructed":False' in s
+    assert '"source_loss_events_constructed":False' in s
 
 def test_priority_orders_acquisition_then_support_then_window_design():
     x=json.loads((ROOT/"development/structural_active_priority_v1_158.json").read_text())

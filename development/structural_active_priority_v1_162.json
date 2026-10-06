@@ -1,0 +1,39 @@
+{
+  "schema": "structural.active_priority.v1_162",
+  "status": "ebird_disabled_boreal_bird_static_mechanism_replication_frozen",
+  "supersedes": "development/structural_active_priority_v1_161.json",
+  "canonical_status": "development/current_status_v1_161.json",
+  "project_policy": {
+    "ebird_enabled": false,
+    "eBird_objects": "dormant provenance only",
+    "official_SED_acquisition_authorized": false
+  },
+  "completed_boundaries": [
+    "global mammal occupancy-regime evidence frozen",
+    "boreal 19-island beetle fresh average C-minus-R3 primary completed and not supported",
+    "BALA independent temporal source-loss primary completed and not supported"
+  ],
+  "active_static_mechanism_lane": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+    "evidence_class": "prospective secondary-taxon same-geography replication",
+    "protocol": "development/boreal_bird_topology_sensitivity_contract_v1_162.json",
+    "topology_freeze": "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "status": "RESPONSE_SEALED_PROTOCOL_AND_TOPOLOGY_NULLS_FROZEN",
+    "bird_pilot_response_authorized": false,
+    "bird_confirmatory_response_authorized": false,
+    "next_action": "build a one-shot bird-pilot router/estimability gate bound to the frozen response file SHA and six pilot islands"
+  },
+  "temporal_lane": {
+    "active_candidate": null,
+    "BALA_rerun_authorized": false
+  },
+  "do_not": [
+    "reopen or reinterpret the completed beetle primary",
+    "use bird results to rescue the beetle primary",
+    "open bird confirmatory islands before the pilot gate and all prediction surfaces are frozen",
+    "change the 20 topology nulls after bird pilot access",
+    "retune pilot species eligibility after bird pilot access",
+    "obtain or analyze eBird data"
+  ],
+  "next_scientific_event": "bird pilot-only estimability read under the frozen v1.162 topology-sensitivity protocol"
+}

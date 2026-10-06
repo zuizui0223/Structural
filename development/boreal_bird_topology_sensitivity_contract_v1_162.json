@@ -1,0 +1,165 @@
+{
+  "schema": "structural.boreal_bird_topology_sensitivity_contract.v1_162",
+  "status": "PROSPECTIVE_SECONDARY_TAXON_TOPOLOGY_SENSITIVITY_PROTOCOL_FROZEN_BEFORE_BIRD_RESPONSE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "evidence_class": "prospective secondary-taxon same-geography mechanism replication; not a geographically independent system",
+  "parents": [
+    "development/current_status_v1_161.json",
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "development/boreal_19island_source_operator_freeze_v1_01.json"
+  ],
+  "scientific_question": "Among bird species supported on the frozen six pilot islands, is the held-out presence advantage of the observed island topology over matched rewired topologies stronger where pre-response source-configuration sensitivity is higher?",
+  "response_file": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "reported_species_count": 54,
+    "reported_island_count": 42,
+    "response_domain": [
+      "0",
+      "1"
+    ]
+  },
+  "frozen_geography": {
+    "analysis_islands": 19,
+    "pilot_islands": [
+      "DN",
+      "FD",
+      "HU",
+      "IL",
+      "IS",
+      "PP"
+    ],
+    "confirmatory_islands": [
+      "BB",
+      "BT",
+      "DF",
+      "EB",
+      "HF",
+      "MI",
+      "NH",
+      "OS",
+      "PR",
+      "SF",
+      "SK",
+      "WD",
+      "WF"
+    ],
+    "pilot_block_count": 3,
+    "confirmatory_block_count": 7,
+    "partition_reused_without_bird_response": true
+  },
+  "response_free_topology_surface": {
+    "freeze": "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "generator": "scripts/freeze_boreal_19island_topology_sensitivity_v1_162.py",
+    "possible_source_count_M": 6,
+    "actual_graph": "exact committed minimal-connected symmetrized 3-NN source operator",
+    "null_count": 20,
+    "null_rule": "degree-preserving double-edge swaps restricted to fixed actual-edge length quintiles; connectedness required; 80 accepted swaps per null",
+    "seeds": [
+      20261006,
+      20261007,
+      20261008,
+      20261009,
+      20261010,
+      20261011,
+      20261012,
+      20261013,
+      20261014,
+      20261015,
+      20261016,
+      20261017,
+      20261018,
+      20261019,
+      20261020,
+      20261021,
+      20261022,
+      20261023,
+      20261024,
+      20261025
+    ],
+    "species_specific_n_available_only_after_pilot": true,
+    "S_definition": "S_i(n)=[(M-n)/(n(M-1))]*(sigma_i^2/mu_i^2) from actual-graph exponential source weights to the six frozen pilot islands"
+  },
+  "pilot_gate": {
+    "response_access": "pilot islands only; confirmatory island bird values remain sealed",
+    "fixed_species_rule": "include every bird species present on at least two distinct frozen pilot islands",
+    "minimum_fixed_species": 10,
+    "minimum_distinct_pilot_occupancy_counts_n": 3,
+    "n_domain": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "if_fail": "STOP bird topology-sensitivity lane before any confirmatory response access; do not lower thresholds"
+  },
+  "model_freeze_after_pilot": {
+    "reference_R0": [
+      "PC1",
+      "PC2",
+      "PC3",
+      "TSF_Z"
+    ],
+    "reference_R1_add": [
+      "LOG_AREA_Z",
+      "LOG_MAINLAND_DISTANCE_Z"
+    ],
+    "reference_R2_add": [
+      "actual-graph degree fraction",
+      "actual-graph mean shortest path",
+      "actual-graph closeness"
+    ],
+    "reference_R3_add": [
+      "pilot-only Jeffreys global occupancy logit",
+      "pilot-only nearest Euclidean occupied-source distance",
+      "pilot-only Euclidean occupied-source pressure"
+    ],
+    "actual_C_add": [
+      "pilot-only nearest actual-graph path to occupied source",
+      "pilot-only actual-graph occupied-source pressure"
+    ],
+    "null_C_add": "same two graph-path source features recomputed separately on each of the 20 frozen null graphs",
+    "fit": "pooled binary ridge logistic regression; lambda=1; same deterministic IRLS rule as the completed beetle route",
+    "prediction_surface": "all 13 confirmatory islands x all fixed bird species; R3, actual C and 20 null-C probabilities frozen before confirmatory response"
+  },
+  "primary": {
+    "endpoint": "confirmatory realized-presence cells only",
+    "cell_loss_contrast_D": "binary logloss(actual C) minus mean binary logloss across the 20 null-C models; negative favours observed topology",
+    "moderator": "z-standardized pre-response S_i(n_species), standardized over the complete frozen confirmatory prediction surface before response access",
+    "estimand": "weighted least-squares slope beta_S of D on zS, with each frozen spatial block carrying equal total weight among realized-presence cells",
+    "favourable_direction": "negative",
+    "minimum_presence_blocks": 4,
+    "uncertainty": "10000 deterministic bootstrap replicates resampling frozen confirmatory spatial blocks; type-7 95% interval",
+    "support_rule": "beta_S < 0 and bootstrap 95% upper bound < 0",
+    "if_unestimable": "terminal non-estimable; no threshold or subgroup rescue"
+  },
+  "secondary_nonrescuing": [
+    "equal-block mean actual-C minus mean-null-C loss on realized presences",
+    "actual C better than each of the 20 null-C models on realized-presence equal-block loss",
+    "all-cell beta_S using the same frozen D and zS surface"
+  ],
+  "claim_boundary": {
+    "can_support": "taxonomic replication within the same 19-island geography that source scarcity/configuration sensitivity predicts where exact topology adds occurrence information",
+    "cannot_support": [
+      "geographically independent replication",
+      "realized dispersal along graph edges",
+      "colonization or rescue",
+      "temporal persistence consequence",
+      "reversal or rescue of the completed beetle primary"
+    ]
+  },
+  "response_boundary": {
+    "bird_pilot_opened": false,
+    "bird_confirmatory_opened": false,
+    "plant_response_opened": false,
+    "eBird_enabled": false,
+    "beetle_primary_reopened": false,
+    "counts_as_empirical_evidence_before_confirmatory_scoring": false
+  }
+}
