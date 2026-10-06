@@ -41,7 +41,13 @@
   "fixed_species_rule": {
     "include": "species detected on at least two of the six frozen pilot islands",
     "minimum_species": 10,
-    "allowed_n": [2,3,4,5,6],
+    "allowed_n": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "minimum_distinct_n": 3,
     "minimum_total_positive_cells": 5,
     "minimum_total_negative_cells": 5,
@@ -53,7 +59,7 @@
     "species_n": "sum of each fixed species' binary occurrences across the six frozen pilot islands",
     "S_lookup": "use the already frozen target-specific S_by_n value for each confirmatory island and species n",
     "standardization": "population mean and population SD over the complete 13 x fixed-species S prediction surface",
-    "minimum_standard_deviation": 0.0,
+    "minimum_standard_deviation": 0,
     "standardization_change_after_confirmatory_access_authorized": false
   },
   "qualified_ceiling": {
@@ -73,5 +79,20 @@
     "beetle_response_reopened": false,
     "eBird_enabled": false,
     "counts_as_empirical_evidence": false
-  }
+  },
+  "frozen_confirmatory_islands": [
+    "BB",
+    "BT",
+    "DF",
+    "EB",
+    "HF",
+    "MI",
+    "NH",
+    "OS",
+    "PR",
+    "SF",
+    "SK",
+    "WD",
+    "WF"
+  ]
 }
