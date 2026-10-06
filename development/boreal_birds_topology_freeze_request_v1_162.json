@@ -1,0 +1,12 @@
+{
+  "schema": "structural.boreal_birds_topology_freeze_request.v1_162",
+  "status": "REQUEST_RESPONSE_INDEPENDENT_TOPOLOGY_FREEZE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026",
+  "branch": "develop/boreal-birds-topology-sensitivity-v1-162",
+  "bird_response_values_opened": false,
+  "beetle_primary_rerun": false,
+  "BALA_rerun": false,
+  "ebird_used": false,
+  "counts_as_empirical_evidence": false,
+  "requested_output": "development/boreal_birds_topology_null_freeze_v1_162.json"
+}
