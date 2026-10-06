@@ -19,6 +19,11 @@ on:
       - scripts/run_boreal_19island_bird_pilot_v1_161.py
       - src/structural/boreal_19island_bird_pilot_router_v1_161.py
       - development/boreal_19island_birds_pilot_contract_v1_161.json
+      - development/boreal_19island_birds_prediction_freeze_contract_v1_163.json
+      - development/boreal_19island_bird_pilot_freeze_v1_162.json
+      - development/boreal_19island_bird_pilot_snapshot_v1_162.json
+      - scripts/freeze_boreal_19island_bird_predictions_v1_163.py
+      - tests/test_boreal_19island_bird_predictions_v1_163.py
       - .github/workflows/boreal-birds-response-free-v1_159.yml
   workflow_dispatch:
 
@@ -46,6 +51,7 @@ jobs:
           tests/test_boreal_19island_bird_pilot_router_v1_159.py
           tests/test_boreal_19island_bird_pilot_executor_v1_160.py
           tests/test_boreal_19island_bird_pilot_v1_161.py
+          tests/test_boreal_19island_bird_predictions_v1_163.py
       - name: Assert no response artifact was created
         run: |
           test ! -e development/borealbirds_speciesmatrix_presenceabsence.csv
