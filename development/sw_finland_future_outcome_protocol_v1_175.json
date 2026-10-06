@@ -1,0 +1,265 @@
+{
+  "schema": "structural.sw_finland_future_outcome_protocol.v1_175",
+  "status": "FULL_PILOT_MODEL_PREDICTION_AND_CONFIRMATORY_SCORING_PROTOCOL_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_colonization_topology_hypothesis_v1_165.json",
+    "development/sw_finland_topology_freeze_contract_v1_172.json",
+    "development/sw_finland_standardized_historical_count_contract_v1_173_4.json",
+    "development/sw_finland_numeric_count_to_sources_contract_v1_174_2.json"
+  ],
+  "entry_gate": {
+    "required_exact_source_status": "T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED",
+    "required_topology_status": "T0_GRAPH_NULLS_AND_CONFIGURATION_SENSITIVITY_FROZEN",
+    "minimum_exact_source_species": 30,
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "no_entry_if_v1_173_4_or_v1_174_2_or_v1_172_fails": true
+  },
+  "analysis_population": {
+    "events": "only archived historically-absent spp.name x holmkod rows belonging to v1.174.2 exact-source species",
+    "target_partition": "frozen v1.172 target-island spatial block assignment",
+    "pilot_rows": "eligible events whose target island is in a frozen pilot block",
+    "confirmatory_rows": "eligible events whose target island is in a frozen confirmatory block",
+    "species_universe_fixed_before_future_outcome": true,
+    "island_universe": 471,
+    "nonnumeric_species_excluded_permanently": 275,
+    "incomplete_source_species_excluded_permanently": true
+  },
+  "predictor_groups": {
+    "R0_numeric": [
+      "Residents_per_area_log",
+      "Area_log",
+      "Shannon_habitats",
+      "Convolution",
+      "Buildings",
+      "Meadow_or_pasture",
+      "Deciduous_forest",
+      "Coniferous_forest",
+      "Mixed_forest",
+      "Scrub",
+      "Sand",
+      "Open_rock_or_bare_ground",
+      "Marsh",
+      "Shore_meadow",
+      "North_limit",
+      "Ellenberg_Light",
+      "Ellenberg_Temperature",
+      "Ellenberg_Moisture",
+      "Ellenberg_Reaction",
+      "Ellenberg_Nitrogen",
+      "Life_cycle",
+      "SLA",
+      "Plant_height_log",
+      "Seed_mass_log",
+      "Gowdis_traits"
+    ],
+    "R0_categorical": [
+      "Limestone",
+      "Eklund_culture",
+      "Life_form",
+      "Dispersal_vector",
+      "Seed_bank",
+      "Pollen_vector",
+      "Apomictic",
+      "Veg_repr",
+      "Family",
+      "Genus"
+    ],
+    "R1_numeric_add": [
+      "Euref_X",
+      "Euref_Y",
+      "Buffer_2_km_log",
+      "Buffer_5_km_log"
+    ],
+    "R2_numeric_add": [
+      "actual_graph_degree_fraction",
+      "actual_graph_mean_shortest_path_km",
+      "actual_graph_closeness_per_km"
+    ],
+    "R3_numeric_add": [
+      "log1p_historical_source_count",
+      "log1p_nearest_euclidean_source_km",
+      "log1p_euclidean_source_pressure"
+    ],
+    "C_numeric_add": [
+      "log1p_nearest_graph_path_source_km",
+      "log1p_graph_source_pressure"
+    ],
+    "excluded_archive_columns": [
+      "Historical_total_log",
+      "Dist_to_historical_log",
+      "spp.name",
+      "holmkod",
+      "outcome"
+    ],
+    "species_identity_fixed_effect": false,
+    "published_AIC_selected_subset_used": false
+  },
+  "response_independent_preprocessing": {
+    "surface": "all frozen eligible pilot plus confirmatory event rows; predictors only, before any future outcome access",
+    "numeric_missing": "replace missing/nonfinite value by the population median of available values for that predictor over the complete frozen eligible predictor surface; append a binary missingness indicator when any missing value exists",
+    "numeric_zero_variance": "drop the predictor response-independently if its post-imputation population variance is exactly zero",
+    "numeric_standardization": "population mean zero and population SD one over the complete frozen eligible predictor surface after imputation; missingness indicators are not standardized",
+    "categorical_missing": "literal __MISSING__ level",
+    "categorical_levels": "freeze all levels from the complete frozen eligible predictor surface, lexicographically sorted after Unicode NFC plus trim",
+    "categorical_encoding": "full one-hot levels, all coefficients ridge-penalized; no outcome-based collapsing or reference-level selection",
+    "unseen_confirmatory_level_possible": false,
+    "preprocessing_uses_future_outcome": false,
+    "all_constants_and_levels_sha_frozen_before_pilot_outcome": true
+  },
+  "source_features": {
+    "historical_source_count": "exact v1.174.2 source membership count",
+    "euclidean_nearest": "minimum EUREF Euclidean km from historically absent target island to exact occupied source set",
+    "euclidean_pressure": "sum exp(-euclidean_km / frozen actual-graph kernel_scale_km) over exact occupied sources",
+    "actual_graph_nearest": "minimum shortest-path km on frozen actual v1.172 graph to exact occupied source set",
+    "actual_graph_pressure": "sum exp(-actual_graph_shortest_path_km / frozen actual-graph kernel_scale_km) over exact occupied sources",
+    "null_graph_features": "same two C features recomputed separately on each of the 20 exact frozen v1.172 null graphs using the same actual-graph kernel scale",
+    "R2_context_invariant": "actual-graph generic node context only; identical in R3, actual C and all 20 null C models",
+    "target_in_source_set": false
+  },
+  "model_family": {
+    "model": "pooled binary ridge logistic regression",
+    "models": [
+      "R0",
+      "R1",
+      "R2",
+      "R3",
+      "C_actual",
+      "C_null_01",
+      "C_null_02",
+      "C_null_03",
+      "C_null_04",
+      "C_null_05",
+      "C_null_06",
+      "C_null_07",
+      "C_null_08",
+      "C_null_09",
+      "C_null_10",
+      "C_null_11",
+      "C_null_12",
+      "C_null_13",
+      "C_null_14",
+      "C_null_15",
+      "C_null_16",
+      "C_null_17",
+      "C_null_18",
+      "C_null_19",
+      "C_null_20"
+    ],
+    "nesting": "each model contains all features of the preceding reference; every C model adds exactly two topology-specific source features to the identical R3 design",
+    "ridge_lambda": 1.0,
+    "intercept_penalized": false,
+    "all_nonintercept_coefficients_penalized": true,
+    "solver": "deterministic IRLS with pivoted Gaussian elimination",
+    "max_iterations": 100,
+    "convergence_tolerance": 1e-8,
+    "probability_clip": [1e-12, 0.999999999999],
+    "hyperparameter_tuning": false,
+    "future_outcome_variable_selection": false
+  },
+  "pilot_access": {
+    "one_shot": true,
+    "allowed_outcome_values": "only frozen eligible event keys in pilot spatial blocks",
+    "all_nonpilot_outcome_bytes_must_remain_opaque": true,
+    "pilot_effect_estimates_count_as_evidence": false,
+    "purpose": [
+      "fit the 25 frozen ridge models",
+      "verify numerical convergence",
+      "freeze every confirmatory prediction probability before confirmatory outcome access"
+    ],
+    "minimum_pilot_rows": 500,
+    "minimum_pilot_successes": 30,
+    "minimum_pilot_failures": 100,
+    "minimum_pilot_blocks_with_success": 3,
+    "model_convergence_required_for_all_25_models": true,
+    "gate_failure": "terminal non-estimable; no block, species, feature, penalty or threshold changes"
+  },
+  "preconfirmatory_freeze": {
+    "required_columns_per_confirmatory_row": [
+      "spp.name",
+      "holmkod",
+      "block_id",
+      "historical_source_count",
+      "S_i_n",
+      "p_R0",
+      "p_R1",
+      "p_R2",
+      "p_R3",
+      "p_C_actual",
+      "p_C_null_01_to_20"
+    ],
+    "all_model_coefficients_frozen": true,
+    "all_prediction_probabilities_frozen": true,
+    "all_prediction_row_keys_frozen": true,
+    "S_median_frozen_over_all_confirmatory_prediction_rows": true,
+    "confirmatory_outcome_values_opened": 0
+  },
+  "confirmatory_access": {
+    "one_shot": true,
+    "allowed_outcome_values": "only exact frozen confirmatory prediction row keys",
+    "all_other_outcome_bytes_must_remain_opaque": true,
+    "no_refitting_after_confirmatory_access": true,
+    "no_prediction_recomputation_after_confirmatory_access": true
+  },
+  "confirmatory_primary": {
+    "endpoint_population": "confirmatory rows with realized outcome == 1",
+    "block_aggregation": "within each frozen confirmatory spatial block, average event-level loss contrast; then give each presence-bearing block equal weight",
+    "P1_event": "binary_log_loss(p_C_actual, y=1) - binary_log_loss(p_R3, y=1)",
+    "P2_event": "binary_log_loss(p_C_actual, y=1) - mean_j binary_log_loss(p_C_null_j, y=1)",
+    "P1": "equal-block mean of P1_event",
+    "P2": "equal-block mean of P2_event",
+    "favourable_direction": "negative for both P1 and P2",
+    "bootstrap_unit": "presence-bearing frozen confirmatory spatial block",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261006,
+    "bootstrap_quantile": "Hyndman-Fan type 7",
+    "support_rule": "P1 < 0 and P1 95% block-bootstrap upper bound < 0 AND P2 < 0 and P2 95% block-bootstrap upper bound < 0",
+    "minimum_success_events": 50,
+    "minimum_presence_bearing_blocks": 5,
+    "if_support_insufficient": "terminal non-estimable; no rescue"
+  },
+  "mechanistic_secondary": {
+    "predeclared_S": "S_i_n from frozen v1.172 response-independent finite-source sensitivity",
+    "median_split": "high versus low using the median frozen over all confirmatory prediction rows before outcome access",
+    "contrast": "equal-block mean P2_event in high-S minus equal-block mean P2_event in low-S; predicted negative",
+    "continuous_check": "weighted slope of P2_event on z(log1p(S_i_n)) among successful confirmatory events, equal-block weighting; predicted negative",
+    "may_rescue_primary": false
+  },
+  "guardrails": {
+    "all_event_P1": "equal-block mean logloss(C_actual)-logloss(R3) over all confirmatory events",
+    "failure_event_P1": "equal-block mean logloss(C_actual,y=0)-logloss(R3,y=0) over confirmatory failures",
+    "all_event_P2": "equal-block mean logloss(C_actual)-mean null-C loss over all confirmatory events",
+    "reported_regardless_of_direction": true,
+    "may_rescue_primary": false,
+    "may_invalidate_interpretation_if_extreme_failure_degradation": "discussion-level interpretation boundary only; no post hoc numerical threshold"
+  },
+  "claim_boundary": {
+    "positive_primary_can_support": "in this independent archipelago and temporal endpoint, exact historical source topology contains future colonization information beyond source count, direct Euclidean source proximity/pressure, recipient-island state, species traits and generic graph context",
+    "positive_secondary_can_support": "topology-specific colonization information is concentrated where response-free finite-source configuration sensitivity is higher",
+    "cannot_support": [
+      "realized dispersal along graph edges",
+      "causal rescue effect",
+      "management ranking of source islands",
+      "geographically universal monotonic rarity law",
+      "pristine fresh confirmation"
+    ]
+  },
+  "anti_selection": [
+    "no eBird",
+    "no re-entry of the 275 nonnumeric species",
+    "no re-entry of incomplete-source species",
+    "no outcome-based feature removal or complete-case filter",
+    "no use of published AIC-selected final model as Structural reference",
+    "no graph k, kernel, null, block, S threshold or ridge tuning from pilot or confirmatory outcome",
+    "no change to P1/P2 support rule after pilot",
+    "no confirmatory subgroup rescue"
+  ],
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  }
+}
