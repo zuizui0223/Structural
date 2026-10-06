@@ -63,13 +63,16 @@
     "Genus",
     "Gowdis_traits"
   ],
-  "row_semantics_rule": "row existence may be used as t0 historical absence of spp.name on holmkod because the archived table is documented as potential colonization events; outcome token remains opaque",
+  "row_semantics_rule": "each routed row safely establishes historical absence for that spp.name × holmkod pair, but absence rows may be incomplete because the published modelling workflow dropped observations with missing explanatory data",
   "historical_source_reconstruction": {
-    "island_universe": "freeze all unique holmkod values from the t0 projection",
-    "species_universe": "freeze all unique spp.name values from the t0 projection",
-    "t0_absent_pairs": "exact projected row keys (spp.name, holmkod)",
-    "t0_occupied_pairs": "complement of t0_absent_pairs within the frozen island x species universe",
-    "validation": "historical source counts must be internally consistent within species and with documented Historical_total_log semantics where transform can be verified response-independently"
+    "island_universe": "freeze exactly 471 unique holmkod values from t0-safe rows",
+    "t0_known_absent_pairs": "exact projected row keys (spp.name, holmkod)",
+    "source_count_direct_gate": "for the archived Historical_total_log scale, require documented log10(x+1) inversion to yield a nonnegative integer historical occupied-island count within frozen numeric tolerance; otherwise HOLD for an independently frozen supplementary Potential_islands lookup",
+    "exact_species_rule": "only species with archived_absent_row_count + historical_source_count == 471 have a complete historical absence set; for those species only, historical occupied sources are the complement of archived absent islands",
+    "incomplete_species_rule": "species with archived_absent_row_count + historical_source_count < 471 are topology-ineligible and are excluded before future outcome access",
+    "impossible_species_rule": "archived_absent_row_count + historical_source_count > 471 is a pre-outcome STOP",
+    "minimum_exact_species": 30,
+    "validation": "recompute source count, Euclidean nearest-source distance and diffuse pressure from the exact reconstructed t0 source set; archived Dist_to_historical_log is a t0-safe cross-check but is not required to recover source identity"
   },
   "anti_leakage": [
     "do not parse, normalize, count, summarize or persist outcome tokens during t0 projection",
