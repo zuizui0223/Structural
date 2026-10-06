@@ -1,0 +1,26 @@
+name: SW Finland anchor inversion v1.170.2 checks
+on:
+  pull_request:
+    paths:
+      - development/sw_finland_anchor_source_count_inversion_contract_v1_170_2.json
+      - development/sw_finland_anchor_source_count_inversion_request_v1_170_2.json
+      - scripts/calibrate_sw_finland_source_counts_v1_170_2.py
+      - tests/test_sw_finland_anchor_source_count_inversion_v1_170_2.py
+      - .github/workflows/sw-finland-anchor-source-count-v1_170_2.yml
+  push:
+    branches:
+      - candidate/sw-finland-anchor-inversion-v1-170-2
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+        run: python -m pytest -q tests/test_sw_finland_anchor_source_count_inversion_v1_170_2.py tests/test_sw_finland_exact_source_reconstruction_v1_171.py
