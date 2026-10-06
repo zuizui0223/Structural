@@ -1,0 +1,11 @@
+{
+  "schema": "structural.sw_finland_dual_t0_source_identity_request.v1_176",
+  "status": "REQUEST_DUAL_T0_COUNT_DISTANCE_SOURCE_IDENTITY_GATE",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "contract": "development/sw_finland_dual_t0_source_identity_contract_v1_176.json",
+  "future_outcome_values_opened_before_request": 0,
+  "future_outcome_access_requested": false,
+  "effect_estimate_requested": false,
+  "one_shot": true,
+  "eBird_used": false
+}
