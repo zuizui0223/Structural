@@ -1,0 +1,12 @@
+{
+  "schema": "structural.sw_finland_potential_lookup_request.v1_170",
+  "status": "REQUEST_SUPPLEMENTARY_T0_SOURCE_COUNT_LOOKUP",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "execution_contract": "development/sw_finland_potential_lookup_execution_contract_v1_170.json",
+  "future_outcome_values_opened_before_request": 0,
+  "future_summary_values_requested": false,
+  "row_level_recent_outcome_access_requested": false,
+  "effect_estimate_requested": false,
+  "one_shot": true,
+  "eBird_used": false
+}
