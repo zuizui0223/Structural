@@ -55,7 +55,9 @@
       "connected graph",
       "20 unique null fingerprints",
       "no null fingerprint equals actual fingerprint"
-    ]
+    ],
+    "target_swap_multiplier": 2,
+    "maximum_attempt_multiplier": 400
   },
   "configuration_sensitivity": {
     "possible_source_count_M": 470,
