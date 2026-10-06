@@ -1,0 +1,56 @@
+{
+  "schema": "structural.sw_finland_numeric_count_to_sources_contract.v1_174_1",
+  "status": "T0_NUMERIC_COUNT_AUTHORITY_TO_EXACT_SOURCES_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_standardized_historical_count_contract_v1_173_3.json",
+    "development/sw_finland_exact_source_reconstruction_contract_v1_171.json",
+    "development/sw_finland_topology_freeze_contract_v1_172.json"
+  ],
+  "required_v1_173_3": {
+    "receipt_path": "development/sw_finland_historical_source_count_calibration_v1_173_3.json",
+    "table_path": "development/sw_finland_historical_source_count_recovery_v1_173_3.csv",
+    "excluded_path": "development/sw_finland_historical_source_count_excluded_v1_173_3.csv",
+    "required_status": "NUMERIC_T0_HISTORICAL_SOURCE_COUNTS_RECOVERED",
+    "numeric_species": 312,
+    "excluded_nonnumeric_species": 275,
+    "minimum_anchor_matches": 20,
+    "minimum_exact_source_species": 30,
+    "impossible_species_required": 0,
+    "future_outcome_values_opened_required": 0
+  },
+  "reconstruction": {
+    "island_universe": 471,
+    "authority_species_only": true,
+    "authority_species_count": 312,
+    "excluded_nonnumeric_species_may_reenter": false,
+    "archive_species_not_in_authority": "ignore after confirming they are exactly the 275 frozen nonnumeric exclusions",
+    "eligible_exact_if": "archived_absent_count == recovered_Potential_islands and recovered_historical_source_count >= 1",
+    "source_identity": "471-island universe minus archived historical-absence island set",
+    "incomplete_authority_species": "exclude",
+    "impossible_authority_species": "terminal STOP",
+    "zero_source_authority_species": "exclude",
+    "minimum_exact_species": 30,
+    "exact_species_count_must_equal_v1_173_3_receipt": true
+  },
+  "canonical_outputs": {
+    "species": "development/sw_finland_exact_source_species_v1_171.csv",
+    "membership": "development/sw_finland_exact_source_membership_v1_171.csv",
+    "geometry": "development/sw_finland_t0_island_geometry_v1_171.csv",
+    "receipt": "development/sw_finland_exact_source_reconstruction_v1_171.json"
+  },
+  "receipt": {
+    "schema": "structural.sw_finland_exact_source_reconstruction_result.v1_174_1",
+    "status": "T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED",
+    "count_authority": "v1.173.3 numeric t0 pool",
+    "excluded_nonnumeric_species": 275
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  }
+}

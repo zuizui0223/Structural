@@ -1,0 +1,75 @@
+{
+  "schema": "structural.sw_finland_standardized_historical_count_contract.v1_173_3",
+  "status": "T0_ONLY_NUMERIC_SOURCE_COUNT_POOL_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_standardized_historical_count_contract_v1_173.json",
+    "development/sw_finland_standardized_historical_count_contract_v1_173_2.json",
+    "development/sw_finland_t0_byte_router_contract_v1_169.json"
+  ],
+  "prior_t0_diagnostics": {
+    "species_total": 587,
+    "numeric_single_token_species": 312,
+    "nonnumeric_single_token_species": 275,
+    "nonnumeric_token": "NA",
+    "within_species_token_mixture_count": 0,
+    "future_outcome_values_opened": 0
+  },
+  "eligibility": {
+    "rule": "include every species whose Historical_total_log is one finite numeric token repeated consistently across its routed t0 rows",
+    "expected_numeric_species": 312,
+    "exclude": "all species with nonnumeric Historical_total_log, permanently for this route",
+    "excluded_species_expected": 275,
+    "nonnumeric_species_may_reenter": false,
+    "future_outcome_used": false
+  },
+  "anchors": {
+    "base": "exact v1.173 anchors, retaining only anchors present in the numeric pool",
+    "base_numeric_anchor_count_expected": 18,
+    "additional_t0_anchors": {
+      "Odontites litoralis": 83,
+      "Aster tripolium": 109,
+      "Atriplex prostrata": 42
+    },
+    "additional_anchor_provenance": "published main-text potential-island denominators 388, 362 and 429 respectively; historical source count = 471 - denominator",
+    "additional_anchor_role": "calibration of deterministic t0 transform only; does not define species eligibility, graph scale, blocks, endpoint or effect direction",
+    "minimum_numeric_anchor_matches": 20,
+    "expected_numeric_anchor_matches": 21
+  },
+  "calibration": {
+    "fit": "OLS of log10(historical_source_count+1) on [1, archived numeric Historical_total_log]",
+    "slope_must_be_positive": true,
+    "integer_recovery": "10^(intercept+slope*z)-1 rounded to nearest integer in [0,471]",
+    "every_matched_anchor_must_round_exactly": true,
+    "maximum_anchor_count_rounding_error": 0.01,
+    "maximum_all_numeric_species_count_rounding_error": 0.05,
+    "minimum_exact_source_species": 30,
+    "thresholds_loosened_from_v1_173": false
+  },
+  "archive_support": {
+    "archived_absent_count": "unique holmkod rows per eligible numeric species",
+    "exact_if": "archived_absent_count + recovered historical_source_count == 471 and historical_source_count >= 1",
+    "incomplete_if": "sum < 471",
+    "impossible_if": "sum > 471",
+    "zero_source_if": "historical_source_count == 0; exclude from graph-source analysis",
+    "impossible_species_required": 0
+  },
+  "canonical_outputs": {
+    "species_table": "development/sw_finland_historical_source_count_recovery_v1_173_3.csv",
+    "excluded_table": "development/sw_finland_historical_source_count_excluded_v1_173_3.csv",
+    "receipt": "development/sw_finland_historical_source_count_calibration_v1_173_3.json"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "supplement_future_summary_values_used": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "NUMERIC_T0_HISTORICAL_SOURCE_COUNTS_RECOVERED",
+    "next_action": "promote only exact-source species from this frozen numeric pool to historical source identities; all 275 nonnumeric species remain excluded; future outcome remains sealed"
+  }
+}
