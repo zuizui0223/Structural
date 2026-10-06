@@ -58,6 +58,14 @@ def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def sha256_file(path: Path) -> str:
+    digest=hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024*1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def canonical_sha256(value) -> str:
     raw=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
     return hashlib.sha256(raw).hexdigest()
@@ -72,6 +80,8 @@ def parse_num(value) -> float:
 
 
 def load_state(path: Path, freeze: Mapping) -> tuple[list[str],dict[str,dict[str,float]]]:
+    if sha256_file(path) != freeze.get("state_reference_sha256"):
+        raise BirdPreconfirmatoryError("state reference SHA mismatch")
     rows=list(csv.DictReader(path.read_text(encoding="utf-8").splitlines()))
     header=("Island","PC1","PC2","PC3","TSF_Z","LOG_AREA_Z","LOG_MAINLAND_DISTANCE_Z")
     if tuple(rows[0].keys()) != header:
