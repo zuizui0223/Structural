@@ -24,6 +24,8 @@ on:
       - src/structural/boreal_19island_bird_confirmatory_router.py
       - scripts/score_boreal_bird_confirmatory_v1_165.py
       - tests/test_boreal_bird_confirmatory_v1_165.py
+      - .github/workflows/boreal-bird-confirmatory-v1_165.yml
+      - tests/test_boreal_bird_confirmatory_workflow_v1_165.py
       - .github/workflows/boreal-bird-v1_163-check.yml
 
 permissions:
@@ -49,4 +51,5 @@ jobs:
             tests/test_boreal_bird_preconfirmatory_v1_164.py \
             tests/test_boreal_bird_preconfirmatory_builder_v1_164.py \
             tests/test_boreal_bird_pilot_workflow_v1_163.py \
-            tests/test_boreal_bird_confirmatory_v1_165.py
+            tests/test_boreal_bird_confirmatory_v1_165.py \
+            tests/test_boreal_bird_confirmatory_workflow_v1_165.py
