@@ -16,6 +16,8 @@ on:
       - tests/test_boreal_bird_pilot_v1_163.py
       - development/boreal_bird_preconfirmatory_contract_v1_164.json
       - tests/test_boreal_bird_preconfirmatory_v1_164.py
+      - scripts/freeze_boreal_bird_preconfirmatory_v1_164.py
+      - tests/test_boreal_bird_preconfirmatory_builder_v1_164.py
       - .github/workflows/boreal-bird-pilot-v1_163.yml
       - tests/test_boreal_bird_pilot_workflow_v1_163.py
       - .github/workflows/boreal-bird-v1_163-check.yml
@@ -41,4 +43,5 @@ jobs:
             tests/test_boreal_bird_topology_sensitivity_v1_162.py \
             tests/test_boreal_bird_pilot_v1_163.py \
             tests/test_boreal_bird_preconfirmatory_v1_164.py \
+            tests/test_boreal_bird_preconfirmatory_builder_v1_164.py \
             tests/test_boreal_bird_pilot_workflow_v1_163.py
