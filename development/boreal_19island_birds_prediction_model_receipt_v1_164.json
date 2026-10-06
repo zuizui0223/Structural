@@ -1,0 +1,1245 @@
+{
+  "base_standardization": {
+    "LOG_AREA_Z": {
+      "mean_hex": "-0x1.2b5e50d79435ep-53",
+      "sd_hex": "0x1.ffffffffffffep-1"
+    },
+    "LOG_MAINLAND_DISTANCE_Z": {
+      "mean_hex": "0x1.7435e50d79436p-55",
+      "sd_hex": "0x1.0000000000000p+0"
+    },
+    "PC1": {
+      "mean_hex": "0x1.5e50d79435e51p-54",
+      "sd_hex": "0x1.8b1828f3123d2p+0"
+    },
+    "PC2": {
+      "mean_hex": "-0x1.5e50d79435e51p-57",
+      "sd_hex": "0x1.4a482a3b0857ap+0"
+    },
+    "PC3": {
+      "mean_hex": "-0x1.3ca1af286bca2p-54",
+      "sd_hex": "0x1.f4b6dfe0d430dp-1"
+    },
+    "TSF_Z": {
+      "mean_hex": "-0x1.0f286bca1af28p-53",
+      "sd_hex": "0x1.0000000000000p+0"
+    },
+    "graph_closeness_per_km": {
+      "mean_hex": "0x1.54ddb03b6e414p-6",
+      "sd_hex": "0x1.1c06a60705009p-8"
+    },
+    "graph_degree_fraction": {
+      "mean_hex": "0x1.a32e68cb9a32ep-3",
+      "sd_hex": "0x1.88218ca133536p-5"
+    },
+    "graph_mean_shortest_path_km": {
+      "mean_hex": "0x1.92337614fdfdcp+5",
+      "sd_hex": "0x1.578deb4a68b4dp+3"
+    }
+  },
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "common_source_standardization": {
+    "log1p_euclidean_source_pressure": {
+      "mean_hex": "0x1.8d48613505251p-2",
+      "sd_hex": "0x1.45bf0f1b87dc6p-2"
+    },
+    "log1p_nearest_euclidean_source_km": {
+      "mean_hex": "0x1.6bc30aa42b3d7p+1",
+      "sd_hex": "0x1.4040a73dd5095p+1"
+    },
+    "occupancy_logit": {
+      "mean_hex": "-0x1.654af61229fb1p-1",
+      "sd_hex": "0x1.b104aa23167a3p-1"
+    }
+  },
+  "confirmatory_block_count": 7,
+  "confirmatory_island_count": 13,
+  "confirmatory_response_authorized": false,
+  "confirmatory_target_values_opened": 0,
+  "counts_as_empirical_evidence": false,
+  "eligible_species_count": 18,
+  "eligible_species_sha256": "f623652815edea90404c9a6a306699deaf2f0a7ce5b56cb7d6f6b379f4204080",
+  "empty_source_semantics": {
+    "euclidean_empty_km_hex": "0x1.38e60f2b405f4p+14",
+    "graph_empty_km_hex": "0x1.06bc7e52e9f07p+9",
+    "same_graph_empty_sentinel_for_actual_and_all_nulls": true
+  },
+  "models": {
+    "R3": {
+      "coefficients_hex": [
+        "-0x1.76aec27714c1ap-1",
+        "-0x1.0388ce694d22dp-3",
+        "-0x1.d0c58984e3efbp-2",
+        "0x1.222c2d2b72444p-2",
+        "-0x1.3cfe22e2ccf2dp-3",
+        "0x1.3da9b72b1dee4p-3",
+        "-0x1.41425e02c5285p-3",
+        "0x1.69a0e1aa461c4p-3",
+        "0x1.e2b09a057fc04p-3",
+        "-0x1.c2c0680b40705p-3",
+        "0x1.eefb620b1283ep-2",
+        "0x1.cc22c835d297cp+0",
+        "0x1.0b44a7aebccfcp+0"
+      ],
+      "columns": [
+        "intercept",
+        "z_PC1",
+        "z_PC2",
+        "z_PC3",
+        "z_TSF_Z",
+        "z_LOG_AREA_Z",
+        "z_LOG_MAINLAND_DISTANCE_Z",
+        "z_graph_degree_fraction",
+        "z_graph_mean_shortest_path_km",
+        "z_graph_closeness_per_km",
+        "z_occupancy_logit",
+        "z_log1p_nearest_euclidean_source_km",
+        "z_log1p_euclidean_source_pressure"
+      ],
+      "final_max_abs_delta_hex": "0x1.2461d7e27e011p-27",
+      "iterations": 6,
+      "ridge_lambda_hex": "0x1.0000000000000p+0"
+    },
+    "candidates": [
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.89ae3195ffb11p-2",
+            "sd_hex": "0x1.46dbcdb824ad1p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.420b6b384c4d5p+1",
+            "sd_hex": "0x1.9f73fd790f84dp+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.87e20a97520ccp-1",
+            "-0x1.4baaf3e388ed6p-3",
+            "-0x1.cd2698fd88ff4p-2",
+            "0x1.4d3cc7aad43acp-2",
+            "-0x1.1bbb0509816b7p-3",
+            "0x1.c93e5603fe75bp-4",
+            "-0x1.07f29973361edp-3",
+            "0x1.40446a56d2691p-3",
+            "0x1.d865a89dc2582p-3",
+            "-0x1.ad070fb064f8bp-3",
+            "0x1.b2506b9847438p-2",
+            "0x1.959e5c67f0362p+0",
+            "0x1.56b04f34b8e25p-1",
+            "0x1.b7420a91de25bp-2",
+            "0x1.51a86329c80c2p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.3580408aef84fp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "actual"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88a13c6fe097ap-2",
+            "sd_hex": "0x1.47005d08011a2p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.425a32a3506c4p+1",
+            "sd_hex": "0x1.9fad0ff1b510ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8894bd9247a38p-1",
+            "-0x1.4bde7e8e72dc6p-3",
+            "-0x1.cd473993fc27cp-2",
+            "0x1.4f4159133a884p-2",
+            "-0x1.1965ae81e3d32p-3",
+            "0x1.c3d791318e89dp-4",
+            "-0x1.0a51d114dc8f1p-3",
+            "0x1.3d0eca73b4b4bp-3",
+            "0x1.da0dfa6190ebbp-3",
+            "-0x1.ae9f347b71bf2p-3",
+            "0x1.b4784b7c4835ap-2",
+            "0x1.92ddabc9e1ce8p+0",
+            "0x1.5e623dbdfd708p-1",
+            "0x1.c6c6963a59253p-2",
+            "0x1.4abe1dc21cb46p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.324bbabe9c38cp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_01"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88a13c6fe097ap-2",
+            "sd_hex": "0x1.47005d08011a2p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.425a32a3506c4p+1",
+            "sd_hex": "0x1.9fad0ff1b510ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8894bd9247a38p-1",
+            "-0x1.4bde7e8e72dc6p-3",
+            "-0x1.cd473993fc27cp-2",
+            "0x1.4f4159133a884p-2",
+            "-0x1.1965ae81e3d32p-3",
+            "0x1.c3d791318e89dp-4",
+            "-0x1.0a51d114dc8f1p-3",
+            "0x1.3d0eca73b4b4bp-3",
+            "0x1.da0dfa6190ebbp-3",
+            "-0x1.ae9f347b71bf2p-3",
+            "0x1.b4784b7c4835ap-2",
+            "0x1.92ddabc9e1ce8p+0",
+            "0x1.5e623dbdfd708p-1",
+            "0x1.c6c6963a59253p-2",
+            "0x1.4abe1dc21cb46p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.324bbabe9c38cp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_02"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.8a9f66d665fdcp-2",
+            "sd_hex": "0x1.462b65952ce57p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.41ad63f22fdd2p+1",
+            "sd_hex": "0x1.9ee5be8f22cb8p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.889b6adf1b6d6p-1",
+            "-0x1.4b2553c67ce82p-3",
+            "-0x1.cc6fa158961d7p-2",
+            "0x1.4e1aa5d01bebfp-2",
+            "-0x1.19c42b3c3bc3ep-3",
+            "0x1.c82e2cbac7d07p-4",
+            "-0x1.0968870bd45e3p-3",
+            "0x1.3fe1a054dd500p-3",
+            "0x1.d897083c72f3cp-3",
+            "-0x1.ad622ce24f782p-3",
+            "0x1.af308d30212bbp-2",
+            "0x1.93eab513ac9f0p+0",
+            "0x1.58d2c8a4e3eabp-1",
+            "0x1.c000434115042p-2",
+            "0x1.512f51bfdf87fp-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.6fd9745890a1ap-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_03"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.8a75b78333e2ep-2",
+            "sd_hex": "0x1.46483b4809ad5p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.41c202fd17fb2p+1",
+            "sd_hex": "0x1.9efab7a0c8518p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.889b233efee57p-1",
+            "-0x1.4b5368ae614c8p-3",
+            "-0x1.cc726f78c0ce0p-2",
+            "0x1.4e1a171412acap-2",
+            "-0x1.19f429b30973ap-3",
+            "0x1.c8af7bd84ad03p-4",
+            "-0x1.099405c178579p-3",
+            "0x1.3fc58d43c7098p-3",
+            "0x1.d8d477b7c6464p-3",
+            "-0x1.ad99bb2dc76f7p-3",
+            "0x1.afc0f1fb7a487p-2",
+            "0x1.93a79487c8675p+0",
+            "0x1.5adc1ad443539p-1",
+            "0x1.c1115ae03c693p-2",
+            "0x1.4ee3274af16c7p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.c2989f3fc0926p-52",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_04"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.8a75b78333e2ep-2",
+            "sd_hex": "0x1.46483b4809ad5p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.41c202fd17fb2p+1",
+            "sd_hex": "0x1.9efab7a0c8518p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.889b233efee57p-1",
+            "-0x1.4b5368ae614c8p-3",
+            "-0x1.cc726f78c0ce0p-2",
+            "0x1.4e1a171412acap-2",
+            "-0x1.19f429b30973ap-3",
+            "0x1.c8af7bd84ad03p-4",
+            "-0x1.099405c178579p-3",
+            "0x1.3fc58d43c7098p-3",
+            "0x1.d8d477b7c6464p-3",
+            "-0x1.ad99bb2dc76f7p-3",
+            "0x1.afc0f1fb7a487p-2",
+            "0x1.93a79487c8675p+0",
+            "0x1.5adc1ad443539p-1",
+            "0x1.c1115ae03c693p-2",
+            "0x1.4ee3274af16c7p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.c2989f3fc0926p-52",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_05"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.87f8215ff0aa6p-2",
+            "sd_hex": "0x1.46f10fbb94e0ap-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.42791bb1d0cd3p+1",
+            "sd_hex": "0x1.9fc2a8be391bbp+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8937c0980e56cp-1",
+            "-0x1.4d843ce7035ecp-3",
+            "-0x1.cc59dd36226dcp-2",
+            "0x1.4fd137c2b2995p-2",
+            "-0x1.18e37310f6692p-3",
+            "0x1.c50988fd97215p-4",
+            "-0x1.0a0a268e143d1p-3",
+            "0x1.3d7a16f6aeccfp-3",
+            "0x1.da1967a8e809bp-3",
+            "-0x1.ae8d29a192ac5p-3",
+            "0x1.b5dbfb0ef3824p-2",
+            "0x1.93d11ce8feb73p+0",
+            "0x1.5d4d254914bb1p-1",
+            "0x1.c13bd474c53f8p-2",
+            "0x1.4a84ee49f8cfep-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.b1d1b776e800ep-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_06"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88f978a712389p-2",
+            "sd_hex": "0x1.46371b697cadcp-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.42149d2be509ap+1",
+            "sd_hex": "0x1.9f2b1a6d01f8bp+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.89f87b479aac4p-1",
+            "-0x1.4d0a3910061e1p-3",
+            "-0x1.cb9c9199721e8p-2",
+            "0x1.50b62a812beccp-2",
+            "-0x1.16e05416903a3p-3",
+            "0x1.c3d0ae4d654bdp-4",
+            "-0x1.0b7332ac8b64ep-3",
+            "0x1.3d0d03f2674fcp-3",
+            "0x1.da4400cf4f675p-3",
+            "-0x1.aedfca9d1dfe0p-3",
+            "0x1.b28967974c91ap-2",
+            "0x1.92005356bcad3p+0",
+            "0x1.5f822e6990e38p-1",
+            "0x1.caa0b844fbd7dp-2",
+            "0x1.4a2745d21550fp-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.76abfbee66f4fp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_07"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.87eceee66fa6fp-2",
+            "sd_hex": "0x1.46f9969a26d96p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.427dde1ff3d40p+1",
+            "sd_hex": "0x1.9fca12523286ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.892d458a93b3bp-1",
+            "-0x1.4d7d594b40800p-3",
+            "-0x1.cc638e7c3124ep-2",
+            "0x1.4fc2ecefe9ca6p-2",
+            "-0x1.18fc78819388ep-3",
+            "0x1.c52bbe44e639cp-4",
+            "-0x1.0a080eac5b16bp-3",
+            "0x1.3d7fadbb7a307p-3",
+            "0x1.da1c5eef56ee0p-3",
+            "-0x1.ae9029f03b104p-3",
+            "0x1.b60988ea77e41p-2",
+            "0x1.93e782643ec5dp+0",
+            "0x1.5d5dae1d1aeadp-1",
+            "0x1.c0b2293f804fcp-2",
+            "0x1.4a4d2c15782dap-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.565e316ce3378p-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_08"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.8827784b4fa04p-2",
+            "sd_hex": "0x1.46d064a6e3b8fp-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.42612e912945ep+1",
+            "sd_hex": "0x1.9faa5c3569642p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.893980bc20d15p-1",
+            "-0x1.4d57f61f0907ap-3",
+            "-0x1.cc579ac819ba1p-2",
+            "0x1.4fd70d79ac779p-2",
+            "-0x1.18abdd194f158p-3",
+            "0x1.c46b0ca8cac08p-4",
+            "-0x1.09db06531346cp-3",
+            "0x1.3d8f96d48910cp-3",
+            "0x1.d9d9e307b532fp-3",
+            "-0x1.ae52f6616c668p-3",
+            "0x1.b5485fd7af647p-2",
+            "0x1.941621c294be9p+0",
+            "0x1.5b1a7b06ff73fp-1",
+            "0x1.c0262362e23e0p-2",
+            "0x1.4cfd58743bdc7p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.138a52e14fee1p-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_09"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88a13c6fe097ap-2",
+            "sd_hex": "0x1.47005d08011a2p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.425a32a3506c4p+1",
+            "sd_hex": "0x1.9fad0ff1b510ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8894bd9247a38p-1",
+            "-0x1.4bde7e8e72dc6p-3",
+            "-0x1.cd473993fc27cp-2",
+            "0x1.4f4159133a884p-2",
+            "-0x1.1965ae81e3d32p-3",
+            "0x1.c3d791318e89dp-4",
+            "-0x1.0a51d114dc8f1p-3",
+            "0x1.3d0eca73b4b4bp-3",
+            "0x1.da0dfa6190ebbp-3",
+            "-0x1.ae9f347b71bf2p-3",
+            "0x1.b4784b7c4835ap-2",
+            "0x1.92ddabc9e1ce8p+0",
+            "0x1.5e623dbdfd708p-1",
+            "0x1.c6c6963a59253p-2",
+            "0x1.4abe1dc21cb46p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.324bbabe9c38cp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_10"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88a13c6fe097ap-2",
+            "sd_hex": "0x1.47005d08011a2p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.425a32a3506c4p+1",
+            "sd_hex": "0x1.9fad0ff1b510ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8894bd9247a38p-1",
+            "-0x1.4bde7e8e72dc6p-3",
+            "-0x1.cd473993fc27cp-2",
+            "0x1.4f4159133a884p-2",
+            "-0x1.1965ae81e3d32p-3",
+            "0x1.c3d791318e89dp-4",
+            "-0x1.0a51d114dc8f1p-3",
+            "0x1.3d0eca73b4b4bp-3",
+            "0x1.da0dfa6190ebbp-3",
+            "-0x1.ae9f347b71bf2p-3",
+            "0x1.b4784b7c4835ap-2",
+            "0x1.92ddabc9e1ce8p+0",
+            "0x1.5e623dbdfd708p-1",
+            "0x1.c6c6963a59253p-2",
+            "0x1.4abe1dc21cb46p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.324bbabe9c38cp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_11"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.87eceee66fa6fp-2",
+            "sd_hex": "0x1.46f9969a26d96p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.427dde1ff3d40p+1",
+            "sd_hex": "0x1.9fca12523286ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.892d458a93b3bp-1",
+            "-0x1.4d7d594b40800p-3",
+            "-0x1.cc638e7c3124ep-2",
+            "0x1.4fc2ecefe9ca6p-2",
+            "-0x1.18fc78819388ep-3",
+            "0x1.c52bbe44e639cp-4",
+            "-0x1.0a080eac5b16bp-3",
+            "0x1.3d7fadbb7a307p-3",
+            "0x1.da1c5eef56ee0p-3",
+            "-0x1.ae9029f03b104p-3",
+            "0x1.b60988ea77e41p-2",
+            "0x1.93e782643ec5dp+0",
+            "0x1.5d5dae1d1aeadp-1",
+            "0x1.c0b2293f804fcp-2",
+            "0x1.4a4d2c15782dap-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.565e316ce3378p-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_12"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.89ac53bda4e0dp-2",
+            "sd_hex": "0x1.46dbb93d57f93p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.420bc91ffdd8bp+1",
+            "sd_hex": "0x1.9f74494bfc5f5p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.87e3b3406ad50p-1",
+            "-0x1.4baf80969553bp-3",
+            "-0x1.cd2424b8e2029p-2",
+            "0x1.4d3e3394c546ep-2",
+            "-0x1.1bb9e29431505p-3",
+            "0x1.c941d4b1930eep-4",
+            "-0x1.07f1c20a0fcfep-3",
+            "0x1.404587d568d31p-3",
+            "0x1.d865d40832575p-3",
+            "-0x1.ad06e5fa14c3ap-3",
+            "0x1.b2549ea813810p-2",
+            "0x1.95a117646963dp+0",
+            "0x1.56ad8ee0982b8p-1",
+            "0x1.b732110c9807cp-2",
+            "0x1.51a746910ec54p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.b7f522bcb057dp-52",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_13"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.89ac53bda4e0dp-2",
+            "sd_hex": "0x1.46dbb93d57f93p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.420bc91ffdd8bp+1",
+            "sd_hex": "0x1.9f74494bfc5f5p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.87e3b3406ad50p-1",
+            "-0x1.4baf80969553bp-3",
+            "-0x1.cd2424b8e2029p-2",
+            "0x1.4d3e3394c546ep-2",
+            "-0x1.1bb9e29431505p-3",
+            "0x1.c941d4b1930eep-4",
+            "-0x1.07f1c20a0fcfep-3",
+            "0x1.404587d568d31p-3",
+            "0x1.d865d40832575p-3",
+            "-0x1.ad06e5fa14c3ap-3",
+            "0x1.b2549ea813810p-2",
+            "0x1.95a117646963dp+0",
+            "0x1.56ad8ee0982b8p-1",
+            "0x1.b732110c9807cp-2",
+            "0x1.51a746910ec54p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.b7f522bcb057dp-52",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_14"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88a13c6fe097ap-2",
+            "sd_hex": "0x1.47005d08011a2p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.425a32a3506c4p+1",
+            "sd_hex": "0x1.9fad0ff1b510ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8894bd9247a38p-1",
+            "-0x1.4bde7e8e72dc6p-3",
+            "-0x1.cd473993fc27cp-2",
+            "0x1.4f4159133a884p-2",
+            "-0x1.1965ae81e3d32p-3",
+            "0x1.c3d791318e89dp-4",
+            "-0x1.0a51d114dc8f1p-3",
+            "0x1.3d0eca73b4b4bp-3",
+            "0x1.da0dfa6190ebbp-3",
+            "-0x1.ae9f347b71bf2p-3",
+            "0x1.b4784b7c4835ap-2",
+            "0x1.92ddabc9e1ce8p+0",
+            "0x1.5e623dbdfd708p-1",
+            "0x1.c6c6963a59253p-2",
+            "0x1.4abe1dc21cb46p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.324bbabe9c38cp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_15"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.87eceee66fa6fp-2",
+            "sd_hex": "0x1.46f9969a26d96p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.427dde1ff3d40p+1",
+            "sd_hex": "0x1.9fca12523286ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.892d458a93b3bp-1",
+            "-0x1.4d7d594b40800p-3",
+            "-0x1.cc638e7c3124ep-2",
+            "0x1.4fc2ecefe9ca6p-2",
+            "-0x1.18fc78819388ep-3",
+            "0x1.c52bbe44e639cp-4",
+            "-0x1.0a080eac5b16bp-3",
+            "0x1.3d7fadbb7a307p-3",
+            "0x1.da1c5eef56ee0p-3",
+            "-0x1.ae9029f03b104p-3",
+            "0x1.b60988ea77e41p-2",
+            "0x1.93e782643ec5dp+0",
+            "0x1.5d5dae1d1aeadp-1",
+            "0x1.c0b2293f804fcp-2",
+            "0x1.4a4d2c15782dap-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.565e316ce3378p-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_16"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88a13c6fe097ap-2",
+            "sd_hex": "0x1.47005d08011a2p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.425a32a3506c4p+1",
+            "sd_hex": "0x1.9fad0ff1b510ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8894bd9247a38p-1",
+            "-0x1.4bde7e8e72dc6p-3",
+            "-0x1.cd473993fc27cp-2",
+            "0x1.4f4159133a884p-2",
+            "-0x1.1965ae81e3d32p-3",
+            "0x1.c3d791318e89dp-4",
+            "-0x1.0a51d114dc8f1p-3",
+            "0x1.3d0eca73b4b4bp-3",
+            "0x1.da0dfa6190ebbp-3",
+            "-0x1.ae9f347b71bf2p-3",
+            "0x1.b4784b7c4835ap-2",
+            "0x1.92ddabc9e1ce8p+0",
+            "0x1.5e623dbdfd708p-1",
+            "0x1.c6c6963a59253p-2",
+            "0x1.4abe1dc21cb46p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.324bbabe9c38cp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_17"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.8827784b4fa04p-2",
+            "sd_hex": "0x1.46d064a6e3b8fp-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.42612e912945ep+1",
+            "sd_hex": "0x1.9faa5c3569642p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.893980bc20d15p-1",
+            "-0x1.4d57f61f0907ap-3",
+            "-0x1.cc579ac819ba1p-2",
+            "0x1.4fd70d79ac779p-2",
+            "-0x1.18abdd194f158p-3",
+            "0x1.c46b0ca8cac08p-4",
+            "-0x1.09db06531346cp-3",
+            "0x1.3d8f96d48910cp-3",
+            "0x1.d9d9e307b532fp-3",
+            "-0x1.ae52f6616c668p-3",
+            "0x1.b5485fd7af647p-2",
+            "0x1.941621c294be9p+0",
+            "0x1.5b1a7b06ff73fp-1",
+            "0x1.c0262362e23e0p-2",
+            "0x1.4cfd58743bdc7p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.138a52e14fee1p-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_18"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.88a13c6fe097ap-2",
+            "sd_hex": "0x1.47005d08011a2p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.425a32a3506c4p+1",
+            "sd_hex": "0x1.9fad0ff1b510ep+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.8894bd9247a38p-1",
+            "-0x1.4bde7e8e72dc6p-3",
+            "-0x1.cd473993fc27cp-2",
+            "0x1.4f4159133a884p-2",
+            "-0x1.1965ae81e3d32p-3",
+            "0x1.c3d791318e89dp-4",
+            "-0x1.0a51d114dc8f1p-3",
+            "0x1.3d0eca73b4b4bp-3",
+            "0x1.da0dfa6190ebbp-3",
+            "-0x1.ae9f347b71bf2p-3",
+            "0x1.b4784b7c4835ap-2",
+            "0x1.92ddabc9e1ce8p+0",
+            "0x1.5e623dbdfd708p-1",
+            "0x1.c6c6963a59253p-2",
+            "0x1.4abe1dc21cb46p-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.324bbabe9c38cp-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_19"
+      },
+      {
+        "graph_standardization": {
+          "log1p_graph_source_pressure": {
+            "mean_hex": "0x1.87b936db3ef84p-2",
+            "sd_hex": "0x1.471e2dc1a8300p-2"
+          },
+          "log1p_nearest_graph_source_km": {
+            "mean_hex": "0x1.429770580b8d4p+1",
+            "sd_hex": "0x1.9fe67f772efd0p+0"
+          }
+        },
+        "model": {
+          "coefficients_hex": [
+            "-0x1.89231e66139c5p-1",
+            "-0x1.4d9ce74430adcp-3",
+            "-0x1.cc6d8438c3172p-2",
+            "0x1.4fb20150fb178p-2",
+            "-0x1.19419a9eb502bp-3",
+            "0x1.c5d65f7410ab8p-4",
+            "-0x1.0a3320a97b607p-3",
+            "0x1.3d70d01397298p-3",
+            "0x1.da582e5f4e437p-3",
+            "-0x1.aec79e1af857ap-3",
+            "0x1.b6b2e2e72059ap-2",
+            "0x1.93bdfeb092259p+0",
+            "0x1.5f5e6de9d7e67p-1",
+            "0x1.c12fb01bfd4e2p-2",
+            "0x1.47ec2e3655aaap-1"
+          ],
+          "columns": [
+            "intercept",
+            "z_PC1",
+            "z_PC2",
+            "z_PC3",
+            "z_TSF_Z",
+            "z_LOG_AREA_Z",
+            "z_LOG_MAINLAND_DISTANCE_Z",
+            "z_graph_degree_fraction",
+            "z_graph_mean_shortest_path_km",
+            "z_graph_closeness_per_km",
+            "z_occupancy_logit",
+            "z_log1p_nearest_euclidean_source_km",
+            "z_log1p_euclidean_source_pressure",
+            "z_log1p_nearest_graph_source_km",
+            "z_log1p_graph_source_pressure"
+          ],
+          "final_max_abs_delta_hex": "0x1.948b4c163a903p-51",
+          "iterations": 7,
+          "ridge_lambda_hex": "0x1.0000000000000p+0"
+        },
+        "topology": "null_20"
+      }
+    ]
+  },
+  "models_fingerprint": "6b7fc2de754e5598f3bacdc38ebf562db842a1a0f744968cfae6241e520f6feb",
+  "next_action": "exact-replay and commit prediction surface/model receipt; only then issue separate one-shot confirmatory bird response authorization",
+  "null_topology_count": 20,
+  "pilot_snapshot_fingerprint": "41446435056972f25f0c400af9f1668fbc09af292111800c45073ae0553b6ab0",
+  "prediction_row_count": 234,
+  "prediction_surface_columns": [
+    "island",
+    "block",
+    "species",
+    "pilot_presences",
+    "H_hex",
+    "S_hex",
+    "p_R3_hex",
+    "p_C_actual_hex",
+    "p_C_null_01_hex",
+    "p_C_null_02_hex",
+    "p_C_null_03_hex",
+    "p_C_null_04_hex",
+    "p_C_null_05_hex",
+    "p_C_null_06_hex",
+    "p_C_null_07_hex",
+    "p_C_null_08_hex",
+    "p_C_null_09_hex",
+    "p_C_null_10_hex",
+    "p_C_null_11_hex",
+    "p_C_null_12_hex",
+    "p_C_null_13_hex",
+    "p_C_null_14_hex",
+    "p_C_null_15_hex",
+    "p_C_null_16_hex",
+    "p_C_null_17_hex",
+    "p_C_null_18_hex",
+    "p_C_null_19_hex",
+    "p_C_null_20_hex"
+  ],
+  "prediction_surface_sha256": "d19935ac00e262729ea4b954cad4150f44c753673181a9ed7d6935c95958ff0e",
+  "schema": "structural.boreal_19island_birds_prediction_freeze.v1_163",
+  "sensitivity_H_max_hex": "0x1.5919efb75e53bp+1",
+  "sensitivity_H_min_hex": "0x1.0b9de07605cbap-1",
+  "status": "BIRD_R3_ACTUAL_AND_20_NULL_PREDICTIONS_FROZEN_BEFORE_CONFIRMATORY_RESPONSE",
+  "support_distribution": {
+    "n1": 10,
+    "n2": 1,
+    "n3": 5,
+    "n4": 2
+  },
+  "training_row_count": 108
+}

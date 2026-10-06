@@ -1,0 +1,31 @@
+{
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "confirmatory_response_authorized": false,
+  "confirmatory_target_values_opened": 0,
+  "counts_as_empirical_evidence": false,
+  "exact_replay": {
+    "artifact_prediction_sha_match": true,
+    "artifact_receipt_sha_match": true,
+    "head_sha": "400942a0f2a08e1c037883aef7286395eec5e087",
+    "model_receipt_sha256": "5ee596a1ff13b649004bbfad1a76cb988de772d6e9fbda5e25a296cb3650fc16",
+    "prediction_sha256": "d19935ac00e262729ea4b954cad4150f44c753673181a9ed7d6935c95958ff0e",
+    "workflow": "Commit verified boreal bird predictions v1.164",
+    "workflow_run_id": 37393465427
+  },
+  "next_action": "freeze one-shot confirmatory scoring authorization bound to these exact committed prediction/model SHAs",
+  "pilot_snapshot_fingerprint": "41446435056972f25f0c400af9f1668fbc09af292111800c45073ae0553b6ab0",
+  "population": {
+    "confirmatory_islands": 13,
+    "null_topologies": 20,
+    "prediction_rows": 234,
+    "species": 18
+  },
+  "schema": "structural.boreal_19island_birds_prediction_freeze.v1_164",
+  "source_artifact": {
+    "artifact_digest": "sha256:b0848deecead0f96ca7615907234029b756990e0643c6dd9b81604e6452f6af4",
+    "artifact_id": 11381653683,
+    "workflow": ".github/workflows/boreal-bird-predictions-v1_163.yml",
+    "workflow_run_id": 37393307823
+  },
+  "status": "EXACT_REPLAYED_BIRD_PREDICTIONS_COMMITTED_CONFIRMATORY_SEALED"
+}
