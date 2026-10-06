@@ -2,36 +2,51 @@
 
 ## The question
 
-The published study already established that colonization over ~70 years was strongly related to **how many islands a species historically occupied** and **distance to the nearest historically occupied island**. The new Structural test therefore does not ask whether source availability matters.
+The published study already established that colonization over ~70 years was strongly related to **how many islands a species historically occupied** and **distance to the nearest historically occupied island**. The Structural test therefore does not ask whether source availability matters.
 
 It asks:
 
-> **Does the exact arrangement of historical source islands predict future colonization after source count and nearest-source distance are already supplied?**
+> **Among species whose complete historical source configuration can be reconstructed without reading the recent outcome, does the exact arrangement of historical source islands predict later colonization after source count and nearest-source distance are already supplied?**
 
-That is the direct temporal version of the global-mammal topology result.
+That is the direct temporal counterpart to the global-mammal topology result.
+
+## Why the t0 reconstruction is deliberately conservative
+
+The archived analysis table is a complete-case modelling surface, not necessarily the full set of historical absences. A routed row safely establishes that a species was historically absent from that island, but a missing archive row is **not** evidence of historical presence.
+
+Therefore Structural never takes the global complement of the archive.
+
+For each species, v1.164 first recovers the historical occupied-island count response-independently. A species is topology-eligible only when
+
+    archived historical-absence rows + historical occupied-island count = 471 islands.
+
+Only for such a species is the complement of the routed absence rows an exact historical source set. Species with incomplete accounting are excluded **before any recent colonization outcome is opened**. At least 30 exact-source species are required or the route stops.
+
+This protects the key mechanism from a subtle but serious error: missing complete-case rows cannot be converted into source populations.
 
 ## Why this is stronger mechanistically than another static occurrence test
 
-Historical occupancy is measured decades before the recent colonization endpoint. We can therefore use the complete historical source distribution across all 471 islands without leaking the future outcome.
+Historical occupancy precedes the recent colonization endpoint by decades. Once exact t0 source identities are proven, the source state can be frozen before later outcomes are used.
 
-The analysis is ordered:
+The causal ordering is:
 
-historical source state → frozen source topology and predictions → later colonization outcome.
+    exact historical source state
+        → frozen graph / null topologies / predictions
+        → later colonization outcome.
 
-BALA tested the opposite demographic direction—source loss followed by later contraction—and did not support a general lost-source-leverage effect. The SW Finland system tests whether source configuration instead matters more naturally for **colonization opportunity**.
+BALA tested the opposite demographic direction—source loss followed by later contraction—and did not support a general lost-source-leverage effect. The SW Finland system asks whether source configuration instead has a more direct role in **colonization opportunity**.
 
 ## Strong reference
 
 A favorable result will not be allowed to mean merely “nearby sources matter.”
 
-R3 already contains:
+R0 already contains frozen recipient-island state, species traits and the t0-safe pair-specific `Gowdis_traits` historical community-trait dissimilarity.
+
+R3 further contains, all recomputed from the exact historical source set:
 
 - historical source count;
 - nearest historical source distance;
-- diffuse Euclidean historical-source pressure;
-- recipient-island environmental state;
-- generic graph context;
-- species traits.
+- diffuse Euclidean historical-source pressure.
 
 C adds only graph-path source information.
 
@@ -39,16 +54,16 @@ Twenty connected degree- and edge-length-bin-matched rewired graphs provide the 
 
 ## Continuous sparse-source prediction
 
-For every potential colonization event, finite-source theory supplies a response-free configuration-sensitivity score:
+For every eligible potential colonization event, finite-source theory supplies a response-free configuration-sensitivity score:
 
-S_i(n) = [(M−n)/(n(M−1))] × H_i,
+    S_i(n) = [(M−n)/(n(M−1))] × H_i,
 
-where H_i is the heterogeneity of target-to-source spatial weights and n is historical source count.
+where H_i is the heterogeneity of target-to-source spatial weights and n is the exact historical source count.
 
-The confirmatory primary does not depend on choosing a rarity threshold. A separate nonrescuing mechanism test asks whether actual-topology advantage is stronger for high-S events.
+The primary therefore does not depend on choosing an arbitrary “rare species” threshold. A separate nonrescuing mechanism test asks whether actual-topology advantage is stronger for high-S events.
 
 ## Evidence boundary
 
-The dataset is independent in geography and genuinely temporal, but the original paper already reports broad colonization results. Therefore this route is **literature-outcome-aware** and cannot be called pristine fresh confirmation.
+The geography and temporal endpoint are independent of the global mammal system, but the original paper already reports broad colonization results. This route is therefore **literature-outcome-aware**, not pristine fresh confirmation.
 
-What remains prospectively protected is the row-level future endpoint relative to the exact new topology hypothesis. The source graph, nulls, spatial split, reference and predictions must all be fixed before confirmatory outcome access.
+What remains prospectively protected is the row-level future endpoint relative to the exact new topology hypothesis. Exact-source eligibility, the source graph, matched nulls, spatial split, reference and predictions must all be frozen before confirmatory outcome access.
