@@ -1,0 +1,65 @@
+{
+  "schema": "structural.sw_finland_plant_colonization_preintake.v1_162",
+  "status": "METADATA_ONLY_INDEPENDENT_TEMPORAL_COLONIZATION_CANDIDATE_PREINTAKE",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "evidence_class": {
+    "independent_geography": true,
+    "temporal_endpoint": true,
+    "non_ebird": true,
+    "literature_outcome_aware": true,
+    "row_level_dataset_opened_by_structural": false,
+    "pristine_fresh_confirmation": false,
+    "role": "independent temporal mechanism stress test; may support or constrain colonization-process interpretation but may not be labeled pristine fresh confirmation"
+  },
+  "source": {
+    "paper_doi": "10.1111/ecog.05013",
+    "data_doi": "10.5061/dryad.ffbg79cr6",
+    "zenodo_mirror": "https://zenodo.org/records/4942881",
+    "zenodo_version": "v1",
+    "file_name": "colonization_select.csv",
+    "file_size_reported": "129.2 MB",
+    "file_md5": "ff648878946ba430fb86c4ab2aa02baa"
+  },
+  "published_design": {
+    "islands": 471,
+    "vascular_plant_species": 587,
+    "historical_inventory": "1925-1964, mainly 1930s",
+    "recent_inventory": "1996-2017, most intensive 1998-2010",
+    "row_semantics": "each archived row is a known historically absent species × island potential-colonization event retained in the archived analysis table; the archive may omit other historical absences because published modelling dropped observations with missing predictors",
+    "future_endpoint": "outcome; 0=failure, 1=successful colonization by recent inventory",
+    "published_connectivity_controls": [
+      "Historical_total_log: number of historically occupied islands",
+      "Dist_to_historical_log: distance to nearest historically occupied surveyed island"
+    ],
+    "final_model_complete_case_event_count": 85063
+  },
+  "scientific_question": "After historical source count, nearest historical source, recipient-island state and generic spatial context are represented, does the exact configuration/topology of historically occupied source islands retain held-out information about colonization over ~70 years, and is any topology-specific gain concentrated where finite-source configuration sensitivity is high?",
+  "temporal_order": {
+    "t0": "historical species distribution and recipient-island state",
+    "t1": "recent colonization outcome",
+    "rule": "t0 state may be projected and frozen before t1 outcome; outcome must remain semantically sealed until the complete prediction surface is frozen"
+  },
+  "next_gate": "header-only verification plus a column-level temporal firewall on colonization_select.csv; no row-level outcome access",
+  "stop_rules": [
+    "STOP if spp.name, holmkod, outcome, EUREF coordinates, Historical_total_log or Dist_to_historical_log are absent",
+    "STOP if the file does not represent potential colonization events as documented",
+    "STOP/HOLD if at least 30 species do not have response-independently exact historical source identities; never treat omitted analysis rows as historical presences",
+    "STOP if the 471-island universe or species routing is ambiguous",
+    "do not substitute a different file or derived table after seeing outcome"
+  ],
+  "response_boundary": {
+    "outcome_header_may_be_verified": true,
+    "outcome_values_may_be_read": false,
+    "row_level_future_outcome_opened": 0,
+    "t0_state_projection_authorized": false,
+    "model_fit_count": 0,
+    "counts_as_empirical_evidence": false
+  },
+  "source_identity_gate": {
+    "reason": "published modelling removed potential-colonization observations with missing explanatory data, so archive row-key complement is not automatically the historical occupied set",
+    "documented_transform": "Historical total was the first-inventory occupied-island count; right-skewed/zero-containing variables were log10(x+1) transformed before standardization",
+    "exact_reconstruction_rule": "a species is topology-eligible only if its response-independent historical source count is recoverable and archived_absent_row_count + historical_source_count == 471; only then may the complement of archived absent islands define its exact historical source set",
+    "minimum_exact_source_species_before_future_outcome": 30,
+    "if_support_fails": "STOP/HOLD before future outcome; do not infer omitted absence rows as presences"
+  }
+}
