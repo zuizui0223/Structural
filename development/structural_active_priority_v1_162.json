@@ -9,25 +9,33 @@
   },
   "candidate": {
     "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
-    "status": "METADATA_ONLY_PREINTAKE_FROZEN_ROW_LEVEL_OUTCOME_UNOPENED",
+    "status": "PREINTAKE_AND_OUTCOME_OPAQUE_T0_ROUTE_FROZEN",
     "evidence_class": "independent temporal literature-outcome-aware mechanism stress test; not pristine fresh confirmation",
     "preintake": "development/sw_finland_plant_colonization_preintake_v1_162.json",
     "column_firewall": "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
-    "next_gate": "header-only audit of colonization_select.csv; outcome values remain sealed"
+    "next_gate": "merge response-firewall design, run manual v1.166 header-only audit on main, commit v1.167 header identity, then run byte-routed v1.164 exact-source support gate",
+    "exact_source_gate": {
+      "minimum_exact_species": 30,
+      "rule": "known historical-absence rows + independently recovered historical source count == 471",
+      "omitted_complete_case_rows_never_assumed_presence": true,
+      "future_outcome_used": false
+    }
   },
   "why_selected": [
     "471 true archipelago islands and 587 vascular plant species",
     "historical and recent inventories separated by roughly 70 years",
     "future endpoint is successful colonization of historically unoccupied islands",
     "published controls already include historical source count and nearest historical source distance",
-    "exact historical source topology beyond those simple controls was not the published test"
+    "exact historical source topology beyond those simple controls was not the published test",
+    "candidate can STOP before future outcome if exact historical source identities are insufficient"
   ],
   "do_not": [
+    "do not globally complement archive row keys into source populations; the archive is a complete-case modelling surface",
     "do not call this pristine fresh confirmation because broad colonization results are published",
     "do not read outcome values during header or t0-state projection",
     "do not reuse the published AIC-simplified model as a response-independent reference",
     "do not reopen boreal beetle or BALA outcomes for rescue analyses",
     "do not use eBird"
   ],
-  "next_scientific_event": "header-only schema qualification followed, only if clean, by a separately frozen t0-only source-state projection"
+  "next_scientific_event": "main-only v1.166 header audit; if clean, canonical v1.167 header freeze followed by byte-routed t0 exact-source support audit with future outcomes still sealed"
 }
