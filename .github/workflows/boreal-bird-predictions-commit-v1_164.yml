@@ -1,0 +1,118 @@
+name: Commit verified boreal bird predictions v1.164
+
+on:
+  push:
+    branches:
+      - reframe/occupancy-dependent-isolation-v1-154
+    paths:
+      - development/boreal_19island_birds_prediction_commit_request_v1_164.json
+
+permissions:
+  contents: write
+
+jobs:
+  exact-replay-and-commit:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate commit request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req=json.loads(Path("development/boreal_19island_birds_prediction_commit_request_v1_164.json").read_text())
+          assert req["schema"]=="structural.boreal_19island_birds_prediction_commit_request.v1_164"
+          assert req["status"]=="REQUEST_EXACT_REPLAY_AND_COMMIT_PREDICTIONS"
+          assert req["source_artifact"]["workflow_run_id"]==37393307823
+          assert req["source_artifact"]["artifact_id"]==11381653683
+          assert req["expected_prediction_sha256"]=="d19935ac00e262729ea4b954cad4150f44c753673181a9ed7d6935c95958ff0e"
+          assert req["expected_receipt_sha256"]=="5ee596a1ff13b649004bbfad1a76cb988de772d6e9fbda5e25a296cb3650fc16"
+          assert req["confirmatory_response_opened"] is False
+          PY
+
+      - name: Exact replay prediction freeze
+        run: |
+          mkdir -p build/bird_v164
+          python scripts/freeze_boreal_19island_bird_predictions_v1_163.py \
+            --predictions build/bird_v164/confirmatory_predictions.csv \
+            --receipt build/bird_v164/model_receipt.json
+
+      - name: Verify exact artifact identities
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          req=json.loads(Path("development/boreal_19island_birds_prediction_commit_request_v1_164.json").read_text())
+          def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          assert sha("build/bird_v164/confirmatory_predictions.csv")==req["expected_prediction_sha256"]
+          assert sha("build/bird_v164/model_receipt.json")==req["expected_receipt_sha256"]
+          receipt=json.loads(Path("build/bird_v164/model_receipt.json").read_text())
+          assert receipt["confirmatory_target_values_opened"]==0
+          assert receipt["confirmatory_response_authorized"] is False
+          assert receipt["prediction_row_count"]==234
+          assert receipt["null_topology_count"]==20
+          PY
+
+      - name: Prepare canonical committed freeze
+        run: |
+          cp build/bird_v164/confirmatory_predictions.csv \
+            development/boreal_19island_birds_confirmatory_predictions_v1_164.csv
+          cp build/bird_v164/model_receipt.json \
+            development/boreal_19island_birds_prediction_model_receipt_v1_164.json
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          freeze={
+            "schema":"structural.boreal_19island_birds_prediction_freeze.v1_164",
+            "status":"EXACT_REPLAYED_BIRD_PREDICTIONS_COMMITTED_CONFIRMATORY_SEALED",
+            "candidate_id":"lac_la_ronge_boreal_19island_birds_topology_2026",
+            "source_artifact":{
+              "workflow":".github/workflows/boreal-bird-predictions-v1_163.yml",
+              "workflow_run_id":37393307823,
+              "artifact_id":11381653683,
+              "artifact_digest":"sha256:b0848deecead0f96ca7615907234029b756990e0643c6dd9b81604e6452f6af4"
+            },
+            "exact_replay":{
+              "workflow":os.environ["GITHUB_WORKFLOW"],
+              "workflow_run_id":int(os.environ["GITHUB_RUN_ID"]),
+              "head_sha":os.environ["GITHUB_SHA"],
+              "prediction_sha256":"d19935ac00e262729ea4b954cad4150f44c753673181a9ed7d6935c95958ff0e",
+              "model_receipt_sha256":"5ee596a1ff13b649004bbfad1a76cb988de772d6e9fbda5e25a296cb3650fc16",
+              "artifact_prediction_sha_match":True,
+              "artifact_receipt_sha_match":True
+            },
+            "population":{
+              "species":18,
+              "confirmatory_islands":13,
+              "prediction_rows":234,
+              "null_topologies":20
+            },
+            "pilot_snapshot_fingerprint":"41446435056972f25f0c400af9f1668fbc09af292111800c45073ae0553b6ab0",
+            "confirmatory_target_values_opened":0,
+            "confirmatory_response_authorized":False,
+            "counts_as_empirical_evidence":False,
+            "next_action":"freeze one-shot confirmatory scoring authorization bound to these exact committed prediction/model SHAs"
+          }
+          Path("development/boreal_19island_birds_prediction_freeze_v1_164.json").write_text(
+            json.dumps(freeze,indent=2,sort_keys=True)+"\n",encoding="utf-8"
+          )
+          PY
+
+      - name: Commit only derived prediction freeze
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            development/boreal_19island_birds_confirmatory_predictions_v1_164.csv \
+            development/boreal_19island_birds_prediction_model_receipt_v1_164.json \
+            development/boreal_19island_birds_prediction_freeze_v1_164.json
+          git diff --cached --check
+          git commit -m "Freeze exact-replayed boreal bird predictions v1.164"
+          git push origin HEAD:reframe/occupancy-dependent-isolation-v1-154
