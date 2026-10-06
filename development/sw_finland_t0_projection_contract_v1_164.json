@@ -5,7 +5,8 @@
   "parents": [
     "development/sw_finland_plant_colonization_preintake_v1_162.json",
     "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
-    "development/sw_finland_header_freeze_contract_v1_167.json"
+    "development/sw_finland_header_freeze_contract_v1_167.json",
+    "development/sw_finland_potential_islands_lookup_contract_v1_168.json"
   ],
   "authorization": {
     "required_header_receipt_schema": "structural.sw_finland_plant_colonization_header_audit.v1_163",
@@ -77,6 +78,13 @@
     "incomplete_species_rule": "sum < 471 => topology-ineligible",
     "impossible_species_rule": "sum > 471 => STOP",
     "minimum_exact_species": 30,
-    "nearest_source_distance": "recomputed from EUREF original coordinates and exact t0 source set; archived Dist_to_historical_log is not used to define source identity"
+    "nearest_source_distance": "recomputed from EUREF original coordinates and exact t0 source set; archived Dist_to_historical_log is not used to define source identity",
+    "source_count_authority_priority": [
+      "committed validator-clean v1.168 Potential_islands lookup, if supplied",
+      "otherwise documented Historical_total_log log10(x+1) inversion only when it yields an integer within frozen tolerance",
+      "otherwise species remains source-count unresolved and topology-ineligible"
+    ],
+    "supplementary_lookup_formula": "historical_source_count = 471 - Potential_islands",
+    "supplementary_future_columns_used": false
   }
 }
