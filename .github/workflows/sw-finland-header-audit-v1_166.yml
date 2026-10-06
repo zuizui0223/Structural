@@ -1,0 +1,102 @@
+name: SW Finland colonization header audit v1.166
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  header-only-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require manual execution from main
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download exact frozen archive file
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1166/raw build/swf_v1166/audit
+          python - <<'PY'
+          import hashlib, json, urllib.request
+          from pathlib import Path
+
+          url="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          expected="ff648878946ba430fb86c4ab2aa02baa"
+          out=Path("build/swf_v1166/raw/colonization_select.csv")
+          req=urllib.request.Request(url,headers={"User-Agent":"Structural-v1.166"})
+          md5=hashlib.md5()
+          n=0
+          with urllib.request.urlopen(req,timeout=180) as src, out.open("wb") as dst:
+              while True:
+                  chunk=src.read(1024*1024)
+                  if not chunk: break
+                  dst.write(chunk);md5.update(chunk);n+=len(chunk)
+          observed=md5.hexdigest()
+          if observed != expected:
+              out.unlink(missing_ok=True)
+              raise SystemExit("Zenodo file MD5 mismatch")
+          receipt={
+            "schema":"structural.sw_finland_download_identity.v1_166",
+            "status":"EXACT_ZENODO_FILE_MD5_VERIFIED",
+            "candidate_id":"sw_finland_archipelago_plants_1930s_1996_2017",
+            "record_id":4942881,
+            "file_name":"colonization_select.csv",
+            "size_bytes":n,
+            "md5":observed,
+            "data_rows_semantically_opened":0,
+            "outcome_values_read":0,
+            "counts_as_empirical_evidence":False
+          }
+          Path("build/swf_v1166/audit/sw_finland_download_receipt.json").write_text(
+              json.dumps(receipt,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          PY
+
+      - name: Run header-only audit
+        run: |
+          set -euo pipefail
+          python scripts/audit_sw_finland_colonization_header_v1_163.py \
+            build/swf_v1166/raw/colonization_select.csv \
+            --receipt build/swf_v1166/audit/sw_finland_header_audit.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/swf_v1166/audit/sw_finland_header_audit.json").read_text())
+          assert x["status"]=="HEADER_ONLY_AUDIT_COMPLETE_FUTURE_OUTCOME_ROWS_UNREAD"
+          assert x["data_rows_semantically_opened"]==0
+          assert x["outcome_values_read"]==0
+          assert x["t0_projection_authorized"] is True
+          PY
+
+      - name: Delete raw file before artifact handling
+        if: always()
+        run: |
+          rm -rf build/swf_v1166/raw
+
+      - name: Assert JSON-only artifact surface
+        if: success()
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v1166/raw
+          test "$(find build/swf_v1166/audit -type f | wc -l)" -eq 2
+          test "$(find build/swf_v1166/audit -type f ! -name '*.json' | wc -l)" -eq 0
+
+      - name: Upload response-free header receipts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sw-finland-v1166-header-audit-${{ github.sha }}-${{ github.run_id }}
+          path: build/swf_v1166/audit/*.json
+          if-no-files-found: warn
+          retention-days: 14
