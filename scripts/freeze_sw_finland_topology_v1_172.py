@@ -32,6 +32,13 @@ def type7(values:Sequence[float],p:float)->float:
 def canonical_sha(x)->str:
     return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
 
+def sha256_file(path:Path)->str:
+    h=hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda:f.read(1024*1024),b""):
+            h.update(chunk)
+    return h.hexdigest()
+
 def hash_mod(seed:int,attempt:int,label:str,n:int)->int:
     if n<=0:raise Stop("invalid modulus")
     h=hashlib.sha256(f"{seed}|{attempt}|{label}".encode()).digest()
@@ -212,6 +219,7 @@ def freeze(geometry_path,species_path,membership_path,recon,contract):
     if len(coords)!=int(req["geometry_rows"]):raise Stop("geometry row count drift")
     species=load_species(species_path)
     if len(species)<int(req["minimum_exact_source_species"]):raise Stop("too few exact source species")
+    if len(species)!=int(recon.get("exact_source_species",-1)):raise Stop("exact source species count drift versus v1.171 receipt")
     verify_membership(membership_path,species,set(coords))
 
     part_rows,nblocks,npilot,nconfirm=partition(coords,contract)
@@ -224,7 +232,9 @@ def freeze(geometry_path,species_path,membership_path,recon,contract):
     deg=degree_map(ids,actual);actual_counts=Counter(binfn(dist(D,*e)) for e in actual)
     actual_fp=edge_fp(actual,D)
 
-    nrule=contract["matched_nulls"];target=2*len(actual);max_attempts=400*len(actual)
+    nrule=contract["matched_nulls"]
+    target=int(nrule["target_swap_multiplier"])*len(actual)
+    max_attempts=int(nrule["maximum_attempt_multiplier"])*len(actual)
     topologies=[("actual",actual)]
     null_meta=[];fps=set()
     for j in range(1,int(nrule["count"])+1):
@@ -316,11 +326,18 @@ def main():
         write(a.context_output,["holmkod","degree_fraction","mean_shortest_path_km_hex","closeness_per_km_hex"],context)
         write(a.H_output,["holmkod","mu_hex","sigma2_hex","H_hex"],hrows)
         write(a.factor_output,["species","historical_source_count","configuration_factor_hex"],factors)
+        r["input_sha256"]={
+          "reconstruction":sha256_file(a.reconstruction),
+          "geometry":sha256_file(a.geometry),
+          "species":sha256_file(a.species),
+          "membership":sha256_file(a.membership),
+          "contract":sha256_file(a.contract),
+        }
         for key,path in {
           "partition_sha256":a.partition_output,"topology_edges_sha256":a.edges_output,
           "generic_context_sha256":a.context_output,"target_H_sha256":a.H_output,
           "species_factor_sha256":a.factor_output}.items():
-            h=hashlib.sha256(path.read_bytes()).hexdigest();r[key]=h
+            r[key]=sha256_file(path)
     except (OSError,ValueError,KeyError,json.JSONDecodeError,Stop) as exc:
         r={"schema":"structural.sw_finland_topology_freeze_result.v1_172","status":"STOP_T0_TOPOLOGY_FREEZE","reason":str(exc),
            "future_outcome_values_opened":0,"pilot_future_outcome_authorized":False,
