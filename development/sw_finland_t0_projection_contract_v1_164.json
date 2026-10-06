@@ -1,6 +1,6 @@
 {
   "schema": "structural.sw_finland_t0_projection_contract.v1_164",
-  "status": "BYTE_ROUTED_T0_ONLY_PROJECTION_PREDECLARED_FUTURE_OUTCOME_OPAQUE",
+  "status": "BYTE_ROUTED_T0_SUPPORT_AND_EXACT_SOURCE_IDENTITY_GATE_PREDECLARED",
   "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
   "parents": [
     "development/sw_finland_plant_colonization_preintake_v1_162.json",
@@ -20,16 +20,18 @@
     "required_protected_field_bytes_persisted": 0
   },
   "expected_support": {
-    "potential_event_rows": 85063,
     "island_count": 471,
-    "species_count": 587
+    "regional_species_pool_reported": 587,
+    "minimum_exact_source_species": 30
   },
   "permitted_t0_semantics": [
     "row key spp.name x holmkod means historically absent on that focal island",
-    "historical source set is complement of historical-absence row keys within frozen 471-island universe",
     "EUREF original coordinates and recipient-island state",
     "species traits and historical source-count/distance variables",
-    "Gowdis_traits pair-specific historical community-trait dissimilarity may be retained as t0-safe pair state"
+    "Gowdis_traits pair-specific historical community-trait dissimilarity may be retained as t0-safe pair state",
+    "archive row keys are known historical absences but may be an incomplete subset",
+    "Historical_total_log may be inverted only under the documented log10(x+1) transform and only if it yields integer source counts within tolerance",
+    "historical occupied-source complement may be constructed only for species whose routed absence-row count plus historical source count equals exactly 471"
   ],
   "forbidden_future_semantics": [
     "outcome value",
@@ -43,10 +45,11 @@
     "island_level_values_constant_within_holmkod": true,
     "species_level_values_constant_within_species": true,
     "exact_island_count": 471,
-    "exact_species_count": 587,
-    "exact_event_row_count": 85063,
+    "archive_species_count_may_be_less_than_587": true,
     "source_reconstruction_uses_outcome": false,
-    "t0_projector_input": "byte-routed safe projection only; raw mixed CSV forbidden"
+    "t0_projector_input": "byte-routed safe projection only; raw mixed CSV forbidden",
+    "omitted_archive_rows_are_never_assumed_presence": true,
+    "source_identity_exact_only_after_complete_absence_accounting": true
   },
   "outputs": [
     "sw_finland_t0_safe_projection.csv",
@@ -66,5 +69,14 @@
     "counts_as_empirical_evidence": false,
     "protected_field_values_decoded": 0,
     "protected_field_bytes_persisted": 0
+  },
+  "source_identity_gate": {
+    "historical_count_transform": "n_source = round(10^Historical_total_log - 1)",
+    "integer_tolerance": 0.000001,
+    "exact_species_rule": "archived_absent_row_count + n_source == 471 and n_source >= 1",
+    "incomplete_species_rule": "sum < 471 => topology-ineligible",
+    "impossible_species_rule": "sum > 471 => STOP",
+    "minimum_exact_species": 30,
+    "nearest_source_distance": "recomputed from EUREF original coordinates and exact t0 source set; archived Dist_to_historical_log is not used to define source identity"
   }
 }
