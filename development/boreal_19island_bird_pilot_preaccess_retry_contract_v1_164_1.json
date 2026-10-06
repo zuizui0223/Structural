@@ -1,0 +1,48 @@
+{
+  "schema": "structural.boreal_19island_bird_pilot_preaccess_retry_contract.v1_164_1",
+  "status": "PREACCESS_RETRY_AUTHORIZED_WITH_ORIGINAL_SCIENTIFIC_PROTOCOL_UNCHANGED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "prior_failure": {
+    "workflow_run_id": 37394192161,
+    "workflow_job_id": 112046119239,
+    "head_sha": "1c6c51ebaaa2a511a881eafb4d0a6f2eed7c6e3e",
+    "failure_step": "Fetch exact bird matrix as opaque bytes",
+    "error_type": "ModuleNotFoundError",
+    "error_message_class": "repo-local scripts import path unavailable",
+    "dryad_token_prepared": true,
+    "bird_response_transport_started": false,
+    "bird_response_semantics_opened": false,
+    "bird_pilot_occurrence_values_decoded": 0,
+    "authorization_consumed": false
+  },
+  "original_authorization": {
+    "path": "development/boreal_19island_bird_pilot_authorization_v1_163.json",
+    "fingerprint": "23b34710fed681b10b735a3f41b667e1695a5287b41ce10bfc13c3c6fb2cb3ca"
+  },
+  "retry_change": {
+    "scientific_protocol_changed": false,
+    "topology_nulls_changed": false,
+    "island_split_changed": false,
+    "pilot_gate_changed": false,
+    "response_file_changed": false,
+    "only_change": "set repository root and src on PYTHONPATH so scripts.fetch_boreal_mixed_files_v0_72 can be imported"
+  },
+  "response_boundary": {
+    "bird_pilot_opened_before_retry": false,
+    "bird_confirmatory_opened_before_retry": false,
+    "eBird_enabled": false,
+    "beetle_primary_reopened": false,
+    "BALA_reopened": false
+  },
+  "retry_ceiling": {
+    "attempts_authorized": 1,
+    "transport_failure_before_semantic_open_consumes_authorization": false,
+    "any_semantic_pilot_decode_consumes_authorization": true,
+    "output_paths": [
+      "development/boreal_19island_bird_pilot_execution_v1_164.json",
+      "development/boreal_19island_bird_pilot_snapshot_v1_164.json",
+      "development/boreal_19island_bird_pilot_freeze_v1_164.json"
+    ],
+    "confirmatory_response_authorized": false
+  }
+}
