@@ -1,0 +1,16 @@
+{
+  "authorization_consumed": true,
+  "bird_pilot_response_opened": true,
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "confirmatory_response_authorized": false,
+  "confirmatory_target_values_parsed": 0,
+  "counts_as_empirical_evidence": false,
+  "eligible_species_count": 18,
+  "eligible_species_sha256": "f623652815edea90404c9a6a306699deaf2f0a7ce5b56cb7d6f6b379f4204080",
+  "excluded_target_values_parsed": 0,
+  "next_action": "freeze R3, actual-C and 20 null-C predictions before any confirmatory bird response",
+  "pilot_target_values_parsed": 324,
+  "schema": "structural.boreal_19island_bird_pilot_execution.v1_161",
+  "snapshot_fingerprint": "41446435056972f25f0c400af9f1668fbc09af292111800c45073ae0553b6ab0",
+  "status": "BIRD_PILOT_V161_QUALIFIED_TO_FREEZE_CONFIRMATORY_PREDICTIONS"
+}
