@@ -1,0 +1,33 @@
+name: Boreal bird v1.163 response-free checks
+
+on:
+  pull_request:
+    paths:
+      - development/boreal_bird_topology_sensitivity_contract_v1_162.json
+      - development/boreal_19island_topology_sensitivity_freeze_v1_162.json
+      - development/boreal_bird_pilot_contract_v1_163.json
+      - src/structural/boreal_19island_bird_pilot_router.py
+      - scripts/run_boreal_bird_pilot_v1_163.py
+      - scripts/fetch_boreal_bird_response_v1_163.py
+      - tests/test_boreal_bird_topology_sensitivity_v1_162.py
+      - tests/test_boreal_bird_pilot_v1_163.py
+      - .github/workflows/boreal-bird-v1_163-check.yml
+
+permissions:
+  contents: read
+
+jobs:
+  response-free-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run topology and pilot firewall tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src
+        run: |
+          python -m pytest -q \
+            tests/test_boreal_bird_topology_sensitivity_v1_162.py \
+            tests/test_boreal_bird_pilot_v1_163.py
