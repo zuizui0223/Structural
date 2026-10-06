@@ -1,0 +1,103 @@
+{
+  "schema": "structural.sw_finland_topology_freeze_contract.v1_172",
+  "status": "T0_SPATIAL_GRAPH_NULL_AND_SENSITIVITY_FREEZE_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_colonization_topology_hypothesis_v1_165.json",
+    "development/sw_finland_exact_source_reconstruction_contract_v1_171.json"
+  ],
+  "required_inputs": {
+    "source_reconstruction_status": "T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED",
+    "geometry_rows": 471,
+    "minimum_exact_source_species": 30,
+    "future_outcome_values_opened": 0
+  },
+  "spatial_validation": {
+    "coordinate_system": "EUREF-FIN original metres",
+    "grid_size_m": 10000,
+    "grid_cell": "floor(Euref_X_original/10000), floor(Euref_Y_original/10000)",
+    "block_id": "SWF_ + first 12 hex of SHA256('grid_x,grid_y')",
+    "pilot_fraction": 0.2,
+    "ranking": "SHA256('sw-finland-v1.165-pilot|' + block_id)",
+    "pilot_count": "ceil(20 percent of frozen blocks)",
+    "minimum_total_blocks": 20,
+    "minimum_pilot_blocks": 4,
+    "minimum_confirmatory_blocks": 12,
+    "future_outcome_used": false
+  },
+  "actual_source_graph": {
+    "nodes": 471,
+    "distance": "Euclidean EUREF metres divided by 1000 to km",
+    "graph": "smallest connected symmetrized k-nearest-neighbor graph",
+    "neighbor_tie_break": "distance then island ID",
+    "kernel_scale": "Hyndman-Fan type-7 median of positive actual edge lengths",
+    "generic_context": [
+      "degree_fraction",
+      "mean_shortest_path_km",
+      "closeness_per_km"
+    ]
+  },
+  "matched_nulls": {
+    "count": 20,
+    "base_seed": 20261006,
+    "seed_rule": "base_seed + null_index, null_index 1..20",
+    "edge_length_bins": 5,
+    "bin_boundaries": "actual-edge type-7 quintiles at 0.2,0.4,0.6,0.8",
+    "swap": "undirected degree-preserving double-edge swap; both removed edges and both replacement edges must occupy the same frozen actual-edge length bin",
+    "self_edges": false,
+    "duplicate_edges": false,
+    "connectedness_required_after_each_accepted_swap": true,
+    "target_accepted_swaps": "2 * actual edge count",
+    "maximum_attempts": "400 * actual edge count",
+    "required": [
+      "exact degree sequence preserved",
+      "exact actual-edge length-bin counts preserved",
+      "connected graph",
+      "20 unique null fingerprints",
+      "no null fingerprint equals actual fingerprint"
+    ],
+    "target_swap_multiplier": 2,
+    "maximum_attempt_multiplier": 400
+  },
+  "configuration_sensitivity": {
+    "possible_source_count_M": 470,
+    "target_H": "sigma_i^2 / mu_i^2 over exp(-actual_graph_path_km/kernel_scale) weights from target i to all other 470 islands",
+    "species_factor": "(M-n)/(n*(M-1)) for exact historical source count n",
+    "event_S": "target_H * species_factor",
+    "zero_source_species": "not present because v1.171 excludes them",
+    "future_outcome_used": false
+  },
+  "committed_outputs": {
+    "spatial_partition": "development/sw_finland_spatial_partition_v1_172.csv",
+    "topology_edges": "development/sw_finland_topology_edges_v1_172.csv",
+    "generic_graph_context": "development/sw_finland_generic_graph_context_v1_172.csv",
+    "target_H": "development/sw_finland_target_configuration_heterogeneity_v1_172.csv",
+    "species_factor": "development/sw_finland_species_configuration_factor_v1_172.csv",
+    "receipt": "development/sw_finland_topology_freeze_v1_172.json"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "T0_GRAPH_NULLS_AND_CONFIGURATION_SENSITIVITY_FROZEN",
+    "next_action": "construct complete t0 predictor surfaces and one-shot pilot-outcome protocol; no future outcome may open before every predictor, model rule and scoring estimand is committed"
+  },
+  "execution_request": {
+    "path": "development/sw_finland_topology_freeze_request_v1_172.json",
+    "schema": "structural.sw_finland_topology_freeze_request.v1_172",
+    "status": "REQUEST_T0_GRAPH_NULL_AND_SENSITIVITY_FREEZE",
+    "required_sha256_keys": [
+      "reconstruction",
+      "geometry",
+      "species",
+      "membership"
+    ],
+    "future_outcome_access_requested": false,
+    "effect_estimate_requested": false,
+    "eBird_used": false
+  }
+}

@@ -1,0 +1,29 @@
+name: SW Finland topology v1.172 response-free checks
+
+on:
+  push:
+    branches:
+      - develop/sw-finland-topology-freeze-v1-172
+  pull_request:
+    paths:
+      - development/sw_finland_topology_freeze_contract_v1_172.json
+      - scripts/freeze_sw_finland_topology_v1_172.py
+      - tests/test_sw_finland_topology_v1_172.py
+      - .github/workflows/sw-finland-topology-v1_172.yml
+      - .github/workflows/sw-finland-topology-check-v1_172.yml
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+        run: python -m pytest -q tests/test_sw_finland_topology_v1_172.py
