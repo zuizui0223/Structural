@@ -1,0 +1,45 @@
+{
+  "schema": "structural.active_priority.v1_165",
+  "status": "boreal_bird_topology_sensitivity_full_chain_frozen_before_pilot",
+  "supersedes": "development/structural_active_priority_v1_163.json",
+  "canonical_status": "development/current_status_v1_161.json",
+  "project_policy": {
+    "ebird_enabled": false,
+    "beetle_primary_reopen_authorized": false,
+    "BALA_rerun_authorized": false
+  },
+  "active_static_mechanism_lane": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+    "evidence_class": "prospective same-geography different-taxon mechanism replication",
+    "topology_protocol": "development/boreal_bird_topology_sensitivity_contract_v1_162.json",
+    "topology_freeze": "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "pilot_contract": "development/boreal_bird_pilot_contract_v1_163.json",
+    "preconfirmatory_contract": "development/boreal_bird_preconfirmatory_contract_v1_164.json",
+    "confirmatory_contract": "development/boreal_bird_confirmatory_scoring_contract_v1_165.json",
+    "pilot_workflow": ".github/workflows/boreal-bird-pilot-v1_163.yml",
+    "confirmatory_workflow": ".github/workflows/boreal-bird-confirmatory-v1_165.yml",
+    "bird_pilot_response_opened": false,
+    "bird_confirmatory_response_opened": false
+  },
+  "frozen_order": [
+    "merge response-free v1.163-v1.165 code only after CI passes",
+    "create one-shot v1.163 pilot request on main",
+    "open exactly six pilot-island bird rows semantically and freeze fixed species, n and S standardization",
+    "delete raw response bytes",
+    "freeze R3, actual-C and 20 null-C confirmatory predictions under v1.164",
+    "commit exact pilot/preconfirmatory receipts and prediction surface",
+    "create one-shot v1.165 confirmatory request bound to SHA-256 of those committed files",
+    "open only fixed-species cells on the thirteen confirmatory islands and score the frozen beta_S primary once"
+  ],
+  "do_not": [
+    "open confirmatory bird response before the prediction surface is committed and hash-bound",
+    "change fixed-species threshold or n-support gate after pilot access",
+    "change topology nulls or S definition after pilot access",
+    "reopen pilot bird values during confirmatory scoring",
+    "open excluded-island or nonfixed confirmatory bird occurrence cells",
+    "use bird outcome to change the completed beetle primary",
+    "claim geographic replication from the same nineteen-island geography",
+    "obtain or analyze eBird data"
+  ],
+  "next_scientific_event": "one-shot six-island boreal bird pilot, only after the complete response-free v1.163-v1.165 chain passes CI and is merged to main"
+}
