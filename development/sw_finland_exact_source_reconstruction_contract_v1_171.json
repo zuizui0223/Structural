@@ -1,0 +1,57 @@
+{
+  "schema": "structural.sw_finland_exact_source_reconstruction_contract.v1_171",
+  "status": "T0_EXACT_SOURCE_IDENTITY_RECONSTRUCTION_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_colonization_topology_hypothesis_v1_165.json",
+    "development/sw_finland_potential_islands_lookup_contract_v1_168.json",
+    "development/sw_finland_t0_byte_router_contract_v1_169.json"
+  ],
+  "inputs": {
+    "raw_archive": "exact MD5/SHA-bound colonization_select.csv",
+    "safe_router": "scripts/route_sw_finland_t0_columns_v1_169.py",
+    "lookup": "development/sw_finland_species_potential_islands_v1_168.csv",
+    "lookup_validation": "development/sw_finland_potential_lookup_validation_v1_170.json"
+  },
+  "island_universe": {
+    "expected_unique_islands": 471,
+    "identity": "exact holmkod from t0-safe routed rows",
+    "geometry": "Euref_X_original/Euref_Y_original must be constant within holmkod"
+  },
+  "species_join": {
+    "normalization": "Unicode NFC plus trim only",
+    "fuzzy_matching": false,
+    "duplicate_species_island_pair": "STOP",
+    "missing_lookup_species": "topology-ineligible"
+  },
+  "exact_identity_rule": {
+    "archived_absent_count": "number of unique routed holmkod rows for species",
+    "potential_islands": "exact supplementary Potential_islands",
+    "eligible_if": "archived_absent_count == Potential_islands and historical_source_count >= 1",
+    "historical_source_count": "471 - Potential_islands",
+    "source_identity": "471-island universe minus exact archived absent-island set",
+    "incomplete_if": "archived_absent_count < Potential_islands; exclude before future outcome",
+    "impossible_if": "archived_absent_count > Potential_islands; terminal pre-outcome STOP",
+    "zero_source_if": "Potential_islands == 471; exclude because graph-source features undefined",
+    "minimum_exact_species": 30
+  },
+  "outputs": {
+    "species_status": "development/sw_finland_exact_source_species_v1_171.csv",
+    "source_membership": "development/sw_finland_exact_source_membership_v1_171.csv",
+    "island_geometry": "development/sw_finland_t0_island_geometry_v1_171.csv",
+    "receipt": "development/sw_finland_exact_source_reconstruction_v1_171.json"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED",
+    "next_action": "freeze response-independent spatial blocks, source graph, matched topology nulls, finite-source S surface and all model specifications before any pilot future outcome"
+  }
+}

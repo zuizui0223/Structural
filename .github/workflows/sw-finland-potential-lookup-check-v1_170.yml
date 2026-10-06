@@ -1,0 +1,32 @@
+name: SW Finland supplement lookup v1.170 checks
+
+on:
+  pull_request:
+    paths:
+      - development/sw_finland_potential_lookup_execution_contract_v1_170.json
+      - development/sw_finland_potential_lookup_request_v1_170.json
+      - scripts/project_sw_finland_potential_islands_v1_170.py
+      - tests/test_sw_finland_potential_lookup_v1_170.py
+      - .github/workflows/sw-finland-potential-lookup-v1_170.yml
+      - .github/workflows/sw-finland-potential-lookup-check-v1_170.yml
+  push:
+    branches:
+      - develop/sw-finland-supplement-lookup-v1-170
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+        run: |
+          python -m pytest -q             tests/test_sw_finland_potential_islands_lookup_v1_168.py             tests/test_sw_finland_potential_lookup_v1_170.py \
+            tests/test_sw_finland_exact_source_reconstruction_v1_171.py
