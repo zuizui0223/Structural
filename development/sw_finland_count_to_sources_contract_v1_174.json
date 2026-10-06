@@ -1,0 +1,82 @@
+{
+  "schema": "structural.sw_finland_count_to_sources_contract.v1_174",
+  "status": "T0_COUNT_AUTHORITY_TO_EXACT_SOURCE_IDENTITIES_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_standardized_historical_count_contract_v1_173.json",
+    "development/sw_finland_exact_source_reconstruction_contract_v1_171.json",
+    "development/sw_finland_t0_byte_router_contract_v1_169.json",
+    "development/sw_finland_colonization_topology_hypothesis_v1_165.json"
+  ],
+  "required_v1_173": {
+    "receipt_path": "development/sw_finland_historical_source_count_calibration_v1_173.json",
+    "table_path": "development/sw_finland_historical_source_count_recovery_v1_173.csv",
+    "required_status": "STANDARDIZED_HISTORICAL_SOURCE_COUNTS_RECOVERED_T0_ONLY",
+    "species_count": 587,
+    "minimum_anchor_matches": 20,
+    "maximum_anchor_count_rounding_error": 0.01,
+    "maximum_all_species_count_rounding_error": 0.05,
+    "minimum_exact_source_species": 30,
+    "impossible_species_required": 0,
+    "future_outcome_values_opened_required": 0,
+    "supplement_future_summary_values_used_required": 0
+  },
+  "canonicalization": {
+    "species_normalization": "use v1.173 already-normalized species strings unchanged",
+    "Potential_islands": "recovered_Potential_islands",
+    "historical_source_count": "recovered_historical_source_count",
+    "identity_check": "Potential_islands + historical_source_count == 471",
+    "rounding_error_check": "count_rounding_error <= frozen v1.173 all-species tolerance",
+    "outcome_or_future_summary_used": false
+  },
+  "exact_source_reconstruction": {
+    "island_universe": 471,
+    "archive_rows": "t0-safe output from exact v1.169 byte router; outcome bytes remain opaque",
+    "species_island_pair_duplicates": "STOP",
+    "geometry": "Euref_X_original/Euref_Y_original constant within holmkod",
+    "eligible_if": "archived_absent_count == recovered_Potential_islands and recovered_historical_source_count >= 1",
+    "source_identity": "471-island universe minus archived historical-absence island set",
+    "incomplete_if": "archived_absent_count < recovered_Potential_islands; exclude",
+    "impossible_if": "archived_absent_count > recovered_Potential_islands; terminal STOP",
+    "zero_source_if": "recovered_historical_source_count == 0; exclude",
+    "minimum_exact_species": 30,
+    "exact_species_count_must_equal_v1_173": true
+  },
+  "canonical_outputs": {
+    "species": "development/sw_finland_exact_source_species_v1_171.csv",
+    "membership": "development/sw_finland_exact_source_membership_v1_171.csv",
+    "geometry": "development/sw_finland_t0_island_geometry_v1_171.csv",
+    "receipt": "development/sw_finland_exact_source_reconstruction_v1_171.json"
+  },
+  "receipt_provenance": {
+    "schema": "structural.sw_finland_exact_source_reconstruction_result.v1_174",
+    "status": "T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED",
+    "count_authority": "standardized Historical_total_log inversion v1.173",
+    "supplement_file_required": false
+  },
+  "execution_request": {
+    "schema": "structural.sw_finland_count_to_sources_request.v1_174",
+    "status": "REQUEST_T0_COUNT_AUTHORITY_TO_EXACT_SOURCES",
+    "required_sha256": [
+      "v1_173_receipt",
+      "v1_173_count_table"
+    ],
+    "future_outcome_access_requested": false,
+    "effect_estimate_requested": false,
+    "one_shot": true,
+    "eBird_used": false
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "supplement_future_summary_values_used": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED",
+    "next_action": "bind exact v1.174 output SHAs in a separate v1.172 topology-freeze request; future colonization outcome remains sealed"
+  }
+}
