@@ -1,0 +1,41 @@
+{
+  "schema": "structural.sw_finland_historical_total_token_audit_contract.v1_173_1",
+  "status": "T0_ONLY_HISTORICAL_TOTAL_TOKEN_DIAGNOSTIC_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_standardized_historical_count_contract_v1_173.json",
+    "development/sw_finland_t0_byte_router_contract_v1_169.json"
+  ],
+  "scope": {
+    "column": "Historical_total_log",
+    "routing_columns": ["spp.name", "holmkod"],
+    "inspect_future_outcome": false,
+    "permitted_outputs": [
+      "row/species counts",
+      "distinct nonnumeric token counts",
+      "species names carrying nonnumeric tokens",
+      "within-species token consistency audit"
+    ],
+    "forbidden": [
+      "outcome parsing",
+      "effect estimation",
+      "species selection by future outcome",
+      "changing v1.173 calibration thresholds"
+    ]
+  },
+  "expected_population": {
+    "rows": 225345,
+    "species": 587,
+    "islands": 471
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "T0_HISTORICAL_TOTAL_TOKEN_AUDIT_COMPLETE",
+    "next_action": "freeze any missing-token handling rule in a separate revision before rerunning count calibration"
+  }
+}
