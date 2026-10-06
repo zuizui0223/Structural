@@ -1,0 +1,97 @@
+name: SW Finland t0 anchor source-count inversion v1.170.2
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_anchor_source_count_inversion_request_v1_170_2.json
+permissions:
+  contents: write
+jobs:
+  invert-t0-source-counts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify frozen t0-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/sw_finland_anchor_source_count_inversion_request_v1_170_2.json").read_text())
+          assert r["status"]=="REQUEST_T0_ANCHOR_CALIBRATED_SOURCE_COUNT_INVERSION"
+          assert r["future_outcome_values_opened_before_request"]==0
+          assert r["future_outcome_access_requested"] is False
+          assert r["published_future_summary_values_requested"] is False
+          assert r["effect_estimate_requested"] is False
+          assert r["eBird_used"] is False
+          assert r["one_shot"] is True
+          PY
+      - name: Download exact archive
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1702/raw build/swf_v1702/safe build/swf_v1702/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          url="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          md5_expected="ff648878946ba430fb86c4ab2aa02baa"
+          sha_expected="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957"
+          p=Path("build/swf_v1702/raw/colonization_select.csv");m=hashlib.md5();s=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Structural-v1.170.2"}),timeout=180) as src,p.open("wb") as out:
+            while True:
+              b=src.read(1024*1024)
+              if not b:break
+              out.write(b);m.update(b);s.update(b)
+          assert m.hexdigest()==md5_expected
+          assert s.hexdigest()==sha_expected
+          PY
+      - name: Route t0 columns with outcome opaque
+        run: |
+          python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf_v1702/raw/colonization_select.csv             --safe-output build/swf_v1702/safe/t0_safe.csv             --receipt build/swf_v1702/out/router.json
+      - name: Calibrate and invert historical source counts
+        run: |
+          python scripts/calibrate_sw_finland_source_counts_v1_170_2.py             build/swf_v1702/safe/t0_safe.csv             --lookup-output build/swf_v1702/out/sw_finland_species_potential_islands_v1_168.csv             --audit-output build/swf_v1702/out/species_audit.csv             --receipt build/swf_v1702/out/calibration.json
+          cp build/swf_v1702/out/calibration.json.validation.json build/swf_v1702/out/validation.json
+      - name: Verify gates
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v1702/out/router.json").read_text())
+          c=json.loads(Path("build/swf_v1702/out/calibration.json").read_text())
+          v=json.loads(Path("build/swf_v1702/out/validation.json").read_text())
+          assert r["protected_field_values_decoded"]==0 and r["outcome_values_read"]==0
+          assert c["status"]=="T0_SOURCE_COUNT_LOOKUP_VALIDATED_NO_FUTURE_SUMMARIES_PERSISTED"
+          assert c["archive_species"]==587
+          assert c["exact_source_species"]>=30
+          assert c["impossible_species"]==0
+          assert c["ambiguous_species"]==0
+          assert c["future_outcome_values_opened"]==0
+          assert c["published_future_summary_values_used"]==0
+          assert v["status"]=="T0_SOURCE_COUNT_LOOKUP_VALIDATED_NO_FUTURE_SUMMARIES_PERSISTED"
+          assert v["species_count"]==587
+          assert v["future_summary_values_persisted"]==0
+          PY
+      - name: Delete raw archive and row-level safe projection
+        if: always()
+        run: rm -rf build/swf_v1702/raw build/swf_v1702/safe
+      - name: Commit canonical t0 source-count lookup
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v1702/raw
+          test ! -e build/swf_v1702/safe
+          cp build/swf_v1702/out/sw_finland_species_potential_islands_v1_168.csv development/sw_finland_species_potential_islands_v1_168.csv
+          cp build/swf_v1702/out/validation.json development/sw_finland_potential_lookup_validation_v1_170.json
+          cp build/swf_v1702/out/calibration.json development/sw_finland_anchor_source_count_inversion_v1_170_2.json
+          cp build/swf_v1702/out/species_audit.csv development/sw_finland_anchor_source_count_species_audit_v1_170_2.csv
+          git add development/sw_finland_species_potential_islands_v1_168.csv development/sw_finland_potential_lookup_validation_v1_170.json development/sw_finland_anchor_source_count_inversion_v1_170_2.json development/sw_finland_anchor_source_count_species_audit_v1_170_2.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze SW Finland anchor-calibrated t0 source counts v1.170.2"
+          git push origin HEAD:main
