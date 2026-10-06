@@ -85,5 +85,19 @@
   "success_ceiling": {
     "status": "T0_GRAPH_NULLS_AND_CONFIGURATION_SENSITIVITY_FROZEN",
     "next_action": "construct complete t0 predictor surfaces and one-shot pilot-outcome protocol; no future outcome may open before every predictor, model rule and scoring estimand is committed"
+  },
+  "execution_request": {
+    "path": "development/sw_finland_topology_freeze_request_v1_172.json",
+    "schema": "structural.sw_finland_topology_freeze_request.v1_172",
+    "status": "REQUEST_T0_GRAPH_NULL_AND_SENSITIVITY_FREEZE",
+    "required_sha256_keys": [
+      "reconstruction",
+      "geometry",
+      "species",
+      "membership"
+    ],
+    "future_outcome_access_requested": false,
+    "effect_estimate_requested": false,
+    "eBird_used": false
   }
 }
