@@ -1,0 +1,91 @@
+name: SW Finland supplement landing resolver v1.170.2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_supplement_resolver_request_v1_170_2.json
+
+permissions:
+  contents: write
+
+jobs:
+  resolve-landing:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify resolver-only request
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/sw_finland_supplement_resolver_contract_v1_170_2.json").read_text())
+          r=json.loads(Path("development/sw_finland_supplement_resolver_request_v1_170_2.json").read_text())
+          assert c["status"]=="PREACCESS_SUPPLEMENT_LANDING_RESOLUTION_ONLY"
+          assert all(x["semantic_rows_parsed"]==0 for x in c["prior_failures"])
+          assert all(x["future_summary_values_parsed"]==0 for x in c["prior_failures"])
+          assert r["status"]=="REQUEST_PREACCESS_APPENDIX_LANDING_RESOLUTION"
+          assert r["supplement_table_values_requested"] is False
+          assert r["future_summary_values_requested"] is False
+          assert r["row_level_recent_outcome_access_requested"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Fetch current appendix landing page only
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1702/raw build/swf_v1702/out
+          URL="https://nso-journals.org/ecographyappendix/ecog-05013"
+          curl --fail --location --silent --show-error             --connect-timeout 30 --max-time 120             --user-agent "Structural-v1.170.2"             --dump-header build/swf_v1702/raw/headers.txt             --output build/swf_v1702/raw/body.bin             --write-out '%{url_effective}\n%{content_type}\n'             "$URL" > build/swf_v1702/raw/meta.txt
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          lines=Path("build/swf_v1702/raw/meta.txt").read_text().splitlines()
+          if len(lines)<2: raise SystemExit("curl metadata incomplete")
+          Path("build/swf_v1702/raw/metadata.json").write_text(json.dumps({
+            "final_url":lines[0],
+            "content_type":lines[1]
+          },indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Resolve file href candidates without table parsing
+        run: |
+          python scripts/resolve_sw_finland_supplement_v1_170_2.py             build/swf_v1702/raw/body.bin             --metadata build/swf_v1702/raw/metadata.json             --contract development/sw_finland_supplement_resolver_contract_v1_170_2.json             --receipt build/swf_v1702/out/resolver.json
+
+      - name: Delete landing response body
+        if: always()
+        run: rm -rf build/swf_v1702/raw
+
+      - name: Verify and persist URL-only receipt
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v1702/raw
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v1702/out/resolver.json").read_text())
+          assert r["supplement_table_values_parsed"]==0
+          assert r["future_summary_values_parsed"]==0
+          assert r["future_summary_values_persisted"]==0
+          assert r["row_level_recent_outcome_opened"] is False
+          assert r["landing_body_persisted"] is False
+          Path("development/sw_finland_supplement_resolver_v1_170_2.json").write_text(
+              json.dumps(r,indent=2,sort_keys=True)+"\n"
+          )
+          PY
+          git add development/sw_finland_supplement_resolver_v1_170_2.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Resolve SW Finland supplement transport candidates v1.170.2"
+          git push origin HEAD:main
