@@ -1,0 +1,12 @@
+{
+  "schema": "structural.sw_finland_anchor_source_count_inversion_request.v1_170_2",
+  "status": "REQUEST_T0_ANCHOR_CALIBRATED_SOURCE_COUNT_INVERSION",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "contract": "development/sw_finland_anchor_source_count_inversion_contract_v1_170_2.json",
+  "future_outcome_values_opened_before_request": 0,
+  "future_outcome_access_requested": false,
+  "published_future_summary_values_requested": false,
+  "effect_estimate_requested": false,
+  "eBird_used": false,
+  "one_shot": true
+}
