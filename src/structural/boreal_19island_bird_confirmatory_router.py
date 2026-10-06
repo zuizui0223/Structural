@@ -36,7 +36,7 @@ def route_boreal_bird_confirmatory(
     pilot=set(pilot_islands)
     confirm=set(confirmatory_islands)
     fixed=tuple(fixed_species)
-    if pilot & confirm or pilot|confirm - full:
+    if (pilot & confirm) or ((pilot | confirm) - full):
         raise BorealBirdConfirmatoryRouterError("invalid frozen island sets")
     if len(fixed)!=len(set(fixed)) or not fixed:
         raise BorealBirdConfirmatoryRouterError("invalid fixed species universe")
