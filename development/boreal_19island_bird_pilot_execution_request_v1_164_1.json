@@ -1,0 +1,16 @@
+{
+  "schema": "structural.boreal_19island_bird_pilot_execution_request.v1_164_1",
+  "status": "REQUEST_ONE_SHOT_PREACCESS_RETRY_BIRD_PILOT",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "retry_contract": "development/boreal_19island_bird_pilot_preaccess_retry_contract_v1_164_1.json",
+  "authorization": "development/boreal_19island_bird_pilot_authorization_v1_163.json",
+  "authorization_fingerprint": "23b34710fed681b10b735a3f41b667e1695a5287b41ce10bfc13c3c6fb2cb3ca",
+  "prior_failed_run_id": 37394192161,
+  "one_shot": true,
+  "prior_failure_before_response_transport": true,
+  "bird_pilot_values_opened_before_retry": false,
+  "bird_confirmatory_values_opened_before_retry": false,
+  "scientific_protocol_changed": false,
+  "effect_estimate_requested": false,
+  "eBird_used": false
+}
