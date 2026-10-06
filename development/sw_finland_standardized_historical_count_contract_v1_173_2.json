@@ -1,0 +1,53 @@
+{
+  "schema": "structural.sw_finland_standardized_historical_count_contract.v1_173_2",
+  "status": "T0_ONLY_STANDARDIZED_COUNT_RECOVERY_WITH_LOGICAL_ZERO_RULE_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "supersedes_after_precalibration_stop": "development/sw_finland_standardized_historical_count_contract_v1_173.json",
+  "prior_stop": {
+    "workflow_run_id": 37468778326,
+    "stage": "before calibration",
+    "reason_class": "Historical_total_log contained at least one nonnumeric t0-safe token",
+    "future_outcome_values_opened": 0,
+    "effect_estimate_produced": false
+  },
+  "unchanged_from_v1_173": {
+    "anchors": "exact same frozen t0 source-count anchors",
+    "minimum_numeric_anchor_matches": 20,
+    "slope_must_be_positive": true,
+    "maximum_anchor_count_rounding_error": 0.01,
+    "maximum_all_numeric_species_count_rounding_error": 0.05,
+    "minimum_exact_source_species": 30,
+    "future_outcome_used": false
+  },
+  "nonnumeric_rule": {
+    "species_token_must_be_constant_across_archive_rows": true,
+    "if_archived_absent_count_equals_471": "historical_source_count is logically 0; no calibration value is imputed",
+    "if_archived_absent_count_less_than_471": "terminal STOP; do not infer a source count",
+    "nonnumeric_species_may_enter_OLS_calibration": false,
+    "zero_source_species_may_enter_topology_analysis": false
+  },
+  "numeric_rule": {
+    "fit": "OLS of log10(historical_source_count+1) on [1, numeric Historical_total_log] using numeric frozen anchors only",
+    "integer_recovery": "10^(intercept+slope*z)-1 rounded to nearest integer in [0,471]",
+    "anchor_requirement": "every numeric matched anchor recovers exact frozen source count",
+    "archive_support": "archived_absent_count + recovered source count classified as exact/incomplete/impossible"
+  },
+  "canonical_outputs": {
+    "species_table": "development/sw_finland_historical_source_count_recovery_v1_173.csv",
+    "receipt": "development/sw_finland_historical_source_count_calibration_v1_173.json"
+  },
+  "receipt_compatibility": {
+    "schema": "structural.sw_finland_standardized_historical_count_result.v1_173",
+    "success_status": "STANDARDIZED_HISTORICAL_SOURCE_COUNTS_RECOVERED_T0_ONLY",
+    "recovery_revision_field": "v1.173.2"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "supplement_future_summary_values_used": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  }
+}
