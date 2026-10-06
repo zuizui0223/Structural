@@ -87,7 +87,10 @@ def bootstrap_slopes(rows,replicates,seed):
         try:out.append(weighted_slope(sampled))
         except BirdConfirmatoryScoringError:
             continue
-    if not out:raise BirdConfirmatoryScoringError("all bootstrap slopes unestimable")
+    if len(out) != replicates:
+        raise BirdConfirmatoryScoringError(
+            "one or more frozen bootstrap replicates were unestimable"
+        )
     return out
 
 
