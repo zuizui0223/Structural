@@ -1,0 +1,37 @@
+{
+  "schema": "structural.boreal_19island_bird_pilot_terminal.v1_160",
+  "status": "TERMINAL_ROUTING_HEADER_MISMATCH_NO_BIOLOGICAL_VALUES_PARSED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-bird-pilot-v1_160.yml",
+    "workflow_run_id": 37391990932,
+    "workflow_head_sha": "ec43ec07812e1b115a37a65cbcf4249d40627072",
+    "artifact_id": 11381433048,
+    "artifact_name": "boreal-bird-v160-ec43ec07812e1b115a37a65cbcf4249d40627072-37391990932"
+  },
+  "response_identity": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "size_bytes": 4983,
+    "exact_transport_passed": true
+  },
+  "observed_schema_only": {
+    "routing_header": "Islands",
+    "expected_v1_160": "Island",
+    "species_header_names_parsed": 0,
+    "pilot_occurrence_values_parsed": 0,
+    "confirmatory_occurrence_values_parsed": 0,
+    "excluded_occurrence_values_parsed": 0
+  },
+  "why_zero_biological_values_is_known": "the v1.160 router validates the first routing header and raises before decoding species-header names or any occurrence field",
+  "raw_response_deleted_before_artifact_upload": true,
+  "raw_response_persisted": false,
+  "v1_160_authorization_consumed": true,
+  "v1_160_rerun_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "ecological_result_produced": false,
+  "repair_boundary": {
+    "permitted": "a separately versioned routing-header-exposed protocol may freeze the now-known exact header string Islands while leaving all scientific thresholds, topology nulls, S_i(n), pilot islands and confirmatory islands unchanged",
+    "forbidden": "do not reinterpret or inspect species identities, pilot occurrences, confirmatory occurrences, or alter scientific gates using this stop"
+  }
+}
