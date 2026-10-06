@@ -1,0 +1,87 @@
+name: SW Finland anchor inversion real-t0 dry run v1.170.2
+
+on:
+  push:
+    branches:
+      - candidate/sw-finland-anchor-inversion-v1-170-2
+    paths:
+      - development/sw_finland_anchor_source_count_inversion_contract_v1_170_2.json
+      - scripts/calibrate_sw_finland_source_counts_v1_170_2.py
+      - .github/workflows/sw-finland-anchor-source-count-dryrun-v1_170_2.yml
+
+permissions:
+  contents: read
+
+jobs:
+  real-t0-dryrun:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download exact archive
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1702_dry/raw build/swf_v1702_dry/safe build/swf_v1702_dry/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          url="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          p=Path("build/swf_v1702_dry/raw/colonization_select.csv")
+          m=hashlib.md5();s=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Structural-v1.170.2-dry"}),timeout=180) as src,p.open("wb") as out:
+              while True:
+                  b=src.read(1024*1024)
+                  if not b:break
+                  out.write(b);m.update(b);s.update(b)
+          assert m.hexdigest()=="ff648878946ba430fb86c4ab2aa02baa"
+          assert s.hexdigest()=="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957"
+          PY
+
+      - name: Route t0 columns with outcome opaque
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+        run: |
+          python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf_v1702_dry/raw/colonization_select.csv             --safe-output build/swf_v1702_dry/safe/t0_safe.csv             --receipt build/swf_v1702_dry/out/router.json
+
+      - name: Run frozen six-anchor inversion
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+        run: |
+          python scripts/calibrate_sw_finland_source_counts_v1_170_2.py             build/swf_v1702_dry/safe/t0_safe.csv             --lookup-output build/swf_v1702_dry/out/lookup.csv             --audit-output build/swf_v1702_dry/out/species_audit.csv             --receipt build/swf_v1702_dry/out/calibration.json
+          cp build/swf_v1702_dry/out/calibration.json.validation.json build/swf_v1702_dry/out/validation.json
+
+      - name: Enforce outcome firewall and delete row-level files
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/swf_v1702_dry/out")
+          if (p/"router.json").exists():
+              r=json.loads((p/"router.json").read_text())
+              assert r["protected_field_values_decoded"]==0
+              assert r["outcome_values_read"]==0
+              assert r["future_outcome_opened"] is False
+          if (p/"calibration.json").exists():
+              c=json.loads((p/"calibration.json").read_text())
+              assert c["future_outcome_values_opened"]==0
+              assert c["published_future_summary_values_used"]==0
+          PY
+          rm -rf build/swf_v1702_dry/raw build/swf_v1702_dry/safe
+
+      - name: Upload t0-only calibration outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sw-finland-anchor-inversion-real-t0-v1-170-2
+          path: |
+            build/swf_v1702_dry/out/router.json
+            build/swf_v1702_dry/out/calibration.json
+            build/swf_v1702_dry/out/validation.json
+            build/swf_v1702_dry/out/lookup.csv
+            build/swf_v1702_dry/out/species_audit.csv
+          if-no-files-found: warn
+          retention-days: 7
