@@ -1,0 +1,28 @@
+{
+  "schema": "structural.boreal_19island_bird_pilot_retry_request.v1_164_1",
+  "status": "RETRY_PRE_ACCESS_OPERATIONAL_FAILURE_UNCHANGED_AUTHORIZATION",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "parent_execution_request": "development/boreal_19island_bird_pilot_execution_request_v1_164.json",
+  "authorization": "development/boreal_19island_bird_pilot_authorization_v1_163.json",
+  "authorization_fingerprint": "23b34710fed681b10b735a3f41b667e1695a5287b41ce10bfc13c3c6fb2cb3ca",
+  "failed_run": {
+    "workflow_run_id": 37394192161,
+    "workflow_job_id": 112046119239,
+    "failed_step": "Fetch exact bird matrix as opaque bytes",
+    "failure_class": "ModuleNotFoundError_before_transport",
+    "semantic_pilot_step_status": "skipped",
+    "bird_response_bytes_downloaded": false,
+    "bird_pilot_values_opened": false,
+    "authorization_consumed": false
+  },
+  "repair": {
+    "scientific_protocol_changed": false,
+    "topology_nulls_changed": false,
+    "pilot_gate_changed": false,
+    "response_identity_changed": false,
+    "code_change": "runtime import path only",
+    "retry_authorized": true
+  },
+  "one_shot": true,
+  "counts_as_empirical_evidence": false
+}
