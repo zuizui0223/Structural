@@ -113,6 +113,13 @@ def score(
     target=contract["response_file"]
     if len(response_bytes)!=target["expected_size_bytes"] or sha256_bytes(response_bytes)!=target["expected_sha256"]:
         raise BirdConfirmatoryScoringError("bird response identity mismatch")
+    if preconfirmatory.get("pilot_snapshot_fingerprint") != pilot_snapshot.get("snapshot_fingerprint"):
+        raise BirdConfirmatoryScoringError("pilot snapshot/preconfirmatory fingerprint mismatch")
+    if preconfirmatory.get("fixed_species_count") != pilot_snapshot.get("fixed_species_count"):
+        raise BirdConfirmatoryScoringError("fixed species count drift")
+    if sha256_bytes(predictions_path.read_bytes()) != preconfirmatory.get("prediction_surface_sha256"):
+        raise BirdConfirmatoryScoringError("prediction surface SHA mismatch")
+
     fixed=list(pilot_snapshot["fixed_species"])
     routed=route_boreal_bird_confirmatory(
         response_csv_bytes=response_bytes,
