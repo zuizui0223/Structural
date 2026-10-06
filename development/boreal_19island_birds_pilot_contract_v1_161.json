@@ -1,0 +1,56 @@
+{
+  "schema": "structural.boreal_19island_birds_pilot_contract.v1_161",
+  "status": "ROUTING_HEADER_EXPOSED_BIOLOGICAL_RESPONSE_UNOPENED_PILOT_REPAIR_FROZEN",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "supersedes_execution_only": "development/boreal_19island_birds_pilot_contract_v1_159.json",
+  "terminal_parent": "development/boreal_19island_birds_pilot_terminal_v1_160.json",
+  "evidence_class": {
+    "routing_header_exposed": true,
+    "routing_header_value": "Islands",
+    "species_identity_exposed": false,
+    "pilot_occurrence_values_exposed": false,
+    "confirmatory_occurrence_values_exposed": false,
+    "ecological_result_exposed": false,
+    "pristine_fresh_label_authorized": false,
+    "prospective_confirmatory_outcome_label_authorized": true
+  },
+  "scientific_contract": "development/boreal_19island_birds_topology_sensitivity_contract_v1_158.json",
+  "response_file": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "download_url": "https://datadryad.org/api/v2/files/4569037/download",
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "expected_species_columns": 54,
+    "expected_full_source_island_rows": 42,
+    "frozen_routing_header": "Islands"
+  },
+  "frozen_partition": {
+    "pilot_islands": ["DN", "FD", "HU", "IL", "IS", "PP"],
+    "confirmatory_islands": ["BB", "BT", "DF", "EB", "HF", "MI", "NH", "OS", "PR", "SF", "SK", "WD", "WF"],
+    "excluded_island_count": 23
+  },
+  "eligibility_gate": {
+    "pilot_support_min": 1,
+    "pilot_support_max": 4,
+    "minimum_eligible_species": 12,
+    "changed_after_v1_160": false
+  },
+  "semantic_ceiling": {
+    "pilot_target_values_parsed_max": 324,
+    "confirmatory_target_values_parsed_required": 0,
+    "excluded_target_values_parsed_required": 0
+  },
+  "router": {
+    "implementation": "src/structural/boreal_19island_bird_pilot_router_v1_161.py",
+    "only_schema_change": "normalize exact first routing token Islands to Island before delegating to frozen v1.159 biological router",
+    "species_or_outcome_dependent_change": false
+  },
+  "success_ceiling": {
+    "status": "BIRD_PILOT_V161_QUALIFIED_TO_FREEZE_CONFIRMATORY_PREDICTIONS",
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "next_action": "freeze R3, actual-C and 20 null-C predictions before any confirmatory bird response"
+  },
+  "execution_authorized_now": false
+}
