@@ -7,9 +7,17 @@ on:
       - scripts/project_sw_finland_potential_islands_v1_170.py
       - tests/test_sw_finland_potential_islands_projection_v1_170.py
       - .github/workflows/sw-finland-potential-islands-v1_170.yml
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_potential_islands_projection_contract_v1_170.json
+      - scripts/project_sw_finland_potential_islands_v1_170.py
+      - tests/test_sw_finland_potential_islands_projection_v1_170.py
+      - .github/workflows/sw-finland-potential-islands-v1_170.yml
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   response-free-supplement-projection:
@@ -67,3 +75,15 @@ jobs:
             build/swf_v170/species_potential_islands.csv
             build/swf_v170/receipt.json
           retention-days: 7
+
+      - name: Commit validated t0-only lookup on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          cp build/swf_v170/species_potential_islands.csv development/sw_finland_species_potential_islands_v1_170.csv
+          cp build/swf_v170/receipt.json development/sw_finland_potential_islands_projection_receipt_v1_170.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add development/sw_finland_species_potential_islands_v1_170.csv development/sw_finland_potential_islands_projection_receipt_v1_170.json
+          git commit -m "Freeze SW Finland Potential_islands lookup v1.170"
+          git push origin HEAD:main
