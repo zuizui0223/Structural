@@ -25,13 +25,13 @@
     "vascular_plant_species": 587,
     "historical_inventory": "1925-1964, mainly 1930s",
     "recent_inventory": "1996-2017, most intensive 1998-2010",
-    "row_semantics": "potential colonization event: focal species absent from focal island in historical inventory",
+    "row_semantics": "each archived row is a known historically absent species × island potential-colonization event retained in the archived analysis table; the archive may omit other historical absences because published modelling dropped observations with missing predictors",
     "future_endpoint": "outcome; 0=failure, 1=successful colonization by recent inventory",
-    "published_event_count": 85063,
     "published_connectivity_controls": [
       "Historical_total_log: number of historically occupied islands",
       "Dist_to_historical_log: distance to nearest historically occupied surveyed island"
-    ]
+    ],
+    "final_model_complete_case_event_count": 85063
   },
   "scientific_question": "After historical source count, nearest historical source, recipient-island state and generic spatial context are represented, does the exact configuration/topology of historically occupied source islands retain held-out information about colonization over ~70 years, and is any topology-specific gain concentrated where finite-source configuration sensitivity is high?",
   "temporal_order": {
@@ -43,7 +43,7 @@
   "stop_rules": [
     "STOP if spp.name, holmkod, outcome, EUREF coordinates, Historical_total_log or Dist_to_historical_log are absent",
     "STOP if the file does not represent potential colonization events as documented",
-    "STOP if t0 historical source sets cannot be reconstructed without reading outcome",
+    "STOP/HOLD if at least 30 species do not have response-independently exact historical source identities; never treat omitted analysis rows as historical presences",
     "STOP if the 471-island universe or species routing is ambiguous",
     "do not substitute a different file or derived table after seeing outcome"
   ],
@@ -54,5 +54,12 @@
     "t0_state_projection_authorized": false,
     "model_fit_count": 0,
     "counts_as_empirical_evidence": false
+  },
+  "source_identity_gate": {
+    "reason": "published modelling removed potential-colonization observations with missing explanatory data, so archive row-key complement is not automatically the historical occupied set",
+    "documented_transform": "Historical total was the first-inventory occupied-island count; right-skewed/zero-containing variables were log10(x+1) transformed before standardization",
+    "exact_reconstruction_rule": "a species is topology-eligible only if its response-independent historical source count is recoverable and archived_absent_row_count + historical_source_count == 471; only then may the complement of archived absent islands define its exact historical source set",
+    "minimum_exact_source_species_before_future_outcome": 30,
+    "if_support_fails": "STOP/HOLD before future outcome; do not infer omitted absence rows as presences"
   }
 }
