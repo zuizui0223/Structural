@@ -1,0 +1,27 @@
+{
+  "schema": "structural.active_priority.v1_163",
+  "status": "boreal_bird_pilot_gate_predeclared_confirmatory_still_sealed",
+  "supersedes": "development/structural_active_priority_v1_162.json",
+  "canonical_status": "development/current_status_v1_161.json",
+  "project_policy": {
+    "ebird_enabled": false,
+    "beetle_primary_reopen_authorized": false
+  },
+  "active_static_mechanism_lane": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+    "protocol": "development/boreal_bird_topology_sensitivity_contract_v1_162.json",
+    "topology_freeze": "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "pilot_contract": "development/boreal_bird_pilot_contract_v1_163.json",
+    "status": "PILOT_ACCESS_NOT_YET_EXECUTED",
+    "bird_pilot_response_authorized": false,
+    "bird_confirmatory_response_authorized": false,
+    "next_action": "execute exactly one six-island bird pilot read, freeze fixed species/n/S-standardization, then freeze all model predictions before any confirmatory bird response"
+  },
+  "do_not": [
+    "open any confirmatory bird occurrence before pilot and prediction freezes",
+    "change the fixed-species or distinct-n gates after pilot access",
+    "change topology nulls after pilot access",
+    "reinterpret or rescue the completed beetle primary",
+    "obtain or analyze eBird data"
+  ]
+}
