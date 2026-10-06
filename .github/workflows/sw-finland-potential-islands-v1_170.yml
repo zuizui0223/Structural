@@ -16,6 +16,10 @@ on:
       - tests/test_sw_finland_potential_islands_projection_v1_170.py
       - .github/workflows/sw-finland-potential-islands-v1_170.yml
 
+concurrency:
+  group: sw-finland-potential-islands-v170-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
