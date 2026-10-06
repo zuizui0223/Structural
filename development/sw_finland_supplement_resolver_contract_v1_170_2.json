@@ -1,0 +1,51 @@
+{
+  "schema": "structural.sw_finland_supplement_resolver_contract.v1_170_2",
+  "status": "PREACCESS_SUPPLEMENT_LANDING_RESOLUTION_ONLY",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_potential_lookup_preaccess_retry_contract_v1_170_1.json",
+    "development/sw_finland_potential_lookup_execution_contract_v1_170.json"
+  ],
+  "prior_failures": [
+    {
+      "run_id": 37443067127,
+      "stage": "legacy direct PDF transport",
+      "semantic_rows_parsed": 0,
+      "future_summary_values_parsed": 0
+    },
+    {
+      "run_id": 37459984812,
+      "stage": "guessed NSO direct PDF transport",
+      "semantic_rows_parsed": 0,
+      "future_summary_values_parsed": 0
+    }
+  ],
+  "landing": {
+    "legacy_appendix_url": "https://www.ecography.org/appendix/ecog-05013",
+    "current_redirect_target": "https://nso-journals.org/ecographyappendix/ecog-05013",
+    "source_of_redirect_target": "current Wiley article link resolution",
+    "allowed_semantics": "HTTP metadata and href attributes only"
+  },
+  "resolver": {
+    "accepted_content_types": ["text/html", "application/pdf"],
+    "allowed_link_suffixes": [".pdf", ".docx", ".zip"],
+    "allowed_link_filter": "href must contain ecog-05013 or ecog05013, case-insensitive",
+    "persist_landing_body": false,
+    "persist_link_text": false,
+    "persist_table_text": false,
+    "persist_candidate_urls_only": true
+  },
+  "response_boundary": {
+    "supplement_table_values_parsed": 0,
+    "future_summary_values_parsed": 0,
+    "future_summary_values_persisted": 0,
+    "row_level_recent_outcome_opened": false,
+    "effect_estimate_requested": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "SUPPLEMENT_TRANSPORT_CANDIDATES_RESOLVED_NO_TABLE_VALUES_OPENED",
+    "next_action": "freeze one exact candidate URL in a separate revision before downloading or parsing the supplement"
+  }
+}
