@@ -1,0 +1,39 @@
+{
+  "schema": "structural.boreal_19island_bird_pilot_freeze.v1_162",
+  "status": "BIRD_PILOT_COMMITTED_CONFIRMATORY_REMAINS_SEALED",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "source_execution": {
+    "workflow": ".github/workflows/boreal-bird-pilot-v1_161.yml",
+    "workflow_run_id": 37392309239,
+    "workflow_job_id": 112040011963,
+    "workflow_head_sha": "d097b7317b7dc2a9ef1a06e01630c5a09a4eace9",
+    "artifact_id": 11381991353,
+    "artifact_digest": "sha256:98fecb8dc2db2861039cdfb9dd5fa8fb51d2b5a2818f95a13352b578c9777e27"
+  },
+  "files": {
+    "execution_result": {
+      "path": "development/boreal_19island_bird_pilot_execution_v1_162.json",
+      "sha256": "7d99f07ad5ff442dac068dab024f4e6018568e62eb3ee8bd7e1c51dc6399e485"
+    },
+    "pilot_snapshot": {
+      "path": "development/boreal_19island_bird_pilot_snapshot_v1_162.json",
+      "sha256": "f45af1a897b93a81e250b66a48767e01c8c64c782884e27cd29d16c8f2b6e5d2"
+    }
+  },
+  "response_file_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+  "pilot_target_values_parsed": 324,
+  "eligible_species_count": 18,
+  "eligible_species_sha256": "f623652815edea90404c9a6a306699deaf2f0a7ce5b56cb7d6f6b379f4204080",
+  "snapshot_fingerprint": "41446435056972f25f0c400af9f1668fbc09af292111800c45073ae0553b6ab0",
+  "support_distribution": {
+    "n1": 10,
+    "n2": 1,
+    "n3": 5,
+    "n4": 2
+  },
+  "confirmatory_target_values_parsed": 0,
+  "excluded_target_values_parsed": 0,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "next_action": "freeze R3, actual-C and 20 null-C confirmatory predictions for all 18 species x 13 islands before any confirmatory bird response access"
+}
