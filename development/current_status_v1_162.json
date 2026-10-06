@@ -1,0 +1,42 @@
+{
+  "schema": "structural.current_status.v1_162",
+  "status": "boreal_bird_pilot_passed_confirmatory_response_sealed",
+  "parent_empirical_status": "development/current_status_v1_144.json",
+  "policy": {
+    "ebird_active_route": false,
+    "ebird_reactivation_authorized": false
+  },
+  "mechanism": {
+    "name": "finite_source_configuration_sensitivity",
+    "identity": "CV^2(A)=[(M-n)/(n(M-1))]*(sigma^2/mu^2)",
+    "interpretation": "source scarcity exposes positional heterogeneity"
+  },
+  "active_test": {
+    "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+    "role": "same-geography different-taxon prospective mechanism test",
+    "routing_header_exposed": true,
+    "biological_pilot_evidence_status": "prospective after routing-header-only repair",
+    "pilot_workflow_run_id": 37392309239,
+    "pilot_artifact_id": 11381991353,
+    "pilot_response_file_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "pilot_target_values_parsed": 324,
+    "eligible_species_count": 18,
+    "eligible_species_sha256": "f623652815edea90404c9a6a306699deaf2f0a7ce5b56cb7d6f6b379f4204080",
+    "support_distribution": {"n1": 10, "n2": 1, "n3": 5, "n4": 2},
+    "confirmatory_target_values_parsed": 0,
+    "excluded_target_values_parsed": 0,
+    "confirmatory_response_authorized": false
+  },
+  "response_free_objects": {
+    "matched_null_topologies": 20,
+    "all_nulls_unique_connected_degree_preserving": true,
+    "edge_length_bin_counts_preserved": true,
+    "configuration_sensitivity_surface_rows": 13
+  },
+  "next_scientific_event": "freeze all 234 confirmatory prediction rows for R3, actual C and 20 null C models using the committed pilot snapshot; no confirmatory bird response may open before that freeze is committed and exact-replay verified",
+  "claim_boundary": {
+    "geographic_replication": false,
+    "beetle_primary_rescue": false,
+    "dispersal_or_rescue_claim_authorized": false
+  }
+}
