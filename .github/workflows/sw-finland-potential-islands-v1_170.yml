@@ -1,0 +1,69 @@
+name: SW Finland Potential_islands safe projection v1.170
+
+on:
+  pull_request:
+    paths:
+      - development/sw_finland_potential_islands_projection_contract_v1_170.json
+      - scripts/project_sw_finland_potential_islands_v1_170.py
+      - tests/test_sw_finland_potential_islands_projection_v1_170.py
+      - .github/workflows/sw-finland-potential-islands-v1_170.yml
+
+permissions:
+  contents: read
+
+jobs:
+  response-free-supplement-projection:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run unit tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_sw_finland_potential_islands_projection_v1_170.py tests/test_sw_finland_potential_islands_lookup_v1_168.py
+      - name: Ensure pdftotext exists
+        run: |
+          if ! command -v pdftotext >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y poppler-utils
+          fi
+      - name: Download public supplement only
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v170
+          curl -L --fail --retry 2 -A "Structural-v1.170"             "https://www.ecography.org/sites/ecography.org/files/appendix/ecog-05013.pdf"             -o build/swf_v170/ecog-05013.pdf
+          test -s build/swf_v170/ecog-05013.pdf
+      - name: Convert supplement to layout text
+        run: |
+          pdftotext -layout build/swf_v170/ecog-05013.pdf build/swf_v170/ecog-05013.txt
+      - name: Project only species and Potential_islands
+        run: |
+          python scripts/project_sw_finland_potential_islands_v1_170.py             build/swf_v170/ecog-05013.txt             --source-pdf build/swf_v170/ecog-05013.pdf             --safe-output build/swf_v170/species_potential_islands.csv             --receipt build/swf_v170/receipt.json
+      - name: Verify safe artifact surface
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path("build/swf_v170")
+          r=json.loads((root/"receipt.json").read_text())
+          assert r["status"]=="T0_ONLY_POTENTIAL_ISLANDS_LOOKUP_PROJECTED"
+          assert r["species_count"]==587
+          assert r["future_summary_values_persisted"]==0
+          assert r["future_summary_values_used_for_eligibility"] is False
+          with (root/"species_potential_islands.csv").open() as f:
+              rd=csv.DictReader(f)
+              assert rd.fieldnames==["species","Potential_islands","historical_source_count"]
+              assert sum(1 for _ in rd)==587
+          (root/"ecog-05013.pdf").unlink()
+          (root/"ecog-05013.txt").unlink()
+          PY
+      - name: Upload t0-only lookup candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: sw-finland-potential-islands-v170-${{ github.sha }}
+          path: |
+            build/swf_v170/species_potential_islands.csv
+            build/swf_v170/receipt.json
+          retention-days: 7
