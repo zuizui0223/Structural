@@ -16,22 +16,36 @@
     "table_end_marker": "Island_name Euref_X Euref_Y Potential_spp Num_colonizing Prop_colonizing Random_effect"
   },
   "permitted_semantics": {
-    "persist": ["species", "Potential_islands"],
-    "derived": ["historical_source_count = 471 - Potential_islands"]
+    "persist": [
+      "species",
+      "Potential_islands"
+    ],
+    "derived": [
+      "historical_source_count = 471 - Potential_islands"
+    ]
   },
   "forbidden_future_summary_semantics": {
-    "columns": ["Num_colonized", "Prop_colonized", "Random_effect"],
+    "columns": [
+      "Num_colonized",
+      "Prop_colonized",
+      "Random_effect"
+    ],
     "may_be_persisted": false,
     "may_define_eligibility": false,
     "may_define_parser_acceptance_beyond_row_shape": false,
-    "may_be_returned_in_receipt": false
+    "may_be_returned_in_receipt": false,
+    "values_decoded_by_structural_parser": 0
   },
   "parser": {
-    "tool": "pdftotext -layout",
-    "scope": "only text between frozen species-table start and island-table end markers",
-    "row_rule": "parse species name plus four trailing table fields; retain only the species name and first trailing integer Potential_islands",
+    "tool": "pdftotext -bbox-layout",
+    "scope": "begin at the line containing species and Potential_islands; stop before the line containing Island_name",
+    "row_rule": "use PDF word x-coordinates to read only the species-name column and the Potential_islands integer column; words in future-summary columns are not decoded by the Structural parser",
+    "column_boundaries": "derive Potential_islands and next-column x positions from the frozen species-table header; values must lie in the Potential_islands x band",
     "species_unicode": "NFC plus trim and collapse internal whitespace",
-    "Potential_islands_integer_range": [0,471],
+    "Potential_islands_integer_range": [
+      0,
+      471
+    ],
     "duplicate_species_forbidden": true
   },
   "validation": {
@@ -47,7 +61,11 @@
   "success_output": {
     "safe_lookup": "development/sw_finland_species_potential_islands_v1_170.csv",
     "receipt": "development/sw_finland_potential_islands_projection_receipt_v1_170.json",
-    "safe_lookup_columns": ["species","Potential_islands","historical_source_count"],
+    "safe_lookup_columns": [
+      "species",
+      "Potential_islands",
+      "historical_source_count"
+    ],
     "future_summary_values_persisted": 0,
     "row_level_recent_outcome_opened": false,
     "counts_as_empirical_evidence": false
