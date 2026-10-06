@@ -1,0 +1,183 @@
+name: Boreal 19-island bird pilot pre-access retry v1.164.1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_19island_bird_pilot_execution_request_v1_164_1.json
+
+permissions:
+  contents: write
+
+jobs:
+  one-shot-bird-pilot-preaccess-retry:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - name: Checkout main with history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Enforce frozen pre-access retry
+        run: |
+          set -euo pipefail
+          REQUEST=development/boreal_19island_bird_pilot_execution_request_v1_164_1.json
+          test "$(git rev-list --count HEAD -- "$REQUEST")" = "1"
+          test ! -e development/boreal_19island_bird_pilot_execution_v1_164.json
+          test ! -e development/boreal_19island_bird_pilot_snapshot_v1_164.json
+          test ! -e development/boreal_19island_bird_pilot_freeze_v1_164.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/boreal_19island_bird_pilot_execution_request_v1_164_1.json").read_text())
+          c=json.loads(Path("development/boreal_19island_bird_pilot_preaccess_retry_contract_v1_164_1.json").read_text())
+          assert r["status"]=="REQUEST_ONE_SHOT_PREACCESS_RETRY_BIRD_PILOT"
+          assert r["one_shot"] is True
+          assert r["prior_failure_before_response_transport"] is True
+          assert r["bird_pilot_values_opened_before_retry"] is False
+          assert r["bird_confirmatory_values_opened_before_retry"] is False
+          assert r["scientific_protocol_changed"] is False
+          assert r["effect_estimate_requested"] is False
+          assert r["eBird_used"] is False
+          assert c["prior_failure"]["workflow_run_id"]==37394192161
+          assert c["prior_failure"]["bird_pilot_occurrence_values_decoded"]==0
+          assert c["prior_failure"]["authorization_consumed"] is False
+          assert c["retry_change"]["scientific_protocol_changed"] is False
+          PY
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Prepare short-lived Dryad bearer
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/bird_v1641
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/bird_v1641/token_receipt.json
+
+      - name: Fetch exact bird matrix as opaque bytes
+        run: |
+          mkdir -p build/bird_v1641/raw
+          python scripts/fetch_boreal_19island_bird_response_v1_164.py \
+            build/bird_v1641/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --receipt build/bird_v1641/transport_receipt.json
+
+      - name: Consume bird pilot authorization exactly once
+        id: pilot
+        run: |
+          set +e
+          python scripts/run_boreal_19island_bird_pilot_v1_164.py \
+            build/bird_v1641/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --execution-receipt build/bird_v1641/execution_receipt.json \
+            --snapshot build/bird_v1641/training_snapshot.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Delete raw bird response immediately
+        if: always()
+        run: rm -rf build/bird_v1641/raw
+
+      - name: Validate audit-safe outputs
+        run: |
+          set -euo pipefail
+          test -f build/bird_v1641/token_receipt.json
+          test -f build/bird_v1641/transport_receipt.json
+          test -f build/bird_v1641/execution_receipt.json
+          test ! -e build/bird_v1641/raw
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("build/bird_v1641")
+          t=json.loads((root/"transport_receipt.json").read_text())
+          e=json.loads((root/"execution_receipt.json").read_text())
+          assert t["response_semantics_opened"] is False
+          assert t["authorization_consumed"] is False
+          assert e["confirmatory_target_values_parsed"]==0
+          assert e["excluded_target_values_parsed"]==0
+          assert e["effect_size"] is None
+          assert e["prediction_score"] is None
+          assert e["counts_as_empirical_evidence"] is False
+          assert e["authorization_consumed"] is True
+          if e["model_snapshot_frozen"]:
+              s=json.loads((root/"training_snapshot.json").read_text())
+              assert s["confirmatory_target_values_parsed"]==0
+              assert s["excluded_target_values_parsed"]==0
+              assert s["confirmatory_occurrence_values_stored"] is False
+              assert s["excluded_occurrence_values_stored"] is False
+          PY
+
+      - name: Fast-forward before immutable record
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git merge --ff-only origin/main
+
+      - name: Persist pilot execution and freeze
+        env:
+          SOURCE_RUN_ID: ${{ github.run_id }}
+          SOURCE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          SOURCE_HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          cp build/bird_v1641/execution_receipt.json development/boreal_19island_bird_pilot_execution_v1_164.json
+          if test -f build/bird_v1641/training_snapshot.json; then
+            cp build/bird_v1641/training_snapshot.json development/boreal_19island_bird_pilot_snapshot_v1_164.json
+          fi
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          e=json.loads(Path("development/boreal_19island_bird_pilot_execution_v1_164.json").read_text())
+          freeze={
+            "schema":"structural.boreal_19island_bird_pilot_freeze.v1_164",
+            "status":("BIRD_PILOT_COMMITTED_PREDICTION_FREEZE_AUTHORIZED" if e.get("qualified_for_prediction_freeze") is True else "BIRD_PILOT_COMMITTED_TERMINAL_NO_RESCUE"),
+            "candidate_id":e.get("candidate_id"),
+            "source_execution":{
+              "workflow":".github/workflows/boreal-19island-bird-pilot-v1_164_1.yml",
+              "run_id":int(os.environ["SOURCE_RUN_ID"]),
+              "run_attempt":int(os.environ["SOURCE_RUN_ATTEMPT"]),
+              "request_head_sha":os.environ["SOURCE_HEAD_SHA"],
+              "preaccess_retry_of_run_id":37394192161
+            },
+            "authorization_fingerprint":e.get("authorization_fingerprint"),
+            "authorization_consumed":e.get("authorization_consumed"),
+            "bird_pilot_opened":e.get("bird_pilot_opened"),
+            "fixed_species_count":e.get("fixed_species_count"),
+            "distinct_pilot_occupancy_counts":e.get("distinct_pilot_occupancy_counts"),
+            "model_snapshot_fingerprint":e.get("model_snapshot_fingerprint"),
+            "qualified_for_prediction_freeze":e.get("qualified_for_prediction_freeze",False),
+            "confirmatory_target_values_parsed":0,
+            "excluded_target_values_parsed":0,
+            "confirmatory_response_authorized":False,
+            "effect_size":None,
+            "prediction_score":None,
+            "counts_as_empirical_evidence":False,
+            "rerun_authorized":False,
+            "next_action":("freeze actual-C and 20 null-C models/predictions before confirmatory bird response" if e.get("qualified_for_prediction_freeze") is True else "terminal stop; do not alter pilot thresholds or reopen bird pilot")
+          }
+          Path("development/boreal_19island_bird_pilot_freeze_v1_164.json").write_text(json.dumps(freeze,indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Commit immutable pilot record
+        run: |
+          set -euo pipefail
+          git add development/boreal_19island_bird_pilot_execution_v1_164.json
+          git add development/boreal_19island_bird_pilot_freeze_v1_164.json
+          if test -f development/boreal_19island_bird_pilot_snapshot_v1_164.json; then
+            git add development/boreal_19island_bird_pilot_snapshot_v1_164.json
+          fi
+          test -z "$(git status --porcelain | grep -E '\.csv$' || true)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze one-shot boreal bird pilot v1.164.1"
+          git push origin HEAD:main
