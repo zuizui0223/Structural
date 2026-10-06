@@ -1,0 +1,13 @@
+{
+  "schema": "structural.sw_finland_potential_lookup_retry_request.v1_170_1",
+  "status": "REQUEST_PREACCESS_SUPPLEMENT_TRANSPORT_RETRY",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "retry_contract": "development/sw_finland_potential_lookup_preaccess_retry_contract_v1_170_1.json",
+  "original_execution_contract": "development/sw_finland_potential_lookup_execution_contract_v1_170.json",
+  "prior_failed_run_id": 37443067127,
+  "one_shot": true,
+  "future_summary_values_requested": false,
+  "row_level_recent_outcome_access_requested": false,
+  "effect_estimate_requested": false,
+  "eBird_used": false
+}
