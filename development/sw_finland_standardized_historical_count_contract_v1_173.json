@@ -1,0 +1,84 @@
+{
+  "schema": "structural.sw_finland_standardized_historical_count_contract.v1_173",
+  "status": "T0_ONLY_STANDARDIZED_HISTORICAL_COUNT_RECOVERY_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "scientific_basis": {
+    "paper_doi": "10.1111/ecog.05013",
+    "published_transform": "right-skewed zero-containing numeric variables were log10(x+1) transformed and all numeric variables were then transformed to zero mean and unit variance",
+    "archive_column": "Historical_total_log",
+    "target_quantity": "historical_source_count = number of islands inhabited in first inventory",
+    "future_outcome_used": false
+  },
+  "anchors": {
+    "provenance": "t0 Potential_islands values visible in the publicly indexed Ecography Appendix ecog-05013; only Potential_islands is transcribed, never Num_colonized, Prop_colonized or Random_effect",
+    "rule": "historical_source_count = 471 - Potential_islands",
+    "values": {
+      "Acer platanoides": 7,
+      "Achillea millefolium": 322,
+      "Achillea ptarmica": 15,
+      "Actaea spicata": 15,
+      "Adoxa moschatellina": 24,
+      "Aegopodium podagraria": 6,
+      "Agrimonia eupatoria": 86,
+      "Agrimonia odorata": 2,
+      "Agrostis canina": 140,
+      "Agrostis capillaris": 354,
+      "Agrostis stolonifera": 460,
+      "Alchemilla filicaulis  ssp. filicaulis": 16,
+      "Alchemilla glaucescens": 8,
+      "Alchemilla monticola": 5,
+      "Alchemilla sp": 22,
+      "Alchemilla subcrenata": 3,
+      "Alisma plantago-aquatica": 3,
+      "Alliaria petiolata": 2,
+      "Allium oleraceum": 66,
+      "Allium schoenoprasum": 415,
+      "Allium scorodoprasum": 13,
+      "Allium ursinum": 4,
+      "Alnus glutinosa": 338,
+      "Alopecurus aequalis": 26,
+      "Alopecurus arundinaceus": 73,
+      "Alopecurus geniculatus": 43,
+      "Alopecurus pratensis": 23,
+      "Anagallis minima": 1,
+      "Anchusa arvensis": 0,
+      "Anemone nemorosa": 30
+    }
+  },
+  "calibration": {
+    "species_normalization": "Unicode NFC plus collapse internal whitespace plus trim",
+    "minimum_anchor_matches": 20,
+    "fit": "ordinary least squares of log10(historical_source_count+1) on [1, archived Historical_total_log]",
+    "slope_must_be_positive": true,
+    "integer_recovery": "raw_n = 10^(intercept + slope*z) - 1; assign nearest integer in [0,471]",
+    "anchor_requirement": "every matched anchor must recover its exact historical_source_count after rounding",
+    "maximum_all_species_count_rounding_error": 0.05,
+    "maximum_anchor_count_rounding_error": 0.01,
+    "no_outcome_selection": true
+  },
+  "support_audit": {
+    "archived_absent_count": "unique holmkod rows per species in outcome-opaque t0 projection",
+    "exact_if": "archived_absent_count + recovered historical_source_count == 471 and historical_source_count >= 1",
+    "incomplete_if": "sum < 471",
+    "impossible_if": "sum > 471",
+    "zero_source_if": "historical_source_count == 0",
+    "minimum_exact_species": 30
+  },
+  "outputs": {
+    "species_table": "development/sw_finland_historical_source_count_recovery_v1_173.csv",
+    "receipt": "development/sw_finland_historical_source_count_calibration_v1_173.json"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "supplement_future_summary_values_used": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "STANDARDIZED_HISTORICAL_SOURCE_COUNTS_RECOVERED_T0_ONLY",
+    "next_action": "if exact_source_species >=30 and impossible_species==0, freeze this count table as the v1.171 source-count authority and reconstruct exact historical source identities before any future outcome access"
+  }
+}
