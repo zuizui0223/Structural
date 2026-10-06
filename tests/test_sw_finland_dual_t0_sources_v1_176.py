@@ -31,7 +31,7 @@ def test_distance_gate_is_species_specific_and_strict():
     assert d["minimum_calibration_species"]==20
     assert d["minimum_calibration_rows"]==1000
     assert d["anchor_max_absolute_log10_residual"]==0.0001
-    assert "<= 0.0001" in d["species_exact_if"]
+    assert d["exact_species_max_absolute_log10_residual"]==0.0001
 
 def test_future_outcome_is_sealed_and_no_ebird():
     c=json.loads(CONTRACT.read_text())
