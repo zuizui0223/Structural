@@ -1,0 +1,62 @@
+name: Dispatch SW Finland t0 topology freeze v1.172
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/sw_finland_exact_source_reconstruction_v1_171.json
+      - development/sw_finland_exact_source_species_v1_171.csv
+      - development/sw_finland_exact_source_membership_v1_171.csv
+      - development/sw_finland_t0_island_geometry_v1_171.csv
+permissions:
+  contents: write
+jobs:
+  dispatch:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Verify t0 reconstruction and create exact-SHA topology request
+        run: |
+          set -euo pipefail
+          test ! -e development/sw_finland_topology_freeze_request_v1_172.json
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          paths={
+            "reconstruction":"development/sw_finland_exact_source_reconstruction_v1_171.json",
+            "geometry":"development/sw_finland_t0_island_geometry_v1_171.csv",
+            "species":"development/sw_finland_exact_source_species_v1_171.csv",
+            "membership":"development/sw_finland_exact_source_membership_v1_171.csv",
+          }
+          r=json.loads(Path(paths["reconstruction"]).read_text())
+          assert r["status"]=="T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED"
+          assert r["exact_source_species"]>=30
+          assert r["impossible_species"]==0
+          assert r["future_outcome_values_opened"]==0
+          assert r["protected_outcome_values_decoded"]==0
+          assert r["pilot_future_outcome_authorized"] is False
+          assert r["confirmatory_future_outcome_authorized"] is False
+          req={
+            "schema":"structural.sw_finland_topology_freeze_request.v1_172",
+            "status":"REQUEST_T0_GRAPH_NULL_AND_SENSITIVITY_FREEZE",
+            "candidate_id":"sw_finland_archipelago_plants_1930s_1996_2017",
+            "input_sha256":{
+              key:hashlib.sha256(Path(path).read_bytes()).hexdigest()
+              for key,path in paths.items()
+            },
+            "future_outcome_access_requested":False,
+            "effect_estimate_requested":False,
+            "one_shot":True,
+            "eBird_used":False,
+          }
+          Path("development/sw_finland_topology_freeze_request_v1_172.json").write_text(
+            json.dumps(req,indent=2,sort_keys=True)+"\n"
+          )
+          PY
+          git add development/sw_finland_topology_freeze_request_v1_172.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Request SW Finland t0 topology freeze v1.172"
+          git push origin HEAD:main
