@@ -1,16 +1,23 @@
 {
   "schema": "structural.sw_finland_t0_projection_contract.v1_164",
-  "status": "T0_ONLY_PROJECTION_PREDECLARED_FUTURE_OUTCOME_SEALED",
+  "status": "BYTE_ROUTED_T0_ONLY_PROJECTION_PREDECLARED_FUTURE_OUTCOME_OPAQUE",
   "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
   "parents": [
     "development/sw_finland_plant_colonization_preintake_v1_162.json",
-    "development/sw_finland_plant_colonization_column_firewall_v1_162.json"
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_header_freeze_contract_v1_167.json"
   ],
   "authorization": {
     "required_header_receipt_schema": "structural.sw_finland_plant_colonization_header_audit.v1_163",
     "required_header_status": "HEADER_ONLY_AUDIT_COMPLETE_FUTURE_OUTCOME_ROWS_UNREAD",
     "require_t0_projection_authorized": true,
-    "require_outcome_values_read": 0
+    "require_outcome_values_read": 0,
+    "byte_level_router_required": true,
+    "mixed_csv_may_be_semantically_decoded": false,
+    "required_router_schema": "structural.sw_finland_t0_byte_router_result.v1_164",
+    "required_router_status": "T0_SAFE_COLUMNS_ROUTED_PROTECTED_OUTCOME_OPAQUE",
+    "required_protected_field_values_decoded": 0,
+    "required_protected_field_bytes_persisted": 0
   },
   "expected_support": {
     "potential_event_rows": 85063,
@@ -21,7 +28,8 @@
     "row key spp.name x holmkod means historically absent on that focal island",
     "historical source set is complement of historical-absence row keys within frozen 471-island universe",
     "EUREF original coordinates and recipient-island state",
-    "species traits and historical source-count/distance variables"
+    "species traits and historical source-count/distance variables",
+    "Gowdis_traits pair-specific historical community-trait dissimilarity may be retained as t0-safe pair state"
   ],
   "forbidden_future_semantics": [
     "outcome value",
@@ -37,13 +45,16 @@
     "exact_island_count": 471,
     "exact_species_count": 587,
     "exact_event_row_count": 85063,
-    "source_reconstruction_uses_outcome": false
+    "source_reconstruction_uses_outcome": false,
+    "t0_projector_input": "byte-routed safe projection only; raw mixed CSV forbidden"
   },
   "outputs": [
+    "sw_finland_t0_safe_projection.csv",
     "sw_finland_t0_island_state.csv",
     "sw_finland_t0_species_state.csv",
     "sw_finland_t0_historical_absent_pairs.csv",
     "sw_finland_t0_historical_occupied_pairs.csv",
+    "sw_finland_t0_pair_state.csv",
     "sw_finland_t0_projection_receipt.json"
   ],
   "success_ceiling": "T0_SOURCE_STATE_FROZEN_FUTURE_OUTCOME_REMAINS_SEALED",
@@ -52,6 +63,8 @@
     "outcome_values_read": 0,
     "future_outcome_opened": false,
     "model_fit_count": 0,
-    "counts_as_empirical_evidence": false
+    "counts_as_empirical_evidence": false,
+    "protected_field_values_decoded": 0,
+    "protected_field_bytes_persisted": 0
   }
 }
