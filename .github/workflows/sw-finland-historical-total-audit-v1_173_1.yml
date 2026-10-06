@@ -1,0 +1,90 @@
+name: SW Finland Historical_total token audit v1.173.1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_historical_total_token_audit_request_v1_173_1.json
+
+permissions:
+  contents: write
+
+jobs:
+  token-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify t0-only diagnostic request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/sw_finland_historical_total_token_audit_request_v1_173_1.json").read_text())
+          assert r["status"]=="REQUEST_T0_HISTORICAL_TOTAL_TOKEN_AUDIT"
+          assert r["future_outcome_access_requested"] is False
+          assert r["effect_estimate_requested"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Download exact archive bytes
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1731/raw build/swf_v1731/safe build/swf_v1731/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          u="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          p=Path("build/swf_v1731/raw/colonization_select.csv");m=hashlib.md5();s=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":"Structural-v1.173.1"}),timeout=180) as src,p.open("wb") as dst:
+              while True:
+                  b=src.read(1024*1024)
+                  if not b:break
+                  dst.write(b);m.update(b);s.update(b)
+          if m.hexdigest()!="ff648878946ba430fb86c4ab2aa02baa" or s.hexdigest()!="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957":
+              p.unlink(missing_ok=True);raise SystemExit("archive identity mismatch")
+          PY
+
+      - name: Route t0 columns with outcome opaque
+        run: |
+          python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf_v1731/raw/colonization_select.csv             --safe-output build/swf_v1731/safe/t0_safe.csv             --receipt build/swf_v1731/out/router.json
+
+      - name: Audit Historical_total_log tokens
+        run: |
+          python scripts/audit_sw_finland_historical_total_tokens_v1_173_1.py             build/swf_v1731/safe/t0_safe.csv             --router-receipt build/swf_v1731/out/router.json             --contract development/sw_finland_historical_total_token_audit_contract_v1_173_1.json             --receipt build/swf_v1731/out/audit.json
+
+      - name: Delete raw and row-level safe data
+        if: always()
+        run: rm -rf build/swf_v1731/raw build/swf_v1731/safe
+
+      - name: Verify outcome boundary and commit aggregate diagnostic
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v1731/raw
+          test ! -e build/swf_v1731/safe
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v1731/out/audit.json").read_text())
+          assert r["status"]=="T0_HISTORICAL_TOTAL_TOKEN_AUDIT_COMPLETE"
+          assert r["data_rows"]==225345
+          assert r["species_count"]==587
+          assert r["island_count"]==471
+          assert r["future_outcome_values_opened"]==0
+          assert r["protected_outcome_values_decoded"]==0
+          assert r["counts_as_empirical_evidence"] is False
+          PY
+          cp build/swf_v1731/out/audit.json development/sw_finland_historical_total_token_audit_v1_173_1.json
+          git add development/sw_finland_historical_total_token_audit_v1_173_1.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Audit SW Finland Historical_total t0 tokens v1.173.1"
+          git push origin HEAD:main
