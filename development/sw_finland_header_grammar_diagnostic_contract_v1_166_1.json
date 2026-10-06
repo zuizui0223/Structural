@@ -1,0 +1,38 @@
+{
+  "schema": "structural.sw_finland_header_grammar_diagnostic_contract.v1_166_1",
+  "status": "HEADER_ONLY_DELIMITER_DIAGNOSTIC_PREDECLARED_AFTER_V1166_ZERO_ROW_STOP",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parent_failure": {
+    "workflow_run_id": 37406973594,
+    "job_id": 112086579665,
+    "exact_file_md5": "ff648878946ba430fb86c4ab2aa02baa",
+    "data_rows_semantically_opened": 0,
+    "outcome_values_read": 0,
+    "failure": "comma-delimited header parser recognized none of the frozen required/protected headers"
+  },
+  "permitted_delimiters": [
+    ",",
+    ";",
+    "\t"
+  ],
+  "required_headers": [
+    "spp.name",
+    "holmkod",
+    "Euref_X_original",
+    "Euref_Y_original",
+    "Historical_total_log",
+    "Dist_to_historical_log",
+    "outcome"
+  ],
+  "diagnostic_rule": "decode only the first logical CSV record once per candidate delimiter; do not request or parse a second record",
+  "success_rule": "exactly one delimiter contains every required header and no duplicate exact header names",
+  "output": "sw_finland_header_grammar_receipt.json",
+  "response_boundary": {
+    "data_rows_semantically_opened": 0,
+    "outcome_header_name_may_be_read": true,
+    "outcome_values_read": 0,
+    "t0_projection_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_action": "if exactly one grammar qualifies, commit the receipt and only in a later revision repair the header auditor to the frozen delimiter"
+}
