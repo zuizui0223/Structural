@@ -1,0 +1,16 @@
+{
+  "schema": "structural.sw_finland_t0_support_audit_request.v1_169",
+  "status": "REQUEST_T0_SAFE_SOURCE_SUPPORT_AUDIT",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "router_contract": "development/sw_finland_t0_byte_router_contract_v1_169.json",
+  "canonical_header_freeze": "development/sw_finland_header_freeze_v1_167.json",
+  "exact_file_md5": "ff648878946ba430fb86c4ab2aa02baa",
+  "exact_file_sha256": "72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957",
+  "future_outcome_values_opened_before_request": 0,
+  "future_outcome_access_requested": false,
+  "effect_estimate_requested": false,
+  "row_level_safe_projection_persisted_after_run": false,
+  "one_shot": true,
+  "eBird_used": false,
+  "counts_as_empirical_evidence": false
+}
