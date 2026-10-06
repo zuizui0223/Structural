@@ -91,7 +91,21 @@ jobs:
           test ! -d build/boreal_bird_v163/raw
           test ! -e build/boreal_bird_v163/borealbirds_speciesmatrix_presenceabsence.csv
 
-      - name: Upload pilot audit bundle only
+      - name: Freeze all actual and null predictions after clean pilot
+        if: steps.pilot.outputs.exit_code == '0'
+        id: preconfirm
+        run: |
+          set +e
+          python scripts/freeze_boreal_bird_preconfirmatory_v1_164.py \
+            build/boreal_bird_v163/execution_receipt.json \
+            build/boreal_bird_v163/pilot_snapshot.json \
+            --predictions build/boreal_bird_v163/confirmatory_predictions.csv \
+            --receipt build/boreal_bird_v163/preconfirmatory_receipt.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload pilot and preconfirmatory audit bundle only
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -101,12 +115,16 @@ jobs:
             build/boreal_bird_v163/transport_receipt.json
             build/boreal_bird_v163/execution_receipt.json
             build/boreal_bird_v163/pilot_snapshot.json
+            build/boreal_bird_v163/preconfirmatory_receipt.json
+            build/boreal_bird_v163/confirmatory_predictions.csv
           if-no-files-found: warn
           retention-days: 14
 
-      - name: Fail if pilot gate did not qualify
+      - name: Fail if pilot or prediction freeze did not qualify
         if: always()
         env:
           PILOT_EXIT_CODE: ${{ steps.pilot.outputs.exit_code }}
+          PRECONFIRM_EXIT_CODE: ${{ steps.preconfirm.outputs.exit_code }}
         run: |
           test "$PILOT_EXIT_CODE" = "0"
+          test "$PRECONFIRM_EXIT_CODE" = "0"
