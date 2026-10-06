@@ -1,0 +1,51 @@
+{
+  "schema": "structural.sw_finland_t0_byte_router_contract.v1_169",
+  "status": "SEMICOLON_T0_SAFE_ROUTER_PREDECLARED_AFTER_CANONICAL_HEADER_FREEZE",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_header_audit_v1_167.json",
+    "development/sw_finland_header_freeze_v1_167.json",
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_t0_projection_contract_v1_164.json"
+  ],
+  "exact_input": {
+    "file_name": "colonization_select.csv",
+    "size_bytes": 129157803,
+    "md5": "ff648878946ba430fb86c4ab2aa02baa",
+    "sha256": "72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957",
+    "delimiter": ";",
+    "header_sha256": "b6b06095784ed3888a0b4656a87175c5387f10ec72d07eea6919376c4ec7b4f8"
+  },
+  "protected_future_endpoint": {
+    "column": "outcome",
+    "values_may_be_decoded": false,
+    "raw_field_bytes_may_be_persisted": false,
+    "values_may_influence_row_selection": false
+  },
+  "safe_output": {
+    "delimiter": ",",
+    "columns": "all frozen required/safe t0 columns except outcome, preserving canonical header order",
+    "field_decode_rule": "decode only non-protected t0 fields as UTF-8 after raw semicolon record boundaries are located; re-encode with Python csv.writer",
+    "raw_mixed_rows_may_be_persisted": false
+  },
+  "parser": {
+    "source_delimiter_byte": 59,
+    "quote_byte": 34,
+    "doubled_quote_escape": true,
+    "CRLF_and_LF_supported": true,
+    "quoted_newlines_supported": true,
+    "header_must_exactly_match": "development/sw_finland_header_audit_v1_167.json"
+  },
+  "success_receipt": {
+    "schema": "structural.sw_finland_t0_byte_router_result.v1_169",
+    "status": "T0_SAFE_COLUMNS_ROUTED_PROTECTED_OUTCOME_OPAQUE",
+    "protected_field_values_decoded": 0,
+    "protected_field_bytes_persisted": 0,
+    "outcome_values_read": 0,
+    "future_outcome_opened": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_gate": "run response-independent t0 source-count/completeness support audit; no future outcome access",
+  "response_access_authorized": false,
+  "counts_as_empirical_evidence": false
+}
