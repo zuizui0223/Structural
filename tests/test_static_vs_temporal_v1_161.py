@@ -23,7 +23,7 @@ def test_synthesis_keeps_occurrence_and_consequence_distinct():
     assert "Occurrence information" in s
     assert "Conservation consequence" in s
     assert "structurally distinctive in a static source network without its loss carrying generalizable information" in s
-    assert "do not pursue eBird" in s.lower()
+    assert "do not pursue ebird" in s.lower()
 
 def test_geb_v161_title_and_abstract_are_endpoint_specific():
     s=(GEB/"blinded_main_text.md").read_text()
