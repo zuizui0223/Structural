@@ -69,7 +69,7 @@
     "species_candidate_count": "471 - archived_absent_count",
     "species_residual": "abs(log10(candidate_count) - calibrated_log10_count_from_Historical_total_log)",
     "exact_species_max_absolute_log10_residual": 0.0001,
-    "minimum_one_count_log10_gap_at_n_470": 0.000923,
+    "minimum_one_count_log10_gap_at_n_470": 0.0009250152206341511,
     "interpretation": "1e-4 is smaller than a one-island count difference anywhere in 1..470, so a one-count mismatch cannot be accepted when calibration itself passes"
   },
   "distance_consistency": {
@@ -83,7 +83,8 @@
     "slope_must_be_positive": true,
     "anchor_max_absolute_log10_residual": 0.0001,
     "species_exact_if": "all archived Dist_to_historical_log values are finite and maximum absolute calibrated log10-distance residual <= 0.0001",
-    "distance_unit": "EUREF coordinate unit; any constant unit conversion is absorbed by the fitted intercept"
+    "distance_unit": "EUREF coordinate unit; any constant unit conversion is absorbed by the fitted intercept",
+    "exact_species_max_absolute_log10_residual": 0.0001
   },
   "exact_source_identity": {
     "species_must_pass_both": [
