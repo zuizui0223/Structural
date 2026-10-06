@@ -1,0 +1,119 @@
+name: Boreal bird one-shot pilot v1.161
+
+on:
+  push:
+    branches:
+      - reframe/occupancy-dependent-isolation-v1-154
+    paths:
+      - development/boreal_19island_birds_pilot_execution_request_v1_161.json
+
+permissions:
+  contents: read
+
+jobs:
+  bird-pilot-v161:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate v1.160 terminal and v1.161 request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          terminal=json.loads(Path("development/boreal_19island_birds_pilot_terminal_v1_160.json").read_text())
+          assert terminal["status"]=="TERMINAL_ROUTING_HEADER_MISMATCH_NO_BIOLOGICAL_VALUES_PARSED"
+          assert terminal["observed_schema_only"]["routing_header"]=="Islands"
+          assert terminal["observed_schema_only"]["species_header_names_parsed"]==0
+          assert terminal["observed_schema_only"]["pilot_occurrence_values_parsed"]==0
+          assert terminal["observed_schema_only"]["confirmatory_occurrence_values_parsed"]==0
+          req=json.loads(Path("development/boreal_19island_birds_pilot_execution_request_v1_161.json").read_text())
+          assert req["schema"]=="structural.boreal_19island_birds_pilot_execution_request.v1_161"
+          assert req["status"]=="REQUEST_ONE_SHOT_BIRD_PILOT_V161"
+          assert req["one_shot"] is True
+          assert req["confirmatory_response_authorized"] is False
+          assert req["scientific_rules_changed_after_v160"] is False
+          contract=json.loads(Path("development/boreal_19island_birds_pilot_contract_v1_161.json").read_text())
+          assert contract["eligibility_gate"]["changed_after_v1_160"] is False
+          assert contract["evidence_class"]["pilot_occurrence_values_exposed"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/bird_v161
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/bird_v161/token_receipt.json
+
+      - name: Fetch exact bird response as opaque bytes
+        run: |
+          mkdir -p build/bird_v161/raw
+          python scripts/fetch_boreal_19island_bird_response_v1_160.py \
+            build/bird_v161/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --receipt build/bird_v161/transport_receipt.json
+
+      - name: Execute v1.161 single semantic pilot pass
+        id: pilot
+        run: |
+          set +e
+          python scripts/run_boreal_19island_bird_pilot_v1_161.py \
+            build/bird_v161/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --contract development/boreal_19island_birds_pilot_contract_v1_161.json \
+            --result build/bird_v161/pilot_result.json \
+            --snapshot build/bird_v161/pilot_snapshot.json
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Delete raw bird response before artifact handling
+        if: always()
+        run: rm -rf build/bird_v161/raw
+
+      - name: Assert artifact surface is response-safe
+        if: always()
+        run: |
+          test ! -e build/bird_v161/raw
+          test -e build/bird_v161/pilot_result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result=json.loads(Path("build/bird_v161/pilot_result.json").read_text())
+          assert result["confirmatory_target_values_parsed"]==0
+          assert result["excluded_target_values_parsed"]==0
+          assert result["counts_as_empirical_evidence"] is False
+          snap=Path("build/bird_v161/pilot_snapshot.json")
+          if snap.exists():
+              x=json.loads(snap.read_text())
+              assert x["confirmatory_target_values_parsed"]==0
+              assert x["excluded_target_values_parsed"]==0
+              assert x["confirmatory_occurrence_values_stored"] is False
+              assert x["excluded_occurrence_values_stored"] is False
+          PY
+
+      - name: Upload v1.161 pilot receipts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-bird-v161-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bird_v161/token_receipt.json
+            build/bird_v161/transport_receipt.json
+            build/bird_v161/pilot_result.json
+            build/bird_v161/pilot_snapshot.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Propagate scientific stop/pass
+        if: always()
+        run: exit "${{ steps.pilot.outputs.code || '2' }}"
