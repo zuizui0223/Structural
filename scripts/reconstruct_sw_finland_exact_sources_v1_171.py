@@ -25,7 +25,7 @@ def sha256_file(p:Path)->str:
         for b in iter(lambda:f.read(1024*1024),b""):h.update(b)
     return h.hexdigest()
 
-def load_lookup(path:Path)->dict[str,tuple[int,int]]:
+def load_lookup(path:Path,total_islands:int=471)->dict[str,tuple[int,int]]:
     rows=list(csv.DictReader(path.open("r",encoding="utf-8-sig",newline="")))
     if not rows or tuple(rows[0].keys())!=("species","Potential_islands","historical_source_count"):
         raise Stop("lookup schema drift")
@@ -35,7 +35,7 @@ def load_lookup(path:Path)->dict[str,tuple[int,int]]:
         if not sp or sp in out:raise Stop("blank/duplicate lookup species")
         try:p=int(r["Potential_islands"]);n=int(r["historical_source_count"])
         except ValueError as exc:raise Stop("invalid lookup integer") from exc
-        if not 0<=p<=471 or n!=471-p:raise Stop("lookup source-count identity drift")
+        if not 0<=p<=total_islands or n!=total_islands-p:raise Stop("lookup source-count identity drift")
         out[sp]=(p,n)
     return out
 
@@ -51,7 +51,8 @@ def reconstruct(safe_path:Path,lookup_path:Path,router:dict,validation:dict,cont
     if validation.get("future_summary_values_persisted")!=0:
         raise Stop("supplement future summaries persisted")
 
-    lookup=load_lookup(lookup_path)
+    expected_islands=int(contract["island_universe"]["expected_unique_islands"])
+    lookup=load_lookup(lookup_path,total_islands=expected_islands)
     absent=defaultdict(set)
     pairs=set()
     geometry={}
@@ -73,8 +74,8 @@ def reconstruct(safe_path:Path,lookup_path:Path,router:dict,validation:dict,cont
             geometry[isl]=xy
 
     universe=tuple(sorted(geometry))
-    if len(universe)!=int(contract["island_universe"]["expected_unique_islands"]):
-        raise Stop(f"expected 471 islands, found {len(universe)}")
+    if len(universe)!=expected_islands:
+        raise Stop(f"expected {expected_islands} islands, found {len(universe)}")
     u=set(universe)
     statuses=[];members=[]
     exact=0;incomplete=0;impossible=0;zero=0;missing=0

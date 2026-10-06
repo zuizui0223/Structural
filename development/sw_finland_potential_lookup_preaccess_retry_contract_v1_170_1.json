@@ -1,0 +1,37 @@
+{
+  "schema": "structural.sw_finland_potential_lookup_preaccess_retry_contract.v1_170_1",
+  "status": "PREACCESS_TRANSPORT_RETRY_AUTHORIZED_PROTOCOL_UNCHANGED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "prior_run": {
+    "workflow_run_id": 37443067127,
+    "workflow_job_id": 112201222561,
+    "failure_step": "Download fixed public supplement",
+    "failure_class": "HTTP_404_AFTER_LEGACY_HOST_REDIRECT",
+    "supplement_pdf_bytes_downloaded": false,
+    "supplement_text_extracted": false,
+    "supplement_table_rows_parsed": 0,
+    "future_summary_values_parsed": 0,
+    "row_level_recent_outcome_opened": false
+  },
+  "scientific_protocol": {
+    "source_table_changed": false,
+    "allowed_projection_changed": false,
+    "anchor_checks_changed": false,
+    "species_count_gate_changed": false,
+    "future_summary_firewall_changed": false,
+    "only_change": "replace legacy ecography.org transport URL with its current NSO redirect target and use fail-closed curl transport"
+  },
+  "transport": {
+    "legacy_url": "https://www.ecography.org/sites/ecography.org/files/appendix/ecog-05013.pdf",
+    "current_url": "https://nso-journals.org/ecographysites/ecography.org/files/appendix/ecog-05013.pdf",
+    "discovery_basis": "legacy Ecography appendix link currently redirects to this NSO path",
+    "require_pdf_magic": true,
+    "maximum_attempts": 1
+  },
+  "response_boundary": {
+    "future_summary_values_persisted_before_retry": 0,
+    "row_level_recent_outcome_opened_before_retry": false,
+    "effect_estimate_requested": false,
+    "eBird_enabled": false
+  }
+}

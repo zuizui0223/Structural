@@ -1,0 +1,122 @@
+name: SW Finland supplementary lookup retry v1.170.1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_potential_lookup_retry_request_v1_170_1.json
+
+permissions:
+  contents: write
+
+jobs:
+  t0-supplement-retry:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify preaccess-only retry
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/sw_finland_potential_lookup_preaccess_retry_contract_v1_170_1.json").read_text())
+          r=json.loads(Path("development/sw_finland_potential_lookup_retry_request_v1_170_1.json").read_text())
+          assert c["status"]=="PREACCESS_TRANSPORT_RETRY_AUTHORIZED_PROTOCOL_UNCHANGED"
+          assert c["prior_run"]["supplement_pdf_bytes_downloaded"] is False
+          assert c["prior_run"]["supplement_table_rows_parsed"]==0
+          assert c["prior_run"]["future_summary_values_parsed"]==0
+          assert c["prior_run"]["row_level_recent_outcome_opened"] is False
+          assert c["scientific_protocol"]["only_change"].startswith("replace legacy")
+          assert r["status"]=="REQUEST_PREACCESS_SUPPLEMENT_TRANSPORT_RETRY"
+          assert r["one_shot"] is True
+          assert r["future_summary_values_requested"] is False
+          assert r["row_level_recent_outcome_access_requested"] is False
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Install deterministic PDF text extractor
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+
+      - name: Download current NSO supplement URL
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v1701/raw build/swf_v1701/safe build/swf_v1701/out
+          URL="https://nso-journals.org/ecographysites/ecography.org/files/appendix/ecog-05013.pdf"
+          curl --fail --location --silent --show-error             --connect-timeout 30 --max-time 120             --user-agent "Structural-v1.170.1"             "$URL" -o build/swf_v1701/raw/ecog-05013.pdf
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path("build/swf_v1701/raw/ecog-05013.pdf")
+          raw=p.read_bytes()
+          if not raw.startswith(b"%PDF"):
+              raise SystemExit("supplement is not a PDF")
+          Path("build/swf_v1701/out/pdf_identity.json").write_text(json.dumps({
+            "schema":"structural.sw_finland_supplement_pdf_identity.v1_170_1",
+            "status":"CURRENT_NSO_SUPPLEMENT_DOWNLOADED",
+            "source_url":"https://nso-journals.org/ecographysites/ecography.org/files/appendix/ecog-05013.pdf",
+            "sha256":hashlib.sha256(raw).hexdigest(),
+            "size_bytes":len(raw),
+            "future_summary_values_persisted":0,
+            "row_level_recent_outcome_opened":False,
+            "counts_as_empirical_evidence":False
+          },indent=2,sort_keys=True)+"\n")
+          PY
+          pdftotext -layout build/swf_v1701/raw/ecog-05013.pdf build/swf_v1701/raw/ecog-05013.txt
+
+      - name: Project only species and Potential_islands
+        run: |
+          python scripts/project_sw_finland_potential_islands_v1_170.py             build/swf_v1701/raw/ecog-05013.txt             --safe-output build/swf_v1701/safe/species_potential.csv             --receipt build/swf_v1701/out/projection.json
+
+      - name: Validate canonical t0 lookup
+        run: |
+          python scripts/validate_sw_finland_potential_islands_lookup_v1_168.py             build/swf_v1701/safe/species_potential.csv             --canonical-output build/swf_v1701/out/sw_finland_species_potential_islands_v1_168.csv             --receipt build/swf_v1701/out/validation.json
+
+      - name: Verify firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          o=Path("build/swf_v1701/out")
+          p=json.loads((o/"projection.json").read_text())
+          v=json.loads((o/"validation.json").read_text())
+          assert p["status"]=="SAFE_SPECIES_POTENTIAL_ISLANDS_PROJECTED"
+          assert p["species_count"]==587
+          assert p["future_summary_values_parsed"]==0
+          assert p["future_summary_values_persisted"]==0
+          assert v["status"]=="T0_SOURCE_COUNT_LOOKUP_VALIDATED_NO_FUTURE_SUMMARIES_PERSISTED"
+          assert v["species_count"]==587
+          assert v["future_summary_values_persisted"]==0
+          assert v["row_level_recent_outcome_opened"] is False
+          PY
+
+      - name: Delete PDF, extracted text and intermediate safe projection
+        if: always()
+        run: |
+          rm -rf build/swf_v1701/raw build/swf_v1701/safe
+
+      - name: Commit t0 lookup and receipts only
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v1701/raw
+          test ! -e build/swf_v1701/safe
+          cp build/swf_v1701/out/sw_finland_species_potential_islands_v1_168.csv development/sw_finland_species_potential_islands_v1_168.csv
+          cp build/swf_v1701/out/pdf_identity.json development/sw_finland_supplement_pdf_identity_v1_170.json
+          cp build/swf_v1701/out/projection.json development/sw_finland_potential_lookup_projection_receipt_v1_170.json
+          cp build/swf_v1701/out/validation.json development/sw_finland_potential_lookup_validation_v1_170.json
+          git add             development/sw_finland_species_potential_islands_v1_168.csv             development/sw_finland_supplement_pdf_identity_v1_170.json             development/sw_finland_potential_lookup_projection_receipt_v1_170.json             development/sw_finland_potential_lookup_validation_v1_170.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze SW Finland supplementary t0 source-count lookup v1.170"
+          git push origin HEAD:main
