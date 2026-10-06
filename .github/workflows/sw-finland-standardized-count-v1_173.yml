@@ -1,0 +1,99 @@
+name: SW Finland standardized historical count recovery v1.173
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_standardized_count_request_v1_173.json
+
+permissions:
+  contents: write
+
+jobs:
+  t0-count-recovery:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify t0-only request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/sw_finland_standardized_count_request_v1_173.json").read_text())
+          c=json.loads(Path("development/sw_finland_standardized_historical_count_contract_v1_173.json").read_text())
+          assert r["status"]=="REQUEST_T0_STANDARDIZED_HISTORICAL_COUNT_RECOVERY"
+          assert r["future_outcome_values_opened_before_request"]==0
+          assert r["future_outcome_access_requested"] is False
+          assert r["supplement_future_summary_values_requested"] is False
+          assert r["effect_estimate_requested"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          assert c["response_boundary"]["future_outcome_values_opened"]==0
+          PY
+
+      - name: Download exact archive bytes
+        run: |
+          set -euo pipefail
+          mkdir -p build/swf_v173/raw build/swf_v173/safe build/swf_v173/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          url="https://zenodo.org/records/4942881/files/colonization_select.csv?download=1"
+          out=Path("build/swf_v173/raw/colonization_select.csv")
+          md5=hashlib.md5();sha=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Structural-v1.173"}),timeout=180) as src,out.open("wb") as dst:
+            while True:
+              b=src.read(1024*1024)
+              if not b:break
+              dst.write(b);md5.update(b);sha.update(b)
+          if md5.hexdigest()!="ff648878946ba430fb86c4ab2aa02baa" or sha.hexdigest()!="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957":
+              out.unlink(missing_ok=True);raise SystemExit("archive identity mismatch")
+          PY
+
+      - name: Route t0 columns with future outcome opaque
+        run: |
+          python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf_v173/raw/colonization_select.csv             --safe-output build/swf_v173/safe/t0_safe.csv             --receipt build/swf_v173/out/router.json
+
+      - name: Recover standardized historical source counts
+        run: |
+          python scripts/recover_sw_finland_standardized_counts_v1_173.py             build/swf_v173/safe/t0_safe.csv             --router-receipt build/swf_v173/out/router.json             --species-output build/swf_v173/out/species_counts.csv             --anchor-output build/swf_v173/out/anchor_audit.csv             --receipt build/swf_v173/out/recovery.json
+
+      - name: Delete raw archive and row-level safe projection
+        if: always()
+        run: rm -rf build/swf_v173/raw build/swf_v173/safe
+
+      - name: Verify t0-only recovery and commit
+        run: |
+          set -euo pipefail
+          test ! -e build/swf_v173/raw
+          test ! -e build/swf_v173/safe
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v173/out/recovery.json").read_text())
+          assert r["status"]=="STANDARDIZED_HISTORICAL_SOURCE_COUNTS_RECOVERED_T0_ONLY"
+          assert r["species_count"]==587
+          assert r["anchors_matched"]>=20
+          assert r["exact_source_species"]>=30
+          assert r["impossible_species"]==0
+          assert r["future_outcome_values_opened"]==0
+          assert r["protected_outcome_values_decoded"]==0
+          assert r["supplement_future_summary_values_used"]==0
+          assert r["pilot_future_outcome_authorized"] is False
+          assert r["confirmatory_future_outcome_authorized"] is False
+          PY
+          cp build/swf_v173/out/species_counts.csv development/sw_finland_historical_source_count_recovery_v1_173.csv
+          cp build/swf_v173/out/recovery.json development/sw_finland_historical_source_count_calibration_v1_173.json
+          git add development/sw_finland_historical_source_count_recovery_v1_173.csv development/sw_finland_historical_source_count_calibration_v1_173.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Recover SW Finland historical source counts from standardized t0 state v1.173"
+          git push origin HEAD:main
