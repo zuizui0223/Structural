@@ -1,0 +1,38 @@
+{
+  "schema": "structural.sw_finland_t0_numeric_grammar_retry_contract.v1_170_3",
+  "status": "T0_REPRESENTATION_ONLY_NUMERIC_GRAMMAR_RETRY",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "prior_dry_run": {
+    "workflow_run_id": 37461410127,
+    "workflow_job_id": 112261624166,
+    "t0_router_passed": true,
+    "calibration_failure": "invalid Historical_total_log",
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "effect_estimate_computed": false
+  },
+  "frozen_source_grammar": {
+    "delimiter": ";",
+    "numeric_tokens_allowed": [
+      "ASCII decimal point, e.g. -1.234",
+      "ASCII decimal comma when token contains no decimal point, e.g. -1,234"
+    ],
+    "decimal_comma_rule": "replace exactly one comma with period only when token contains no period and matches optional sign + digits + comma + digits + optional exponent",
+    "NA_blank_nonfinite": "remain invalid for the anchor-calibration route"
+  },
+  "scientific_protocol_unchanged": {
+    "anchors": true,
+    "OLS_calibration": true,
+    "integer_lattice": true,
+    "ambiguity_ratio_threshold": true,
+    "exact_source_gate": true,
+    "minimum_exact_species": true,
+    "future_outcome_firewall": true
+  },
+  "response_boundary": {
+    "future_outcome_values_opened_before_retry": 0,
+    "published_future_summary_values_used": 0,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  }
+}
