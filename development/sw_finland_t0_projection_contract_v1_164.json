@@ -1,0 +1,90 @@
+{
+  "schema": "structural.sw_finland_t0_projection_contract.v1_164",
+  "status": "BYTE_ROUTED_T0_SUPPORT_AND_EXACT_SOURCE_IDENTITY_GATE_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_plant_colonization_preintake_v1_162.json",
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_header_freeze_contract_v1_167.json",
+    "development/sw_finland_potential_islands_lookup_contract_v1_168.json"
+  ],
+  "authorization": {
+    "required_header_receipt_schema": "structural.sw_finland_plant_colonization_header_audit.v1_163",
+    "required_header_status": "HEADER_ONLY_AUDIT_COMPLETE_FUTURE_OUTCOME_ROWS_UNREAD",
+    "require_t0_projection_authorized": true,
+    "require_outcome_values_read": 0,
+    "byte_level_router_required": true,
+    "mixed_csv_may_be_semantically_decoded": false,
+    "required_router_schema": "structural.sw_finland_t0_byte_router_result.v1_164",
+    "required_router_status": "T0_SAFE_COLUMNS_ROUTED_PROTECTED_OUTCOME_OPAQUE",
+    "required_protected_field_values_decoded": 0,
+    "required_protected_field_bytes_persisted": 0
+  },
+  "expected_support": {
+    "island_count": 471,
+    "regional_species_pool_reported": 587,
+    "minimum_exact_source_species": 30
+  },
+  "permitted_t0_semantics": [
+    "row key spp.name x holmkod means historically absent on that focal island",
+    "EUREF original coordinates and recipient-island state",
+    "species traits and historical source-count/distance variables",
+    "Gowdis_traits pair-specific historical community-trait dissimilarity may be retained as t0-safe pair state",
+    "archive row keys are known historical absences but may be an incomplete subset",
+    "Historical_total_log may be inverted only under the documented log10(x+1) transform and only if it yields integer source counts within tolerance",
+    "historical occupied-source complement may be constructed only for species whose routed absence-row count plus historical source count equals exactly 471"
+  ],
+  "forbidden_future_semantics": [
+    "outcome value",
+    "successful colonization count",
+    "failed colonization count",
+    "any outcome-derived island/species filter",
+    "any outcome-derived graph scale, block, threshold or model choice"
+  ],
+  "invariants": {
+    "unique_event_key": true,
+    "island_level_values_constant_within_holmkod": true,
+    "species_level_values_constant_within_species": true,
+    "exact_island_count": 471,
+    "archive_species_count_may_be_less_than_587": true,
+    "source_reconstruction_uses_outcome": false,
+    "t0_projector_input": "byte-routed safe projection only; raw mixed CSV forbidden",
+    "omitted_archive_rows_are_never_assumed_presence": true,
+    "source_identity_exact_only_after_complete_absence_accounting": true
+  },
+  "outputs": [
+    "sw_finland_t0_safe_projection.csv",
+    "sw_finland_t0_island_state.csv",
+    "sw_finland_t0_species_state.csv",
+    "sw_finland_t0_historical_absent_pairs.csv",
+    "sw_finland_t0_historical_occupied_pairs.csv",
+    "sw_finland_t0_pair_state.csv",
+    "sw_finland_t0_projection_receipt.json"
+  ],
+  "success_ceiling": "T0_SOURCE_STATE_FROZEN_FUTURE_OUTCOME_REMAINS_SEALED",
+  "response_boundary": {
+    "outcome_values_may_be_read": false,
+    "outcome_values_read": 0,
+    "future_outcome_opened": false,
+    "model_fit_count": 0,
+    "counts_as_empirical_evidence": false,
+    "protected_field_values_decoded": 0,
+    "protected_field_bytes_persisted": 0
+  },
+  "source_identity_gate": {
+    "historical_count_transform": "n_source = round(10^Historical_total_log - 1)",
+    "integer_tolerance": 0.000001,
+    "exact_species_rule": "archived_absent_row_count + n_source == 471 and n_source >= 1",
+    "incomplete_species_rule": "sum < 471 => topology-ineligible",
+    "impossible_species_rule": "sum > 471 => STOP",
+    "minimum_exact_species": 30,
+    "nearest_source_distance": "recomputed from EUREF original coordinates and exact t0 source set; archived Dist_to_historical_log is not used to define source identity",
+    "source_count_authority_priority": [
+      "committed validator-clean v1.168 Potential_islands lookup, if supplied",
+      "otherwise documented Historical_total_log log10(x+1) inversion only when it yields an integer within frozen tolerance",
+      "otherwise species remains source-count unresolved and topology-ineligible"
+    ],
+    "supplementary_lookup_formula": "historical_source_count = 471 - Potential_islands",
+    "supplementary_future_columns_used": false
+  }
+}

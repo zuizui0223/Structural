@@ -1,0 +1,59 @@
+name: SW Finland header audit dispatcher v1.166
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_header_audit_dispatch_request_v1_166.json
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch-header-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate one-shot response-free request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/sw_finland_header_audit_dispatch_request_v1_166.json").read_text())
+          assert r["schema"]=="structural.sw_finland_header_audit_dispatch_request.v1_166"
+          assert r["status"]=="REQUEST_MAIN_ONLY_HEADER_AUDIT"
+          assert r["target_workflow"]==".github/workflows/sw-finland-header-audit-v1_166.yml"
+          assert r["target_ref"]=="main"
+          assert r["one_shot"] is True
+          assert r["data_rows_semantically_opened_before_request"]==0
+          assert r["outcome_values_read_before_request"]==0
+          assert r["eBird_used"] is False
+          PY
+      - name: Dispatch frozen v1.166 header audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,urllib.request
+          repo=os.environ["GITHUB_REPOSITORY"]
+          url=f"https://api.github.com/repos/{repo}/actions/workflows/sw-finland-header-audit-v1_166.yml/dispatches"
+          req=urllib.request.Request(
+            url,
+            data=json.dumps({"ref":"main"}).encode(),
+            method="POST",
+            headers={
+              "Accept":"application/vnd.github+json",
+              "Authorization":f"Bearer {os.environ['GH_TOKEN']}",
+              "X-GitHub-Api-Version":"2022-11-28",
+              "Content-Type":"application/json",
+            },
+          )
+          with urllib.request.urlopen(req) as resp:
+            if resp.status!=204:
+              raise SystemExit(f"dispatch returned {resp.status}")
+          print("dispatched SW Finland v1.166 header-only audit")
+          PY

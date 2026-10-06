@@ -1,0 +1,41 @@
+{
+  "schema": "structural.active_priority.v1_165",
+  "status": "non_ebird_sw_finland_temporal_colonization_header_gate",
+  "supersedes": "development/structural_active_priority_v1_162.json",
+  "canonical_status": "development/current_status_v1_161.json",
+  "completed_boundaries": [
+    "global mammal occupancy-regime evidence frozen",
+    "BALA independent temporal source-loss primary not supported",
+    "boreal 19-island beetle fresh primary not supported and closed",
+    "boreal bird topology-sensitivity pilot terminated at routing-header schema mismatch before pilot occurrence-cell decode; committed no-rescue freeze retained"
+  ],
+  "project_policy": {
+    "ebird_enabled": false,
+    "eBird_objects": "dormant provenance only",
+    "obtain_or_analyze_eBird_data": false
+  },
+  "active_temporal_candidate": {
+    "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+    "evidence_class": "independent geography and temporal colonization endpoint; literature-outcome-aware, not pristine fresh confirmation",
+    "status": "HEADER_ONLY_GATE_READY_FUTURE_OUTCOME_SEALED",
+    "preintake": "development/sw_finland_plant_colonization_preintake_v1_162.json",
+    "column_firewall": "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "hypothesis": "development/sw_finland_colonization_topology_hypothesis_v1_165.json",
+    "next_gate": "main-only exact-file header audit v1.166; zero data rows and zero outcome values"
+  },
+  "do_now": [
+    "run exact Zenodo MD5-bound header-only audit on colonization_select.csv",
+    "if header audit passes, freeze its exact receipt in a separate revision before t0 row projection",
+    "then run byte-level t0-safe routing with outcome bytes opaque",
+    "require at least 30 species with exact historical source identities before any future colonization outcome access"
+  ],
+  "do_not": [
+    "do not reopen the boreal bird pilot",
+    "do not alter the bird routing-header rule to rescue the consumed pilot",
+    "do not use published colonization outcome summaries to select species, graph scale, blocks or thresholds",
+    "do not infer omitted complete-case archive rows as historical presences",
+    "do not open row-level outcome before t0 source state, graph/null ensemble and predictions are frozen",
+    "do not use eBird"
+  ],
+  "next_scientific_event": "response-free SW Finland v1.166 exact-file header audit"
+}

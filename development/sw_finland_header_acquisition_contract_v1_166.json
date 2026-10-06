@@ -1,0 +1,52 @@
+{
+  "schema": "structural.sw_finland_header_acquisition_contract.v1_166",
+  "status": "MANUAL_MAIN_ONLY_EXACT_ARCHIVE_HEADER_AUDIT_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_plant_colonization_preintake_v1_162.json",
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_t0_projection_contract_v1_164.json",
+    "development/sw_finland_colonization_topology_hypothesis_v1_165.json"
+  ],
+  "source": {
+    "provider": "Zenodo mirror of Dryad dataset",
+    "record_id": 4942881,
+    "file_name": "colonization_select.csv",
+    "download_url": "https://zenodo.org/records/4942881/files/colonization_select.csv?download=1",
+    "expected_md5": "ff648878946ba430fb86c4ab2aa02baa",
+    "exact_size_bytes": null,
+    "reason_size_not_hardcoded": "public metadata exposed display size but exact MD5 is the byte-identity gate"
+  },
+  "workflow": {
+    "path": ".github/workflows/sw-finland-header-audit-v1_166.yml",
+    "trigger": "workflow_dispatch_only",
+    "required_ref": "refs/heads/main",
+    "automatic_push_execution": false
+  },
+  "execution_order": [
+    "require main branch manual dispatch",
+    "download only the exact frozen Zenodo file URL",
+    "verify MD5 before semantic access",
+    "run v1.163 header-only auditor",
+    "require zero data rows and zero outcome values opened",
+    "delete raw CSV before artifact upload",
+    "upload JSON header receipt plus opaque download identity receipt only"
+  ],
+  "artifact_surface": [
+    "sw_finland_download_receipt.json",
+    "sw_finland_header_audit.json"
+  ],
+  "forbidden_artifacts": [
+    "colonization_select.csv",
+    "any data row",
+    "any outcome value",
+    "any t0 projection"
+  ],
+  "success_ceiling": "HEADER_ONLY_AUDIT_ARTIFACT_READY_FOR_SEPARATE_COMMIT; t0 projection still unauthorized until receipt is committed",
+  "response_boundary": {
+    "data_rows_semantically_opened": 0,
+    "outcome_values_read": 0,
+    "future_outcome_opened": false,
+    "counts_as_empirical_evidence": false
+  }
+}
