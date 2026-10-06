@@ -1,0 +1,33 @@
+{
+  "schema": "structural.boreal_19island_birds_pilot_execution_request.v1_160",
+  "status": "REQUEST_ONE_SHOT_BIRD_PILOT",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "parent_response_free_head_sha": "50e11837ccd93542d67c038dac4a95d2cfb6fd91",
+  "response_free_ci": {
+    "workflow_run_id": 37391927549,
+    "conclusion": "success"
+  },
+  "response_file": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c"
+  },
+  "semantic_ceiling": {
+    "pilot_islands": 6,
+    "species_columns": 54,
+    "maximum_occurrence_cells_decoded": 324,
+    "confirmatory_occurrence_cells_decoded": 0,
+    "excluded_occurrence_cells_decoded": 0
+  },
+  "pilot_gate": {
+    "support_min": 1,
+    "support_max": 4,
+    "minimum_eligible_species": 12
+  },
+  "one_shot": true,
+  "confirmatory_response_authorized": false,
+  "counts_as_empirical_evidence": false,
+  "if_pass": "freeze bird pilot snapshot and proceed only to confirmatory prediction freezing; do not open confirmatory response",
+  "if_fail": "terminal bird route; do not modify the 1-4 support rule or 12-species minimum"
+}
