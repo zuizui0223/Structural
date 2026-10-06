@@ -42,6 +42,11 @@ jobs:
       - name: Route t0 with future endpoint opaque
         run: |
           python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf1701dry/raw/colonization_select.csv             --safe-output build/swf1701dry/safe/t0_safe.csv             --receipt build/swf1701dry/out/router.json
+      - name: Diagnose t0 Historical_total missingness
+        run: |
+          python scripts/diagnose_sw_finland_historical_total_v1_170_1.py \
+            build/swf1701dry/safe/t0_safe.csv \
+            --receipt build/swf1701dry/out/historical_total_diagnostic.json
       - name: Run frozen anchor inversion gate
         id: invert
         run: |
@@ -76,6 +81,7 @@ jobs:
           path: |
             build/swf1701dry/out/receipt.json
             build/swf1701dry/out/router.json
+            build/swf1701dry/out/historical_total_diagnostic.json
           retention-days: 7
       - name: Fail if frozen inversion gate failed
         if: always()
