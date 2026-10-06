@@ -1,0 +1,80 @@
+name: Boreal bird confirmatory prediction freeze v1.163
+
+on:
+  push:
+    branches:
+      - reframe/occupancy-dependent-isolation-v1-154
+    paths:
+      - development/boreal_19island_birds_prediction_execution_request_v1_163.json
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-predictions:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate prediction-freeze request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req=json.loads(Path("development/boreal_19island_birds_prediction_execution_request_v1_163.json").read_text())
+          assert req["schema"]=="structural.boreal_19island_birds_prediction_execution_request.v1_163"
+          assert req["status"]=="REQUEST_RESPONSE_SEALED_PREDICTION_FREEZE"
+          assert req["one_shot"] is True
+          assert req["confirmatory_response_opened"] is False
+          assert req["counts_as_empirical_evidence"] is False
+
+          pilot=json.loads(Path("development/boreal_19island_bird_pilot_freeze_v1_162.json").read_text())
+          assert pilot["status"]=="BIRD_PILOT_COMMITTED_CONFIRMATORY_REMAINS_SEALED"
+          assert pilot["eligible_species_count"]==18
+          assert pilot["confirmatory_target_values_parsed"]==0
+
+          contract=json.loads(Path("development/boreal_19island_birds_prediction_freeze_contract_v1_163.json").read_text())
+          assert contract["response_boundary"]["confirmatory_target_values_opened"]==0
+          assert contract["response_boundary"]["confirmatory_response_authorized"] is False
+          PY
+
+      - name: Freeze all response-sealed prediction surfaces
+        run: |
+          mkdir -p build/bird_v163
+          python scripts/freeze_boreal_19island_bird_predictions_v1_163.py \
+            --predictions build/bird_v163/confirmatory_predictions.csv \
+            --receipt build/bird_v163/model_receipt.json
+
+      - name: Assert confirmatory response remains unopened
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          receipt=json.loads(Path("build/bird_v163/model_receipt.json").read_text())
+          assert receipt["status"]=="BIRD_R3_ACTUAL_AND_20_NULL_PREDICTIONS_FROZEN_BEFORE_CONFIRMATORY_RESPONSE"
+          assert receipt["confirmatory_target_values_opened"]==0
+          assert receipt["confirmatory_response_authorized"] is False
+          assert receipt["counts_as_empirical_evidence"] is False
+          rows=list(csv.DictReader(Path("build/bird_v163/confirmatory_predictions.csv").open()))
+          assert len(rows)==234
+          assert len({r["species"] for r in rows})==18
+          assert len({r["island"] for r in rows})==13
+          assert len(rows[0])==28
+          PY
+
+      - name: Upload prediction freeze only
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-bird-v163-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/bird_v163/confirmatory_predictions.csv
+            build/bird_v163/model_receipt.json
+          if-no-files-found: error
+          retention-days: 14
