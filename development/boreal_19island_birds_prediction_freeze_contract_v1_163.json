@@ -1,0 +1,128 @@
+{
+  "schema": "structural.boreal_19island_birds_prediction_freeze_contract.v1_163",
+  "status": "PILOT_OPEN_CONFIRMATORY_SEALED_PREDICTION_PROTOCOL_FROZEN",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "evidence_class": {
+    "routing_header_exposed_before_pilot": true,
+    "pilot_response_opened": true,
+    "confirmatory_response_opened": false,
+    "prediction_model_may_use_pilot_response": true,
+    "confirmatory_outcome_may_not_define_any_model_or_threshold": true,
+    "geographically_independent_replication": false
+  },
+  "parents": {
+    "scientific_contract": "development/boreal_19island_birds_topology_sensitivity_contract_v1_158.json",
+    "null_receipt": "development/boreal_19island_birds_topology_null_receipt_v1_158.json",
+    "sensitivity_surface": "development/boreal_19island_birds_configuration_sensitivity_v1_158.csv",
+    "pilot_freeze": "development/boreal_19island_bird_pilot_freeze_v1_162.json",
+    "pilot_execution": "development/boreal_19island_bird_pilot_execution_v1_162.json",
+    "pilot_snapshot": "development/boreal_19island_bird_pilot_snapshot_v1_162.json",
+    "state_reference": "development/boreal_19island_state_reference_v0_99.csv",
+    "state_freeze": "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "geometry": "development/boreal_19island_safe_geometry_v0_97.csv",
+    "geometry_freeze": "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "spatial_freeze": "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "source_operator_freeze": "development/boreal_19island_source_operator_freeze_v1_01.json"
+  },
+  "population": {
+    "pilot_islands": 6,
+    "confirmatory_islands": 13,
+    "eligible_species": 18,
+    "training_rows": 108,
+    "prediction_rows": 234,
+    "confirmatory_blocks": 7
+  },
+  "fixed_species": {
+    "sha256": "f623652815edea90404c9a6a306699deaf2f0a7ce5b56cb7d6f6b379f4204080",
+    "support_distribution": {"n1": 10, "n2": 1, "n3": 5, "n4": 2},
+    "may_change_after_confirmatory_access": false
+  },
+  "reference": {
+    "R0": ["PC1", "PC2", "PC3", "TSF_Z"],
+    "R1_add": ["LOG_AREA_Z", "LOG_MAINLAND_DISTANCE_Z"],
+    "R2_add": ["actual_graph_degree_fraction", "actual_graph_mean_shortest_path_km", "actual_graph_closeness_per_km"],
+    "R3_add": [
+      "pilot-only Jeffreys occupancy logit",
+      "pilot-only log1p nearest Euclidean occupied-source distance",
+      "pilot-only log1p Euclidean occupied-source pressure"
+    ],
+    "R2_generic_context_topology": "actual response-independent graph only; held fixed for R3 and all candidate-C models"
+  },
+  "candidate_models": {
+    "C_actual_add": [
+      "pilot-only log1p nearest actual-graph occupied-source path distance",
+      "pilot-only log1p actual-graph occupied-source pressure"
+    ],
+    "C_null_count": 20,
+    "C_null_add": "the same two graph-path source features recomputed independently on each frozen matched null adjacency",
+    "R3_is_common_across_actual_and_null_models": true
+  },
+  "focal_training_exclusion": {
+    "rule": "for a pilot training row, exclude the focal pilot island from occupancy counts and occupied-source set",
+    "confirmatory_rule": "for a confirmatory prediction row, use all six pilot islands and no confirmatory occurrence value"
+  },
+  "empty_source_semantics": {
+    "why_needed": "species with one pilot presence have one positive pilot training row whose focal-excluded occupied-source set is empty",
+    "rule_source": "inherit the established global-mammal ultrarare convention rather than tune to bird outcomes",
+    "euclidean_nearest_empty_km": "pi * EARTH_RADIUS_KM + frozen kernel scale",
+    "graph_nearest_empty_km": "(19-1) * maximum ACTUAL graph edge length + frozen kernel scale",
+    "pressure_empty": 0.0,
+    "same_graph_empty_sentinel_for_actual_and_all_nulls": true,
+    "reason_same_null_sentinel": "rows with no source must not acquire artificial actual-vs-null topology differences",
+    "changed_using_confirmatory_response": false
+  },
+  "standardization": {
+    "base_features": "population mean/SD over all frozen 19 islands",
+    "R3_source_features": "mean/SD over all 108 pilot island x fixed-species training rows",
+    "each_C_graph_features": "mean/SD over the same 108 training rows separately for actual and each frozen null topology",
+    "population_sd": true,
+    "zero_or_nonfinite_sd": "STOP before confirmatory response"
+  },
+  "fitting": {
+    "model": "pooled binary ridge logistic regression",
+    "ridge_lambda": 1.0,
+    "intercept_penalized": false,
+    "max_iterations": 100,
+    "tolerance": 1e-8,
+    "probability_clip": [1e-12, 0.999999999999],
+    "implementation": "structural.boreal_confirmatory_model",
+    "hyperparameter_tuning": false
+  },
+  "sensitivity": {
+    "M": 6,
+    "H_source": "development/boreal_19island_birds_configuration_sensitivity_v1_158.csv",
+    "S_formula": "((M-n)/(n*(M-1))) * H",
+    "n_source": "frozen bird pilot support count",
+    "S_is_frozen_into_prediction_rows_before_confirmatory_response": true
+  },
+  "prediction_surface": {
+    "rows": 234,
+    "row_order": "frozen confirmatory block order, island ascending within block, fixed eligible-species order",
+    "columns": [
+      "island", "block", "species", "pilot_presences", "H_hex", "S_hex",
+      "p_R3_hex", "p_C_actual_hex",
+      "p_C_null_01_hex", "p_C_null_02_hex", "p_C_null_03_hex", "p_C_null_04_hex", "p_C_null_05_hex",
+      "p_C_null_06_hex", "p_C_null_07_hex", "p_C_null_08_hex", "p_C_null_09_hex", "p_C_null_10_hex",
+      "p_C_null_11_hex", "p_C_null_12_hex", "p_C_null_13_hex", "p_C_null_14_hex", "p_C_null_15_hex",
+      "p_C_null_16_hex", "p_C_null_17_hex", "p_C_null_18_hex", "p_C_null_19_hex", "p_C_null_20_hex"
+    ],
+    "confirmatory_target_used": false
+  },
+  "primary_scoring_inherited": {
+    "P1": "equal-block mean among realized presences of within-block S-normalized weighted [logloss(C_actual)-logloss(R3)]",
+    "P2": "equal-block mean among realized presences of within-block S-normalized weighted [logloss(C_actual)-mean logloss(C_null_01..20)]",
+    "support_requires": "P1 and P2 each have point estimate < 0 and 95% spatial-block bootstrap upper bound < 0",
+    "minimum_estimable_presence_blocks": 3,
+    "bootstrap_replicates": 10000,
+    "bootstrap_unit": "frozen confirmatory block"
+  },
+  "response_boundary": {
+    "confirmatory_target_values_opened": 0,
+    "confirmatory_response_authorized": false,
+    "counts_as_empirical_evidence": false
+  },
+  "success_ceiling": {
+    "status": "BIRD_R3_ACTUAL_AND_20_NULL_PREDICTIONS_FROZEN_BEFORE_CONFIRMATORY_RESPONSE",
+    "next_action": "exact-replay and commit prediction surface/model receipt; only then issue separate one-shot confirmatory bird response authorization"
+  }
+}
