@@ -1,0 +1,52 @@
+name: SW Finland Historical_total t0 diagnostic v1.170.2
+on:
+  push:
+    branches:
+      - candidate/sw-finland-anchor-inversion-v1-170-2
+    paths:
+      - scripts/diagnose_sw_finland_historical_total_v1_170_2.py
+      - .github/workflows/sw-finland-historical-total-diagnostic-v1_170_2.yml
+permissions:
+  contents: read
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download exact archive and route t0
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+        run: |
+          mkdir -p build/swf_diag/raw build/swf_diag/safe build/swf_diag/out
+          python - <<'PY'
+          import hashlib,urllib.request
+          from pathlib import Path
+          p=Path("build/swf_diag/raw/colonization_select.csv")
+          m=hashlib.md5();s=hashlib.sha256()
+          with urllib.request.urlopen(urllib.request.Request("https://zenodo.org/records/4942881/files/colonization_select.csv?download=1",headers={"User-Agent":"Structural-v1.170.2-diag"}),timeout=180) as src,p.open("wb") as out:
+              while True:
+                  b=src.read(1024*1024)
+                  if not b:break
+                  out.write(b);m.update(b);s.update(b)
+          assert m.hexdigest()=="ff648878946ba430fb86c4ab2aa02baa"
+          assert s.hexdigest()=="72b631033ef36210ee19b151dc4f6569760262d68f70b9ce6de6c8a11afeb957"
+          PY
+          python scripts/route_sw_finland_t0_columns_v1_169.py             build/swf_diag/raw/colonization_select.csv             --safe-output build/swf_diag/safe/t0_safe.csv             --receipt build/swf_diag/out/router.json
+      - name: Diagnose t0 Historical_total only
+        run: |
+          python scripts/diagnose_sw_finland_historical_total_v1_170_2.py             build/swf_diag/safe/t0_safe.csv             --anchor-contract development/sw_finland_potential_lookup_execution_contract_v1_170.json             --output build/swf_diag/out/diagnostic.json
+      - name: Delete row-level files
+        if: always()
+        run: rm -rf build/swf_diag/raw build/swf_diag/safe
+      - name: Upload aggregate t0 diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sw-finland-historical-total-diagnostic-v1-170-2
+          path: |
+            build/swf_diag/out/router.json
+            build/swf_diag/out/diagnostic.json
+          retention-days: 7
