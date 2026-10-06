@@ -1,0 +1,118 @@
+{
+  "schema": "structural.sw_finland_dual_t0_source_identity_contract.v1_176",
+  "status": "DUAL_T0_COUNT_AND_DISTANCE_SOURCE_IDENTITY_GATE_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "motivation": {
+    "count_inversion_routes_closed": [
+      "v1.173 log10(n+1) exact-anchor inversion failed before future outcome",
+      "v1.173.3 numeric-pool log10(n+1) exact-anchor inversion failed before future outcome",
+      "v1.173.4 numeric-pool log10(n) exact-anchor inversion failed before future outcome"
+    ],
+    "new_route": "validate the row-complement source set directly against two independent t0 source-state columns rather than recovering integer counts by inversion",
+    "future_outcome_used": false
+  },
+  "population": {
+    "island_universe": 471,
+    "archive_species": 587,
+    "numeric_historical_total_species": 312,
+    "nonnumeric_historical_total_species": 275,
+    "eligible_validation_pool": "312 numeric Historical_total_log species only",
+    "nonnumeric_species_may_reenter": false
+  },
+  "alphabetic_t0_anchor_table": {
+    "selection_rule": "first 33 species in Supplementary Appendix 2 table order, extending the original frozen 30-species alphabetic block by the next three table-order species; never selected by colonization performance",
+    "potential_islands": {
+      "Acer platanoides": 464,
+      "Achillea millefolium": 149,
+      "Achillea ptarmica": 456,
+      "Actaea spicata": 456,
+      "Adoxa moschatellina": 447,
+      "Aegopodium podagraria": 465,
+      "Agrimonia eupatoria": 385,
+      "Agrimonia odorata": 469,
+      "Agrostis canina": 331,
+      "Agrostis capillaris": 117,
+      "Agrostis stolonifera": 11,
+      "Alchemilla filicaulis ssp. filicaulis": 455,
+      "Alchemilla glaucescens": 463,
+      "Alchemilla monticola": 466,
+      "Alchemilla sp": 449,
+      "Alchemilla subcrenata": 468,
+      "Alisma plantago-aquatica": 468,
+      "Alliaria petiolata": 469,
+      "Allium oleraceum": 405,
+      "Allium schoenoprasum": 56,
+      "Allium scorodoprasum": 458,
+      "Allium ursinum": 467,
+      "Alnus glutinosa": 133,
+      "Alopecurus aequalis": 445,
+      "Alopecurus arundinaceus": 398,
+      "Alopecurus geniculatus": 428,
+      "Alopecurus pratensis": 448,
+      "Anagallis minima": 470,
+      "Anchusa arvensis": 471,
+      "Anemone nemorosa": 441,
+      "Angelica archangelica ssp. litoralis": 171,
+      "Angelica sylvestris": 125,
+      "Antennaria dioeca": 301
+    },
+    "historical_source_count_formula": "471 - Potential_islands",
+    "require_every_anchor_archive_absent_count_equals_Potential_islands": true,
+    "future_summary_columns_used": false
+  },
+  "count_consistency": {
+    "calibration_species": "anchor species with finite numeric Historical_total_log and historical_source_count >=1",
+    "expected_numeric_anchor_count": 21,
+    "fit": "OLS log10(anchor historical_source_count) = intercept + slope * archived Historical_total_log",
+    "slope_must_be_positive": true,
+    "anchor_max_absolute_log10_residual": 0.0001,
+    "species_candidate_count": "471 - archived_absent_count",
+    "species_residual": "abs(log10(candidate_count) - calibrated_log10_count_from_Historical_total_log)",
+    "exact_species_max_absolute_log10_residual": 0.0001,
+    "minimum_one_count_log10_gap_at_n_470": 0.000923,
+    "interpretation": "1e-4 is smaller than a one-island count difference anywhere in 1..470, so a one-count mismatch cannot be accepted when calibration itself passes"
+  },
+  "distance_consistency": {
+    "archived_column": "Dist_to_historical_log",
+    "candidate_source_set": "471-island universe minus the exact archived historical-absence row keys for the focal species",
+    "raw_distance": "Euclidean EUREF distance from historically absent target island to nearest candidate source island",
+    "calibration_species": "positive-source alphabetic anchors whose archive absent count exactly equals Potential_islands and whose Dist_to_historical_log is finite on every archived row",
+    "minimum_calibration_species": 20,
+    "minimum_calibration_rows": 1000,
+    "fit": "OLS log10(raw nearest EUREF distance) = intercept + slope * archived Dist_to_historical_log",
+    "slope_must_be_positive": true,
+    "anchor_max_absolute_log10_residual": 0.0001,
+    "species_exact_if": "all archived Dist_to_historical_log values are finite and maximum absolute calibrated log10-distance residual <= 0.0001",
+    "distance_unit": "EUREF coordinate unit; any constant unit conversion is absorbed by the fitted intercept"
+  },
+  "exact_source_identity": {
+    "species_must_pass_both": [
+      "count_consistency",
+      "distance_consistency"
+    ],
+    "historical_source_count": "candidate complement size",
+    "source_identity": "471-island universe minus archived historical-absence row-key set",
+    "minimum_exact_species": 30,
+    "failed_species": "exclude permanently from this SW Finland topology route before any future outcome access",
+    "no_threshold_relaxation_after_run": true
+  },
+  "canonical_outputs": {
+    "species_audit": "development/sw_finland_dual_t0_source_species_v1_176.csv",
+    "species": "development/sw_finland_exact_source_species_v1_171.csv",
+    "membership": "development/sw_finland_exact_source_membership_v1_171.csv",
+    "geometry": "development/sw_finland_t0_island_geometry_v1_171.csv",
+    "receipt": "development/sw_finland_exact_source_reconstruction_v1_171.json"
+  },
+  "response_boundary": {
+    "future_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED",
+    "next_action": "bind the exact v1.176 canonical output SHAs to the already frozen v1.172 topology execution; future outcome remains sealed"
+  }
+}
