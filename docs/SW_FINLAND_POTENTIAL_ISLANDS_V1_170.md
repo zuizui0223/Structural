@@ -10,12 +10,10 @@ v1.170 therefore activates the already predeclared supplementary
 Potential_islands fallback without opening the recent row-level outcome.
 
 The public Ecography supplement contains a 587-species table whose first two
-columns are species and Potential_islands. The workflow converts the PDF to
-temporary layout text and persists only species, Potential_islands, and
+columns are species and Potential_islands. The workflow converts the PDF to temporary bbox XHTML and uses word coordinates to read only the first two species-table columns. It persists only species, Potential_islands, and
 historical_source_count = 471 - Potential_islands.
 
-The adjacent published Num_colonized, Prop_colonized and Random_effect values
-are not written to the safe lookup, receipt, or any eligibility calculation.
+The adjacent published Num_colonized, Prop_colonized and Random_effect values are outside the parsed x-coordinate band: their values are not decoded by the Structural parser, written to the safe lookup/receipt, or used in eligibility.
 
 The extraction must return exactly 587 unique species and pass four frozen
 sentinel values. Otherwise it stops and uploads no safe lookup.
