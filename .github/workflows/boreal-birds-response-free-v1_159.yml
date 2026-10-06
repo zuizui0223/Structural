@@ -36,11 +36,11 @@ jobs:
       - name: Install test runner
         run: python -m pip install --disable-pip-version-check pytest
       - name: Run boreal bird response-free tests
-        run: |
-          pytest -q \
-            tests/test_boreal_birds_topology_nulls_v1_158.py \
-            tests/test_boreal_19island_bird_pilot_router_v1_159.py \\
-            tests/test_boreal_19island_bird_pilot_executor_v1_160.py
+        run: >
+          pytest -q
+          tests/test_boreal_birds_topology_nulls_v1_158.py
+          tests/test_boreal_19island_bird_pilot_router_v1_159.py
+          tests/test_boreal_19island_bird_pilot_executor_v1_160.py
       - name: Assert no response artifact was created
         run: |
           test ! -e development/borealbirds_speciesmatrix_presenceabsence.csv
