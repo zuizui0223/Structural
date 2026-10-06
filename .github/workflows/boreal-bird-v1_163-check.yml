@@ -27,10 +27,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest
       - name: Run topology and pilot firewall tests
         env:
           PYTHONPATH: ${{ github.workspace }}/src
         run: |
           python -m pytest -q \
             tests/test_boreal_bird_topology_sensitivity_v1_162.py \
-            tests/test_boreal_bird_pilot_v1_163.py
+            tests/test_boreal_bird_pilot_v1_163.py \
+            tests/test_boreal_bird_preconfirmatory_v1_164.py
