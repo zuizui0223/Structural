@@ -1,0 +1,62 @@
+{
+  "schema": "structural.sw_finland_potential_islands_projection_contract.v1_170",
+  "status": "PUBLIC_SUPPLEMENT_T0_ONLY_PROJECTION_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_potential_islands_lookup_contract_v1_168.json",
+    "development/sw_finland_t0_source_count_support_v1_169.json"
+  ],
+  "source": {
+    "url": "https://www.ecography.org/sites/ecography.org/files/appendix/ecog-05013.pdf",
+    "article_doi": "10.1111/ecog.05013",
+    "supplement_id": "ECOG-05013",
+    "format": "PDF",
+    "pdf_pages_expected": 39,
+    "table_start_marker": "species Potential_islands Num_colonized Prop_colonized Random_effect",
+    "table_end_marker": "Island_name Euref_X Euref_Y Potential_spp Num_colonizing Prop_colonizing Random_effect"
+  },
+  "permitted_semantics": {
+    "persist": ["species", "Potential_islands"],
+    "derived": ["historical_source_count = 471 - Potential_islands"]
+  },
+  "forbidden_future_summary_semantics": {
+    "columns": ["Num_colonized", "Prop_colonized", "Random_effect"],
+    "may_be_persisted": false,
+    "may_define_eligibility": false,
+    "may_define_parser_acceptance_beyond_row_shape": false,
+    "may_be_returned_in_receipt": false
+  },
+  "parser": {
+    "tool": "pdftotext -layout",
+    "scope": "only text between frozen species-table start and island-table end markers",
+    "row_rule": "parse species name plus four trailing table fields; retain only the species name and first trailing integer Potential_islands",
+    "species_unicode": "NFC plus trim and collapse internal whitespace",
+    "Potential_islands_integer_range": [0,471],
+    "duplicate_species_forbidden": true
+  },
+  "validation": {
+    "expected_unique_species": 587,
+    "sentinels": {
+      "Acer platanoides": 464,
+      "Allium schoenoprasum": 56,
+      "Anchusa arvensis": 471,
+      "Woodsia ilvensis": 366
+    },
+    "minimum_historical_source_count_for_topology": 1
+  },
+  "success_output": {
+    "safe_lookup": "development/sw_finland_species_potential_islands_v1_170.csv",
+    "receipt": "development/sw_finland_potential_islands_projection_receipt_v1_170.json",
+    "safe_lookup_columns": ["species","Potential_islands","historical_source_count"],
+    "future_summary_values_persisted": 0,
+    "row_level_recent_outcome_opened": false,
+    "counts_as_empirical_evidence": false
+  },
+  "next_gate": "join exact species strings to the outcome-opaque v1.169 t0 archive, require archived historical-absence row count == Potential_islands, freeze exact historical source identities for >=30 species before any future outcome access",
+  "response_boundary": {
+    "archive_outcome_values_read": 0,
+    "row_level_recent_outcome_opened": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  }
+}
