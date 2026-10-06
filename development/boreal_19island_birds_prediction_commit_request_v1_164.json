@@ -1,0 +1,16 @@
+{
+  "schema": "structural.boreal_19island_birds_prediction_commit_request.v1_164",
+  "status": "REQUEST_EXACT_REPLAY_AND_COMMIT_PREDICTIONS",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_topology_2026",
+  "source_artifact": {
+    "workflow_run_id": 37393307823,
+    "artifact_id": 11381653683,
+    "artifact_digest": "sha256:b0848deecead0f96ca7615907234029b756990e0643c6dd9b81604e6452f6af4"
+  },
+  "expected_prediction_sha256": "d19935ac00e262729ea4b954cad4150f44c753673181a9ed7d6935c95958ff0e",
+  "expected_receipt_sha256": "5ee596a1ff13b649004bbfad1a76cb988de772d6e9fbda5e25a296cb3650fc16",
+  "expected_prediction_rows": 234,
+  "expected_null_topologies": 20,
+  "confirmatory_response_opened": false,
+  "counts_as_empirical_evidence": false
+}
