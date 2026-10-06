@@ -1,0 +1,32 @@
+name: SW Finland logx v1.173.4 response-free checks
+
+on:
+  push:
+    branches:
+      - analysis/sw-finland-logx-v1-173-4
+  pull_request:
+    paths:
+      - development/sw_finland_standardized_historical_count_contract_v1_173_4.json
+      - scripts/recover_sw_finland_numeric_counts_v1_173_4.py
+      - tests/test_sw_finland_standardized_count_v1_173_4.py
+      - development/sw_finland_numeric_count_to_sources_contract_v1_174_2.json
+      - scripts/promote_sw_finland_logx_counts_to_sources_v1_174_2.py
+      - tests/test_sw_finland_numeric_count_to_sources_v1_174_2.py
+      - .github/workflows/sw-finland-logx-check-v1_173_4.yml
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+        run: |
+          python -m pytest -q             tests/test_sw_finland_standardized_count_v1_173_4.py             tests/test_sw_finland_numeric_count_to_sources_v1_174_2.py
