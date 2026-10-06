@@ -1,0 +1,98 @@
+{
+  "schema": "structural.boreal_bird_pilot_contract.v1_163",
+  "status": "ONE_SHOT_BIRD_PILOT_GATE_PREDECLARED_BEFORE_BIRD_RESPONSE",
+  "candidate_id": "lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity",
+  "parents": [
+    "development/boreal_bird_topology_sensitivity_contract_v1_162.json",
+    "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/boreal_lake_islands_thesis_safe_table_v0_69.json",
+    "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "development/boreal_19island_spatial_partition_freeze_v1_00.json"
+  ],
+  "response_file": {
+    "name": "borealbirds_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569037,
+    "download_url": "https://datadryad.org/api/v2/files/4569037/download",
+    "expected_size_bytes": 4983,
+    "expected_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
+    "expected_species_columns": 54,
+    "expected_source_island_rows": 42
+  },
+  "population": {
+    "analysis_islands": 19,
+    "pilot_islands": 6,
+    "confirmatory_islands": 13,
+    "excluded_source_islands": 23,
+    "pilot_blocks": 3,
+    "confirmatory_blocks": 7
+  },
+  "semantic_access": {
+    "header_species_names": true,
+    "routing_island_field_all_42_rows": true,
+    "pilot_occurrence_cells": true,
+    "expected_pilot_occurrence_cells_parsed": 324,
+    "confirmatory_occurrence_cells": false,
+    "required_confirmatory_occurrence_cells_parsed": 0,
+    "excluded_occurrence_cells": false,
+    "required_excluded_occurrence_cells_parsed": 0,
+    "single_semantic_router_pass_required": true
+  },
+  "fixed_species_rule": {
+    "include": "species detected on at least two of the six frozen pilot islands",
+    "minimum_species": 10,
+    "allowed_n": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "minimum_distinct_n": 3,
+    "minimum_total_positive_cells": 5,
+    "minimum_total_negative_cells": 5,
+    "threshold_change_after_pilot_access_authorized": false
+  },
+  "configuration_sensitivity": {
+    "source": "development/boreal_19island_topology_sensitivity_freeze_v1_162.json",
+    "possible_source_count_M": 6,
+    "species_n": "sum of each fixed species' binary occurrences across the six frozen pilot islands",
+    "S_lookup": "use the already frozen target-specific S_by_n value for each confirmatory island and species n",
+    "standardization": "population mean and population SD over the complete 13 x fixed-species S prediction surface",
+    "minimum_standard_deviation": 0,
+    "standardization_change_after_confirmatory_access_authorized": false
+  },
+  "qualified_ceiling": {
+    "status": "BIRD_PILOT_GATE_PASSED_FREEZE_MODELS_AND_PREDICTIONS_ONLY",
+    "bird_pilot_response_opened": true,
+    "bird_confirmatory_response_authorized": false,
+    "effect_size": null,
+    "prediction_score": null,
+    "counts_as_empirical_evidence": false,
+    "next_action": "freeze R3, actual-C and 20 null-C model/prediction surfaces plus zS before any confirmatory bird value is opened"
+  },
+  "terminal_rule": "after the semantic router starts, any schema/domain/gate failure is terminal for v1.163; no species threshold, n threshold, island set or pilot split may be relaxed",
+  "response_boundary": {
+    "bird_pilot_opened": false,
+    "bird_confirmatory_opened": false,
+    "plant_response_opened": false,
+    "beetle_response_reopened": false,
+    "eBird_enabled": false,
+    "counts_as_empirical_evidence": false
+  },
+  "frozen_confirmatory_islands": [
+    "BB",
+    "BT",
+    "DF",
+    "EB",
+    "HF",
+    "MI",
+    "NH",
+    "OS",
+    "PR",
+    "SF",
+    "SK",
+    "WD",
+    "WF"
+  ]
+}
