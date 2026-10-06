@@ -1,0 +1,64 @@
+{
+  "schema": "structural.sw_finland_anchor_source_count_inversion_contract.v1_170_2",
+  "status": "T0_ANCHOR_CALIBRATED_SOURCE_COUNT_INVERSION_PREDECLARED",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "parents": [
+    "development/sw_finland_plant_colonization_preintake_v1_162.json",
+    "development/sw_finland_plant_colonization_column_firewall_v1_162.json",
+    "development/sw_finland_t0_router_receipt_v1_169.json",
+    "development/sw_finland_potential_lookup_execution_contract_v1_170.json"
+  ],
+  "documented_transform": {
+    "raw_quantity": "historical occupied-island count n",
+    "prestandardization": "log10(n+1)",
+    "archive_column": "Historical_total_log",
+    "archive_relation": "Historical_total_log = (log10(n+1)-mu)/sigma for one common positive sigma",
+    "future_outcome_used": false
+  },
+  "anchor_source": {
+    "path": "development/sw_finland_potential_lookup_execution_contract_v1_170.json",
+    "field": "anchor_checks",
+    "interpretation": "historical_source_count = 471 - Potential_islands",
+    "required_anchor_species": 6,
+    "future_summary_columns_used": false
+  },
+  "calibration": {
+    "model": "ordinary least squares y = intercept + slope*z across the six frozen anchors",
+    "x": "species-constant archived Historical_total_log z",
+    "y": "log10(historical_source_count+1)",
+    "slope_required_positive": true,
+    "integer_lattice": "log10(n+1), n=0..471",
+    "count_assignment": "nearest integer-lattice point after calibrated affine back-transform",
+    "ambiguity_metric": "best absolute lattice distance divided by second-best absolute lattice distance",
+    "maximum_ambiguity_ratio": 0.25,
+    "all_587_species_must_pass_lattice_separation": true,
+    "all_six_anchors_must_recover_exact_frozen_counts": true
+  },
+  "exact_source_gate": {
+    "archive_absent_count": "number of t0-safe rows per species",
+    "exact_if": "archive_absent_count + inferred_historical_source_count == 471 and inferred count >=1",
+    "incomplete_if": "sum < 471",
+    "impossible_if": "sum > 471",
+    "zero_source_if": "inferred count == 0",
+    "minimum_exact_species": 30,
+    "impossible_species_allowed": 0
+  },
+  "canonical_outputs": {
+    "lookup": "development/sw_finland_species_potential_islands_v1_168.csv",
+    "validation": "development/sw_finland_potential_lookup_validation_v1_170.json",
+    "calibration_receipt": "development/sw_finland_anchor_source_count_inversion_v1_170_2.json"
+  },
+  "response_boundary": {
+    "protected_outcome_values_decoded": 0,
+    "future_outcome_values_opened": 0,
+    "published_future_summary_values_used": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "eBird_enabled": false
+  },
+  "success_ceiling": {
+    "status": "T0_SOURCE_COUNT_LOOKUP_VALIDATED_NO_FUTURE_SUMMARIES_PERSISTED",
+    "next_action": "execute frozen v1.171 exact-source complement reconstruction; future outcome remains opaque"
+  }
+}
