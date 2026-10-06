@@ -1,6 +1,9 @@
 name: Boreal bird v1.163 response-free checks
 
 on:
+  push:
+    branches:
+      - develop/boreal-birds-topology-sensitivity-v1-162
   pull_request:
     paths:
       - development/boreal_bird_topology_sensitivity_contract_v1_162.json
