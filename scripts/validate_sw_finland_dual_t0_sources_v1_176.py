@@ -137,7 +137,7 @@ def calibrate_distance(absent,dist_by_pair,coords,anchors,contract):
 def validate_species(absent,count_tokens,dist_by_pair,coords,count_cal,dist_cal,contract):
     ca,cb=count_cal;da,db=dist_cal
     count_tol=float(contract["count_consistency"]["exact_species_max_absolute_log10_residual"])
-    dist_tol=float(contract["distance_consistency"]["species_exact_if"].split("<=")[-1].strip()) if False else 0.0001
+    dist_tol=float(contract["distance_consistency"]["exact_species_max_absolute_log10_residual"])
     rows=[];members=[];exact=0;count_fail=0;distance_fail=0;missing_distance=0;nonnumeric=0;zero=0
     for sp in sorted(absent):
         tok=next(iter(count_tokens[sp]));zcount=maybe_float(tok)
