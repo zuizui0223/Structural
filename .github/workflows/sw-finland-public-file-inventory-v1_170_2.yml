@@ -1,0 +1,38 @@
+name: SW Finland public file inventory v1.170.2
+on:
+  push:
+    branches:
+      - audit/sw-finland-public-file-inventory-v1-170-2
+    paths:
+      - scripts/inventory_sw_finland_public_files_v1_170_2.py
+      - .github/workflows/sw-finland-public-file-inventory-v1_170_2.yml
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Query public metadata APIs only
+        run: |
+          mkdir -p build/swf_v1702
+          python scripts/inventory_sw_finland_public_files_v1_170_2.py --output build/swf_v1702/inventory.json
+      - name: Enforce no data-file access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("build/swf_v1702/inventory.json").read_text())
+          assert x["status"]=="PUBLIC_METADATA_ONLY_FILE_INVENTORY"
+          assert x["file_content_downloads"]==0
+          assert x["row_level_recent_outcome_opened"] is False
+          assert x["future_summary_values_parsed"]==0
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sw-finland-public-file-inventory-v1-170-2
+          path: build/swf_v1702/inventory.json
+          retention-days: 7
