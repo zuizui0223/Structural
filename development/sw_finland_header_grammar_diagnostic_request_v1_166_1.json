@@ -1,0 +1,13 @@
+{
+  "schema": "structural.sw_finland_header_grammar_diagnostic_request.v1_166_1",
+  "status": "REQUEST_ZERO_ROW_HEADER_GRAMMAR_DIAGNOSTIC",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "exact_file_md5": "ff648878946ba430fb86c4ab2aa02baa",
+  "prior_failed_run_id": 37406973594,
+  "prior_data_rows_opened": 0,
+  "prior_outcome_values_read": 0,
+  "future_outcome_access": false,
+  "t0_projection_requested": false,
+  "one_shot": true,
+  "eBird_used": false
+}
