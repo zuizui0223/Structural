@@ -38,33 +38,105 @@
     "PP"
   ],
   "pilot_support_counts": [
-    {"pilot_presences": 3, "species": "ALFL"},
-    {"pilot_presences": 1, "species": "AMRE"},
-    {"pilot_presences": 3, "species": "AMRO"},
-    {"pilot_presences": 1, "species": "ATTW"},
-    {"pilot_presences": 1, "species": "BBWO"},
-    {"pilot_presences": 3, "species": "CEDW"},
-    {"pilot_presences": 1, "species": "DEJU"},
-    {"pilot_presences": 1, "species": "GRYE"},
-    {"pilot_presences": 1, "species": "LEFL"},
-    {"pilot_presences": 2, "species": "MAWA"},
-    {"pilot_presences": 3, "species": "NOWA"},
-    {"pilot_presences": 1, "species": "OCWA"},
-    {"pilot_presences": 1, "species": "PHVI"},
-    {"pilot_presences": 3, "species": "SPSA"},
-    {"pilot_presences": 1, "species": "SWSP"},
-    {"pilot_presences": 1, "species": "TEWA"},
-    {"pilot_presences": 4, "species": "YEWA"},
-    {"pilot_presences": 4, "species": "YRWA"}
+    {
+      "pilot_presences": 3,
+      "species": "ALFL"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "AMRE"
+    },
+    {
+      "pilot_presences": 3,
+      "species": "AMRO"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "ATTW"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "BBWO"
+    },
+    {
+      "pilot_presences": 3,
+      "species": "CEDW"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "DEJU"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "GRYE"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "LEFL"
+    },
+    {
+      "pilot_presences": 2,
+      "species": "MAWA"
+    },
+    {
+      "pilot_presences": 3,
+      "species": "NOWA"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "OCWA"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "PHVI"
+    },
+    {
+      "pilot_presences": 3,
+      "species": "SPSA"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "SWSP"
+    },
+    {
+      "pilot_presences": 1,
+      "species": "TEWA"
+    },
+    {
+      "pilot_presences": 4,
+      "species": "YEWA"
+    },
+    {
+      "pilot_presences": 4,
+      "species": "YRWA"
+    }
   ],
   "pilot_target_values_parsed": 324,
   "pilot_targets_hex_by_island": [
-    {"island": "DN", "targets_hex": "29c82"},
-    {"island": "FD", "targets_hex": "27223"},
-    {"island": "HU", "targets_hex": "00011"},
-    {"island": "IL", "targets_hex": "18197"},
-    {"island": "IS", "targets_hex": "00002"},
-    {"island": "PP", "targets_hex": "291d9"}
+    {
+      "island": "DN",
+      "targets_hex": "29c82"
+    },
+    {
+      "island": "FD",
+      "targets_hex": "27223"
+    },
+    {
+      "island": "HU",
+      "targets_hex": "00011"
+    },
+    {
+      "island": "IL",
+      "targets_hex": "18197"
+    },
+    {
+      "island": "IS",
+      "targets_hex": "00002"
+    },
+    {
+      "island": "PP",
+      "targets_hex": "291d9"
+    }
   ],
   "raw_pilot_surface_sha256": "fb6a8668c8bdc20965585ff5b137693c278efcf733d16ca333c99389fae38ec5",
   "response_file_sha256": "3838c39a7a94010569ce399a6b19e651f45fa60d0aef1793445dcb6c0b6e201c",
