@@ -1,0 +1,12 @@
+{
+  "schema": "structural.sw_finland_supplement_resolver_request.v1_170_2",
+  "status": "REQUEST_PREACCESS_APPENDIX_LANDING_RESOLUTION",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "contract": "development/sw_finland_supplement_resolver_contract_v1_170_2.json",
+  "one_shot": true,
+  "supplement_table_values_requested": false,
+  "future_summary_values_requested": false,
+  "row_level_recent_outcome_access_requested": false,
+  "effect_estimate_requested": false,
+  "eBird_used": false
+}
