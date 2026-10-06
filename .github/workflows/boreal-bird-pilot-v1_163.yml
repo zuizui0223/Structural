@@ -1,0 +1,130 @@
+name: Boreal bird pilot gate v1.163
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/boreal_bird_pilot_execution_request_v1_163.json
+
+permissions:
+  contents: read
+
+jobs:
+  one-shot-bird-pilot:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code with history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Enforce one-shot pilot request
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          REQUEST="development/boreal_bird_pilot_execution_request_v1_163.json"
+          test "$(git rev-list --count HEAD -- "$REQUEST")" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req=json.loads(Path(
+            "development/boreal_bird_pilot_execution_request_v1_163.json"
+          ).read_text())
+          assert req["schema"]=="structural.boreal_bird_pilot_execution_request.v1_163"
+          assert req["status"]=="REQUEST_ONE_SHOT_SIX_ISLAND_BIRD_PILOT"
+          assert req["candidate_id"]=="lac_la_ronge_boreal_19island_birds_2026_topology_sensitivity"
+          assert req["one_shot"] is True
+          assert req["irreversible_semantic_pilot_open"] is True
+          assert req["confirmatory_response_may_be_opened"] is False
+          assert req["raw_response_may_be_uploaded"] is False
+          assert req["counts_as_empirical_evidence"] is False
+          assert req["ebird_enabled"] is False
+          PY
+
+      - name: Prepare short-lived Dryad bearer token
+        env:
+          DRYAD_CLIENT_ID: ${{ secrets.DRYAD_CLIENT_ID }}
+          DRYAD_CLIENT_SECRET: ${{ secrets.DRYAD_CLIENT_SECRET }}
+          DRYAD_TOKEN_FALLBACK: ${{ secrets.DRYAD_TOKEN }}
+        run: |
+          mkdir -p build/boreal_bird_v163
+          python scripts/prepare_dryad_token_v0_73.py \
+            --github-env "$GITHUB_ENV" \
+            --receipt build/boreal_bird_v163/token_receipt.json
+
+      - name: Transport exact bird bytes without semantic opening
+        run: |
+          mkdir -p build/boreal_bird_v163/raw
+          python scripts/fetch_boreal_bird_response_v1_163.py \
+            build/boreal_bird_v163/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --receipt build/boreal_bird_v163/transport_receipt.json
+
+      - name: Consume six-island pilot exactly once
+        id: pilot
+        run: |
+          set +e
+          python scripts/run_boreal_bird_pilot_v1_163.py \
+            build/boreal_bird_v163/raw/borealbirds_speciesmatrix_presenceabsence.csv \
+            --result build/boreal_bird_v163/execution_receipt.json \
+            --snapshot build/boreal_bird_v163/pilot_snapshot.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Delete raw bird bytes before artifact handling
+        if: always()
+        run: |
+          rm -rf build/boreal_bird_v163/raw
+
+      - name: Assert no raw biological response remains
+        if: always()
+        run: |
+          test ! -d build/boreal_bird_v163/raw
+          test ! -e build/boreal_bird_v163/borealbirds_speciesmatrix_presenceabsence.csv
+
+      - name: Freeze all actual and null predictions after clean pilot
+        if: steps.pilot.outputs.exit_code == '0'
+        id: preconfirm
+        run: |
+          set +e
+          python scripts/freeze_boreal_bird_preconfirmatory_v1_164.py \
+            build/boreal_bird_v163/execution_receipt.json \
+            build/boreal_bird_v163/pilot_snapshot.json \
+            --predictions build/boreal_bird_v163/confirmatory_predictions.csv \
+            --receipt build/boreal_bird_v163/preconfirmatory_receipt.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload pilot and preconfirmatory audit bundle only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boreal-bird-v163-pilot-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/boreal_bird_v163/token_receipt.json
+            build/boreal_bird_v163/transport_receipt.json
+            build/boreal_bird_v163/execution_receipt.json
+            build/boreal_bird_v163/pilot_snapshot.json
+            build/boreal_bird_v163/preconfirmatory_receipt.json
+            build/boreal_bird_v163/confirmatory_predictions.csv
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Fail if pilot or prediction freeze did not qualify
+        if: always()
+        env:
+          PILOT_EXIT_CODE: ${{ steps.pilot.outputs.exit_code }}
+          PRECONFIRM_EXIT_CODE: ${{ steps.preconfirm.outputs.exit_code }}
+        run: |
+          test "$PILOT_EXIT_CODE" = "0"
+          test "$PRECONFIRM_EXIT_CODE" = "0"
