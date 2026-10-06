@@ -1,0 +1,16 @@
+{
+  "authorization_consumed": true,
+  "bird_pilot_opened": true,
+  "confirmatory_response_authorized": false,
+  "confirmatory_target_values_parsed": 0,
+  "counts_as_empirical_evidence": false,
+  "effect_size": null,
+  "eligible_action": null,
+  "excluded_target_values_parsed": 0,
+  "model_snapshot_frozen": false,
+  "prediction_score": null,
+  "predictive_denominator_contribution": 0,
+  "reason": "unexpected beetle routing header: 'Islands'",
+  "schema": "structural.boreal_19island_bird_pilot_execution.v1_164",
+  "status": "BIRD_PILOT_TERMINAL_AFTER_SEMANTIC_OPEN"
+}

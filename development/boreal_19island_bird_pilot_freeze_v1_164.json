@@ -1,0 +1,27 @@
+{
+  "authorization_consumed": true,
+  "authorization_fingerprint": null,
+  "bird_pilot_opened": true,
+  "candidate_id": null,
+  "confirmatory_response_authorized": false,
+  "confirmatory_target_values_parsed": 0,
+  "counts_as_empirical_evidence": false,
+  "distinct_pilot_occupancy_counts": null,
+  "effect_size": null,
+  "excluded_target_values_parsed": 0,
+  "fixed_species_count": null,
+  "model_snapshot_fingerprint": null,
+  "next_action": "terminal stop; do not alter pilot thresholds or reopen bird pilot",
+  "prediction_score": null,
+  "qualified_for_prediction_freeze": false,
+  "rerun_authorized": false,
+  "schema": "structural.boreal_19island_bird_pilot_freeze.v1_164",
+  "source_execution": {
+    "preaccess_retry_of_run_id": 37394192161,
+    "request_head_sha": "037f98cede694ccee111d7e3c68c1dd597fc9a50",
+    "run_attempt": 1,
+    "run_id": 37406396186,
+    "workflow": ".github/workflows/boreal-19island-bird-pilot-v1_164_1.yml"
+  },
+  "status": "BIRD_PILOT_COMMITTED_TERMINAL_NO_RESCUE"
+}
