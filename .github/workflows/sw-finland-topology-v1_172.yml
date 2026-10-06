@@ -1,0 +1,88 @@
+name: SW Finland t0 topology/null freeze v1.172
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/sw_finland_topology_freeze_request_v1_172.json
+
+permissions:
+  contents: write
+
+jobs:
+  freeze-topology:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate request and exact-source inputs
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          req=json.loads(Path("development/sw_finland_topology_freeze_request_v1_172.json").read_text())
+          assert req["schema"]=="structural.sw_finland_topology_freeze_request.v1_172"
+          assert req["status"]=="REQUEST_T0_GRAPH_NULL_AND_SENSITIVITY_FREEZE"
+          assert req["future_outcome_values_opened_before_request"]==0
+          assert req["future_outcome_access_requested"] is False
+          assert req["one_shot"] is True
+          assert req["eBird_used"] is False
+          paths={
+            "reconstruction":"development/sw_finland_exact_source_reconstruction_v1_171.json",
+            "species":"development/sw_finland_exact_source_species_v1_171.csv",
+            "membership":"development/sw_finland_exact_source_membership_v1_171.csv",
+            "geometry":"development/sw_finland_t0_island_geometry_v1_171.csv",
+          }
+          for key,path in paths.items():
+              p=Path(path);assert p.exists()
+              assert hashlib.sha256(p.read_bytes()).hexdigest()==req["input_sha256"][key]
+          r=json.loads(Path(paths["reconstruction"]).read_text())
+          assert r["status"]=="T0_EXACT_SOURCE_IDENTITIES_FROZEN_FUTURE_OUTCOME_SEALED"
+          assert r["future_outcome_values_opened"]==0
+          assert r["exact_source_species"]>=30
+          PY
+
+      - name: Freeze response-independent spatial graph, nulls and sensitivity
+        run: |
+          mkdir -p build/swf_v172
+          python scripts/freeze_sw_finland_topology_v1_172.py             --partition-output build/swf_v172/partition.csv             --edges-output build/swf_v172/edges.csv             --context-output build/swf_v172/context.csv             --H-output build/swf_v172/H.csv             --factor-output build/swf_v172/factors.csv             --receipt build/swf_v172/receipt.json
+
+      - name: Verify future-outcome boundary and graph/null gates
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/swf_v172/receipt.json").read_text())
+          assert r["status"]=="T0_GRAPH_NULLS_AND_CONFIGURATION_SENSITIVITY_FROZEN"
+          assert r["islands"]==471
+          assert r["exact_source_species"]>=30
+          assert r["spatial_blocks"]>=20
+          assert r["pilot_blocks"]>=4
+          assert r["confirmatory_blocks"]>=12
+          assert r["null_count"]==20
+          assert r["all_nulls_unique"] is True
+          assert r["future_outcome_values_opened"]==0
+          assert r["pilot_future_outcome_authorized"] is False
+          assert r["confirmatory_future_outcome_authorized"] is False
+          PY
+
+      - name: Commit t0-only topology products
+        run: |
+          cp build/swf_v172/partition.csv development/sw_finland_spatial_partition_v1_172.csv
+          cp build/swf_v172/edges.csv development/sw_finland_topology_edges_v1_172.csv
+          cp build/swf_v172/context.csv development/sw_finland_generic_graph_context_v1_172.csv
+          cp build/swf_v172/H.csv development/sw_finland_target_configuration_heterogeneity_v1_172.csv
+          cp build/swf_v172/factors.csv development/sw_finland_species_configuration_factor_v1_172.csv
+          cp build/swf_v172/receipt.json development/sw_finland_topology_freeze_v1_172.json
+          git add             development/sw_finland_spatial_partition_v1_172.csv             development/sw_finland_topology_edges_v1_172.csv             development/sw_finland_generic_graph_context_v1_172.csv             development/sw_finland_target_configuration_heterogeneity_v1_172.csv             development/sw_finland_species_configuration_factor_v1_172.csv             development/sw_finland_topology_freeze_v1_172.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze SW Finland t0 graph nulls and sensitivity v1.172"
+          git push origin HEAD:main
