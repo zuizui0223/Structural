@@ -1,28 +1,30 @@
 # Current GEB submission candidate
 
-The current submission-facing version is **GEB v1.180**.
+The current submission-facing version is **GEB v1.184**.
 
 Use:
 
-- `GEB_v1_180/blinded_main_text.md` — blinded Research Article manuscript
-- `GEB_v1_180/cover_letter.md` — cover letter
-- `GEB_v1_180/title_page_template.md` — separate identifying title page
-- `GEB_v1_180/submission_checklist.md` — scientific and format boundary checklist
-- `GEB_v1_180/submission_qa_v1_180.json` — automated submission QA
-- `GEB_v1_180/submission_manifest.json` — frozen claim/evidence manifest
+- `GEB_v1_184/blinded_main_text.md` — blinded Research Article manuscript
+- `GEB_v1_184/cover_letter.md` — cover letter
+- `GEB_v1_184/title_page_template.md` — separate identifying title page
+- `GEB_v1_184/submission_checklist.md` — scientific and format boundary checklist
+- `GEB_v1_184/submission_qa_v1_184.json` — automated submission QA
+- `GEB_v1_184/submission_manifest.json` — frozen claim/evidence manifest
 
-The current ecological center is **occupancy-dependent source-role inversion**:
+The current ecological center is:
 
-- higher-occupancy exploratory source information is absence-focused;
-- the preregistered 5–12 constraint signature fails in the opposite direction and becomes presence-focused;
-- the resulting 1–4 presence-opportunity hypothesis is prospectively supported, and only there does observed topology beat all 20 matched nulls.
+> **Network-level topology specificity does not imply source-level structural irreplaceability.**
 
-This is deliberately stronger than the obvious statement that fewer sources make configuration more important.
+In the preregistered 1–4-presence mammal layer, actual island adjacency beats all 20 matched rewired topologies for held-out realized presences. But the response-free v1.181 mechanism test shows that the same observed source sets have **lower** source-identity turnover across target islands than matched random placements, together with higher local effective source number and lower target-level source dominance.
 
-Scientific status remains frozen at `development/current_status_v1_177.json`, with the cross-layer synthesis at `development/occupancy_role_inversion_synthesis_v1_179.json`.
+So the supported signal belongs to the **collective source configuration**, not to a demonstrated set of uniquely important source islands.
 
-The SW Finland temporal-colonization candidate is terminal at the pre-outcome source-identity estimability gate; no future colonization outcome was opened and it is not a biological negative result in the manuscript.
+The earlier v1.122 aggregate effective-source result is retained numerically but is interpreted only as **more even aggregate source contribution**. It no longer supports the phrase “more spatially complementary”.
 
-Earlier `GEB_v1_178` remains provenance but is superseded for submission.
+BALA remains a separate independent temporal boundary: lost-source leverage did not improve held-out prediction of later contraction.
 
-No new mammal threshold mining, cross-layer trend p-value, BALA rescue, SW Finland same-archive rescue, boreal-bird rerun or eBird analysis is authorized.
+Scientific status: `development/current_status_v1_183.json`.
+
+Earlier `GEB_v1_180` remains provenance but is superseded for submission.
+
+No alternative source-turnover metric may rescue distributed irreplaceability; no new mammal threshold mining, BALA rescue, SW Finland same-archive rescue, boreal-bird rerun or eBird analysis is authorized.
