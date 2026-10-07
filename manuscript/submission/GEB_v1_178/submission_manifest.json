@@ -22,7 +22,12 @@
     ],
     "abstract_words_approx": 271,
     "main_text_words_approx": 4648,
-    "keywords": 9
+    "keywords": 9,
+    "abstract_words": 271,
+    "main_text_words": 4657,
+    "references": 21,
+    "running_title_characters": 29,
+    "cover_interest_paragraph_words": 173
   },
   "central_claim": "exact occupied-source topology contains incremental held-out occurrence information only in the sparsest prospectively tested mammal occupancy regime, while static source leverage did not predict later contraction in an independent temporal test",
   "central_evidence": {
@@ -74,5 +79,6 @@
     "eBird": "disabled by project policy"
   },
   "new_same_dataset_threshold_search_authorized": false,
-  "next_step": "submission-facing QA and author metadata completion, not new opportunistic candidate mining"
+  "next_step": "submission-facing QA and author metadata completion, not new opportunistic candidate mining",
+  "qa_receipt": "manuscript/submission/GEB_v1_178/submission_qa_v1_178.json"
 }
