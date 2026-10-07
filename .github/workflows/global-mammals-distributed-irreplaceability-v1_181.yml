@@ -1,0 +1,100 @@
+name: Global mammals distributed irreplaceability v1.181
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_distributed_irreplaceability_request_v1_181.json
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir numpy==2.3.3
+
+      - name: Validate response-free request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_distributed_irreplaceability_contract_v1_181.json").read_text())
+          r=json.loads(Path("development/global_mammals_distributed_irreplaceability_request_v1_181.json").read_text())
+          assert c["status"]=="POSTHOC_RESPONSE_FREE_SOURCE_TURNOVER_DIAGNOSTIC_FROZEN"
+          assert c["population"]["heldout_occurrence_authorized"] is False
+          assert r["status"]=="REQUEST_POSTHOC_RESPONSE_FREE_SOURCE_TURNOVER_DIAGNOSTIC"
+          assert r["heldout_occurrence_authorized"] is False
+          assert r["null_replicates"]==1000
+          assert r["seed"]==20261007
+          assert r["bootstrap_seed"]==2026100701
+          assert r["one_shot"] is True
+          PY
+
+      - name: Download frozen pilot/reference/routing artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728
+          path: build/v181/pilot
+          repository: zuizui0223/Structural
+          run-id: 37153960728
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/v181/reference
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/v181/routing
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+
+      - name: Run response-free source-turnover diagnostic
+        run: |
+          mkdir -p build/v181/out
+          python scripts/run_global_mammals_distributed_irreplaceability_v1_181.py             build/v181/pilot/ultrarare_species_universe.csv             build/v181/pilot/ultrarare_pilot_matrix.csv             build/v181/reference/source_graph_edges.csv             build/v181/reference/reference_receipt.json             build/v181/routing/pilot_ids.csv             build/v181/routing/confirmatory_ids.csv             --species-table build/v181/out/species.csv             --result build/v181/out/result.json
+
+      - name: Verify zero-response boundary and commit summary only
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/v181/out/result.json").read_text())
+          assert r["status"]=="POSTHOC_RESPONSE_FREE_SOURCE_TURNOVER_DIAGNOSTIC_COMPLETE"
+          assert r["species"]==529
+          assert r["multi_source_species"]==212
+          assert r["heldout_occurrence_values_used"] is False
+          assert r["heldout_occurrence_values_opened"] is False
+          PY
+          cp build/v181/out/result.json development/global_mammals_distributed_irreplaceability_freeze_v1_181.json
+          git add development/global_mammals_distributed_irreplaceability_freeze_v1_181.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze distributed irreplaceability diagnostic v1.181"
+          git push origin HEAD:main
+
+      - name: Upload detailed response-free diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v181-distributed-irreplaceability-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/v181/out/species.csv
+            build/v181/out/result.json
+          if-no-files-found: error
+          retention-days: 30
