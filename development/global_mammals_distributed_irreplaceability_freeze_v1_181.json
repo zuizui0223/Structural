@@ -1,0 +1,28 @@
+{
+  "schema": "structural.global_mammals_distributed_irreplaceability_result.v1_181",
+  "status": "POSTHOC_RESPONSE_FREE_SOURCE_TURNOVER_DIAGNOSTIC_COMPLETE",
+  "species": 529,
+  "multi_source_species": 212,
+  "heldout_targets_geometry_only": 4126,
+  "heldout_occurrence_values_used": false,
+  "heldout_occurrence_values_opened": false,
+  "result": {
+    "median_alpha_effective_sources": 1.4387981602529805,
+    "median_gamma_effective_sources": 1.9827943020378391,
+    "median_beta_source_turnover": 1.1315064339187795,
+    "median_mean_target_dominant_share": 0.7759833853346567,
+    "mean_actual_minus_null_beta": -0.26202792201140007,
+    "mean_actual_minus_null_beta_bootstrap_ci95": [
+      -0.3166893034908708,
+      -0.20762835904337926
+    ],
+    "mean_actual_minus_null_alpha": 0.3939208530577791,
+    "mean_actual_minus_null_gamma": 0.1344479796491595,
+    "mean_actual_minus_null_target_dominant_share": -0.13900859730011123,
+    "actual_beta_gt_null_mean": 48,
+    "actual_beta_gt_null_q975": 2,
+    "actual_beta_lt_null_q025": 34
+  },
+  "interpretation": "response-free post-hoc diagnostic of spatial turnover in source influence across heldout geometry targets; not dispersal, persistence, rescue or temporal range-contraction evidence",
+  "species_table_sha256": "618697efd4b50f669aedae5063f9fca323f8d4a9e2cba9b3ceb355e2425e6954"
+}
