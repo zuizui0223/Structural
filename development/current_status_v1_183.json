@@ -1,0 +1,93 @@
+{
+  "schema": "structural.current_status.v1_183",
+  "status": "canonical_current_status_topology_specificity_without_source_irreplaceability",
+  "supersedes": "development/current_status_v1_177.json",
+  "central_empirical_evidence": {
+    "ultrarare_occurrence": {
+      "species": 529,
+      "evidence_class": "prospective preregistered species-layer support within one geography",
+      "presence_C_minus_R3": -0.5962586684916777,
+      "presence_ci95": [
+        -0.743854761144673,
+        -0.46445672203892047
+      ],
+      "actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20",
+      "interpretation": "exact observed island adjacency contains heldout presence information beyond the source-aware R3 reference"
+    },
+    "adjacent_5_12": {
+      "species": 96,
+      "overall_supported": false,
+      "topology_specificity_supported": false,
+      "role_signature": "presence improvement without actual-topology specificity"
+    },
+    "exploratory_13_plus": {
+      "species": 79,
+      "evidence_class": "nonconfirmatory exploratory",
+      "topology_specificity_supported": false
+    }
+  },
+  "response_free_source_structure": {
+    "aggregate_balance_v1_122": {
+      "multi_source_species": 212,
+      "mean_actual_minus_null_effective_count": 0.28242921346906974,
+      "ci95": [
+        0.20500912701472415,
+        0.362361925385512
+      ],
+      "corrected_interpretation": "aggregate graph-pressure contributions are more evenly distributed among observed sources than matched random placements; this is not by itself spatial complementarity"
+    },
+    "target_space_turnover_v1_181": {
+      "evidence_class": "posthoc response-free geometry diagnostic",
+      "mean_actual_minus_null_beta": -0.26202792201140007,
+      "ci95": [
+        -0.3166893034908708,
+        -0.20762835904337926
+      ],
+      "mean_actual_minus_null_alpha": 0.3939208530577791,
+      "mean_actual_minus_null_gamma": 0.1344479796491595,
+      "mean_actual_minus_null_target_dominant_share": -0.13900859730011123,
+      "actual_beta_gt_null_mean": "48/212",
+      "actual_beta_gt_null_q975": "2/212",
+      "conclusion": "distributed source-territory irreplaceability is not supported; observed source influence is more overlapping and locally less dominated than matched random placements"
+    }
+  },
+  "ecological_synthesis": {
+    "core": "exact source topology can contain heldout occurrence information even when the occupied sources are not unusually differentiated into unique source-influence territories",
+    "key_nonobvious_boundary": "network-level topology specificity does not imply source-level structural irreplaceability",
+    "structural_pattern": "observed ultrarare source sets combine relatively balanced aggregate contribution with greater-than-random local co-coverage and lower-than-random source-identity turnover across target islands",
+    "mechanism_removed": "the v1.119 topology signal should not be explained as a set of distinct, individually irreplaceable source territories",
+    "mechanism_remaining": "the topology signal is compatible with collective configuration or overlapping source-neighborhood structure; no causal dispersal mechanism is established"
+  },
+  "independent_temporal_boundary": {
+    "system": "Azores BALA arthropods",
+    "taxa": 20,
+    "target_rows": 64,
+    "primary_C_minus_R2": 0.00067423414692237,
+    "ci95": [
+      -0.02130441194511585,
+      0.025579070508640226
+    ],
+    "supported": false,
+    "interpretation": "static source-network information is not validated as later demographic consequence"
+  },
+  "closed_lanes": {
+    "sw_finland": "terminal pre-outcome exact-source estimability failure",
+    "boreal_birds": "terminal pilot; no rerun",
+    "boreal_beetles": "fresh local primary not supported",
+    "eBird": "disabled"
+  },
+  "claim_boundary": {
+    "node_level_irreplaceability_supported": false,
+    "demographic_redundancy_supported": false,
+    "realized_dispersal_supported": false,
+    "rescue_supported": false,
+    "management_ranking_validated": false,
+    "continuous_rarity_law_supported": false,
+    "geographic_replication_supported": false
+  },
+  "primary_next_step": "revise GEB submission framing so topology specificity is explicitly separated from source-node irreplaceability; remove all spatial-complementarity wording derived solely from v1.122 aggregate N_eff",
+  "source_leverage_semantic_correction": "development/source_leverage_semantic_correction_v1_182.json",
+  "distributed_redundancy_result": "development/global_mammals_distributed_irreplaceability_freeze_v1_181.json",
+  "synthesis": "docs/BALANCED_REDUNDANCY_SYNTHESIS_V1_183.md"
+}
