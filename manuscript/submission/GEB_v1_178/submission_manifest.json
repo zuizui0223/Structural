@@ -1,0 +1,84 @@
+{
+  "schema": "structural.geb_submission_manifest.v1_178",
+  "status": "GEB_OCCUPANCY_REGIME_TOPOLOGY_SUBMISSION_PACKAGE",
+  "scientific_freeze": "development/current_status_v1_177.json",
+  "manuscript": "manuscript/submission/GEB_v1_178/blinded_main_text.md",
+  "title_page_template": "manuscript/submission/GEB_v1_178/title_page_template.md",
+  "cover_letter": "manuscript/submission/GEB_v1_178/cover_letter.md",
+  "checklist": "manuscript/submission/GEB_v1_178/submission_checklist.md",
+  "format": {
+    "journal": "Global Ecology and Biogeography",
+    "article_type": "Research Article",
+    "title": "When do source islands matter? Occupancy state changes topology-specific isolation",
+    "running_title": "Occupancy-dependent isolation",
+    "abstract_structure": [
+      "Aim",
+      "Location",
+      "Time period",
+      "Major taxa studied",
+      "Methods",
+      "Results",
+      "Main conclusions"
+    ],
+    "abstract_words_approx": 271,
+    "main_text_words_approx": 4648,
+    "keywords": 9,
+    "abstract_words": 271,
+    "main_text_words": 4657,
+    "references": 21,
+    "running_title_characters": 29,
+    "cover_interest_paragraph_words": 173
+  },
+  "central_claim": "exact occupied-source topology contains incremental held-out occurrence information only in the sparsest prospectively tested mammal occupancy regime, while static source leverage did not predict later contraction in an independent temporal test",
+  "central_evidence": {
+    "ultrarare_1_4": {
+      "species": 529,
+      "primary_presence_C_minus_R3": -0.5962586684916777,
+      "primary_supported": true,
+      "topology_specificity_supported": true,
+      "actual_better_than_nulls": "20/20"
+    },
+    "rare_5_12": {
+      "species": 96,
+      "overall_C_minus_R3": -0.00044242277078691746,
+      "overall_supported": false,
+      "topology_specificity_supported": false
+    },
+    "exploratory_13_plus": {
+      "species": 79,
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "evidence_status": "nonconfirmatory exploratory",
+      "topology_specificity_supported": false
+    },
+    "BALA_temporal": {
+      "taxa": 20,
+      "target_rows": 64,
+      "contractions": 20,
+      "persistences": 44,
+      "primary_C_minus_R2": 0.00067423414692237,
+      "bootstrap_ci95": [
+        -0.02130441194511585,
+        0.025579070508640226
+      ],
+      "primary_supported": false
+    }
+  },
+  "claim_boundary": {
+    "occupancy_dependent_connectivity_itself_claimed_new": false,
+    "realized_dispersal": false,
+    "causal_colonization_or_rescue": false,
+    "monotonic_rarity_effect": false,
+    "geographically_independent_positive_replication": false,
+    "management_intervention_effect": false,
+    "source_leverage_validated_management_metric": false
+  },
+  "closed_candidates": {
+    "boreal_beetles": "non-supportive primary",
+    "boreal_birds": "terminal pilot; no rerun",
+    "sw_finland_plants": "terminal pre-outcome exact-source estimability failure; future outcome never opened",
+    "eBird": "disabled by project policy"
+  },
+  "new_same_dataset_threshold_search_authorized": false,
+  "next_step": "submission-facing QA and author metadata completion, not new opportunistic candidate mining",
+  "qa_receipt": "manuscript/submission/GEB_v1_178/submission_qa_v1_178.json"
+}

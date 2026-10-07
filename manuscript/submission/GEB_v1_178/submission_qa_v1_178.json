@@ -1,0 +1,53 @@
+{
+  "schema": "structural.geb_submission_qa.v1_178",
+  "status": "SUBMISSION_FORMAT_AND_CLAIM_BOUNDARY_QA_PASSED",
+  "journal": "Global Ecology and Biogeography",
+  "article_type": "Research Article",
+  "author_guideline_check_date": "2026-10-07",
+  "format": {
+    "abstract_words": 271,
+    "abstract_max_words": 300,
+    "abstract_headings": [
+      "Aim",
+      "Location",
+      "Time period",
+      "Major taxa studied",
+      "Methods",
+      "Results",
+      "Main conclusions"
+    ],
+    "main_text_words": 4657,
+    "main_text_typical_limit": 5000,
+    "running_title": "Occupancy-dependent isolation",
+    "running_title_characters": 29,
+    "running_title_max_characters": 40,
+    "keyword_count": 9,
+    "reference_count": 21,
+    "references_alphabetized": true,
+    "cover_interest_paragraph_words": 173,
+    "cover_interest_paragraph_max_words": 250
+  },
+  "scientific_claims": {
+    "main_positive": "topology-specific occurrence information in the preregistered 1-4-presence mammal layer",
+    "adjacent_nonreplication": "5-12-presence layer does not support overall or topology-specific effect",
+    "exploratory_context": "13-plus layer source-context gain is nonconfirmatory and not actual-topology specific",
+    "independent_temporal_boundary": "BALA source-loss primary not supported",
+    "monotonic_rarity_law_claimed": false,
+    "realized_dispersal_claimed": false,
+    "rescue_claimed": false,
+    "management_priority_metric_validated": false,
+    "occupancy_dependent_connectivity_itself_claimed_new": false
+  },
+  "provenance_boundaries": {
+    "sw_finland_terminal_stop": "development/sw_finland_terminal_stop_v1_177.json",
+    "sw_finland_in_manuscript": false,
+    "sw_finland_biological_negative_claimed": false,
+    "eBird_used": false
+  },
+  "structural_checks": {
+    "discussion_numbering_unique": true,
+    "escaped_reference_newline": false,
+    "drake_dynamic_connectivity_precedent_cited": true,
+    "hanski_ovaskainen_theory_precedent_cited": true
+  }
+}
