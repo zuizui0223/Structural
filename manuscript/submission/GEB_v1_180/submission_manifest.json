@@ -1,0 +1,57 @@
+{
+  "schema": "structural.geb_submission_manifest.v1_180",
+  "status": "GEB_OCCUPANCY_DEPENDENT_SOURCE_ROLE_SUBMISSION_PACKAGE",
+  "scientific_freeze": "development/current_status_v1_177.json",
+  "role_inversion_synthesis": "development/occupancy_role_inversion_synthesis_v1_179.json",
+  "manuscript": "manuscript/submission/GEB_v1_180/blinded_main_text.md",
+  "cover_letter": "manuscript/submission/GEB_v1_180/cover_letter.md",
+  "title_page_template": "manuscript/submission/GEB_v1_180/title_page_template.md",
+  "checklist": "manuscript/submission/GEB_v1_180/submission_checklist.md",
+  "format": {
+    "journal": "Global Ecology and Biogeography",
+    "article_type": "Research Article",
+    "title": "When do source islands matter? Occupancy state changes what connectivity predicts",
+    "running_title": "Occupancy-dependent source roles",
+    "abstract_words": 272,
+    "main_text_words": 4955,
+    "running_title_characters": 32,
+    "keyword_count": 9
+  },
+  "conceptual_sequence": [
+    "exploratory >=13 layer: source context improves absences and worsens presences; not topology-specific",
+    "preregistered 5-12 layer: predicted constraint signature fails in opposite direction; presence opportunity appears; no topology specificity",
+    "preregistered 1-4 layer: presence opportunity strengthens and actual topology beats 20/20 matched nulls",
+    "independent BALA: static source leverage does not improve later contraction prediction"
+  ],
+  "descriptive_role_index": {
+    "definition": "presence C-R3 minus absence C-R3",
+    "higher_occupancy_13_plus": 0.12224,
+    "rare_5_12": -0.27787,
+    "ultrarare_1_4": -0.5964946684916778,
+    "trend_test_authorized": false
+  },
+  "graph_coefficient_diagnostic": {
+    "higher_occupancy_13_plus": {
+      "distance": 0.2850503614129154,
+      "pressure": -0.07046930696056496
+    },
+    "rare_5_12": {
+      "distance": -0.6217018394190181,
+      "pressure": 0.012663643435185199
+    },
+    "ultrarare_1_4": {
+      "distance": -0.4023133839245694,
+      "pressure": 0.004651642394442912
+    },
+    "causal_interpretation_authorized": false
+  },
+  "claim_boundary": {
+    "causal_role_switch": false,
+    "monotonic_rarity_law": false,
+    "continuous_threshold": false,
+    "realized_dispersal": false,
+    "rescue": false,
+    "management_metric_validated": false,
+    "geographically_independent_positive_replication": false
+  }
+}
