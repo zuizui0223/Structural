@@ -1,0 +1,83 @@
+{
+  "schema": "structural.current_status.v1_177",
+  "status": "canonical_current_status_after_sw_finland_terminal_stop",
+  "supersedes": "development/current_status_v1_161.json",
+  "mammal_occupancy_regime_evidence": {
+    "ultrarare_1_4": {
+      "species": 529,
+      "evidence_status": "prospective heldout species-layer support within one geographic system",
+      "presence_C_minus_R3": -0.5962586684916777,
+      "presence_ci95": [-0.743854761144673, -0.46445672203892047],
+      "actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20"
+    },
+    "rare_5_12": {
+      "species": 96,
+      "evidence_status": "prospective species-layer non-replication",
+      "overall_C_minus_R3": -0.00044242277078691746,
+      "overall_ci95": [-0.0010981838771027365, 0.0002038048880791948],
+      "actual_better_than_nulls": "11/20"
+    },
+    "higher_occupancy_13_plus": {
+      "species": 79,
+      "evidence_status": "nonconfirmatory exploratory",
+      "overall_C_minus_R3": -0.0018141589038615496,
+      "actual_better_than_nulls": "0/20"
+    }
+  },
+  "independent_temporal_evidence": {
+    "completed_BALA": {
+      "status": "prospective three-wave primary not supported",
+      "taxa": 20,
+      "target_rows": 64,
+      "contractions": 20,
+      "persistences": 44,
+      "primary_C_minus_R2": 0.00067423414692237,
+      "bootstrap_ci95": [-0.02130441194511585, 0.025579070508640226],
+      "primary_supported": false,
+      "same_lineage_rerun_authorized": false
+    },
+    "sw_finland_plants": {
+      "status": "terminal pre-outcome source-identity estimability failure",
+      "future_outcome_values_opened": 0,
+      "effect_estimate_produced": false,
+      "terminal_stop": "development/sw_finland_terminal_stop_v1_177.json",
+      "biological_hypothesis_tested": false,
+      "same_archive_rerun_authorized": false
+    }
+  },
+  "closed_replication_lanes": {
+    "boreal_beetles": "fresh local primary not supported",
+    "boreal_birds": "pilot terminated at routing-header schema mismatch; no rerun",
+    "historical_318_mammals": "extreme-isolation amplification not supported",
+    "GIFT_plants": "fresh attempt terminal without ecological primary",
+    "sw_finland_plants": "source identity not response-independently estimable before future outcome"
+  },
+  "ecological_synthesis": {
+    "core_positive": "in the sparsest prospectively tested mammal occupancy regime, exact occupied-source topology contains heldout presence information beyond source count, direct source proximity and generic island geography",
+    "occupancy_regime_boundary": "the topology-specific effect is not supported in the adjacent 5-12 layer and is absent in the higher-occupancy exploratory layer",
+    "response_free_mechanism": "finite-source theory predicts that source-position heterogeneity becomes proportionally more exposed as occupied-source number falls",
+    "temporal_boundary": "static source-network importance has not been validated as temporal demographic dependence; the completed BALA source-loss test was not supportive",
+    "independent_colonization_replication": "not obtained because the SW Finland public archive failed the pre-outcome exact-source estimability gate",
+    "causal_rescue_or_extinction_established": false,
+    "management_ranking_validated": false
+  },
+  "project_policy": {
+    "ebird_active_scientific_lane": false,
+    "obtain_or_analyze_eBird_data": false,
+    "same_global_mammal_threshold_mining_authorized": false,
+    "same_BALA_lineage_rerun_authorized": false,
+    "boreal_bird_rerun_authorized": false,
+    "sw_finland_same_archive_rerun_authorized": false,
+    "sw_finland_future_outcome_access_authorized": false
+  },
+  "analysis_state": {
+    "active_empirical_candidate": null,
+    "new_candidate_search_priority": "low",
+    "primary_next_step": "manuscript synthesis and submission package using frozen evidence; do not delay for another opportunistic candidate",
+    "reopening_condition": "only a genuinely independent non-eBird temporal island dataset with source state prospectively estimable from response-independent records"
+  },
+  "synthesis": "docs/STATIC_SOURCE_INFORMATION_VS_TEMPORAL_CONSEQUENCE_V1_161.md",
+  "sw_finland_stop": "development/sw_finland_terminal_stop_v1_177.json",
+  "active_priority": "development/structural_active_priority_v1_177.json"
+}
