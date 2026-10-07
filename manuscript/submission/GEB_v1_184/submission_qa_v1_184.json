@@ -1,0 +1,42 @@
+{
+  "schema": "structural.geb_submission_qa.v1_184",
+  "status": "TOPOLOGY_WITHOUT_IRREPLACEABILITY_SUBMISSION_QA_PASSED",
+  "journal": "Global Ecology and Biogeography",
+  "article_type": "Research Article",
+  "format": {
+    "abstract_words": 275,
+    "abstract_max": 300,
+    "main_text_words": 4718,
+    "main_text_limit": 5000,
+    "running_title": "Topology without irreplaceability",
+    "running_title_characters": 33,
+    "running_title_max": 40,
+    "cover_interest_words": 194,
+    "cover_interest_max": 250,
+    "reference_count": 23,
+    "references_alphabetized": true
+  },
+  "evidence_separation": {
+    "network_level_topology_specificity": "supported prospectively in ultrarare heldout layer within one geography",
+    "source_node_spatial_irreplaceability": "not supported by response-free v1.181; source turnover lower than matched null",
+    "temporal_source_loss_consequence": "not supported by independent BALA primary"
+  },
+  "semantic_corrections": {
+    "v1_122_aggregate_Neff_called_spatial_complementarity": false,
+    "aggregate_balance_distinguished_from_target_space_turnover": true
+  },
+  "claim_boundary": {
+    "realized_dispersal": false,
+    "demographic_redundancy": false,
+    "rescue": false,
+    "source_node_management_ranking": false,
+    "geographic_replication": false,
+    "continuous_rarity_law": false
+  },
+  "provenance": {
+    "current_status": "development/current_status_v1_183.json",
+    "source_turnover_result": "development/global_mammals_distributed_irreplaceability_freeze_v1_181.json",
+    "semantic_correction": "development/source_leverage_semantic_correction_v1_182.json",
+    "synthesis": "docs/BALANCED_REDUNDANCY_SYNTHESIS_V1_183.md"
+  }
+}
