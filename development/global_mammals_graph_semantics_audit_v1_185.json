@@ -1,0 +1,84 @@
+{
+  "schema": "structural.global_mammals_graph_semantics_audit.v1_185",
+  "status": "CONSTRUCTED_GEOGRAPHIC_GRAPH_NOT_OBSERVED_DISPERSAL_NETWORK",
+  "evidence_type": "source-code/provenance semantic audit; no new biological outcome read",
+  "code_authority": "scripts/build_global_mammals_reference_operator_v1_40.py",
+  "graph_construct": {
+    "input": "island centroid latitude/longitude, geodesic haversine distance and bioregion grouping",
+    "graph": "undirected symmetrized k-nearest-neighbor graph, with the minimum k producing a connected component within each bioregion",
+    "regional_optimization": "choose smallest k in 1..n-1 that connects a region; no biological response or observed movement",
+    "bioregions": 12,
+    "retained_islands": 5401,
+    "edges": 73162,
+    "selected_k_by_bioregion": {
+      "Afrotropical": 49,
+      "Australian": 23,
+      "Eurasia": 15,
+      "Madagascan": 4,
+      "Neartic": 36,
+      "Neotropical": 15,
+      "Oceanina": 18,
+      "Oriental": 16,
+      "Paleartic": 29,
+      "Panamanian": 13,
+      "Saharo-Arabian": 38,
+      "Sino-Japanese": 28
+    },
+    "source": "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "empirical_movement_edges": false,
+    "independently_measured_dispersal_kernel": false,
+    "water_barriers_or_currents_directly_modelled": false
+  },
+  "null_construct": {
+    "source": "development/global_mammals_ultrarare_topology_null_contract_v1_114.json",
+    "comparisons": 20,
+    "preserves": [
+      "nodes",
+      "coordinates",
+      "bioregion membership",
+      "degree sequence",
+      "edge count",
+      "edge-length quintile counts",
+      "connectedness"
+    ],
+    "does_not_require_preservation_of": [
+      "nearest-neighbor construction rule",
+      "node-conditional short-edge locality",
+      "geographic orientation / edge bearing",
+      "shortest-path detour / Euclidean stretch distribution",
+      "distance-to-coast or sea-current resistance",
+      "observed movement pathways"
+    ],
+    "scope": "one response-independent constructed geographic graph compared to matched rewired graph surrogates",
+    "null_is_not_empirical_dispersal_control": true
+  },
+  "interpretation": {
+    "valid_heldout_result": "for the 529-species ultrarare layer, graph-derived source features improve realized-presence prediction beyond an already source-aware Euclidean R3; within the preregistered rewiring null family the original geography-derived graph outperformed all 20 surrogates",
+    "invalid_inference": "the actual ecological/dispersal adjacency is identified, or source-island stepping-stone corridors are demonstrated",
+    "still_unresolved": "whether geography-derived graph advantage represents ecological permeability, geometric coherence beyond the matched null's constraints, habitat/environmental spatial autocorrelation, or other unmeasured processes",
+    "relationship_to_v181": "the posthoc source-identity turnover test is adverse to source-territory irreplaceability; it cannot rescue biological graph interpretation",
+    "temporal_boundary": "the BALA independent source-loss primary was not supportive",
+    "manuscript_ceiling": "coordinate-derived predictive graph architecture; no observed animal paths, colonization or rescue",
+    "article_novelty_warning": "a matched rewiring advantage alone does not establish a previously unknown biological dispersal mechanism"
+  },
+  "guardrails": {
+    "forbid_unqualified_terms_in_manuscript": [
+      "observed adjacency",
+      "observed island topology",
+      "realized island network",
+      "empirically observed dispersal network"
+    ],
+    "allowed_short_names": [
+      "original geographic kNN graph",
+      "geography-derived graph",
+      "original constructed graph"
+    ],
+    "code_variable_alias_actual_C_may_remain": true,
+    "historical_results_unchanged": true,
+    "rerun_any_heldout_occurrence": false,
+    "same_mammal_threshold_mining": false,
+    "change_graph_definition_to_rescue": false,
+    "eBird_enabled": false
+  },
+  "next_scientific_step": "explicitly distinguish geometric graph-information result from ecological dispersal mechanism, and seek only genuinely independent response-free ecological movement, dispersal or temporal colonization validation"
+}
