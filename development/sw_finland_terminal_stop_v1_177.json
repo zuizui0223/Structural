@@ -1,0 +1,81 @@
+{
+  "schema": "structural.sw_finland_terminal_stop.v1_177",
+  "status": "TERMINAL_STOP_SOURCE_IDENTITY_NOT_RESPONSE_INDEPENDENTLY_ESTIMABLE",
+  "candidate_id": "sw_finland_archipelago_plants_1930s_1996_2017",
+  "evidence_class": "independent geography and true temporal colonization endpoint; future outcome never opened",
+  "terminal_reason": "exact historical source identities cannot be validated from the public archive under the predeclared response-independent gates",
+  "failed_routes": [
+    {
+      "route": "supplement direct transport",
+      "versions": ["v1.170", "v1.170.1", "v1.170.2"],
+      "result": "transport/landing retrieval failed before supplementary table parsing",
+      "supplement_table_values_opened": 0,
+      "future_outcome_values_opened": 0
+    },
+    {
+      "route": "standardized Historical_total_log inversion",
+      "version": "v1.173",
+      "result": "STOP before calibration because Historical_total_log contains species-wide nonnumeric NA tokens",
+      "numeric_species": 312,
+      "nonnumeric_species": 275,
+      "future_outcome_values_opened": 0
+    },
+    {
+      "route": "logical-zero handling for nonnumeric species",
+      "version": "v1.173.2",
+      "result": "STOP because many NA species are not absent from all 471 islands and therefore cannot be assigned historical source count zero",
+      "future_outcome_values_opened": 0
+    },
+    {
+      "route": "numeric-pool log10(n+1) inversion",
+      "version": "v1.173.3",
+      "result": "STOP at exact anchor gate",
+      "first_reported_failure": "Agrostis canina recovered 141 instead of frozen 140",
+      "threshold_relaxed_after_failure": false,
+      "future_outcome_values_opened": 0
+    },
+    {
+      "route": "numeric-pool published log10(n) inversion",
+      "version": "v1.173.4",
+      "result": "STOP at exact anchor gate",
+      "first_reported_failure": "Achillea millefolium recovered 324 instead of frozen 322",
+      "threshold_relaxed_after_failure": false,
+      "future_outcome_values_opened": 0
+    },
+    {
+      "route": "dual t0 count plus nearest-distance validation of row-complement source set",
+      "version": "v1.176",
+      "result": "STOP at predeclared count-anchor consistency gate before distance validation could qualify the route",
+      "count_anchor_max_absolute_log10_residual_observed": 0.024870780883964327,
+      "count_anchor_max_absolute_log10_residual_allowed": 0.0001,
+      "excess_factor": 248.70780883964327,
+      "no_threshold_relaxation_after_run": true,
+      "future_outcome_values_opened": 0
+    }
+  ],
+  "response_boundary": {
+    "future_colonization_outcome_values_opened": 0,
+    "protected_outcome_values_decoded": 0,
+    "pilot_future_outcome_authorized": false,
+    "confirmatory_future_outcome_authorized": false,
+    "effect_estimate_produced": false,
+    "counts_as_empirical_evidence": false
+  },
+  "scientific_interpretation": {
+    "what_failed": "estimability of exact historical source identities from the public analysis archive, not the biological colonization hypothesis itself",
+    "what_is_not_known": "whether exact source topology predicts later colonization in this system",
+    "why_no_further_rescue": "all available response-independent count-recovery and dual-t0 consistency routes failed their frozen gates; relaxing thresholds or redefining source state after these failures would be outcome-independent but protocol-adaptive and is prohibited",
+    "relation_to_BALA": "BALA remains the only completed independent temporal consequence test and was not supportive",
+    "relation_to_mammals": "the ultrarare mammal topology-specific occurrence result remains supported within its geographic system"
+  },
+  "rerun_policy": {
+    "same_archive_source_identity_rerun_authorized": false,
+    "threshold_relaxation_authorized": false,
+    "alternative_transform_search_authorized": false,
+    "future_outcome_opening_authorized": false,
+    "supplement_transport_retry_authorized": false,
+    "condition_for_reopening": "a genuinely new response-independent source-state object or authoritative historical occupancy table not derived from the current archive and not selected using future outcome"
+  },
+  "next_action": "close the SW Finland candidate, retire stale source-count inversion PRs, and return Structural to manuscript synthesis/submission using the completed mammal and BALA evidence boundaries",
+  "eBird_enabled": false
+}

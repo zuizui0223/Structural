@@ -1,0 +1,36 @@
+{
+  "schema": "structural.active_priority.v1_177",
+  "status": "manuscript_synthesis_after_independent_temporal_candidate_exhaustion",
+  "supersedes": "development/structural_active_priority_v1_165.json",
+  "canonical_status": "development/current_status_v1_177.json",
+  "completed_boundaries": [
+    "global mammal occupancy-regime evidence frozen",
+    "BALA independent temporal source-loss primary not supported",
+    "boreal 19-island beetle fresh primary not supported and closed",
+    "boreal bird pilot terminated with no rerun",
+    "SW Finland plant temporal-colonization candidate terminated before future outcome because exact historical source identities were not response-independently estimable"
+  ],
+  "project_policy": {
+    "ebird_enabled": false,
+    "same_mammal_threshold_mining_authorized": false,
+    "same_BALA_lineage_rerun_authorized": false,
+    "same_SW_Finland_archive_rerun_authorized": false
+  },
+  "do_now": [
+    "freeze the SW Finland terminal stop and retain the zero-outcome-access audit trail",
+    "update the GEB manuscript framing so the strongest general result is occupancy-regime topology specificity, not temporal conservation leverage",
+    "retain BALA as the independent falsification boundary between static occurrence information and later demographic consequence",
+    "finish submission-facing manuscript, cover letter and evidence-boundary language"
+  ],
+  "do_not": [
+    "do not relax the v1.176 count or distance residual gates",
+    "do not search alternative transforms of Historical_total_log in the same archive",
+    "do not infer omitted archive rows as historical presences",
+    "do not open SW Finland future outcome",
+    "do not reopen boreal bird",
+    "do not mine new mammal occupancy thresholds",
+    "do not use eBird",
+    "do not delay the manuscript merely to find another opportunistic replication dataset"
+  ],
+  "next_scientific_event": "submission-grade synthesis of occupancy-regime topology specificity with explicit temporal falsification boundary"
+}
