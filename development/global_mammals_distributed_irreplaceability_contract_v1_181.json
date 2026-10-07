@@ -1,0 +1,62 @@
+{
+  "schema": "structural.global_mammals_distributed_irreplaceability_contract.v1_181",
+  "status": "POSTHOC_RESPONSE_FREE_SOURCE_TURNOVER_DIAGNOSTIC_FROZEN",
+  "candidate_id": "global_island_native_mammals_barreto_2024",
+  "parents": [
+    "development/global_mammals_ultrarare_source_leverage_contract_v1_121.json",
+    "development/global_mammals_ultrarare_source_leverage_freeze_v1_122.json",
+    "development/current_status_v1_177.json"
+  ],
+  "question": "Do the few occupied pilot sources of ultrarare mammals divide the heldout island network into distinct source-influence territories, rather than behaving as spatially redundant copies?",
+  "population": {
+    "ultrarare_species": 529,
+    "multi_source_species": 212,
+    "nominal_sources": "2-4",
+    "heldout_targets_geometry_only": 4126,
+    "heldout_occurrence_authorized": false
+  },
+  "source_influence": {
+    "kernel": "exp(-graph_distance(target,source)/frozen_bioregion_edge_scale)",
+    "paths": "full frozen island graph; occupied sources are endpoints, unoccupied islands may be traversed",
+    "target_support": "targets with positive total kernel access from at least one focal occupied source",
+    "target_normalization": "p_ts = kernel_access_ts / sum_s kernel_access_ts"
+  },
+  "diversity_partition": {
+    "alpha_effective_sources": "1 / mean_t(sum_s p_ts^2), equally weighting supported heldout targets",
+    "gamma_effective_sources": "1 / sum_s(mean_t p_ts)^2, equally weighting supported heldout targets",
+    "beta_source_turnover": "gamma_effective_sources / alpha_effective_sources",
+    "mean_target_dominant_share": "mean_t(max_s p_ts)",
+    "interpretation": "beta > 1 indicates spatial turnover in which different targets depend on different source subsets; high beta together with high local dominance is distributed irreplaceability"
+  },
+  "matched_random_placement_null": {
+    "replicates_per_species": 1000,
+    "seed": 20261007,
+    "preserves": [
+      "nominal source count",
+      "exact source count in each bioregion"
+    ],
+    "sampling_frame": "pilot islands in matching bioregions, without replacement",
+    "primary_descriptive_contrast": "actual beta_source_turnover minus species-specific null mean",
+    "secondary_contrasts": [
+      "actual alpha_effective_sources minus null mean",
+      "actual gamma_effective_sources minus null mean",
+      "actual mean_target_dominant_share minus null mean"
+    ],
+    "species_bootstrap_replicates": 10000,
+    "species_bootstrap_seed": 2026100701,
+    "no_support_threshold": true
+  },
+  "claim_boundary": [
+    "post-hoc response-free mechanism diagnostic only",
+    "no heldout occurrence values may be read",
+    "do not call low occupancy a temporal range contraction",
+    "do not infer extinction filtering, refugial selection or realized dispersal",
+    "do not infer temporal insurance or persistence from spatial source turnover",
+    "do not use this diagnostic to rescue BALA or upgrade the mammal evidence class",
+    "do not select a new occupancy threshold"
+  ],
+  "interpretive_fork": {
+    "if_beta_actual_gt_null": "few observed sources divide target space more strongly than matched random placements; topology specificity is compatible with distributed irreplaceability rather than source clustering",
+    "if_beta_actual_not_gt_null": "existing complementarity result reflects global leverage balance without evidence for target-space division of source influence"
+  }
+}
