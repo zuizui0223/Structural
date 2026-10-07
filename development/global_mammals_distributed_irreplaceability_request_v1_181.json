@@ -1,0 +1,13 @@
+{
+  "schema":"structural.global_mammals_distributed_irreplaceability_request.v1_181",
+  "status":"REQUEST_POSTHOC_RESPONSE_FREE_SOURCE_TURNOVER_DIAGNOSTIC",
+  "contract":"development/global_mammals_distributed_irreplaceability_contract_v1_181.json",
+  "ultrarare_pilot_artifact_id":11285057696,
+  "reference_artifact_id":11059506168,
+  "routing_artifact_id":11060106528,
+  "null_replicates":1000,
+  "seed":20261007,
+  "bootstrap_seed":2026100701,
+  "heldout_occurrence_authorized":false,
+  "one_shot":true
+}
