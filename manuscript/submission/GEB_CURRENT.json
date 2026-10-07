@@ -1,0 +1,33 @@
+{
+  "schema": "structural.geb_current_submission.v1",
+  "status": "GEB_V1_178_IS_CURRENT_SUBMISSION_CANDIDATE",
+  "version": "v1.178",
+  "scientific_status": "development/current_status_v1_177.json",
+  "active_priority": "development/structural_active_priority_v1_177.json",
+  "terminal_sw_finland": "development/sw_finland_terminal_stop_v1_177.json",
+  "package_dir": "manuscript/submission/GEB_v1_178",
+  "manuscript": "manuscript/submission/GEB_v1_178/blinded_main_text.md",
+  "cover_letter": "manuscript/submission/GEB_v1_178/cover_letter.md",
+  "title_page_template": "manuscript/submission/GEB_v1_178/title_page_template.md",
+  "checklist": "manuscript/submission/GEB_v1_178/submission_checklist.md",
+  "manifest": "manuscript/submission/GEB_v1_178/submission_manifest.json",
+  "qa_receipt": "manuscript/submission/GEB_v1_178/submission_qa_v1_178.json",
+  "previous_submission_version": "manuscript/submission/GEB_v1_161",
+  "previous_version_superseded_for_submission": true,
+  "result_changes_from_v1_161": false,
+  "framing_changes": [
+    "Research Article seven-heading abstract",
+    "occupancy-regime topology-specificity framing",
+    "explicit prior-theory boundary for occupancy-dependent connectivity",
+    "response-free finite-source mechanism",
+    "current GEB format QA"
+  ],
+  "author_actions_remaining": [
+    "confirm final author list and order",
+    "complete affiliations and one corresponding author",
+    "complete acknowledgements, funding and conflict-of-interest statements",
+    "confirm AI-assistance disclosure wording",
+    "final author approval of manuscript and cover letter",
+    "prepare anonymized editable main document and separate title page for upload"
+  ]
+}
