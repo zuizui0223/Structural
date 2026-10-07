@@ -1,0 +1,40 @@
+{
+  "schema": "structural.geb_submission_qa.v1_180",
+  "status": "ROLE_INVERSION_SUBMISSION_QA_PASSED",
+  "journal": "Global Ecology and Biogeography",
+  "article_type": "Research Article",
+  "format": {
+    "abstract_words": 272,
+    "abstract_max": 300,
+    "main_text_words": 4955,
+    "main_text_typical_limit": 5000,
+    "running_title": "Occupancy-dependent source roles",
+    "running_title_characters": 32,
+    "running_title_max": 40,
+    "cover_interest_words": 183,
+    "cover_interest_max": 250,
+    "references": 21,
+    "references_alphabetized": true
+  },
+  "central_sequence": {
+    "exploratory_high_occupancy": "absence-focused constraint signature; no actual-topology specificity",
+    "prospective_5_12": "preregistered constraint signature fails in opposite direction; presence opportunity without topology specificity",
+    "prospective_1_4": "presence opportunity supported; actual topology outperforms 20/20 matched nulls",
+    "independent_temporal": "BALA source-loss leverage primary not supported"
+  },
+  "claim_boundary": {
+    "formal_monotonic_gradient": false,
+    "cross_layer_trend_pvalue": false,
+    "causal_role_switch": false,
+    "coefficient_magnitudes_as_effect_sizes": false,
+    "realized_dispersal": false,
+    "rescue": false,
+    "management_metric_validated": false
+  },
+  "provenance": {
+    "role_inversion_synthesis": "development/occupancy_role_inversion_synthesis_v1_179.json",
+    "current_status": "development/current_status_v1_177.json",
+    "sw_finland_terminal": "development/sw_finland_terminal_stop_v1_177.json",
+    "sw_finland_in_manuscript": false
+  }
+}
