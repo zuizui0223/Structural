@@ -1,0 +1,30 @@
+{
+  "schema": "structural.global_mammals_distributed_irreplaceability_transport_recovery.v1_181_1",
+  "status": "AUTHORITATIVE_COMPUTATION_COMPLETE_PUSH_ONLY_FAILURE_RESULT_RECOVERED",
+  "source_execution": {
+    "workflow_run_id": 37641870392,
+    "workflow_job_id": 112862663549,
+    "workflow_head_sha": "f9b88760350922fb1cef76331fcdee02fd9ef28b",
+    "numpy_version": "2.3.3",
+    "computation_status": "POSTHOC_RESPONSE_FREE_SOURCE_TURNOVER_DIAGNOSTIC_COMPLETE",
+    "computation_completed_before_failure": true,
+    "failure_stage": "git push origin HEAD:main",
+    "failure_reason": "non-fast-forward because main advanced after the workflow was queued",
+    "scientific_rerun_performed": false
+  },
+  "exact_result_path": "development/global_mammals_distributed_irreplaceability_freeze_v1_181.json",
+  "exact_log_result_sha_fields": {
+    "species_table_sha256": "618697efd4b50f669aedae5063f9fca323f8d4a9e2cba9b3ceb355e2425e6954"
+  },
+  "result_identity": {
+    "local_preview_numpy_2_3_5_matched_all_reported_summary_values": true,
+    "authoritative_values_source": "GitHub Actions log from exact NumPy 2.3.3 run",
+    "heldout_occurrence_values_opened": 0
+  },
+  "interpretation_boundary": {
+    "distributed_irreplaceability_supported": false,
+    "observed_beta_turnover_vs_null": "lower",
+    "spatial_partitioning_explanation_for_v1_122_aggregate_balance": "not supported",
+    "no_rerun_needed": true
+  }
+}
