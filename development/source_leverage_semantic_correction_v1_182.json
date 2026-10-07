@@ -1,0 +1,27 @@
+{
+  "schema": "structural.source_leverage_semantic_correction.v1_182",
+  "status": "CORRECT_AGGREGATE_BALANCE_NOT_SPATIAL_COMPLEMENTARITY",
+  "parent": "development/global_mammals_ultrarare_source_leverage_freeze_v1_122.json",
+  "numerical_results_changed": false,
+  "correction": {
+    "previous_overstatement": "observed source configurations are more spatially complementary than matched random placements",
+    "defensible_statement": "observed source configurations have more evenly distributed aggregate graph-pressure contributions than matched random placements",
+    "reason": "v1.121 effective source number is calculated after summing each source's access mass over targets and therefore does not distinguish target-space partitioning from balanced co-coverage"
+  },
+  "unchanged": {
+    "mean_actual_minus_null_effective_count": 0.28242921346906974,
+    "ci95": [
+      0.20500912701472415,
+      0.362361925385512
+    ],
+    "median_dominant_aggregate_share": 0.6606971572134337,
+    "median_effective_over_nominal": 0.7436344778424323
+  },
+  "discriminating_test": "development/global_mammals_distributed_irreplaceability_contract_v1_181.json",
+  "response_boundary": {
+    "new_occurrence_access": false,
+    "heldout_result_changed": false,
+    "BALA_result_changed": false,
+    "evidence_class_changed": false
+  }
+}
