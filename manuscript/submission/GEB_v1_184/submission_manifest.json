@@ -1,0 +1,64 @@
+{
+  "schema": "structural.geb_submission_manifest.v1_184",
+  "status": "GEB_TOPOLOGY_WITHOUT_SOURCE_IRREPLACEABILITY_SUBMISSION_PACKAGE",
+  "scientific_freeze": "development/current_status_v1_183.json",
+  "manuscript": "manuscript/submission/GEB_v1_184/blinded_main_text.md",
+  "cover_letter": "manuscript/submission/GEB_v1_184/cover_letter.md",
+  "title_page_template": "manuscript/submission/GEB_v1_184/title_page_template.md",
+  "checklist": "manuscript/submission/GEB_v1_184/submission_checklist.md",
+  "format": {
+    "journal": "Global Ecology and Biogeography",
+    "article_type": "Research Article",
+    "title": "When do source islands matter? Topology without source irreplaceability",
+    "running_title": "Topology without irreplaceability",
+    "abstract_words": 275,
+    "main_text_words": 4718,
+    "running_title_characters": 33,
+    "keyword_count": 9,
+    "reference_count": 23
+  },
+  "central_evidence": {
+    "ultrarare_heldout": {
+      "species": 529,
+      "presence_C_minus_R3": -0.5962586684916777,
+      "ci95": [
+        -0.743854761144673,
+        -0.46445672203892047
+      ],
+      "actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20",
+      "evidence_class": "prospective preregistered species-layer support within one geography"
+    },
+    "response_free_source_turnover": {
+      "species": 212,
+      "actual_minus_null_beta": -0.26202792201140007,
+      "ci95": [
+        -0.3166893034908708,
+        -0.20762835904337926
+      ],
+      "actual_minus_null_alpha": 0.3939208530577791,
+      "actual_minus_null_gamma": 0.1344479796491595,
+      "actual_minus_null_target_dominance": -0.13900859730011123,
+      "evidence_class": "posthoc response-free mechanism diagnostic"
+    },
+    "BALA_temporal": {
+      "taxa": 20,
+      "target_rows": 64,
+      "C_minus_R2": 0.00067423414692237,
+      "ci95": [
+        -0.02130441194511585,
+        0.025579070508640226
+      ],
+      "supported": false
+    }
+  },
+  "central_claim": "network-level topology-specific occurrence information can exist without unusually irreplaceable source territories; predictive network value, source-node priority and later demographic consequence are separate empirical claims",
+  "claim_boundary": {
+    "source_node_irreplaceability_supported": false,
+    "demographic_redundancy_supported": false,
+    "realized_dispersal": false,
+    "rescue": false,
+    "management_ranking_validated": false,
+    "geographic_positive_replication": false
+  }
+}
