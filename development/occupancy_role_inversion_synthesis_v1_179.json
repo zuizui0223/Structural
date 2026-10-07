@@ -1,0 +1,78 @@
+{
+  "schema": "structural.occupancy_role_inversion_synthesis.v1_179",
+  "status": "FROZEN_CROSS_LAYER_DESCRIPTIVE_SYNTHESIS_NO_NEW_RESPONSE_ACCESS",
+  "geography": "same 5401-island mammal system",
+  "endpoint": "heldout occurrence prediction",
+  "layers": [
+    {
+      "label": "13_plus",
+      "evidence_class": "exploratory",
+      "presence_C_minus_R3": 0.11644,
+      "absence_C_minus_R3": -0.0058,
+      "class_selectivity_J": 0.12224,
+      "graph_distance_coefficient": 0.2850503614129154,
+      "graph_pressure_coefficient": -0.07046930696056496,
+      "topology_specificity": "not supported; actual better than 0/20 nulls"
+    },
+    {
+      "label": "5_12",
+      "evidence_class": "prospective preregistered",
+      "presence_C_minus_R3": -0.27744,
+      "absence_C_minus_R3": 0.00043,
+      "class_selectivity_J": -0.27787,
+      "graph_distance_coefficient": -0.6217018394190181,
+      "graph_pressure_coefficient": 0.012663643435185199,
+      "topology_specificity": "not supported; actual better than 11/20 nulls",
+      "preregistered_constraint_signature_supported": false,
+      "reversal_direction": "opposite to preregistered P2 constraint signature"
+    },
+    {
+      "label": "1_4",
+      "evidence_class": "prospective preregistered",
+      "presence_C_minus_R3": -0.5962586684916777,
+      "absence_C_minus_R3": 0.000236,
+      "class_selectivity_J": -0.5964946684916778,
+      "graph_distance_coefficient": -0.4023133839245694,
+      "graph_pressure_coefficient": 0.004651642394442912,
+      "topology_specificity": "supported; actual better than 20/20 nulls",
+      "presence_C_minus_R3_ci95": [
+        -0.743854761144673,
+        -0.46445672203892047
+      ],
+      "source_support_nonempty_minus_empty": -0.6705,
+      "source_support_ci95": [
+        -0.8009,
+        -0.5427
+      ]
+    }
+  ],
+  "interpretation": "constraint-to-opportunity transition in predictive role, with actual-topology specificity emerging only at sparse extreme",
+  "evidence_boundary": {
+    "cross_layer_J_trend_test_authorized": false,
+    "coefficient_magnitudes_causal": false,
+    "continuous_threshold_claim": false,
+    "monotonic_rarity_law": false,
+    "causal_colonization_or_extinction_switch": false,
+    "realized_dispersal": false,
+    "geographic_replication": false
+  },
+  "provenance": {
+    "high_occupancy_coefficients": {
+      "workflow_run_id": 36745389315,
+      "workflow_job_id": 109990153297
+    },
+    "rare_coefficients": {
+      "workflow_run_id": 37105060398,
+      "workflow_job_id": 111151830827
+    },
+    "ultrarare_coefficients": {
+      "workflow_run_id": 37154791882,
+      "workflow_job_id": 111295867044
+    }
+  },
+  "response_boundary": {
+    "new_response_access": false,
+    "same_data_refit": false,
+    "threshold_search": false
+  }
+}
