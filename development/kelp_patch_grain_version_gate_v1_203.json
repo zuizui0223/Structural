@@ -1,0 +1,45 @@
+{
+  "schema": "structural.kelp_grain_version_boundary.v1_203",
+  "status": "PUBLICATION_AND_CATALOG_METADATA_ONLY_NO_DATA_ENTITY_OPENED",
+  "source_urls": {
+    "castorani2017": "https://doi.org/10.1098/rspb.2016.2086",
+    "wanner2024": "https://doi.org/10.1002/ecy.4270",
+    "author_catalog": "https://castorani.evsc.virginia.edu/data/",
+    "original_patch_fecundity": "https://doi.org/10.6073/pasta/448cc3e3d4d32dd5ad616e066a78bace",
+    "original_patch_transport_paper": "https://doi.org/10.6073/pasta/14a2849b021ced9a7510d375bed25cd9",
+    "author_catalog_patch_transport_version3": "https://doi.org/10.6073/pasta/7e5ff54ed1938009833ec77a7f57fba4",
+    "wanner2024_roms_cell_transport": "https://doi.org/10.6073/pasta/28a62732ad76625af1667c252187c8e3"
+  },
+  "distinct_study_grains": {
+    "castorani2017": {
+      "focal_units": "469 kelp patches",
+      "source_time": "semiannual ~22 semesters in 1996-2006 source-series",
+      "observed_process": "published extinction and colonization transitions",
+      "reported_extinctions": 893,
+      "reported_colonizations": 891,
+      "previous_science": "2017 paper already reports source-fecundity temporal variation more important than varying dispersal for demographic-connectivity explanation"
+    },
+    "wanner2024": {
+      "focal_units": "117 ROMS cells with kelp",
+      "transport_time": "1996-2006, 44 quarters used for dispersal-synchrony analysis",
+      "prior_science": "2024 paper already reports association of physically modelled dispersal with synchrony after control for distance, nitrate and waves",
+      "not_same_as_469_patch_grid": true
+    }
+  },
+  "crosswalk_requirements": {
+    "patch_id_to_ROMS_cell": "NOT_VERIFIED",
+    "unique_2017_patch_id_field": "NOT_VERIFIED",
+    "unique_2024_cell_id_field": "NOT_VERIFIED",
+    "exact_2017_time_index_and_2024_time_index_mapping": "NOT_VERIFIED",
+    "patch_fecundity_source_provenance": "CATALOG_REFERENCE_ONLY",
+    "old_transport_doi_vs_version3_identity": "NOT_VERIFIED",
+    "Wanner_ROMS_cell_time_vs_2017_patch_transport_time": "NOT_VERIFIED",
+    "all_required_before_join": true,
+    "direct_join_authorized": false,
+    "silent_replacement_of_original_transport_DOI_authorized": false
+  },
+  "no_new_biological_values_opened": true,
+  "original_mammal_heldout_reopened": false,
+  "pristine_confirmatory_eligible": false,
+  "next_gate": "Response-opaque archive entity, schema and join-key metadata inspection of exact 2017 patch pair; report STOP rather than substitute incompatible 2024 ROMS-cell measures or relax time keys."
+}

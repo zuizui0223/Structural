@@ -1,0 +1,63 @@
+{
+  "schema": "structural.kelp_temporal_source_ontology.v1_205",
+  "evidence": "PUBLISHED_METHODS_AND_PUBLIC_CATALOG_ONLY",
+  "citations": {
+    "castorani2017": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5310032/",
+    "wanner2024": "https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecy.4270",
+    "sbc": "https://sbclter.msi.ucsb.edu/data/catalog/",
+    "edi": "https://www.edirepository.org/"
+  },
+  "frozen_design": {
+    "castorani": {
+      "patch_count": 469,
+      "patch_definition_uses_kelp_1984_to_2011": true,
+      "patch_definition_end_year": 2011,
+      "example_forward_cutoff_year": 1996,
+      "original_semesters": 22,
+      "source_fecundity": "diver-calibrated Landsat canopy proxy",
+      "canopy_occupancy_threshold": "canopy biomass > 0",
+      "assumes_zero_fecundity_when_no_canopy": true,
+      "nonzero_intercept_sensitivity_reported": true,
+      "independent_patch_fecundity_failure_measured": false,
+      "dispersal_observed_as_individual_movements": false
+    },
+    "wanner": {
+      "predefined_physical_cells": 135,
+      "published_ever_kelp_cells": 117,
+      "biological_inclusion_rule": "cell had kelp during observed time series",
+      "cutoff_specific_inclusion_proven": false,
+      "cell_is_patch": false,
+      "period_1996_to_2006_quarters": 44
+    }
+  },
+  "public_catalog_roles": [
+    {
+      "id": "knb-lter-sbc.101",
+      "role": "giant kelp patch definitions",
+      "exact_DOI_version_verified": false
+    },
+    {
+      "id": "knb-lter-sbc.102",
+      "role": "giant kelp patch area biomass and fecundity",
+      "exact_DOI_version_verified": false
+    },
+    {
+      "id": "knb-lter-sbc.103",
+      "role": "giant kelp patch spore dispersal times",
+      "exact_DOI_version_verified": false
+    }
+  ],
+  "evidence_boundaries": {
+    "metadata_only": true,
+    "raw_data_opened": false,
+    "original_mammal_response_reopened": false,
+    "source_file_headers_verified": false,
+    "EDI_API_authenticated": false,
+    "cross_grain_patch_cell_crosswalk_verified": false,
+    "manuscript_submission_authorized": false,
+    "original_results_changed": false,
+    "eBird_used": false
+  },
+  "interpretation": "Published outcomes and habitat construction are retrospective. Do not treat canopy-derived zero fecundity as independent reproductive failure; 117-cell ever-kelp inclusion is not demonstrated valid at a prospective 1996 cutoff.",
+  "next_gate": "Fresh forecast requires geographic universe fixed before target, lagged independently qualified donor state, and observed transition with detection; otherwise strictly retrospective."
+}

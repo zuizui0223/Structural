@@ -1,0 +1,51 @@
+{
+  "schema": "structural.kelp_edi_metadata_access_gate.v1_204",
+  "status": "REQUIRES_AUTHORIZED_EDI_API_ACCESS_NO_SEMANTIC_METADATA_AUDIT_EXECUTED",
+  "provider": "Environmental Data Initiative (EDI) PASTA+",
+  "official_policy": "On 2026-07-30 EDI changed its repository REST API access to require user authentication for all users.",
+  "official_source": "https://web-x.edirepository.org/news/news-grid",
+  "official_API_docs": "https://pastaplus-core.readthedocs.io/en/latest/doc_tree/pasta_api/data_package_manager_api.html",
+  "official_auth": "https://auth.edirepository.org/",
+  "target_packages": [
+    {
+      "role": "1996-2006 kelp patch production and occupancy",
+      "doi": "10.6073/pasta/448cc3e3d4d32dd5ad616e066a78bace"
+    },
+    {
+      "role": "published 2017 patch-to-patch spore transport",
+      "doi": "10.6073/pasta/14a2849b021ced9a7510d375bed25cd9"
+    },
+    {
+      "role": "author catalog patch transport version 3; not presumed interchangeable",
+      "doi": "10.6073/pasta/7e5ff54ed1938009833ec77a7f57fba4"
+    },
+    {
+      "role": "2024 ROMS-cell monthly/annual transport; different spatial grain",
+      "doi": "10.6073/pasta/28a62732ad76625af1667c252187c8e3"
+    }
+  ],
+  "access_classification": {
+    "authenticated_access_verified": false,
+    "any_EDI_API_key_provided_to_this_workflow": false,
+    "metadata_resource_map_decoded": false,
+    "external_entity_names_opened": false,
+    "original_source_header_decoded": false,
+    "original_source_data_values_decoded": false,
+    "transport_edge_values_decoded": false,
+    "original_mammal_response_opened": false,
+    "this_result_is_an_access_policy_gate_not_404_or_missing_data": true,
+    "user_credential_or_secret_recorded": false,
+    "allow_anonymous_API_bypass": false
+  },
+  "next_authorized_sequence": [
+    "With separately authorized EDI access, map frozen DOI to immutable package ID and capture content identity without accessing data entities.",
+    "Fetch EML metadata and only declared entity names/types/attribute names and explicit temporal/spatial keys; do not download data tables.",
+    "Compare 2017 published DOI and author-listed version 3 as distinct versions until an exact audited same-series crosswalk is established.",
+    "Never join 469-patch and 117-ROMS-cell datasets without explicit patch-to-cell relationship, time aggregation and directionality proof.",
+    "If access identity or join keys fail, record technical STOP; do not modify prior biological inference or reopen consumed mammal lineages."
+  ],
+  "status_scope": "RESPONSE_FREE_TECHNICAL_ACCESS_HOLD_ONLY",
+  "scientific_hold": true,
+  "active_confirmatory_systems": 0,
+  "eBird_used": false
+}
