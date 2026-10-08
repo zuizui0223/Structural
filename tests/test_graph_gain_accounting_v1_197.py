@@ -47,6 +47,11 @@ def test_admission_and_submission_remain_on_hold():
     assert s["independent_evidence_admissibility"] == "development/independent_biological_evidence_admissibility_v1_196.json"
     assert p["canonical_status"] == "development/current_status_v1_197.json"
     assert c["scientific_status"] == p["canonical_status"]
-    assert c["active_priority"] == "development/structural_active_priority_v1_197.json"
+    # Newer transport-only priority updates must preserve the frozen scientific HOLD,
+    # rather than leaving the submission pointer stuck on this historical v1.197 path.
+    active=read(ROOT/c["active_priority"])
+    assert active["canonical_status"] == p["canonical_status"]
+    assert "hold" in active["status"].lower()
+    assert active["do_not"]
     assert c["version"] == "v1.185"
     assert c["submission_authorized"] is False
