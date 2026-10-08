@@ -1,0 +1,13 @@
+{
+  "schema": "structural.hebert_transport_preflight_request.v1_198",
+  "status": "RUN_FIXED_DATASET_METADATA_ONLY_HEAD_CHECK",
+  "contract": "development/hebert_transport_preflight_contract_v1_198.json",
+  "dataset_doi": "10.5061/dryad.rfj6q579r",
+  "frozen_files_contract": "development/global_mammals_independent_checklist_preintake_v1_188.json",
+  "outcome_values_opened_before_request": 0,
+  "CSV_download_or_body_open_authorized": false,
+  "island_species_labels_authorized": false,
+  "independent_ecological_score_requested": false,
+  "one_shot": true,
+  "eBird_used": false
+}
