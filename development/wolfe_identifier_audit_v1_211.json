@@ -1,0 +1,64 @@
+{
+  "schema": "structural.wolfe_single_metadata_coding_discrepancy.v1_211",
+  "status": "FROZEN_RESPONSE_BLIND_ID_CODE_CORRECTION_CONDITIONAL_ON_SOURCE_LABEL_MEANING",
+  "source": {
+    "repo": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "git_blob": "e78003d425b646b390ae02e36c007892c1c70926",
+    "source_content_rewritten": false
+  },
+  "predecessor_status": {
+    "v209": "TERMINAL_SOURCE_ROW_COUNT_176_AND_UNIT_ID_ISSUE",
+    "v210": "TERMINAL_FACTORIAL_ARM_COUNTS_OUTSIDE_FROZEN_41x4_4x3"
+  },
+  "evidence_before_biological_scores": {
+    "unique_treatment_cells": 45,
+    "observed_rows": 176,
+    "uncorrected_cell_sizes": {
+      "n3": 5,
+      "n4": 39,
+      "n5": 1
+    },
+    "suspect_source_row_id": "6HoLM1",
+    "suspect_microcosm_code": "6HoLM",
+    "suspect_replicate": "1",
+    "suspect_source_label": "matrix_dispersal=none",
+    "within_same_code_replicates": [
+      "6HoLM2",
+      "6HoLM3",
+      "6HoLM4"
+    ],
+    "within_same_code_other_matrix_labels": [
+      "low",
+      "low",
+      "low"
+    ],
+    "same_code_consistency_expected": "low",
+    "inferred_reassignment": "Change only model-input matrix_dispersal none -> low for source row 6HoLM1; never edit source CSV",
+    "expected_corrected_cell_sizes": {
+      "n3": 4,
+      "n4": 41,
+      "n5": 0
+    },
+    "missing_four_experimental_vessels_supported_by_original_paper": true,
+    "independently_verified_by_lab_protocol": false,
+    "this_is_not_biological_effect_based_repair": true
+  },
+  "conditional_science": {
+    "effect_route": "v1.211 independently labelled retrospective, not v1.209 or v1.210 rescore",
+    "no_causal_robustness_without_original_lab_treatment_confirmation": true,
+    "exact_same_v210_design_estimand_and_endpoint": true,
+    "no_extra_favorability_based_models": true,
+    "no_response_values_semantically_analyzed_before_freeze": true,
+    "any_technical_failure_is_terminal": true
+  },
+  "hard_bounds": {
+    "mammal_response_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_revisit": false,
+    "SW_Finland_revisit": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}

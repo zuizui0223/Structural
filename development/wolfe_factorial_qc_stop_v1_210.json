@@ -1,0 +1,14 @@
+{
+  "schema": "structural.wolfe_v210_factorial_qc_terminal.v1_210",
+  "status": "TERMINAL_UNCORRECTED_FACTORIAL_CELL_SIZES_FAIL",
+  "source_blob": "e78003d425b646b390ae02e36c007892c1c70926",
+  "actual_uncorrected_cells_n3": 5,
+  "actual_uncorrected_cells_n4": 39,
+  "actual_uncorrected_cells_n5": 1,
+  "predeclared_expected_n3": 4,
+  "predeclared_expected_n4": 41,
+  "actual_rows": 176,
+  "ecological_response_scores_produced": 0,
+  "no_v210_same_protocol_rerun": true,
+  "next_route": "v1.211 separate provisional row-identifier consistency rule; not a retroactive v1.210 pass"
+}
