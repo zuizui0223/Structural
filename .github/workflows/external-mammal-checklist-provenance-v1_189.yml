@@ -1,0 +1,65 @@
+name: External mammal checklist source-provenance audit v1.189
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_external_checklist_header_gate_v1_188.json
+
+permissions:
+  contents: write
+
+jobs:
+  classify-metadata:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify no checklist binary response access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_independent_provenance_contract_v1_189.json").read_text())
+          r=json.loads(Path("development/global_mammals_external_checklist_header_gate_v1_188.json").read_text())
+          assert c["response_boundary"]["external_binary_decoded"]==0
+          assert c["response_boundary"]["original_heldout_opened"]==0
+          assert c["gating"]["no_threshold_relaxation_after_metadata_result"] is True
+          assert c["gating"]["external_checklist_0_1_values_may_be_opened"] is False
+          assert r["external_checklist_binary_cells_decoded"]==0
+          assert r["original_mammal_heldout_cells_opened"]==0
+          assert r["external_endpoint_scoring_authorized"] is False
+          PY
+
+      - name: Classify only frozen v1.188 header metadata
+        run: |
+          python scripts/audit_external_mammal_checklist_provenance_v1_189.py \
+            development/global_mammals_external_checklist_header_gate_v1_188.json \
+            --result build/external_mammal_v189/provenance_result.json
+
+      - name: Freeze metadata-only provenance result
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/external_mammal_v189/provenance_result.json")
+          r=json.loads(p.read_text())
+          assert r["status"] in ("STOP_PARENT_V188_HEADER_SUPPORT","STOP_PROVENANCE_QUALIFIED_HEADER_SUPPORT","HOLD_PROVENANCE_QUALIFIED_ISLAND_ID_GAZETTEER_REQUIRED")
+          assert r["external_checklist_binary_cells_decoded"]==0
+          assert r["original_mammal_heldout_cells_opened"]==0
+          assert r["external_scoring_authorized"] is False
+          assert r["scientific_evidence_produced"] is False
+          PY
+          cp build/external_mammal_v189/provenance_result.json development/global_mammals_external_checklist_provenance_gate_v1_189.json
+          git add development/global_mammals_external_checklist_provenance_gate_v1_189.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze external mammal checklist source provenance v1.189"
+          git pull --rebase origin main
+          git push origin HEAD:main
