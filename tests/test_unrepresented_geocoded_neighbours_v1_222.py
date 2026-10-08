@@ -14,7 +14,7 @@ def test_expected_geographic_namepoints_are_not_all_islands():
     a=json.loads((ROOT/"development/strict_spatial_island_match_result_v1_221.json").read_text())
     assert a["results"]["Weigelt_namepoint_available"]==11546
     assert a["results"]["Weigelt_namepoint_missing"]==6337
-    assert a["results"]["matched_selected_geographic_candidates"]==3878
+    assert a["results"]["matched_Structural_selected_geographic_candidates"]==3878
 def test_analytic_unit_sphere_chord_distance():
     assert abs(m.hav_from_dot(1)-0)<1e-10
     assert abs(m.hav_from_dot(-1)-3.141592653589793*m.R)<1e-7
