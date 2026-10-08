@@ -1,0 +1,13 @@
+# v1.214: does Wolfe's robust finite-sample contrast have robust inferential evidence?
+
+This is a deliberately **posthoc/exploratory** extension to the source-label-independent v1.212 result, not a confirmatory hypothesis nor an independent mammal validation.
+
+From the immutable author Git blob (e78003d...), drop ambiguous source row `6HoLM1` before parsing its predator values. Keep 175 observed experimental units, paired within 18 **4-/6-patch × matrix × corridor** strata (one homogeneous and one heterogeneous treatment arm, originally four experimental units each). The resulting missing/unassigned outcomes total five. For every one of `2^5 = 32` binary assignments to those outcomes, compute the full planned-denominator 18-stratum joint presence contrast and the difference between six- and four-patch heterogeneity contrasts.
+
+The **hypothetical permutation distribution** conditions on the number of joint-guild-positive experimental units in each completed eight-unit stratum, and assigns four labels heterogeneous and four homogeneous. Under a sharp null and exchangeability, the number positive in one arm follows a hypergeometric distribution. An exact BigInt dynamic-programming convolution calculates the conditional distribution over `70^18` combinations. Two-sided tails include ties and are reported as a **range** across all 32 imputed outcomes.
+
+**Essential limitation:** the paper's actual within-stratum random allocation procedure and missingness mechanism were not verified. These tail areas are therefore NOT design-verified randomization-test p values, and exploratory six-versus-four interaction selection is postoutcome with no multiplicity control. Do not report them as proof of a population-significant effect.
+
+The first independent JS source audit gave bounded full-denominator overall effect [+0.04167,+0.11111], six-minus-four effect [+0.16667,+0.30556], but two-sided hypothetical tail areas across imputations of **[0.0442,0.6020]** overall and **[0.00477,0.17385]** for the patch-count interaction. Positive finite-sample contrasts do not imply p<0.05 robustly. A separately frozen GitHub Actions run must verify the exact enumeration and tests; keep existing estimates untouched.
+
+Even if that runs cleanly, the 4-patch heterogeneous treatment is 16/8ml ratio 2:1, whereas the 6-patch heterogeneous treatment is 12/4ml ratio 3:1. That co-varies number of patches with **intensity** of size-heterogeneity; the experiment does not isolate a pure patch-count threshold or demographic source rescue. Original GEB remains scientific HOLD, and eBird, ALA, BALA, SW Finland, and original IUCN mammal surfaces remain closed.

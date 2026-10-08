@@ -1,0 +1,35 @@
+name: Wolfe v1.214 exploratory assignment-exchangeability sensitivity
+on:
+  push:
+    branches:
+      - analysis/wolfe-joint-predator-v1-209
+    paths:
+      - development/wolfe_assignment_exchangeability_contract_v1_214.json
+permissions:
+  contents: read
+jobs:
+  enumeration:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Exact conditional hypergeometric null synthetic tests
+        run: node --test tests/test_wolfe_assignment_permutation_v1_214.mjs
+      - uses: actions/checkout@v4
+        with:
+          repository: ExperimentalConservation/Experimental-data
+          ref: fabe50b58a13651be4168b91cd91589ccc261a96
+          path: build/wolfe_original
+          persist-credentials: false
+      - name: Enumerate missing outcomes and exact hypothetical label assignments
+        run: |
+          node scripts/wolfe_assignment_permutation_v1_214.mjs "build/wolfe_original/Wolfe et al. /Wolfe et al experimental data.csv" build/wolfe_v214/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolfe-v214-exact-hypothetical-label-sensitivity
+          path: build/wolfe_v214/result.json
+          retention-days: 21

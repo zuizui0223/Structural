@@ -1,0 +1,74 @@
+{
+  "schema": "structural.wolfe_conditional_assignment_enumeration.v1_214",
+  "status": "POSTHOC_EXPLORATORY_EXCHANGEABILITY_SENSITIVITY_NO_DESIGN_RANDOMIZATION_ASSERTED",
+  "parent_result": "development/wolfe_robustness_evidence_freeze_v1_212.json",
+  "source": {
+    "repo": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "file": "Wolfe et al. /Wolfe et al experimental data.csv",
+    "git_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "size_bytes": 12096
+  },
+  "primary_endpoint": "Day-21 joint metacommunity presence of generalist Stentor coeruleus and specialist Didinium nasutum or Dileptus anser",
+  "source_row_guard": {
+    "exclude_exact_one": "6HoLM1",
+    "reason": "unconfirmed matrix_dispersal label conflicting with same experimental treatment code",
+    "remaining_source_rows": 175,
+    "cells_n3": 5,
+    "cells_n4": 40,
+    "nonfocal_missing_outcomes_included": false
+  },
+  "planned_treatment_design": {
+    "patch_counts": [
+      4,
+      6
+    ],
+    "matrix": [
+      "none",
+      "low",
+      "high"
+    ],
+    "corridor": [
+      "none",
+      "low",
+      "high"
+    ],
+    "strata_count": 18,
+    "arms": [
+      "heterogeneous",
+      "homogeneous"
+    ],
+    "planned_each_arm": 4,
+    "unknown_binary_outcomes": 5,
+    "imputations_exhaustively_enumerated": 32
+  },
+  "exchangeability_assumption": "Hypothetically exchange labels of the 4 heterogeneous and 4 homogeneous experimental units within each independent patch-count x matrix x corridor stratum under a sharp null; original random allocation protocol and complete outcome-independent missingness NOT verified.",
+  "null_definition": {
+    "within_stratum_conditional_success_total": "K among 8 units after imputation",
+    "success_in_heterogeneous_arm": "X ~ Hypergeometric(N=8, K=success_total, draws=4)",
+    "integer_test_statistic": "sum_strata(2*X-K) for overall; six-patch sum minus four-patch sum for 6−4 contrast",
+    "permutation_assignments_per_stratum": 70,
+    "null_joint_assignments": "70^18",
+    "exact_computation": "BigInt dynamic-programming convolution, no Monte Carlo error",
+    "two_sided_rule": "P(|T_null| >= |T_observed|) with ties included",
+    "one_sided_rule": "P(T_null >= T_observed), descriptive only",
+    "output": "range of exact conditional tail probabilities over all 2^5 missing binary outcome assignments"
+  },
+  "limits": {
+    "original_design_randomization_verified": false,
+    "sharp_null_assignment_p_value_is_valid_confirmatory": false,
+    "posthoc_selection_of_six_vs_four_interaction": true,
+    "multiple_exploratory_endpoints_corrected": false,
+    "attrition_assignment_missing_at_random_established": false,
+    "all_missing_binary_outcomes_success_or_failure_enumerated": true,
+    "p_values_not_confidence_intervals": true,
+    "cannot_identify_patch_count_pure_effect": true,
+    "no_independent_mammal_occurrence_confirmation": true,
+    "GEB_scientific_hold": true,
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "SW_Finland_reopen": false
+  }
+}
