@@ -17,7 +17,10 @@ def test_working_manuscript_shows_nonpaired_geography_only():
     m=(ROOT/"manuscript/working/GEB_v1_217/blinded_main_text.md").read_text()
     assert "separate unpaired geography-frame comparison" in m
     assert "6.40 km²" in m and "4.08 km²" in m
-    assert "could not be reliably crosswalked" in m
+    assert "Numeric IDs differed" in m
+    assert "3,878 candidate island pairs" in m
+    assert "do not prove mammal-zero islands" in m
+    # v1.220 original numeric-ID STOP remains true; v1.221 was a separate geo-only crosswalk
     assert "10.1073/pnas.1306309110" in m
     n=len(re.sub(r"[#*_>\x60\[\]{}()]"," ",m[m.index("## 1. Introduction"):m.index("## References")]).split())
     assert n<=5000
