@@ -1,0 +1,12 @@
+{
+  "schema": "structural.external_archipelago_mammal_checklist_header_request.v1_188",
+  "status": "REQUEST_EXTERNAL_MAMMAL_CHECKLIST_RESPONSE_OPAQUE_IDENTITY_AUDIT",
+  "contract": "development/global_mammals_independent_checklist_preintake_v1_188.json",
+  "exact_dataset_doi": "10.5061/dryad.rfj6q579r",
+  "file_count": 9,
+  "expected_species_universe": 529,
+  "binary_checklist_values_authorized": false,
+  "original_mammal_heldout_access_authorized": false,
+  "one_shot": true,
+  "eBird_used": false
+}

@@ -1,4 +1,8 @@
-# Current GEB submission candidate — v1.185
+# GEB v1.185 draft — SCIENTIFIC HOLD before ecological-mechanism submission
+
+**Submission is on HOLD.** The original mammal 0/1 labels were derived from an IUCN-2017 species-range / island-polygon overlay, curated by the original authors, with some human-extinct native occurrences restored from historical sources. They are **not a standardized direct survey of contemporary living source populations**. The heldout prediction result remains numerically valid for those map-derived labels, but cannot yet support claims about observed dispersal, contemporary source populations or colonization.
+
+Primary provenance audit: `development/global_mammals_response_ontology_audit_v1_187.json`. Independent checklist identity gate: `development/global_mammals_independent_checklist_preintake_v1_188.json`. The external label values must stay unopened until a unique species/island crosswalk and provenance classification are frozen. This is not an invitation to tune or rerun the original mammal model.
 
 Use `GEB_v1_185/blinded_main_text.md`, `GEB_v1_185/cover_letter.md`, `GEB_v1_185/title_page_template.md`, `GEB_v1_185/submission_manifest.json` and `GEB_v1_185/submission_qa_v1_185.json`.
 
@@ -6,6 +10,6 @@ Use `GEB_v1_185/blinded_main_text.md`, `GEB_v1_185/cover_letter.md`, `GEB_v1_185
 
 The held-out source-related gain and original-versus-rewired result remain valid inside their frozen predictive design. Their ecological interpretation is narrower: they do not identify movement routes, individual irreplaceable sources, demographic rescue or a causal connectivity mechanism. The response-free v1.181 analysis finds reduced source turnover relative to random placement; BALA temporal consequence remains unsupported.
 
-The detailed semantic audit is `development/global_mammals_graph_semantics_audit_v1_185.json`; the current scientific status is `development/current_status_v1_185.json`. **v1.184 is superseded for submission**, while all earlier results remain unchanged.
+The detailed semantic audit is `development/global_mammals_graph_semantics_audit_v1_185.json`; the current scientific status is `development/current_status_v1_187.json`. **v1.184 is superseded for submission**, while all earlier results remain unchanged.
 
 No new mammal outcome access, graph-k retuning, posthoc null-matching rescue, BALA rerun, SW Finland rescue or eBird use is authorized.

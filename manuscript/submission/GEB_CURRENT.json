@@ -1,9 +1,9 @@
 {
   "schema": "structural.geb_current_submission.v1",
-  "status": "GEB_V1_185_IS_CURRENT_SUBMISSION_CANDIDATE",
+  "status": "GEB_V1_185_SCIENTIFIC_HOLD_PENDING_INDEPENDENT_SPECIES_ISLAND_VALIDATION",
   "version": "v1.185",
-  "scientific_status": "development/current_status_v1_185.json",
-  "active_priority": "development/structural_active_priority_v1_185.json",
+  "scientific_status": "development/current_status_v1_187.json",
+  "active_priority": "development/structural_active_priority_v1_187.json",
   "terminal_sw_finland": "development/sw_finland_terminal_stop_v1_177.json",
   "package_dir": "manuscript/submission/GEB_v1_185",
   "manuscript": "manuscript/submission/GEB_v1_185/blinded_main_text.md",
@@ -30,5 +30,15 @@
     "final author approval of manuscript and cover letter",
     "prepare anonymized editable main document and separate title page for upload"
   ],
-  "graph_semantics_audit": "development/global_mammals_graph_semantics_audit_v1_185.json"
+  "graph_semantics_audit": "development/global_mammals_graph_semantics_audit_v1_185.json",
+  "source_response_ontology_audit": "development/global_mammals_response_ontology_audit_v1_187.json",
+  "external_checklist_preintake": "development/global_mammals_independent_checklist_preintake_v1_188.json",
+  "submission_authorized": false,
+  "reason_for_hold": "Original global mammal labels were derived from IUCN range-overlap mapping, manually corrected and partly augmented for human-extinct natives, not independent field-surveyed contemporary occupancy; same-data heldout validation does not resolve that ontology",
+  "pending_manuscript_edits": [
+    "replace unqualified realized/true presence with curated range-map positive label",
+    "do not describe map-positive islands as extant source populations without validation",
+    "preserve original predictive estimates as within-map evidence",
+    "only re-evaluate ecological-mechanism claim after independent checklist identity/provenance gate"
+  ]
 }

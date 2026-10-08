@@ -1,0 +1,25 @@
+name: Response-opaque independent mammal checklist v1.188 tests
+
+on:
+  pull_request:
+    paths:
+      - development/global_mammals_independent_checklist_preintake_v1_188.json
+      - scripts/audit_external_mammal_checklist_headers_v1_188.py
+      - tests/test_external_mammal_checklist_headers_v1_188.py
+  push:
+    branches:
+      - audit/iucn-map-response-v1-187
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_external_mammal_checklist_headers_v1_188.py
