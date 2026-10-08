@@ -1,0 +1,26 @@
+name: ALA focal taxon manifest response firewall v1.192 checks
+
+on:
+  pull_request:
+    paths:
+      - development/global_mammals_ala_taxon_manifest_gate_v1_192.json
+      - scripts/audit_ala_mammal_taxon_manifest_v1_192.py
+      - tests/test_ala_mammal_taxon_manifest_v1_192.py
+      - .github/workflows/ala-taxon-manifest-check-v1_192.yml
+  push:
+    branches:
+      - candidate/ala-focal-taxon-manifest-v1-192
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --disable-pip-version-check pytest
+      - run: python -m pytest -q tests/test_ala_mammal_taxon_manifest_v1_192.py

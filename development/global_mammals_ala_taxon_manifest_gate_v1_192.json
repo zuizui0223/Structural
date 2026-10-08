@@ -1,0 +1,67 @@
+{
+  "schema": "structural.ala_mammal_taxon_manifest_gate.v1_192",
+  "status": "FREEZE_AGGREGATE_SPECIES_NAME_ONLY_GATE_BEFORE_ISLAND_SPECIES_OCCURRENCE",
+  "candidate_id": "ala_native_mammal_independent_positive_records",
+  "parents": [
+    "development/global_mammals_ala_island_geometry_gate_v1_191.json",
+    "development/global_mammals_ala_island_geometry_receipt_v1_191_2.json",
+    "development/global_mammals_ala_zip_sidecar_correction_v1_191_2.json",
+    "development/global_mammals_response_ontology_audit_v1_187.json"
+  ],
+  "geometry_authority": {
+    "required_status": "PREOUTCOME_ALA_GEOMETRY_CROSSWALK_FROZEN_TAXON_GATE_STILL_REQUIRED",
+    "minimum_exact_heldout_matches": 30,
+    "frozen_exact_matches": 167,
+    "crosswalk_sha256": "f378d4e4ada3b66a4c297464fbc9763f73d5fd27622ec84580647e9daba94fb2",
+    "crosswalk_path": "development/global_mammals_ala_island_crosswalk_v1_191_2.csv",
+    "receipt_path": "development/global_mammals_ala_island_geometry_receipt_v1_191_2.json"
+  },
+  "original": {
+    "frozen_ultrarare_species": 529,
+    "species_universe_artifact_name": "global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728",
+    "species_universe_run_id": 37153960728,
+    "species_universe_csv": "ultrarare_species_universe.csv",
+    "species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9"
+  },
+  "external": {
+    "repository": "cjabradshaw/AusIslBiogeogrTraits",
+    "source_commit": "746fbe83c6f67c6d37439056f41198a72f56cb2e",
+    "response_archive_path": "data/gis/ausislmamala.zip",
+    "response_archive_name": "ausislmamala.zip",
+    "response_archive_blob_sha1": "37e78c36a4b26621a4c13b92c43974de05eb33aa",
+    "response_archive_size_bytes": 14056272,
+    "exact_dbf_basename": "ausislmamala.dbf",
+    "taxon_dbf_column": "scientific",
+    "taxon_field_documentation": "author workflow scripts/islbiogeogrtraits.R (Aug 2026) accesses ausisles.mamala.df$scientific from the island mammal shapefile",
+    "no_external_FID_field_access": true,
+    "no_geometry_from_response_archive_decoded": true
+  },
+  "parsing_policy": {
+    "use_only_dbf_taxon_column": true,
+    "parse_dbf_header_then_only_taxon_bytes_per_record": true,
+    "do_not_decode_other_column_bytes": true,
+    "no_species_by_FID_pair_materialized": true,
+    "no_positive_record_frequency_by_species_reported": true,
+    "outputs_only_unique_exact_matched_focal_binomials": true,
+    "name_normalization": "NFC, replace underscores and dots with spaces, collapse whitespace, casefold; no synonyms or fuzzy matches",
+    "min_distinct_matching_focal_species": 20,
+    "one_shot": true,
+    "no_threshold_change_after_result": true
+  },
+  "outcomes": {
+    "success": "HOLD_ALA_FOCAL_TAXA_AND_GEOMETRY_IDENTITIES_READY_FUTURE_PAIR_GATE",
+    "no_support": "STOP_ALA_FOCAL_SPECIES_OVERLAP_INSUFFICIENT",
+    "technical_stop": "STOP_ALA_FOCAL_TAXON_SCHEMA_OR_TRANSPORT",
+    "success_does_not_authorize_occurrence_scoring": true
+  },
+  "response_boundary": {
+    "ala_archive_transport_authorized": true,
+    "ala_taxon_column_semantics_authorized": true,
+    "ala_species_by_island_positive_pairs_read": 0,
+    "original_heldout_responses_opened": 0,
+    "actual_movement_observations_measured": false,
+    "field_surveyed_absences_available": false,
+    "model_refit": false,
+    "eBird_enabled": false
+  }
+}

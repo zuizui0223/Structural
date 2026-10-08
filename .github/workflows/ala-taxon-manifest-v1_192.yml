@@ -1,0 +1,125 @@
+name: ALA independent mammal focal-taxon manifest v1.192
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_ala_taxon_manifest_request_v1_192.json
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  taxon-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify frozen geometry before external taxon transport
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ala_taxon_manifest_gate_v1_192.json").read_text())
+          r=json.loads(Path("development/global_mammals_ala_taxon_manifest_request_v1_192.json").read_text())
+          geo=json.loads(Path("development/global_mammals_ala_island_geometry_receipt_v1_191_2.json").read_text())
+          a=c["geometry_authority"]
+          assert c["status"]=="FREEZE_AGGREGATE_SPECIES_NAME_ONLY_GATE_BEFORE_ISLAND_SPECIES_OCCURRENCE"
+          assert geo["status"]==a["required_status"]
+          assert geo["exact_one_to_one_heldout_matches"]==a["frozen_exact_matches"]==167
+          assert geo["crosswalk_sha256"]==a["crosswalk_sha256"]
+          assert hashlib.sha256(Path(a["crosswalk_path"]).read_bytes()).hexdigest()==a["crosswalk_sha256"]
+          assert r["status"]=="REQUEST_ALA_AGGREGATE_TAXON_NAMES_ONLY"
+          assert r["required_crosswalk_sha256"]==a["crosswalk_sha256"]
+          assert c["parsing_policy"]["min_distinct_matching_focal_species"]==r["focal_species_minimum"]==20
+          assert c["parsing_policy"]["no_species_by_FID_pair_materialized"] is True
+          assert r["external_species_by_island_pairs_authorized"] is False
+          assert r["original_heldout_mammal_response_authorized"] is False
+          assert r["one_shot"] is True and r["eBird_used"] is False
+          PY
+
+      - name: Download frozen original 529 focal species names only
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728
+          repository: zuizui0223/Structural
+          run-id: 37153960728
+          path: build/ala_v192/original
+          github-token: ${{ github.token }}
+
+      - name: Download exact ALA mammal archive bytes for taxon-column-only extraction
+        run: |
+          mkdir -p build/ala_v192/source build/ala_v192/output
+          python - <<'PY'
+          import hashlib,json,urllib.request
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ala_taxon_manifest_gate_v1_192.json").read_text())
+          s=c["external"]
+          url="https://raw.githubusercontent.com/"+s["repository"]+"/"+s["source_commit"]+"/"+s["response_archive_path"]
+          req=urllib.request.Request(url,headers={"User-Agent":"Structural-v1.192-aggregate-taxon-only"})
+          with urllib.request.urlopen(req,timeout=180) as f:
+              b=f.read(s["response_archive_size_bytes"]+1)
+          assert len(b)==s["response_archive_size_bytes"],"external source size drift"
+          sha=hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+          assert sha==s["response_archive_blob_sha1"],"external source git blob drift"
+          Path("build/ala_v192/source/ausislmamala.zip").write_bytes(b)
+          print("ALA mammal ZIP identity verified; only the frozen scientific-name DBF field may be parsed.")
+          PY
+
+      - name: Evaluate exact taxon-manifest support without island-species pairs
+        id: audit
+        continue-on-error: true
+        run: |
+          python scripts/audit_ala_mammal_taxon_manifest_v1_192.py \
+            build/ala_v192/original/ultrarare_species_universe.csv \
+            development/global_mammals_ala_island_crosswalk_v1_191_2.csv \
+            development/global_mammals_ala_island_geometry_receipt_v1_191_2.json \
+            build/ala_v192/source/ausislmamala.zip \
+            --receipt build/ala_v192/output/receipt.json
+
+      - name: Delete source ZIP and focal-list input immediately
+        if: always()
+        run: rm -rf build/ala_v192/source build/ala_v192/original
+
+      - name: Freeze taxon manifest qualification or terminal stop
+        if: always()
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          source=Path("build/ala_v192/output/receipt.json")
+          assert source.exists(),"taxon manifest receipt missing"
+          x=json.loads(source.read_text())
+          assert x["ALA_island_x_species_pairs_semantically_decoded"]==0
+          assert x["ALA_FID_values_from_response_archive_read"]==0
+          assert x["original_heldout_response_values_read"]==0
+          assert x["ecological_score_calculated"] is False
+          assert x["biological_scoring_authorized"] is False
+          assert x["status"] in (
+              "HOLD_ALA_FOCAL_TAXA_AND_GEOMETRY_IDENTITIES_READY_FUTURE_PAIR_GATE",
+              "STOP_ALA_FOCAL_SPECIES_OVERLAP_INSUFFICIENT",
+              "STOP_ALA_FOCAL_TAXON_SCHEMA_OR_TRANSPORT"
+          )
+          shutil.copyfile(source,"development/global_mammals_ala_taxon_manifest_receipt_v1_192.json")
+          print("FROZEN TAXON MANIFEST STATUS:",x["status"])
+          PY
+          git add development/global_mammals_ala_taxon_manifest_receipt_v1_192.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze ALA aggregate focal taxon manifest v1.192 without island-species outcomes"
+          git push origin HEAD:main
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/global_mammals_ala_taxon_manifest_receipt_v1_192.json").read_text())
+          assert x["status"]=="HOLD_ALA_FOCAL_TAXA_AND_GEOMETRY_IDENTITIES_READY_FUTURE_PAIR_GATE",x["status"]
+          PY
