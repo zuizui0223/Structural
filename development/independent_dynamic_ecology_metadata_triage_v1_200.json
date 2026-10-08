@@ -1,0 +1,51 @@
+{
+  "schema":"structural.independent_dynamic_ecology_metadata_triage.v1_200",
+  "status":"METADATA_ONLY_NO_NEW_TEMPORAL_OUTCOME_ACCESS",
+  "why":"the remaining Structural claim requires real measured biological turnover or dispersal, not another geometry-versus-range-polygon comparison",
+  "prospective_candidates":[
+    {
+      "candidate_id":"california_tidewater_goby_eDNA_two_years",
+      "source_doi":"10.5061/dryad.vdncjsxs9",
+      "paper_doi":"10.1111/mec.15693",
+      "system":"190 separated coastal estuary habitats of endangered tidewater goby",
+      "years":"2016–2017",
+      "survey_denom":"813 eDNA water samples with repeated detection histories; source documentation names TWGeDNA_2016_2017.csv",
+      "source_geometry":"Neighborhood_MatrixV6.3.csv is provided; independent biologically observed dispersal edge status NOT established",
+      "endpoint":"two-season apparent colonization/extinction under detection modeling",
+      "published_prior":"authors already found colonization associated with occupied-neighbor number and distance; not an unexplored prediction",
+      "blocking_issues":[
+        "only two years and published colonization probability about 0.085, raising low-success-event concerns",
+        "published neighbor matrix is a modeled network, not observed movement",
+        "whether coordinates and full site denominator are keyed consistently must be verified before outcome access",
+        "cannot directly validate the original mammal IUCN island graph"
+      ],
+      "admission_now":false,"outcomes_opened_by_Structural":0
+    },
+    {
+      "candidate_id":"california_rails_long_term_wetland_metapopulations",
+      "source_doi":"10.5061/dryad.8w9ghx3h8",
+      "system":"black rails and Virginia rails at 273 isolated wetland habitat patches",
+      "years":"2002–2016; separate 2013–2016 summer–winter–summer panel",
+      "survey_denom":"annually repeated breeding-season point-call visits with explicit nondetection and missing-unsurveyed values",
+      "source_geometry":"frozen site isolation measures including lagged incidence function and distance to nearest detections; complete cross-site coordinates and graph may not be supplied",
+      "endpoint":"observed breeding-season loss/recolonization rescue with detection correction",
+      "published_prior":"authors already demonstrated rescue events and warned that isolation-extinction associations can mislead",
+      "blocking_issues":[
+        "wetland habitat islands, not marine islands or the same mammal taxonomic system",
+        "site-level geographic nodes/coordinates and independent source graph not yet verified",
+        "published isolation measures may already encode lagged species detections",
+        "new claims must go beyond re-estimating published rescue effects"
+      ],
+      "admission_now":false,"outcomes_opened_by_Structural":0
+    }
+  ],
+  "selection_rules":[
+    "fix target spatial-unit universe and exact species/site identifiers before outcome opening",
+    "freeze t0 source occupancy and outcome observation/detection rules separately",
+    "verify number of true transition events before claims; never select subgroups by observed effects",
+    "compare any constructed network metric with Euclidean distance, geographic opportunity and habitat state",
+    "do not label a new taxon/lake/wetland study an independent validation of the old mammal predictor without a legitimate transfer protocol",
+    "no eBird"
+  ],
+  "next_gate":"response-opaque site/visit/coordinate source-format inspection in one newly selected system only; neither system admitted as confirmatory"
+}
