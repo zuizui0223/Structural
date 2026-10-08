@@ -1,0 +1,37 @@
+name: Wolfe conservative no-recode sensitivity v1.212
+on:
+  push:
+    branches:
+      - analysis/wolfe-joint-predator-v1-209
+    paths:
+      - development/wolfe_ambiguous_id_sensitivity_contract_v1_212.json
+permissions:
+  contents: read
+jobs:
+  sensitivity:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic tests of bounds and data boundaries
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_wolfe_ambiguous_row_bounds_v1_212.py
+      - uses: actions/checkout@v4
+        with:
+          repository: ExperimentalConservation/Experimental-data
+          ref: fabe50b58a13651be4168b91cd91589ccc261a96
+          path: build/author_source
+          persist-credentials: false
+      - name: Check exact immutable source and compute conservative bounds
+        run: |
+          python scripts/run_wolfe_ambiguous_row_bounds_v1_212.py "build/author_source/Wolfe et al. /Wolfe et al experimental data.csv" --out build/wolfe_v212/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolfe-v212-conservative-ambiguous-source-bounds
+          path: build/wolfe_v212/result.json
+          retention-days: 21
