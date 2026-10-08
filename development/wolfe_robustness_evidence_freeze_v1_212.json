@@ -1,0 +1,87 @@
+{
+  "schema": "structural.wolfe_robustness_evidence_freeze.v1_212",
+  "status": "EXECUTED_POSTHOC_EXPLORATORY_BOUNDS_POSITIVE_FINITE_SAMPLE_ONLY",
+  "source_2022_original": {
+    "repository": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "Git_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "source_bytes": 12096,
+    "source_rows": 176,
+    "analysis_rows": 175,
+    "excluded_unassigned_source_row": "6HoLM1",
+    "source_file_changed": false
+  },
+  "execution": {
+    "run_id": 37773259815,
+    "job_id": 113297770692,
+    "artifact_id": 11548945725,
+    "artifact_name": "wolfe-v212-conservative-ambiguous-source-bounds",
+    "artifact_digest": "sha256:1edd732b6b2f226d603eba6d4ae774e63ad839901760664e4b1a577f19d43f0d",
+    "tests": "3 passed",
+    "scorer_result": "success",
+    "prior_conditional_v211_run_id": 37768253014,
+    "original_v209_and_v210_failed_gates_still_terminal": true
+  },
+  "outcome": {
+    "type": "same microcosm at day 21: Stentor generalist AND >=1 Didinium/Dileptus specialist",
+    "strata": 18,
+    "independent_experimental_unit": "individual microcosm, not patches, species, or timepoints",
+    "treatment_contrast": "heterogeneous minus homogeneous at equal 4 or 6 patches, identical corridor and matrix treatment",
+    "missing_response_assumption": "Each factorial arm had 4 originally planned replicates; 5 uncertain/absent outcomes free to be 0 or 1",
+    "estimate_point_and_missingness_bounds": {
+      "overall": {
+        "observed_only": 0.09722222222222222,
+        "lower": 0.041666666666666664,
+        "upper": 0.1111111111111111
+      },
+      "four_patches": {
+        "observed_only": -0.027777777777777776,
+        "lower": -0.05555555555555555,
+        "upper": -0.027777777777777776
+      },
+      "six_patches": {
+        "observed_only": 0.2222222222222222,
+        "lower": 0.1388888888888889,
+        "upper": 0.25
+      },
+      "six_minus_four": {
+        "lower": 0.16666666666666669,
+        "upper": 0.3055555555555556
+      }
+    },
+    "secondary": {
+      "generalist_overall": {
+        "observed_only": 0.0787037037037037,
+        "lower": 0.041666666666666664,
+        "upper": 0.1111111111111111
+      },
+      "specialist_overall": {
+        "observed_only": 0.06944444444444446,
+        "lower": 0.027777777777777776,
+        "upper": 0.09722222222222222
+      }
+    }
+  },
+  "inference": {
+    "missingness_ranges_are_confidence_intervals": false,
+    "robustness_to_all_five_unknown_binary_outcomes": true,
+    "correct_lab_treatment_for_6HoLM1_identified": false,
+    "sampling_block_randomization_based_inference_performed": false,
+    "causal_mechanism_identified": false,
+    "public_paper_already_reported_guild_specific_habitat_effects": true,
+    "postpublication_retrospective": true,
+    "fresh_confirmatory": false,
+    "independent_mammal_topology_validation": false,
+    "no_forward_colonization_or_recovery_outcomes": true,
+    "no_new_source_sink_evidence": true
+  },
+  "policy": {
+    "mammal_heldout_reopened": false,
+    "ALA_replayed": false,
+    "Hebert_retried": false,
+    "BALA_reopened": false,
+    "SW_Finland_reopened": false,
+    "eBird_used": false,
+    "GEB_submission_authorized": false
+  }
+}
