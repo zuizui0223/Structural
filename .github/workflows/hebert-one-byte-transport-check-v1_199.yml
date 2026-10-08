@@ -1,0 +1,21 @@
+name: Hébert one-byte transport synthetic checks v1.199
+on:
+  pull_request:
+    paths:
+      - development/hebert_one_byte_transport_contract_v1_199.json
+      - scripts/probe_hebert_one_byte_transport_v1_199.py
+      - tests/test_hebert_one_byte_transport_v1_199.py
+  push:
+    branches: [audit/hebert-onebyte-transport-v1-199]
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_hebert_one_byte_transport_v1_199.py

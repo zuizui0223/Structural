@@ -1,0 +1,13 @@
+{
+  "schema": "structural.hebert_one_byte_transport_request.v1_199",
+  "status": "REQUEST_NINE_FROZEN_URLS_RANGE_0_0_TRANSPORT_ONLY",
+  "contract": "development/hebert_one_byte_transport_contract_v1_199.json",
+  "v198_receipt": "development/hebert_transport_preflight_receipt_v1_198.json",
+  "CSV_bytes_read_before_request": 0,
+  "external_0_1_values_decoded_before_request": 0,
+  "any_species_or_island_label_access_authorized": false,
+  "range_probe_bytes_per_file_max": 1,
+  "normal_file_download_authorized": false,
+  "one_shot": true,
+  "eBird_used": false
+}

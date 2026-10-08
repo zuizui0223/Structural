@@ -1,0 +1,69 @@
+name: Hébert exact source one-byte Range transport gate v1.199
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/hebert_one_byte_transport_request_v1_199.json
+
+permissions:
+  contents: write
+
+jobs:
+  one-byte-transport:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate pre-outcome one-byte request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/hebert_one_byte_transport_contract_v1_199.json").read_text())
+          r=json.loads(Path("development/hebert_one_byte_transport_request_v1_199.json").read_text())
+          p=json.loads(Path("development/hebert_transport_preflight_receipt_v1_198.json").read_text())
+          assert c["request"]["range_header"]=="bytes=0-0"
+          assert c["request"]["accepted_status"]==206
+          assert c["request"]["max_bytes_read_from_csv_per_successful_file"]==1
+          assert c["frozen_eligibility"]["files"]==9
+          assert c["frozen_eligibility"]["decode_island_species_binary_0_1"] is False
+          assert r["normal_file_download_authorized"] is False
+          assert r["range_probe_bytes_per_file_max"]==1
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          assert p["status"]=="NO_HEAD_CANDIDATE"
+          assert p["CSV_body_bytes_read"]==0
+          assert p["island_species_binary_values_decoded"]==0
+          PY
+      - name: Probe only byte zero of original nine source URLs
+        run: |
+          python scripts/probe_hebert_one_byte_transport_v1_199.py \
+            --receipt build/hebert_v199/range_receipt.json
+      - name: Freeze transport-only receipt
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/hebert_v199/range_receipt.json").read_text())
+          assert r["status"] in ("RANGE_AVAILABLE_ALL_9","RANGE_AVAILABLE_PARTIAL","RANGE_UNAVAILABLE","RANGE_PREFLIGHT_STOP")
+          assert r["source_header_fields_decoded"]==0
+          assert r["source_island_names_decoded"]==0
+          assert r["external_island_species_0_1_values_decoded"]==0
+          assert r["original_heldout_mammal_values_opened"]==0
+          assert r["biological_evidence_produced"] is False
+          assert r["external_scoring_authorized"] is False
+          PY
+          cp build/hebert_v199/range_receipt.json development/hebert_one_byte_transport_receipt_v1_199.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add development/hebert_one_byte_transport_receipt_v1_199.json
+          git commit -m "Freeze Hébert exact source one-byte transport probe v1.199"
+          git pull --rebase origin main
+          git push origin HEAD:main
