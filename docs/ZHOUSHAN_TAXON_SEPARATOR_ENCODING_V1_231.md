@@ -1,0 +1,7 @@
+# v1.231 source name separator format correction: v1.230 zero match not automatically valid
+
+v1.230 returned 0/18 exact taxon names. However the original 529-species manifest names originated in an R-compatible species-header schema, and the preexisting `scripts/audit_external_mammal_checklist_headers_v1_188.py` explicitly normalizes underscores and periods to spaces. The v1.230 normalization omitted both source-format separators. Therefore the initial 0/18 is **provisional and may be an artifact of inconsistent string representation**, not an admissible taxonomic nonoverlap conclusion.
+
+v1.231 fixes only this clear format issue by applying the **pre-existing v1.188 normalization**, not a data-selected synonym list, fuzzy species matcher or posthoc taxonomy expansion. The original 529-name source SHA256, 18 published names, all outcome restrictions and island eligibility requirements remain unchanged. The response-safe audit additionally counts how many original taxon names contained periods, underscores and actual spaces to demonstrate the data encoding.
+
+The scientifically valid end state is whichever exact separator-normalized name count arises, not an ecological prediction evaluation. Original IUCN test labels and Zhoushan 0/1 surveys remain unopened and GEB remains on scientific HOLD.

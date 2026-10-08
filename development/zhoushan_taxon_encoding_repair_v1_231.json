@@ -1,0 +1,22 @@
+{
+  "schema": "structural.zhoushan_corrected_original_taxon_encoding.v1_231",
+  "status": "SEPARATELY_FROZEN_TECHNICAL_REPAIR_OF_INCOMPLETE_V230_NAME_CANONICALIZATION",
+  "scientific_predecessor": "development/zhoushan_taxon_overlap_terminal_v1_230.json",
+  "prior_v230_observation": "0 / 18 matched with Unicode NFC + whitespace + casefold only",
+  "issue": "v1.230 ignored '.' and '_' as R-generated species-name separators in original 529 species manifest, even though original preexisting v1.188 external checklist canonicalization expressly translated those separators to spaces.",
+  "predetermined_preexisting_rule_source": "scripts/audit_external_mammal_checklist_headers_v1_188.py, canonical() function",
+  "repaired_normalization": "Unicode NFC; replace '_' with ' ', replace '.' with ' ', collapse whitespace and casefold; no synonyms, fuzzy genus or taxonomic reidentification.",
+  "comparison_source": "Same original 18 published Zhan 2024 binomials in frozen development/zhoushan_published_taxa_gate_v1_230.json",
+  "original_species_manifest_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+  "original_species_universe_artifact_id": 11285057696,
+  "audit_all_529_species_names": true,
+  "no_score_until_island_detection_identity_proven": true,
+  "if_matched_taxa_count_zero": "CONFIRMED_TAXON_NONOVERLAP_ONLY",
+  "if_matched_taxa_count_positive": "TAXON_NAMES_ONLY; still need 4126-island exact map and detection eligibility",
+  "no_field_incidence_read": true,
+  "no_original_mammal_heldout_read": true,
+  "no_mammal_predictions_refit": true,
+  "no_original_v230_result_reclassification_as_biological_evidence": true,
+  "GEB_submission_authorized": false,
+  "eBird": false
+}
