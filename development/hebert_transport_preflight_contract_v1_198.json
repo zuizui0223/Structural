@@ -1,0 +1,48 @@
+{
+  "schema": "structural.hebert_transport_preflight.v1_198",
+  "status": "PREDECLARE_METADATA_ONLY_TRANSPORT_DIAGNOSTIC",
+  "parent": "development/global_mammals_independent_checklist_preintake_v1_188.json",
+  "provenance_parent": "development/global_mammals_independent_provenance_contract_v1_189.json",
+  "dataset_doi": "10.5061/dryad.rfj6q579r",
+  "landing_url": "https://datadryad.org/dataset/doi%3A10.5061/dryad.rfj6q579r",
+  "same_exact_9_files_as_v1_188": true,
+  "recorded_previous_transport_failure": {
+    "workflow_run_id": 37727347706,
+    "first_file": "Adr.csv",
+    "stage": "file transport before CSV header decoding",
+    "external_binary_values_opened": 0
+  },
+  "allowed_actions": {
+    "fetch_html_landing_only": true,
+    "parse_download_link_hrefs_and_visible_anchor_text_only": true,
+    "HEAD_requests_to_public_file_url_candidates_only": true,
+    "read_any_CSV_content_bytes": false,
+    "read_any_species_or_island_header": false,
+    "read_any_island_species_0_1_label": false,
+    "open_frozen_mammal_heldout_response": false,
+    "refit_or_score": false,
+    "follow_redirects_only_within": ["datadryad.org","amazonaws.com"],
+    "inspect_all_exact_9_frozen_filenames": true,
+    "auto_dispatch_v1_188_or_score_external": false
+  },
+  "candidate_urls": {
+    "previous_frozen_api_template": "https://datadryad.org/api/v2/files/{id}/download",
+    "previous_frozen_fallback_template": "https://datadryad.org/downloads/file_stream/{id}",
+    "new_route": "only an anchor in the fixed dataset landing HTML whose visible text is an exact frozen filename",
+    "do_not_substitute_analogous_data": true
+  },
+  "classification": {
+    "HEAD_CANDIDATE_ALL_9": "all nine frozen filenames have at least one HEAD-success candidate; source identity not yet byte-verified",
+    "HEAD_PARTIAL": "some but fewer than nine frozen files have a HEAD-success candidate; downstream header gate prohibited",
+    "NO_HEAD_CANDIDATE": "no frozen source candidate passed HEAD metadata",
+    "LANDING_UNAVAILABLE": "landed page missing or unverified; no CSV queried",
+    "transport_checks_do_not_score_ecology": true
+  },
+  "authorization": {
+    "next_after_all_9_head_success": "separately freeze exact candidate URLs and file identity checksums before rerunning response-opaque species-header/island-name projection",
+    "otherwise": "remain on transport HOLD",
+    "binary_scoring_authorized": false,
+    "same_ALA_archive_retry_authorized": false,
+    "eBird_used": false
+  }
+}
