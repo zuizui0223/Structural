@@ -1,0 +1,33 @@
+name: Wolfe guild decomposition with all missing states v1.216
+on:
+  push:
+    branches:
+      - analysis/wolfe-joint-predator-v1-209
+    paths:
+      - development/wolfe_guild_decomposition_contract_v1_216.json
+permissions:
+  contents: read
+jobs:
+  retrospective-decomposition:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test tests/test_wolfe_guild_decomposition_v1_216.mjs
+      - uses: actions/checkout@v4
+        with:
+          repository: ExperimentalConservation/Experimental-data
+          ref: fabe50b58a13651be4168b91cd91589ccc261a96
+          path: build/author
+          persist-credentials: false
+      - run: |
+          node scripts/wolfe_joint_guild_decomposition_v1_216.mjs "build/author/Wolfe et al. /Wolfe et al experimental data.csv" build/wolfe216/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolfe-v216-posthoc-guild-decomposition
+          path: build/wolfe216/result.json
+          retention-days: 21

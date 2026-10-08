@@ -1,0 +1,46 @@
+{
+  "schema": "structural.wolfe_joint_guild_algebraic_decomposition.v1_216",
+  "status": "POSTOUTCOME_POSTHOC_DESCRIPTIVE_DECOMPOSITION_NO_CAUSAL_CONFIRMATION",
+  "authority": {
+    "source_repo": "ExperimentalConservation/Experimental-data",
+    "source_commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "source_git_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "original_experiment": "https://doi.org/10.1007/s00442-022-05178-9",
+    "prior_result": "development/wolfe_robustness_evidence_freeze_v1_212.json"
+  },
+  "provenance": "This decompositional question and its preliminary numbers were explored AFTER outcome access. It is not a preregistered analysis and does not upgrade prior evidence class.",
+  "estimand": {
+    "microcosm_unit": "Each experimental replicate microcosm, not its contained patches or sampled species",
+    "generalist": "Stentor coeruleus > 0 density at day 21",
+    "specialist": "Didinium nasutum > 0 OR Dileptus anser > 0 at day 21",
+    "joint": "Both generalist and any specialist survive in the same metacommunity; not same-patch contact",
+    "source_handling": "Never recode suspect source row 6HoLM1. Exclude it BEFORE reading its focal densities.",
+    "strata": "Each n=4 or 6 patches x 3 matrix x 3 corridor cells; compare four planned hetero versus four homogeneous units at each of 18 strata",
+    "decomposition": "Within each treatment arm: P_joint = P_generalist * P_specialist + (P_joint - P_generalist*P_specialist). Compare hetero minus homogeneous and average equally across strata.",
+    "missingness": "Original planned four replicates in each arm; 5 missing/ambiguous units each take one of four binary (G,S) states (00/01/10/11), 4^5=1024 completions",
+    "bounds": "Min and max of each component over all 1024 complete five-unit assignments; component extrema may occur in different assignments, thus ranges cannot be naively added as if jointly attained.",
+    "interpretation": "Product term is a descriptive independence benchmark. Residual is within-treatment-cell cross-experiment binary covariance, not causally identified biotic facilitation or a randomization-based comparison.",
+    "observed_only": "Show component point estimates over available n=3/4 microcosms separately from complete-case missingness bounds.",
+    "interaction": "Six-patch minus four-patch heterogeneity contrast decomposed the same way. Cannot infer a true patch-count effect because heterogeneity intensity is confounded."
+  },
+  "risk": {
+    "covariance_is_biotic_interaction": false,
+    "row_independence_verified_within_weekday": false,
+    "likelihood_model_fitted": false,
+    "population_CI_reported": false,
+    "uncorrected_experimental_randomization_p": false,
+    "newly_identified_colonization_or_rescue": false,
+    "extrapolate_to_mammal_isl_graph": false,
+    "authors_published_original_guild_presence_results": true
+  },
+  "safeguards": {
+    "source_bytes_modified": false,
+    "original_mammal_heldout_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "SW_Finland_reopen": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}
