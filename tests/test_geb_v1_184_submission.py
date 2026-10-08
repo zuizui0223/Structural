@@ -33,4 +33,5 @@ def test_old_complementarity_overclaim_removed():
 def test_source_turnover_is_response_free_mechanism_not_confirmatory_endpoint():
     text=(DIR/"blinded_main_text.md").read_text()
     assert "No held-out occurrence value was read" in text
-    assert "post-hoc response-free mechanism" in text
+    assert "This post-hoc response-free diagnostic" in text
+    assert "could clarify mechanism but not upgrade" in text
