@@ -5,6 +5,8 @@ on:
       - science/geb_mapped_response_claims_v1-217
     paths:
       - development/unrepresented_geocoded_neighbourhood_contract_v1_222.json
+      - tests/test_unrepresented_geocoded_neighbours_v1_222.py
+      - scripts/check_unrepresented_geocoded_neighbours_v1_222.py
 permissions:
   contents: read
   actions: read

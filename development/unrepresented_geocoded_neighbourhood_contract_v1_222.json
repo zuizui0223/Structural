@@ -36,5 +36,6 @@
     "BALA_reopen": false,
     "eBird": false,
     "GEB_submission_authorized": false
-  }
+  },
+  "technical_test_key_fix": "Correct frozen v1.221 test ledger path matched_selected_geographic_candidates instead of nonexistent matched_selected_Structural_islands; no physical-neighbour statistic changed."
 }
