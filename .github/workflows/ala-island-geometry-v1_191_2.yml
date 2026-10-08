@@ -1,0 +1,149 @@
+name: Response-free ALA Australian island geometry crosswalk v1.191.2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_ala_zip_sidecar_retry_request_v1_191_2.json
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  island-crosswalk:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install response-free geography dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --no-cache-dir \
+            pyshp==2.3.1 shapely==2.1.1 pyproj==3.7.2
+
+      - name: Validate only geography is authorized
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ala_island_geometry_gate_v1_191.json").read_text())
+          r=json.loads(Path("development/global_mammals_ala_zip_sidecar_retry_request_v1_191_2.json").read_text())
+          assert c["status"]=="RESPONSE_FREE_EXTERNAL_GEOMETRY_TO_FROZEN_HELDOUT_ID_GATE"
+          assert c["source"]["response_mammals_zip_must_not_be_downloaded"] is True
+          assert c["geometry_gate"]["min_exact_one_to_one_heldout_islands"]==30
+          assert c["geometry_gate"]["area_ratio_min"]==0.25
+          assert c["geometry_gate"]["area_ratio_max"]==4.0
+          assert c["endpoint_boundary"]["external_ala_mammal_event_values_opened"]==0
+          assert c["endpoint_boundary"]["original_heldout_occurrence_values_opened"]==0
+          x=json.loads(Path("development/global_mammals_ala_zip_sidecar_correction_v1_191_2.json").read_text())
+          p=json.loads(Path("development/global_mammals_ala_island_geometry_receipt_v1_191.json").read_text())
+          assert x["status"]=="PREOUTCOME_ZIP_MEMBER_SCHEMA_REPAIR_ONLY"
+          assert x["authentic_member_uncompressed_bytes"]==8664484
+          assert x["sidecar_uncompressed_bytes"]==163
+          assert p["status"]=="STOP_ALA_GEOMETRY_PREACCESS_SCHEMA"
+          assert p["reason"]=="expected exactly one polygon shapefile, got 2"
+          assert p["external_ala_mammal_occurrence_values_opened"]==0
+          assert r["status"]=="REQUEST_ONLY_MACOSX_ZIP_SIDECAR_FILTER"
+          assert r["future_label_access"] is False
+          assert r["original_heldout_access"] is False
+          assert r["one_shot"] is True
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Download frozen response-free original island covariates
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          path: build/ala_v1912/original
+          github-token: ${{ github.token }}
+
+      - name: Download frozen heldout ID routing
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          path: build/ala_v1912/routing
+          github-token: ${{ github.token }}
+
+      - name: Download exact Australian island polygons only
+        run: |
+          set -euo pipefail
+          mkdir -p build/ala_v1912/geography build/ala_v1912/output
+          python - <<'PY'
+          import json,hashlib,urllib.request
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ala_island_geometry_gate_v1_191.json").read_text())
+          src=c["source"]
+          url="https://raw.githubusercontent.com/"+src["repository"]+"/"+src["source_commit"]+"/"+src["geometry_zip"]
+          req=urllib.request.Request(url,headers={"User-Agent":"Structural-v1.191-geometry-only","Accept":"application/octet-stream"})
+          with urllib.request.urlopen(req,timeout=120) as inp:
+              data=inp.read(src["geometry_zip_size_bytes"]+1)
+          assert len(data)==src["geometry_zip_size_bytes"],"geometry transport size drift"
+          git_sha=hashlib.sha1(b"blob "+str(len(data)).encode("ascii")+b"\0"+data).hexdigest()
+          assert git_sha==src["geometry_blob_sha1"],"geometry transport identity drift"
+          Path("build/ala_v1912/geography/ausislandsAlbersGeom_corrected.zip").write_bytes(data)
+          print("Verified original Australian island polygon ZIP without downloading mammal records.")
+          PY
+
+      - name: Freeze response-free one-to-one island identities
+        id: freeze
+        continue-on-error: true
+        run: |
+          python scripts/freeze_ala_island_geometry_crosswalk_v1_191_2.py \
+            build/ala_v1912/original/appendix2_safe_rows.csv \
+            build/ala_v1912/routing/confirmatory_ids.csv \
+            build/ala_v1912/geography/ausislandsAlbersGeom_corrected.zip \
+            --crosswalk build/ala_v1912/output/one_to_one_island_ids.csv \
+            --receipt build/ala_v1912/output/receipt.json
+
+      - name: Remove raw geographic / original inputs
+        if: always()
+        run: rm -rf build/ala_v1912/geography build/ala_v1912/original build/ala_v1912/routing
+
+      - name: Freeze qualification or terminal pre-outcome STOP
+        if: always()
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          rpath=Path("build/ala_v1912/output/receipt.json")
+          assert rpath.is_file(),"no response-free receipt"
+          r=json.loads(rpath.read_text())
+          assert r["original_heldout_occurrence_values_opened"]==0
+          assert r["external_ala_mammal_zip_downloaded"] is False
+          assert r["biological_scoring_authorized"] is False
+          assert r["status"] in [
+            "PREOUTCOME_ALA_GEOMETRY_CROSSWALK_FROZEN_TAXON_GATE_STILL_REQUIRED",
+            "STOP_ALA_GEOMETRY_MATCH_INSUFFICIENT",
+            "STOP_ALA_GEOMETRY_PREACCESS_SCHEMA"
+          ]
+          shutil.copyfile(rpath,"development/global_mammals_ala_island_geometry_receipt_v1_191_2.json")
+          if r["status"]=="PREOUTCOME_ALA_GEOMETRY_CROSSWALK_FROZEN_TAXON_GATE_STILL_REQUIRED":
+              shutil.copyfile("build/ala_v1912/output/one_to_one_island_ids.csv","development/global_mammals_ala_island_crosswalk_v1_191_2.csv")
+          print("FROZEN STATUS:",r["status"])
+          PY
+          git add development/global_mammals_ala_island_geometry_receipt_v1_191_2.json
+          if test -f development/global_mammals_ala_island_crosswalk_v1_191_2.csv; then git add development/global_mammals_ala_island_crosswalk_v1_191_2.csv; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record response-free ALA Australian island identity result v1.191.2"
+          git push origin HEAD:main
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/global_mammals_ala_island_geometry_receipt_v1_191_2.json").read_text())
+          assert x["status"]=="PREOUTCOME_ALA_GEOMETRY_CROSSWALK_FROZEN_TAXON_GATE_STILL_REQUIRED",x["status"]
+          PY
