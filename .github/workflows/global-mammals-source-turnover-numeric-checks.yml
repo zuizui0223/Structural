@@ -1,0 +1,29 @@
+name: Numeric source-turnover unit checks
+
+on:
+  pull_request:
+    paths:
+      - tests/test_global_mammals_distributed_irreplaceability_v1_181.py
+      - .github/workflows/global-mammals-source-turnover-numeric-checks.yml
+  push:
+    branches: [main]
+    paths:
+      - tests/test_global_mammals_distributed_irreplaceability_v1_181.py
+      - .github/workflows/global-mammals-source-turnover-numeric-checks.yml
+
+permissions:
+  contents: read
+
+jobs:
+  numeric-tests:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --disable-pip-version-check pytest numpy==2.3.3
+      - run: python -m pytest -q tests/test_global_mammals_distributed_irreplaceability_v1_181.py
