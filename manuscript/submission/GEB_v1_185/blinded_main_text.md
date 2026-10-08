@@ -4,7 +4,7 @@
 
 ## Abstract
 
-**Aim:** Connectivity studies can confuse geographic network predictions with realized dispersal and source-node conservation importance. We asked whether a geometry-derived island graph adds occurrence information beyond Euclidean source geography, and whether that information requires individually irreplaceable source islands.
+**Aim:** Geographic-network predictions can be mistaken for realized dispersal and conservation importance. We asked whether a constructed island graph adds occurrence information beyond Euclidean source geography and requires individually irreplaceable source islands.
 
 **Location:** 5,401 islands worldwide; independent temporal boundary test in the Azores.
 
@@ -12,7 +12,7 @@
 
 **Major taxa studied:** Native mammals; Azorean forest arthropods.
 
-**Methods:** We compared source features from a geography-derived, regionally connected k-nearest-neighbor (kNN) graph with a strong Euclidean-source reference in three mammal occupancy layers and with 20 degree- and edge-length-bin-matched rewired versions of that constructed graph. In the topology-specific 1–4-presence layer, we then used only frozen pilot sources and island geometry to partition source influence into local effective source number (alpha), target-surface effective source number (gamma) and source-identity turnover (beta), against 1,000 source-count- and bioregion-matched placements per species. An independent three-wave arthropod test evaluated later source-loss consequence.
+**Methods:** We compared graph-path source features from a coordinate-derived k-nearest-neighbor (kNN) graph with a Euclidean-source reference and 20 degree-/edge-length-bin-matched rewired versions in three mammal occupancy layers. In the topology-specific 1–4-presence layer, we then used only frozen pilot sources and island geometry to partition source influence into local effective source number (alpha), target-surface effective source number (gamma) and source-identity turnover (beta), against 1,000 source-count- and bioregion-matched placements per species. An independent three-wave arthropod test evaluated later source-loss consequence.
 
 **Results:** In 529 species with 1–4 pilot presences, graph-path information strongly improved realized-presence prediction (C−R3 = **−0.596**, 95% interval **−0.744 to −0.464**) and the original geography-derived kNN graph outperformed **20/20** matched rewired versions. Yet among 212 species with 2–4 sources, observed source-influence turnover was **lower** than random placement (actual−null beta = **−0.262**, 95% interval **−0.317 to −0.208**), while local effective source number was higher (**+0.394**) and target dominance lower (**−0.139**). In BALA, lost-source leverage did not improve held-out prediction of later contraction.
 
