@@ -1,0 +1,12 @@
+{
+  "schema": "structural.ala_mammal_taxon_manifest_request.v1_192",
+  "status": "REQUEST_ALA_AGGREGATE_TAXON_NAMES_ONLY",
+  "contract": "development/global_mammals_ala_taxon_manifest_gate_v1_192.json",
+  "required_crosswalk_sha256": "f378d4e4ada3b66a4c297464fbc9763f73d5fd27622ec84580647e9daba94fb2",
+  "required_exact_heldout_matches": 167,
+  "focal_species_minimum": 20,
+  "external_species_by_island_pairs_authorized": false,
+  "original_heldout_mammal_response_authorized": false,
+  "one_shot": true,
+  "eBird_used": false
+}
