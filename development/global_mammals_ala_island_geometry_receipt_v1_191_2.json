@@ -1,0 +1,39 @@
+{
+  "area_ratio_range": [
+    0.25,
+    4
+  ],
+  "biological_scoring_authorized": false,
+  "crosswalk_sha256": "f378d4e4ada3b66a4c297464fbc9763f73d5fd27622ec84580647e9daba94fb2",
+  "eBird_used": false,
+  "exact_one_to_one_heldout_matches": 167,
+  "external_ala_mammal_occurrence_values_opened": 0,
+  "external_ala_mammal_zip_downloaded": false,
+  "geometry_file_sha256": "badbd793267cc4d908cfae426b08c96202ae49755d3fe29b1eee4af01f8fed18",
+  "geometry_git_blob_sha1": "7c00f655b14f6e15c4e6519785afd60fa36cb9bc",
+  "heldout_islands": 4126,
+  "heldout_routing_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+  "original_heldout_occurrence_values_opened": 0,
+  "original_safe_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+  "reason_counts": {
+    "area_mismatch": 2,
+    "candidate": 167,
+    "multi_original_to_one_ala_excluded": 0,
+    "outside": 3957
+  },
+  "required_matches": 30,
+  "schema": "structural.external_ala_mammal_island_geometry_result.v1_191_2_2",
+  "source_commit": "746fbe83c6f67c6d37439056f41198a72f56cb2e",
+  "source_fid_field_present": true,
+  "source_field_names": [
+    "FID",
+    "area",
+    "perimeter",
+    "area_2",
+    "perimeter_"
+  ],
+  "source_polygon_count": 6358,
+  "source_repository": "cjabradshaw/AusIslBiogeogrTraits",
+  "status": "PREOUTCOME_ALA_GEOMETRY_CROSSWALK_FROZEN_TAXON_GATE_STILL_REQUIRED",
+  "taxon_gate_passed": false
+}
