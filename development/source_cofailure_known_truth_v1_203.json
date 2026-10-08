@@ -1,0 +1,88 @@
+{
+  "schema": "structural.source_cofailure_known_truth.v1_203",
+  "status": "SYNTHETIC_THREE_SOURCE_IDENTIFIABILITY_COUNTEREXAMPLE",
+  "source_file_access": {
+    "ecological_observations_read": false,
+    "published_response_values_read": false,
+    "prediction_binaries_read": false
+  },
+  "assumption": "three exchangeable binary source-to-target effective-delivery indicators with equal fixed weights 1/3",
+  "scenarios": {
+    "independent": {
+      "marginal_activity_probabilities": [
+        "1/2",
+        "1/2",
+        "1/2"
+      ],
+      "pairwise_joint_activity": [
+        "1/4",
+        "1/4",
+        "1/4"
+      ],
+      "pairwise_covariance": [
+        "0",
+        "0",
+        "0"
+      ],
+      "equal_weight_expected_source_input": "1/2",
+      "equal_weight_source_input_variance": "1/12",
+      "zero_active_source_probability": "1/8",
+      "three_active_source_probability": "1/8",
+      "positive_source_probability": "7/8"
+    },
+    "even_parity": {
+      "marginal_activity_probabilities": [
+        "1/2",
+        "1/2",
+        "1/2"
+      ],
+      "pairwise_joint_activity": [
+        "1/4",
+        "1/4",
+        "1/4"
+      ],
+      "pairwise_covariance": [
+        "0",
+        "0",
+        "0"
+      ],
+      "equal_weight_expected_source_input": "1/2",
+      "equal_weight_source_input_variance": "1/12",
+      "zero_active_source_probability": "1/4",
+      "three_active_source_probability": "0",
+      "positive_source_probability": "3/4"
+    },
+    "odd_parity": {
+      "marginal_activity_probabilities": [
+        "1/2",
+        "1/2",
+        "1/2"
+      ],
+      "pairwise_joint_activity": [
+        "1/4",
+        "1/4",
+        "1/4"
+      ],
+      "pairwise_covariance": [
+        "0",
+        "0",
+        "0"
+      ],
+      "equal_weight_expected_source_input": "1/2",
+      "equal_weight_source_input_variance": "1/12",
+      "zero_active_source_probability": "0",
+      "three_active_source_probability": "1/4",
+      "positive_source_probability": "1"
+    }
+  },
+  "equal_through_pairwise_and_input_variance": true,
+  "differing_zero_delivery_probability": true,
+  "proof_identity": "P(X1=X2=X3=0) = 1 - sum_i E(Xi) + sum_i<j E(Xi Xj) - E(X1 X2 X3)",
+  "interpretation": "Identical source count, mean access, covariance and even total-input variance cannot determine risk of zero incoming viable sources when >=3 sources have higher-order dependence.",
+  "not_established": [
+    "empirical higher-order source dependence",
+    "ecological colonization probability",
+    "dispersal mechanism in original mammal range-map graph",
+    "effect of conservation intervention"
+  ]
+}
