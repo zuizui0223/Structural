@@ -1,0 +1,80 @@
+{
+  "schema": "structural.external_ala_mammal_island_geometry_gate.v1_191",
+  "status": "RESPONSE_FREE_EXTERNAL_GEOMETRY_TO_FROZEN_HELDOUT_ID_GATE",
+  "candidate_id": "australian_atlas_of_living_australia_mammal_occurrence_points",
+  "evidence_class": "independent occurrence-record source, conditional positive-only diagnostic if future species-and-island identities qualify; not movement, colonization or survey-absence data",
+  "source": {
+    "repository": "cjabradshaw/AusIslBiogeogrTraits",
+    "source_commit": "746fbe83c6f67c6d37439056f41198a72f56cb2e",
+    "geometry_zip": "data/gis/ausislandsAlbersGeom_corrected.zip",
+    "geometry_blob_sha1": "7c00f655b14f6e15c4e6519785afd60fa36cb9bc",
+    "geometry_zip_size_bytes": 6932744,
+    "response_mammals_zip": "data/gis/ausislmamala.zip",
+    "response_mammals_blob_sha1": "37e78c36a4b26621a4c13b92c43974de05eb33aa",
+    "response_mammals_zip_must_not_be_downloaded": true,
+    "method": "ABS island polygons with ALA mammal event points assigned to FID in original published workflow; independent of original IUCN polygon-overlay response source but nonuniform observation effort",
+    "source_is_published_peer_reviewed": false,
+    "taxonomy_overlap_unchecked": true
+  },
+  "original": {
+    "frozen_heldout_islands": 4126,
+    "frozen_ultrarare_species": 529,
+    "original_label_ontology": "IUCN range-overlap mapped and augmented positive-cell proxy, not directly surveyed occupancy",
+    "appendix2_safe_artifact_name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+    "appendix2_safe_run_id": 36524988694,
+    "appendix2_safe_file": "appendix2_safe_rows.csv",
+    "appendix2_safe_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "routing_artifact_name": "global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600",
+    "routing_run_id": 36625810600,
+    "heldout_ids_file": "confirmatory_ids.csv",
+    "heldout_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "safe_coordinate_columns": [
+      "ID",
+      "Latitude_centroid",
+      "Longitude_centroid",
+      "Area"
+    ]
+  },
+  "geometry_gate": {
+    "geometry_format": "ESRI shapefile in ZIP; metadata/geometry only",
+    "crs": "read source .prj WKT, project original WGS84 island centroids into native polygon CRS",
+    "source_polygon_id_fields_allowed": [
+      "FID",
+      "FID_1"
+    ],
+    "original_match_condition": "original island centroid covered by exactly one corrected-Australian-island polygon AND ratio of GIS polygon area to original island area within [0.25,4] (both km2)",
+    "source_polygon_id_must_be_unique": true,
+    "matched_source_fid_must_be_unique": true,
+    "ambiguous_containment_excluded": true,
+    "mismatched_area_excluded": true,
+    "outside_all_polygons_excluded": true,
+    "area_ratio_min": 0.25,
+    "area_ratio_max": 4,
+    "min_exact_one_to_one_heldout_islands": 30,
+    "no_change_after_execution": true
+  },
+  "future_species_gate": {
+    "not_authorized_now": true,
+    "minimum_exact_focal_taxa": 20,
+    "taxon_source": "ALA mammal record taxonomy from immutable source ZIP after successful geography freeze only",
+    "require_taxon_and_original_species_match_before_any_island_x_species_observation_scoring": true,
+    "no_fuzzy_taxonomy_or_ID_matching": true,
+    "no_relaxation_after_receipt": true
+  },
+  "endpoint_boundary": {
+    "allowed_future": "positive-only ALA occurrence events on one-to-one matched frozen original heldout islands; same frozen p_R3,p_C predictions only, with no model refit",
+    "unsupported": "0-coded missing ALA records cannot be treated as surveyed absence; no demographic rescue or colonization inference",
+    "original_heldout_occurrence_values_opened": 0,
+    "external_ala_mammal_event_values_opened": 0,
+    "external_ala_mammal_zip_downloaded": false,
+    "model_refit_authorized": false,
+    "external_biological_scoring_authorized": false,
+    "eBird_enabled": false
+  },
+  "canonical_outputs": {
+    "crosswalk": "development/global_mammals_ala_island_crosswalk_v1_191.csv",
+    "receipt": "development/global_mammals_ala_island_geometry_receipt_v1_191.json"
+  },
+  "success_status": "PREOUTCOME_ALA_GEOMETRY_CROSSWALK_FROZEN_TAXON_GATE_STILL_REQUIRED",
+  "stop_status": "STOP_ALA_GEOMETRY_MATCH_INSUFFICIENT"
+}
