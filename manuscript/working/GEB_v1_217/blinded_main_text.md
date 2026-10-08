@@ -12,7 +12,7 @@
 
 **Major taxa studied:** Island mammals and Azorean forest arthropods.
 
-**Methods:** We compared geographic k-nearest-neighbour graph features with a source-aware Euclidean reference and 20 degree-/edge-length-bin-matched rewired graphs. The preregistered ultrarare layer comprised 529 species with 1–4 positive pilot cells in the curated range-derived matrix. A response-free posthoc source-influence analysis included 212 species; a separate arthropod test evaluated later contraction following loss of modelled source access.
+**Methods:** Within a source compilation that excluded islands with no mapped mammals, we compared geographic k-nearest-neighbour graph features with a source-aware Euclidean reference and 20 degree-/edge-length-bin-matched rewired graphs. The preregistered ultrarare layer comprised 529 species with 1–4 positive pilot cells in the curated range-derived matrix. A response-free posthoc source-influence analysis included 212 species; a separate arthropod test evaluated later contraction following loss of modelled source access.
 
 **Results:** In blocks containing mapped-positive mammal labels, original graph C improved binary log loss relative to R3 (C−R3 = **−0.596**, 95% interval **−0.744 to −0.464**) and outperformed **20/20** rewired graphs. However, the mean rewired graph retained **90.2%** of the original point-estimate improvement. Graph-derived source turnover was lower than matched random placements (beta difference **−0.262**, 95% interval **−0.317 to −0.208**). Independent arthropod source-loss prediction was not supported.
 
@@ -68,7 +68,7 @@ A second, stronger question concerns time. Even a structurally distinctive or ir
 
 ### 2.1 Global island mammal system
 
-The source database contained a curated binary island–mammal range matrix for 5,592 islands. Labels were assembled principally by intersecting IUCN-2017 mammal range polygons with GADM island polygons and manually curating them. Historical positive records for some native mammals extinct after human impacts were restored from other references. A positive cell is consequently not necessarily a field detection or currently extant population. Before the final analysis, one 15-island spatial block containing a previously exposed occurrence row was quarantined. A response-independent identity audit then removed 176 islands overlapping an earlier 318-island mammal stress-test system.
+The source database contained a curated binary island–mammal range matrix for 5,592 islands (Barreto et al. 2021). Crucially, its compilers excluded islands with **zero mammals mapped by IUCN**, as well as islands with uncertain species assignments or unavailable environmental/realm metadata. The sampled island set was therefore selected partly by the mammal response, not simply by physical geography. Labels were assembled principally by intersecting IUCN-2017 mammal range polygons with GADM island polygons and manually curating them. Historical positive records for some native mammals extinct after human impacts were restored from other references. A positive cell is consequently not necessarily a field detection or currently extant population. Before the final analysis, one 15-island spatial block containing a previously exposed occurrence row was quarantined. A response-independent identity audit then removed 176 islands overlapping an earlier 318-island mammal stress-test system.
 
 The final population contained **5,401 islands**. A response-independent partition assigned **1,275 islands** to a pilot set and **4,126 islands** to held-out evaluation. The held-out islands formed **168 bioregion × 10-degree spatial blocks** across 12 bioregions.
 
@@ -143,7 +143,7 @@ The held-out ultrarare response was decoded once. No non-ultrarare held-out occu
 
 ### 2.7 Geographic graph construction and matched rewired nulls
 
-The source graph was **constructed from island centroid coordinates, not observed inter-island dispersal**. Within each of 12 bioregions, pairwise centroid distances were calculated using the haversine metric. We symmetrized k-nearest-neighbor edges and selected the smallest region-specific k for which that region's graph was connected. The frozen graph comprised 5,401 nodes and 73,162 undirected edges, with region-specific k values from 4 to 49. Its links consequently represent a geographic modeling rule, not observed movement, currents, resistance or established stepping-stone pathways. The frozen model label *actual C* means this original constructed graph, not measured dispersal.
+The source graph was **constructed from island centroid coordinates, not observed inter-island dispersal**. Those coordinates came from the **5,401 selected mammal-database islands**, not an independent list of all land masses. Islands with zero mapped mammals had already been excluded at source, so graph edges were geometry-derived *conditional on a response-selected node set*. Within each of 12 bioregions, pairwise centroid distances were calculated using the haversine metric. We symmetrized k-nearest-neighbor edges and selected the smallest region-specific k for which that region's graph was connected. The frozen graph comprised 5,401 nodes and 73,162 undirected edges, with region-specific k values from 4 to 49. Its links consequently represent a geographic modeling rule, not observed movement, currents, resistance or established stepping-stone pathways. The frozen model label *actual C* means this original constructed graph, not measured dispersal.
 
 For topology-specificity tests, we generated 20 deterministic null graphs independently within each bioregion.
 
@@ -281,7 +281,7 @@ Thus the independent three-wave test did not show that loss of a higher-leverage
 
 ## 4. Discussion
 
-**Measured-response boundary.** The mammal endpoint is a curated IUCN-derived positive label, not an independent survey of currently occupied island populations. The predictor and response both inherit geographic structure: graph edges use island centroids, while labels use range-polygon overlap. A map-to-map prediction can be real and reproducible without identifying biological stepping stones or actual migration. Spatial covariance from map construction and environmental suitability remains a competing explanation.
+**Measured-response boundary.** The mammal endpoint is a curated IUCN-derived positive label, not an independent survey of currently occupied island populations. The predictor and response both inherit geographic structure: graph edges use island centroids, while labels use range-polygon overlap. A map-to-map prediction can be real and reproducible without identifying biological stepping stones or actual migration. Moreover, the source compilation excluded islands with no IUCN-mapped mammals; the kNN graph therefore omits those land masses both as prediction targets and as potential geographic intermediate nodes. Prospective held-out species scoring prevents fitting to test labels but cannot undo this upstream response-dependent island selection. The size and direction of its inferential effects have not been estimated. Spatial covariance from map construction and environmental suitability remains a competing explanation.
 
 **Archived gain accounting.** The original ultrarare mapped-positive C−R3 log-loss contrast was −0.59626; the mean rewired C−R3 was −0.53773; their difference was −0.05853. Thus, 90.18% of the original point-estimate gain remained under the mean rewired graph, while 9.82% was original-kNN-specific relative to that null family. These are posthoc arithmetic fractions of loss differences, not causal mechanisms or uncertainty intervals. Degree-/edge-length-bin matching does not preserve local kNN neighbourhoods, edge orientation, or detour structure.
 
@@ -353,7 +353,7 @@ The strongest result is not evidence that rare island mammals disperse along a u
 
 In the preregistered ultrarare mammal layer, the original coordinate-derived kNN graph improved held-out prediction of curated map-positive labels and outperformed its 20 matched rewires. Yet pilot map-positive sources showed **less** graph-defined target-space turnover than matched source placements, alongside greater local overlap and weaker target dominance.
 
-The constructed geographic network was predictive **without** unusually distinct modelled source territories.
+The constructed geographic network was predictive **without** unusually distinct modelled source territories. That conclusion is conditional on the selected mammal-positive island universe and does not extend to excluded mammal-zero islands as prediction targets or physical graph nodes.
 
 This separates a geographic graph's map-label predictive signal from the unmeasured conservation value of living populations. A map-positive source configuration can be predictive while its members' graph-defined access fields overlap strongly.
 
@@ -363,6 +363,7 @@ Together, these results argue against a common shortcut in connectivity interpre
 
 ## References
 
+- Barreto, E., Rangel, T. F., Pellissier, L. & Graham, C. H. (2021). Area, isolation and climate explain the diversity of mammals on islands worldwide. *Proceedings of the Royal Society B* 288:20211879. https://doi.org/10.1098/rspb.2021.1879
 - Baranyi, G., Saura, S., Podani, J. & Jordán, F. (2011). Contribution of habitat patches to network connectivity: redundancy and uniqueness of topological indices. *Ecological Indicators* 11:1301–1310. https://doi.org/10.1016/j.ecolind.2011.02.003
 - Berlow, E. L., Knapp, R. A., Ostoja, S. M., Williams, R. J., McKenny, H., Matchett, J. R., Guo, Q., Fellers, G. M., Kleeman, P., Brooks, M. L. & Joppa, L. N. (2013). A network extension of species occupancy models in a patchy environment applied to the Yosemite toad (*Anaxyrus canorus*). *PLoS ONE* 8:e72200. https://doi.org/10.1371/journal.pone.0072200
 - Brown, J. H. & Kodric-Brown, A. (1977). Turnover Rates in Insular Biogeography: Effect of Immigration on Extinction. *Ecology* 58:445–449. https://doi.org/10.2307/1935620
