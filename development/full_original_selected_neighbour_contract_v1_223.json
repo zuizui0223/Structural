@@ -1,0 +1,49 @@
+{
+  "schema": "structural.frozen_full_selected_centroids_vs_namepoints.v1_223",
+  "status": "RESPONSE_FREE_DIFFERENT_SET_NEAREST_GEOGRAPHY_PREDECLARED_AFTER_V222",
+  "source_crosswalk": "development/strict_spatial_island_match_result_v1_221.json",
+  "source_neighborhood": "development/unrepresented_geocoded_neighbourhood_result_freeze_v1_222.json",
+  "source_snapshots": {
+    "barreto_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "weigelt_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "selected_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0"
+  },
+  "geographic_target": "Each of 3878 strictly matched focal original Structural islands; origin uses Barreto centroid, not Weigelt namepoint.",
+  "true_original_selected_world": "All 5401 selected Barreto geographic centroids from original pre-response-safe Appendix2; no arbitrary 3878 restriction for original-world nearest comparisons",
+  "independent_reference_world": "All 11546 geocoded Weigelt island NAME points; omit one exact v221 matched Weigelt point for each focal island, not entire island identity duplicates",
+  "fixed_rules": {
+    "crosswalk": "replay v221 fixed 5km and 1.5 area ratio and unique reciprocity, must reproduce 3878 matched selected",
+    "eligible_other_selected": "any other original selected centroid (exclude focal ID) within 5km from closest reference namepoint with area ratio <=1.5, even if strict v221 matched pair not accepted",
+    "distance_frame": "same WGS84 spherical coordinates; nearest full and selected computed from focal original Barreto centroid",
+    "self_disambiguation": "skip the exactly identified v221 matched Weigelt source row; if another namepoint within 0.2km of the same focal original centroid, count ambiguous duplicate and do not assert absent original node",
+    "threshold_km_for_material_distance_difference": 5,
+    "no_graph_edges_reconstructed": true,
+    "no_model_features_recomputed": true,
+    "output_aggregates_only": true
+  },
+  "outputs": [
+    "selected-nearest centroid distance versus Weigelt-nearest-other-namepoint distance medians",
+    "number and fraction of nearest nonself Weigelt candidate not within 5km and area-ratio 1.5 of any OTHER original selected centroid",
+    "fraction where nearest Weigelt candidate at least 5km closer than nearest other selected centroid, excluding 0.2km source point ambiguity",
+    "ratio/count of ambiguous namepoint duplicates within 0.2 km of focal centroid",
+    "same fractions by physical area bin"
+  ],
+  "limits": {
+    "Weigelt_named_locations_not_complete": true,
+    "geographic_nodes_not_mammal_zero_labels": true,
+    "focal_restricted_to_strictly_matches_only": true,
+    "not_a_true_5401_node_to_complete_physical_graph_comparison": true,
+    "not_empirical_dispersal_reconstruction": true,
+    "further_emergent_signal_not_confirmatory": true,
+    "different_island_sources_and_coordinate_centroid_semantics": true
+  },
+  "policy": {
+    "original_mammal_occurrence_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "graph_or_null_retested": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}
