@@ -27,7 +27,9 @@ def git_blob_sha1(data):
     return h.hexdigest()
 
 def valid_float(value,name):
-    try: f=float(value)
+    try:
+        raw=str(value).strip()
+        f=float.fromhex(raw) if raw.lower().startswith(("0x","+0x","-0x")) else float(raw)
     except (TypeError,ValueError) as exc: raise GateStop(f"invalid {name}") from exc
     if not math.isfinite(f):raise GateStop(f"nonfinite {name}")
     return f
