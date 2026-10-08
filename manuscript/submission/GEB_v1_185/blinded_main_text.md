@@ -145,7 +145,7 @@ The held-out ultrarare response was decoded once. No non-ultrarare held-out occu
 
 ### 2.7 Geographic graph construction and matched rewired nulls
 
-The source graph was **constructed from island centroid coordinates, not observed inter-island dispersal**. Within each of 12 bioregions, pairwise centroid distances were calculated using the haversine metric. We symmetrized k-nearest-neighbor edges and selected the smallest region-specific k for which that region's graph was connected. The frozen graph comprised 5,401 nodes and 73,162 undirected edges, with region-specific k values from 4 to 49. Its links consequently represent a geographic modeling rule, not observed movement, currents, resistance or established stepping-stone pathways.
+The source graph was **constructed from island centroid coordinates, not observed inter-island dispersal**. Within each of 12 bioregions, pairwise centroid distances were calculated using the haversine metric. We symmetrized k-nearest-neighbor edges and selected the smallest region-specific k for which that region's graph was connected. The frozen graph comprised 5,401 nodes and 73,162 undirected edges, with region-specific k values from 4 to 49. Its links consequently represent a geographic modeling rule, not observed movement, currents, resistance or established stepping-stone pathways. The frozen model label *actual C* means this original constructed graph, not measured dispersal.
 
 For topology-specificity tests, we generated 20 deterministic null graphs independently within each bioregion.
 
