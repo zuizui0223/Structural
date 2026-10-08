@@ -1,0 +1,224 @@
+{
+  "biological_evidence_produced": false,
+  "dataset_doi": "10.5061/dryad.rfj6q579r",
+  "external_island_species_0_1_values_decoded": 0,
+  "external_scoring_authorized": false,
+  "files": [
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773000/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773000"
+        }
+      ],
+      "file": "Adr.csv",
+      "id": 773000,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773001/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773001"
+        }
+      ],
+      "file": "Alx.csv",
+      "id": 773001,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773002/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773002"
+        }
+      ],
+      "file": "Clf.csv",
+      "id": 773002,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773003/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773003"
+        }
+      ],
+      "file": "Ind.csv",
+      "id": 773003,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773004/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773004"
+        }
+      ],
+      "file": "MdtLB.csv",
+      "id": 773004,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773005/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773005"
+        }
+      ],
+      "file": "MdtOC.csv",
+      "id": 773005,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773006/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773006"
+        }
+      ],
+      "file": "Mlk.csv",
+      "id": 773006,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773007/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773007"
+        }
+      ],
+      "file": "Mln.csv",
+      "id": 773007,
+      "range_available": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "range_bytes_read": 0,
+          "route": "frozen_old_id",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773008/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "range_bytes_read": 0,
+          "route": "live_landing_exact_filename",
+          "state": "RANGE_REQUEST_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773008"
+        }
+      ],
+      "file": "Phl.csv",
+      "id": 773008,
+      "range_available": false
+    }
+  ],
+  "files_with_range_available": 0,
+  "maximum_possible_probe_bytes": 18,
+  "original_frozen_file_count": 9,
+  "original_heldout_mammal_values_opened": 0,
+  "range_probe_bytes_read": 0,
+  "schema": "structural.hebert_one_byte_transport_result.v1_199",
+  "source_header_fields_decoded": 0,
+  "source_island_names_decoded": 0,
+  "status": "RANGE_UNAVAILABLE"
+}
