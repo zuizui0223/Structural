@@ -1,0 +1,70 @@
+{
+  "schema": "structural.source_redundancy_synchrony_insurance_hypothesis.v1_202",
+  "status": "LITERATURE_GROUNDED_UNTESTED_MECHANISTIC_FORK_NO_BIOLOGICAL_RESPONSE_ACCESS",
+  "provenance": {
+    "structural_source_geometry": "development/global_mammals_distributed_irreplaceability_freeze_v1_181.json",
+    "structural_result": "development/global_mammals_ultrarare_result_freeze_v1_119.json",
+    "biological_synchrony_paper": "https://doi.org/10.1002/ecy.4270",
+    "source_temporal_paper": "https://doi.org/10.1098/rspb.2016.2086",
+    "temporal_biology_evidence": "The 2024 kelp paper associates ocean-modelled dispersal with biomass synchrony after accounting for geographic distance, nitrate and waves; it does not experimentally establish that the same network loses colonization insurance from joint source failure.",
+    "biological_data_source": "LTER 1996-2006 kelp semiannual patch series, exact versions and compatibility unverified"
+  },
+  "ecological_tension": "Overlapping geographic source influence does not imply demographic insurance when source populations fail synchronously.",
+  "hypothetical_mechanisms": {
+    "I_independent_insurance": {
+      "mechanism": "When sources fluctuate independently, multiple sources accessing one target buffer poor propagule production by a single source.",
+      "prediction": "At fixed expected target propagule supply and habitat, increased independently varying effective source count predicts lower probability of no future source supply and higher future colonization/persistence."
+    },
+    "II_synchrony_erodes_insurance": {
+      "mechanism": "Positive covariance of fluctuations among accessible source populations concentrates shared failure risk, reducing temporal insurance even when static graph-access contributions are balanced.",
+      "prediction": "At fixed source count, average access, expected propagule output, spatial opportunity and local conditions, stronger preceding-source synchrony predicts more joint poor-source-production episodes and poorer subsequent recolonization; total source count may have no protective slope."
+    },
+    "III_local_habitat_and_common_shock": {
+      "mechanism": "Wave climate, nutrient stress and local habitat synchronize sources and targets; dispersal is not the unique cause.",
+      "prediction": "The apparent synchrony-insurance increment disappears after shared environmental shocks and local habitat are controlled without future leakage."
+    }
+  },
+  "separated_endpoints": {
+    "colonization": "For targets unoccupied at t, measured patch arrival/occupancy at t+1 with observation support",
+    "persistence": "For targets occupied at t, continuing patch presence at t+1 with separate risk set",
+    "joint_source_failure": "Multiple lagged source patches show concurrently low viable spore production, relative to prespecified historical source baseline",
+    "regional_risk": "Population-level synchrony and regional variability, not automatic inference of regional extinction probability"
+  },
+  "preoutcome_constraints": {
+    "frozen_geography_and_time_first": true,
+    "reference_contains_t_minus_one_source_amount_and_local_environment": true,
+    "covariance_only_from_strictly_earlier_training_windows": true,
+    "transport_operator_directionality_must_be_source_to_target": true,
+    "forbid_target_future_source_status": true,
+    "forbid_future_wave_and_future_nitrate": true,
+    "source_covariance_estimation_must_not_use_same_holdout_year": true,
+    "matched_null_preserve_geo_source_count_and_time": false,
+    "matched_null_reason": "A valid covariance null needs to preserve both geography and shared shocks while selectively disrupting residual dependence. This is unresolved and therefore no randomization or score is authorized.",
+    "no_claim_based_only_on_network_source_overlap": true
+  },
+  "proposed_test_order": [
+    "If exact source-to-target physical transport and patch-time identities cannot be verified, terminal STOP.",
+    "If local habitats and years do not provide independent turnover events or source production measured before target outcomes, terminal NONESTIMABLE.",
+    "Freeze data-independent source-neighbourhood and environmental covariates, then evaluate directed lagged source supply and prespecified earlier-window source covariance without target leakage.",
+    "Use separate and adequately powered 0->1 and 1->0 transition endpoints and hold out later periods and independent spatial groupings.",
+    "Treat published kelp source as design/outcome-context-exposed retrospective benchmark. Pristine confirmatory inference still requires a genuinely independent lineage with Structural v0.31/v0.42 admission."
+  ],
+  "novelty_boundary": {
+    "known": "Dispersal and environmental conditions influence kelp synchrony (Wanner et al. 2024); connectivity contributes to kelp demography (Castorani et al. 2015, 2017).",
+    "proposed_increment": "Whether *overlapping source access* creates temporal demographic insurance depends on residual correlation of actual source failures, and whether that correlation predicts later target recolonization or persistence beyond expected propagule supply and shared disturbances.",
+    "not_yet_demonstrated": true,
+    "source_count_is_not_demographic_redundancy": true
+  },
+  "safeguards": {
+    "opened_new_occurrence": false,
+    "opened_new_spore_production": false,
+    "opened_new_spore_transport": false,
+    "original_mammal_heldout_revisited": false,
+    "mammal_evidence_reclassified": false,
+    "active_confirmatory_systems": 0,
+    "scientific_hold": true,
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false
+  }
+}
