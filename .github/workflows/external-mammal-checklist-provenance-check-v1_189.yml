@@ -1,0 +1,25 @@
+name: Independent mammal checklist provenance v1.189 checks
+
+on:
+  push:
+    branches: [audit/external-checklist-provenance-v1-189]
+  pull_request:
+    paths:
+      - development/global_mammals_independent_provenance_contract_v1_189.json
+      - scripts/audit_external_mammal_checklist_provenance_v1_189.py
+      - tests/test_external_mammal_provenance_v1_189.py
+      - .github/workflows/external-mammal-checklist-provenance-check-v1_189.yml
+
+permissions:
+  contents: read
+
+jobs:
+  response-opaque-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_external_mammal_provenance_v1_189.py
