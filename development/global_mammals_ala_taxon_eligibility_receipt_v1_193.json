@@ -1,0 +1,25 @@
+{
+  "biological_scoring_authorized": false,
+  "eBird_used": false,
+  "eligibility_table_sha256": "3491683614867c520ac1f17a83a4c04af306cdc279ecd948b56e1c582a7b8eb3",
+  "excluded_author_rules": 3,
+  "excluded_conservative": 2,
+  "excluded_taxa": {
+    "Dama.dama": "introduced_by_authors",
+    "Potorous.platyops": "globally_extinct_not_contemporary",
+    "Rattus.exulans": "exotic_rodent_on_australian_islands",
+    "Rattus.rattus": "introduced_by_authors",
+    "Sus.scrofa": "introduced_by_authors"
+  },
+  "external_FID_read": false,
+  "external_species_x_island_positive_pairs_opened": 0,
+  "independently_surveyed_absences": false,
+  "islands_exactly_matched": 167,
+  "names_examined": 70,
+  "original_heldout_labels_opened": 0,
+  "provisional_taxa": 65,
+  "schema": "structural.ala_mammal_native_status_result.v1_193",
+  "site_specific_nativeness_verified": false,
+  "source_R_blob_sha1": "c177fd4ca24daef478fa281bd6ca878cb1425b68",
+  "status": "HOLD_ALA_65_PROVISIONAL_TAXA_PENDING_EXACT_PAIR_PROTOCOL"
+}
