@@ -1,0 +1,7 @@
+# v1.229 stable inner DOCX source identity: precise technical repair
+
+v1.227 obtained an official Europe PMC ZIP and verified one `zoae006_suppl_supplementary_material.docx` by name, uncompressed 678,993 bytes and CRC32 `8874d873`. The v1.228 subsequent structural-only parsing stopped with a ValueError without any ecological cell values read. Because the Europe PMC API assembles a downloadable supplementary ZIP, a different outer wrapper hash may not indicate a different inner publisher file. This has not been confirmed as the exact earlier error substage.
+
+v1.229 is a separately versioned technical gate, NOT a repair of a preregistered ecological result. It no longer requires outer ZIP byte equality, but requires **exactly one** original named DOCX member, exactly 678,993 uncompressed bytes, and the frozen CRC32. Only after those checks can it calculate inner DOCX SHA256 and inspect WordprocessingML structural tags `tbl`, `tr`, `tc`. No XML text node/cell values may be interpreted. All 0/1 survey outcomes remain unopened.
+
+If the member source identity differs, STOP without opening the table, selecting a substitute source or reducing thresholds. If table shapes resemble the published 39×18 field design, that only authorizes a further separately frozen metadata/entity schema audit, not inference or native mammal occupancy validation. Original GEB scientific HOLD remains.

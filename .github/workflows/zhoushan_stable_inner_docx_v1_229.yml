@@ -1,0 +1,30 @@
+name: Zhoushan stable inner DOCX structure v1.229
+on:
+  push:
+    branches:
+      - science/marine-mammal-field-intake-v1-224
+    paths:
+      - development/zhoushan_stable_inner_docx_contract_v1_229.json
+permissions:
+  contents: read
+jobs:
+  stable-member-shape:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zhoushan_stable_inner_docx_v1_229.py
+      - name: Verify stable inner DOCX and count WordprocessingML table tags only
+        run: |
+          python scripts/zhoushan_docx_table_shapes_v1_229.py --out build/v229/structure.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v229-zhoushan-stable-member-table-shape
+          path: build/v229/structure.json
+          retention-days: 21

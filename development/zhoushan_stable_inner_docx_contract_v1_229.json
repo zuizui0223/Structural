@@ -1,0 +1,33 @@
+{
+  "schema": "structural.zhoushan_stable_inner_docx_gate.v1_229",
+  "status": "SEPARATE_TECHNICAL_SOURCE_IDENTITY_RULE_FROZEN_AFTER_OUTER_ZIP_BYTE_DRIFT",
+  "preceding_success": "development/zhoushan_europepmc_metadata_result_freeze_v1_227.json",
+  "preceding_stop": {
+    "version": "v1.228",
+    "workflow_run": 37854586170,
+    "status": "STOP_DOCX_TABLE_GEOMETRY_SOURCE_OR_SCHEMA",
+    "reason_type": "ValueError",
+    "biological_field_values_opened": 0,
+    "exact_failure_substage_not_recorded": true,
+    "outer_zip_fingerprint_mismatch_suspected_not_confirmed": true
+  },
+  "source": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11634684/supplementaryFiles",
+  "allow_outer_zip_package_sha256_to_change": true,
+  "reason": "Europe PMC automatically creates supplementaryFiles ZIP wrappers; outer archive packaging bytes are not necessarily a persistent document identity. Do not assert mismatch alone proves identity change.",
+  "immutable_member_identity": {
+    "basename": "zoae006_suppl_supplementary_material.docx",
+    "uncompressed_bytes": 678993,
+    "crc32_hex": "8874d873",
+    "must_appear_exactly_once": true,
+    "must_match_all_three_before_opening_Word_xml": true
+  },
+  "new_output_sha256": "Compute actual inner DOCX SHA-256 and return it if, and only if, frozen member identity matches; do not assume prior inner SHA since v1.227 inspected central directory only.",
+  "allowed_semantic_access": "Count only tags of WordprocessingML tables and rows/cells. No cell text, island names or species labels read.",
+  "metric": "table count, all table row counts/first-row cell counts, structural 39x18 candidate count.",
+  "response_values_opened_before_gate": false,
+  "no_biological_scoring_authorized": true,
+  "no_original_IUCN_outcome_access": true,
+  "stop_if_inner_member_identity_drift": true,
+  "no_GEB_submission_promotion": true,
+  "eBird": false
+}
