@@ -1,0 +1,116 @@
+name: Independent mammal checklist response-opaque header gate v1.188
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_independent_checklist_header_request_v1_188.json
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  external-checklist-header-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify strictly response-opaque intake contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_independent_checklist_preintake_v1_188.json").read_text())
+          r=json.loads(Path("development/global_mammals_independent_checklist_header_request_v1_188.json").read_text())
+          assert c["source"]["reported_islands"]==204
+          assert len(c["files"])==9
+          assert c["allowed_preoutcome_access"]["source_island_species_binary_labels"] is False
+          assert c["future_endpoint"]["label_access_now_authorized"] is False
+          assert c["preoutcome_thresholds"]["no_threshold_changes_after_audit"] is True
+          assert r["one_shot"] is True and r["binary_checklist_values_authorized"] is False
+          assert r["original_mammal_heldout_access_authorized"] is False
+          assert r["eBird_used"] is False
+          PY
+
+      - name: Download original frozen ultrarare species identities
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728
+          path: build/external_mammal_v188/pilot
+          repository: zuizui0223/Structural
+          run-id: 37153960728
+          github-token: ${{ github.token }}
+
+      - name: Download only exact public checklist files
+        run: |
+          python - <<'PY'
+          import json,urllib.request
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_independent_checklist_preintake_v1_188.json").read_text())
+          d=Path("build/external_mammal_v188/public_files")
+          d.mkdir(parents=True,exist_ok=True)
+          for f in c["files"]:
+              file_id=f["id"];name=f["name"]
+              errors=[];value=None
+              for template in [c["transport"]["public_api_template"],c["transport"]["fallback_public_template"]]:
+                  url=template.format(id=file_id)
+                  try:
+                      req=urllib.request.Request(url,headers={"User-Agent":c["transport"]["user_agent"],"Accept":"text/csv,application/octet-stream"})
+                      with urllib.request.urlopen(req,timeout=35) as h:
+                          b=h.read(200001)
+                      if len(b)<12 or len(b)>200000 or b[:8].lower().startswith(b"<html"):
+                          raise ValueError("non-CSV response bytes")
+                      value=b;break
+                  except Exception as ex:
+                      errors.append(type(ex).__name__)
+              if value is None:
+                  raise SystemExit(f"STOP_EXTERNAL_CHECKLIST_TRANSPORT: {name} public endpoints failed: {errors}")
+              (d/name).write_bytes(value)
+          print("Downloaded 9 public checklist files for HEADER/FIRST-FIELD ONLY projection; binary body remains opaque.")
+          PY
+
+      - name: Project species headers and island labels only
+        run: |
+          python scripts/audit_external_mammal_checklist_headers_v1_188.py \
+            build/external_mammal_v188/pilot/ultrarare_species_universe.csv \
+            build/external_mammal_v188/public_files \
+            --receipt build/external_mammal_v188/receipt.json \
+            --island-names build/external_mammal_v188/island_names.json
+
+      - name: Delete external source rows and frozen pilot input
+        if: always()
+        run: rm -rf build/external_mammal_v188/public_files build/external_mammal_v188/pilot
+
+      - name: Freeze strictly t0-only metadata receipt
+        run: |
+          set -euo pipefail
+          test ! -d build/external_mammal_v188/public_files
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/external_mammal_v188/receipt.json").read_text())
+          assert r["status"] in (
+            "PRE_OUTCOME_IDENTITY_POOL_AVAILABLE_GAZETTEER_REQUIRED",
+            "STOP_EXTERNAL_CHECKLIST_HEADER_SUPPORT_INSUFFICIENT"
+          )
+          assert r["external_checklist_binary_cells_decoded"]==0
+          assert r["original_mammal_heldout_cells_opened"]==0
+          assert r["island_id_crosswalk_available"] is False
+          assert r["external_endpoint_scoring_authorized"] is False
+          assert r["scientific_evidence_produced"] is False
+          PY
+          cp build/external_mammal_v188/receipt.json development/global_mammals_external_checklist_header_gate_v1_188.json
+          cp build/external_mammal_v188/island_names.json development/global_mammals_external_checklist_safe_island_names_v1_188.json
+          git add development/global_mammals_external_checklist_header_gate_v1_188.json development/global_mammals_external_checklist_safe_island_names_v1_188.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze independent mammal checklist metadata-only gate v1.188"
+          git pull --rebase origin main
+          git push origin HEAD:main
