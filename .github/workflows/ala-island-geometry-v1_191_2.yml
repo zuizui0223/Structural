@@ -36,7 +36,7 @@ jobs:
           import json
           from pathlib import Path
           c=json.loads(Path("development/global_mammals_ala_island_geometry_gate_v1_191.json").read_text())
-          r=json.loads(Path("development/global_mammals_ala_island_geometry_request_v1_191.json").read_text())
+          r=json.loads(Path("development/global_mammals_ala_zip_sidecar_retry_request_v1_191_2.json").read_text())
           assert c["status"]=="RESPONSE_FREE_EXTERNAL_GEOMETRY_TO_FROZEN_HELDOUT_ID_GATE"
           assert c["source"]["response_mammals_zip_must_not_be_downloaded"] is True
           assert c["geometry_gate"]["min_exact_one_to_one_heldout_islands"]==30
