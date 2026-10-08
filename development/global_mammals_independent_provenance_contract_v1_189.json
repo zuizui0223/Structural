@@ -1,0 +1,130 @@
+{
+  "schema": "structural.external_mammal_checklist_provenance_contract.v1_189",
+  "status": "PREOUTCOME_ARCHIPELAGO_SOURCE_INDEPENDENCE_CLASSES_FROZEN",
+  "source_dataset": "10.5061/dryad.rfj6q579r",
+  "parent": "development/global_mammals_independent_checklist_preintake_v1_188.json",
+  "source_documentation": "Dryad dataset README, Source data per island group, first published 2021-06-24",
+  "purpose": "prevent source-provenance cherry-picking after species/island checklist response access",
+  "classification_basis": "published source lists only; no checklist binary labels, graph scores or future outcomes",
+  "groups": {
+    "Alexander": {
+      "file": "Alx.csv",
+      "class": "LITERATURE_ATLAS_PRIMARY_PROVISIONAL",
+      "primary_eligible_metadata": true,
+      "source_examples": [
+        "Conroy et al. 1999",
+        "Cook and MacDonald 2007",
+        "MacDonald and Cook 2010"
+      ],
+      "caveat": "checklist publication dates, detection heterogeneity and any taxon-specific IUCN use are not fully verified"
+    },
+    "Adriatic": {
+      "file": "Adr.csv",
+      "class": "LITERATURE_ATLAS_PRIMARY_PROVISIONAL",
+      "primary_eligible_metadata": true,
+      "source_examples": [
+        "Barun et al. 2015",
+        "Krystufek and Kletecki 2007",
+        "Krystufek et al. 1997"
+      ],
+      "caveat": "introduced taxa screening from IUCN or source data; regional checklist not uniform censuses"
+    },
+    "CaliforniaGulf": {
+      "file": "Clf.csv",
+      "class": "EXPLICIT_IUCN_SOURCE_DEPENDENCE",
+      "primary_eligible_metadata": false,
+      "source_examples": [
+        "Alvarez-Castaneda and Ortega-Rubio 2003",
+        "Ceballos 2014",
+        "IUCN 2016"
+      ],
+      "caveat": "IUCN cited as a component community-data source; cannot claim independent validation of IUCN-derived Barreto labels"
+    },
+    "Sundaland": {
+      "file": "Ind.csv",
+      "class": "LITERATURE_ATLAS_PRIMARY_PROVISIONAL",
+      "primary_eligible_metadata": true,
+      "source_examples": [
+        "Meijaard 2003",
+        "Suyanto et al. 1998"
+      ],
+      "caveat": "historical era / current extant occupancy and range-map contamination require cell-level provenance review"
+    },
+    "MediterraneanLandbridge": {
+      "file": "MdtLB.csv",
+      "class": "MIXED_HISTORICAL_REFERENCE_HOLD",
+      "primary_eligible_metadata": false,
+      "source_examples": [
+        "Angelici et al. 2009",
+        "Vigne 1992"
+      ],
+      "caveat": "zooarchaeological historical mammal source may conflate past and present occupancy"
+    },
+    "MediterraneanOceanic": {
+      "file": "MdtOC.csv",
+      "class": "MIXED_HISTORICAL_REFERENCE_HOLD",
+      "primary_eligible_metadata": false,
+      "source_examples": [
+        "Angelici et al. 2009",
+        "Vigne 1992"
+      ],
+      "caveat": "zooarchaeological historical mammal source may conflate past and present occupancy"
+    },
+    "Maluku": {
+      "file": "Mlk.csv",
+      "class": "LITERATURE_ATLAS_PRIMARY_PROVISIONAL",
+      "primary_eligible_metadata": true,
+      "source_examples": [
+        "Meijaard 2003",
+        "Suyanto et al. 1998"
+      ],
+      "caveat": "regional atlas/checklist and historical reference years, not uniform sampled current populations"
+    },
+    "Melanesia": {
+      "file": "Mln.csv",
+      "class": "LITERATURE_ATLAS_PRIMARY_PROVISIONAL",
+      "primary_eligible_metadata": true,
+      "source_examples": [
+        "Lavery et al. 2016"
+      ],
+      "caveat": "taxon nomenclature and current occurrence dates require independent checks"
+    },
+    "Philippines": {
+      "file": "Phl.csv",
+      "class": "LITERATURE_ATLAS_PRIMARY_PROVISIONAL",
+      "primary_eligible_metadata": true,
+      "source_examples": [
+        "Heaney et al. 2010 and 2011",
+        "Heaney et al. 2016"
+      ],
+      "caveat": "literature/checklist, not systematic detection-corrected field census"
+    }
+  },
+  "gating": {
+    "require_v188_header_gate_status": "PRE_OUTCOME_IDENTITY_POOL_AVAILABLE_GAZETTEER_REQUIRED",
+    "require_9_original_groups": true,
+    "min_unique_focal_species_headers_in_primary_eligible_groups": 20,
+    "min_primary_eligible_groups_with_exact_focal_headers": 3,
+    "min_primary_eligible_named_islands": 30,
+    "no_threshold_relaxation_after_metadata_result": true,
+    "exclude_mixed_and_direct_IUCN_groups_from_primary": true,
+    "eligible_groups_are_provisional_not_certified": true,
+    "species_by_island_provenance_required_before_binary_scoring": true,
+    "explicit_island_name_to_original_ID_crosswalk_required_before_binary_scoring": true,
+    "confirmatory_claim_allowed": false,
+    "external_checklist_0_1_values_may_be_opened": false
+  },
+  "status_logic": {
+    "v188_not_pass": "STOP_PARENT_V188_HEADER_SUPPORT",
+    "metadata_insufficient": "STOP_PROVENANCE_QUALIFIED_HEADER_SUPPORT",
+    "metadata_sufficient": "HOLD_PROVENANCE_QUALIFIED_ISLAND_ID_GAZETTEER_REQUIRED"
+  },
+  "response_boundary": {
+    "external_binary_decoded": 0,
+    "original_heldout_opened": 0,
+    "refit_models": false,
+    "read_future_outcome": false,
+    "eBird_used": false
+  },
+  "claim_ceiling": "posthoc independent-source feasibility audit only; even matched community checklist does not establish observed movement or causal colonization"
+}
