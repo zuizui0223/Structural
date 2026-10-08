@@ -1,0 +1,123 @@
+{
+  "schema": "structural.independent_biological_evidence_admissibility.v1_196",
+  "status": "NO_NEW_BIOLOGICAL_CONFIRMATION_ADMITTED_AFTER_ALA_AND_CHECKLIST_GATES",
+  "authority": {
+    "source_response": "development/global_mammals_response_ontology_audit_v1_187.json",
+    "geographic_graph": "development/global_mammals_graph_semantics_audit_v1_185.json",
+    "ALA_one_shot_result": "development/global_mammals_ala_positive_only_result_v1_194.json",
+    "ALA_terminal_status": "development/current_status_v1_195.json",
+    "checklist_design": "development/global_mammals_independent_checklist_preintake_v1_188.json",
+    "checklist_provenance": "development/global_mammals_independent_provenance_contract_v1_189.json",
+    "checklist_preoutcome_run_id": 37727347706,
+    "checklist_preoutcome_job_id": 113148435953
+  },
+  "datasets": {
+    "Barreto_IUCN_map": {
+      "target": "529-species ultrarare mapped presence cells",
+      "result": "prospective within-one-map-label-source positive-cell result",
+      "independence": "not a separate field-observation or movement validation",
+      "admissible_as_independent_occurrence_confirmation": false,
+      "original_scores_unchanged": true
+    },
+    "ALA_Australian_islands": {
+      "source": "cjabradshaw/AusIslBiogeogrTraits fixed source commit",
+      "geography_one_to_one_islands": 167,
+      "taxon_name_overlap": 70,
+      "precommitted_provisional_taxa": 65,
+      "external_positive_taxon_island_pairs_opened": true,
+      "response_scored": false,
+      "status": "TERMINAL_NO_SCORE_AFTER_PAIR_ACCESS_SCHEMA_ERROR",
+      "cause": "actual prediction binary uses two header dimensions, v1.194 parser expected three",
+      "biological_positive_or_negative_adjudication": null,
+      "fresh_same_archive_retry_authorized": false
+    },
+    "Hebert_2021_archipelago_checklists": {
+      "doi": "10.5061/dryad.rfj6q579r",
+      "islands_published": 204,
+      "groups": 9,
+      "independent_provenance_groups_provisional": [
+        "Alexander",
+        "Adriatic",
+        "Sundaland",
+        "Maluku",
+        "Melanesia",
+        "Philippines"
+      ],
+      "excluded_direct_IUCN": [
+        "CaliforniaGulf"
+      ],
+      "historical_provenance_hold": [
+        "MediterraneanLandbridge",
+        "MediterraneanOceanic"
+      ],
+      "first_header_audit_run_id": 37727347706,
+      "first_header_audit_result": "STOP_EXTERNAL_CHECKLIST_TRANSPORT",
+      "first_failed_file": "Adr.csv",
+      "failure_point": "both frozen public file-download endpoints returned HTTPError before file bytes could be routed",
+      "external_file_headers_decoded": 0,
+      "external_island_names_decoded": 0,
+      "external_binary_labels_decoded": 0,
+      "original_heldout_labels_reopened": 0,
+      "species_island_matching_established": false,
+      "named_island_crosswalk_established": false,
+      "provenance_classification_is_metadata_only": true,
+      "current_gate": "TRANSPORT_HOLD_NO_EXTERNAL_RESPONSE_ACCESS",
+      "downstream_scoring_authorized": false,
+      "alternative_transport_rule": "only exact public source files with independently verifiable identity; no alternate biological dataset or results-based selection",
+      "thresholds_must_not_be_relaxed": true
+    },
+    "Denmark_arctic_tern_ring_movements": {
+      "doi": "10.5061/dryad.x69p8czxh",
+      "journal_paper_doi": "10.1002/ece3.74372",
+      "publication_date": "2026-09-30",
+      "natal_displacement_events": 890,
+      "breeding_displacement_events": 200,
+      "data_years": "1931–2005 ringing history (derived event years vary by table)",
+      "observed_endpoint": "moving birds later recorded breeding at a different colony, origin/destination coordinates rounded to 0.01 degrees",
+      "full_ringed_individual_denominator_available": false,
+      "retained_nonmover_records_available": false,
+      "independently_enumerated_available_destination_colonies": false,
+      "denominators_from_event_endpoints_would_be_outcome_selected": true,
+      "allows_descriptive_conditional_mover_distance_direction": true,
+      "allows_colonization_probability_or_population_rescue": false,
+      "qualifies_as_validation_of_global_mammal_graph": false,
+      "outcome_values_opened_by_structural": 0,
+      "decision": "NO_ADMISSION_AS_MAMMAL_TOPOLOGY_OR_COLONIZATION_CONFIRMATION"
+    }
+  },
+  "admissibility_definition": {
+    "biological_occurrence_replication": [
+      "new observation source independent of the original IUCN polygon labels",
+      "unambiguous original heldout island-ID and focal taxon mapping frozen before 0/1 access",
+      "source-specific data provenance and time/nativeness eligibility frozen",
+      "prediction binary schema and SHAs verified before new outcome opening",
+      "no refits, retuning or selected subgroups after outcome access"
+    ],
+    "biological_dispersal_mechanism": [
+      "independently observed movements or dispersal events, not geography-defined graph edges",
+      "well-defined eligible departure origins and destination universe before event outcome",
+      "sampling/observation effort or an appropriately identified conditional movement endpoint",
+      "control for Euclidean distance and geographic opportunity, not only rewired graph degree/length bins"
+    ],
+    "conservation_demography": [
+      "time-ordered source-state changes and later occupancy or demographic endpoints",
+      "survey or detection denominators sufficient to distinguish absent from unsampled",
+      "cannot infer from static positive-only records"
+    ]
+  },
+  "scientific_status": {
+    "externally_validated_contemporary_mammal_occupancy": false,
+    "externally_validated_mammal_dispersal_graph": false,
+    "independently_supported_future_source_loss_consequence": false,
+    "original_ultrarare_within_map_prediction_remains_numerically_supported": true,
+    "GEB_biological_mechanism_submission_authorized": false
+  },
+  "next_gate": "independent, transport-accessible observational data with exact species/island identity and a genuinely suitable endpoint; otherwise preserve scientific HOLD",
+  "policy": {
+    "no_ALA_v194_replay": true,
+    "no_mammal_same_response_mining": true,
+    "no_BALA_rescue": true,
+    "no_SW_Finland_rescue": true,
+    "no_eBird": true
+  }
+}
