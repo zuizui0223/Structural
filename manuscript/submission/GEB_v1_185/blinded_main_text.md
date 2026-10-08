@@ -151,7 +151,7 @@ For topology-specificity tests, we generated 20 deterministic null graphs indepe
 
 Rewiring used undirected degree-preserving double-edge swaps. Replacement edges were constrained to the same original edge-length quintile, preserving both degree sequence and edge-length-bin counts. Self-edges and duplicate edges were forbidden, and each final regional graph was required to remain connected.
 
-The null ensemble preserved the number of islands, coordinates, degree sequence, counts of edges within each original length quintile, R3 variables and Euclidean occupied-source context. Only graph adjacency changed. **It did not preserve the local kNN construction rule, edge orientations, node-conditional neighborhood distances or shortest-path detours relative to straight-line distance.** Therefore, comparing the original graph with these surrogates isolates a particular sensitivity to geographic graph construction; it does not identify independently observed dispersal topology. This distinction matters because graph-based connectivity requires empirical validation rather than an assumed dispersal mechanism (Daniel et al. 2023).
+The null ensemble preserved the number of islands, coordinates, degree sequence, counts of edges within each original length quintile, R3 variables and Euclidean occupied-source context. Only graph adjacency changed. **It did not preserve the local kNN construction rule, edge orientations, node-conditional neighborhood distances or shortest-path detours relative to straight-line distance.** Therefore, comparing the original graph with these surrogates isolates a particular sensitivity to geographic graph construction; it does not identify independently observed dispersal topology. Graph-based connectivity requires independent validation (Daniel et al. 2023).
 
 For the 5–12 and 1–4 prospective layers, all null graphs and null predictions were frozen before held-out response access.
 
@@ -211,7 +211,7 @@ Overall C−R3 was **−0.000442**, with a 95% interval of **−0.001098 to +0.0
 
 The original prediction asymmetry also reversed. Absence-cell C−R3 was **+0.000430**, whereas presence-cell C−R3 was **−0.27744**.
 
-The graph-source-support contrast had the predicted point direction but crossed zero. Actual topology also showed no advantage over the 20 matched null graphs: actual C minus mean rewired C was **+1.56 × 10⁻⁶** with a 95% interval of **−2.12 × 10⁻⁴ to +2.04 × 10⁻⁴**, and the actual graph was better than 11/20 nulls.
+The graph-source-support contrast had the predicted point direction but crossed zero. The original geographic kNN topology also showed no advantage over the 20 matched null graphs: actual C minus mean rewired C was **+1.56 × 10⁻⁶** with a 95% interval of **−2.12 × 10⁻⁴ to +2.04 × 10⁻⁴**, and the actual graph was better than 11/20 nulls.
 
 This layer is therefore a prospective species-layer non-replication of the original overall effect, accompanied by a reversal toward presence improvement.
 
@@ -237,7 +237,7 @@ The topology-specificity test was also supported. Actual C minus mean rewired C 
 
 The preregistered external-isolation attenuation prediction was not supported: Spearman rho was **−0.160**, with a bootstrap interval spanning zero.
 
-### 3.5 Actual topology was not uniquely informative in the higher-occupancy exploratory layer
+### 3.5 Original geographic topology was not uniquely informative in the higher-occupancy exploratory layer
 
 Applying the same matched-null framework post hoc to the original 79 species produced the opposite result.
 
@@ -283,7 +283,7 @@ Thus the independent three-wave test did not show that loss of a higher-leverage
 
 ## 4. Discussion
 
-**Interpretive ceiling of the graph contrast.** The preregistered 20-graph result supports the original geographic kNN representation over its degree-/edge-length-bin-matched rewired surrogates for the ultrarare held-out presence endpoint. Because the original links were derived from island coordinates, not movement observations, this superiority may partly reflect the geographic locality and shorter detours preserved by the kNN construction but not required in its rewired competitors. Euclidean source distance and diffuse source pressure were controlled in R3, but that control does not make the graph edges independently observed ecological pathways. The effect is thus **geography-derived incremental prediction**, not proof of a biologically realized dispersal network.
+**Interpretive ceiling of the graph contrast.** The preregistered 20-graph result supports the original geographic kNN representation over its degree-/edge-length-bin-matched rewired surrogates for the ultrarare held-out presence endpoint. Because the original links were derived from island coordinates, not movement observations, this superiority may partly reflect the geographic locality and shorter detours preserved by the kNN construction but not required in its rewired competitors. Euclidean source distance and diffuse source pressure were controlled in R3, but that control does not make the graph edges independently observed ecological pathways. The effect is **geography-derived incremental prediction**, not evidence of measured dispersal routes.
 
 
 ### 4.1 Topology specificity does not require source irreplaceability
