@@ -1,0 +1,36 @@
+{
+  "actual": {
+    "bytes": 34922508,
+    "header_dims": [
+      4126,
+      529
+    ],
+    "payload_shape": [
+      4126,
+      529,
+      2
+    ],
+    "sha256": "3307a2e058f5f8223eaf0c2d69241acd938e96b93cb02643b1b7d63b425fae04"
+  },
+  "eBird_used": false,
+  "external_ala_pairs_opened_during_preflight": 0,
+  "null": {
+    "bytes": 349224693,
+    "header_dims": [
+      20,
+      4126,
+      529
+    ],
+    "payload_shape": [
+      20,
+      4126,
+      529
+    ],
+    "sha256": "300f0001d250dde01bc0240be3d20898399300fcac5f405e76bfd0f8524495c3"
+  },
+  "original_mammal_heldout_labels_read": 0,
+  "schema": "structural.global_mammals_prediction_header_preflight.v1_195",
+  "score_computed": false,
+  "status": "FROZEN_BINARY_HEADERS_VALIDATED_BEFORE_ANY_EXTERNAL_OUTCOME",
+  "v1_194_rerun_authorized": false
+}
