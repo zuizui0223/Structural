@@ -1,0 +1,73 @@
+{
+  "schema": "structural.field_mammal_survey_source_preintake.v1_224",
+  "status": "PUBLIC_SOURCE_METADATA_ONLY_NO_EXTERNAL_FIELD_OUTCOME_OPENED",
+  "question": "Can independently field-surveyed marine-island mammals validate the frozen mapped-positive island mammal predictions, while distinguishing detection from true absence?",
+  "priority": {
+    "id": "zhoushan_marine_archipelago_39_islands",
+    "paper_doi": "10.1093/cz/zoae006",
+    "PMCID": "PMC11634684",
+    "authors": "Zhan et al.",
+    "year": 2024,
+    "marine_land_bridge_islands": 39,
+    "reported_mammal_species": 18,
+    "field_effort_camera_trap_nights": 50225,
+    "field_effort_live_trap_nights": 6398,
+    "inventory_completeness_reported": {
+      "islands_above_90pct": 36,
+      "other_islands_above_80pct": 3
+    },
+    "prior_known": "Nestedness of taxonomic/functional/phylogenetic mammal communities already published",
+    "supplement_url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11634684/bin/zoae006_suppl_supplementary_material.docx",
+    "source_metadata_sha256_verified": false,
+    "supplement_species_by_island_incidence_table_verified": false,
+    "island_species_source_values_opened": false,
+    "species_island_native_provenance_verified": false,
+    "island_territory_identity_with_original_4126_verified": false,
+    "focal_taxon_identity_with_original_529_verified": false,
+    "independent_survey_detection_negative_denominator_verified": false,
+    "site_specific_repeated_trap_effort_verified": false,
+    "not_an_observed_movement_matrix": true,
+    "eligible_for_GEB_confirmation_now": false
+  },
+  "freshwater_comparator": {
+    "id": "apostle_islands_pichler_2022",
+    "paper_doi": "10.1002/ecs2.3911",
+    "zenodo_doi": "10.5281/zenodo.5749133",
+    "source_repo": "tpichler98/Pichler-et-al.-2021-comparative-biogeography-data",
+    "source_commit": "e3f3e2a679cfb9d7336b51c63663a7b83e4427f4",
+    "source_filename": "Pichler_et_al_comparative_biogeography_nonvolant_mammal_presence_data.csv",
+    "source_git_blob_sha1": "9e8765cd15911ef7f7617690c2743449d4a4e05d",
+    "source_bytes": 11866,
+    "source_header": "island,presence,species,body_mass_g,winter_active",
+    "field_species_codes_in_README": 25,
+    "actual_field_response_rows_opened": false,
+    "freshwater_is_not_saline_original_mammal_graph_population": true,
+    "independently_dispersal_links_observed": false,
+    "eligible_as_original_mammal_GEB_confirmation_now": false
+  },
+  "original_graph_external_validation_gate": {
+    "original_focal_species": 529,
+    "original_heldout_islands": 4126,
+    "original_focal_species_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "require_original_prediction_shape_and_sha_before_external_biological_access": true,
+    "require_unambiguous_taxa_and_island_crosswalk_before_external_biological_access": true,
+    "require_native_status_and_detection_effort_before_external_biological_access": true,
+    "do_not_treat_unobserved_as_true_absence": true,
+    "do_not_infer_colonization_from_cross_section": true,
+    "no_score_or_admission_yet": true
+  },
+  "limits": {
+    "published_39_zhoushan_islands_not_complete_physical_1339_islands": true,
+    "community_species_completeness_not_species_specific_detection_model": true,
+    "published_18_species_field_data_may_have_no_overlap_with_529": true,
+    "one_archipelago_not_global_replication": true
+  },
+  "hard_guards": {
+    "no_eBird": true,
+    "no_original_mammal_heldout_replay": true,
+    "no_ALA_replay": true,
+    "no_Hebert_retry": true,
+    "no_BALA_retest": true,
+    "no_GEB_submission_promotion": true
+  }
+}

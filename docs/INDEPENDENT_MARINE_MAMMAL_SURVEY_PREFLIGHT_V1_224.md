@@ -1,0 +1,9 @@
+# Marine island mammal field observation source intake v1.224
+
+Zhan et al. (2024; DOI 10.1093/cz/zoae006) surveyed mammal assemblages at 39 marine land-bridge islands of the Zhoushan Archipelago. The published methods report 50,225 camera trap-nights and 6,398 live-trap nights, 18 mammal species, community inventory completeness above 90% for 36 islands and above 80% for the other three. This is prior published nestedness evidence, not an untested new ecological effect.
+
+The PMC paper has an official DOCX supplement. v1.224 is allowed to retrieve exact public DOCX binary solely for hashing and listing ZIP central-directory member names and sizes. It NEVER reads word/document.xml, any species-by-island table, the original IUCN response, or scored predictions. The presence of a DOCX file is not proof that the field survey incidence matrix is available in a machine-readable table.
+
+Pichler et al. (2022; DOI 10.1002/ecs2.3911) offer an accessible field detection CSV in the author GitHub repo at commit e3f3e2a..., five fields island,presence,species,body_mass_g,winter_active and 25 mammal codes in the README. This is a freshwater lake archipelago and cannot directly confirm a graph built only from saline islands. Species detection in pooled surveys is not a perfect-detection occupancy process.
+
+The next possible biological event is a separate response-opaque Zhoushan schema/identity gate verifying that source species names and 39 island labels can be unambiguously paired to the frozen original 529 focal taxon/4,126 heldout geography and detection effort BEFORE reading any field species-by-island 0/1 values. The field survey may provide few or no eligible pairs. Nothing here establishes mammal movement, colonization, ecological connectivity or global predictive validation. GEB remains on scientific HOLD; eBird and all consumed biological lineages remain closed.
