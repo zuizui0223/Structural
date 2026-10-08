@@ -1,0 +1,86 @@
+{
+  "schema": "structural.response_safe_spatial_island_crosswalk.v1_221",
+  "status": "GEOGRAPHY_ONLY_STRICT_CROSSWALK_FROZEN_PRE_SAFE_GEO_MATCHING",
+  "goal": "Test whether selected mammal-compiled island identities can be recovered as unique geographically coherent physical island nodes in a separate historical Weigelt 17,883-island geography frame. No species outcomes or model predictions are accessed.",
+  "source_Barreto_safe": {
+    "run_id": 36524988694,
+    "artifact_id": 11013887248,
+    "name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+    "file": "appendix2_safe_rows.csv",
+    "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "rows": 5592,
+    "safe_columns": [
+      "ID",
+      "Longitude_centroid",
+      "Latitude_centroid",
+      "Area",
+      "bioregion"
+    ],
+    "other_columns_denied": true
+  },
+  "source_Weigelt_safe": {
+    "run_id": 36316161135,
+    "artifact_id": 10930234623,
+    "name": "global-mammals-weigelt-safe-rows-v0-60",
+    "file": "weigelt_islanddata_safe_v0_60.csv",
+    "sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "rows": 17883,
+    "columns": [
+      "id",
+      "name_long",
+      "name_lat",
+      "area"
+    ],
+    "coordinate_missing_expected": 6337
+  },
+  "selected_Structural_reference": {
+    "run_id": 36622553042,
+    "artifact_id": 11059506168,
+    "name": "global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042",
+    "file": "state_reference.csv",
+    "sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "rows": 5401,
+    "field": "ID"
+  },
+  "precommitted_algorithm": {
+    "coordinate_CRS": "EPSG4326",
+    "kdtree": "3D unit sphere chord distances; scipy cKDTree; haversine geodesic used for exact distance",
+    "maximum_great_circle_km": 5,
+    "maximum_larger_to_smaller_area_ratio": 1.5,
+    "candidate_identification": "Each candidate must meet BOTH radius and area ratio. Accept only if exactly ONE candidate for the Barreto island and exactly ONE reciprocal Barreto candidate for that Weigelt island; discard all ambiguous, no row matching based on input ID numbers.",
+    "permit_polar_and_antimeridian": true,
+    "no_fuzzy_names": true,
+    "no_coordinate_jitter_or_threshold_reoptimization": true,
+    "selected_id_routing_only_from_frozen_appendix2_ID_and_reference_ID": true,
+    "no_spatial_region_grouping_after_matching": true
+  },
+  "outputs": [
+    "source rows and coordinate-available rows",
+    "strict unique reciprocal match counts among 5592 and among 5401 selected",
+    "distance and area ratio quantiles of accepted matches",
+    "ambiguous candidate and unmatched counts",
+    "safe matched versus unmatched selected island area median/IQR",
+    "coverage fractions by source island area bins (<10,10..100,>=100 km²)"
+  ],
+  "limitations": {
+    "source_Weigelt_name_point_is_not_guaranteed_centroid": true,
+    "original_Barreto_location_and_Weigelt_namepoint_may_mismatch": true,
+    "accepted_candidate_pairs_are_high_confidence_not_independently_field_verified": true,
+    "unavailable_Weigelt_coordinates_preclude_all_island_network_rebuild": true,
+    "exact_2013_and_2024_GADM_land_unit_comparability_not_proven": true,
+    "unpaired_v220_area_differences_do_not_establish_mammal_zero_selection_bias": true,
+    "crosswalk_does_not_access_mammal_free_island_labels": true,
+    "this_is_not_a_replication_or_retest_of_v119": true,
+    "only_source_safe_geographic_csvs": true
+  },
+  "policy": {
+    "mammal_heldout_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "graph_refit": false,
+    "original_models_scored": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}
