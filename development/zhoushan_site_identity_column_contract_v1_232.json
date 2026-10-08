@@ -1,0 +1,39 @@
+{
+  "schema": "structural.zhoushan_first_site_table_metadata.v1_232",
+  "status": "FIRST_SUPPLEMENTARY_SITE_IDENTITY_ONLY_NO_SPECIES_OUTCOMES",
+  "source_DOI": "10.1093/cz/zoae006",
+  "source_stable_DOCX_sha256": "ec1d1d0a5dbe3f0cee955dfe4018e678a48a796d5135b2311888d47aad9ecd64",
+  "source_zip_member_identity": "zoae006_suppl_supplementary_material.docx, 678993 bytes, CRC32=8874d873",
+  "preconfirmed_table_shape": "Table 0: 40 rows ×12 cells (v1.229); article declares Supplementary Table S1 island characteristics of 39 field islands.",
+  "allow_read_only": {
+    "table_index": 0,
+    "header_row_index": 0,
+    "all_first_row_column_headings": true,
+    "first_column_in_each_data_row": 1,
+    "maximum_rows": 40,
+    "maximum_columns": 12,
+    "max_chars_per_allowed_cell": 160
+  },
+  "deny_reading": [
+    "any remaining 11 data columns on any of the 39 data rows",
+    "any other 8 supplementary tables",
+    "all species-specific detection/nondetection cells",
+    "original mammal species-by-island outcome/prediction files",
+    "body text paragraphs and figures"
+  ],
+  "output_only": "Header strings from first table and the first-column string of each of its 39 site data rows; no other table text, species frequencies or modeled scores.",
+  "eligibility_limit": "An island name/index list alone does not establish alignment with original 4,126 heldout IDs; no locale or introduced status is inferred.",
+  "preexisting_matched_taxa": [
+    "Sus scrofa",
+    "Prionailurus bengalensis",
+    "Viverricula indica",
+    "Melogale moschata",
+    "Rattus losea"
+  ],
+  "native_status_for_5_not_yet_verified": true,
+  "site_coords_or_polygon_identity_for_39_not_verified": true,
+  "taxon_incidence_values_opened": false,
+  "external_prediction_scoring_allowed": false,
+  "GEB_submission_authorized": false,
+  "eBird": false
+}

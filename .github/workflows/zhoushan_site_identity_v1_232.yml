@@ -1,0 +1,30 @@
+name: Zhoushan supplementary site names without incidence v1.232
+on:
+  push:
+    branches:
+      - science/marine-mammal-field-intake-v1-224
+    paths:
+      - development/zhoushan_site_identity_column_contract_v1_232.json
+permissions:
+  contents: read
+jobs:
+  site-firstfield:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zhoushan_site_first_field_v1_232.py
+      - name: Inspect frozen source only first site column and first row headers
+        run: |
+          python scripts/zhoushan_site_first_field_v1_232.py --out build/v232/site_metadata.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v232-zhoushan-first-site-column-only
+          path: build/v232/site_metadata.json
+          retention-days: 21
