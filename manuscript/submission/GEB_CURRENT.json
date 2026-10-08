@@ -2,8 +2,8 @@
   "schema": "structural.geb_current_submission.v1",
   "status": "GEB_V1_185_SCIENTIFIC_HOLD_NO_INDEPENDENT_BIOLOGICAL_CONFIRMATION",
   "version": "v1.185",
-  "scientific_status": "development/current_status_v1_195.json",
-  "active_priority": "development/structural_active_priority_v1_195.json",
+  "scientific_status": "development/current_status_v1_197.json",
+  "active_priority": "development/structural_active_priority_v1_197.json",
   "terminal_sw_finland": "development/sw_finland_terminal_stop_v1_177.json",
   "package_dir": "manuscript/submission/GEB_v1_185",
   "manuscript": "manuscript/submission/GEB_v1_185/blinded_main_text.md",
@@ -43,5 +43,7 @@
     "do not cite ALA v1.194 as ecological support or non-support",
     "correct old original range-map labels vs independently surveyed native occupancy before journal submission"
   ],
-  "independent_ala_terminal": "development/global_mammals_ala_technical_terminal_stop_v1_195.json"
+  "independent_ala_terminal": "development/global_mammals_ala_technical_terminal_stop_v1_195.json",
+  "posthoc_graph_gain_accounting": "development/global_mammals_graph_gain_accounting_v1_197.json",
+  "independent_biological_evidence_admissibility": "development/independent_biological_evidence_admissibility_v1_196.json"
 }

@@ -1,0 +1,157 @@
+{
+  "schema": "structural.current_status.v1_197",
+  "status": "canonical_scientific_hold_after_graph_gain_accounting_and_independent_biological_stops",
+  "supersedes": "development/current_status_v1_195.json",
+  "central_empirical_evidence": {
+    "ultrarare_occurrence": {
+      "species": 529,
+      "evidence_class": "prospective preregistered species-layer support within one geography",
+      "presence_C_minus_R3": -0.5962586684916777,
+      "presence_ci95": [
+        -0.743854761144673,
+        -0.46445672203892047
+      ],
+      "actual_minus_mean_rewired": -0.058525177248239975,
+      "actual_better_than_nulls": "20/20",
+      "interpretation": "The original coordinate-derived kNN graph improves mapped-positive prediction over a source-aware R3 reference and its 20 degree-/edge-length-bin-rewired surrogate graphs, but graph links are not observed dispersal.",
+      "posthoc_graph_gain_accounting": "development/global_mammals_graph_gain_accounting_v1_197.json"
+    },
+    "adjacent_5_12": {
+      "species": 96,
+      "overall_supported": false,
+      "topology_specificity_supported": false,
+      "role_signature": "presence improvement without actual-topology specificity"
+    },
+    "exploratory_13_plus": {
+      "species": 79,
+      "evidence_class": "nonconfirmatory exploratory",
+      "topology_specificity_supported": false
+    }
+  },
+  "response_free_source_structure": {
+    "aggregate_balance_v1_122": {
+      "multi_source_species": 212,
+      "mean_actual_minus_null_effective_count": 0.28242921346906974,
+      "ci95": [
+        0.20500912701472415,
+        0.362361925385512
+      ],
+      "corrected_interpretation": "aggregate graph-pressure contributions are more evenly distributed among observed sources than matched random placements; this is not by itself spatial complementarity"
+    },
+    "target_space_turnover_v1_181": {
+      "evidence_class": "posthoc response-free geometry diagnostic",
+      "mean_actual_minus_null_beta": -0.26202792201140007,
+      "ci95": [
+        -0.3166893034908708,
+        -0.20762835904337926
+      ],
+      "mean_actual_minus_null_alpha": 0.3939208530577791,
+      "mean_actual_minus_null_gamma": 0.1344479796491595,
+      "mean_actual_minus_null_target_dominant_share": -0.13900859730011123,
+      "actual_beta_gt_null_mean": "48/212",
+      "actual_beta_gt_null_q975": "2/212",
+      "conclusion": "distributed source-territory irreplaceability is not supported; mapped pilot-positive source configurations have overlapping modeled influences and lower target-level dominance than matched random source placements"
+    }
+  },
+  "ecological_synthesis": {
+    "core": "the coordinate-built kNN operator has frozen heldout predictive information for range-map-derived island occurrence labels; it has not been shown to infer contemporary extant source populations, dispersal, colonization or rescue",
+    "key_nonobvious_boundary": "shared polygon-derived geographic label construction and occasionally historically restored presences may explain part of the graph signal; independent species-by-island checklist validation is needed",
+    "structural_pattern": "Mapped ultrarare pilot source configurations show relatively balanced aggregate contribution, greater-than-random target-space co-coverage and lower-than-random source-identity turnover in a geographic graph operator",
+    "mechanism_removed": "the v1.119 topology signal should not be explained as a set of distinct, individually irreplaceable source territories",
+    "mechanism_remaining": "the topology signal is compatible with collective configuration or overlapping source-neighborhood structure; no causal dispersal mechanism is established",
+    "graph_gain_decomposition": "A posthoc, within-identical-presence-metric arithmetic identity attributes 90.2% of the original C versus R3 point difference to mean rewired C versus R3 and only 9.8% to original C versus rewired C; these percentages are not causal mechanism attribution."
+  },
+  "independent_temporal_boundary": {
+    "system": "Azores BALA arthropods",
+    "taxa": 20,
+    "target_rows": 64,
+    "primary_C_minus_R2": 0.00067423414692237,
+    "ci95": [
+      -0.02130441194511585,
+      0.025579070508640226
+    ],
+    "supported": false,
+    "interpretation": "static source-network information is not validated as later demographic consequence"
+  },
+  "closed_lanes": {
+    "sw_finland": "terminal pre-outcome exact-source estimability failure",
+    "boreal_birds": "terminal pilot; no rerun",
+    "boreal_beetles": "fresh local primary not supported",
+    "eBird": "disabled"
+  },
+  "claim_boundary": {
+    "node_level_irreplaceability_supported": false,
+    "demographic_redundancy_supported": false,
+    "realized_dispersal_supported": false,
+    "rescue_supported": false,
+    "management_ranking_validated": false,
+    "continuous_rarity_law_supported": false,
+    "geographic_replication_supported": false,
+    "observed_dispersal_graph_supported": false,
+    "biology_specific_graph_mechanism_supported": false,
+    "field_surveyed_island_occurrence_supported": false,
+    "current_extant_source_population_for_every_positive_cell_supported": false,
+    "independent_species_level_validation_supported": false
+  },
+  "primary_next_step": "Respect v1.196 independent-evidence admissions: ALA one-shot is consumed with no ecological score, external Hebert checklist transport failed before header access; only a new independent biological data lineage with exact preverified identities/prediction-reader schema and suitable endpoint can upgrade the claim.",
+  "source_leverage_semantic_correction": "development/source_leverage_semantic_correction_v1_182.json",
+  "distributed_redundancy_result": "development/global_mammals_distributed_irreplaceability_freeze_v1_181.json",
+  "synthesis": "docs/BALANCED_REDUNDANCY_SYNTHESIS_V1_183.md",
+  "constructed_graph_semantics": {
+    "authority": "development/global_mammals_graph_semantics_audit_v1_185.json",
+    "graph": "coordinate-derived symmetrized kNN with minimum connected region-specific k, not measured animal movement",
+    "heldout_topology_claim": "geographic kNN graph better than degree-/edge-length-bin-rewired surrogates",
+    "null_does_not_preserve": [
+      "local kNN criterion",
+      "edge orientations",
+      "node-conditional spatial neighborhoods",
+      "shortest-path stretch"
+    ],
+    "causal_ecological_network_identified": false,
+    "observed_dispersal_adjacency_identified": false,
+    "physical_connectivity_beyond_geometry_established": false,
+    "original_statistics_changed": false
+  },
+  "graph_semantics_audit": "development/global_mammals_graph_semantics_audit_v1_185.json",
+  "source_response_audit": "development/global_mammals_response_ontology_audit_v1_187.json",
+  "response_semantics": {
+    "label_type": "curated IUCN-2017 mammal range polygons overlapped with GADM island polygons, manually corrected and partly augmented for historically extinct native species",
+    "heldout_is_an_independent_field_occurrence_sample": false,
+    "response_freeze_and_C_minus_R3_unchanged": true,
+    "originally_quoted_realized_presence_should_be": "positive cell in curated range-overlap/augmented matrix",
+    "historical_extirpation_values_present_in_source": true,
+    "number_of_historical_augmented_cells_identified": false,
+    "claim_present_day_occupied_sources_in_all_cells": false,
+    "original_richness_comparison": "source authors reported independent regional richness correlation about 0.95±0.05; species-by-island independent accuracy not established by this aggregate"
+  },
+  "independent_checklist_candidate": "development/global_mammals_independent_checklist_preintake_v1_188.json",
+  "submission_status": "SCIENTIFIC_HOLD_PENDING_INDEPENDENT_SPECIES_ISLAND_VALIDATION",
+  "independent_ala_validation": {
+    "v191_exact_geometry_islands": 167,
+    "v192_exact_aggregate_taxon_names": 70,
+    "v193_provisional_taxa_after_exclusion": 65,
+    "v194_result": "development/global_mammals_ala_positive_only_result_v1_194.json",
+    "v195_terminal": "development/global_mammals_ala_technical_terminal_stop_v1_195.json",
+    "v194_post_pair_exposure": true,
+    "support_gate_reached": true,
+    "support_counts_exact_not_retained": true,
+    "P1_C_vs_R3_scored": false,
+    "P2_actual_vs_null_scored": false,
+    "independent_biological_confirmation": false,
+    "independent_biological_nonreplication": false,
+    "original_mammal_heldout_reopened": false,
+    "same_ALA_rerun_authorized": false
+  },
+  "scientific_claim_ceiling": "mapped IUCN-derived occupancy predicts mapped positive cells in heldout ultrarare species with geographic kNN representation; independent native island biological validation remains unestablished",
+  "analysis_state": {
+    "active_confirmatory_candidate": null,
+    "ALA_same_archive_rerun_authorized": false,
+    "original_mammal_refit_authorized": false,
+    "SW_Finland_rerun_authorized": false,
+    "BALA_rerun_authorized": false,
+    "eBird_enabled": false,
+    "next_scientific_event": "new truly independent biological event/temporal/movement data with full prediction-reader preflight before opening labels"
+  },
+  "independent_evidence_admissibility": "development/independent_biological_evidence_admissibility_v1_196.json",
+  "independent_biological_confirmation_present": false
+}

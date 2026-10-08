@@ -1,0 +1,63 @@
+{
+  "schema": "structural.global_mammals_graph_gain_accounting.v1_197",
+  "status": "POSTHOC_POINT_ESTIMATE_ACCOUNTING_NO_NEW_PREDICTION_OR_BIOLOGICAL_VALIDATION",
+  "authority": {
+    "frozen_result": "development/global_mammals_ultrarare_result_freeze_v1_119.json",
+    "frozen_scoring_contract": "development/global_mammals_ultrarare_scoring_contract_v1_115.json",
+    "frozen_graph_null": "development/global_mammals_ultrarare_topology_null_contract_v1_114.json",
+    "graph_semantics": "development/global_mammals_graph_semantics_audit_v1_185.json",
+    "mapped_label_semantics": "development/global_mammals_response_ontology_audit_v1_187.json",
+    "independent_validation_admissibility": "development/independent_biological_evidence_admissibility_v1_196.json"
+  },
+  "population": {
+    "ultrarare_pilot_positive_species": 529,
+    "presence_bearing_heldout_blocks": 110,
+    "heldout_islands": 4126,
+    "heldout_cells": 2182654,
+    "positive_map_cells": 2347
+  },
+  "point_estimate_accounting": {
+    "endpoint": "equal-weight across heldout blocks containing mapped-positive ultrarare mammal island-species cells, presence-specific binary log-loss difference",
+    "reference": "frozen R3 nearest-source and geography-aware model",
+    "original_kNN_C_minus_R3": -0.5962586684916777,
+    "mean_of_20_rewired_C_minus_R3": -0.5377334912434378,
+    "original_kNN_C_minus_mean_rewired_C": -0.058525177248239975,
+    "additive_identity": "original_kNN_C_minus_R3 = mean_of_20_rewired_C_minus_R3 + original_kNN_C_minus_mean_rewired_C",
+    "additive_residual": 1.1102230246251565e-16,
+    "mean_rewired_fraction_of_original_gain": 0.9018459934573567,
+    "kNN_specific_fraction_of_original_gain": 0.09815400654264339,
+    "fraction_units": "ratio of point-estimate log-loss differences, not causal variance explained or information fraction",
+    "original_vs_rewired_ci95": [
+      -0.0993094892212265,
+      -0.01629111180393469
+    ],
+    "original_vs_rewired_better_than_nulls": "20/20",
+    "original_kNN_C_minus_R3_ci95": [
+      -0.743854761144673,
+      -0.46445672203892047
+    ],
+    "ratio_confidence_interval": null,
+    "ratio_confidence_interval_reason": "marginal bootstrap bounds in archived freeze do not identify joint uncertainty in a ratio"
+  },
+  "scientific_interpretation": {
+    "positive": "about 90.2% of the point-estimate improvement of the original constructed C over R3 is also obtained, on average, with degree-/edge-length-bin-matched rewired C; the original constructed geographic kNN graph adds a smaller, prospectively tested advantage over this null family",
+    "not_identified": "relative fraction does not assign causal fractions to dispersal, habitat similarity, map geometry, or node-level source importance",
+    "old_status_wording_to_override": "exact observed island adjacency contains heldout presence information",
+    "corrected_short_claim": "the original geography-derived kNN adjacency contains incremental within-map predictive information over its frozen rewired surrogate family",
+    "biological_uncertainty": "all model labels are mapped/augmented IUCN-overlap cells and the kNN edges are constructed from centroid geometry; no measured movement or independent species-island occurrence replication",
+    "source_node_mechanism": "distributed irreplaceable source territories not supported by v1.181; positive network-level prediction cannot rank critical biological source islands",
+    "temporal_result": "BALA later source-loss consequence not supported"
+  },
+  "evidence_boundaries": {
+    "posthoc_algebra_not_preregistered_separate_effect": true,
+    "original_score_rerun": false,
+    "heldout_occurrence_reopened": false,
+    "prediction_binary_opened": false,
+    "external_species_island_labels_opened": false,
+    "original_effects_thresholds_predictions_or_nulllist_changed": false,
+    "ALA_v1_194_replay_authorized": false,
+    "eBird_used": false,
+    "conservation_rescue_or_dispersal_claim_authorized": false,
+    "submission_status": "SCIENTIFIC_HOLD_PENDING_INDEPENDENT_SPECIES_ISLAND_VALIDATION"
+  }
+}
