@@ -28,3 +28,8 @@ def test_predeclared_island_taxon_and_source_gate():
     assert c["allowed_preoutcome_access"]["source_island_species_binary_labels"] is False
     assert c["future_endpoint"]["label_access_now_authorized"] is False
     assert c["policy"]["eBird_used"] is False
+
+def test_normalize_reversible_r_species_header():
+    m=load()
+    assert m.canonical("Pteropus.vampyrus")==m.canonical("Pteropus vampyrus")
+    assert m.canonical("Pteropus_vampyrus")==m.canonical("Pteropus vampyrus")
