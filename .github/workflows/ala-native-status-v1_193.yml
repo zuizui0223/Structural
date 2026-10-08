@@ -1,0 +1,81 @@
+name: ALA taxon native-status screen v1.193
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_ala_native_status_request_v1_193.json
+
+permissions:
+  contents: write
+
+jobs:
+  taxon-status-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Enforce only aggregate public taxon names are available
+        run: |
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_ala_native_status_request_v1_193.json").read_text())
+          assert r["status"]=="REQUEST_PREPAIR_TAXON_CLEANUP_ONLY"
+          assert r["parent_overlap_required"]==70
+          assert r["heldout_island_matches_required"]==167
+          assert r["external_island_species_pairs_authorized"] is False
+          assert r["original_mammal_heldout_authorized"] is False
+          assert r["score_requested"] is False
+          assert r["one_shot"] is True and r["eBird_used"] is False
+          PY
+      - name: Fetch exact pinned public R author exclusions
+        run: |
+          mkdir -p build/ala193
+          python - <<'PY'
+          import hashlib,json,urllib.request
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ala_native_status_gate_v1_193.json").read_text())["author_taxon_exclusions"]
+          url="https://raw.githubusercontent.com/"+c["upstream_repository"]+"/"+c["source_commit"]+"/"+c["source_file"]
+          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Structural-v1.193-aggregate-taxon-only"}),timeout=180) as h:
+              b=h.read(600000)
+          sha=hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+          assert sha==c["source_git_blob_sha1"],"pinned R source SHA drift"
+          Path("build/ala193/author.R").write_bytes(b)
+          PY
+      - name: Screen all 70 names before ALA island species pairs
+        id: audit
+        continue-on-error: true
+        run: |
+          python scripts/audit_ala_mammal_native_status_v1_193.py             development/global_mammals_ala_taxon_manifest_receipt_v1_192.json             development/global_mammals_ala_island_geometry_receipt_v1_191_2.json             build/ala193/author.R             --eligibility-output build/ala193/eligibility.csv             --receipt build/ala193/receipt.json
+      - name: Delete source R bytes
+        if: always()
+        run: rm -f build/ala193/author.R
+      - name: Commit receipt and whitelist or retain terminal status
+        run: |
+          set -euo pipefail
+          cp build/ala193/receipt.json development/global_mammals_ala_taxon_eligibility_receipt_v1_193.json
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          r=json.loads(Path("build/ala193/receipt.json").read_text())
+          assert r["external_species_x_island_positive_pairs_opened"]==0
+          assert r["original_heldout_labels_opened"]==0
+          assert r["biological_scoring_authorized"] is False
+          if r["status"]=="HOLD_ALA_65_PROVISIONAL_TAXA_PENDING_EXACT_PAIR_PROTOCOL":
+              assert r["provisional_taxa"]==65 and r["names_examined"]==70
+              shutil.copyfile("build/ala193/eligibility.csv","development/global_mammals_ala_taxon_eligibility_v1_193.csv")
+          else:
+              raise SystemExit("taxon screen terminal STOP: "+r["status"])
+          PY
+          git add development/global_mammals_ala_taxon_eligibility_receipt_v1_193.json development/global_mammals_ala_taxon_eligibility_v1_193.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze ALA response-free 65-species provisional taxon eligibility v1.193"
+          git push origin HEAD:main
