@@ -16,7 +16,7 @@
   "submission_authorized": false,
   "author_approval_not_given": true,
   "abstract_word_count": 245,
-  "working_body_word_count": 4985,
+  "working_body_word_count": 4997,
   "word_limit_copyedit_pending": false,
   "replacements": [
     {
@@ -101,5 +101,7 @@
   "graph_geography_wording_upstream_selection_corrected": true,
   "unpaired_geography_frame_v1_220": "development/global_mammals_unpaired_geography_frame_freeze_v1_220.json",
   "still_no_independent_mammal_outcome": true,
-  "no_mammal_zero_island_specific_effect_inferred": true
+  "no_mammal_zero_island_specific_effect_inferred": true,
+  "stricter_crosswalk_result_v1_221": "development/strict_spatial_island_match_result_v1_221.json",
+  "full_original_geography_result_v1_223": "development/full_original_island_neighbour_geometry_freeze_v1_223.json"
 }
