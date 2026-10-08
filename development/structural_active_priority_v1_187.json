@@ -1,0 +1,29 @@
+{
+  "schema": "structural.active_priority.v1_187",
+  "status": "science_gate_before_submit_iucn_response_ontology",
+  "supersedes": "development/structural_active_priority_v1_185.json",
+  "canonical_status": "development/current_status_v1_187.json",
+  "do_now": [
+    "fix standalone CI optional NumPy collection via separate bugfix PR",
+    "treat original mammal labels as range-derived and partly historically augmented, not directly surveyed current occurrence",
+    "run response-opaque matching feasibility gate against independently compiled 204-island checklists",
+    "predeclare label-independence and exact island/species-matching thresholds before reading external checklist 0/1 cells",
+    "hold ecological mechanism and conservation claims for GEB until independent biological validation passes"
+  ],
+  "do_not": [
+    "do not rescue distributed irreplaceability with an alternative post-hoc source-turnover metric",
+    "do not call structural co-coverage demographic redundancy",
+    "do not infer realized dispersal or source-sink dynamics",
+    "do not reopen same-mammal occupancy thresholds",
+    "do not reopen BALA, SW Finland, boreal birds or eBird",
+    "do not equate network-level predictive value with individual-source conservation priority",
+    "do not equate geography-constructed kNN links with observed animal dispersal paths",
+    "do not describe the 20 rewired nulls as preserving all geographic embedding",
+    "do not rerun heldout mammal response or tune graph k/nulls after outcomes",
+    "do not call polygon-positive cells measured present-day populations",
+    "do not open checklist labels before freezing exact species-island matching",
+    "do not treat aggregate richness agreement as species-by-island confirmation",
+    "do not substitute currently closed mammal heldout labels as independent ecological evidence"
+  ],
+  "next_scientific_event": "response-opaque island/species crosswalk and provenance gate for field-literature checklist replication, not further name changes"
+}
