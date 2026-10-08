@@ -11,12 +11,13 @@
     "article_type": "Research Article",
     "title": "When do source islands matter? Topology without source irreplaceability",
     "running_title": "Topology without irreplaceability",
-    "abstract_words": 275,
-    "main_text_words": 4718,
+    "abstract_words": 283,
+    "main_text_words": 4956,
     "running_title_characters": 33,
     "keyword_count": 9,
     "reference_count": 23,
-    "note": "author-facing word-count/structure QA performed separately"
+    "note": "author-facing word-count/structure QA performed separately",
+    "cover_interest_words": 230
   },
   "central_evidence": {
     "ultrarare_heldout": {
@@ -66,5 +67,6 @@
     "kNN_vs_rewired_is_biological_dispersal_confirmation": false,
     "shortest_path_stretch_preserved_by_nulls": false
   },
-  "graph_semantics_audit": "development/global_mammals_graph_semantics_audit_v1_185.json"
+  "graph_semantics_audit": "development/global_mammals_graph_semantics_audit_v1_185.json",
+  "qa_receipt": "manuscript/submission/GEB_v1_185/submission_qa_v1_185.json"
 }
