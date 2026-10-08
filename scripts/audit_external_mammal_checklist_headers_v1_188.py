@@ -14,7 +14,7 @@ DEFAULT_CONTRACT=ROOT/"development/global_mammals_independent_checklist_preintak
 class GateStop(RuntimeError):pass
 
 def canonical(x):
-    return " ".join(unicodedata.normalize("NFC",x).split()).casefold()
+    return " ".join(unicodedata.normalize("NFC",x).replace("_"," ").replace("."," ").split()).casefold()
 
 def island_key(x):
     return " ".join(unicodedata.normalize("NFC",x).split())
