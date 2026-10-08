@@ -1,6 +1,6 @@
 from pathlib import Path
 import importlib.util,json
-import numpy as np
+import pytest
 
 ROOT=Path(__file__).resolve().parents[1]
 SCRIPT=ROOT/"scripts/run_global_mammals_distributed_irreplaceability_v1_181.py"
@@ -11,6 +11,7 @@ def load():
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 
 def test_source_turnover_is_high_when_sources_partition_targets():
+    np=pytest.importorskip("numpy", reason="NumPy is optional in standalone CI; dedicated numeric job runs these tests")
     m=load()
     w=np.array([[1.,1.,0.,0.],[0.,0.,1.,1.]])
     alpha,gamma,beta,dom,n=m.source_turnover(w)
@@ -21,6 +22,7 @@ def test_source_turnover_is_high_when_sources_partition_targets():
     assert n==4
 
 def test_source_turnover_is_one_when_sources_are_locally_redundant():
+    np=pytest.importorskip("numpy", reason="NumPy is optional in standalone CI; dedicated numeric job runs these tests")
     m=load()
     w=np.array([[1.,1.,1.,1.],[1.,1.,1.,1.]])
     alpha,gamma,beta,dom,n=m.source_turnover(w)
