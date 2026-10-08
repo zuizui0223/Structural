@@ -1,0 +1,26 @@
+name: ALA positive-only conditional-score v1.194 tests
+
+on:
+  pull_request:
+    paths:
+      - scripts/score_global_mammals_ala_positive_locations_v1_194.py
+      - development/global_mammals_ala_positive_location_protocol_v1_194.json
+      - tests/test_ala_positive_location_protocol_v1_194.py
+      - tests/test_ala_positive_location_score_v1_194.py
+  push:
+    branches:
+      - candidate/ala-positive-only-protocol-v1-194
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --disable-pip-version-check pytest numpy==2.3.3
+      - run: python -m pytest -q tests/test_ala_positive_location_protocol_v1_194.py tests/test_ala_positive_location_score_v1_194.py
