@@ -72,7 +72,7 @@ The source database contained a curated binary island–mammal range matrix for 
 
 The final population contained **5,401 islands**. A response-independent partition assigned **1,275 islands** to a pilot set and **4,126 islands** to held-out evaluation. The held-out islands formed **168 bioregion × 10-degree spatial blocks** across 12 bioregions.
 
-All three mammal layers used this same island population, pilot/held-out split and response-independent geography. For these mammal analyses, 'presence', 'absence', and 'pilot occupied source' mean 1/0 cells in the curated range map rather than independent field confirmation. Both pilot and held-out labels share the same geographic map-generation process.
+All three mammal layers used the same **already-selected** island population, pilot/held-out split and geographic covariates; those coordinates were not derived from focal held-out labels, but the upstream island selection did depend on mapped mammal occurrence. For these mammal analyses, 'presence', 'absence', and 'pilot occupied source' mean 1/0 cells in the curated range map rather than independent field confirmation. Both pilot and held-out labels share the same geographic map-generation process.
 
 ### 2.2 Reference hierarchy
 

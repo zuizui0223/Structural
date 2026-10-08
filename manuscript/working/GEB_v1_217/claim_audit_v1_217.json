@@ -16,7 +16,7 @@
   "submission_authorized": false,
   "author_approval_not_given": true,
   "abstract_word_count": 245,
-  "working_body_word_count": 4915,
+  "working_body_word_count": 4936,
   "word_limit_copyedit_pending": false,
   "replacements": [
     {
@@ -97,5 +97,6 @@
     }
   ],
   "revision_pass_2": "Reduced redundant discussion and corrected mapped-source conclusions without altering model results.",
-  "island_universe_selection_audit_v1_218": "development/global_mammals_island_universe_selection_v1_218.json"
+  "island_universe_selection_audit_v1_218": "development/global_mammals_island_universe_selection_v1_218.json",
+  "graph_geography_wording_upstream_selection_corrected": true
 }
