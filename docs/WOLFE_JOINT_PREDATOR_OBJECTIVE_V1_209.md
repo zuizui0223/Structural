@@ -1,0 +1,13 @@
+# Wolfe 2022: jointly preserving specialist and generalist predators (v1.209)
+
+This **retrospective analysis contract was written prior to reading any biological outcome row in Structural**. It is not a preregistration against the original published study's outcome exposure. Wolfe et al. (Oecologia 2022, DOI 10.1007/s00442-022-05178-9) already reported that specialist and generalist predators respond differently to patch number and matrix dispersal and examined predator co-occurrence. Its author GitHub contains one 180-row landscape-level terminal-day CSV and analysis code.
+
+## A distinct, conservation-relevant question
+
+At exactly 4 or 6 patches, equal total medium (48 ml), identical corridor transfer and matrix treatments, does **heterogeneous patch size** change the probability that **at least one specialist and the generalist are both present somewhere in the same metacommunity** at day 21? This outcome is not within-patch co-occurrence, future colonization, source failure or demographic rescue. It is a joint community-retention objective, complementary to the published marginal predator GLMs.
+
+Experimental design: five landscape configurations × nine movement treatments × four independent microcosm replicates = 180 microcosms. Single patches are excluded from the heterogeneity comparison because a one-patch system cannot vary patch size. The primary contrast equally weights 18 strata (patch count 4/6 × matrix 3 × corridor 3), each comparing 4 heterogeneous vs 4 homogeneous independent experimental microcosms. Source species are defined **before data access** as generalist Stentor coeruleus and specialist Didinium nasutum or Dileptus anser, following published predator guild designation. Presence requires positive density; all invalid/missing densities stop analysis.
+
+Primary statistic: day-21 `joint_heterogeneous − joint_homogeneous`. Bootstrap uses 10,000 replicates, resampling four microcosms within each treatment-cell arm, exact 2.5/97.5 percentiles, seed 20261008. Secondary: marginal specialist and generalist contrasts (descriptive; no added significance claims). The script checks author GitHub's canonical blob SHA-1 e78003d... and byte size 12096 **before parsing**; no replacement source allowed.
+
+Interpretation is descriptive of a published, context-exposed experiment. It does not demonstrate original Structural mammal island range-map accuracy or modelled source paths. Without time-ordered responses it cannot test 0→1 recolonization or the higher-order source-cofailure hypothesis. It should be reported regardless of favorable or unfavorable outcome without retuning.

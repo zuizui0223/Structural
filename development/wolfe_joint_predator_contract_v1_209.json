@@ -1,0 +1,95 @@
+{
+  "schema": "structural.wolfe_joint_predator_retrospective.v1_209",
+  "status": "SPECIFIED_BEFORE_CSV_BIOLOGICAL_ROWS_OPENED_IN_STRUCTURAL",
+  "epistemic_class": "PUBLISHED_OUTCOME_CONTEXT_EXPOSED_RETROSPECTIVE_NOT_PRISTINE",
+  "source": {
+    "paper_doi": "10.1007/s00442-022-05178-9",
+    "repository": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "path": "Wolfe et al. /Wolfe et al experimental data.csv",
+    "git_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "known_bytes": 12096,
+    "provenance_read_before_freeze": "paper abstract/methods, author README, author R analysis scripts, CSV header only",
+    "semantic_outcome_rows_read_before_contract": false
+  },
+  "design": {
+    "independent_unit": "microcosm",
+    "experimental_units_expected": 180,
+    "configs": [
+      {
+        "patches": 1,
+        "heterogeneity": "homogeneous"
+      },
+      {
+        "patches": 4,
+        "heterogeneity": "homogeneous"
+      },
+      {
+        "patches": 4,
+        "heterogeneity": "heterogeneous"
+      },
+      {
+        "patches": 6,
+        "heterogeneity": "homogeneous"
+      },
+      {
+        "patches": 6,
+        "heterogeneity": "heterogeneous"
+      }
+    ],
+    "matrix_levels": [
+      "none",
+      "low",
+      "high"
+    ],
+    "corridor_levels": [
+      "none",
+      "low",
+      "high"
+    ],
+    "replicates_per_complete_factorial_cell": 4,
+    "primary_risk_set": "Only 4- and 6-patch treatments (omit single-patch where heterogeneity has no contrast)",
+    "factorial_strata": 18,
+    "fixed_total_media_volume_ml": 48,
+    "outcome_time": "day21 only"
+  },
+  "endpoints": {
+    "generalist": "1 if stentor_coeruleus > 0, else 0",
+    "specialist": "1 if didinium_nasutum > 0 OR dileptus_anser > 0, else 0",
+    "primary_joint": "1 if both generalist and specialist are present in SAME microcosm at day 21; NOT necessarily same patch",
+    "unknown_values": "STOP; no imputation and no posthoc threshold relaxation"
+  },
+  "contrast": {
+    "estimand": "mean across 18 equal-weight strata (2 patch counts x 3 matrix x 3 corridor) of [joint prevalence in heterogeneous - joint prevalence in homogeneous] using 4 independently assigned microcosms per arm",
+    "primary": "joint guild day-21 presence, size-heterogeneity contrast within same patch count and dispersal treatments",
+    "uncertainty": "10,000 stratified within-cell experiment-unit bootstraps, each 18x2x4 groups resampled separately; percentile 2.5 and 97.5",
+    "bootstrap_seed": 20261008,
+    "secondary": [
+      "generalist marginal contrast",
+      "specialist marginal contrast",
+      "joint contrast separately within 4 and 6 patches"
+    ],
+    "allowed_interpretation": "retrospective final-day treatment-conditioned co-presence, not source-loss dynamics, not dispersal route identification",
+    "forbid_subgroup_effect_based_selection": true,
+    "forbid_rerun_or_retune_after_outcome": false
+  },
+  "validation": {
+    "exact_source_git_blob_required": true,
+    "exact_rows_expected": 180,
+    "exact_five_configs_nine_dispersal_cells_four_replicates": true,
+    "unique_microcosm_ids": true,
+    "same_response_source_as_paper": true,
+    "stop_if_any_required_cell_missing_or_nonfinite": true
+  },
+  "hard_bounds": {
+    "original_mammal_heldout_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "SW_Finland_reopen": false,
+    "eBird": false,
+    "GEB_submission_authorized": false,
+    "this_does_not_validate_mammal_geography_graph": true,
+    "new_results_are_nonconfirmatory": true
+  }
+}
