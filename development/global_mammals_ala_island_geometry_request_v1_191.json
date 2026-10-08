@@ -1,0 +1,12 @@
+{
+  "schema": "structural.external_ala_mammal_island_geometry_request.v1_191",
+  "status": "REQUEST_RESPONSE_FREE_AUSTRALIAN_ISLAND_GEOMETRY_CROSSWALK",
+  "contract": "development/global_mammals_ala_island_geometry_gate_v1_191.json",
+  "source_commit": "746fbe83c6f67c6d37439056f41198a72f56cb2e",
+  "original_heldout_values_opened": 0,
+  "external_ala_mammal_values_authorized": false,
+  "external_ala_mammal_zip_download_authorized": false,
+  "min_matches": 30,
+  "one_shot": true,
+  "eBird_used": false
+}
