@@ -1,0 +1,21 @@
+name: Hébert transport preflight synthetic tests v1.198
+on:
+  pull_request:
+    paths:
+      - scripts/preflight_dryad_checklist_transport_v1_198.py
+      - tests/test_hebert_transport_preflight_v1_198.py
+      - development/hebert_transport_preflight_contract_v1_198.json
+  push:
+    branches: [audit/hebert-transport-preflight-v1-198]
+permissions:
+  contents: read
+jobs:
+  unit-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_hebert_transport_preflight_v1_198.py

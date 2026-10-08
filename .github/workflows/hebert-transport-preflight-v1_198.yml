@@ -1,0 +1,65 @@
+name: Hébert Dryad metadata-only transport preflight v1.198
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/hebert_transport_preflight_request_v1_198.json
+
+permissions:
+  contents: write
+
+jobs:
+  transport-preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate response-opaque metadata request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path("development/hebert_transport_preflight_contract_v1_198.json").read_text())
+          r=json.loads(Path("development/hebert_transport_preflight_request_v1_198.json").read_text())
+          original=json.loads(Path("development/global_mammals_independent_checklist_preintake_v1_188.json").read_text())
+          assert c["same_exact_9_files_as_v1_188"] is True
+          assert len(original["files"])==9
+          assert c["allowed_actions"]["read_any_CSV_content_bytes"] is False
+          assert c["allowed_actions"]["read_any_island_species_0_1_label"] is False
+          assert c["allowed_actions"]["auto_dispatch_v1_188_or_score_external"] is False
+          assert r["CSV_download_or_body_open_authorized"] is False
+          assert r["island_species_labels_authorized"] is False
+          assert r["independent_ecological_score_requested"] is False
+          assert r["one_shot"] is True and r["eBird_used"] is False
+          PY
+      - name: HEAD-only public transport preflight
+        run: |
+          python scripts/preflight_dryad_checklist_transport_v1_198.py \
+            --receipt build/hebert_v198/transport_result.json
+      - name: Freeze metadata-only result without external 0/1 data
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("build/hebert_v198/transport_result.json").read_text())
+          assert r["status"] in ("HEAD_CANDIDATE_ALL_9","HEAD_PARTIAL","NO_HEAD_CANDIDATE","LANDING_UNAVAILABLE")
+          assert r["CSV_body_bytes_read"]==0
+          assert r["island_species_binary_values_decoded"]==0
+          assert r["original_mammal_heldout_values_opened"]==0
+          assert r["external_ecological_score_produced"] is False
+          assert r["downstream_header_projection_authorized"] is False
+          PY
+          cp build/hebert_v198/transport_result.json development/hebert_transport_preflight_receipt_v1_198.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add development/hebert_transport_preflight_receipt_v1_198.json
+          git commit -m "Record metadata-only Hébert Dryad public transport preflight v1.198"
+          git pull --rebase origin main
+          git push origin HEAD:main
