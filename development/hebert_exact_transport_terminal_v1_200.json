@@ -1,0 +1,47 @@
+{
+  "schema": "structural.hebert_exact_public_file_transport_terminal.v1_200",
+  "status": "TERMINAL_AUTOMATED_TRANSPORT_HOLD_NO_EXTERNAL_CHECKLIST_HEADERS_OR_LABELS",
+  "dataset": {"doi":"10.5061/dryad.rfj6q579r","published_islands":204,"archipelagos":9,"exact_files":9},
+  "evidence": {
+    "original_v1_188": {
+      "run_id":37727347706,
+      "stage":"first frozen original public file URL HTTP error before first CSV header",
+      "source_headers_decoded":0,
+      "external_island_species_0_1_values_decoded":0
+    },
+    "v1_198_metadata_HEAD": {
+      "receipt":"development/hebert_transport_preflight_receipt_v1_198.json",
+      "status":"NO_HEAD_CANDIDATE",
+      "files_with_HEAD_success":0,
+      "legacy_API_status_for_all_files":401,
+      "landing_page_exact_filename_link_status_for_all_files":403,
+      "landing_page_available":true,
+      "CSV_content_bytes_read":0
+    },
+    "v1_199_strict_Range_0_0": {
+      "receipt":"development/hebert_one_byte_transport_receipt_v1_199.json",
+      "status":"RANGE_UNAVAILABLE",
+      "files_with_range_success":0,
+      "legacy_API_status_for_all_files":401,
+      "landing_page_exact_filename_link_status_for_all_files":403,
+      "CSV_content_bytes_read":0
+    }
+  },
+  "response_firewall": {
+    "external_checklist_species_headers_opened":0,
+    "external_checklist_island_names_opened":0,
+    "external_checklist_island_species_0_1_values_opened":0,
+    "original_heldout_mammal_values_reopened":0,
+    "independent_ecological_prediction_scores":0,
+    "can_call_biological_support_or_non_support":false
+  },
+  "conclusion": {
+    "what_failed":"public exact-source file transport via the frozen API and the live landing page download links, including HEAD and bounded Range requests",
+    "what_did_not_fail":"the biological topology or colonization hypothesis was not tested",
+    "same_endpoint_automated_retries_authorized":false,
+    "external_source_substitution_authorized":false,
+    "only_reopening_condition":"an independently verified public or author-provided distribution of the exact nine files with file identity and preregistered header/island/species identity gates still intact, without postresponse selection",
+    "next_science":"new observational system with explicit ecological endpoint and data denominators; manuscript scientific HOLD persists"
+  },
+  "policy":{"ALA_v1_194_replay":false,"BALA_rescue":false,"SW_Finland_rescue":false,"same_mammal_map_refit":false,"eBird":false}
+}
