@@ -118,7 +118,8 @@ export function analyze(raw){
     schema:"structural.wolfe_assignment_permutation_sensitivity_result.v1_214",
     evidence_class:"PUBLISHED_OUTCOME_CONTEXT_EXPOSED_POSTHOC_HYPOTHETICAL_EXCHANGEABILITY",
     source_blob:digest,
-    retained_outcome_rows:175,
+    retained_source_rows:175,
+    analyzed_4_and_6_patch_outcome_rows:139,
     ambiguous_row_excluded:UNKNOWN_ID,
     imputed_missing_binary_events:5,
     imputation_configurations:tested.length,
@@ -131,7 +132,7 @@ export function analyze(raw){
     results_by_imputation:tested
   };
 }
-if(process.argv[1] && process.argv[1].endsWith("wolfe_assignment_permutation_v1_214.mjs")){
+if(process.argv[1] && process.argv[1].split("/").pop()==="wolfe_assignment_permutation_v1_214.mjs"){
   if(process.argv.length!==4)throw Error("Specify exact immutable CSV and safe result filename");
   const out=analyze(fs.readFileSync(process.argv[2]));
   fs.mkdirSync((await import("node:path")).dirname(process.argv[3]),{recursive:true});

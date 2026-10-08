@@ -70,5 +70,7 @@
     "Hebert_retry": false,
     "BALA_reopen": false,
     "SW_Finland_reopen": false
-  }
+  },
+  "execution_fix": "exact script basename required to avoid running CLI during test module import",
+  "original_null_definition_unchanged": true
 }
