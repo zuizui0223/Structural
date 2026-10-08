@@ -1,0 +1,10 @@
+{
+  "biological_scoring_authorized": false,
+  "eBird_used": false,
+  "external_ala_mammal_occurrence_values_opened": 0,
+  "external_ala_mammal_zip_downloaded": false,
+  "original_heldout_occurrence_values_opened": 0,
+  "reason": "expected exactly one polygon shapefile, got 2",
+  "schema": "structural.external_ala_mammal_island_geometry_result.v1_191",
+  "status": "STOP_ALA_GEOMETRY_PREACCESS_SCHEMA"
+}
