@@ -1,0 +1,9 @@
+{
+  "eBird_used": false,
+  "model_refit": false,
+  "original_heldout_labels_read": 0,
+  "reason": "prediction shape drift",
+  "schema": "structural.ala_independent_positive_location_result.v1_194",
+  "scores_computed": false,
+  "status": "STOP_ALA_EXTERNAL_PAIR_SCHEMA_OR_FROZEN_INPUT_DRIFT"
+}
