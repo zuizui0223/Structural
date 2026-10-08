@@ -28,7 +28,7 @@ def test_current_hold_does_not_reclassify_results():
 def test_external_gate_is_predeclared_before_labels():
     p=json.loads(PRIORITY.read_text())
     x=json.loads(INTAKE.read_text())
-    assert p["project_policy"].get("ebird_enabled",False) is False if "project_policy" in p else True
+    assert any("eBird" in x for x in p["do_not"])
     assert x["preoutcome_thresholds"]["min_exact_focal_species_header_overlap"]==20
     assert x["source"]["reported_islands"]==204
     assert x["allowed_preoutcome_access"]["source_island_species_binary_labels"] is False
