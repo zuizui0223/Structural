@@ -1,0 +1,23 @@
+{
+  "schema": "structural.ala_positive_location_request.v1_194",
+  "status": "AUTHORIZE_ONE_SHOT_EXTERNAL_POSITIVE_PAIR_SCORING",
+  "scientific_contract": "development/global_mammals_ala_positive_location_protocol_v1_194.json",
+  "taxon_eligibility_receipt_sha256": "95d3eb507e0999d9439a8b262f13d7d860af911daef3133740b40d81a2bb7762",
+  "taxon_eligibility_table_sha256": "3491683614867c520ac1f17a83a4c04af306cdc279ecd948b56e1c582a7b8eb3",
+  "matched_islands": 167,
+  "provisionally_eligible_taxa": 65,
+  "original_frozen_species": 529,
+  "minimum_deduplicated_ALA_positive_pairs": 50,
+  "minimum_distinct_positive_taxa": 10,
+  "minimum_positive_islands": 15,
+  "minimum_positive_blocks": 5,
+  "event_year_min": 2000,
+  "event_year_max": 2026,
+  "original_heldout_response_access": false,
+  "external_zero_as_absence_authorized": false,
+  "model_refit": false,
+  "future_threshold_change_authorized": false,
+  "same_lineage_rerun_authorized": false,
+  "eBird_used": false,
+  "one_shot": true
+}
