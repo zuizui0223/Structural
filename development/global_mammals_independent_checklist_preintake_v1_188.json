@@ -80,7 +80,7 @@
     "original_heldout_4126_occurrence": false
   },
   "normalization": {
-    "taxa": "Unicode NFC, collapse ASCII/Unicode whitespace, trim, casefold; do not recode binomials or synonyms",
+    "taxa": "Unicode NFC, replace periods/underscores in header binomials with spaces (R make.names syntactic separators), collapse whitespace, trim, casefold; require one-to-one unambiguous match; do not apply taxonomic synonyms or fuzzy matching",
     "island": "Unicode NFC, collapse whitespace and trim; do not fuzzy geocode or assign IDs"
   },
   "frozen_original": {
