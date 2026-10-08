@@ -1,0 +1,47 @@
+{
+  "schema": "structural.active_priority.v1_200",
+  "status": "scientific_hold_after_independent_checklist_transport_exhaustion",
+  "supersedes": "development/structural_active_priority_v1_197.json",
+  "canonical_status": "development/current_status_v1_197.json",
+  "do_now": [
+    "preserve v1.197 result: 90.18% of ultrarare original-vs-R3 gain survives matched rewiring; 9.82% original-kNN incremental point-estimate contrast only",
+    "freeze v1.198/199 9-of-9 public file access rejection and stop repeat URL polling",
+    "keep GEB on scientific HOLD: source map and graph are geography-derived and lack external species-level ecological validation",
+    "evaluate only genuinely independent repeat-survey/observed movement systems at metadata and sampling-denominator level before any new outcome access"
+  ],
+  "do_not": [
+    "do not rescue distributed irreplaceability with an alternative post-hoc source-turnover metric",
+    "do not call structural co-coverage demographic redundancy",
+    "do not infer realized dispersal or source-sink dynamics",
+    "do not reopen same-mammal occupancy thresholds",
+    "do not reopen BALA, SW Finland, boreal birds or eBird",
+    "do not equate network-level predictive value with individual-source conservation priority",
+    "do not equate geography-constructed kNN links with observed animal dispersal paths",
+    "do not describe the 20 rewired nulls as preserving all geographic embedding",
+    "do not rerun heldout mammal response or tune graph k/nulls after outcomes",
+    "do not call polygon-positive cells measured present-day populations",
+    "do not open checklist labels before freezing exact species-island matching",
+    "do not treat aggregate richness agreement as species-by-island confirmation",
+    "do not substitute currently closed mammal heldout labels as independent ecological evidence",
+    "do not rerun the consumed ALA FID×species×year archive for v1.194",
+    "do not reinterpret prediction-reader failure as evidence for or against mammal dispersal",
+    "do not grant submission authorization from preoutcome 167×65 identity matches alone",
+    "do not inspect original IUCN heldout labels to replace the external loss",
+    "do not call the 9.8% graph-specific ratio a fraction of biological dispersal explained",
+    "do not interpret 90.2% rewired retention as an independent ecological confirmation",
+    "do not retry v1.194 ALA or reopen the same mammal-map labels for alternative graph models",
+    "do not retry the same nine Dryad endpoints automatically after v1.198 HEAD and v1.199 Range rejection",
+    "do not substitute a superficially similar mammal table for the frozen checklist",
+    "do not turn rail/goby metadata into a positive temporal result or mammal graph replication",
+    "do not open either new candidate's biological outcomes before site/source/method eligibility freeze"
+  ],
+  "next_scientific_event": "admit a genuinely observed dynamic or movement endpoint with source/site identity and detection denominators, or retain scientific HOLD",
+  "completed_transport": {
+    "v198": "development/hebert_transport_preflight_receipt_v1_198.json",
+    "v199": "development/hebert_one_byte_transport_receipt_v1_199.json",
+    "terminal": "development/hebert_exact_transport_terminal_v1_200.json",
+    "successful_files": 0,
+    "external_binary_values_opened": 0,
+    "ecological_scores_produced": 0
+  }
+}
