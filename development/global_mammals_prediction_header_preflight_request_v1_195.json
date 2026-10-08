@@ -1,0 +1,11 @@
+{
+  "schema":"structural.global_mammals_prediction_header_preflight_request.v1_195",
+  "status":"REQUEST_FROZEN_HEADER_READER_PREFLIGHT_WITHOUT_ANY_EXTERNAL_RESPONSE",
+  "actual_prediction_artifact_id":11284534666,
+  "rewired_prediction_artifact_id":11285972572,
+  "external_ALA_archive_download_authorized":false,
+  "original_heldout_response_authorized":false,
+  "model_refit":false,
+  "same_ALA_v1_194_rerun_authorized":false,
+  "eBird_used":false
+}

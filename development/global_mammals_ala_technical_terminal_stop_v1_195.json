@@ -1,0 +1,66 @@
+{
+  "schema": "structural.ala_one_shot_external_positive_technical_stop.v1_195",
+  "status": "TERMINAL_POST_PAIR_EXPOSURE_TECHNICAL_STOP_NO_ECOLOGICAL_SCORE",
+  "candidate_id": "ala_native_mammal_independent_positive_records",
+  "parent_protocol": "development/global_mammals_ala_positive_location_protocol_v1_194.json",
+  "parent_request": "development/global_mammals_ala_positive_location_request_v1_194.json",
+  "parent_result": "development/global_mammals_ala_positive_only_result_v1_194.json",
+  "execution": {
+    "workflow": ".github/workflows/ala-positive-location-score-v1_194.yml",
+    "workflow_run_id": 37746153286,
+    "workflow_job_id": 113208010269,
+    "conclusion": "failure",
+    "raw_ALA_archive_download_verified": true,
+    "external_species_FID_eventDate_rows_semantically_parsed": true,
+    "qualification_gates_passed_by_control_flow": true,
+    "qualification_gate_thresholds": {
+      "minimum_distinct_positive_pairs": 50,
+      "minimum_distinct_positive_taxa": 10,
+      "minimum_distinct_positive_islands": 15,
+      "minimum_distinct_positive_blocks": 5
+    },
+    "exact_realized_support_counts_not_persisted": true,
+    "stage_reached": "read_predictions after positive-pair qualification",
+    "technical_error": "prediction shape drift"
+  },
+  "exact_technical_cause": {
+    "old_actual_format": "STRUCTURAL_MAMMAL_ULTRARARE_PRED_V1 followed by 2 uint32 header dimensions (4126, 529), followed by float64 payload (4126,529,2)",
+    "failed_new_reader": "v1.194 read_predictions inferred three uint32 header dimensions from data array shape (4126,529,2), consuming four probability bytes as a third dimension",
+    "old_null_format": "STRUCTURAL_MAMMAL_ULTRARARE_NULL_PRED_V1 followed by 3 uint32 dimensions (20,4126,529) and matching payload",
+    "not_a_biological_null_result": true,
+    "no_prediction_score_calculated": true,
+    "no_prior_bootstrap_or_C_vs_R3_effect_calculated": true
+  },
+  "response_boundary": {
+    "original_4126_island_heldout_mammal_labels_opened": 0,
+    "external_ALA_species_island_year_pairs_opened": true,
+    "external_absences_inferred": false,
+    "preaccess_taxon_qualification": "65 provisionally eligible names from v1.193",
+    "one_shot_lineage_consumed": true,
+    "same_ALA_archive_rerun_authorized": false,
+    "new_parser_run_on_same_ALA_pairs_authorized": false,
+    "posthoc_threshold_or_taxon_change_authorized": false,
+    "any_ecological_score_from_v1_194_available": false,
+    "eBird_enabled": false
+  },
+  "scientific_conclusion": {
+    "supported_external_validation": false,
+    "non_supportive_external_validation": false,
+    "answer": "NOT TESTED: technical stop after external pair access but before any model score",
+    "positive_fact": "eligibility was sufficient to reach the frozen prediction-reader stage; exact support counts were not retained",
+    "cannot_claim": [
+      "ALA independently confirms original model predictions",
+      "ALA falsifies original model predictions",
+      "ALA confirms observed animal dispersal",
+      "ALA verifies native status of every pair"
+    ]
+  },
+  "future_design_correction_only": {
+    "scope": "different genuinely independent external dataset/lineage; never same v1.194 ALA pairs",
+    "mandatory_rule": "all model predictions, dimensions, exact SHA and synthetic scoring tests must pass before any external biological outcome or pair bytes are read",
+    "repair_description": "actual predictions require two header dimensions plus a 3-dimensional float64 payload; null predictions require three header dimensions",
+    "do_not_replace_original_frozen_v1_194_implementation": true
+  },
+  "next_step": "retain GEB v1.185 scientific HOLD; do not reopen ALA, SW Finland, BALA, boreal birds or the original mammal response; seek truly new independent movement or repeated survey data",
+  "eBird_enabled": false
+}

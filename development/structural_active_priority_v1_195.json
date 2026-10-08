@@ -1,0 +1,33 @@
+{
+  "schema": "structural.active_priority.v1_195",
+  "status": "scientific_hold_after_external_ALA_postpair_technical_stop",
+  "supersedes": "development/structural_active_priority_v1_187.json",
+  "canonical_status": "development/current_status_v1_195.json",
+  "do_now": [
+    "freeze v1.194 positive-pair post-access technical stop as terminal with no ecological score",
+    "retain 167 island, 70 taxon and 65 provisional taxon response-free qualifications without claiming biological validation",
+    "preserve GEB submission scientific HOLD: original IUCN range-map response and geometry-derived graph alone are not a newly established biological dispersal mechanism",
+    "test future prediction reader formats synthetically before any independent biological labels are opened",
+    "only seek genuinely new independent movement, population transition or survey-denominator data"
+  ],
+  "do_not": [
+    "do not rescue distributed irreplaceability with an alternative post-hoc source-turnover metric",
+    "do not call structural co-coverage demographic redundancy",
+    "do not infer realized dispersal or source-sink dynamics",
+    "do not reopen same-mammal occupancy thresholds",
+    "do not reopen BALA, SW Finland, boreal birds or eBird",
+    "do not equate network-level predictive value with individual-source conservation priority",
+    "do not equate geography-constructed kNN links with observed animal dispersal paths",
+    "do not describe the 20 rewired nulls as preserving all geographic embedding",
+    "do not rerun heldout mammal response or tune graph k/nulls after outcomes",
+    "do not call polygon-positive cells measured present-day populations",
+    "do not open checklist labels before freezing exact species-island matching",
+    "do not treat aggregate richness agreement as species-by-island confirmation",
+    "do not substitute currently closed mammal heldout labels as independent ecological evidence",
+    "do not rerun the consumed ALA FID×species×year archive for v1.194",
+    "do not reinterpret prediction-reader failure as evidence for or against mammal dispersal",
+    "do not grant submission authorization from preoutcome 167×65 identity matches alone",
+    "do not inspect original IUCN heldout labels to replace the external loss"
+  ],
+  "next_scientific_event": "independent biological validation from a new lineage, with data-reader preflight before any label opening"
+}

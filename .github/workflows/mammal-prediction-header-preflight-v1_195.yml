@@ -1,0 +1,68 @@
+name: Frozen mammal predictor binary preflight v1.195
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_prediction_header_preflight_request_v1_195.json
+permissions:
+  contents: write
+  actions: read
+jobs:
+  binary:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Disallow external outcome and historical response
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("development/global_mammals_prediction_header_preflight_request_v1_195.json").read_text())
+          assert x["external_ALA_archive_download_authorized"] is False
+          assert x["original_heldout_response_authorized"] is False
+          assert x["same_ALA_v1_194_rerun_authorized"] is False
+          assert x["model_refit"] is False
+          PY
+      - name: Obtain actual frozen predictions only
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v113-ultrarare-preconfirm-dc558569303879c858c5588ba158a414dc3fda3d-37154791882
+          repository: zuizui0223/Structural
+          run-id: 37154791882
+          path: build/predheader195/actual
+          github-token: ${{ github.token }}
+      - name: Obtain rewired frozen predictions only
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v114-ultrarare-topology-null-3336335ee61a284dfb77e321d7ea2525e5994d7f-37155793003
+          repository: zuizui0223/Structural
+          run-id: 37155793003
+          path: build/predheader195/null
+          github-token: ${{ github.token }}
+      - name: Inspect headers sizes and exact hashes without labels
+        run: |
+          python scripts/audit_frozen_prediction_headers_v1_195.py             build/predheader195/actual/ultrarare_predictions.f64le             build/predheader195/null/ultrarare_rewired_predictions.f64le             --receipt build/predheader195/header_receipt.json
+      - name: Freeze response-free preflight
+        run: |
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          r=json.loads(Path("build/predheader195/header_receipt.json").read_text())
+          assert r["status"]=="FROZEN_BINARY_HEADERS_VALIDATED_BEFORE_ANY_EXTERNAL_OUTCOME"
+          assert r["external_ala_pairs_opened_during_preflight"]==0
+          assert r["v1_194_rerun_authorized"] is False
+          shutil.copyfile("build/predheader195/header_receipt.json","development/global_mammals_prediction_header_preflight_receipt_v1_195.json")
+          PY
+          git add development/global_mammals_prediction_header_preflight_receipt_v1_195.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze correct actual two-field and null three-field binary headers"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
