@@ -3,7 +3,7 @@
   "status": "GEB_V1_185_SCIENTIFIC_HOLD_NO_INDEPENDENT_BIOLOGICAL_CONFIRMATION",
   "version": "v1.185",
   "scientific_status": "development/current_status_v1_197.json",
-  "active_priority": "development/structural_active_priority_v1_197.json",
+  "active_priority": "development/structural_active_priority_v1_200.json",
   "terminal_sw_finland": "development/sw_finland_terminal_stop_v1_177.json",
   "package_dir": "manuscript/submission/GEB_v1_185",
   "manuscript": "manuscript/submission/GEB_v1_185/blinded_main_text.md",
@@ -34,7 +34,7 @@
   "source_response_ontology_audit": "development/global_mammals_response_ontology_audit_v1_187.json",
   "external_checklist_preintake": "development/global_mammals_independent_checklist_preintake_v1_188.json",
   "submission_authorized": false,
-  "reason_for_hold": "Original mammal labels are IUCN polygon-overlap proxies; ALA external positive observation attempt consumed FID×species×year records but failed at binary prediction-header schema before any ecological score; no independent confirmation or nonreplication. Ecological source/dispersal mechanism remains unidentified.",
+  "reason_for_hold": "Original mammal response labels are IUCN range-map-derived; the kNN graph is coordinate-derived. ALA external positives were opened but scoring stopped technically and cannot be rerun, while Hébert original nine checklist CSVs returned API 401 and landing-download 403 under both HEAD and bounded Range probes (0 biological values read). No independent native occupancy/movement/transition validation has been scored.",
   "pending_manuscript_edits": [
     "replace unqualified realized/true presence with curated range-map positive label",
     "do not describe map-positive islands as extant source populations without validation",
@@ -45,5 +45,7 @@
   ],
   "independent_ala_terminal": "development/global_mammals_ala_technical_terminal_stop_v1_195.json",
   "posthoc_graph_gain_accounting": "development/global_mammals_graph_gain_accounting_v1_197.json",
-  "independent_biological_evidence_admissibility": "development/independent_biological_evidence_admissibility_v1_196.json"
+  "independent_biological_evidence_admissibility": "development/independent_biological_evidence_admissibility_v1_196.json",
+  "hebert_transport_terminal": "development/hebert_exact_transport_terminal_v1_200.json",
+  "independent_dynamic_metadata_triage": "development/independent_dynamic_ecology_metadata_triage_v1_200.json"
 }
