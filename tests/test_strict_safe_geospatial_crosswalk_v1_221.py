@@ -1,3 +1,6 @@
+import pytest
+pytest.importorskip('numpy')
+pytest.importorskip('scipy')
 import json
 from pathlib import Path
 import importlib.util

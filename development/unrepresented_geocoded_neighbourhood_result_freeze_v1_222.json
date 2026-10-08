@@ -1,0 +1,54 @@
+{
+  "schema": "structural.unrepresented_geocoded_neighbourhood_freeze.v1_222",
+  "status": "EXECUTED_RESPONSE_SAFE_CROSSWALK_CONDITIONAL_GEOGRAPHIC_DESCRIPTION",
+  "provenance": {
+    "source_Barreto_safe_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "source_Weigelt_safe_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "selected_state_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "workflow_run_id": 37801695192,
+    "workflow_job_id": 113395265422,
+    "artifact_id": 11561576211,
+    "artifact_digest": "sha256:d210f6d339cc10c407bb39074afcbe5a68b7296ca2f590ece65865b73fcf89a1",
+    "source_geo_tests": "3 passed",
+    "job_conclusion": "success"
+  },
+  "denominators": {
+    "Weigelt_islands": 17883,
+    "Weigelt_named_coordinates": 11546,
+    "selected_Structural_mammal_islands": 5401,
+    "strictly_matched_islands": 3878,
+    "nonmatchable_selected_islands": 1523
+  },
+  "results": {
+    "median_nearest_geocoded_Weigelt_km": 9.29075405261639,
+    "median_nearest_strictly_matched_subset_km": 11.355533107879626,
+    "nearest_neighbor_outside_strict_matched_subset_fraction": 0.26817947395564723,
+    "matched_subset_nearest_at_least_5km_further_fraction": 0.18231046931407943,
+    "nearest_namepoint_outside_matched_subset_by_area_bin": {
+      "below_10": 0.20162059103908483,
+      "10_to_below_100": 0.30670926517571884,
+      "at_least_100": 0.4412878787878788
+    },
+    "median_unrepresented_geocoded_neighbours_within_10km": 0,
+    "median_unrepresented_geocoded_neighbours_within_25km": 0,
+    "upper_quartile_unrepresented_neighbours_within_25km": 2
+  },
+  "interpretation": {
+    "comparison": "Weigelt namepoint geography 11,546 versus the 3,878 STRICTLY GEO-CROSSWALK-VERIFIED subset, NOT the original complete 5,401 Structural graph node set.",
+    "extra_Weigelt_namepoint_does_not_guarantee_original_mammal_graph_node_omitted": true,
+    "out_of_match_subgroup_contains_original_graph_nodes_without_confirmed_crosswalk": true,
+    "mammal_zero_status_of_unmatched_islands_unknown": true,
+    "different_GADM_vintage_and_named_coordinate_quality_unresolved": true,
+    "cannot_infer_source_mammal_dispersal_rescue_or_extinction": true,
+    "original_graph_and_mammal_predictions_unchanged": true,
+    "followup_v223_must_compare_full_5401_safe_centroids": true
+  },
+  "policy": {
+    "mammal_heldout_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}
