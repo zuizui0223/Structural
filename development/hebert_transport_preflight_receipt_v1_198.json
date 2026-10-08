@@ -1,0 +1,227 @@
+{
+  "CSV_body_bytes_read": 0,
+  "csv_head_candidates": 0,
+  "dataset_doi": "10.5061/dryad.rfj6q579r",
+  "downstream_header_projection_authorized": false,
+  "eBird_used": false,
+  "external_ecological_score_produced": false,
+  "files": [
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773000/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773000"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "Adr.csv",
+      "frozen_file_id": 773000,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773001/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773001"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "Alx.csv",
+      "frozen_file_id": 773001,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773002/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773002"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "Clf.csv",
+      "frozen_file_id": 773002,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773003/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773003"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "Ind.csv",
+      "frozen_file_id": 773003,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773004/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773004"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "MdtLB.csv",
+      "frozen_file_id": 773004,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773005/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773005"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "MdtOC.csv",
+      "frozen_file_id": 773005,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773006/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773006"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "Mlk.csv",
+      "frozen_file_id": 773006,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773007/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773007"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "Mln.csv",
+      "frozen_file_id": 773007,
+      "head_candidate_success": false
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "HTTPError",
+          "http_status": 401,
+          "route": "frozen_old_id",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/api/v2/files/773008/download"
+        },
+        {
+          "error_class": "HTTPError",
+          "http_status": 403,
+          "route": "live_landing_exact_filename",
+          "state": "HEAD_FAILED",
+          "url": "https://datadryad.org/downloads/file_stream/773008"
+        }
+      ],
+      "exact_visible_download_link_in_landing": true,
+      "file": "Phl.csv",
+      "frozen_file_id": 773008,
+      "head_candidate_success": false
+    }
+  ],
+  "frozen_csv_count": 9,
+  "frozen_csv_names": [
+    "Adr.csv",
+    "Alx.csv",
+    "Clf.csv",
+    "Ind.csv",
+    "MdtLB.csv",
+    "MdtOC.csv",
+    "Mlk.csv",
+    "Mln.csv",
+    "Phl.csv"
+  ],
+  "island_species_binary_values_decoded": 0,
+  "landing_page_verified": true,
+  "landing_url": "https://datadryad.org/dataset/doi%3A10.5061/dryad.rfj6q579r",
+  "original_mammal_heldout_values_opened": 0,
+  "schema": "structural.hebert_transport_preflight_result.v1_198",
+  "species_or_island_header_values_decoded": 0,
+  "status": "NO_HEAD_CANDIDATE"
+}
