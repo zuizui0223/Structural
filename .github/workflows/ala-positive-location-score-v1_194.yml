@@ -1,0 +1,141 @@
+name: Independent ALA positive-location evaluation v1.194
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - development/global_mammals_ala_positive_location_request_v1_194.json
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  external-positive:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir numpy==2.3.3
+      - name: Verify one-shot authority and source-data firewall before archive retrieval
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          test ! -f development/global_mammals_ala_positive_only_result_v1_194.json
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ala_positive_location_protocol_v1_194.json").read_text())
+          r=json.loads(Path("development/global_mammals_ala_positive_location_request_v1_194.json").read_text())
+          assert r["schema"]=="structural.ala_positive_location_request.v1_194"
+          assert r["status"]=="AUTHORIZE_ONE_SHOT_EXTERNAL_POSITIVE_PAIR_SCORING"
+          assert r["one_shot"] is True
+          assert r["original_heldout_response_access"] is False
+          assert r["model_refit"] is False and r["eBird_used"] is False
+          assert c["response_boundary"]["external_FID_by_taxon_pairs_read_so_far"]==0
+          assert c["response_boundary"]["original_heldout_labels_read"]==0
+          for label,path in (
+            ("taxon_eligibility_receipt_sha256","development/global_mammals_ala_taxon_eligibility_receipt_v1_193.json"),
+            ("taxon_eligibility_table_sha256","development/global_mammals_ala_taxon_eligibility_v1_193.csv")
+          ):
+              assert hashlib.sha256(Path(path).read_bytes()).hexdigest()==r[label]
+          assert c["support_before_scoring"]["minimum_distinct_positive_pairs"]==50
+          assert c["uncertainty"]["bootstrap_seed"]==2026100802
+          PY
+      - name: Download exact existing frozen mammal predictor surfaces
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v113-ultrarare-preconfirm-dc558569303879c858c5588ba158a414dc3fda3d-37154791882
+          repository: zuizui0223/Structural
+          run-id: 37154791882
+          path: build/ala194/actual
+          github-token: ${{ github.token }}
+      - name: Download frozen 20 matched rewired surfaces
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v114-ultrarare-topology-null-3336335ee61a284dfb77e321d7ea2525e5994d7f-37155793003
+          repository: zuizui0223/Structural
+          run-id: 37155793003
+          path: build/ala194/null
+          github-token: ${{ github.token }}
+      - name: Download original species-name universe only
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728
+          repository: zuizui0223/Structural
+          run-id: 37153960728
+          path: build/ala194/species
+          github-token: ${{ github.token }}
+      - name: Download pinned ALA presence-record archive
+        run: |
+          set -euo pipefail
+          mkdir -p build/ala194/source build/ala194/output
+          python - <<'PY'
+          import hashlib,json,urllib.request
+          from pathlib import Path
+          c=json.loads(Path("development/global_mammals_ala_positive_location_protocol_v1_194.json").read_text())["input_authority"]
+          url="https://raw.githubusercontent.com/"+c["source_repository"]+"/"+c["source_commit"]+"/"+c["source_zip_path"]
+          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Structural-v1.194-one-shot-ALA-positives"}),timeout=180) as f:
+              blob=f.read(c["source_zip_size_bytes"]+1)
+          assert len(blob)==c["source_zip_size_bytes"]
+          assert hashlib.sha256(blob).hexdigest()==c["source_zip_sha256"]
+          assert hashlib.sha1(b"blob "+str(len(blob)).encode()+b"\0"+blob).hexdigest()==c["source_zip_git_blob_sha1"]
+          Path("build/ala194/source/ausislmamala.zip").write_bytes(blob)
+          PY
+      - name: One-shot external positive-location evaluation
+        id: score
+        continue-on-error: true
+        run: |
+          python scripts/score_global_mammals_ala_positive_locations_v1_194.py             build/ala194/source/ausislmamala.zip             development/global_mammals_ala_taxon_manifest_receipt_v1_192.json             development/global_mammals_ala_taxon_eligibility_receipt_v1_193.json             development/global_mammals_ala_taxon_eligibility_v1_193.csv             development/global_mammals_ala_island_geometry_receipt_v1_191_2.json             development/global_mammals_ala_island_crosswalk_v1_191_2.csv             build/ala194/species/ultrarare_species_universe.csv             build/ala194/actual/ultrarare_entity_order.csv             build/ala194/actual/ultrarare_predictions.f64le             build/ala194/null/ultrarare_rewired_predictions.f64le             --contract development/global_mammals_ala_positive_location_protocol_v1_194.json             --request development/global_mammals_ala_positive_location_request_v1_194.json             --species-output build/ala194/output/species_summary.csv             --receipt build/ala194/output/receipt.json
+      - name: Delete original ALA records and acquired frozen input surfaces
+        if: always()
+        run: |
+          rm -rf build/ala194/source build/ala194/species build/ala194/actual build/ala194/null
+      - name: Commit supported, nonsupportive or terminal result without rescue
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          p=Path("build/ala194/output/receipt.json")
+          assert p.exists(),"one-shot scorer receipt missing"
+          r=json.loads(p.read_text())
+          assert r["original_heldout_labels_read"]==0
+          assert r["model_refit"] is False
+          assert r["eBird_used"] is False
+          assert r["status"] in (
+             "EXTERNAL_POSITIVE_ONLY_CONDITIONAL_LOCATION_SCORED",
+             "STOP_NO_EXTERNAL_POSITIVE_SCORING_INSUFFICIENT_SUPPORT_NO_RESCUE",
+             "STOP_ALA_EXTERNAL_PAIR_SCHEMA_OR_FROZEN_INPUT_DRIFT"
+          )
+          shutil.copyfile(p,"development/global_mammals_ala_positive_only_result_v1_194.json")
+          print("FROZEN EXTERNAL POSITIVE RESULT:",r["status"])
+          PY
+          git add development/global_mammals_ala_positive_only_result_v1_194.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Freeze one-shot ALA positive-location score or terminal stop v1.194"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("development/global_mammals_ala_positive_only_result_v1_194.json").read_text())
+          assert r["status"]=="EXTERNAL_POSITIVE_ONLY_CONDITIONAL_LOCATION_SCORED",r["status"]
+          PY
+      - name: Upload de-duplicated species summaries only
+        if: steps.score.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ala-v194-positive-only-species-summary-${{ github.run_id }}
+          path: |
+            build/ala194/output/species_summary.csv
+            build/ala194/output/receipt.json
+          if-no-files-found: error
+          retention-days: 30
