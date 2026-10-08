@@ -1,0 +1,23 @@
+name: GEB geographic graph semantics v1.185 checks
+on:
+  pull_request:
+    paths:
+      - development/global_mammals_graph_semantics_audit_v1_185.json
+      - development/current_status_v1_185.json
+      - manuscript/submission/GEB_v1_185/**
+      - tests/test_graph_semantics_v1_185.py
+  push:
+    branches:
+      - audit/geometry-constructed-graph-v1-185
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_graph_semantics_v1_185.py

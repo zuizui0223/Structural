@@ -1,0 +1,37 @@
+{
+  "schema": "structural.geb_submission_qa.v1_185",
+  "status": "GEOGRAPHIC_GRAPH_SEMANTICS_QA_PASSED_ON_MANUSCRIPT_FILES",
+  "journal": "Global Ecology and Biogeography",
+  "article_type": "Research Article",
+  "format": {
+    "abstract_words": 283,
+    "abstract_max": 300,
+    "main_text_words": 4970,
+    "main_text_target_ceiling": 5000,
+    "running_title_chars": 33,
+    "running_title_max": 40,
+    "cover_interest_words": 230,
+    "cover_interest_max": 250,
+    "references": 23
+  },
+  "semantic_boundaries": {
+    "original_graph_constructed_from_coordinates": true,
+    "original_graph_empirically_observed_dispersal": false,
+    "graph_nodes": 5401,
+    "graph_edges": 73162,
+    "bioregions": 12,
+    "k_min": 4,
+    "k_max": 49,
+    "nulls_preserve_degree_and_length_bins": true,
+    "nulls_preserve_local_kNN_and_path_stretch": false,
+    "prospective_20_rewired_result_preserved": true,
+    "v181_negative_result_preserved": true,
+    "temporal_BALA_non_support_preserved": true,
+    "outcome_refit": false
+  },
+  "sources": [
+    "development/global_mammals_graph_semantics_audit_v1_185.json",
+    "development/global_mammals_reference_operator_freeze_v1_45.json",
+    "development/global_mammals_ultrarare_topology_null_contract_v1_114.json"
+  ]
+}

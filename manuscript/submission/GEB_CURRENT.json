@@ -1,26 +1,26 @@
 {
   "schema": "structural.geb_current_submission.v1",
-  "status": "GEB_V1_184_IS_CURRENT_SUBMISSION_CANDIDATE",
-  "version": "v1.184",
-  "scientific_status": "development/current_status_v1_183.json",
-  "active_priority": "development/structural_active_priority_v1_183.json",
+  "status": "GEB_V1_185_IS_CURRENT_SUBMISSION_CANDIDATE",
+  "version": "v1.185",
+  "scientific_status": "development/current_status_v1_185.json",
+  "active_priority": "development/structural_active_priority_v1_185.json",
   "terminal_sw_finland": "development/sw_finland_terminal_stop_v1_177.json",
-  "package_dir": "manuscript/submission/GEB_v1_184",
-  "manuscript": "manuscript/submission/GEB_v1_184/blinded_main_text.md",
-  "cover_letter": "manuscript/submission/GEB_v1_184/cover_letter.md",
-  "title_page_template": "manuscript/submission/GEB_v1_184/title_page_template.md",
-  "checklist": "manuscript/submission/GEB_v1_184/submission_checklist.md",
-  "manifest": "manuscript/submission/GEB_v1_184/submission_manifest.json",
-  "qa_receipt": "manuscript/submission/GEB_v1_184/submission_qa_v1_184.json",
-  "previous_submission_version": "manuscript/submission/GEB_v1_180",
+  "package_dir": "manuscript/submission/GEB_v1_185",
+  "manuscript": "manuscript/submission/GEB_v1_185/blinded_main_text.md",
+  "cover_letter": "manuscript/submission/GEB_v1_185/cover_letter.md",
+  "title_page_template": "manuscript/submission/GEB_v1_185/title_page_template.md",
+  "checklist": "manuscript/submission/GEB_v1_185/submission_checklist.md",
+  "manifest": "manuscript/submission/GEB_v1_185/submission_manifest.json",
+  "qa_receipt": "manuscript/submission/GEB_v1_185/submission_qa_v1_185.json",
+  "previous_submission_version": "manuscript/submission/GEB_v1_184",
   "previous_version_superseded_for_submission": true,
   "result_changes_from_v1_161": true,
   "framing_changes": [
-    "network-level topology-specific occurrence information separated from source-node structural irreplaceability",
-    "exact v1.181 response-free source-turnover falsification added: observed beta turnover is lower than matched random placement",
-    "v1.122 aggregate effective-source balance no longer called spatial complementarity",
-    "balanced structural redundancy used only for the frozen graph-access operator",
-    "BALA retained as a separate temporal-consequence boundary"
+    "clarifies original graph was constructed from island-centroid kNN, not observed animal dispersal",
+    "clarifies 20 rewired nulls preserve degree and edge-length-bin counts but not kNN geographic embedding",
+    "retains preregistered 20/20 comparison only within this geometric null family",
+    "retains v1.181 negative source-turnover and BALA negative temporal boundaries",
+    "no new outcome, refit or graph/null retuning"
   ],
   "author_actions_remaining": [
     "confirm final author list and order",
@@ -29,5 +29,6 @@
     "confirm AI-assistance disclosure wording",
     "final author approval of manuscript and cover letter",
     "prepare anonymized editable main document and separate title page for upload"
-  ]
+  ],
+  "graph_semantics_audit": "development/global_mammals_graph_semantics_audit_v1_185.json"
 }
