@@ -1,0 +1,9 @@
+# v1.222 omitted/uncertain physical neighbors around strictly matched islands
+
+v1.221 safely matched 3,878/5,401 selected Barreto islands to individual Weigelt 2013 physical island namepoints under a prospectively fixed 5-km radius, 1.5 area ratio and one-to-one reciprocal uniqueness requirement. The reference includes only 11,546 of 17,883 islands with name-based coordinates, which are not necessarily island centroids; 6,337 reference islands have no usable named point.
+
+We now compute a response-free geometric sensitivity for those *same 3,878* matched locations. In the Weigelt namepoint frame alone, compare the nearest physical named-island distance using all 11,546 coordinate-bearing points versus using only the 3,878 confidently matched Structural points. All distances are within this single Weigelt coordinate system, so they are not contaminated by an unverified cross-source ID join. Also count extra nonmatched named islands within 10 and 25km. Reuse **exactly** the frozen v1.221 crosswalk; no thresholds are tuned from new results.
+
+For each focal island, the all-geocoded nearest distance can only be less than or equal to the represented-only nearest distance (subset property). The scientific value lies in the **measured frequency and magnitude** of candidate extra physical neighborhoods and their area gradient, not the tautological sign. An unmatched Weigelt namepoint may correspond to an existing mammal-positive island missed by coordinate/area matching, a true mammal-zero island, or a different geographic feature/vintage. We do not estimate any source species occurrence, any real stepping-stone movement, or the v1.119 mammal effect on an expanded network. A physical full-island graph cannot be claimed when many coordinate fields are missing.
+
+The endpoint is descriptive physical geocoded opportunity only, with original graph, model scores and GEB scientific HOLD unchanged.

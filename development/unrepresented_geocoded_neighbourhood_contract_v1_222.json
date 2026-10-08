@@ -1,0 +1,41 @@
+{
+  "schema": "structural.unrepresented_geocoded_neighbourhoods.v1_222",
+  "status": "POST_V221_RESPONSE_SAFE_FIXED_NEAREST_GEOMETRY_DIAGNOSTIC_NO_MODEL_TEST",
+  "prior_matched_identity": "development/strict_spatial_island_match_result_v1_221.json",
+  "identity_rule_unchanged": {
+    "geodesic_max_km": 5,
+    "area_ratio_max": 1.5,
+    "unique_reciprocal": true
+  },
+  "physical_geography": "Weigelt island namepoints with latitude and longitude (11,546 records), not all 17,883 island geometries",
+  "focal_nodes": "Only the 3,878 v1.221 high-confidence one-to-one matched Structural islands; all distances computed in Weigelt WGS84 namepoint coordinate system",
+  "neighbour_sets": {
+    "full_namepoint": "all 11,546 source Weigelt points with location, exclude focal point itself",
+    "represented": "only the 3,878 v1.221 confidently matched Structural points, exclude focal point itself",
+    "unrepresented": "all geocoded Weigelt points not in the 3,878 matched set; DOES NOT mean mammal-free",
+    "no_true_mammal_zero_label": true
+  },
+  "distance_endpoints": [
+    "fraction of focal nodes for which nearest neighbour in full namepoint reference is not a confidently matched Structural node",
+    "median and IQR of full-namepoint nearest and matched-set nearest distances (km)",
+    "median and IQR of ratio nearest matched / nearest full (>=1, handle exact coordinate duplicates by hard STOP)",
+    "fraction of focal nodes where matching-set nearest distance exceeds reference nearest by >5 km",
+    "median number unrepresented Weigelt geocoded locations within 10 km and 25 km per focal node",
+    "same fraction of nearest unrepresented and distance inflation by selected island area bins below 10,10-100,>=100 km2"
+  ],
+  "no_reconstruction_of_original_regionwise_kNN": true,
+  "no_graph_refitting_or_rescoring": true,
+  "no_unknown_zero_mammal_island_labels": true,
+  "no_direct_movement_colonization_or_steppingstone_inference": true,
+  "no_confidence_interval_or_hypothesis_test": true,
+  "reliability_caveat": "Historical Weigelt named point may differ from island centroid or polygon location; 6,337 Weigelt rows lack namepoints; mutual matching criterion preferentially retains certain island sizes. This reports geometric opportunity only among geocoded geography, not causal removal of mammal-zero islands.",
+  "policy": {
+    "mammal_heldout_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  },
+  "technical_test_key_fix": "Correct frozen v1.221 test ledger path matched_selected_geographic_candidates instead of nonexistent matched_selected_Structural_islands; no physical-neighbour statistic changed."
+}

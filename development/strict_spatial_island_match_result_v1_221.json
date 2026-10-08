@@ -1,0 +1,64 @@
+{
+  "schema": "structural.response_safe_strict_island_identity_freeze.v1_221",
+  "status": "EXECUTED_GEOGRAPHIC_MATCH_HIGH_CONFIDENCE_NOT_FIELD_VERIFIED",
+  "source": {
+    "Barreto_safe_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "Weigelt_safe_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "Structural_subset_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0"
+  },
+  "workflow": {
+    "run_id": 37800914285,
+    "job_id": 113392568474,
+    "artifact_id": 11560173380,
+    "artifact_digest": "sha256:571907b1abe8f458c3af1ecc1c57ab295af357854d5e1917d68085ca569cc0fc",
+    "tests_passed": 3,
+    "score_success": true
+  },
+  "fixed_gate": {
+    "km_max": 5,
+    "area_ratio_max": 1.5,
+    "unique_both_directions": true,
+    "no_fuzzy_or_ID_fallback": true
+  },
+  "results": {
+    "Barreto_source_islands": 5592,
+    "selected_Structural_islands": 5401,
+    "Weigelt_physical_islands": 17883,
+    "Weigelt_namepoint_available": 11546,
+    "Weigelt_namepoint_missing": 6337,
+    "matched_Barreto_geographic_candidates": 4025,
+    "matched_Structural_selected_geographic_candidates": 3878,
+    "matched_selected_fraction": 0.7180151823736345,
+    "ambiguous_Barreto_multiple_candidates": 370,
+    "ambiguous_Weigelt_multiple_candidates": 383,
+    "matched_selected_great_circle_km_q25": 0.25952990892627786,
+    "matched_selected_great_circle_km_median": 0.659298671406162,
+    "matched_selected_great_circle_km_q75": 1.3563718861821283,
+    "selected_area_median_km2": 6.4,
+    "matched_selected_area_median_km2": 8.15,
+    "unmatched_selected_area_median_km2": 3.31,
+    "match_coverage_by_selected_area_bin": {
+      "below_10_km2": {
+        "numerator": 2098,
+        "denominator": 3170,
+        "fraction": 0.6618296529968454
+      },
+      "from_10_to_below_100_km2": {
+        "numerator": 1252,
+        "denominator": 1480,
+        "fraction": 0.845945945945946
+      },
+      "at_least_100_km2": {
+        "numerator": 528,
+        "denominator": 751,
+        "fraction": 0.7030625832223701
+      }
+    }
+  },
+  "no_biological_outcome_opened": true,
+  "no_prior_score_or_graph_recomputed": true,
+  "accepted_candidate_pairs_not_field_verified": true,
+  "matchability_correlated_with_area": true,
+  "these_matches_are_not_mammal_zero_status": true,
+  "no_GEB_submission_promotion": true
+}

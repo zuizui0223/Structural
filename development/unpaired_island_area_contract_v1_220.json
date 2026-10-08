@@ -1,0 +1,38 @@
+{
+  "schema": "structural.unpaired_island_area_frame_comparison.v1_220",
+  "status": "PREDECLARED_SEPARATE_POST_V219_ID_GATE_FAILURE_GEOGRAPHY_ONLY",
+  "sources": {
+    "Weigelt": {
+      "artifact_run": 36316161135,
+      "artifact_name": "global-mammals-weigelt-safe-rows-v0-60",
+      "safe_csv": "weigelt_islanddata_safe_v0_60.csv",
+      "sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+      "rows": 17883
+    },
+    "Structural": {
+      "artifact_run": 36622553042,
+      "artifact_name": "global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042",
+      "state_csv": "state_reference.csv",
+      "sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+      "receipt": "reference_receipt.json",
+      "rows": 5401
+    }
+  },
+  "question": "How do distributional summaries of island area differ between a 17,883-island independently compiled geography table and a 5,401-island native-mammal source compilation?",
+  "comparison": "UNPAIRED dataset-level area distributions, NOT matched selected vs nonselected islands, no island ID crosswalk used",
+  "extraction": "Recover original log_Area for Structural as frozen z_log_Area * receipt.standardization.log_Area.sd_hex + mean_hex; area=exp(log_Area). Weigelt raw safe area.",
+  "reported_results": [
+    "n",
+    "q25",
+    "median",
+    "q75",
+    "median ratio of summaries (descriptive only)",
+    "share area below 10km2 and above 100km2 within each dataset"
+  ],
+  "no_mammal_outcomes_or_predictions": true,
+  "no_new_network": true,
+  "no_mammal_zero_identification": true,
+  "no_inference_about_causal_selection_bias": true,
+  "no_GEB_submission_promotion": true,
+  "eBird": false
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "structural.mammals_unpaired_geography_frame_result_freeze.v1_220",
+  "status": "EXTERNAL_GEO_FRAME_DESCRIPTIVE_RESULTS_NO_GEOGRAPHIC_ID_JOIN",
+  "source_workflow": {
+    "run_id": 37799376839,
+    "job_id": 113387188155,
+    "artifact_id": 11558864734,
+    "artifact_sha256": "f9663e33b55ee9d4e91f9d00ca0749ede24fe9a639bd967cb7ef79c9fc3137d3",
+    "unit_tests_passed": 2,
+    "workflow_success": true
+  },
+  "source_files": {
+    "Weigelt_safe_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "Structural_reference_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0"
+  },
+  "original_join_protocol": {
+    "version": "v1.219",
+    "terminal": "development/mammal_geography_id_stop_v1_219.json",
+    "exact_numeric_ID_equalities": 796,
+    "verified_geographic_matches": 0,
+    "matching_not_performed_in_v220": true
+  },
+  "two_unpaired_island_distributions": {
+    "Weigelt_2013": {
+      "count": 17883,
+      "area_km2_q25": 1.83,
+      "median": 4.08,
+      "q75": 14.89,
+      "fraction_below_10km2": 0.6879158977800145,
+      "fraction_at_least_100km2": 0.07957277861656321
+    },
+    "Structural_2026_selected": {
+      "count": 5401,
+      "area_km2_q25": 2.3100000000000005,
+      "median": 6.4,
+      "q75": 28.98,
+      "fraction_below_10km2": 0.586928346602481,
+      "fraction_at_least_100km2": 0.13904832438437326
+    }
+  },
+  "median_ratio": 1.5686274509803921,
+  "scientific_claim_ceiling": {
+    "observed": "The mammal-compiled/Structural geographic frame contains larger islands on average than the independent historical Weigelt 17,883-island frame.",
+    "not_observed": "Difference between geographically matched selected versus mammal-zero/nonselected islands.",
+    "cause_unidentified": "Datasets differ in GADM source vintage, target eligibility, original mammal-zero exclusion and metadata completeness.",
+    "selection_effect_on_original_529_species_C_minus_R3_identified": false,
+    "global_island_biological_movement_mechanism_identified": false,
+    "same_time_or_geographic_island_universe_established": false,
+    "no_derived_species_response_scoring": true,
+    "no_new_kNN_graph": true
+  },
+  "guards": {
+    "old_geb_v1_185_modified": false,
+    "original_mammal_heldout_reopened": false,
+    "graphs_refit": false,
+    "ALA_replayed": false,
+    "Hebert_retried": false,
+    "eBird_used": false,
+    "GEB_submission_authorized": false
+  }
+}

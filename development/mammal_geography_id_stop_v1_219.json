@@ -1,0 +1,20 @@
+{
+  "schema": "structural.response_cell_free_geography_selection_terminal.v1_219",
+  "status": "TERMINAL_DIFFERENT_ID_NAMESPACES_NO_DIRECT_SELECTED_VS_NONSELECTED_COMPARISON",
+  "source_workflow_run": 37799008775,
+  "source_job_id": 113385917474,
+  "Weigelt_safe_rows": 17883,
+  "Structural_selected_reference_rows": 5401,
+  "identical_numeric_ids_across_sources": 796,
+  "numeric_ID_equality_establishes_same_geographic_island": false,
+  "nonmatching_id_count": 4605,
+  "source_sha_and_csv_rows_verified": true,
+  "focal_mammal_response_values_read": 0,
+  "geographic_selection_effect_computed": false,
+  "v219_relabel_or_fuzzy_id_rescue_authorized": false,
+  "different_GADM_vintages": true,
+  "conclusion": "ID equality is insufficient to establish cross-dataset node identity. A valid selected-versus-not-selected matched analysis was not computed.",
+  "next_distinct_question": "Only compare independent dataset-level area distributions as an unpaired descriptive reference, separately versioned; do not call it an island-matched selection effect.",
+  "GEB_scientific_hold": true,
+  "eBird": false
+}

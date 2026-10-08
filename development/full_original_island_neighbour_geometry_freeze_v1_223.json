@@ -1,0 +1,70 @@
+{
+  "schema": "structural.full_original_island_neighbour_geometry_freeze.v1_223",
+  "status": "REPRODUCED_RESPONSE_SAFE_GEOGRAPHY_ONLY_NOT_ACTUAL_MAMMAL_DISPERSAL",
+  "source": {
+    "Barreto_safe_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "Weigelt_safe_sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "selected_reference_sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0"
+  },
+  "execution": {
+    "run_id": 37802280330,
+    "job_id": 113397298654,
+    "artifact_id": 11561701548,
+    "artifact_digest": "sha256:f2eb31b467cc8a6d69de7517757ab19d93acad0af2f90923439189a20ad4fae2",
+    "unit_tests_passed": 2,
+    "job_conclusion": "success"
+  },
+  "fixed_method": {
+    "exact_v221_strict_source_matches": 3878,
+    "entire_original_Barreto_selected_centroids": 5401,
+    "independent_Weigelt_named_geographic_candidates": 11546,
+    "excludes_corresponding_focal_named_point": true,
+    "other_reference_location_matching": "No OTHER selected original centroid within 5km and max/min island area ratio<=1.5",
+    "duplicate_near_focal_namepoint_gate_km": 0.2,
+    "extra_candidate_material_distance_margin_km": 5,
+    "no_full_graph_reconstruction": true
+  },
+  "results": {
+    "focal_matched_islands": 3878,
+    "focal_dupe_namepoint_ambiguities_within_200m": 0,
+    "nearest_selected_centroid_km": {
+      "q25": 5.938312102538207,
+      "median": 9.908302803015832,
+      "q75": 21.033358009579494
+    },
+    "nearest_other_Weigelt_named_point_km": {
+      "q25": 5.813597150363002,
+      "median": 9.360233859678978,
+      "q75": 17.331034683666182
+    },
+    "fraction_of_nearest_other_Weigelt_named_points_with_no_compatible_selected_other_centroid": 0.21325425477050025,
+    "fraction_of_nearest_other_Weigelt_named_point_at_least_5km_nearer_than_original_selected_nearest": 0.1371841155234657,
+    "candidate_with_no_compatible_selected_by_focal_area_bin": {
+      "below_10_km2": 0.13536701620591038,
+      "from_10_to_under_100_km2": 0.2531948881789137,
+      "at_least_100_km2": 0.42803030303030304
+    },
+    "source_derived_candidate_matchability_is_already_area_dependent": true
+  },
+  "scientific_interpretation": {
+    "actual_original_kNN_graph_node_missing_fraction_identified": false,
+    "biologically_mammal_empty_island_fraction_identified": false,
+    "can_establish_that_namepoint_not_equivalent_to_any_original_polygon": false,
+    "cross_dataset_geographic_reference_vintage_different": true,
+    "georeferenced_points_are_named_locations_not_independent_island_centroids": true,
+    "could_indicate_selected_geography_and_reference_differ": true,
+    "neither_colonization_nor_source_population_function_established": true,
+    "previous_v222_percent_is_not_original_graph_omission_rate": true,
+    "map_prediction_performance_unchanged": true,
+    "no_new_test_of_original_529_mammal_species_labels": true
+  },
+  "guard": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_revisit": false,
+    "mammal_heldout_reopen": false,
+    "original_kNN_refit": false,
+    "GEB_submission_authorized": false
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "schema": "structural.geb_mapped_response_working_draft.v1_217",
+  "status": "SCIENTIFIC_HOLD_WORKING_DRAFT_NOT_CURRENT_SUBMISSION",
+  "original_source": "manuscript/submission/GEB_v1_185/blinded_main_text.md",
+  "working_path": "manuscript/working/GEB_v1_217/blinded_main_text.md",
+  "authority": [
+    "development/global_mammals_response_ontology_audit_v1_187.json",
+    "development/global_mammals_graph_semantics_audit_v1_185.json",
+    "development/global_mammals_graph_gain_accounting_v1_197.json",
+    "development/current_status_v1_197.json"
+  ],
+  "mathematical_effects_unchanged": true,
+  "original_predictive_endpoint": "curated IUCN range-map and GADM island polygon positive cells",
+  "biologically_independent_movement_or_occurrence_data_added": false,
+  "GEB_CURRENT_untouched": true,
+  "submission_authorized": false,
+  "author_approval_not_given": true,
+  "abstract_word_count": 245,
+  "working_body_word_count": 4997,
+  "word_limit_copyedit_pending": false,
+  "replacements": [
+    {
+      "label": "title",
+      "matches": 1
+    },
+    {
+      "label": "running",
+      "matches": 1
+    },
+    {
+      "label": "abstract replaced",
+      "matches": 1
+    },
+    {
+      "label": "response provenance",
+      "matches": 1
+    },
+    {
+      "label": "map label definition",
+      "matches": 1
+    },
+    {
+      "label": "realized shorthand",
+      "matches": 4
+    },
+    {
+      "label": "realized plural",
+      "matches": 4
+    },
+    {
+      "label": "realized singular",
+      "matches": 2
+    },
+    {
+      "label": "pilot source",
+      "matches": 1
+    },
+    {
+      "label": "pilot source variants",
+      "matches": 1
+    },
+    {
+      "label": "ultrarare source variants",
+      "matches": 1
+    },
+    {
+      "label": "rarity operationalization",
+      "matches": 1
+    },
+    {
+      "label": "posthoc test overstatement",
+      "matches": 1
+    },
+    {
+      "label": "scope conservation claim",
+      "matches": 1
+    },
+    {
+      "label": "source ensemble ontology",
+      "matches": 1
+    },
+    {
+      "label": "source territories",
+      "matches": 1
+    },
+    {
+      "label": "avoid causal falsification",
+      "matches": 1
+    },
+    {
+      "label": "spatial nonindependence",
+      "matches": 1
+    },
+    {
+      "label": "discussion gain/response correction",
+      "matches": 1
+    }
+  ],
+  "revision_pass_2": "Reduced redundant discussion and corrected mapped-source conclusions without altering model results.",
+  "island_universe_selection_audit_v1_218": "development/global_mammals_island_universe_selection_v1_218.json",
+  "graph_geography_wording_upstream_selection_corrected": true,
+  "unpaired_geography_frame_v1_220": "development/global_mammals_unpaired_geography_frame_freeze_v1_220.json",
+  "still_no_independent_mammal_outcome": true,
+  "no_mammal_zero_island_specific_effect_inferred": true,
+  "stricter_crosswalk_result_v1_221": "development/strict_spatial_island_match_result_v1_221.json",
+  "full_original_geography_result_v1_223": "development/full_original_island_neighbour_geometry_freeze_v1_223.json"
+}

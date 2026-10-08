@@ -1,0 +1,53 @@
+name: Strict geography-only Barreto-Weigelt island crosswalk v1.221
+on:
+  push:
+    branches:
+      - science/geb_mapped_response_claims_v1-217
+    paths:
+      - development/strict_spatial_crosswalk_contract_v1_221.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  geography-crosswalk:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Geographic algorithm synthetic tests, before source read
+        run: |
+          python -m pip install pytest numpy scipy
+          python -m pytest -q tests/test_strict_safe_geospatial_crosswalk_v1_221.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/v221/barreto
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-rows-v0-60
+          path: build/v221/weigelt
+          repository: zuizui0223/Structural
+          run-id: 36316161135
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/v221/selected
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+      - name: Match safely by fixed radius and area, not numeric island IDs
+        run: |
+          python scripts/strict_safe_geospatial_crosswalk_v1_221.py build/v221/barreto/appendix2_safe_rows.csv build/v221/weigelt/weigelt_islanddata_safe_v0_60.csv build/v221/selected/state_reference.csv --out build/v221/output/receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v221-strict-safe-island-crosswalk
+          path: build/v221/output/receipt.json
+          retention-days: 21

@@ -1,0 +1,47 @@
+{
+  "schema": "structural.response_cell_free_geography_selection.v1_219",
+  "status": "SOURCE_ARTIFACT_ID_AND_OUTPUT_FIELDS_FROZEN_BEFORE_GEOGRAPHY_COMPARISON",
+  "source_all": {
+    "name": "global-mammals-weigelt-safe-rows-v0-60",
+    "run": 36316161135,
+    "id": 10930234623,
+    "filename": "weigelt_islanddata_safe_v0_60.csv",
+    "sha256": "ebb4b54cc9b056a1ea61fcae3a53bf578c0e47488e4a496d40fceaeca4f4b8af",
+    "rows": 17883
+  },
+  "source_selected": {
+    "name": "global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042",
+    "run": 36622553042,
+    "id": 11059506168,
+    "filename": "state_reference.csv",
+    "sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "rows": 5401
+  },
+  "join": "strict numeric ID canonicalization, all selected must match safe Weigelt frame",
+  "metrics": [
+    "area",
+    "dist",
+    "slmp",
+    "gmmc",
+    "elev",
+    "temp",
+    "vart",
+    "ccvt",
+    "prec",
+    "varp"
+  ],
+  "output": "n, median and IQR for each safe numeric column by group, standardized log-area and log1p-mainland-distance mean differences, nonempty archip/coordinate fractions",
+  "no_species_response_or_prediction_read": true,
+  "nonselected_label": "nonselected Weigelt geography; NOT necessarily mammal-zero",
+  "not_measured": "selection causal effect on C-R3 or topology, colonization, dispersal",
+  "geography_versions": "Weigelt GADM v1 island geography and Barreto GADM v3.6-based selection are different frames; not an exact all-island counterfactual",
+  "policy": {
+    "mammal_heldout_reopened": false,
+    "model_refit": false,
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

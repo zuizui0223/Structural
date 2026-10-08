@@ -1,0 +1,9 @@
+# v1.221 strict, response-safe island identity across different GADM vintages
+
+The v1.219 direct numeric ID comparison failed: only 796 literal numeric IDs overlapped, and equality did not establish same island. The source has **two other independently safe geographic descriptors**: Barreto's previously extracted 5,592 island centroid latitude, longitude and area, and Weigelt's previously extracted 17,883 island physical geography table with 11,546 nonmissing named-island latitude/longitude pairs. These were obtained and SHA-frozen before any Structural mammal 529-species outcome access, and are within previously safe geography-only columns.
+
+The v1.221 rule, frozen before inspecting spatial matches, is: within WGS84, at most **5 km great-circle distance** and **1.5 maximum-to-minimum area ratio**. Keep a pair only when it is the unique permitted candidate from BOTH sources (one-to-one reciprocity), with no fuzzy name or numeric cross-source ID matching. The assignment is deliberately strict; some legitimate islands will be unmatched due to name point versus centroid shifts, missing Weigelt points, or GADM vintage changes. The radius and ratio MUST NOT be tuned after seeing coverage or ecological metrics.
+
+The output contains **only aggregate** valid-match counts and distances, matched selected-island area/coverage distributions, and ambiguous counts. It does not emit crosswalk IDs, open protected biotic variables or species-by-island responses, or remake network edges. Even accepted matches are high-confidence geographic candidates, not verified from a shared polygon identifier or field survey; no true all-island mammal-free prediction validation follows.
+
+This is the required next step before any sensitivity to omitted physical stepping-stone islands could be assessed. Original mammal heldout scores remain locked and original GEB submission stays under scientific HOLD.
