@@ -1,0 +1,61 @@
+{
+  "schema": "structural.global_mammals_response_ontology_audit.v1_187",
+  "status": "IUCN_RANGE_OVERLAP_PROXY_NOT_DIRECT_SURVEYED_PRESENT_DAY_OCCUPANCY",
+  "empirical_response_origin": {
+    "paper_doi": "10.1098/rspb.2021.1879",
+    "dataset_doi": "10.5061/dryad.hmgqnk9j2",
+    "frozen_version": "Dryad June 17 2024 update",
+    "primary_procedure": "GADM v3.6 island polygons intersected with IUCN 2017 mammal range polygons, manually checked/corrected by authors",
+    "island_inclusion": "only islands assigned >=1 mammal; ambiguous island-to-species attributions excluded",
+    "introduced_taxa_removed": true,
+    "marine_taxa_removed": true,
+    "important_mixed_time_semantics": "historically native mammals extinct due to human activity were added from other references; not all positive cells therefore guarantee current extant source populations",
+    "native_extirpated_label_count": "unknown from frozen public matrix and currently unseparated",
+    "species_island_field_survey_replicates_in_primary_archive": false,
+    "known_original_validation": "original study reported correlation 0.95±0.05 between mammal richness summaries from IUCN-derived maps and regional published compilations; not proof of per-species per-island cell correctness"
+  },
+  "structural_model_provenance": {
+    "source_pilot_islands": 1275,
+    "heldout_islands": 4126,
+    "ultrarare_species": 529,
+    "heldout_target_cells": 2182654,
+    "geography_source": "centroids from island reference data",
+    "graph_source": "regionally minimum-connected symmetrized kNN; 73,162 graph edges on 5,401 islands",
+    "training_and_validation_share_label_generation_process": true,
+    "heldout_blocking_prevents_direct_response_fitting": true,
+    "heldout_blocking_does_not_create_independent_species_occurrence_observations": true,
+    "ultrarare_counts_interpretation": "1-4 positive pilot cells in the mapped/augmented source matrix, not 1-4 verified extant populations"
+  },
+  "claim_adjudication": {
+    "retain": "prospective within-matrix prediction of mapped positive cells, original geography-derived graph versus its 20 matched rewired surrogates, with unchanged effect estimates",
+    "replace": "realized presence -> range-map-derived positive cell or mapped positive; true absence -> range-map-derived zero label",
+    "disallow": [
+      "observed individual mammal movements",
+      "field-confirmed occupancy of all 5,401 islands",
+      "real-time current extant occupied source populations for all cells",
+      "colonization or rescue mechanism",
+      "biological adjacency uniquely recovered from IUCN range intersections",
+      "independent geographic/taxonomic confirmation"
+    ],
+    "topical_risk": "the geography of predictor and mapped outcome share spatial construction dependencies; graph-kNN advantage may reflect spatial polygon coherence rather than ecological movement",
+    "evidence_class": "within-one-map-derived-label-source prospective species-layer predictive support; source ecology unvalidated",
+    "author_status_note": "source authors manually corrected questionable polygons and independently cross-checked richness, so this is not a blanket assertion that the matrix is wrong",
+    "submission_recommendation": "hold strong ecological-mechanism submission claims pending independent island-by-species occurrence validation"
+  },
+  "independent_checklist_candidate": {
+    "dataset_doi": "10.5061/dryad.rfj6q579r",
+    "source": "Hébert et al. (2021), Journal of Biogeography DOI 10.1111/jbi.14156",
+    "islands": 204,
+    "archipelagos": 9,
+    "target_taxa": "nonvolant mammals",
+    "records": "published literature/archipelago checklists/atlases, with some IUCN reference use in individual archipelagos",
+    "independence": "partially independent compilation; species-specific provenance must be checked and cannot be presumed fully independent",
+    "next_gate": "response-opaque island and species identity match to frozen 529x4126 prediction surface; no scores before identity thresholds and provenance review"
+  },
+  "response_boundary": {
+    "no_new_mammal_response_access": true,
+    "no_reopening_existing_heldout": true,
+    "no_same_sample_threshold_mining": true,
+    "eBird_enabled": false
+  }
+}
