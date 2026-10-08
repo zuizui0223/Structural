@@ -1,0 +1,100 @@
+{
+  "schema": "structural.ala_independent_positive_location_protocol.v1_194",
+  "status": "FULL_EXTERNAL_POSITIVE_ONLY_SCORING_PROTOCOL_PREDECLARED_BEFORE_FID_TAXON_PAIRS",
+  "candidate_id": "ala_native_mammal_independent_positive_records",
+  "evidence_class": "independent point-observation source for conditional positive-location recovery, not confirmed native occupancy, absence, movement, colonization or rescue",
+  "parents": [
+    "development/global_mammals_ala_island_geometry_receipt_v1_191_2.json",
+    "development/global_mammals_ala_taxon_manifest_receipt_v1_192.json",
+    "development/global_mammals_ala_native_status_gate_v1_193.json",
+    "development/global_mammals_ultrarare_preconfirm_freeze_v1_117.json",
+    "development/global_mammals_response_ontology_audit_v1_187.json"
+  ],
+  "input_authority": {
+    "island_crosswalk": "development/global_mammals_ala_island_crosswalk_v1_191_2.csv",
+    "island_crosswalk_sha256": "f378d4e4ada3b66a4c297464fbc9763f73d5fd27622ec84580647e9daba94fb2",
+    "matched_heldout_islands": 167,
+    "taxon_manifest": "development/global_mammals_ala_taxon_manifest_receipt_v1_192.json",
+    "source_taxon_overlap": 70,
+    "taxon_eligibility": "development/global_mammals_ala_taxon_eligibility_v1_193.csv",
+    "taxon_eligibility_receipt": "development/global_mammals_ala_taxon_eligibility_receipt_v1_193.json",
+    "taxon_eligibility_expected_status": "HOLD_ALA_65_PROVISIONAL_TAXA_PENDING_EXACT_PAIR_PROTOCOL",
+    "provisional_taxa": 65,
+    "taxon_eligibility_sha256_bound_in_separate_one_shot_request": true,
+    "source_repository": "cjabradshaw/AusIslBiogeogrTraits",
+    "source_commit": "746fbe83c6f67c6d37439056f41198a72f56cb2e",
+    "source_zip_path": "data/gis/ausislmamala.zip",
+    "source_zip_git_blob_sha1": "37e78c36a4b26621a4c13b92c43974de05eb33aa",
+    "source_zip_sha256": "4346bf1f5b10e44b2ca5dfc4020468be361d5280645845b80bce942fc4dae0f8",
+    "source_zip_size_bytes": 14056272,
+    "source_dbf": "ausislmamala.dbf",
+    "external_columns_semantically_opened_after_request_only": ["scientific","FID","eventDate"],
+    "original_species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "frozen_original_species": 529,
+    "entity_order_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "frozen_heldout_islands": 4126,
+    "actual_predictions_sha256": "3307a2e058f5f8223eaf0c2d69241acd938e96b93cb02643b1b7d63b425fae04",
+    "rewired_predictions_sha256": "300f0001d250dde01bc0240be3d20898399300fcac5f405e76bfd0f8524495c3",
+    "rewired_models": 20,
+    "read_original_heldout_labels": false
+  },
+  "eligibility_precommitted": {
+    "taxa": "exact v1.193 provisional eligibility whitelist only; no re-entry based on ALA events",
+    "islands": "exact 167 frozen one-to-one matched heldout island IDs only",
+    "record_date": "eventDate must begin with a 4-digit year from 2000 through 2026 inclusive followed by end of token, separator or T; missing/unparseable excluded",
+    "source_fid_and_species_pair": "exact numeric ALA_FID and normalized strict binomial match; no taxonomic synonyms",
+    "deduplication": "one positive candidate per (species, original heldout island), regardless of ALA record count",
+    "no_external_zero_labels": true,
+    "site_specific_native_status_still_not_verified": true
+  },
+  "support_before_scoring": {
+    "minimum_distinct_positive_pairs": 50,
+    "minimum_distinct_positive_taxa": 10,
+    "minimum_distinct_matched_islands_with_positive_records": 15,
+    "minimum_frozen_spatial_blocks_with_positive_records": 5,
+    "if_insufficient": "STOP_NO_EXTERNAL_POSITIVE_SCORING_INSUFFICIENT_SUPPORT_NO_RESCUE"
+  },
+  "conditional_positive_location_score": {
+    "denominator": "for each focal species and each frozen predictor model, sum clipped predicted p over exactly the same 167 matched islands",
+    "normalized_mass": "q_model(island,species) = clip(p_model,1e-12,1-1e-12)/sum_over_167_islands clip(p_model)",
+    "case_loss": "-log q_model(island,species) on unique valid ALA positive pairs only",
+    "primary_P1": "mean over eligible species of within-species mean[AlaPositiveLoss(C_actual) - AlaPositiveLoss(R3)]",
+    "secondary_P2": "mean over eligible species of within-species mean[case loss(C_actual) - average_j case loss(C_rewired_j)]",
+    "model_parameters_refit": false,
+    "source_of_training_responses": "original IUCN-polygon-derived pilot labels; completely frozen",
+    "reason_for_normalization": "a uniform increase in a model's presence probabilities across all 167 islands cannot by itself improve its score",
+    "no_absence_discrimination_claim": true
+  },
+  "uncertainty": {
+    "cluster": "species with >=1 valid distinct ALA positive pair, equal species weight",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 2026100802,
+    "quantiles": "0.025/0.975 linear interpolation",
+    "joint_support": "P1 < 0 AND 95% upper(P1) < 0 AND P2 < 0 AND 95% upper(P2) < 0",
+    "if_P1_only": "independent positive-location information but no supported unique original-graph advantage",
+    "if_nonsupport": "report with no repair or secondary rescue"
+  },
+  "limitations": [
+    "ALA is a spatially uneven presence-record sample, not a designed island-wide census",
+    "lack of ALA record cannot be interpreted as absence",
+    "some recorded species may be translocated rather than native on a particular island",
+    "eventDate year verifies dated detection only, not an entire island population or colonization event",
+    "a positive result is independent-observation location allocation, not proof of dispersal or habitat connectivity",
+    "the original reference and original graph both encode physical geography",
+    "no new mammal training or heldout response decoding is allowed"
+  ],
+  "canonical_outputs": {
+    "receipt": "development/global_mammals_ala_positive_only_result_v1_194.json",
+    "per_species_artifact": "stored as Actions artifact, not an eligibility-changing input"
+  },
+  "response_boundary": {
+    "external_FID_by_taxon_pairs_read_so_far": 0,
+    "event_date_by_FID_taxon_pairs_read_so_far": 0,
+    "original_heldout_labels_read": 0,
+    "score_request_currently_authorized": false,
+    "no_same_data_refit": true,
+    "no_new_occupancy_threshold": true,
+    "no_change_to_graph_or_nulls": true,
+    "eBird_enabled": false
+  }
+}
