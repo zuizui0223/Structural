@@ -1,0 +1,79 @@
+{
+  "schema": "structural.wolfe_joint_predator_exploratory_audit.v1_211",
+  "status": "PROVISIONAL_JS_CROSS_CHECK_PYTHON_REPLAY_QUEUED",
+  "source": {
+    "git_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "source_size_bytes": 12096,
+    "source_repo": "ExperimentalConservation/Experimental-data",
+    "source_commit": "fabe50b58a13651be4168b91cd91589ccc261a96"
+  },
+  "preoutcome_lock_commit": "319eec1fd14d538a13ed815af79576adb87ec02e",
+  "prior_gate_history": {
+    "v209": "TERMINAL_UNFROZEN_COUNT_AND_UNIT_FAILURE",
+    "v210": "TERMINAL_UNCORRECTED_FACTORIAL_QC_FAILURE",
+    "v211": "CONDITIONAL_EXACT_ONE_ROW_IDENTIFIER_ONLY_RECODE_NOT_LAB_VERIFIED"
+  },
+  "metadata_accounting": {
+    "source_rows": 176,
+    "source_treatment_codes": 45,
+    "provisional_single_metadata_change": "6HoLM1 matrix_dispersal none -> low",
+    "corrected_cell_sizes": {
+      "n3": 4,
+      "n4": 41
+    }
+  },
+  "response_analysis_context": "All values read only after separate v1.211 identifier correction and v1.210 endpoint definitions were frozen; already published 2022 context-exposed experiment; not independent confirmatory.",
+  "day21_heterogeneity_vs_homogeneity_equal_cell_weight_18_strata": {
+    "joint_generalist_plus_any_specialist": {
+      "point_observed_only": 0.09722222222222222,
+      "full_assignment_extreme_missing_lower": 0.05555555555555555,
+      "full_assignment_extreme_missing_upper": 0.1111111111111111,
+      "observed_only_resampling_percentile_interval_JS": [
+        0.027777777777777776,
+        0.18055555555555555
+      ],
+      "patches4_observed_only": -0.027777777777777776,
+      "patches6_observed_only": 0.2222222222222222
+    },
+    "generalist": {
+      "point_observed_only": 0.08333333333333334,
+      "lower": 0.05555555555555555,
+      "upper": 0.1111111111111111,
+      "patch4": -0.07407407407407407,
+      "patch6": 0.24074074074074073
+    },
+    "any_specialist": {
+      "point_observed_only": 0.06481481481481483,
+      "lower": 0.027777777777777776,
+      "upper": 0.08333333333333333,
+      "patch4": -0.05555555555555555,
+      "patch6": 0.1851851851851852
+    }
+  },
+  "uncertainty_semantics": {
+    "bounding": "Worst-case point contrast over four missing binary joint outcomes with planned denominator four; not inferential CI.",
+    "bootstrap": "10k stratified within-arm observed-unit bootstrap, JS LCG seeded 20261008, not identical RNG to locked Python Mersenne Twister; excludes unobserved-unit uncertainty.",
+    "Python_replay_run_id": 37768253014,
+    "Python_replay_confirmed": false,
+    "exploratory_no_preregistered_p_value": true,
+    "source_treatment_correction_unconfirmed": true,
+    "no_claim_of_causal_biological_mechanism": true
+  },
+  "forbidden_inference": [
+    "prospective independent mammal network validation",
+    "interisland dispersal",
+    "source loss or future colonization",
+    "within-patch coexistence",
+    "causally established habitat heterogeneity benefit",
+    "global management recommendation"
+  ],
+  "policy": {
+    "original_mammal_heldout_reopened": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "SW_Finland_reopen": false,
+    "eBird": false,
+    "GEB_scientific_hold": true
+  }
+}
