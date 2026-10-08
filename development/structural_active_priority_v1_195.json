@@ -1,0 +1,32 @@
+{
+  "schema": "structural.active_priority.v1_195",
+  "status": "independent_species_occurrence_validation_after_ala_terminal_stop",
+  "supersedes": "development/structural_active_priority_v1_187.json",
+  "canonical_status": "development/current_status_v1_195.json",
+  "do_now": [
+    "freeze exact ALA v1.194 post-external-pair technical stop, with no outcome score or reclassification",
+    "keep original mammal results explicitly as predictions of curated IUCN-range-derived labels",
+    "retain GEB ecological-mechanism submission hold",
+    "continue only independent Hébert checklists through response-opaque source-provenance, exact island ID and exact species ID gates",
+    "require tested prediction file parsing before opening any new independent biological label source"
+  ],
+  "do_not": [
+    "do not rescue distributed irreplaceability with an alternative post-hoc source-turnover metric",
+    "do not call structural co-coverage demographic redundancy",
+    "do not infer realized dispersal or source-sink dynamics",
+    "do not reopen same-mammal occupancy thresholds",
+    "do not reopen BALA, SW Finland, boreal birds or eBird",
+    "do not equate network-level predictive value with individual-source conservation priority",
+    "do not equate geography-constructed kNN links with observed animal dispersal paths",
+    "do not describe the 20 rewired nulls as preserving all geographic embedding",
+    "do not rerun heldout mammal response or tune graph k/nulls after outcomes",
+    "do not call polygon-positive cells measured present-day populations",
+    "do not open checklist labels before freezing exact species-island matching",
+    "do not treat aggregate richness agreement as species-by-island confirmation",
+    "do not substitute currently closed mammal heldout labels as independent ecological evidence",
+    "do not fix and rerun v1.194 ALA positive-pair evaluation after external taxon-FID values were exposed",
+    "do not treat ALA one-shot schema failure as a negative ecological result",
+    "do not use exposed ALA support counts to select subgroups, graph definitions or new same-source thresholds"
+  ],
+  "next_scientific_event": "response-free Hébert island-name→original-ID feasibility and metadata provenance, or terminal hold; no ALA outcome replay"
+}
