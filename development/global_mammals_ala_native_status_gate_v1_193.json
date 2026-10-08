@@ -1,0 +1,76 @@
+{
+  "schema": "structural.ala_mammal_native_status_gate.v1_193",
+  "status": "PREPAIR_TAXON_NATIVE_STATUS_FILTER_FROZEN",
+  "candidate_id": "ala_native_mammal_independent_positive_records",
+  "parent_taxon_receipt": "development/global_mammals_ala_taxon_manifest_receipt_v1_192.json",
+  "geometry_receipt": "development/global_mammals_ala_island_geometry_receipt_v1_191_2.json",
+  "input_identity": {
+    "v1_192_required_status": "HOLD_ALA_FOCAL_TAXA_AND_GEOMETRY_IDENTITIES_READY_FUTURE_PAIR_GATE",
+    "focal_name_overlap": 70,
+    "exact_heldout_islands": 167,
+    "v1_192_species_island_pairs_opened": 0
+  },
+  "author_taxon_exclusions": {
+    "upstream_repository": "cjabradshaw/AusIslBiogeogrTraits",
+    "source_commit": "746fbe83c6f67c6d37439056f41198a72f56cb2e",
+    "source_file": "scripts/islbiogeogrtraits.R",
+    "source_git_blob_sha1": "c177fd4ca24daef478fa281bd6ca878cb1425b68",
+    "sections": [
+      {"reason":"introduced_by_authors","start":"## remove invasives","end":"## remove marine mammals"},
+      {"reason":"marine_by_authors","start":"## remove marine mammals","end":"ausisles.mamala.df3 <-"},
+      {"reason":"higher_taxon_unresolved_by_authors","start":"ausisles.mamala.df3 <-","end":"ausisles.mamala.df4 <-"},
+      {"reason":"genus_only_by_authors","start":"ausisles.mamala.df4 <-","end":"ausisles.mamala.df5 <-"},
+      {"reason":"extinct_by_authors","start":"ausisles.mamala.df5 <-","end":"ausisles.mamala.df6 <-"}
+    ],
+    "expected_excluded_overlap": {
+      "Dama.dama": "introduced_by_authors",
+      "Rattus.rattus": "introduced_by_authors",
+      "Sus.scrofa": "introduced_by_authors"
+    }
+  },
+  "conservative_additional_exclusions": {
+    "Rattus.exulans": {
+      "reason": "exotic_rodent_on_australian_islands",
+      "source": "Australian government / exotic rodents on Australian islands",
+      "public_url": "https://library.dbca.wa.gov.au/FullTextFiles/025400.pdf"
+    },
+    "Potorous.platyops": {
+      "reason": "globally_extinct_not_contemporary",
+      "source": "Mammal Diversity Database; IUCN extinct",
+      "public_url": "https://www.mammaldiversity.org/taxon/1000329/"
+    }
+  },
+  "matching": {
+    "normalization": "Unicode NFC; replace dots and underscores with spaces, casefold, collapse whitespace",
+    "no_taxonomic_synonyms": true,
+    "never_promote_invasive_or_extinct_species_by_event_counts": true
+  },
+  "expected_outcome_without_opening_pairs": {
+    "exact_matching_names_before_screen": 70,
+    "excluded_by_author_source": 3,
+    "excluded_conservative": 2,
+    "provisionally_retained_taxa": 65,
+    "frozen_thresholds_are_not_pair_support_rules": true
+  },
+  "interpretive_boundary": {
+    "label_for_retained_species": "provisionally eligible taxon names, NOT independently verified native on each matched island",
+    "site_specific_nativeness_verified": false,
+    "independently_surveyed_absences": false,
+    "point_observations_not_movement": true,
+    "year_policy_for_any_future_primary": "eventDate YYYY >= 2000 and <= 2026; missing or unparseable dates are excluded, to be frozen before event-pair access",
+    "future_nonzero_pair_evidence_requires_separate_exact_frozen_protocol": true
+  },
+  "response_boundary": {
+    "external_species_x_island_positive_pairs_opened": 0,
+    "original_heldout_labels_opened": 0,
+    "external_FID_read": false,
+    "movement_events_inferred": false,
+    "biological_scoring_authorized": false,
+    "same_data_model_refit_authorized": false,
+    "eBird_enabled": false
+  },
+  "canonical_outputs": {
+    "eligibility_table": "development/global_mammals_ala_taxon_eligibility_v1_193.csv",
+    "receipt": "development/global_mammals_ala_taxon_eligibility_receipt_v1_193.json"
+  }
+}
