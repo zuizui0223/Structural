@@ -1,0 +1,135 @@
+{
+  "schema": "structural.external_archipelago_mammal_checklist_preintake.v1_188",
+  "status": "RESPONSE_OPAQUE_EXTERNAL_MAMMAL_CHECKLIST_IDENTITY_GATE_PREDECLARED",
+  "source": {
+    "doi": "10.5061/dryad.rfj6q579r",
+    "paper_doi": "10.1111/jbi.14156",
+    "original_source": "Hébert et al. 2021, literature/atlas/checklist-derived nonvolant mammal community matrices",
+    "archipelagos": 9,
+    "reported_islands": 204,
+    "license": "CC0",
+    "known_not_fully_independent": "some component bibliographies cite IUCN (notably Gulf of California); provenance class must be assessed before score interpretation"
+  },
+  "files": [
+    {
+      "name": "Adr.csv",
+      "id": 773000,
+      "group": "Adriatic"
+    },
+    {
+      "name": "Alx.csv",
+      "id": 773001,
+      "group": "Alexander"
+    },
+    {
+      "name": "Clf.csv",
+      "id": 773002,
+      "group": "CaliforniaGulf"
+    },
+    {
+      "name": "Ind.csv",
+      "id": 773003,
+      "group": "Sundaland"
+    },
+    {
+      "name": "MdtLB.csv",
+      "id": 773004,
+      "group": "MediterraneanLandbridge"
+    },
+    {
+      "name": "MdtOC.csv",
+      "id": 773005,
+      "group": "MediterraneanOceanic"
+    },
+    {
+      "name": "Mlk.csv",
+      "id": 773006,
+      "group": "Maluku"
+    },
+    {
+      "name": "Mln.csv",
+      "id": 773007,
+      "group": "Melanesia"
+    },
+    {
+      "name": "Phl.csv",
+      "id": 773008,
+      "group": "Philippines"
+    }
+  ],
+  "transport": {
+    "public_api_template": "https://datadryad.org/api/v2/files/{id}/download",
+    "fallback_public_template": "https://datadryad.org/downloads/file_stream/{id}",
+    "allowed_domains": [
+      "datadryad.org",
+      "s3.amazonaws.com"
+    ],
+    "user_agent": "Structural-public-external-mammal-metadata-v1.188",
+    "credentials": false,
+    "per_file_attempts": 2,
+    "no_alternate_dataset": true
+  },
+  "allowed_preoutcome_access": {
+    "source_species_headers": true,
+    "source_island_name_first_field_only": true,
+    "source_row_count": true,
+    "source_file_integrity_sha256": true,
+    "source_island_species_binary_labels": false,
+    "source_positive_negative_counts": false,
+    "original_529_species_universe_csv": true,
+    "original_heldout_4126_occurrence": false
+  },
+  "normalization": {
+    "taxa": "Unicode NFC, collapse ASCII/Unicode whitespace, trim, casefold; do not recode binomials or synonyms",
+    "island": "Unicode NFC, collapse whitespace and trim; do not fuzzy geocode or assign IDs"
+  },
+  "frozen_original": {
+    "ultrarare_species": 529,
+    "original_species_universe_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "pilot_species_artifact_id": 11285057696,
+    "pilot_species_artifact_workflow_run": 37153960728,
+    "safe_island_covariate_fields": [
+      "ID",
+      "Longitude_centroid",
+      "Latitude_centroid",
+      "Area",
+      "Current_isolation",
+      "Past_isolation",
+      "Climate_velocity",
+      "Temperature_mean",
+      "Temperature_sd",
+      "Precipitation_mean",
+      "Precipitation_sd",
+      "Elevation_sd",
+      "bioregion"
+    ],
+    "explicit_problem": "the canonical safe island metadata has no island-name field, so no island match can be inferred from a raw external island name alone"
+  },
+  "preoutcome_thresholds": {
+    "min_exact_focal_species_header_overlap": 20,
+    "min_named_external_islands": 30,
+    "min_archipelagos_with_focal_species_headers": 3,
+    "max_duplicate_island_names_within_same_archipelago": 0,
+    "source_island_name_to_canonical_id_must_be_predeclared_before_response": true,
+    "no_threshold_changes_after_audit": true
+  },
+  "gate_outcome": {
+    "if_header_support_passes": "PRE_OUTCOME_IDENTITY_POOL_AVAILABLE_GAZETTEER_REQUIRED",
+    "if_header_support_fails": "STOP_EXTERNAL_CHECKLIST_HEADER_SUPPORT_INSUFFICIENT",
+    "if_transport_fails": "STOP_EXTERNAL_CHECKLIST_TRANSPORT",
+    "if_unambiguous_gazetteer_unavailable": "HOLD_BEFORE_ANY_CHECKLIST_RESPONSE"
+  },
+  "future_endpoint": {
+    "only_eligible_rows": "unambiguously matched original 4126 heldout islands and 529 ultrarare species with independent provenance",
+    "frozen_predictions": "reuse exactly original 529x4126 p_R3, p_C and null predictions; no refit or retraining",
+    "support_rule": "must be separately frozen after exact island/species match receipt and before reading any external 0/1",
+    "label_access_now_authorized": false,
+    "fully_independent_taxon_occupancy_claim_authorized": false
+  },
+  "policy": {
+    "eBird_used": false,
+    "sw_finland_reopened": false,
+    "boreal_birds_reopened": false,
+    "same_mammal_heldout_reopened": false
+  }
+}
