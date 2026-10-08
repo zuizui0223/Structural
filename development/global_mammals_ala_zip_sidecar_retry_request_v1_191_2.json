@@ -1,0 +1,11 @@
+{
+  "schema": "structural.ala_geometry_macosx_sidecar_retry_request.v1_191_2",
+  "status": "REQUEST_ONLY_MACOSX_ZIP_SIDECAR_FILTER",
+  "correction": "development/global_mammals_ala_zip_sidecar_correction_v1_191_2.json",
+  "evidence_source": "development/global_mammals_ala_island_geometry_receipt_v1_191.json",
+  "geographic_contract": "development/global_mammals_ala_island_geometry_gate_v1_191.json",
+  "future_label_access": false,
+  "original_heldout_access": false,
+  "one_shot": true,
+  "eBird_used": false
+}
