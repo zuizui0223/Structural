@@ -5,6 +5,8 @@ on:
       - science/marine-mammal-field-intake-v1-224
     paths:
       - development/zhoushan_stable_inner_docx_contract_v1_229.json
+      - scripts/zhoushan_docx_table_shapes_v1_229.py
+      - tests/test_zhoushan_stable_inner_docx_v1_229.py
 permissions:
   contents: read
 jobs:

@@ -79,7 +79,7 @@ def execute():
             host=urlsplit(response.url).hostname
             if urlsplit(response.url).scheme!="https" or host not in HOSTS:
                 raise ValueError("Untrusted source redirect")
-            blob=response.read(OUTER_SIZE+1)
+            blob=response.read(5000001)
         docx=validate_outer(blob)
         r.update(status="PASS_OFFICIAL_DOCX_TABLE_GEOMETRY_ONLY",
             outer_sha256_observed=hashlib.sha256(blob).hexdigest(),
