@@ -1,0 +1,36 @@
+{
+  "schema": "structural.zhoushan_docx_table_shape_gate.v1_228",
+  "status": "FROZEN_SOURCE_IDENTITY_AND_STRUCTURAL_XML_ONLY_BEFORE_ANY_EXTERNAL_FIELD_VALUES",
+  "source_identity": "development/zhoushan_europepmc_metadata_result_freeze_v1_227.json",
+  "allowed_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11634684/supplementaryFiles",
+  "required_outer_zip_sha256": "9de7694fba84f8afacddc54a93a4f9101684b8302797f60cf3ab8ee300fa337b",
+  "required_outer_zip_size_bytes": 841453,
+  "required_docx_member": "zoae006_suppl_supplementary_material.docx",
+  "required_docx_uncompressed_size": 678993,
+  "required_docx_crc32": "8874d873",
+  "expected_source_paper": "Zhan et al. (2024) Current Zoology, DOI 10.1093/cz/zoae006, 39 surveyed marine islands and 18 mammals",
+  "allowed_interior_access": "Only DOCX ZIP member names and Word document.xml XML element tag paths: tables, rows and cells; never extract/read cell text or biological values.",
+  "allowed_outputs": [
+    "DOCX XML member count",
+    "number of tables",
+    "per-table number of rows",
+    "first-row cell count",
+    "minimum/maximum per-row cell counts",
+    "counts of tables with roughly 39-40 rows and >=18 columns, as structural candidates only"
+  ],
+  "forbidden_outputs": [
+    "headings text",
+    "island or taxon names from tables",
+    "numeric contents of any table cell",
+    "biological incidence, presence or absence",
+    "species by island pair identities",
+    "other Word paragraphs"
+  ],
+  "no_observation_rows_read": true,
+  "no_field_incidence_score": true,
+  "no_automatic_admission_if_table_shape_matches": true,
+  "stop_if_expected_archive_or_member_differs": true,
+  "no_original_529_species_response_access": true,
+  "no_GEB_submission_promotion": true,
+  "eBird": false
+}
