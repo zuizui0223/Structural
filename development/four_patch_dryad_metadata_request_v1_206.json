@@ -1,0 +1,29 @@
+{
+  "schema": "structural.experimental_four_patch_metadata_only.v1_206",
+  "source_doi": "10.5061/dryad.bf4rk74",
+  "source_paper_doi": "10.1111/oik.06552",
+  "exact_expected_filename": "summer 2017 metapop expt data for dryad.csv",
+  "published_description": {
+    "metapopulations": 54,
+    "patches_per_metapop": 4,
+    "dispersal_rate_levels": 9,
+    "enrichment_levels": 6,
+    "independent_treatment_cell_replicates": 1,
+    "predator_density_measured_per_patch": true,
+    "predator_density_is_direct_propagule_measurement": false,
+    "complete_4_patch_equal_weight_dispersal": true
+  },
+  "source_type": "PUBLISHED_LAB_EXPERIMENT_RETROSPECTIVE_ONLY",
+  "original_global_mammal_biology_replication": false,
+  "prior_paper_already_shows": "Dispersal and enrichment associate with spatial synchrony; increased synchrony and enrichment associate with poorer persistence.",
+  "question_not_answered": "Does strictly lagged joint donor low-abundance history add next-interval recipient predictive information beyond donor total, experiment treatment and pairwise temporal dependence?",
+  "cannot_make_interpretation": "Three donors all simultaneously zero is equivalent to total donor abundance zero in the same instant; a contemporaneous zero-availability association is not an identified higher-order interaction.",
+  "next_gate": "Only publicly pinned DOI/version and file metadata; never fetch CSV in this workflow.",
+  "future_response_access_authorized": false,
+  "never_treat_patches_or_days_as_independent_treatment_replicates": true,
+  "original_mammal_data_reopened": false,
+  "ALA_replay": false,
+  "hebert_retry": false,
+  "eBird": false,
+  "GEB_submission_authorized": false
+}

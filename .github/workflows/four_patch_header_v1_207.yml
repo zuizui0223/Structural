@@ -1,0 +1,26 @@
+name: Four-patch source bytes and CSV header v1.207
+on:
+  push:
+    branches:
+      - science/four-patch-metadata-v1-206
+    paths:
+      - development/four_patch_header_contract_v1_207.json
+permissions:
+  contents: read
+jobs:
+  exact-source-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_four_patch_header_v1_207.py
+      - name: Compare exact source length and hash; decode only CSV header
+        run: python scripts/audit_four_patch_header_v1_207.py build/four_patch_v207/header.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-four-patch-v207-header-only
+          path: build/four_patch_v207/header.json
+          retention-days: 21

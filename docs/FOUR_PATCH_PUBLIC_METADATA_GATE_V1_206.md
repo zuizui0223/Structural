@@ -1,0 +1,11 @@
+# v1.206: public experimental four-patch source preflight
+
+The published Laan & Fox protist microcosm design comprises 54 experimentally separate metapopulations, four culture vessels per metapopulation, nine dispersal rates and six enrichment levels, with only one independent experimental unit per treatment combination. The density of predator Euplotes is measured for each of four patches on repeated days. This is an experimentally manipulated movement regime, not a geographically observed inter-island path network.
+
+Official data: https://doi.org/10.5061/dryad.bf4rk74 ; paper: https://doi.org/10.1111/oik.06552. The 2019 online publication/2020 Oikos article already reports dispersal/enrichment increasing synchrony and reduced persistence with enrichment/synchrony. Consequently the present experiment cannot be sold as a pristine independent test of the mammal geometric-kNN result or as discovery that synchrony is associated with metapopulation persistence.
+
+One narrowly valuable retrospective biological question remains: is a strictly earlier history of three-donor *joint low abundance* predictive of a later focal patch's decline beyond current total donor density, experimental treatments and prior pairwise temporal covariance? Care: three zero donors and zero source-total are algebraically identical at a single time. A test that merely regresses recipient absence on synchronous zero donors is tautological and cannot distinguish higher-order dependence. The v1.203 synthetic cofailure theorem is also not biological data.
+
+Before any CSV file is accessed, this v1.206 workflow is permitted to fetch only anonymous public Dryad JSON metadata from an exact frozen DOI and the linked version's file-list metadata endpoint. No data file download, no CSV header, no ecological value, no prediction binary, no original mammal data. A metadata match authorizes only a later, separate response-opaque schema and source-file fingerprint contract; it never allows ecological scoring automatically.
+
+The four patches and repeated days must never be treated as 216 independent experimental replicates. Experimental condition comparisons have 54 independently assigned units across 54 treatment combinations. Any dynamic/prediction result is retrospective/exploratory and cannot upgrade GEB scientific HOLD, rerun ALA or Hébert, or use eBird.
