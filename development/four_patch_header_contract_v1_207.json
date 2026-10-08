@@ -1,0 +1,45 @@
+{
+  "schema": "structural.four_patch_byte_header_contract.v1_207",
+  "status": "FROZEN_BEFORE_SOURCE_CSV_TRANSPORT",
+  "source_Dryad_doi": "doi:10.5061/dryad.bf4rk74",
+  "source_v206_GitHub_run_id": 37766254529,
+  "source_v206_artifact_id": 11544383475,
+  "version_id": 29609,
+  "version_number": 1,
+  "filename": "summer 2017 metapop expt data for dryad.csv",
+  "size_bytes": 144273,
+  "digest_type": "md5",
+  "digest": "f476181d3b701413299264ec075a91e5",
+  "permitted_semantic_access": "CSV header fields only; entire raw file may be transported, length/hash verified but no rows parsed",
+  "header_gate": {
+    "required_case_sensitive_fields": [
+      "Day",
+      "metapop",
+      "disp.rate",
+      "pp.g.l"
+    ],
+    "expected_total_columns": 12,
+    "predator_columns_pattern": "^Eupl\\.?[1-4]$",
+    "prey_columns_pattern": "^Tet\\.pres\\.?[1-4]$",
+    "allow_unexpected_index_column": false,
+    "allow_fuzzy_taxonomy_or_renamed_fields": false
+  },
+  "identity_gate": {
+    "one_published_file": true,
+    "match_exact_version_and_MD5_before_download": true,
+    "no_fallback_source": true,
+    "maximum_download_bytes": 144274,
+    "source_filename_mismatch_is_STOP": true
+  },
+  "science_boundary": {
+    "fresh_confirmatory": false,
+    "retrospective_only": true,
+    "no_outcome_rows_interpreted": true,
+    "no_chosen_subgroups": true,
+    "original_mammal_response_reopened": false,
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "publication_claimed": false
+  }
+}
