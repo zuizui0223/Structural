@@ -1,0 +1,30 @@
+name: Zhoushan two canonical NCBI paths source-format diagnosis v1.225
+on:
+  push:
+    branches:
+      - science/marine-mammal-field-intake-v1-224
+    paths:
+      - development/zhoushan_official_transport_diagnosis_v1_225.json
+permissions:
+  contents: read
+jobs:
+  source-format:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zhoushan_transport_diagnosis_v1_225.py
+      - name: Strict official source format classifier (no biological content)
+        run: |
+          python scripts/diagnose_zhoushan_official_docx_v1_225.py --out build/v225/transport.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v225-zhoushan-source-format-only
+          path: build/v225/transport.json
+          retention-days: 21
