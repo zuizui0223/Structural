@@ -1,0 +1,43 @@
+name: Two source-area frame descriptions v1.220
+on:
+  push:
+    branches: [science/geb_mapped_response_claims_v1-217]
+    paths:
+      - development/unpaired_island_area_contract_v1_220.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  area-distributions:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_unpaired_island_area_v1_220.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-weigelt-safe-rows-v0-60
+          path: build/v220/full
+          repository: zuizui0223/Structural
+          run-id: 36316161135
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042
+          path: build/v220/selected
+          repository: zuizui0223/Structural
+          run-id: 36622553042
+          github-token: ${{ github.token }}
+      - run: |
+          python scripts/compare_unpaired_island_area_v1_220.py build/v220/full/weigelt_islanddata_safe_v0_60.csv build/v220/selected/state_reference.csv build/v220/selected/reference_receipt.json --out build/v220/output/area.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v220-unpaired-safe-island-area
+          path: build/v220/output/area.json
+          retention-days: 21
