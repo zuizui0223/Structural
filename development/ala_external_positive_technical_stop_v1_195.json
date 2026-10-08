@@ -1,0 +1,59 @@
+{
+  "schema": "structural.ala_external_positive_technical_stop.v1_195",
+  "status": "TERMINAL_POST_EXTERNAL_PAIR_ACCESS_PREDICTION_HEADER_SHAPE_MISMATCH_NO_SCORE",
+  "candidate_id": "ala_native_mammal_independent_positive_records",
+  "parent_result": "development/global_mammals_ala_positive_only_result_v1_194.json",
+  "source_execution": {
+    "workflow_run_id": 37746153286,
+    "job_id": 113208010269,
+    "outcome": "failure",
+    "raw_receipt_status": "STOP_ALA_EXTERNAL_PAIR_SCHEMA_OR_FROZEN_INPUT_DRIFT",
+    "error_reason": "prediction shape drift",
+    "source_zip_identification_passed": true,
+    "frozen_input_checksum_checks_passed": true
+  },
+  "deterministic_postmortem": {
+    "original_binary_writer": "scripts/freeze_global_mammals_ultrarare_predictions_v1_113.py",
+    "original_actual_magic": "STRUCTURAL_MAMMAL_ULTRARARE_PRED_V1\\n",
+    "original_header": "two uint32 values, island_count=4126 and species_count=529, struct.pack('<II',4126,S)",
+    "original_payload": "float64 values for two models per island x species, logical shape (4126,529,2)",
+    "v194_reader": "scripts/score_global_mammals_ala_positive_locations_v1_194.py",
+    "erroneous_reader_request": "read_predictions(actual_file, ACTUAL_MAGIC, (4126,529,2))",
+    "erroneous_reader_interpretation": "read_predictions reads the same count of uint32 header dimensions as the length of the logical array shape, attempting to parse 3 uint32 where the actual archive wrote only 2",
+    "null_header": "three uint32 dimensions (20,4126,529), read separately; mismatch identified for original actual surface",
+    "independent_of_external_positive_values": true,
+    "no_repair_or_retry_performed": true
+  },
+  "boundary_at_failure": {
+    "external_zip_downloaded": true,
+    "external_species_island_pairs_decoded": true,
+    "chronology": "extract_positive_pairs -> minimum_support gate -> read_predictions -> prediction shape drift",
+    "minimum_positive_pairs_gate_inferred_passed_from_control_flow": true,
+    "exact_eligible_pair_count_logged": false,
+    "external_score_computed": false,
+    "primary_P1": null,
+    "topology_P2": null,
+    "joint_support": null,
+    "original_heldout_labels_reopened": false,
+    "any_new_model_fit": false,
+    "biological_negative_result": false
+  },
+  "frozen_preregistered_policy": {
+    "request": "development/global_mammals_ala_positive_location_request_v1_194.json",
+    "one_shot": true,
+    "same_lineage_rerun_authorized": false,
+    "postpair_repair_cannot_be_called_pristine_confirmation": true,
+    "does_not_reclassify_original_529_species_holdout_result": true,
+    "do_not_reuse_exposed_ALA_positive_pairs_for_new_threshold_or_species_selection": true,
+    "no_technical_score_recovery_authorized": true
+  },
+  "remaining_evidence": {
+    "original_positive_layer": "within-curated-IUCN-map response prediction only",
+    "source_turnover_v181": "not unusually spatially differentiated; non-supportive",
+    "BALA_temporal": "independent source-loss primary not supported",
+    "ALA_external_positive": "terminal no score",
+    "independent_checklists": "Hébert et al. 2021 source metadata remains separate; zero external 0/1 values opened by that candidate"
+  },
+  "next_step": "independent response-opaque island/taxon identity and provenance feasibility for a genuinely distinct data lineage; no same ALA outcome rescue",
+  "eBird_enabled": false
+}
