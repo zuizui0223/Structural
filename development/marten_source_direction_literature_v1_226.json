@@ -1,0 +1,41 @@
+{
+  "schema": "structural.island_source_direction_and_fitness_literature_boundary.v1_226",
+  "status": "PRIOR_PUBLISHED_MECHANISTIC_EXAMPLES_NOT_NEW_STRUCTURAL_VALIDATION",
+  "ecological_question": "Can isolation produce demographic source islands through reduced disturbance/competition even when graph geometry would suggest weaker incoming immigration?",
+  "ecological_contrast": [
+    {
+      "id": "marten_reverse_direction_2021",
+      "paper_doi": "10.1002/eap.2416",
+      "published_evidence": "Smith et al. used 483 individual American marten genotypes including 43 from the Apostle Islands; results supported recent island recolonization from mainland-connected recoveries, with some inferred island-to-mainland genetic movement.",
+      "measured": "genotypes, kin and population genetic migration inference; NOT directly observed telemetry tracks",
+      "interpreted_explanation": "islands may be refuge source because of habitat complexity, protected forest and reduced competitor effects",
+      "alternative_explanations": "source history, translocations, ice bridges, environmental quality, and sampling gaps",
+      "new_claim_by_Structural": false
+    },
+    {
+      "id": "marten_migration_not_admixture",
+      "paper_doi": "10.1093/jmammal/gyab107",
+      "published_evidence": "Regional reintroduction study found apparent migrant population assignments but declining genetic admixture/increasing differentiation, emphasizing that movement need not imply lasting reproductive genetic integration.",
+      "endpoint_ontology": "genetic immigrant signal versus effective genetic integration",
+      "is_same_independent_archipelago_replication": false,
+      "new_claim_by_Structural": false
+    }
+  ],
+  "future_testable_predictions": [
+    "At similar Euclidean distance and coordinate-derived graph access, high local reproductive output and habitat quality predict net dispersal source status better than node centrality alone.",
+    "Occupancy and mobility records can support apparent network edges even where immigrant reproduction and persistence are absent.",
+    "Source direction may reverse over time as habitat deterioration or community pressure changes; geomatic source status alone does not identify migration direction.",
+    "Without paired viable source-output, independent movement origin-destination and reproductive integration observations, reserve claims are HOLD."
+  ],
+  "real_divergent_evidence_types": {
+    "geographic": "centroid graph accessibility",
+    "demographic": "offspring/progeny production and temporal persistence",
+    "movement": "independently observed departure to destination or genotype-mediated directional movement inference with caveats",
+    "genetic": "actual integration/parentage/reproductive contributions",
+    "conservation": "demonstrable effect of source removal on recipient population persistence"
+  },
+  "cannot_claim_general_source_reversal_new": true,
+  "freshwater_example_not_original_marine_graph_validation": true,
+  "GEB_scientific_HOLD": true,
+  "eBird": false
+}

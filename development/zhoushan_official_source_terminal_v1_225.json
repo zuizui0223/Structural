@@ -1,0 +1,41 @@
+{
+  "schema": "structural.zhoushan_official_source_terminal.v1_225",
+  "status": "TERMINAL_OFFICIAL_SUPPLEMENT_TRANSPORT_NO_FIELD_INCIDENCE_READ",
+  "source_article_doi": "10.1093/cz/zoae006",
+  "PMCID": "PMC11634684",
+  "v224": {
+    "run_id": 37804779320,
+    "status": "STOP_SUPPLEMENT_TRANSPORT_OR_ZIP_SCHEMA",
+    "reason_type": "ValueError"
+  },
+  "v225": {
+    "run_id": 37805015229,
+    "job_id": 113406899357,
+    "artifact_id": 11562172904,
+    "artifact_digest": "sha256:3f507d87f1307547ce1c2bc287434d7fdd453f890d511c77a6fdbf4cf6985de5",
+    "tests_passed": 2,
+    "source_checks": [
+      {
+        "path_role": "PMC instance link from official paper",
+        "HTTP": 200,
+        "mime": "text/html",
+        "bytes": 1817,
+        "docx": false
+      },
+      {
+        "path_role": "PMC canonical accession supplement variant",
+        "HTTP": 404,
+        "docx": false
+      }
+    ],
+    "source_docx_verified": false
+  },
+  "biological_outcomes_opened": 0,
+  "supplement_tables_opened": 0,
+  "source_island_headers_opened": 0,
+  "original_529_species_prediction_scores_touched": 0,
+  "same_official_endpoints_next_auto_retry_authorized": false,
+  "allowed_ecological_claim": "Published field survey 39 marine islands / 18 mammals exists but original 0/1 incidence table and its exact island names are not operationally verified.",
+  "no_biological_confirmation": true,
+  "GEB_HOLD": true
+}
