@@ -1,0 +1,89 @@
+{
+  "schema": "structural.wolfe_guild_decomposition_freeze.v1_216",
+  "status": "REPRODUCED_POSTHOC_DESCRIPTIVE_MECHANISM_DECOMPOSITION_NO_CONSERVATION_CAUSAL_EVIDENCE",
+  "provenance": {
+    "author_source": "ExperimentalConservation/Experimental-data",
+    "author_commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "author_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "result_scorer_commit": "058e7792e6d92bb03974be5201d032a783adfac2",
+    "workflow_run_id": 37792813517,
+    "job_id": 113364399695,
+    "artifact_id": 11557466050,
+    "artifact_name": "wolfe-v216-posthoc-guild-decomposition",
+    "artifact_digest": "sha256:953ee9618c06f08f9df8c79d047f02a66aec393ba11e79843d310a3a2c20b840",
+    "synthetic_tests": "2 passed",
+    "workflow_result": "success",
+    "scientific_evidence_class": "PUBLISHED_OUTCOMES_ALREADY_EXPOSED_POSTHOC_NO_PREREGISTRATION"
+  },
+  "source_counts": {
+    "observed_author_rows": 176,
+    "ambiguous_id": "6HoLM1",
+    "ambiguous_id_excluded_prior_to_focal_response": true,
+    "retained_source_rows": 175,
+    "selected_4_6_patch_rows": 139,
+    "missing_or_unassigned_outcomes": 5,
+    "possible_joint_guild_states_per_missing_unit": 4,
+    "exhaustive_completions": 1024
+  },
+  "estimand": "Heterogeneous minus homogeneous patch sizes for within-microcosm day-21 co-presence of Stentor generalist and at least one Didinium/Dileptus specialist; equal weighting across 18 patch-number/matrix/corridor strata.",
+  "numerical": {
+    "observed_only": {
+      "overall_joint": 0.09722222222222222,
+      "overall_independence_product": 0.054398148148148154,
+      "overall_covariance_remainder": 0.04282407407407407,
+      "four_joint": -0.027777777777777776,
+      "four_independence_product": -0.05555555555555555,
+      "four_covariance_remainder": 0.027777777777777776,
+      "six_joint": 0.2222222222222222,
+      "six_independence_product": 0.16435185185185183,
+      "six_covariance_remainder": 0.057870370370370364
+    },
+    "missingness_extreme_ranges": {
+      "overall_joint": [
+        0.041666666666666664,
+        0.1111111111111111
+      ],
+      "overall_independence_product": [
+        0.020833333333333332,
+        0.06944444444444445
+      ],
+      "overall_covariance_remainder": [
+        0.017361111111111112,
+        0.0625
+      ],
+      "six_minus_four_joint": [
+        0.16666666666666669,
+        0.3055555555555556
+      ],
+      "six_minus_four_independence_product": [
+        0.1736111111111111,
+        0.27083333333333337
+      ],
+      "six_minus_four_covariance_remainder": [
+        -0.027777777777777776,
+        0.0625
+      ]
+    }
+  },
+  "interpretation": {
+    "covariance_component_interpretation": "A difference in descriptive within-treatment-cell binary co-presence association, which may reflect shared experimental-day and environmental effects, not direct species interaction.",
+    "component_bound_extrema_can_be_summed_independently": false,
+    "overall_joint_and_product_and_covariance_all_positive_under_missing_states": true,
+    "six_minus_four_covariance_component_sign_robust": false,
+    "favoured_explanation": "Large 4-vs-6 treatment-bundle contrast is compatible with marginal guild retention changes; extra six-patch guild association does not have missingness-robust direction.",
+    "no_causal_patch_count_estimate": "4-patch and 6-patch treatments vary size heterogeneity ratio 2:1 versus 3:1; pure patch-number effect unidentified",
+    "source_ontology": "final-day microcosm outcome is not a local future occupancy transition, source island, dispersal, colonization, demographic rescue or fitness.",
+    "inference": "Missingness ranges are exact finite-sample sensitivity bounds under the planned four units per treatment arm; no statistical confidence interval or design-verified p-value.",
+    "novel_general_ecological_law_claimed": false,
+    "independent_original_mammal_validation": false,
+    "GEB_submission_authorized": false
+  },
+  "policy": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "SW_Finland_reopen": false,
+    "original_mammal_heldout_reopen": false
+  }
+}
