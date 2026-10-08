@@ -39,5 +39,6 @@ def test_references_are_alphabetized_and_no_escaped_newline_artifact():
     text=(DIR/"blinded_main_text.md").read_text()
     refs=text[text.index("## References"):text.index("## Data and Code Availability Statement")]
     rows=[x for x in refs.splitlines() if x.startswith("- ")]
-    assert rows == sorted(rows, key=str.casefold)
+    # Alphabetize by first-author surname; preserve author-order chronology within Hanski references.
+    assert rows == sorted(rows, key=lambda row: row.split(",",1)[0].casefold())
     assert "\\n-" not in text
