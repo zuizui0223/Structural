@@ -1,0 +1,88 @@
+{
+  "schema": "structural.zhoushan_structural_and_taxon_adjudication.v1_230",
+  "status": "TERMINAL_DIRECT_529_TAXON_OVERLAP_ZERO_WITH_PUBLIC_FIELD_STUDY",
+  "study": {
+    "doi": "10.1093/cz/zoae006",
+    "published_field_islands": 39,
+    "published_field_mammal_species": 18
+  },
+  "official_zip": {
+    "distributor": "Europe PMC",
+    "source": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11634684/supplementaryFiles",
+    "v227_outer_SHA256": "9de7694fba84f8afacddc54a93a4f9101684b8302797f60cf3ab8ee300fa337b",
+    "v229_outer_SHA256": "f29d9b52eefc0031ab4c9901399304edfca1bfe02676e6860384c19eb9496f96",
+    "outer_archive_byte_length_both": 841453,
+    "verified_inner_docx_sha256": "ec1d1d0a5dbe3f0cee955dfe4018e678a48a796d5135b2311888d47aad9ecd64",
+    "verified_inner_docx_size_bytes": 678993,
+    "verified_inner_docx_crc32": "8874d873",
+    "outer_zip_byte_identity_reproducible": false,
+    "stable_inner_docx_byte_identity_verified": true
+  },
+  "table_structure": {
+    "v229_run_id": 37854937036,
+    "v229_job_id": 113576738166,
+    "artifact_id": 11582429936,
+    "artifact_digest": "sha256:6829012b51509b0cd0bd6e616661906f97c76e6a19fa6f6dc12de0838f42090a",
+    "ci_tests_passed": 2,
+    "Word_tables": 9,
+    "rows_per_table": [
+      40,
+      40,
+      21,
+      6,
+      5,
+      5,
+      139,
+      139,
+      139
+    ],
+    "max_cells_per_row": [
+      12,
+      10,
+      8,
+      6,
+      5,
+      5,
+      6,
+      6,
+      6
+    ],
+    "rectangular_39_40_by_18_plus_candidate_count": 0,
+    "word_cell_text_read": 0,
+    "survey_incidence_values_read": 0,
+    "limitation": "No obvious rectangular 39-by-18 incidence matrix in Word tables; the figure or a different structure could hold incidence and was not opened."
+  },
+  "taxon_crosscheck": {
+    "v230_run_id": 37855198065,
+    "v230_job_id": 113577587901,
+    "artifact_id": 11583468166,
+    "artifact_digest": "sha256:e8996920e038533f1f855a5a754133dd6261c0173c80ed1153159fedc391475f",
+    "original_529_taxon_manifest_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "source": "Zhan 2024 Figure 2 published 18 binomial taxa",
+    "exact_name_overlaps": 0,
+    "taxon_counts_529_and_18_verified": true,
+    "ci_tests_passed": 2,
+    "field_species_island_incidence_opened": 0,
+    "original_heldout_0_1_reopened": 0
+  },
+  "scientific_decision": {
+    "this_survey_directly_validates_frozen_529_species": false,
+    "is_negative_test_of_original_predictive_skill": false,
+    "same_original_ultrarare_model_external_biological_score_authorized": false,
+    "additional_Zhoushan_field_0_1_access_for_this_original_529_claim": false,
+    "still_possible_to_design_distinct_study_for_18_species": true,
+    "suitability_of_new_claim_not_established": true,
+    "next_eligible_independent_survey_must_have_exact_taxa_overlap_before_response_access": true,
+    "no_artificial_rename_synonym_or_species_subset_rescue": true,
+    "GEB_scientific_HOLD": true,
+    "no_biological_dispersal_mechanism_established": true
+  },
+  "policy": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_mammal_heldout_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}
