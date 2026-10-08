@@ -12,7 +12,7 @@ def test_sw_finland_stop_is_terminal_and_preoutcome():
     assert x["response_boundary"]["future_colonization_outcome_values_opened"]==0
     assert x["rerun_policy"]["same_archive_source_identity_rerun_authorized"] is False
     assert x["rerun_policy"]["threshold_relaxation_authorized"] is False
-    dual=[r for r in x["failed_routes"] if r["version"]=="v1.176"][0]
+    dual=[r for r in x["failed_routes"] if r.get("version")=="v1.176"][0]
     assert dual["count_anchor_max_absolute_log10_residual_observed"] > dual["count_anchor_max_absolute_log10_residual_allowed"]
 
 def test_status_keeps_positive_mammal_and_negative_temporal_boundary_separate():
