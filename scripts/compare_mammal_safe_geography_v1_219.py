@@ -58,20 +58,34 @@ def calc(all_rows,selected_ids):
 def main():
     p=argparse.ArgumentParser();p.add_argument("all",type=Path);p.add_argument("selected",type=Path);p.add_argument("--out",type=Path,required=True)
     a=p.parse_args();out=a.out;out.parent.mkdir(parents=True,exist_ok=True)
+    stage="input_sha256"
+    safe_rows_read=selected_rows_read=exact_matches=None
     try:
         check(a.all,ALL_SHA);check(a.selected,SUB_SHA)
+        stage="selected_id_parser"
         with a.selected.open(newline="",encoding="utf-8") as f:
             ids=[ident(r["ID"]) for r in csv.DictReader(f)]
+        selected_rows_read=len(ids)
         if len(set(ids))!=5401:raise ValueError("Repeated selected ID")
+        stage="safe_frame_parser"
         with a.all.open(newline="",encoding="utf-8") as f:
             rd=csv.DictReader(f)
             if not {"id","name_lat","name_long","archip",*FIELDS}.issubset(rd.fieldnames or []):
                 raise ValueError("Missing frozen safe geography fields")
             rows=list(rd)
+        safe_rows_read=len(rows)
+        stage="exact_id_join"
+        safe_ids={ident(r["id"]) for r in rows}
+        exact_matches=len(set(ids)&safe_ids)
+        if exact_matches!=5401:raise ValueError("Incomplete safe ID join")
+        stage="safe_numeric_summary"
         result=calc(rows,set(ids))
     except Exception as ex:
         result={"schema":"structural.response_cell_free_geography_selection_result.v1_219",
-                "status":"STOP_SAFE_ARTIFACT_OR_ID_MATCH","reason_type":type(ex).__name__,
+                "status":"STOP_SAFE_ARTIFACT_OR_ID_MATCH","failure_stage":stage,
+                "reason_type":type(ex).__name__,
+                "safe_rows_read":safe_rows_read,"selected_rows_read":selected_rows_read,
+                "exact_selected_to_safe_id_matches":exact_matches,
                 "species_by_island_labels_read":0,"prediction_scores_calculated":False}
     out.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     print(json.dumps(result,sort_keys=True))

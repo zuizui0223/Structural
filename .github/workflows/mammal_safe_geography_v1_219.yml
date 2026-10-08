@@ -5,6 +5,7 @@ on:
       - science/geb_mapped_response_claims_v1-217
     paths:
       - development/mammal_safe_geography_request_v1_219.json
+      - scripts/compare_mammal_safe_geography_v1_219.py
 permissions:
   contents: read
   actions: read
