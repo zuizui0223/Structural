@@ -84,5 +84,8 @@
     "BALA_reopen": false,
     "original_mammal_heldout_reopen": false,
     "GEB_submission_authorized": false
-  }
+  },
+  "current_scientific_adjudication": "SUPERSEDED_FOR_TAXON_ELIGIBILITY_BY_V1_231_NAME_SEPARATOR_CORRECTION",
+  "v230_zero_overlap_is_valid_eligibility_claim": false,
+  "corrected_adjudication_path": "development/zhoushan_published_taxa_corrected_freeze_v1_231.json"
 }
