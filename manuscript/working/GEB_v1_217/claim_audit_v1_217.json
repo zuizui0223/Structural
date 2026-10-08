@@ -16,8 +16,8 @@
   "submission_authorized": false,
   "author_approval_not_given": true,
   "abstract_word_count": 234,
-  "working_body_word_count": 5211,
-  "word_limit_copyedit_pending": true,
+  "working_body_word_count": 4746,
+  "word_limit_copyedit_pending": false,
   "replacements": [
     {
       "label": "title",
@@ -95,5 +95,6 @@
       "label": "discussion gain/response correction",
       "matches": 1
     }
-  ]
+  ],
+  "revision_pass_2": "Reduced redundant discussion and corrected mapped-source conclusions without altering model results."
 }

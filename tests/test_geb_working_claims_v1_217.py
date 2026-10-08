@@ -23,3 +23,11 @@ def test_historical_submission_not_promoted():
     assert z["mathematical_effects_unchanged"] is True
     old=(R/"manuscript/submission/GEB_v1_185/blinded_main_text.md").read_text()
     assert P.read_text()!=old
+
+def test_working_conclusions_constrain_graph_claim():
+    s=P.read_text()
+    assert "The constructed geographic network was predictive" in s
+    assert "not evidence that rare island mammals disperse along a unique graph" in s
+    import re
+    w=len(re.sub(r"[#*_>\x60\[\]{}()]"," ",s[s.index("## 1. Introduction"):s.index("## References")]).split())
+    assert w <= 5000

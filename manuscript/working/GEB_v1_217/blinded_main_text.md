@@ -215,7 +215,7 @@ This layer is therefore a prospective species-layer non-replication of the origi
 
 ### 3.3 Ultrarare species prospectively reproduced a presence-opportunity signature
 
-The preregistered ultrarare layer contained **529 species** and **2,182,654 held-out cells**. Only **2,347 cells** were presences, giving a held-out prevalence of **0.108%**. Realized presences occurred in 110 held-out blocks.
+The preregistered ultrarare layer contained **529 species** and **2,182,654 held-out cells**. Only **2,347 cells** were presences, giving a held-out prevalence of **0.108%**. Mapped-positive cells occurred in 110 held-out blocks.
 
 The preregistered primary was strongly supported. Presence-cell C−R3 was **−0.5963**, with a 95% block-bootstrap interval of **−0.7439 to −0.4645**.
 
@@ -289,23 +289,17 @@ Thus the independent three-wave test did not show that loss of a higher-leverage
 **Interpretive ceiling of the graph contrast.** The preregistered 20-graph result supports the original geographic kNN representation over its degree-/edge-length-bin-matched rewired surrogates for the ultrarare held-out presence endpoint. Because the original links were derived from island coordinates, not movement observations, this superiority may partly reflect the geographic locality and shorter detours preserved by the kNN construction but not required in its rewired competitors. Euclidean source distance and diffuse source pressure were controlled in R3, but that control does not make the graph edges independently observed ecological pathways. The effect is **geography-derived incremental prediction**, not evidence of measured dispersal routes.
 
 
-### 4.1 Topology specificity does not require source irreplaceability
+### 4.1 Geographic prediction versus source-node irreplaceability
 
-The central result is a mismatch between two levels of network organization.
+The preregistered ultrarare kNN graph outperformed its 20 rewired surrogates for within-map positive-label prediction beyond R3. This establishes predictive sensitivity to a geographic construction, not measured animal movement.
 
-At the network level, the preregistered ultrarare test was strongly topology-specific. Graph-path source information improved mapped-positive-cell prediction beyond a reference that already contained external isolation, generic island-network context, occupancy breadth, regional prevalence, nearest occupied-source distance and diffuse Euclidean source pressure. The geography-derived adjacency also outperformed every one of 20 matched rewired topologies.
-
-At the source-node level, however, the response-free mechanism test gave the opposite of an irreplaceability signature. Observed sources had lower source-identity turnover across target islands than matched random source sets, more sources contributed locally to a typical target, and target-level dominance by one source was weaker.
-
-Thus **the map-derived pilot sources did not occupy unusually distinct target territories under this particular geographic graph operator**. This does not establish demographic redundancy.
-
-This matters because much of connectivity conservation is naturally framed around identifying critical patches, corridors or stepping stones from a network that is known or assumed to matter (Baranyi et al. 2011; Conlisk et al. 2021). Our result shows why these are separate empirical steps. Network-level topology can carry information even when the nodes that compose the source set are structurally redundant with one another over target space.
+The response-free source analysis instead found lower source turnover, greater target co-coverage and weaker single-source dominance than matched random placements. Thus **map-positive pilot sources did not form unusually distinct target territories under this graph operator**. Neither result measures whether living populations can rescue one another.
 
 ### 4.2 Aggregate balance is not spatial complementarity
 
 The new decomposition also corrects our interpretation of the earlier response-free source-leverage diagnostic.
 
-That analysis summed each source's graph-access kernel over all target islands before calculating an inverse-Simpson effective source number. Observed source sets had an aggregate effective source count **0.282** above matched random placement on average (95% interval **0.205–0.362**). We previously described this shorthand as greater spatial complementarity.
+That analysis summed each source's graph-access kernel over all target islands before calculating an inverse-Simpson effective source number. Mapped-positive pilot source sets had an aggregate effective source count **0.282** above matched random placement on average (95% interval **0.205–0.362**). We previously described this shorthand as greater spatial complementarity.
 
 That wording was too strong.
 
@@ -313,17 +307,9 @@ Aggregate balance cannot distinguish two spatial organizations. Different source
 
 The map-positive ultrarare sources therefore combine **balanced aggregate contribution with greater-than-random local co-coverage and lower-than-random source turnover**. We call this *balanced structural redundancy*, with “redundancy” restricted to the frozen graph-access operator. It is not evidence that real dispersers are interchangeable or that populations are demographically redundant.
 
-### 4.3 A collective source configuration can matter without a key source
+### 4.3 Collective geographic source configuration
 
-Why can exact topology predict occurrence if the sources are structurally redundant?
-
-The present data do not identify a causal mechanism. They disfavor a particular graph-geometric explanation in which every map-positive pilot source controls a distinct target region.
-
-Instead, the predictive unit may be the **collective source neighbourhood**: the way multiple occupied islands jointly sit in the actual archipelago graph. Rewiring changes that collective geometry even when source identities, Euclidean source context, node degrees and edge-length distributions are preserved. Multiple overlapping sources can therefore encode a distinctive region of graph space without any one source owning a unique target territory.
-
-This interpretation is consistent with a broader distinction in network ecology between system-level topology and the importance of individual components. Network and node metrics answer different questions, and redundancy can coexist with meaningful network structure. What is unusual here is the empirical combination within a sparse island-species system: **original geometry-derived topology improved held-out occurrence prediction while source influence was less spatially differentiated than random placement**.
-
-We cannot infer why those overlapping source neighbourhoods arose. Historical range structure, environmental filtering, dispersal history and unmeasured biotic processes remain alternatives.
+A configuration of map-positive pilot islands can predict other range-map cells even when their graph-access fields overlap. Rewiring changes geographic paths without independently measuring movement. The spatial diagnostic disfavors distinct modelled source territories but cannot distinguish historical range structure, mapping dependence, habitat filtering and biological dispersal as causes.
 
 ### 4.4 Occupancy determines where the collective-topology signal appears
 
@@ -333,33 +319,19 @@ The preregistered 5–12-presence layer improved mapped-positive-cell prediction
 
 Therefore collective topology specificity is not a generic property of the 5,401-island graph. It appeared only in the sparsest prospectively tested occupancy layer.
 
-This does not establish a monotonic rarity law. The near-ubiquitous prospective layer selected zero species, and the ≥13 layer is exploratory. The defensible conclusion is narrower: topology specificity and node-level irreplaceability are separable, and the topology-specific regime observed here occurred among species represented by only 1–4 occupied pilot islands.
+This is not a monotonic rarity law: the ≥13-source layer was exploratory and the near-ubiquitous prospective layer was empty. The graph advantage arose in the predeclared group with 1–4 **map-positive** pilot islands.
 
-### 4.5 The conservation translation fails twice
+### 4.5 Two limits on conservation translation
 
-The combined evidence imposes two distinct brakes on conservation interpretation.
+First, graph-based held-out prediction does not establish which living source populations are irreplaceable; the node analysis measures modelled geographic influence only.
 
-First, the mammal result shows that **network-level predictive value does not identify irreplaceable source nodes**. Ranking sources by an aggregate leverage statistic would therefore answer a different question from the one supported by the held-out topology result.
+Second, in the independent BALA system, lost-source graph leverage did not add predictive value for later contraction beyond surviving-source context and observation effort. This is a different taxonomic and temporal endpoint, not a direct replication of mammal geometry.
 
-Second, BALA tests the temporal step directly. In that independent three-wave system, target-specific access lost with one disappearing source did not improve held-out prediction of later contraction beyond source counts, remaining-source geometry, island identity and survey effort.
+Together they separate (1) mapped-label prediction, (2) graph-defined source influence, and (3) future biological consequences. None justifies source-population management ranking without independent validation.
 
-BALA does not validate the mammal redundancy pattern—the taxa and geography differ—and v1.181 does not explain the BALA non-support. Together they establish a hierarchy of claims:
+### 4.6 Relevance to island biogeography
 
-1. exact source topology can contain static occurrence information;
-2. that information need not be localized to structurally irreplaceable source nodes;
-3. static source leverage need not predict later contraction after source loss.
-
-A connectivity metric therefore requires endpoint-specific validation before it is converted into a population-prioritization rule.
-
-### 4.6 Relation to island biogeography and connectivity theory
-
-Classical island biogeography emphasizes source supply and isolation, while metapopulation theory makes source occupancy explicitly dynamic. Landscape-network approaches extend those ideas by representing paths, corridors and patch importance.
-
-Our result adds a distinction between the **configuration of a source ensemble** and the **uniqueness of its members**.
-
-For ultrarare island mammals, the exact configuration of occupied sources contained occurrence information beyond source number and ordinary distance, yet those same sources showed unusually overlapping structural influence. The source ensemble was informative as a whole without decomposing into uniquely informative source territories.
-
-This is relevant to island systems because archipelagos naturally invite node-based interpretations: one island is labelled a hub, stepping stone or source. The present evidence cautions that a species can respond to—or retain the signature of—an archipelago-scale source configuration without allowing ecological importance to be assigned to one constituent island.
+Source-pool composition and island isolation remain fundamental ecological questions. This analysis offers a positive **map-prediction** example, not an observed immigration or rescue test. Pilot map-positive sources collectively inform a geographic model while their individual access fields overlap. Hubs, modelled stepping stones and graph-source nodes should not automatically be classified as viable dispersal populations.
 
 ### 4.7 Evidence boundaries
 
@@ -377,11 +349,11 @@ Finally, structural redundancy is not demographic redundancy. We do not show tha
 
 ## 5. Conclusions
 
-The strongest result is not simply that connectivity matters more when few source islands remain.
+The strongest result is not evidence that rare island mammals disperse along a unique graph.
 
-In the preregistered 1–4-presence mammal layer, the actual island topology contained strong held-out occurrence information and outperformed all matched rewired topologies. Yet the same map-positive pilot source sets showed **less** target-space turnover in source influence than source-count- and bioregion-matched random placements, alongside higher local effective source number and weaker target-level dominance.
+In the preregistered ultrarare mammal layer, the original coordinate-derived kNN graph improved held-out prediction of curated map-positive labels and outperformed its 20 matched rewires. Yet pilot map-positive sources showed **less** graph-defined target-space turnover than matched source placements, alongside greater local overlap and weaker target dominance.
 
-Exact topology therefore mattered **without** unusually irreplaceable source territories.
+The constructed geographic network was predictive **without** unusually distinct modelled source territories.
 
 This separates a geographic graph's map-label predictive signal from the unmeasured conservation value of living populations. A map-positive source configuration can be predictive while its members' graph-defined access fields overlap strongly.
 
