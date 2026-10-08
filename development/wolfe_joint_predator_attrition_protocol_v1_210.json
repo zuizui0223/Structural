@@ -1,0 +1,86 @@
+{
+  "schema": "structural.wolfe_joint_predator_missingness_bounds.v1_210",
+  "status": "SEPARATE_RETROSPECTIVE_DESCRIPTIVE_PROTOCOL_FROZEN_BEFORE_RESPONSE_VALUE_SCORING",
+  "predecessor_terminal": "development/wolfe_joint_predator_terminal_v1_209.json",
+  "epistemic_class": "POSTPUBLICATION_NONCONFIRMATORY_EXPLORATION_NO_HYPOTHESIS_DISCOVERY_CLAIM",
+  "source": {
+    "repository": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "path": "Wolfe et al. /Wolfe et al experimental data.csv",
+    "git_blob_sha": "e78003d425b646b390ae02e36c007892c1c70926",
+    "bytes": 12096
+  },
+  "metadata_known_before_v210_response_scoring": {
+    "planned_units": 180,
+    "observed_rows": 176,
+    "observed_treatment_codes": 45,
+    "experiment_unit": "(microcosm treatment code, replicate number)",
+    "four_missing_units_due_to_leaking": true,
+    "no_response_success_values_inspected": true
+  },
+  "fixed_design": {
+    "five_configurations": [
+      "1hom",
+      "4hom",
+      "4het",
+      "6hom",
+      "6het"
+    ],
+    "matrix_levels": [
+      "none",
+      "low",
+      "high"
+    ],
+    "corridor_levels": [
+      "none",
+      "low",
+      "high"
+    ],
+    "expected_factorial_cells": 45,
+    "replicates_planned_per_cell": 4,
+    "observed_cell_sizes": {
+      "cells_n4": 41,
+      "cells_n3": 4
+    },
+    "missing_units_total": 4,
+    "excluded_single_patch_for_heterogeneity": true,
+    "heterogeneity_paired_strata": 18,
+    "total_media_volume_ml": 48,
+    "no_treatment_rebalancing_by_favorable_outcomes": true
+  },
+  "outcome": {
+    "generalist": "Stentor coeruleus terminal-day density > 0",
+    "specialists": "Didinium nasutum OR Dileptus anser terminal-day density > 0",
+    "primary": "generalist AND >=1 specialist present anywhere in same metacommunity at day 21",
+    "interpretation": "joint metacommunity guild retention, not same-patch co-occurrence or persistence over time",
+    "zero_threshold_frozen": true,
+    "invalid_missing_focal_density_stops": true
+  },
+  "contrast": {
+    "primary": "equal-weight mean across 18 patch-count 4/6 × matrix 3 × corridor 3 treatment strata of (heterogeneous joint observed proportion minus homogeneous joint observed proportion)",
+    "planned_n_denominator": 4,
+    "observed_only_point": "proportion by observed units (3 or 4) per arm",
+    "worst_case_missing_bound": "replace all missing binary joint outcomes with 0 or 1 in each arm adversarially, keeping original planned denominator 4 in all cells; average 18 strata bounds",
+    "lower_bound_formula": "mean over strata [heterogeneous observed successes /4 - (homogeneous successes + homogeneous missing count)/4]",
+    "upper_bound_formula": "mean over strata [(heterogeneous successes + heterogeneous missing count)/4 - homogeneous successes/4]",
+    "within_arm_bootstrap": "10,000 independent-within-factorial-cell replicates for each observed group size; descriptive percentile 95% interval",
+    "bootstrap_seed": 20261008,
+    "uncertainty_caveat": "bootstrap excludes missing-outcome uncertainty; bounded interval separately contains worst-case attrition scenarios",
+    "secondary": [
+      "generalist contrast",
+      "specialist contrast",
+      "joint contrast by patch count 4 and 6 (no inferential upgrade)"
+    ],
+    "no_stratum_or_species_threshold_retuning": true,
+    "no_significance_or_novel_causal_claim": true
+  },
+  "safeguards": {
+    "mammal_reanalysis": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_revisit": false,
+    "SW_Finland_revisit": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}

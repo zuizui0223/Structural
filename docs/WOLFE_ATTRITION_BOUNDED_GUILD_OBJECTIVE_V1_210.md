@@ -1,0 +1,11 @@
+# Postpublication Wolfe experiment: missing-outcome-bounded guild objective v1.210
+
+The initial v1.209 protocol was *strictly STOPPED* without calculating any predator success because it incorrectly expected 180 retained source records and misread `microcosm` as unique replicate ID. Exact author Git blob metadata and treatment identifiers show 176 rows over 45 treatment cells; published figure captions identify four leaking vessels. Source treatment code `microcosm` and `replicate` jointly identify experimental replicates.
+
+This new **separate** v1.210 analysis is expressly retrospective, published-outcome-context-exposed and nonconfirmatory. It neither repairs the old confirmatory gate nor asserts novel discovery. The experimental design is 45 treatment combinations × four planned replicates (180), 176 observed, four treatment cells n=3 and all other 41 n=4. If that does not match source exactly, STOP again without inventing data. Original total habitat volume is held at 48 ml.
+
+Endpoint: day-21 metacommunity-level joint retention of generalist `Stentor coeruleus` and at least one specialist (`Didinium nasutum` or `Dileptus anser`) in the same microcosm (not necessarily co-occurring in one patch). Contrast: 4- and 6-patch *heterogeneous versus homogeneous patch sizes*, averaged equally over 18 fixed patch-number × corridor × matrix strata. A 1-patch unit cannot have heterogeneous patch sizes so it is excluded from this contrast.
+
+Primary report is the observed-complete-case contrast together with **sharp extreme-case binary bounds** for all four planned but leaked units (missing joint outcome assumed all failures or successes adversarially, original denominator four in each treatment arm). An observed-only 10,000-stratified-bootstrap 95% interval is reported separately, never masking missingness uncertainty. Secondary marginal specialist/generalist effects cannot upgrade the primary. No causal habitat mechanism, time-ordered extinction or independent validation of the global mammal graph is allowed.
+
+Previously reported specialist/generalist differing landscape optima are from Wolfe et al. 2022 (Oecologia DOI 10.1007/s00442-022-05178-9). The narrow extra objective is a conservation decision statistic—not a claim of new taxon or dynamics.
