@@ -1,0 +1,12 @@
+{
+  "schema": "structural.ala_mammal_native_status_request.v1_193",
+  "status": "REQUEST_PREPAIR_TAXON_CLEANUP_ONLY",
+  "contract": "development/global_mammals_ala_native_status_gate_v1_193.json",
+  "parent_overlap_required": 70,
+  "heldout_island_matches_required": 167,
+  "external_island_species_pairs_authorized": false,
+  "original_mammal_heldout_authorized": false,
+  "score_requested": false,
+  "one_shot": true,
+  "eBird_used": false
+}

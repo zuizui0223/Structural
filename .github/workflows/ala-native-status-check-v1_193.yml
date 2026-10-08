@@ -1,0 +1,22 @@
+name: ALA taxon native-status screen v1.193 checks
+on:
+  pull_request:
+    paths:
+      - development/global_mammals_ala_native_status_gate_v1_193.json
+      - scripts/audit_ala_mammal_native_status_v1_193.py
+      - tests/test_ala_native_status_gate_v1_193.py
+  push:
+    branches:
+      - candidate/ala-native-status-gate-v1-193
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_ala_native_status_gate_v1_193.py
