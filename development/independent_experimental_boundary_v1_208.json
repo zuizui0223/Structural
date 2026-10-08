@@ -1,0 +1,102 @@
+{
+  "schema": "structural.independent_experimental_evidence_boundary.v1_208",
+  "status": "EXPERIMENTAL_EVIDENCE_TRIAGE_NO_NEW_BIOLOGICAL_CONFIRMATION",
+  "prior_frozen": {
+    "global_mammals_claim": "development/current_status_v1_197.json",
+    "original_GEB_hold": "manuscript/submission/GEB_CURRENT.json",
+    "paper_2019": "https://doi.org/10.1111/oik.06552",
+    "paper_2022": "https://doi.org/10.1007/s00442-022-05178-9"
+  },
+  "experimental_systems": {
+    "four_patch_laan_fox": {
+      "source_DOI": "10.5061/dryad.bf4rk74",
+      "published_experimental_units": 54,
+      "treatments": "9 dispersal rates x 6 enrichment levels (one metapop per treatment cell)",
+      "source_public_metadata": {
+        "status": "PASS_EXACT_DRYAD_FILE_METADATA_ONLY",
+        "Actions_run_id": 37766254529,
+        "version_id": 29609,
+        "filename": "summer 2017 metapop expt data for dryad.csv",
+        "size_bytes": 144273,
+        "md5": "f476181d3b701413299264ec075a91e5",
+        "response_values_read": 0
+      },
+      "source_byte_header": {
+        "run_id": 37766553043,
+        "job_id": 113275518680,
+        "source_download_http_status": 401,
+        "status": "STOP_PUBLIC_FILE_HTTP",
+        "raw_body_semantic_decode_count": 0,
+        "raw_csv_headers_decoded": 0,
+        "ecological_scores": 0,
+        "synthetic_tests_passed": 4,
+        "exact_source_download_not_retried": true
+      },
+      "experimental_topology_contrast_available": false,
+      "longitudinal_patch_density_reported": true,
+      "direct_dispersal_flows_observed": false,
+      "prospective_mechanism_claim_authorized": false
+    },
+    "wolfe_landscape_2022": {
+      "official_paper": "https://doi.org/10.1007/s00442-022-05178-9",
+      "author_public_GitHub_repository": "https://github.com/ExperimentalConservation/Experimental-data",
+      "source_rename_note": "paper linked chrit88/Experimental-data; GitHub resolves to ExperimentalConservation/Experimental-data",
+      "canonical_GitHub_commit_SHA": "fabe50b58a13651be4168b91cd91589ccc261a96",
+      "readme": "Wolfe et al. /README.md",
+      "CSV_path": "Wolfe et al. /Wolfe et al experimental data.csv",
+      "CSV_Git_blob_SHA": "e78003d425b646b390ae02e36c007892c1c70926",
+      "CSV_byte_size_GitHub": 12096,
+      "readable_header_fields": [
+        "",
+        "microcosm",
+        "replicate",
+        "patch_number",
+        "heterogeneity",
+        "matrix_dispersal",
+        "corridor_dispersal",
+        "colpidium_striatum",
+        "blepharisma_japonicum",
+        "spirostomum_teres",
+        "paramecium_caudatum",
+        "euplotes_patella",
+        "didinium_nasutum",
+        "stentor_coeruleus",
+        "dileptus_anser"
+      ],
+      "biological_rows_opened": 0,
+      "experimental_units": 180,
+      "treatments": 45,
+      "independent_replicates_per_treatment": 4,
+      "habitat_configurations": "1-patch; four equal; four mixed; six equal; six mixed",
+      "controlled_total_media_volume_ml": 48,
+      "two_dispersal_dimensions": "matrix-mediated mortality and corridor migration frequency",
+      "observation_time": "day 21 final densities, not repeated patch-by-day densities in published CSV",
+      "independent_topology_manipulation": true,
+      "direct_lagged_donor_production_available": false,
+      "future_0_to_1_transition_endpoint_available": false,
+      "original_publication_already_tests_predator_presence_diversity_and_extinction": true,
+      "independent_mammal_species_island_validation": false
+    }
+  },
+  "cross_system_identifiability": {
+    "source_status": "NOT_ESTABLISHED_AS_ONE_COMPLETE_DATASET",
+    "four_patch_system": "time-resolved patch density reported but only one experimental unit per factorial cell, and exact download inaccessible",
+    "landscape_system": "replicated landscape structure manipulation but final-day outcome does not reveal source-specific lagged supply or ordered transitions",
+    "neither": "independently confirms mammal movement, observed source-sink links, island habitat colonization or demographic rescue",
+    "valid_manuscript_role": "published comparative ecology only; not extra independent biological proof",
+    "possible_future_route": "New independent temporal and structural experimental system with source-specific reproduction and ordered recipient observations; v0.31/v0.42 admission mandatory",
+    "no_cross_dataset_pooled_mechanism_effect": true
+  },
+  "hard_boundaries": {
+    "original_mammal_heldout_values_opened": 0,
+    "external_wolfe_outcome_values_opened": 0,
+    "external_laan_fox_outcome_values_opened": 0,
+    "BALA_reopened": false,
+    "Hebert_retried": false,
+    "ALA_retried": false,
+    "SW_Finland_retried": false,
+    "eBird_used": false,
+    "GEB_submission_authorized": false,
+    "active_confirmatory_systems": 0
+  }
+}
