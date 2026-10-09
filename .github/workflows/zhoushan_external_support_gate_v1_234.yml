@@ -1,0 +1,29 @@
+name: Zhoushan response-opaque external validity support gate v1.234
+on:
+  push:
+    branches: [science/marine-mammal-field-intake-v1-224]
+    paths:
+      - development/external_mammal_source_support_gate_v1_234.json
+permissions:
+  contents: read
+jobs:
+  frozen-support-adjudication:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_external_mammal_source_support_v1_234.py
+      - name: Adjudicate original model external validation without any field incidence
+        run: |
+          python scripts/adjudicate_external_mammal_support_v1_234.py development/zhoushan_published_taxa_corrected_freeze_v1_231.json development/zhoushan_published_site_identity_freeze_v1_232.json development/zhoushan_heldout_geography_result_freeze_v1_233.json --out build/v234/decision.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v234-zhoushan-mammal-validation-support-decision
+          path: build/v234/decision.json
+          retention-days: 21

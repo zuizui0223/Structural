@@ -1,0 +1,11 @@
+# v1.233–v1.234: The critical limit is three original heldout islands, one spatial block
+
+The original Zhan et al. 2024 source identifies 39 island study codes s01–s39 and 18 mammal taxa. Five published binomials overlap the originally frozen Structural 529 ultrarare mammal species after applying the **preexisting** R punctuation normalization. There remain zero confirmed study-code→original island-ID correspondences.
+
+Prior to opening any new binary field response, the original Structure 5592-row safe centroid and 5401 selected-node IDs plus 4126 heldout routing were checked at original archive SHA256 against the paper's precommitted Zhoushan study-area bounds (lat 29°31′ to 30°04′ N, lon 121°30′ to 123°25′ E). The first execution stopped technically because safe source lat/lon/area used frozen hexadecimal float strings; the parser was corrected to use precisely the existing v1.221 numeric schema. Source region, taxa and inference rules were not retuned.
+
+v1.233 executed with three source artifacts and synthetic tests, all passed (run 37887603320). The source data had **30 islands** in the regional rectangle, all among Structural's 5,401 selected nodes. Critically only **3 original 4,126 heldout islands** lie in that rectangle, representing **one original heldout geographic block**; 27 are in the non-heldout/pilot remainder. The heldout geographic candidate area median was 79.3 km² (IQR 46.05–283.735). No species-by-island value or original prediction was opened.
+
+Thus the absolute maximum *hypothetical* field-prediction comparison in the original scoring frame is 3 heldout islands ×5 shared taxa = **15 species-island cells**, even if all 39 source codes were someday geolocated unambiguously. **Currently the verified paired cells are zero.** Spatially independent between-block effects cannot be estimated from a single heldout block. This is an *estimability / eligible-identity* limitation, not a failure of the original model's predictive accuracy.
+
+v1.234 turns these three already safe receipts (v1.231 taxon, v1.232 site code, v1.233 geographic count) into an executable stop before any field presence/absence opening. A different site may qualify, but widening the current bounding rectangle or fitting against the original IUCN label response again is forbidden. GEB remains on scientific HOLD.

@@ -1,0 +1,40 @@
+{
+  "schema": "structural.external_mammal_response_safe_support_gate.v1_234",
+  "status": "FAIL_PREOUTCOME_ORIGINAL_529_EXTERNAL_TEST_ESTIMABILITY_NO_FIELD_VALUES",
+  "accepted_input_receipts": [
+    "development/zhoushan_published_taxa_corrected_freeze_v1_231.json",
+    "development/zhoushan_published_site_identity_freeze_v1_232.json",
+    "development/zhoushan_heldout_geography_result_freeze_v1_233.json"
+  ],
+  "purpose": "Turn response-opaque shared species names, candidate target island counts and spatial block count into an auditable external validation GO/HOLD decision before field incidence cells are opened.",
+  "protocol": {
+    "valid_published_taxon_exact_matches": 5,
+    "original_response_heldout_islands_inside_paper_rectangle": 3,
+    "original_heldout_spatial_blocks_in_rectangle": 1,
+    "published_survey_sites": 39,
+    "source_dataset_selected_islands_in_region": 30,
+    "verified_s01_s39_to_original_heldout_site_pairs": 0,
+    "mathematical_upper_bound_possible_matched_species_island_predictions": 15,
+    "lower_bound_without_island_identity": 0,
+    "sufficient_between_spatial_block_replicates": false,
+    "do_not_count_five_species_as_five_geographic_replicates": true
+  },
+  "stop_rule": {
+    "original_529_model_external_predictive_skill_score_authorized": false,
+    "stop_reason": "Only 3 eligible original heldout target islands in one spatial block, zero verified island-code pairs. Even hypothetically complete 5-taxon overlap yields at most 15 comparable positive/negative binary cells, insufficient for spatially independent evaluation.",
+    "no_threshold_relaxation_or_bounding_box_widening": true,
+    "no_source_0_1_outcome_access": true,
+    "no_original_species_0_1_replay": true,
+    "no_case_specific_retraining": true,
+    "not_evidence_that_model_prediction_was_wrong": true,
+    "unrelated_fresh_ecological_process_study_always_separate": true
+  },
+  "next_principled_biological_system": "A survey in a region with independent marine-island observed mammal taxa overlapping 529, at least two eligible distinct original heldout geographic blocks, exact one-to-one island IDs, and standardized detection denominators; ideally several separate archipelagos and observed movements/turnover.",
+  "policy": {
+    "no_eBird": true,
+    "no_ALA_replay": true,
+    "no_Hebert_retry": true,
+    "no_BALA_retest": true,
+    "no_GEB_submission_promotion": true
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "structural.zhoushan_heldout_geography_result_freeze.v1_233",
+  "status": "REGION_CANDIDATES_ONLY_NOT_CROSSWALKED_TO_s01_s39",
+  "input_source_sha256": {
+    "Barreto_safe": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "selected_5401": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "confirmatory_4126": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "source_paper": "https://doi.org/10.1093/cz/zoae006",
+  "published_box": {
+    "latitude_min": 29.516666666666666,
+    "latitude_max": 30.066666666666666,
+    "longitude_min": 121.5,
+    "longitude_max": 123.41666666666667
+  },
+  "result": {
+    "original_safe_islands_5592_in_box": 30,
+    "selected_model_islands_5401_in_box": 30,
+    "original_heldout_islands_4126_in_box": 3,
+    "original_selected_but_not_heldout_islands_in_box": 27,
+    "geographical_heldout_blocks": 1,
+    "island_site_codes_of_39_surveyed_mapped_to_original_heldout": 0,
+    "heldout_candidate_island_areas_km2": {
+      "q25": 46.05,
+      "median": 79.3,
+      "q75": 283.735
+    },
+    "max_possible_taxon_island_pairs_at_five_verified_taxa": 15,
+    "eligible_scored_pairs_currently": 0
+  },
+  "execution": {
+    "source_lock_commit": "30c1c8c460efcbb2b423932981a4d400602381a9",
+    "run_id": 37887603320,
+    "job_id": 113680997907,
+    "result_artifact_id": 11596728179,
+    "result_artifact_digest": "sha256:35b367af745df3d0ae9dc8189c0c845fb4ca077ccf6a7392f9002b0e492ee57c",
+    "tests_passed": 3,
+    "workflow_job_success": true,
+    "v233_initial_transport_biology_read_failure": false,
+    "v233_initial_input_failure": "hexadecimal safe geography numbers parsed as decimal; fixed with existing v1.221 geo encoding rule; region bounds and study endpoint unchanged"
+  },
+  "biological_scope": {
+    "published_Zhan_39_sites_are_not_same_as_these_30_certain": true,
+    "exact_island_crosswalk_missing": true,
+    "regional_geographic_footprint_is_not_a_site_map": true,
+    "cannot_estimate_between_block_variability_with_one_block": true,
+    "cannot_validate_original_global_529_species_effect_with_max_15_cells": true,
+    "open_field_0_1_for_original_claim_authorized": false,
+    "original_mammal_model_predictions_unopened": true,
+    "original_mammal_heldout_responses_unopened": true,
+    "independently_observed_dispersal_data_opened": false,
+    "no_positive_or_negative_biological_result": true
+  },
+  "GEB_submission_authorized": false,
+  "eBird": false
+}
