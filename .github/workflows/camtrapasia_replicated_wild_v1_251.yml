@@ -1,0 +1,37 @@
+name: Postoutcome reproducible cross-island wild photo positives v1.251
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_replicated_wild_positives_contract_v1_251.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  prior-aggregate-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_camtrapasia_replicated_wild_v1_251.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v250-four-island-independent-camera-positive-pilot
+          path: build/v251/prior
+          repository: zuizui0223/Structural
+          run-id: 37893632648
+          github-token: ${{ github.token }}
+      - name: Reuse prior source-locked camera aggregate only
+        run: |
+          python scripts/camtrapasia_replicated_field_positives_v1_251.py build/v251/prior/field_positive.json --out build/v251/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v251-replicated-wild-photo-evidence
+          path: build/v251/result.json
+          retention-days: 21
