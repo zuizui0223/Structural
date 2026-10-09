@@ -1,0 +1,72 @@
+{
+  "schema": "structural.camtrapasia_published_site_only_vs_heldout_geogrid.v1_239",
+  "status": "SITE_GEOGRAPHY_ONLY_PREDECLARED_NO_CAMTRAP_DETECTIONS_OR_ORIGINAL_PREDICTIONS",
+  "prior_identified_survey_files": "development/camtrapasia_csv_headers_freeze_v1_237.json",
+  "prior_frozen_taxon_names": "development/camtrapasia_published_mammal_taxon_overlap_freeze_v1_238.json",
+  "source_survey_metadata": {
+    "filename": "CamTrapAsia_Metadata_20231031.csv",
+    "bytes": 245677,
+    "md5": "2b50c534737b0c98a93da54128b10a32",
+    "official_url": "https://zenodo.org/api/records/10780971/files/CamTrapAsia_Metadata_20231031.csv/content"
+  },
+  "allowed_source_columns": [
+    "survey_id",
+    "country",
+    "landscape",
+    "site",
+    "effort",
+    "Y_lat",
+    "X_long",
+    "year_start",
+    "year_end"
+  ],
+  "prohibited_source_columns": [
+    "study_notes",
+    "veg_notes",
+    "study_author",
+    "Source",
+    "abundance",
+    "captures",
+    "species"
+  ],
+  "original_response_safe_reference": {
+    "artifact_run": 37888194328,
+    "artifact_name": "structural-v235-original-4126-heldout-geography-index",
+    "artifact_id": 11597207606,
+    "artifact_sha256": "f04adef92c3fe7de2527d4ba67bdb6c0013ca99ce05d07885447da99f47c411a",
+    "file": "result.json",
+    "heldout_islands": 4126,
+    "blocks": 168,
+    "primary_tiles": 154,
+    "shifted_tiles": 173
+  },
+  "exact_method": {
+    "geogrid": "Use exact WGS84 10° half-open tiles of v1.235 and shifted 5° alternate; no custom island bounds",
+    "source_site_grain": "Source rows identified by survey_id, may include multiple rows per study; counts distinguish row vs distinct survey ID.",
+    "require_valid_coordinates": "WGS84 lat ±90, lon ±180; missing or invalid geolocations counted but never geo matched.",
+    "site_geographic_cooccurrence": "For each source survey center tile, look up frozen heldout original island counts and block counts in same 10° tile.",
+    "output": "Aggregates only: source rows, distinct source survey IDs, valid georeferenced study centers, original heldout islands/blocks within shared tiles, top tile range comparisons and effort metadata completeness.",
+    "no_exact_island_match": true,
+    "do_not_assume_sites_are_islands": true,
+    "do_not_infer_marine_vs_continental_status_from_country": true,
+    "do_not_open_species_capture_file": true,
+    "no_new_outcome_dependent_tile_selection": true
+  },
+  "scientific_limits": {
+    "same_10deg_cell_not_island_identity": true,
+    "original_block_diversity_not_field_replicates": true,
+    "taxa38_overlap_not_species_detection": true,
+    "study_site_near_island_centroid_not_proven": true,
+    "negative_camera_nondetection_not_true_absence": true,
+    "do_not_estimate_movement_or_rescue": true,
+    "external_score_not_authorized": true
+  },
+  "guards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_mammal_heldout_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}
