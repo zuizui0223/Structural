@@ -1,0 +1,129 @@
+{
+  "schema": "structural.original_mammal_heldout_geographic_search_index_freeze.v1_235",
+  "status": "REPRODUCED_RESPONSE_OPAQUE_GEO_INDEX",
+  "execution": {
+    "run_id": 37888194328,
+    "job_id": 113682855927,
+    "artifact_id": 11597207606,
+    "artifact_digest": "sha256:f04adef92c3fe7de2527d4ba67bdb6c0013ca99ce05d07885447da99f47c411a",
+    "tests_passed": 2,
+    "job_success": true
+  },
+  "source": {
+    "Barreto_5592_SHA": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "selected_5401_SHA": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+    "heldout_4126_SHA": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
+  },
+  "counts": {
+    "heldout_islands": 4126,
+    "selected_islands": 5401,
+    "distinct_original_heldout_blocks": 168,
+    "primary_nonempty_10deg_tiles": 154,
+    "shifted_nonempty_10deg_tiles": 173
+  },
+  "primary_grid_top_geographic_cells": [
+    {
+      "lat": [
+        30,
+        40
+      ],
+      "lon": [
+        120,
+        130
+      ],
+      "heldout": 322,
+      "blocks": 2
+    },
+    {
+      "lat": [
+        10,
+        20
+      ],
+      "lon": [
+        40,
+        50
+      ],
+      "heldout": 115,
+      "blocks": 2
+    },
+    {
+      "lat": [
+        0,
+        10
+      ],
+      "lon": [
+        120,
+        130
+      ],
+      "heldout": 88,
+      "blocks": 2
+    }
+  ],
+  "five_degree_shift_grid_top_geographic_cells": [
+    {
+      "lat": [
+        15,
+        25
+      ],
+      "lon": [
+        35,
+        45
+      ],
+      "heldout": 141,
+      "blocks": 6
+    },
+    {
+      "lat": [
+        35,
+        45
+      ],
+      "lon": [
+        5,
+        15
+      ],
+      "heldout": 60,
+      "blocks": 5
+    },
+    {
+      "lat": [
+        25,
+        35
+      ],
+      "lon": [
+        125,
+        135
+      ],
+      "heldout": 169,
+      "blocks": 4
+    },
+    {
+      "lat": [
+        15,
+        25
+      ],
+      "lon": [
+        -85,
+        -75
+      ],
+      "heldout": 153,
+      "blocks": 4
+    }
+  ],
+  "scientific_interpretation": {
+    "tile_block_diversity_is_sensitive_to_grid_offset": true,
+    "large_tile_count_does_not_establish_multiple_field_survey_islands": true,
+    "grid_not_archipelago_boundary": true,
+    "original_block_ids_do_not_ensure_new_field_replication": true,
+    "geographic_pool_only_not_survey_conclusions": true,
+    "original_mammal_heldout_values_read": 0,
+    "model_predictions_or_edges_read": 0,
+    "original_GEB_hold": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}
