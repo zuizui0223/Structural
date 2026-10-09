@@ -11,6 +11,6 @@ def test_no_new_biological_data_reader_and_posthoc_limit():
     assert all(z is False for z in c["hard_guards"].values())
 def test_real_result_values_consistent_with_original_frozen_field_summary():
     x=json.loads((ROOT/"development/camtrapasia_four_island_field_positive_freeze_v1_250.json").read_text())
-    assert x["counts_per_island"][2]["source_shared_focal_mammals_recorded"]==16
-    assert x["counts_per_island"][3]["source_shared_focal_mammals_recorded"]==18
-    assert x["original_IUCN_heldout_response_read"]==0
+    assert x["four_candidate_areas"][2]["positive_matching_taxa"]==16
+    assert x["four_candidate_areas"][3]["positive_matching_taxa"]==18
+    assert x["no_original_IUCN_heldout_opened"] is True
