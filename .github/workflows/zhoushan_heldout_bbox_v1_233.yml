@@ -4,6 +4,7 @@ on:
     branches: [science/marine-mammal-field-intake-v1-224]
     paths:
       - development/zhoushan_heldout_region_geography_contract_v1_233.json
+      - scripts/zhoushan_original_heldout_bbox_v1_233.py
 permissions:
   contents: read
   actions: read

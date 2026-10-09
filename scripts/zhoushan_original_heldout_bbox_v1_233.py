@@ -90,9 +90,17 @@ def main():
  opt=ap.parse_args();opt.out.parent.mkdir(parents=True,exist_ok=True)
  try: result=execute(opt.source,opt.selected,opt.heldout)
  except Exception as e:
+  message=str(e)
+  reason_category=("SHA" if "archive mismatch" in message else
+    "selected_heldout_ID_membership" if "Heldout not source selected" in message else
+    "ID_syntax" if "island ID" in message else
+    "file_rows_or_columns" if "count" in message or "header" in message else
+    "physical_geography_values" if "geograph" in message or "Nonfinite" in message else
+    "other_frozen_source_identity")
   result={"schema":"structural.zhoushan_heldout_geography_footprint_result.v1_233",
    "status":"STOP_FROZEN_SOURCE_OR_GEOGRAPHY_SCHEMA",
    "reason_class":type(e).__name__,
+   "safe_failure_category":reason_category,
    "independent_field_observation_values_read":0,
    "original_mammal_heldout_values_read":0,
    "original_mammal_predictions_read":0}
