@@ -1,0 +1,65 @@
+{
+  "schema": "structural.camtrapasia_experiment_survey_intake.v1_236",
+  "status": "PUBLIC_ZENODO_API_FILE_PROVENANCE_ONLY_NO_CAMERA_DETECTIONS_OPENED",
+  "publication": {
+    "doi": "10.1002/ecy.4299",
+    "year": 2024,
+    "authors": "Mendes et al.",
+    "title": "CamTrapAsia: A dataset of tropical forest vertebrate communities from 239 camera trapping studies"
+  },
+  "dataset": {
+    "doi": "10.5281/zenodo.10780971",
+    "record_id": 10780971,
+    "public_api": "https://zenodo.org/api/records/10780971"
+  },
+  "published_summary": {
+    "camera_trap_studies": 239,
+    "independent_detection_records": 278260,
+    "identified_species": 371,
+    "reported_mammals": 232,
+    "reported_birds": 132,
+    "reported_reptiles": 7,
+    "total_trap_nights": 876606,
+    "geographic_scope": "Indonesia, Singapore, Malaysia, Bhutan, Thailand, Myanmar, Cambodia, Laos, Vietnam, Nepal and far eastern India; NOT nine independent island archipelagos"
+  },
+  "exact_required_file_metadata": [
+    {
+      "filename": "CamTrapAsia_Metadata_20231031.csv",
+      "published_md5": "2b50c534737b0c98a93da54128b10a32",
+      "likely_role": "site/trap study metadata, no assertion of independent island identity"
+    },
+    {
+      "filename": "Species_Traits_20231031.csv",
+      "published_md5": "59e0748f8aaf59b23b936248f1e63fc9",
+      "likely_role": "species names and traits, not independent island-level detection"
+    },
+    {
+      "filename": "CamTrapAsia_Captures_20231031.csv",
+      "published_md5": "a73975d7626def4012a4e1197497ba87",
+      "likely_role": "published camera detection counts; DO NOT READ"
+    }
+  ],
+  "api_permissions": {
+    "allow_only_record_metadata_GET": true,
+    "forbid_file_download_in_v236": true,
+    "forbid_source_species_site_rows": true,
+    "forbid_original_IUCN_presence_absence_and_prediction_access": true,
+    "record_file_checksum_must_match_exactly": true,
+    "record_id_and_doi_must_match": true,
+    "no_alternate_zenodo_source_if_fail": true
+  },
+  "research_intent": {
+    "first_test": "Does a truly recorded field camera study provide sufficient original heldout island centroids across more than one spatial block and overlapping original 529 species names?",
+    "order": "Frozen public file metadata -> safe field names -> site-only georeference -> taxon name overlap -> exact island identity -> detection effort -> separately admitted species outcome",
+    "not_established": "Any station lies on a separately named oceanic island, even when the study is from Indonesia/Malaysia; 239 studies are not 239 independent island replicates",
+    "can_admit_as_global_mammal_validation": false
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_529_mammal_heldout_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}
