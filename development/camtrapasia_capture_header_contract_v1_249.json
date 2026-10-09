@@ -1,0 +1,43 @@
+{
+  "schema": "structural.camtrapasia_camera_capture_CSV_header.v1_249",
+  "status": "SOURCE_DATA_SCHEMA_ONLY_BEFORE_CAPTURE_ROWS_OR_ORIGINAL_HELDOUT_RESULTS",
+  "prerequisite": "development/camtrapasia_full239_polygon_result_freeze_v1_248.json",
+  "source": {
+    "Zenodo_record": 10780971,
+    "exact_file": "CamTrapAsia_Captures_20231031.csv",
+    "byte_size": 956340,
+    "MD5": "a73975d7626def4012a4e1197497ba87",
+    "endpoint": "https://zenodo.org/api/records/10780971/files/CamTrapAsia_Captures_20231031.csv/content"
+  },
+  "frozen_allowed_operations": {
+    "download_exact_bytes_into_ephemeral_memory": true,
+    "compare_byte_size_and_full_MD5_before_header_inspection": true,
+    "read_only_first_CSV_line_as_utf8_header": true,
+    "do_not_iterate_through_second_or_later_lines": true,
+    "allowed_public_output": "exact CSV column header names only; number of header fields, file MD5, no observed detection counts, species/site values or derived metrics",
+    "max_csv_header_fields": 150,
+    "require_no_duplicate_names": true,
+    "all_239_site_GADM_candidate_basis_fixed_prior_to_capture_access": true
+  },
+  "proposed_future_criterion": {
+    "preliminary_natural_island_geography_subset": "Bawean, Buton, Java, Sumatra: 4 island candidates in 3 original heldout blocks",
+    "Borneo": "Administrative GADM country fragment; no full natural island area comparability, held separately",
+    "original_529_shared_published_taxon_names": 38,
+    "guaranteed_site_taxon_positive_observations": 0,
+    "source_capture_grain_unknown_until_header": true,
+    "island_species_native_status_unknown": true,
+    "species_site_detection_negative_denominator_unknown": true,
+    "original_prediction_schema_not_revalidated": true,
+    "admission_of_external_score_now": false
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "open_original_mammal_heldout_labels": false,
+    "open_camera_capture_rows": false,
+    "open_original_prediction_values": false,
+    "GEB_submission_authorized": false
+  }
+}

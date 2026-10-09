@@ -1,0 +1,29 @@
+name: CamTrapAsia official camera captures CSV header only v1.249
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_capture_header_contract_v1_249.json
+permissions:
+  contents: read
+jobs:
+  original-schema:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_camtrapasia_capture_headers_only_v1_249.py
+      - name: Check ONLY official file header after verifying source MD5 and byte size
+        run: |
+          python scripts/camtrapasia_capture_header_only_v1_249.py --out build/v249/capture_header.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v249-camtrapasia-capture-CSV-header-only
+          path: build/v249/capture_header.json
+          retention-days: 21

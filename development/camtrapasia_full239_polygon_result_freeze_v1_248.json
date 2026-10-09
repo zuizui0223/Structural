@@ -1,0 +1,93 @@
+{
+  "schema": "structural.camtrapasia_full239_polygon_result_freeze.v1_248",
+  "status": "PASS_RESPONSE_SAFE_FULL239_POLYGON_IDENTITY_PRESCREEN",
+  "source": {
+    "run_id": 37892990657,
+    "job_id": 113697875743,
+    "artifact_id": 11598987504,
+    "artifact_digest": "sha256:7148ab5e071285c0a86c4e4108ea1d195d6d4ec325744ad0aafc87ef34c73b15"
+  },
+  "source_studies": 239,
+  "strict_unique_polygon_geo_candidate_studies": 79,
+  "strict_original_island_candidates": 5,
+  "original_heldout_spatial_blocks": 4,
+  "source_geographic_units": [
+    {
+      "named_island": "Bawean",
+      "original_ID": "65489",
+      "original_block": "GB_09dd5f7909bd",
+      "study_n": 2,
+      "original_area_km2": 206.7,
+      "gadm_country_polygon_area_km2": 207.2379389550317,
+      "distance_from_study_to_original_centroid_range_km": [
+        2.643217706931973,
+        7.079846378007063
+      ],
+      "geographic_country_fragment_problem": false
+    },
+    {
+      "named_island": "Buton",
+      "original_ID": "65360",
+      "original_block": "GB_52f1fc2209ea",
+      "study_n": 2,
+      "original_area_km2": 4519,
+      "gadm_country_polygon_area_km2": 4524.1368665618475,
+      "distance_from_study_to_original_centroid_range_km": [
+        15.881695774585413,
+        60.447753175222815
+      ],
+      "geographic_country_fragment_problem": false
+    },
+    {
+      "named_island": "Java",
+      "original_ID": "65554",
+      "original_block": "GB_8c3e9b18de7d",
+      "study_n": 25,
+      "original_area_km2": 126647.23,
+      "gadm_country_polygon_area_km2": 126660.2691200127,
+      "geographic_country_fragment_problem": false
+    },
+    {
+      "named_island": "Sumatra",
+      "original_ID": "70378",
+      "original_block": "GB_8c3e9b18de7d",
+      "study_n": 49,
+      "original_area_km2": 429003.21,
+      "gadm_country_polygon_area_km2": 429240.7507353179,
+      "geographic_country_fragment_problem": false
+    },
+    {
+      "named_island": "Borneo/Kalimantan",
+      "original_ID": "80946",
+      "original_block": "GB_cdb15a0a10e5",
+      "study_n": 1,
+      "original_area_km2": 725098.05,
+      "gadm_country_polygon_area_km2": 525124.8087776768,
+      "geographic_country_fragment_problem": true
+    }
+  ],
+  "unconfounded_natural_island_geometry_only_candidate": {
+    "source_studies": 78,
+    "distinct_original_islands": 4,
+    "distinct_original_heldout_blocks": 3,
+    "possible_upper_bound_species_x_island_cells_with_previous_38_name_overlaps": 152,
+    "zero_species_specific_detection_rows_opened": true,
+    "zero_original_IUCN_labels_opened": true
+  },
+  "important_cautions": {
+    "source_Java_and_Sumatra_are_large_islands_with_studies_far_from_centroid": true,
+    "one_original_GEB_spatial_block_contains_both_Java_and_Sumatra": true,
+    "four_polygon_entity_matches_are_candidates_not_original_polygon_UUIDs": true,
+    "area_consistency_is_not_independent_occupancy_confirmation": true,
+    "no_original_mammal_prediction_scores_opened": true,
+    "prior_v247_one_island_conditional_on_25km_not_retroactively_invalid_as_math": true,
+    "GEB_sci_hold": true
+  },
+  "policy": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}
