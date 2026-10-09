@@ -1,0 +1,78 @@
+{
+  "schema": "structural.camtrapasia_full239_polygon_support.v1_248",
+  "status": "PREREAD_RESPONSE_SAFE_WHOLE_239_STUDY_GEOGRAPHIC_IDENTITY",
+  "motivation": "Earlier v1.247 stopped after an under-25km study-center-to-island-centroid screen; this can exclude real surveys on large islands. Audit ALL 239 centers with independently frozen land polygons, not an outcome-guided model retry.",
+  "sources": {
+    "CamTrapAsia_study_metadata": {
+      "file": "CamTrapAsia_Metadata_20231031.csv",
+      "size": 245677,
+      "md5": "2b50c534737b0c98a93da54128b10a32",
+      "allow": [
+        "survey_id",
+        "country",
+        "landscape",
+        "site",
+        "Y_lat",
+        "X_long"
+      ]
+    },
+    "original_5592_safe": {
+      "run_id": 36524988694,
+      "filename": "appendix2_safe_rows.csv",
+      "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+      "allow": [
+        "ID",
+        "Area",
+        "Latitude_centroid",
+        "Longitude_centroid"
+      ]
+    },
+    "original_4126_heldout": {
+      "run_id": 36625810600,
+      "filename": "confirmatory_ids.csv",
+      "sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+      "allow": [
+        "ID",
+        "block_id"
+      ]
+    },
+    "land": {
+      "provider": "Existing pinned derived GADM3.6 Admin0 country polygons",
+      "git_commit": "4e73ae720b9250f0974e8a93f949aaeab6989159",
+      "only_previously_covered_countries": [
+        "Indonesia",
+        "Malaysia",
+        "Vietnam"
+      ],
+      "countries_not_covered_are_unknown_not_negative": true
+    }
+  },
+  "prespecified_match": {
+    "survey_center_must_be_contained_by_unique_country_Polygon": true,
+    "original_heldout_island_area_ratio_to_polygon_max": 2,
+    "original_heldout_centroid_covered_or_at_most_km_from_polygon": 5,
+    "eligibility_original_island_unique_per_polygon": true,
+    "reciprocal_uniqueness_across_surveyed_polygons": true,
+    "NO_25km_survey_center_to_centroid_filter": true,
+    "NO_species_or_detection_data_read": true,
+    "NO_outcome_guided_threshold_tuning": true
+  },
+  "output": "Study name/country/nearest original candidate island ID and spatial block, location/area compatibility, source country coverage, nonmatching and ambiguous counts. No biological observations.",
+  "limitations": {
+    "country_Admin0_can_split_large_crossborder_natural_islands": true,
+    "unique_polygon_approximation_not_authoritative_original_island_ID": true,
+    "matching_GADM_land_geometry_does_not_validate_native_mammal_presence": true,
+    "shared_studies_on_one_island_not_independent_island_replicates": true,
+    "no_external_mammal_predictive_skill_claim": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "IUCN_original_heldout_reopened": false,
+    "camera_capture_rows_read": false,
+    "original_model_scores_read": false,
+    "GEB_submission_authorized": false
+  }
+}
