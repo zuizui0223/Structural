@@ -14,9 +14,10 @@
     "original_offland_nearest_polygon_same_as_study": 9,
     "original_offland_nearest_polygon_differs_from_study": 1
   },
-  "never_use_nearest_polygon_to_relabel_original_island": false,
+  "never_use_nearest_polygon_to_relabel_original_island": true,
   "important": "Nearest-land polygon is a posthoc geographic sensitivity and may select an adjacent huge landmass rather than the original small offshore island.",
   "mammal_field_incidence_access_count": 0,
   "original_mammal_heldout_access_count": 0,
-  "GEB_submission_authorized": false
+  "GEB_submission_authorized": false,
+  "clarification": "v1.245 was a geometry-only sensitivity with nine apparent nearest-land matches; v1.246 source area disproved their same-original-island identities under the frozen 2x agreement rule."
 }
