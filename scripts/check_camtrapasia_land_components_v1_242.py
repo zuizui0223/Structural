@@ -60,7 +60,8 @@ def fetch_land():
         frame=gpd.read_file(str(Path(tmp,"ne_10m_land.shp")))
         if frame.crs is None or frame.crs.to_epsg()!=4326:raise ValueError("Different land polygon CRS")
         polygons=[g for g in frame.geometry if g is not None and not g.is_empty]
-    if not 100<=len(polygons)<=100000:raise ValueError("Unexpected Natural Earth polygon feature count")
+    if not 1<=len(polygons)<=100000:raise ValueError("Unexpected Natural Earth polygon feature count")
+    # A Natural Earth row may be a MULTIPOLYGON containing numerous individual islands.
     return polygons,sha,len(polygons)
 def land_component(site,held,polygons):
     # Uses a generous SOURCE-INDEPENDENT 0.5° bbox around the two points, no response-dependent tuning.
