@@ -1,0 +1,115 @@
+{
+  "schema": "structural.camtrapasia_island_study_positive_record_pilot.v1_250",
+  "status": "FROZEN_EXPLORATORY_FIELD_POSITIVE_ONLY_BEFORE_FIRST_CAMERA_RECORD_READ",
+  "motivation": "A 25km camera-study center-to-island-centroid cut excluded sites on large islands. v1.248 geography supports 78 camera study IDs on four area-matched physical island candidate entities, over three original heldout spatial blocks. Verify real photography observations without treating non-detections as absences.",
+  "source_data": {
+    "capture": {
+      "name": "CamTrapAsia_Captures_20231031.csv",
+      "Zenodo_id": 10780971,
+      "bytes": 956340,
+      "MD5": "a73975d7626def4012a4e1197497ba87",
+      "allowed_columns": [
+        "survey_id",
+        "records",
+        "class",
+        "binomial_verified",
+        "taxonomic_level",
+        "domestic"
+      ]
+    },
+    "metadata": {
+      "name": "CamTrapAsia_Metadata_20231031.csv",
+      "bytes": 245677,
+      "MD5": "2b50c534737b0c98a93da54128b10a32",
+      "allowed_columns": [
+        "survey_id",
+        "effort"
+      ]
+    },
+    "taxon_name_receipt": {
+      "run": 37888766560,
+      "artifact": "structural-v238-camtrapasia-species-overlap-only",
+      "file": "overlap.json",
+      "exact_name_matches": 38
+    },
+    "original_island_geography_receipt": {
+      "run": 37892990657,
+      "artifact": "structural-v248-all239-response-safe-source-land-candidates",
+      "file": "result.json",
+      "all_source_candidate_studies": 79,
+      "all_original_island_candidates": 5
+    },
+    "original_IUCN_response_and_predictions_disallowed": true
+  },
+  "precommitted_field_panel": {
+    "four_prechosen_natural_island_candidates": [
+      {
+        "source_ID": "65489",
+        "name": "Bawean",
+        "expected_study_count": 2
+      },
+      {
+        "source_ID": "65360",
+        "name": "Buton",
+        "expected_study_count": 2
+      },
+      {
+        "source_ID": "65554",
+        "name": "Java",
+        "expected_study_count": 25
+      },
+      {
+        "source_ID": "70378",
+        "name": "Sumatra",
+        "expected_study_count": 49
+      }
+    ],
+    "distinct_heldout_original_blocks_expected": 3,
+    "excluded_geography": "Borneo/Kalimantan original island 80946 is geographically confounded with Indonesia admin0 country-fragment; 1 source survey held separately, no camera outcomes for that survey are decoded.",
+    "no_a_posteriori_study_selection": true,
+    "taxon_filter": "Only original exact 38 taxon names, using preexisting v1.188 dot/underscore punctuation canonicalization, class Mammalia, verified 2-part binomial.",
+    "records_definition": "Positive independent photo-record support when records is a finite nonnegative integer greater than 0. Sum positive counts per study×taxon, do not interpret as unique individuals or census abundance.",
+    "domestic_encoding_conservative": {
+      "non_domestic_literals": [
+        "false",
+        "f",
+        "0",
+        "no",
+        "n",
+        "wild",
+        "non-domestic",
+        "non domestic"
+      ],
+      "domestic_literals": [
+        "true",
+        "t",
+        "1",
+        "yes",
+        "y",
+        "domestic"
+      ],
+      "unknown_domestic": "Exclude from confidently non-domestic summary; report separately. Do not retroactively declare unknown values wild."
+    },
+    "no_negative_occurrence_inference": true,
+    "no_island_population_extinction_or_colonization_inference": true,
+    "no_statistical_significance_or_model_skill_P_value": true
+  },
+  "outputs": [
+    "Per-island matched original ID, frozen source study ID count and sum surveyed effort",
+    "count of distinct originally overlapping 38 taxa with >0 positive capture records",
+    "count of survey IDs with >0 positive overlap; number of taxa recorded in >1 survey ID",
+    "sum of source independent photo records as a descriptive detection intensity, not individual abundance",
+    "domestic status categories and separately conservative non-domestic-positive taxa",
+    "list of 38-overlap taxa with repeated independent-study positive recordings, if any"
+  ],
+  "interpretation": "Independent field photo detections are a potentially useful positive-only ecological transport check. They DO NOT independently confirm original 529-species GEB graph skill, because original predictions are unopened, non-detection is not absence, island-ID mapping is a geometry candidate and only four islands/three blocks are supported.",
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_IUCN_529_heldout_reopen": false,
+    "original_prediction_values_open": false,
+    "GEB_submission_authorized": false
+  }
+}
