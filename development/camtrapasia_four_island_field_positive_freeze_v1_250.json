@@ -1,0 +1,67 @@
+{
+  "schema": "structural.camtrapasia_four_island_field_positive_pilot_freeze.v1_250",
+  "status": "PASS_EXPLORATORY_FIELD_POSITIVE_ONLY_NO_MODEL_SCORE",
+  "source_Zenodo": "10.5281/zenodo.10780971",
+  "archived_capture_CSV_MD5": "a73975d7626def4012a4e1197497ba87",
+  "archived_study_metadata_MD5": "2b50c534737b0c98a93da54128b10a32",
+  "run_id": 37893632648,
+  "job_id": 113699906008,
+  "artifact_id": 11598827608,
+  "artifact_digest": "sha256:0eda0937ad5844f62b077e564140cf43d1a75430818ac3cc7b5e8af95ec9a99e",
+  "synthetic_tests": 3,
+  "candidate_geographic_islands": 4,
+  "original_heldout_spatial_blocks": 3,
+  "source_studies": 78,
+  "counts_per_island": [
+    {
+      "island": "Bawean",
+      "original_heldout_ID": "65489",
+      "study_n": 2,
+      "trap_nights": 19300,
+      "source_shared_focal_mammals_recorded": 0
+    },
+    {
+      "island": "Buton",
+      "original_heldout_ID": "65360",
+      "study_n": 2,
+      "trap_nights": 1680,
+      "source_shared_focal_mammals_recorded": 0
+    },
+    {
+      "island": "Java",
+      "original_heldout_ID": "65554",
+      "study_n": 25,
+      "trap_nights": 139918,
+      "source_shared_focal_mammals_recorded": 16,
+      "confidently_nondomestic_focal_mammals_recorded": 15,
+      "field_positive_focal_taxa_with_at_least_2_survey_studies": 11,
+      "independent_camera_photo_records_focal": 1862
+    },
+    {
+      "island": "Sumatra",
+      "original_heldout_ID": "70378",
+      "study_n": 49,
+      "trap_nights": 97798,
+      "source_shared_focal_mammals_recorded": 18,
+      "confidently_nondomestic_focal_mammals_recorded": 17,
+      "field_positive_focal_taxa_with_at_least_2_survey_studies": 16,
+      "independent_camera_photo_records_focal": 32499
+    }
+  ],
+  "source_focal_positive_rows": 440,
+  "source_domestic_category_rows": {
+    "domestic": 20,
+    "wild": 420
+  },
+  "original_38_taxa_overlap": "development/camtrapasia_published_mammal_taxon_overlap_freeze_v1_238.json",
+  "source_positive_detections_already_documented_in_Mendes_et_al_2024": true,
+  "positives_not_unique_individuals": true,
+  "non_detections_not_true_absences": true,
+  "domestic_not_native_classification": true,
+  "source_field_studies_not_independent_islands": true,
+  "Java_Sumatra_in_same_original_heldout_geographic_block": true,
+  "original_IUCN_heldout_response_read": 0,
+  "original_GEB_prediction_scores_read": 0,
+  "original_global_model_skill_validated": false,
+  "GEB_scientific_HOLD": true
+}
