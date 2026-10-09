@@ -18,3 +18,7 @@ def test_safe_ids_and_percentiles():
  assert m.canonical("00001")=="1"
  assert m.quant([1,2,3,4],.5)==2.5
  assert m.quant([1,2,3,4],.25)==1.75
+
+def test_existing_safe_geography_is_hex_codable():
+    x=float.fromhex("0x1.d8p+4")
+    assert abs(x-29.5)<1e-12

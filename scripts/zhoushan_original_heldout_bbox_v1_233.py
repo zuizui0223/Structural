@@ -49,7 +49,11 @@ def execute(safe,selected,heldout):
   id=canonical(r["ID"])
   if id in ids:raise ValueError("Duplicate source island ID")
   ids.add(id)
-  lat=float(r["Latitude_centroid"]);lon=float(r["Longitude_centroid"]);area=float(r["Area"])
+  # The archived v1.221 geographic source uses hexadecimal float encoding.
+  def geo_number(v):
+   if not v or not v.strip():raise ValueError("Missing geographic coordinate")
+   return float.fromhex(v) if "0x" in v.lower() else float(v)
+  lat=geo_number(r["Latitude_centroid"]);lon=geo_number(r["Longitude_centroid"]);area=geo_number(r["Area"])
   if not math.isfinite(lat) or not math.isfinite(lon) or not math.isfinite(area):
    raise ValueError("Nonfinite source geographic cell")
   if not (-90<=lat<=90 and -180<=lon<=180 and area>0):
