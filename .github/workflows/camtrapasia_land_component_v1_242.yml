@@ -4,6 +4,7 @@ on:
     branches: [science/heldout-geographic-search-index-v1-235]
     paths:
       - development/camtrapasia_land_component_contract_v1_242.json
+      - scripts/check_camtrapasia_land_components_v1_242.py
 permissions:
   contents: read
   actions: read

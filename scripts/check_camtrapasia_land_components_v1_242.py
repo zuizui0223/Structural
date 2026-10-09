@@ -86,9 +86,14 @@ def main():
     p.add_argument("source_geography",type=Path);p.add_argument("candidate_source",type=Path)
     p.add_argument("--out",required=True,type=Path);a=p.parse_args()
     a.out.parent.mkdir(parents=True,exist_ok=True)
+    stage="source_geography"
     try:
-        geo=frozen_geo(a.source_geography);sites=candidates(a.candidate_source)
+        geo=frozen_geo(a.source_geography)
+        stage="frozen_15_candidate_set"
+        sites=candidates(a.candidate_source)
+        stage="Natural_Earth_download_and_source_integrity"
         land,sha,n=fetch_land()
+        stage="polygon_component_classification"
         records=[]
         for r in sites:
             held=geo[r["nearest_original_heldout_island_ID"]]
@@ -109,7 +114,10 @@ def main():
     except Exception as e:
         out={"schema":"structural.camtrapasia_land_component_candidates_result.v1_242",
             "status":"STOP_COASTLINE_SOURCE_OR_COMPONENT_IDENTITY",
-            "reason_class":type(e).__name__,"source_camera_detection_values_read":0,
+            "failure_stage":stage,
+            "reason_class":type(e).__name__,
+            "safe_error_detail":str(e)[:180],
+            "source_camera_detection_values_read":0,
             "original_mammal_heldout_cells_opened":0}
     a.out.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
     print(json.dumps(out,sort_keys=True))
