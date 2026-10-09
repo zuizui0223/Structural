@@ -1,0 +1,57 @@
+{
+  "schema": "structural.camtrapasia_nearest_geography_candidates.v1_241",
+  "status": "FROZEN_15_SITE_GEOGRAPHY_METADATA_ONLY_NO_CAMERA_DETECTIONS",
+  "inputs": {
+    "study_metadata": {
+      "zenodo_file": "CamTrapAsia_Metadata_20231031.csv",
+      "source_md5": "2b50c534737b0c98a93da54128b10a32",
+      "expected_bytes": 245677
+    },
+    "orig_geometry_sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "heldout_ids_sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+    "prior_executed": "development/camtrapasia_original_heldout_centroid_distance_freeze_v1_240.json"
+  },
+  "fixed_gate": {
+    "distance_less_than_km": 25,
+    "candidates_expected": 15,
+    "distinct_nearest_original_islands_expected": 10,
+    "distinct_heldout_blocks_expected": 7,
+    "all_studies_expected": 239,
+    "comparison": "Nearest among original 4,126 heldout centroids. No source species detection or mammal original prediction access.",
+    "site_fields_to_read": [
+      "survey_id",
+      "country",
+      "landscape",
+      "site",
+      "Y_lat",
+      "X_long",
+      "effort"
+    ],
+    "original_fields_to_read": [
+      "ID",
+      "Latitude_centroid",
+      "Longitude_centroid",
+      "Area",
+      "block_id"
+    ],
+    "unmasked_fields_to_report": [
+      "survey_id",
+      "country",
+      "landscape",
+      "site",
+      "Y_lat",
+      "X_long",
+      "nearest_original_heldout_island_ID",
+      "nearest_heldout_block_id",
+      "distance_km",
+      "original_heldout_centroid_area_km2"
+    ],
+    "no_new_threshold_or_country_selection": true
+  },
+  "other_source_country_GADM_polygon_selection_to_be_frozen_after_geography_only_countries": true,
+  "candidate_island_identity_verified": false,
+  "site_center_on_same_landmass_verified": false,
+  "no_species_occurrences_or_predictive_model_access": true,
+  "eBird": false,
+  "GEB_submission_authorized": false
+}
