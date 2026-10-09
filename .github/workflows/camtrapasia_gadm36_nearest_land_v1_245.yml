@@ -1,0 +1,43 @@
+name: GADM3.6 original off-land centroid nearest polygon sensitivity v1.245
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_gadm36_nearest_land_contract_v1_245.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-centroid-nearest-land:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install pytest shapely
+          python -m pytest -q tests/test_camtrapasia_gadm36_nearest_land_v1_245.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v241-camera-study-15-safe-site-geography
+          path: build/v245/candidate
+          repository: zuizui0223/Structural
+          run-id: 37889725368
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/v245/original
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+      - run: |
+          python scripts/camtrapasia_gadm36_nearest_land_v1_245.py build/v245/candidate/result.json build/v245/original/appendix2_safe_rows.csv --out build/v245/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v245-nearest-GADM-country-land-for-offland-centroids
+          path: build/v245/result.json
+          retention-days: 21

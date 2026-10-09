@@ -1,0 +1,29 @@
+{
+  "schema": "structural.camtrapasia_gadm36_outside_diagnostic_freeze.v1_244",
+  "status": "PASS_DIAGNOSED_SOURCE_LAND_GEOMETRY_OUTSIDE_CLASS",
+  "source_GADM36_git_commit": "4e73ae720b9250f0974e8a93f949aaeab6989159",
+  "executed": {
+    "run_id": 37890595896,
+    "job_id": 113690413536,
+    "artifact_id": 11598421282,
+    "artifact_digest": "sha256:dc123c3691cd66b73f6cda4705d165303821175be23187c372ad6f6f8c3f945d",
+    "tests_passed": 2
+  },
+  "total_candidates": 15,
+  "site_centers_inside_country_land": 15,
+  "original_heldout_centroids_inside_country_land": 5,
+  "original_heldout_centroids_outside_country_land": 10,
+  "all_10_unresolved_v243_are_original_centroid_outside_not_study_center_outside": true,
+  "outside_centroid_distance_to_GADM36_land_km": {
+    "Tangkoko": 0.14127674740095386,
+    "Gunung_Leuser": 0.5278362721539833,
+    "Ujung_Kulon": 1.71955711114459,
+    "Buton_north": 1.564297833229138,
+    "Buton_south": 2.4806946845810747,
+    "Bukit_Barisan_center": 2.3682811955269254
+  },
+  "coastline_outside_point_is_not_absence_or_movement_evidence": true,
+  "native_species_detection_rows_read": 0,
+  "original_heldout_IUCN_labels_read": 0,
+  "GEB_scientific_hold": true
+}
