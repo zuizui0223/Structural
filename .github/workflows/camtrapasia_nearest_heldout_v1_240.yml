@@ -4,6 +4,7 @@ on:
     branches: [science/heldout-geographic-search-index-v1-235]
     paths:
       - development/camtrapasia_nearest_centroid_contract_v1_240.json
+      - scripts/camtrapasia_nearest_heldout_centroid_v1_240.py
 permissions:
   contents: read
   actions: read

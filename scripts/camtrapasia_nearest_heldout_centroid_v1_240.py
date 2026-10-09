@@ -7,7 +7,16 @@ import numpy as np
 from scipy.spatial import cKDTree
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
-from strict_safe_geospatial_crosswalk_v1_221 import xyz,hav
+R=6371.0088
+def xyz(lat,lon):
+    a=math.radians(lat);b=math.radians(lon)
+    return (math.cos(a)*math.cos(b),math.cos(a)*math.sin(b),math.sin(a))
+def hav(a,b):
+    p1,p2=math.radians(a[0]),math.radians(b[0])
+    dx=p2-p1;dy=math.radians(b[1]-a[1])
+    q=math.sin(dx/2)**2+math.cos(p1)*math.cos(p2)*math.sin(dy/2)**2
+    return 2*R*math.asin(min(1.,math.sqrt(q)))
+
 from camtrapasia_sites_vs_mammal_heldout_grid_v1_239 import get_source,source_sites
 SOURCE_SHA="b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
 HELD_SHA="afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715"
