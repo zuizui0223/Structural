@@ -1,0 +1,78 @@
+{
+  "schema": "structural.camtrapasia_gadm36_landmass_screen.v1_243",
+  "status": "PREDECLARED_Vintage_GADM3_6_LANDMASS_COMPONENT_COMPARISON_GEOGRAPHY_ONLY",
+  "data_source": {
+    "repository": "stephanietuerk/admin-boundaries",
+    "git_commit": "4e73ae720b9250f0974e8a93f949aaeab6989159",
+    "source_description": "Country level-0 GADM 3.6 boundaries converted to unsimplified GeoJSON by community repo; not redistributed. Matches GADM3.6 version but exact equivalence to Barreto's island polygons not independently proven.",
+    "admin_level": 0,
+    "sources": [
+      {
+        "iso": "IDN",
+        "path": "hi-res/Admin0/gadm36_IDN_0.json",
+        "bytes": 714643,
+        "git_blob_sha1": "7fe728548987171b36f19657da2df253853c99c6"
+      },
+      {
+        "iso": "MYS",
+        "path": "hi-res/Admin0/gadm36_MYS_0.json",
+        "bytes": 4997549,
+        "git_blob_sha1": "d53bd009c0094c98ee4c530cbfca584196010394"
+      },
+      {
+        "iso": "VNM",
+        "path": "hi-res/Admin0/gadm36_VNM_0.json",
+        "bytes": 1157736,
+        "git_blob_sha1": "d5a56b71d57fd99bb70c49b521b70b320635260c"
+      }
+    ],
+    "each_exact_SHA_required_before_geometry_read": true
+  },
+  "inputs": {
+    "candidate_v241": {
+      "artifact_run": 37889725368,
+      "artifact_name": "structural-v241-camera-study-15-safe-site-geography",
+      "n": 15
+    },
+    "original_safe_Barreto": {
+      "run": 36524988694,
+      "artifact_name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+      "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+    }
+  },
+  "specified_decision": {
+    "same_component": "Both camera study center and original nearest heldout centroid are covered by the same single constituent Polygon of one GADM 3.6 country MULTIPOLYGON",
+    "different_component": "Both covered in distinct polygons of the same source country polygon",
+    "one_or_both_outside": "At least one camera study/heldout centroid not inside the frozen country geometry; do not equate outside with false island identity",
+    "ambiguous": "Unexpected multiple overlapping polygons or unsupported geometry",
+    "no_boundary_buffer_or_posthoc_distance_tuning": true,
+    "no_species_incidence_or_presence_values_read": true,
+    "no_seawater_route_or_population_rescue_inferred": true
+  },
+  "published_outputs": [
+    "15 candidate row classifications by survey_id and country",
+    "category counts per country and overall",
+    "country polygon piece counts, downloaded third-party blob SHA verification status",
+    "NE v1.242 comparison class only as separately recorded evidence, no outcome-based reclassification"
+  ],
+  "reliability": {
+    "country_GADM_adm0_uses_multi_polygons": true,
+    "individual_original_mammal_island_poly_reproduced": false,
+    "source_island_centroid_may_not_fall_inside_concave_island": true,
+    "large_landmass_shared_does_not_indicate_same_island_population_or_site_taxa": true,
+    "full_original_GADM_polygon_island_ID_not_recovered": true,
+    "could_disagree_with_NaturalEarth_coastlines": true,
+    "this_is_second_independent_geography_check_not_biological_validation": true
+  },
+  "safeguards": {
+    "original_529_response_reopened": false,
+    "camera_capture_file_opened": false,
+    "original_prediction_file_opened": false,
+    "source_graph_refit": false,
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}
