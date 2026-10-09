@@ -1,0 +1,44 @@
+name: Independent 10m coastline land-component test v1.242
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_land_component_contract_v1_242.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  first-land-component:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest geopandas pyogrio shapely
+          python -m pytest -q tests/test_camtrapasia_land_components_v1_242.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v241-camera-study-15-safe-site-geography
+          path: build/v242/candidates
+          repository: zuizui0223/Structural
+          run-id: 37889725368
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/v242/original
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+      - name: Check same independent mapped land components for 15 camera centers
+        run: |
+          python scripts/check_camtrapasia_land_components_v1_242.py build/v242/original/appendix2_safe_rows.csv build/v242/candidates/result.json --out build/v242/out/land_components.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v242-naturalearth-land-component-audit
+          path: build/v242/out/land_components.json
+          retention-days: 21
