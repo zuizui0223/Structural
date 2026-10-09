@@ -1,0 +1,58 @@
+{
+  "schema": "structural.camtrapasia_original_heldout_centroid_distance_freeze.v1_240",
+  "status": "PASS_GEOGRAPHY_ONLY_STUDY_CENTER_DISTANCE_SCREEN",
+  "source_zenodo_record": "10.5281/zenodo.10780971",
+  "original_mammal_geography_SHA256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+  "original_heldout_routing_SHA256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+  "CamTrapAsia_study_metadata_MD5": "2b50c534737b0c98a93da54128b10a32",
+  "execution": {
+    "run_id": 37889265223,
+    "job_id": 113686236931,
+    "artifact_id": 11597184738,
+    "artifact_digest": "sha256:f9f7062653a7b71d515ad481969a574f07eb30a8f0eedd8ce6234c9596648c82",
+    "tests_passed": 2,
+    "run_success": true
+  },
+  "source_survey_center_count": 239,
+  "original_heldout_island_centroids": 4126,
+  "nearest_distance_km": {
+    "q25": 65.16015247463793,
+    "median": 134.26225172876823,
+    "q75": 233.26815017486544
+  },
+  "count_study_centres_by_nearest_heldout_island_centroid_distance_km": {
+    "under_5": 1,
+    "from_5_to_under_25": 14,
+    "from_25_to_under_100": 72,
+    "at_least_100": 152
+  },
+  "within_5km": {
+    "study_centers": 1,
+    "unique_nearest_target_islands": 1,
+    "unique_heldout_spatial_blocks": 1
+  },
+  "within_25km": {
+    "study_centers": 15,
+    "unique_nearest_target_islands": 10,
+    "unique_heldout_spatial_blocks": 7
+  },
+  "within_100km": {
+    "study_centers": 87,
+    "unique_nearest_target_islands": 34,
+    "unique_heldout_spatial_blocks": 10
+  },
+  "candidate_species_name_count": 38,
+  "no_direct_camera_site_island_identity_established": true,
+  "no_actual_species_by_island_camera_detection_verified": true,
+  "no_true_absence_due_detection_and_effort_issues": true,
+  "centroid_distances_not_island_polygon_membership": true,
+  "large_island_study_centers_may_be_distant_from_island_centroids": true,
+  "mainland_center_may_be_near_offshore_island": true,
+  "no_movement_or_source_sink_mechanism_test": true,
+  "external_original_529_prediction_score_authorized": false,
+  "source_camera_capture_event_rows_read": 0,
+  "original_IUCN_heldout_positive_negative_rows_reopened": 0,
+  "original_mammal_prediction_values_opened": 0,
+  "GEB_scientific_HOLD": true,
+  "eBird": false
+}
