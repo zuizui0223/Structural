@@ -1,0 +1,7 @@
+# v1.244 explain why GADM 3.6 land-component comparisons remain unresolved
+
+The response-safe v1.243 source-vintage GADM3.6 country land polygons give 2/15 candidate studies on the same Polygon as the nearest original heldout centroid (both Pulau Bawean, same original heldout island ID and block), 3 with both points in different mapped components, and 10 with at least one point outside the source country polygon. Independent Natural Earth v1.242 had a less conservative count of four same-component, including some sources that differ under GADM. These geographic disagreements prevent independent biological validation.
+
+This separately versioned response-free diagnostic does not change those classes. It reports for each source study center and original heldout centroid whether the respective point is INSIDE the pinned GADM3.6 country land components, and for outside points the measured geodesic distance to the nearest source land polygon (no posthoc buffering, snapping, or automatic same-island rescue). This can distinguish unreliable camera-study coordinates from polygon centroid positioning and tiny island omissions.
+
+A true same-island sample still needs independently verified island polygon ID, observed native mammal taxon incidence and survey detection denominators; movement/recruitment would need different evidence. GEB scientific HOLD persists and no IUCN or CamTrapAsia species outcome/prediction replays are authorized.
