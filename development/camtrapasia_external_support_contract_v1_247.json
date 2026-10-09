@@ -1,0 +1,37 @@
+{
+  "schema": "structural.camtrapasia_529_mammal_external_support_decision.v1_247",
+  "status": "FROZEN_ONLY_GEOGRAPHY_AND_TAXA_SUPPORT_NO_BIOLOGICAL_OUTCOME_ACCESS",
+  "sources": [
+    "development/camtrapasia_published_mammal_taxon_overlap_freeze_v1_238.json",
+    "development/camtrapasia_original_island_area_consistency_freeze_v1_246.json"
+  ],
+  "decision_before_field_capture_rows": {
+    "confirmed_taxa_exact_names": 38,
+    "possible_study_centres_by_centroid_distance_under25km": 15,
+    "geographically_proximate_original_heldout_island_ids": 10,
+    "geographical_nearest_polygon_candidate_study_count_unadjusted": 11,
+    "same_GADM36_land_polygon_and_area_ratio2_study_count": 2,
+    "unique_original_heldout_island_IDs_after_area_gate": 1,
+    "independent_original_heldout_blocks_after_area_gate": 1,
+    "maximum_theoretical_taxon_by_island_binary_cells": 38,
+    "actual_validated_field_site_species_observations": 0,
+    "original_global_529_external_predictive_validation_supported": false
+  },
+  "strict_inference_ceiling": {
+    "candidate_taxon_name_does_not_imply_study_detection": true,
+    "independent_camera_studies_on_one_island_are_NOT_island_replicates": true,
+    "local_GADM3_6_area_continuity_not_original_polygon_crosswalk": true,
+    "no_pairwise_source_direction_or_colonization_detected": true,
+    "no_test_of_spatial_generalization_beyond_one_original_block": true,
+    "no_external_GEB_performance_metric_permitted": true
+  },
+  "policy": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_heldout_IUCN_reopen": false,
+    "camera_capture_rows_open": false,
+    "GEB_submission_authorized": false
+  }
+}

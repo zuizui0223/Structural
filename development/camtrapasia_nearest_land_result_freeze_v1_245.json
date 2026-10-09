@@ -1,0 +1,22 @@
+{
+  "schema": "structural.camtrapasia_nearest_GADM36_land_sensitivity_freeze.v1_245",
+  "status": "PASS_NEAREST_LAND_COMPONENT_RESPONSES_OPAQUE",
+  "execution": {
+    "run_id": 37890754748,
+    "job_id": 113690909342,
+    "artifact_id": 11598417339,
+    "artifact_digest": "sha256:6f3f0d9d621a076afb495e603d2cd09c0cf6662a57eb2f21ac3db63697143db",
+    "unit_tests_passed": 2
+  },
+  "original_15_counts": {
+    "both_inside_same": 2,
+    "both_inside_different": 3,
+    "original_offland_nearest_polygon_same_as_study": 9,
+    "original_offland_nearest_polygon_differs_from_study": 1
+  },
+  "never_use_nearest_polygon_to_relabel_original_island": false,
+  "important": "Nearest-land polygon is a posthoc geographic sensitivity and may select an adjacent huge landmass rather than the original small offshore island.",
+  "mammal_field_incidence_access_count": 0,
+  "original_mammal_heldout_access_count": 0,
+  "GEB_submission_authorized": false
+}
