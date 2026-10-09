@@ -1,0 +1,30 @@
+name: Zhoushan Europe PMC official supplementary ZIP v1.227
+on:
+  push:
+    branches:
+      - science/marine-mammal-field-intake-v1-224
+    paths:
+      - development/zhoushan_europepmc_official_source_contract_v1_227.json
+permissions:
+  contents: read
+jobs:
+  official-supplement-identity:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zhoushan_europepmc_metadata_v1_227.py
+      - name: Freeze separate distributor ZIP central directory only
+        run: |
+          python scripts/europepmc_zhoushan_source_metadata_v1_227.py --out build/v227/receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v227-europepmc-zhoushan-source-metadata-only
+          path: build/v227/receipt.json
+          retention-days: 21

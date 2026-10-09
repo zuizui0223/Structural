@@ -1,0 +1,7 @@
+# Zhoushan supplementary DOCX table-shape admission gate (v1.228)
+
+The official Europe PMC supplementaryFiles ZIP for PMCID PMC11634684 was successfully SHA-256 pinned under v1.227: 841,453-byte outer archive hash 9de7694f..., exact inner Word DOCX `zoae006_suppl_supplementary_material.docx` of 678,993 bytes and CRC32 8874d873, with zero species-by-island observations opened.
+
+This separately authorized v1.228 gate verifies the exact source identity again, then opens only the DOCX XML structure to count XML `<w:tbl>` tables, `<w:tr>` rows and `<w:tc>` cells. It **never reads text nodes** or data-cell values, captions, island identities, species names or presences. Return table dimensions only. A 39/40-row×18/19-column table shape may be consistent with an incidence matrix, but is not proof of such a matrix; a species-by-island matrix could also be transposed or exist as images.
+
+After this shape gate, any identity inspection requires a new explicitly frozen plan covering species names, 39 island identifiers, observed native status, effort and negative-detection definitions, crosswalk to the 529 original taxon names and 4,126 original heldout islands, then frozen original prediction-file headers/SHAs. No external 0/1 observation should be read until those gates pass. Neither the original IUCN label data nor its predictions are reopened and no experimental source-dispersal mechanism has been identified. GEB scientific HOLD continues.

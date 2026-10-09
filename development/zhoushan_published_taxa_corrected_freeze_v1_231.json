@@ -1,0 +1,62 @@
+{
+  "schema": "structural.zhoushan_published_taxa_corrected_result_freeze.v1_231",
+  "status": "FIVE_SPECIES_TAXON_IDENTITY_ONLY_NO_FIELD_OUTCOME",
+  "previous_incorrect_v230": {
+    "source_exact_match_count": 0,
+    "reason": "529 original labels all encoded as Genus.species; incomplete code omitted preexisting v1.188 dot/underscore-as-space normalization",
+    "semantic_eligibility_conclusion_valid": false,
+    "old_execution_record_retained": true
+  },
+  "authority": {
+    "preexisting_canonicalization": "scripts/audit_external_mammal_checklist_headers_v1_188.py",
+    "published_Zhan_18_binomials": "development/zhoushan_published_taxa_gate_v1_230.json",
+    "frozen_original_529_taxon_manifest_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "v231_workflow_run_id": 37855528009,
+    "job_id": 113578645586,
+    "artifact_id": 11584505118,
+    "artifact_digest": "sha256:30e28d1b981a743e2d9d1caa7768ae2a0e76a9af0f02dac9f6a0421967c78a51",
+    "synthetic_tests_passed": 2,
+    "code_execution_success": true
+  },
+  "source_529_taxon_encoding": {
+    "with_period": 529,
+    "with_underscore": 0,
+    "with_space": 0
+  },
+  "published_field_species": 18,
+  "original_frozen_ultrarare_mammal_species": 529,
+  "exact_shared_species_count": 5,
+  "matched_species": [
+    "Sus scrofa",
+    "Prionailurus bengalensis",
+    "Viverricula indica",
+    "Melogale moschata",
+    "Rattus losea"
+  ],
+  "minimum_candidate_eligibility": {
+    "taxon_names_overlap": true,
+    "specific_island_identity_to_original_4126_heldout": false,
+    "confirmed_all_5_in_original_heldout_geography": false,
+    "nativeness_and_historical_status_under_original_Barreto_source": false,
+    "field_species_site_0_1_table_available": false,
+    "field_negative_detection_denominator_verified": false,
+    "frozen_original_529_prediction_artifact_reader_verified_for_five": false,
+    "valid_external_prediction_score_authorized": false
+  },
+  "scientific_scope": {
+    "source_species_incidence_values_opened": 0,
+    "original_529_heldout_response_values_opened": 0,
+    "new_independent_biological_result": false,
+    "GEB_submission_authorized": false,
+    "marine_island_survey_scope_fits_broad_context": true,
+    "independent_global_replication_established": false
+  },
+  "guards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_heldout_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

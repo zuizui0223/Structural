@@ -1,0 +1,38 @@
+name: Correct original species separator canonicalization v1.231
+on:
+  push:
+    branches:
+      - science/marine-mammal-field-intake-v1-224
+    paths:
+      - development/zhoushan_taxon_encoding_repair_v1_231.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  prior-canonical-name-gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zhoushan_taxon_encoding_v1_231.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728
+          path: build/v231/old529
+          repository: zuizui0223/Structural
+          run-id: 37153960728
+          github-token: ${{ github.token }}
+      - name: Apply original v1.188 canonical taxon rule to 529 names only
+        run: |
+          python scripts/compare_zhoushan_taxa_v1_231.py build/v231/old529/ultrarare_species_universe.csv --ledger development/zhoushan_published_taxa_gate_v1_230.json --out build/v231/source_taxon_check.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v231-original-taxon-separator-overlap
+          path: build/v231/source_taxon_check.json
+          retention-days: 21

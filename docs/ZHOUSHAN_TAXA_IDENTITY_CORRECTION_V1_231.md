@@ -1,0 +1,9 @@
+# Corrected Zhoushan taxon overlap is five, not zero
+
+The initial v1.230 source-name matching returned zero overlap because the original 529-name manifest uses an R-compatible dot separator in **all 529 binomials** (e.g. Sus.scrofa), whereas the published Zhan 2024 names use spaces. The preexisting Structural v1.188 canonicalizer already replaced periods/underscores with spaces. It was an implementation error to omit that rule. The v1.230 execution record is preserved but marked **superseded as taxon eligibility evidence**.
+
+v1.231 reused the immutable original 529-species pilot manifest and the same published 18-taxon Figure 2 caption list. Matching under original v1.188 canonicalization gave exactly **five binomial overlaps**: Sus scrofa, Prionailurus bengalensis, Viverricula indica, Melogale moschata, and Rattus losea. GitHub run 37855528009 and two synthetic tests succeeded. There were zero new species-by-island field incidences and zero original heldout IUCN labels opened.
+
+These five matches are a **taxon-identity eligibility result only**. There is no verified coordinate/canonical-ID crosswalk for the 39 Zhoushan islands against the original 4,126 heldout islands. The source DOCX's nine Word tables did not contain an obvious 39×18 rectangular incidence table, and its table contents remain unopened. The field study did not observe movement/colonization and is not a global replication.
+
+Before any biological scoring, independently freeze all five species' native/historical status, exact island identity and observation denominator, the original frozen prediction reader/file identities and an explicitly stated narrow external metric. Missing source data should STOP rather than substitute raster/figure-derived guessed incidences. The original GEB paper remains under scientific HOLD.

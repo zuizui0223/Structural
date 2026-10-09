@@ -1,0 +1,88 @@
+{
+  "schema": "structural.zhoushan_original_heldout_geography_feasibility.v1_233",
+  "status": "SOURCE_GEOGRAPHY_ONLY_FOOTPRINT_PREDECLARED_PRIOR_TO_ANY_FIELD_ORIGINAL_RESPONSE_JOIN",
+  "basis": {
+    "source_doi": "10.1093/cz/zoae006",
+    "published_bounds_original": "Zhoushan Archipelago 29°31′–30°04′ N, 121°30′–123°25′ E in source paper Materials and Methods",
+    "longitude_west": 121.5,
+    "longitude_east": 123.41666666666667,
+    "latitude_south": 29.516666666666666,
+    "latitude_north": 30.066666666666666,
+    "interpretation": "Regional published study-area rectangle, NOT a verified coordinate for each of 39 survey sites."
+  },
+  "input_artifacts": {
+    "safe_Barreto_5592": {
+      "run": 36524988694,
+      "name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+      "file": "appendix2_safe_rows.csv",
+      "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+      "n": 5592
+    },
+    "original_selected_5401": {
+      "run": 36622553042,
+      "name": "global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042",
+      "file": "state_reference.csv",
+      "sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+      "n": 5401
+    },
+    "original_confirmatory_4126": {
+      "run": 36625810600,
+      "name": "global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600",
+      "file": "confirmatory_ids.csv",
+      "sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+      "n": 4126
+    }
+  },
+  "allowed_columns": {
+    "safe": [
+      "ID",
+      "Latitude_centroid",
+      "Longitude_centroid",
+      "Area"
+    ],
+    "selected": [
+      "ID"
+    ],
+    "heldout": [
+      "ID",
+      "block_id",
+      "bioregion"
+    ]
+  },
+  "allowed_output": [
+    "total original source island count inside fixed published footprint",
+    "selected 5401 model node count in rectangle",
+    "heldout 4126 candidate target island count in rectangle",
+    "pilot-or-excluded counts and heldout block count without labels",
+    "area median and 25/75% quartiles for eligible heldout geographic nodes",
+    "no named site-code-to-ID matches claimed"
+  ],
+  "definition": {
+    "region_inclusion": "closed latitude/longitude bounding box, no coastline or survey island coordinate inference",
+    "candidate_geographical_identity": "original source heldout centroid inside published Zhoushan region box; not confirmed same as any of 39 survey islands",
+    "no_species_presence_cell_access": true,
+    "no_predictions_read": true,
+    "no_graph_edges_read": true,
+    "no_fuzzy_site_name_matching": true,
+    "no_later_region_threshold_refit": true,
+    "if_zero_heldout": "GEOGRAPHIC_TARGET_UNAVAILABLE_FOR_DIRECT_TEST",
+    "if_positive_heldout": "REGION_CANDIDATES_ONLY_NOT_CROSSWALKED_TO_s01_s39"
+  },
+  "limits": {
+    "rectangle_contains_unsurveyed_islands_and_other_coastal_polygons": true,
+    "source_Barreto_may_omit_mammal_zero_islands": true,
+    "source_coordinates_may_have_different_GADM_vintage": true,
+    "original_529_focal_taxon_overlap_five_names_only": true,
+    "survey_site_coordinates_or_polygon_mapping_available": false,
+    "no_field_binary_response_access": true,
+    "no_global_mammal_prediction_score_authorized": true
+  },
+  "guards": {
+    "original_mammal_heldout_reopen": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}

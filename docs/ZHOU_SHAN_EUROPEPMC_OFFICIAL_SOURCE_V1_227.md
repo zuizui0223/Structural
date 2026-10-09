@@ -1,0 +1,7 @@
+# v1.227 Europe PMC official mirror, not a biological-results rescue
+
+The v1.225 PMC direct file paths ended in an HTML HTTP 200 and HTTP 404, without a verifiable DOCX or any field observations decoded. This is a transport problem. NCBI's updated [2026 article dataset distribution policy](https://pmc.ncbi.nlm.nih.gov/about/new-in-pmc/) retires legacy delivery formats, while the [Europe PMC REST API](https://europepmc.org/RestfulWebService) separately documents a per-PMCID `supplementaryFiles` ZIP endpoint.
+
+Freeze one *new, official distribution channel* for the same Zhan et al. 2024 article, PMCID PMC11634684, DOI 10.1093/cz/zoae006: `https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11634684/supplementaryFiles`. v1.227 may inspect only ZIP central-directory member metadata, ensuring exactly one `zoae006_suppl_supplementary_material.docx` by basename and source ZIP SHA256. It must not open the inner DOCX, `word/document.xml`, any species-by-island outcome, or original IUCN species response.
+
+The technical preflight either succeeds as **SOURCE IDENTITY ONLY** or records a terminal new-distributor STOP. In neither case may a fitted mammal graph be rescored without frozen exact taxon/island crosswalk, native/introduced status and survey effort/detection semantics. Matching 39 surveyed marine islands against 4,126 original heldout nodes may fail. One archipelago remains insufficient for global causal dispersal inference. GEB remains on scientific HOLD.

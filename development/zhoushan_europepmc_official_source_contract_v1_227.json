@@ -1,0 +1,29 @@
+{
+  "schema": "structural.official_europepmc_zhoushan_supplement_source.v1_227",
+  "status": "DISTINCT_OFFICIAL_DISTRIBUTOR_METADATA_ONLY_WITHOUT_FIELD_DATA_ACCESS",
+  "new_provider": "Europe PMC, operated by EMBL-EBI",
+  "source": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11634684/supplementaryFiles",
+  "source_documentation": "https://europepmc.org/RestfulWebService",
+  "exact_pmc": "PMC11634684",
+  "exact_original_suppl_member": "zoae006_suppl_supplementary_material.docx",
+  "prior_technical_terminal": "development/zhoushan_official_source_terminal_v1_225.json",
+  "reason_distinct_official_route": "NCBI PMC discontinued the legacy article datasets distribution mechanisms in August 2026; PMC direct per-article links yielded a small HTML 200 and 404. The EBI Europe PMC supplementaryFiles API is an independently documented official distribution endpoint.",
+  "source_download_cap_bytes": 5000000,
+  "allowed_response_type": "ZIP of supplementary files with bounded central-directory names and file sizes",
+  "allowed_network_hostnames": [
+    "www.ebi.ac.uk",
+    "ebi.ac.uk",
+    "europepmc.org",
+    "www.europepmc.org"
+  ],
+  "no_member_body_extracted": true,
+  "no_docx_inner_xml_opened": true,
+  "no_island_species_data_rows_opened": true,
+  "no_source_file_replacement_on_failure": true,
+  "require_exact_member_name_before_next_gate": true,
+  "success_only_allows_future_separate_docx_field_schema_contract": true,
+  "source_island_species_identity_and_529_validation_still_unverified": true,
+  "original_mammal_outcomes_reopened": false,
+  "GEB_scientific_hold": true,
+  "eBird": false
+}

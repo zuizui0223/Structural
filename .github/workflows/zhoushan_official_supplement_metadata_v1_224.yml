@@ -1,0 +1,30 @@
+name: Independent marine mammal supplementary source preflight v1.224
+on:
+  push:
+    branches:
+      - science/marine-mammal-field-intake-v1-224
+    paths:
+      - development/field_mammal_survey_preintake_v1_224.json
+permissions:
+  contents: read
+jobs:
+  public-marine-source-metadata:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zhoushan_supplement_source_metadata_v1_224.py
+      - name: Freeze official public supplementary DOCX ZIP structure only
+        run: |
+          python scripts/zhoushan_supplement_source_metadata_v1_224.py --out build/v224/metadata_receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-zhoushan-v224-official-supplement-metadata-only
+          path: build/v224/metadata_receipt.json
+          retention-days: 21

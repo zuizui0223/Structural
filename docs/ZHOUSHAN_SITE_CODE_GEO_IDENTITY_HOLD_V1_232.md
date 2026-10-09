@@ -1,0 +1,9 @@
+# Zhoushan survey field site IDs cannot yet map to original global mammal geography (v1.232)
+
+The v1.227–v1.229 verified Europe PMC source is a real 678,993-byte DOCX. The first of nine Word tables (40 rows×12 cells) contains Supplementary Table S1 island characteristics. A prior, narrowly frozen v1.232 source-read decoded **ONLY** first-row column headers and 39 first-column site IDs. The header is `Island code, Area, DTNM, DTNI, HT, LUI, TISM, TE, SC, SRO, SRL, SRS`; the source site values are literally `s01` through `s39`. No other cells or species-specific 0/1 incidence were read.
+
+The five original target mammal taxa that appear in the published Zhan Figure 2 are already confirmed under preexisting dot-to-space canonicalization (v1.231), but the site IDs are **internal study indices**, with no externally keyed GADM island ID, geodetic coordinate, or full island name in the inspected safe column. The existence of a numeric area/nearest mainland distance in other columns would not alone provide a trustworthy one-to-one island identity, and those values were not opened.
+
+The independent test of frozen original 529-species model predictions is **HOLD** until a separately published georeferenced 39-island site mapping or author-issued island-name/site-code lookup allows reliable one-to-one crosswalk against the original 4,126 heldout islands. A map figure is not a measured coordinate table and unverified visual matching is not admitted. Even after a geographic match, source 0/1 observations need effort-aware negative-detection rules and native/history provenance before an evaluation endpoint can be frozen. No field observations, original heldout predictions or IUCN labels were scored.
+
+Original GEB scientific HOLD and all previously closed analyses remain intact.

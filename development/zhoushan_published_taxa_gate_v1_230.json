@@ -1,0 +1,51 @@
+{
+  "schema": "structural.zhoushan_published_taxon_identity.v1_230",
+  "status": "AUTHOR_PUBLISHED_SPECIES_NAMES_ONLY_BEFORE_EXPERIMENTAL_OBSERVATIONS",
+  "source_doi": "10.1093/cz/zoae006",
+  "source": "Figure 2 caption of Zhan et al. 2024 Current Zoology",
+  "published_species_names": [
+    "Sus scrofa",
+    "Hydropotes inermis",
+    "Muntiacus reevesi",
+    "Prionailurus bengalensis",
+    "Viverricula indica",
+    "Rhizomys sinensis",
+    "Melogale moschata",
+    "Mustela sibirica",
+    "Erinaceus amurensis",
+    "Rattus norvegicus",
+    "Callosciurus erythraeus",
+    "Niviventer confucianus",
+    "Rattus losea",
+    "Suncus murinus",
+    "Apodemus agrarius",
+    "Mus musculus",
+    "Crocidura attenuata",
+    "Crocidura shantungensis"
+  ],
+  "published_species_count": 18,
+  "frozen_mammal_manifest": {
+    "run_id": 37153960728,
+    "artifact_id": 11285057696,
+    "name": "global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728",
+    "filename": "ultrarare_species_universe.csv",
+    "sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "species": 529,
+    "allowed_fields": [
+      "species_name"
+    ],
+    "disallowed": [
+      "pilot_presence",
+      "pilot_absence"
+    ]
+  },
+  "exact_matching": "Unicode NFC, whitespace normalization, casefold, no synonyms/fuzzy matching",
+  "zero_exact_overlap_rule": "TERMINAL_NO_DIRECT_529_TAXON_VALIDATION; no external field observations opened",
+  "positive_overlap_rule": "TAXON_IDENTITY_ONLY; original 4126 heldout island mapping, native and detection efforts, and frozen prediction header still required",
+  "field_incidence_read": false,
+  "original_mammal_heldout_values_read": false,
+  "validates_original_graph": false,
+  "can_infer_real_dispersal": false,
+  "GEB_submission_authorized": false,
+  "eBird": false
+}

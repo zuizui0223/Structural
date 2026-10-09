@@ -1,0 +1,30 @@
+name: Zhoushan official DOCX structure (no biology) v1.228
+on:
+  push:
+    branches:
+      - science/marine-mammal-field-intake-v1-224
+    paths:
+      - development/zhoushan_docx_table_geometry_contract_v1_228.json
+permissions:
+  contents: read
+jobs:
+  docx-table-shapes:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zhoushan_docx_table_shapes_v1_228.py
+      - name: Verify frozen DOCX and count only table structural XML elements
+        run: |
+          python scripts/zhoushan_docx_table_shapes_v1_228.py --out build/v228/table_geometry.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v228-zhoushan-tables-structure-only
+          path: build/v228/table_geometry.json
+          retention-days: 21

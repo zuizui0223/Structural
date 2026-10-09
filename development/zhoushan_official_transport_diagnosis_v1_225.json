@@ -1,0 +1,35 @@
+{
+  "schema": "structural.zhoushan_ncbi_transport_diagnostic.v1_225",
+  "status": "SEPARATE_FIXED_OFFICIAL_PATH_TECHNICAL_DIAGNOSIS_NO_TABLE_VALUES",
+  "source_study_doi": "10.1093/cz/zoae006",
+  "pmcid": "PMC11634684",
+  "first_v224_run": 37804779320,
+  "first_v224_status": "STOP_SUPPLEMENT_TRANSPORT_OR_ZIP_SCHEMA",
+  "frozen_official_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/instance/11634684/bin/zoae006_suppl_supplementary_material.docx",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC11634684/bin/zoae006_suppl_supplementary_material.docx"
+  ],
+  "no_http_or_off_ncbi_redirect": true,
+  "max_bytes_each": 2500000,
+  "allowed_byte_inspection": [
+    "source byte length",
+    "first 4 byte ZIP/PDF/HTML classifier",
+    "Content-Type",
+    "HTTP status and final official NCBI hostname",
+    "ZIP central-directory member filenames, counts and sizes",
+    "SHA256 on verified real ZIP"
+  ],
+  "forbidden": [
+    "word/document.xml semantic extraction",
+    "paragraph or species-by-island table parsing",
+    "outcome field values",
+    "original global mammal mapped-positive cells",
+    "field incidence counts",
+    "alternate biological sources",
+    "new model scoring"
+  ],
+  "candidate_source_status_not_a_biological_result": true,
+  "stop_if_both_official_paths_non_ZIP": true,
+  "subsequent_field_eligibility_requires_explicit_new_freeze": true,
+  "original_mammal_GEB_hold": true
+}
