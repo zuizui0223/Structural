@@ -1,0 +1,101 @@
+{
+  "schema": "structural.camtrapasia_four_island_study_campaign_availability_freeze.v1_253",
+  "status": "PASS_METADATA_ONLY_2017_CAMPAIGN_ERA_ELIGIBILITY",
+  "prior_contract": "development/camtrapasia_study_year_eligibility_contract_v1_253.json",
+  "provenance": {
+    "metadata_source_Zenodo_MD5": "2b50c534737b0c98a93da54128b10a32",
+    "geography_preexisting": "development/camtrapasia_full239_polygon_result_freeze_v1_248.json",
+    "run_id": 37944307786,
+    "job_id": 113866481122,
+    "artifact_id": 11622718444,
+    "artifact_digest": "sha256:9f5d2fefdbc153a9b5d88f5268f762b5c0955dbe12ebdeff68ef5de3dda2989c",
+    "synthetic_tests_passed": 2,
+    "execution": "success"
+  },
+  "baseline_year": 2017,
+  "source_camera_studies": 78,
+  "geographic_candidate_islands": 4,
+  "original_heldout_spatial_blocks": 3,
+  "source_cam_studies_with_unknown_or_invalid_years": 0,
+  "by_island": [
+    {
+      "island": "Bawean",
+      "original_heldout_ID": "65489",
+      "block": "GB_09dd5f7909bd",
+      "total": 2,
+      "study_ended_before_2017": 2,
+      "study_spans_2017": 0,
+      "study_started_after_2017": 0,
+      "full_campaign_effort": 19300,
+      "earliest_study_start": 2014,
+      "latest_study_end": 2015
+    },
+    {
+      "island": "Buton",
+      "original_heldout_ID": "65360",
+      "block": "GB_52f1fc2209ea",
+      "total": 2,
+      "study_ended_before_2017": 2,
+      "study_spans_2017": 0,
+      "study_started_after_2017": 0,
+      "full_campaign_effort": 1680,
+      "earliest_study_start": 2013,
+      "latest_study_end": 2013
+    },
+    {
+      "island": "Java",
+      "original_heldout_ID": "65554",
+      "block": "GB_8c3e9b18de7d",
+      "total": 25,
+      "study_ended_before_2017": 18,
+      "study_spans_2017": 4,
+      "study_started_after_2017": 3,
+      "full_campaign_effort": 139918,
+      "effort_ended_before2017": 59418,
+      "effort_spanning2017": 66846,
+      "effort_started_after2017": 13654,
+      "earliest_study_start": 1987,
+      "latest_study_end": 2019
+    },
+    {
+      "island": "Sumatra",
+      "original_heldout_ID": "70378",
+      "block": "GB_8c3e9b18de7d",
+      "total": 49,
+      "study_ended_before_2017": 49,
+      "study_spans_2017": 0,
+      "study_started_after_2017": 0,
+      "full_campaign_effort": 97798,
+      "earliest_study_start": 1987,
+      "latest_study_end": 2015
+    }
+  ],
+  "totals": {
+    "pre2017_studies": 71,
+    "spans2017_studies": 4,
+    "after2017_studies": 3,
+    "islands_with_after2017": 1,
+    "original_heldout_blocks_with_after2017": 1
+  },
+  "interpretation": {
+    "no_post2017_Sumatra_field_detection_is_due_to_lack_of_camera_survey_opportunity": true,
+    "no_camera_detection_or_species_value_read_in_v253": true,
+    "source_publication_year_not_independent_event_year": true,
+    "pilot_ultrarare_not_global_biological_rarity": true,
+    "study_intervals_not_exact_species_photo_dates": true,
+    "area_matched_island_geography_not_original_polygon_UUID_verified": true,
+    "no_prospective_two_island_post2017_external_predictive_skill_test": true,
+    "no_island_population_trend_or_rescue_inferred": true,
+    "prior_camera_photo_source_outcomes_were_exposed_before_v253": true,
+    "original_529_IUCN_heldout_labels_read": 0,
+    "original_GEB_prediction_scores_read": 0,
+    "GEB_scientific_HOLD": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

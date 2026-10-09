@@ -1,0 +1,11 @@
+# v1.253: the temporal opportunity for post-IUCN2017 field validation almost disappears
+
+An actual source-locked metadata-only analysis used precisely the same 78 camera study IDs from the four geography-screened GADM island candidates, **without reading any species camera detection rows**. Their original public Zenodo study-year metadata are historical: 71 studies ended before 2017, four include 2017, and only three began after 2017.
+
+Across candidate original heldout landmass nodes, Bawean has two studies from 2014–2015, Buton two studies in 2013, Java 25 studies spanning 1987–2019 (18 pre-2017, four spanning 2017, three post-2017), and Sumatra 49 studies from 1987–2015, all pre-2017. All 78 study-year intervals were present and valid. **Only Java, in one original geographic heldout block, has any study that started after 2017.** This is a documentary survey-coverage property, not evidence of species absence.
+
+This finding corroborates the v1.252 species-specific check: no wild-photo-positive Sumatra taxon in the seven repeated cross-island focal names could have a post2017 record in this dataset, simply because no study in the selected Sumatra sample took place after 2017. Thus the apparently independent CamTrapAsia 2024 publication cannot support a geographically replicated after-2017 temporal population change/colonization/rescue endpoint when compared to the curated native-mammal IUCN2017 map data.
+
+Time-varying observation coverage is especially consequential for island ecology: source/recipient nodes' identity can be defined cartographically while photo evidence is sampled at different historical periods, making naive absence/turnover comparisons vulnerable to observation-window artifacts. Do not interpret source study date or photo detection count as actual individual survival, recruitment, movements or island extinction.
+
+**Scientific conclusion:** the photo-positive data do provide real field-based taxon detections in Java and Sumatra for select pilot taxa, including nonoverlapping campaigns for six of seven taxa, but do not establish a corresponding post-2017 two-island independent biological test of original GEB spatial predictions. Nothing in v1.252–v1.253 changes the original model, evaluates heldout IUCN species responses or lifts GEB scientific HOLD. No eBird and no closed data lineage replays.
