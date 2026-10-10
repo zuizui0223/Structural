@@ -11,6 +11,7 @@ def test_fixed_methods_design_only():
     r=summarize(doc())
     assert r["hopson"]["independent_metapopulations"]==14
     assert r["hopson"]["patch_rows_not_independent"]==210
+    assert r["hopson"]["physical_patch_layout_types"]==1
     assert r["green"]["unique_network_structures_at_most"]==16
     assert r["prospectively_eligible_systems_added"]==0
     assert r["source_outcome_cells_read"]==0

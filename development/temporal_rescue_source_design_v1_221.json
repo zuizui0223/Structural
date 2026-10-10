@@ -24,7 +24,6 @@
       "exact_individual_source_to_target_transfers_verified": false,
       "source_public_file_data": "Summer 2016 Data - 8.26.csv",
       "source_public_file_treatment": "Summer 2016 treatment layout.csv",
-      "independent_heldout_graph_types_at_most": 2,
       "limits": [
         "Fourteen independently assigned metapopulations do not equal 210 independent patch-level experimental units",
         "The seven long-distance metapopulations share a daily dispersal realization; seven do not mean seven independent daily route maps",
@@ -32,7 +31,9 @@
         "The physical destination map for every observed source-to-target event has not been verified in the published source files",
         "Predator below-detection sampling may conflate temporary non-detection with local extinction"
       ],
-      "preliminary_design_decision": "HOLD_NONFRESH_DESIGN_ONLY_OPERATOR_IDENTITY_AND_EVENT_SUPPORT_UNVERIFIED"
+      "preliminary_design_decision": "HOLD_NONFRESH_DESIGN_ONLY_OPERATOR_IDENTITY_AND_EVENT_SUPPORT_UNVERIFIED",
+      "distinct_assigned_dispersal_kernels": 2,
+      "physical_patch_layout_types": 1
     },
     {
       "id": "green_anderson_2022",
@@ -58,7 +59,8 @@
         "The original synthesis already reported network connectivity/synchrony and predator/prey occupancy relationships",
         "Exact source study IDs, time-ordered transitions, species detection, and independent estimable heldout groups have not been audited"
       ],
-      "preliminary_design_decision": "HOLD_NONFRESH_STUDY_OVERLAP_GRAPH_OPERATOR_AND_EVENT_SUPPORT_UNVERIFIED"
+      "preliminary_design_decision": "HOLD_NONFRESH_STUDY_OVERLAP_GRAPH_OPERATOR_AND_EVENT_SUPPORT_UNVERIFIED",
+      "article_context_already_exposed": true
     }
   ],
   "future_target": {

@@ -18,7 +18,8 @@ def summarize(doc):
     if (h["independent_metapopulation_replicates"]!=14 or
         sum(h["treatment_replicates"].values())!=14 or
         h["number_patches_per_metapopulation"]!=15 or
-        h["independent_heldout_graph_types_at_most"]!=2 or
+        h["distinct_assigned_dispersal_kernels"]!=2 or
+        h["physical_patch_layout_types"]!=1 or
         h["long_distance_daywise_route_realization_shared_across_replicates"] is not True):
         raise ValueError("Hopson design drift or patch pseudoreplication")
     if (g["independent_experiments_reported"]!=22 or
@@ -28,7 +29,7 @@ def summarize(doc):
         g["unambiguous_independent_network_topology_units_at_most"]!=16 or
         g["pooled_earlier_holyoak_studies"] is not True):
         raise ValueError("Green network-reuse or provenance accounting drift")
-    if any(not s["article_context_already_exposed"] for s in [h]):
+    if any(not s["article_context_already_exposed"] for s in [h,g]):
         raise ValueError("Already published outcomes are not fresh")
     if (doc["gate_contract"]["empirical_admitted"] or doc["gate_contract"]["pilot_opened"]
         or doc["gate_contract"]["confirmatory_opened"] or
@@ -42,6 +43,8 @@ def summarize(doc):
       "status":"PASS_DESIGN_ACCOUNTING_ONLY_ZERO_NEW_EMPIRICAL_ADMISSIONS",
       "hopson":{"independent_metapopulations":14,"patch_rows_not_independent":210,
         "unique_daywise_long_route_realizations_per_event_across_replicates":1,
+        "physical_patch_layout_types":1,
+        "assigned_dispersal_kernel_treatments":2,
         "candidate_decision":h["preliminary_design_decision"]},
       "green":{"experiments":22,"potential_metapopulation_replicates_before_identity_verification":88,
         "unique_network_structures_at_most":16,"pooled_published_source_studies":True,
