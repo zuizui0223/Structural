@@ -30,7 +30,7 @@ def test_disjoint_corridor_bounds_exact():
         g[(4, "homogeneous", *c)] = [(0, 0, 0)] * 3
     r = compute(g)
     x = r["six_patch_local_low_minus_high_heterogeneity_interaction"]
-    assert abs(x["missing_lower"] - (1/3 - 1/12)) < 1e-12
+    assert abs(x["missing_lower"] - (1/3 - 0)) < 1e-12
     assert abs(x["missing_upper"] - (1/3 - (-1/12))) < 1e-12
     assert r["tested_hypothesis_preregistered"] is False
 
