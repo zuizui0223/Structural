@@ -1,0 +1,29 @@
+{
+  "schema": "structural.wolfe_movement_regime_exploratory_contract.v1_217",
+  "evidence_class": "RETROSPECTIVE_POSTOUTCOME_SPECIFIC_REGIME_SELECTED_AFTER_READING_V1_212",
+  "source": {
+    "repository": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "path": "Wolfe et al. /Wolfe et al experimental data.csv",
+    "git_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926"
+  },
+  "experiment": "48ml total per landscape, 4He versus 4Ho and 6He versus 6Ho, three matrix-transfer levels x three local-transfer frequencies, four intended microcosms each arm",
+  "outcome": "day21 within-metacommunity generalist Stentor and any specialist Didinium or Dileptus both present (not within-patch colocation)",
+  "excluded_source_identifier": "6HoLM1",
+  "confounding": "4-patch size contrast uses 16/8 vs 12 ml; 6-patch uses 12/4 vs 8 ml; patch count and heterogeneity dose not independently identified",
+  "analysis": {
+    "cell": "within same patch count,matrix,corridor, heterogeneous minus homogeneous positive proportion",
+    "missing": "bound all 5 unknown or unassigned binary outcomes adversarially",
+    "corridor": "average three matrix strata with equal weights",
+    "exploratory_focal": "6-patch local-low-frequency vs local-high-frequency difference in heterogeneity contrasts; posthoc",
+    "no_p_value": true,
+    "no_confidence_interval": true
+  },
+  "guards": {
+    "original_mammal_heldout_reopened": false,
+    "graph_predictions_reopened": false,
+    "eBird": false,
+    "GEB_submission_authorized": false,
+    "original_wolfe_article_already_published": true
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "structural.wolfe_six_patch_guild_remainder_freeze.v1_218",
+  "status": "SOURCE_LOCKED_EXPLORATORY_POSTOUTCOME_COMPLETE_MISSING_STATE_ENUMERATION",
+  "provenance": {
+    "source_repository": "ExperimentalConservation/Experimental-data",
+    "source_commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "original_source_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "original_source_rows": 176,
+    "retained_source_rows": 175,
+    "uncertain_id_excluded_before_outcome": "6HoLM1",
+    "GitHub_Actions_run": 38011264585,
+    "GitHub_Actions_job": 114091578881,
+    "artifact_id": 11654155035,
+    "artifact_digest": "sha256:78a2d04825885837c95795968771225e3971ebca062974f0448d6dc7ad0adc7a",
+    "tests_passed": 3,
+    "workflow_success": true
+  },
+  "six_patch_heterogeneous_observed": {
+    "local_corridor_low": {
+      "observed_n": 12,
+      "intended_n": 12,
+      "G": 7,
+      "S": 5,
+      "joint": 4
+    },
+    "local_corridor_high": {
+      "observed_n": 11,
+      "intended_n": 12,
+      "G": 2,
+      "S": 6,
+      "joint": 0
+    }
+  },
+  "focal_six_heterogeneous_low_minus_high_corridor_missing_bounds": {
+    "generalist_G": [
+      0.3333333333333333,
+      0.4166666666666667
+    ],
+    "specialist_any_S": [
+      -0.16666666666666666,
+      -0.08333333333333333
+    ],
+    "joint_G_and_S": [
+      0.25,
+      0.3333333333333333
+    ],
+    "marginal_independence_product_mean_within_matrix": [
+      0.16666666666666666,
+      0.20833333333333334
+    ],
+    "co_presence_covariance_remainder_mean_within_matrix": [
+      0.08333333333333333,
+      0.14583333333333334
+    ]
+  },
+  "second_sensitivity_heterogeneity_benefit_low_minus_high_corridor": {
+    "G": [
+      0.5,
+      0.6666666666666666
+    ],
+    "S": [
+      -0.25,
+      -0.08333333333333333
+    ],
+    "J": [
+      0.25,
+      0.4166666666666667
+    ],
+    "marginal_product": [
+      0.1875,
+      0.2916666666666667
+    ],
+    "covariance_remainder": [
+      0.041666666666666664,
+      0.14583333333333334
+    ]
+  },
+  "exact_joint_completions": 16,
+  "qualifier": {
+    "published_experiment": true,
+    "posthoc_regime_selected_after_outcome": true,
+    "confidence_interval": false,
+    "p_value": false,
+    "effects_not_causal": true,
+    "anti_association_not_confirmed": true,
+    "within_patch_colocation_or_species_interactions_not_measured": true,
+    "small_stratum_n_four_intended": true,
+    "patch_heterogeneity_dose_confounded_with_patch_number": true,
+    "component_extreme_bounds_not_additive": true,
+    "original_global_mammal_response_or_prediction_reopened": false,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}

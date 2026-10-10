@@ -1,0 +1,62 @@
+{
+  "schema": "structural.wolfe_terminal_endpoint_identifiability_evidence_freeze.v1_220",
+  "status": "PASS_SYNTHETIC_KNOWN_TRUTH_NO_BIOLOGICAL_OUTCOME_OPENED",
+  "provenance": {
+    "source": "new self-contained synthetic known-truth script",
+    "script": "scripts/wolfe_terminal_identifiability_v1_220.py",
+    "source_wolfe_raw_outcomes_read": false,
+    "study_author_code_metadata_audited": true,
+    "author_published_patch_correlation_known": true,
+    "published_reference": "Wolfe et al. Oecologia (2022) 10.1007/s00442-022-05178-9",
+    "run_id": 38012322156,
+    "job_id": 114094851343,
+    "tests_passed": 4,
+    "artifact_id": 11654251790,
+    "artifact_digest": "sha256:a70ff97c29a39ae6f56a22eb4914bdd1792b2c32905ea3ef91ced962466ed495",
+    "GitHub_Actions_conclusion": "success"
+  },
+  "formal_known_truth": {
+    "n_patches": 6,
+    "g_occupied_patches": 2,
+    "s_occupied_patches": 2,
+    "same_terminal_landscape_G_somewhere": true,
+    "same_terminal_landscape_S_somewhere": true,
+    "same_terminal_landscape_G_and_S": true,
+    "possible_patch_colocation_count": [
+      0,
+      2
+    ],
+    "two_extreme_states_exist": true,
+    "same_t1_patch_G_presence_with_zero_or_one_local_colonization": true,
+    "inference_class": "observation non-identifiability / synthetic, not observed spatial segregation"
+  },
+  "published_design_source": {
+    "source_GitHub_commit": "ExperimentalConservation/Experimental-data@fabe50b58a13651be4168b91cd91589ccc261a96",
+    "author_wolfe_directory_patch_csv_names_missing": [
+      "final_count_patch_data.csv",
+      "stentor_patch_size.csv"
+    ],
+    "landscape_csv_present": true,
+    "published_patch_level_G_S_negative_relationship_N": 734,
+    "published_patch_level_G_S_association_nominal_p": 0.0000023,
+    "original_patch_level_GLMCovariates": "specialist_predators ~ generalist_predator",
+    "independent_patch_data_cluster_reanalysis_possible_now": false
+  },
+  "scientific_priorities": {
+    "stop_prior_response_selected_Wolfe_splits": true,
+    "future_primary": "guild-specific 0->1 next-interval colonization: directional donor capacity + measured transport vs strong local/reference state",
+    "future_secondary": "1->0 local loss/1->1 persistence and guild joint retention separately",
+    "independent_new_dataset_required": true,
+    "disjoint_burned_pilot_and_confirmatory_required": true,
+    "condition_on_patch_size_prey_prior_occupancy_effort_required": true,
+    "operator_not_distance_only": true,
+    "current_confirmatory_eligible_new_systems": 0
+  },
+  "guards": {
+    "original_mammal_heldout_values_read": 0,
+    "original_graph_prediction_values_read": 0,
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "new_ecological_effect_claimed": false
+  }
+}

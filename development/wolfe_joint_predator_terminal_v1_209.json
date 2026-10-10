@@ -1,0 +1,17 @@
+{
+  "schema": "structural.wolfe_joint_predator_terminal.v1_209",
+  "status": "TERMINAL_RESPONSE_FREE_COUNT_AND_UNIT_ID_GATE_FAIL",
+  "source": "ExperimentalConservation/Experimental-data at fabe50b58a13651be4168b91cd91589ccc261a96",
+  "git_blob_sha": "e78003d425b646b390ae02e36c007892c1c70926",
+  "original_contract": "development/wolfe_joint_predator_contract_v1_209.json",
+  "frozen_expected_rows": 180,
+  "actual_source_rows": 176,
+  "frozen_unique_microcosm_id_assumption": false,
+  "actual_unique_treatment_microcosm_codes": 45,
+  "corrected_experimental_unit": "composite(microcosm, replicate), not microcosm alone",
+  "missingness_source": "Wolfe et al. 2022 published figure captions: four leaking microcosms; published planned n=180, retained n=176",
+  "biological_response_values_semantically_scored": 0,
+  "no_same_protocol_replay": true,
+  "same_lineage_confirmatory_rescue_authorized": false,
+  "new_descriptive_route_if_any": "Must be separate response-before-statistics-locked postpublication exploratory protocol; never convert v1.209 into a passing test."
+}

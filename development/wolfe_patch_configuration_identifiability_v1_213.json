@@ -1,0 +1,128 @@
+{
+  "schema": "structural.wolfe_patch_configuration_mechanism_limits.v1_213",
+  "status": "PUBLISHED_DESIGN_AUDIT_NOT_NEW_RESPONSE_ANALYSIS",
+  "source": {
+    "repo": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "path": "Wolfe et al. /README.md",
+    "paper_doi": "10.1007/s00442-022-05178-9",
+    "source_figures_and_code_already_outcome_exposed": true
+  },
+  "experiment": {
+    "fixed_total_medium_ml": 48,
+    "configurations": [
+      {
+        "patch_count": 4,
+        "heterogeneous": false,
+        "volumes_ml": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "larger_to_smaller_ratio": 1,
+        "cv_population": 0,
+        "gini": 0
+      },
+      {
+        "patch_count": 4,
+        "heterogeneous": true,
+        "volumes_ml": [
+          16,
+          16,
+          8,
+          8
+        ],
+        "larger_to_smaller_ratio": 2,
+        "cv_population": 0.3333333333333333,
+        "gini": 0.16666666666666666
+      },
+      {
+        "patch_count": 6,
+        "heterogeneous": false,
+        "volumes_ml": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "larger_to_smaller_ratio": 1,
+        "cv_population": 0,
+        "gini": 0
+      },
+      {
+        "patch_count": 6,
+        "heterogeneous": true,
+        "volumes_ml": [
+          12,
+          12,
+          12,
+          4,
+          4,
+          4
+        ],
+        "larger_to_smaller_ratio": 3,
+        "cv_population": 0.5,
+        "gini": 0.25
+      }
+    ]
+  },
+  "supported_descriptive_difference": {
+    "source": "development/wolfe_robustness_evidence_freeze_v1_212.json",
+    "day21_joint_guild_retention_hetero_minus_homo_four_patches": {
+      "lower": -0.05555555555555555,
+      "upper": -0.027777777777777776
+    },
+    "day21_joint_guild_retention_hetero_minus_homo_six_patches": {
+      "lower": 0.1388888888888889,
+      "upper": 0.25
+    },
+    "source_id_questionable_row_excluded": true,
+    "confidence_intervals": false
+  },
+  "identified_and_unidentified": {
+    "identified_under_published_experiment": "Descriptive contrasts of exactly the 4-patch 16/8ml mosaic versus 12/12ml control, and 6-patch 12/4ml mosaic versus 8/8ml control, at matched matrix/corridor treatment and 48ml total.",
+    "not_identified": "Effect of increasing nominal number of patches while keeping the intensity of patch-size heterogeneity and absolute small-patch refuge size independently fixed.",
+    "why": "Heterogeneous 4 patches have 2:1 large-to-small ratio (CV 0.333) whereas heterogeneous 6 patches have 3:1 ratio (CV 0.5); 4- and 6-patch treatments use different absolute size classes. Those factors co-vary by design.",
+    "mechanism_hypothesis": "Guild-specific patch-size thresholds and within-landscape refuges might influence joint retention, already proposed by Wolfe et al.; not measured directly by terminal microcosm-level densities.",
+    "cannot_claim": "A causal threshold at exactly six patches or an identified synergistic topology mechanism.",
+    "observed_contemporaneous_endpoints_only": true,
+    "within_patch_persistence_location_measured_in_current_CSV": false,
+    "temporal_colonization_identified": false
+  },
+  "future_identification_plan": {
+    "equal_area": true,
+    "factorial_vary_patch_count_at_fixed_relative_heterogeneity": true,
+    "fixed_relative_variability_example": {
+      "patch_count4_total48_cv0_5": [
+        18,
+        18,
+        6,
+        6
+      ],
+      "patch_count6_total48_cv0_5": [
+        12,
+        12,
+        12,
+        4,
+        4,
+        4
+      ]
+    },
+    "separately_vary_large_small_absolute_patch_thresholds": true,
+    "verify_response_and_observation_independence": true,
+    "separately_track_patch_level_specialist_generalist_presence_over_time": true,
+    "cross_patch_transfer_treatment_measured": true,
+    "randomized_with_multiple_independent_metacommunity_replicates": true,
+    "novel_experiment_hypothesis_only": true
+  },
+  "guards": {
+    "prior_v209_v210_stops_unmodified": true,
+    "prior_v211_conditional_and_v212_exclusion_results_unmodified": true,
+    "eBird_used": false,
+    "global_mammal_heldout_reopened": false,
+    "original_GEB_submission_authorized": false
+  }
+}

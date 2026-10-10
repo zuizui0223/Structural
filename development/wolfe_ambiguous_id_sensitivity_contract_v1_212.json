@@ -1,0 +1,45 @@
+{
+  "schema": "structural.wolfe_id_unassigned_sensitivity.v1_212",
+  "status": "POST_OUTCOME_IDENTIFIED_METADATA_AMBIGUITY_SENSITIVITY_NOT_PREDECLARED_CONFIRMATORY",
+  "source": {
+    "repo": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "path": "Wolfe et al. /Wolfe et al experimental data.csv",
+    "git_blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "bytes": 12096
+  },
+  "discovery": "A single source label 6HoLM1 conflicts with other 6HoLM treatment-code replicates, discovered from metadata before v1.211 outcome scoring.",
+  "strategy": "DROP 6HoLM1 entirely, not re-label it, and regard its intended experimental arm's observation as unassigned; for 45 planned cells × 4 units, the 175 remaining records leave 5 unknown outcomes.",
+  "scoring_definition": "Same 18-stratum 4/6-patch heterogeneous minus homogeneous day-21 joint generalist and specialist microcosm outcome as v1.210 and v1.211. Do not change guild definitions, presence threshold or equal stratum weights.",
+  "before_this_analysis_biological_outcome_already_exposed": true,
+  "planned_design_assumption": "Original 45 factorial cells have exactly four planned experimental units each. No assertion about which treatment the excluded row actually received.",
+  "expected_after_exclusion": {
+    "retained_units": 175,
+    "factorial_cells": 45,
+    "three_replicate_cells": 5,
+    "four_replicate_cells": 40,
+    "overfull_cells": 0,
+    "unknown_outcomes": 5,
+    "single_patch_all_four": true
+  },
+  "summaries_to_report": [
+    "observed-only equal-stratum point contrast",
+    "sharp binary missing-outcome lower and upper bounds in every stratum (planned denominator=4)",
+    "bounds and observed contrasts separately for 4 and 6 patches",
+    "interaction contrast lower/upper from worst-case separate patch-count bounds",
+    "same for generalist and specialist separately as secondary only"
+  ],
+  "missing_outcome_interpretation": "Finite-sample extreme-case bounds, not 95% confidence intervals; no inferential p-values, significance or conservation causal claims.",
+  "source_row_relabel_authorized": false,
+  "any_other_row_drop_allowed": false,
+  "can_replace_old_v1_211_result": false,
+  "preregistered_fresh_claim_allowed": false,
+  "source_response_semantics": "Already published day-21 experiment, not measured colonization, demographic rescue, co-occurrence in same local patch or a new island mammal dispersal validation.",
+  "original_mammal_response_reopen": false,
+  "ALA_replay": false,
+  "Hebert_retry": false,
+  "BALA_reopen": false,
+  "SW_Finland_reopen": false,
+  "eBird": false,
+  "GEB_submission_authorized": false
+}

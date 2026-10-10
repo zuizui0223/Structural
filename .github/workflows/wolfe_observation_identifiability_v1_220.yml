@@ -1,0 +1,41 @@
+name: Wolfe observational identifiability v1.220
+on:
+  push:
+    branches: [analysis/wolfe-joint-predator-v1-209]
+    paths:
+      - scripts/wolfe_terminal_identifiability_v1_220.py
+      - tests/test_wolfe_terminal_identifiability_v1_220.py
+      - development/wolfe_scientific_closure_future_gate_v1_220.json
+      - docs/WOLFE_SCIENTIFIC_CLOSURE_V1_220.md
+      - .github/workflows/wolfe_observation_identifiability_v1_220.yml
+permissions:
+  contents: read
+jobs:
+  known-truth-without-outcomes:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Constructive synthetic proof and tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_wolfe_terminal_identifiability_v1_220.py
+          python scripts/wolfe_terminal_identifiability_v1_220.py --out build/v220/identifiability.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v220/identifiability.json"))
+          assert d["status"]=="PASS_SYNTHETIC_KNOWN_TRUTH_NOT_BIOLOGICAL_REANALYSIS"
+          assert d["tight_local_joint_patch_count_bounds"]==[0,2]
+          assert not d["raw_Wolfe_outcomes_accessed"]
+          assert d["landscape_endpoint_both"]["both_guilds_somewhere"]
+          print("v1.220 synthetic known-truth / no biological input: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolfe-v220-synthetic-observation-identifiability
+          path: build/v220/identifiability.json
+          retention-days: 21
