@@ -36,7 +36,7 @@ def download_locked(which):
     return data
 
 def rows_locked(raw, expected_cols):
-    d=csv.DictReader(io.StringIO(raw.decode("utf-8-sig")))
+    d=csv.DictReader(io.StringIO(raw.decode("utf-8-sig"), newline=""))
     if d.fieldnames!=expected_cols:
         raise ValueError("source CSV header drift")
     for row in d:
