@@ -1,0 +1,42 @@
+{
+  "schema": "structural.hopson_2016_zero_spell_result_freeze.v1_223",
+  "status": "EXECUTED_POSTOUTCOME_REDTECTION_RUNLENGTHS_NOT_LOCAL_RECOLONIZATION",
+  "provenance": {
+    "original_source": "Hopson & Fox 2019 dataset DOI 10.5061/dryad.n8d6s43, mirror Zenodo record 4960267",
+    "source_md5s": [
+      "76de51cecdee69e87138c469a93b35a9",
+      "6957db366d97aa5a15fd7107b2429ac3"
+    ],
+    "workflow_run": 38013984890,
+    "job_id": 114100115220,
+    "synthetic_tests": 5,
+    "workflow_success": true,
+    "artifact_id": 11655258044,
+    "artifact_digest": "sha256:1777bff20b30a7721c21304a0c4d28bdea4e17e6d0abf56c63cb10f0a429d4d5"
+  },
+  "zero_to_positive_after_sample_count_zero": {
+    "total": 554,
+    "one_zero_between_positive_visits": 209,
+    "two_consecutive_zeros_between_positive_visits": 149,
+    "three_or_more_consecutive_zeros_between_positive_visits": 117,
+    "initial_left_censored_zero_run_before_first_positive": 79
+  },
+  "right_censored_ending_zero_runs": 55,
+  "interrupted_zero_runs_due_to_missing": 0,
+  "last_zero_to_reappearance_days": {
+    "3": 234,
+    "4": 320
+  },
+  "interpretation": {
+    "observed_0_to_1_under_raw_count_is_only_positive_redetection": true,
+    "consecutive_negative_sampling_cannot_certify_patch_extinction": true,
+    "one_zero_between_positive_counts_cannot_certify_false_negative": true,
+    "run_lengths_depend_on_3_or_4_day_observation_intervals": true,
+    "individual_event_cells_are_not_554_independent_metapopulations": true,
+    "meaningful_future_measurement": "replicate patch samples per visit, independently measured dispersal paths, repeated time points and pre-registered observation model",
+    "already_published_dataset_not_fresh_confirmatory": true,
+    "new_ecological_causal_finding": false,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}
