@@ -1,0 +1,26 @@
+{
+  "schema": "structural.wolfe_regime_matrix_replicate_contract.v1_219",
+  "evidence_class": "POSTHOC_AFTER_V1_218_ALREADY_OPENED_SOURCE",
+  "identity": "ExperimentalConservation/Experimental-data@fabe50b58a13651be4168b91cd91589ccc261a96, Git blob SHA1 e78003d425b646b390ae02e36c007892c1c70926",
+  "source_endpoint": "G=Stentor positive; S=Didinium or Dileptus positive; J=G and S in same day21 microcosm, excluding source-id discrepancy 6HoLM1 before outcome",
+  "checks": [
+    "All three original matrix regimes reported without selective omission",
+    "All three leave-one-matrix-out panels, irrespective of sign; exact bounds all missing rows 0/1",
+    "Within replicate number and matrix category, low vs high corridor complete paired comparisons; hypothetical exact two-sided sign tail",
+    "Missing high-corridor six-patch heterogeneous J assigned 0 and 1 separately; neither supports a design-verified randomization p",
+    "Four-patch arm shown as descriptive comparator, not independent pure patch-count causal control"
+  ],
+  "limits": {
+    "preregistered": false,
+    "postoutcome": true,
+    "hypothetical_exchangeability_not_proven": true,
+    "randomization_p": false,
+    "confidence_intervals": false,
+    "sampled_microcosm_unit_not_patch": true,
+    "same_published_source_not_new_replication": true,
+    "patch_count_confounded_with_heterogeneity_dose": true,
+    "source_mammal_heldout_reopened": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}
