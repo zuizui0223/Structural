@@ -1,0 +1,104 @@
+{
+  "schema": "structural.hopson_sampling_zero_model_result_freeze.v1_224",
+  "status": "SOURCE_LOCKED_EXECUTED_RETROSPECTIVE_OBSERVATION_DIAGNOSTIC_NO_COLONIZATION_CLAIM",
+  "provenance": {
+    "published_source": "Hopson & Fox 2019 doi:10.1111/1365-2656.12905, archived observations Zenodo 4960267",
+    "source_md5s": {
+      "observation": "76de51cecdee69e87138c469a93b35a9",
+      "layout": "6957db366d97aa5a15fd7107b2429ac3"
+    },
+    "workflow_run": 38045355591,
+    "job_id": 114193662778,
+    "synthetic_tests": 4,
+    "workflow_conclusion": "success",
+    "artifact_id": 11666767640,
+    "artifact_digest": "sha256:1d3777a14d27730e95475ac020efb4076fc13d49b79c3319e88fec4a292fe289"
+  },
+  "design": {
+    "source_records": 4830,
+    "independent_metapopulations": 14,
+    "triplets_with_two_positive_flanking_samples": 2640,
+    "observed_center_zero_count": 209,
+    "sample_volumes_approx_ml": 0.3,
+    "conditioning": "both immediate flanking samples positive, center value not used in its predicted Pzero",
+    "static_density_sampling_model": "Gamma(0.5,0) conditional Poisson with flanking sample counts and observed volume",
+    "assumption_sensitivity_middle_concentration_scale": [
+      1,
+      0.25,
+      0.1
+    ]
+  },
+  "fixed_assumption_results": {
+    "unchanged_middle_concentration": {
+      "rho": 1,
+      "expected_sample_zero_count": 135.65684,
+      "observed_sample_zero_count": 209,
+      "observed_zeros_with_model_P0_below_0_05": 58,
+      "observed_zeros_with_model_P0_below_0_01": 13
+    },
+    "one_quarter_middle_concentration": {
+      "rho": 0.25,
+      "expected_sample_zero_count": 859.270424,
+      "observed_sample_zero_count": 209,
+      "observed_zeros_with_model_P0_below_0_05": 0
+    },
+    "one_tenth_middle_concentration": {
+      "rho": 0.1,
+      "expected_sample_zero_count": 1588.556853,
+      "observed_sample_zero_count": 209,
+      "observed_zeros_with_model_P0_below_0_05": 0
+    },
+    "zero_sample_with_two_positive_flanks_both_counts_at_least_5": 3,
+    "zero_sample_with_two_positive_flanks_both_counts_at_least_20": 0
+  },
+  "by_published_time_block_and_treatment_under_unchanged_density": [
+    {
+      "block": 1,
+      "assigned_kernel": "nn",
+      "triples": 566,
+      "central_zero_samples": 32,
+      "expected_zeros": 23.880463,
+      "model_p0_below_0_05_and_observed_zero": 10
+    },
+    {
+      "block": 1,
+      "assigned_kernel": "sw",
+      "triples": 756,
+      "central_zero_samples": 59,
+      "expected_zeros": 40.264854,
+      "model_p0_below_0_05_and_observed_zero": 13
+    },
+    {
+      "block": 2,
+      "assigned_kernel": "nn",
+      "triples": 765,
+      "central_zero_samples": 56,
+      "expected_zeros": 34.675842,
+      "model_p0_below_0_05_and_observed_zero": 20
+    },
+    {
+      "block": 2,
+      "assigned_kernel": "sw",
+      "triples": 553,
+      "central_zero_samples": 62,
+      "expected_zeros": 36.835682,
+      "model_p0_below_0_05_and_observed_zero": 15
+    }
+  ],
+  "interpretation": {
+    "conclusion": "A constant-abundance homogeneous Poisson draw model underpredicts intermittent sample zeros; applying a uniform strong temporary abundance dip to every eligible center greatly overpredicts zeros. Both are toy observation-model assumptions; neither identifies true absence or emigration.",
+    "postoutcome": true,
+    "uncalibrated_temporal_density_variation": true,
+    "variable_sampling_overdispersion_or_patch_dynamics_possible": true,
+    "overlapping_triplets_and_14_independent_metapopulations": true,
+    "not_independent_observations": 2640,
+    "conditional_expected_counts_not_uncertainty_interval": true,
+    "no_statistical_p_value": true,
+    "not_new_population_extinction_colonization_or_rescue": true,
+    "no_realized_directional_migration_test": true,
+    "existing_Hopson_synchrony_result_not_new": true,
+    "original_structural_mammal_heldout_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}
