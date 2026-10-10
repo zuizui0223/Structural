@@ -89,7 +89,7 @@ def evaluate(raw_obs,raw_layout):
     prior,with_prey=build_predictor_rows(raw_obs,raw_layout)
     first=score(prior)
     second=score(with_prey)
-    if len(first["folds"])!=len(second["folds"])!=14:
+    if len(first["folds"])!=14 or len(second["folds"])!=14:
         raise ValueError("Missing independent metapopulation folds")
     if first["n_zero_start_transition_rows"]!=second["n_zero_start_transition_rows"]:
         raise ValueError("Different comparison denominators")
