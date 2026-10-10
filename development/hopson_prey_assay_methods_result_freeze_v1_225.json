@@ -1,0 +1,51 @@
+{
+  "schema": "structural.hopson_original_prey_assay_methods_freeze.v1_225",
+  "status": "PASS_SOURCE_METHOD_PROVENANCE_AUTHOR_FORMULAS_IDENTIFIED_ZERO_BIOLOGICAL_ROWS",
+  "provenance": {
+    "original_study": "Hopson & Fox, J Anim Ecol 2019, DOI 10.1111/1365-2656.12905",
+    "original_dataset": "Zenodo 4960267, Dryad DOI 10.5061/dryad.n8d6s43",
+    "author_R_file": "Thesis Code Experimental - for data dryad.R",
+    "author_R_md5": "dadab72ec94583cdbf7197cc3eb09ea0",
+    "author_R_line_numbers": [
+      11,
+      14,
+      15
+    ],
+    "author_README_md5": "332b97a8e81ff3eb109dbc7a1b93137b",
+    "author_README_line_numbers": [
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "technical_first_attempt_HTTP_504_run": 38058489844,
+    "same_run_retry_number": 2,
+    "execution_run_id": 38058489844,
+    "execution_job_id": 114232053783,
+    "synthetic_tests_passed": 3,
+    "action_result": "success",
+    "artifact_id": 11672395950,
+    "artifact_digest": "sha256:b1e0580ed084639448389478a938f017d1f2bed0194886ea323ba6af2970ab85"
+  },
+  "formulas": {
+    "predator_eupl_ml": "eupl / samp.vol",
+    "prey_tet_ml_diluted": "(tet/sub.samp.vol)*(dil.vol+samp.vol)/samp.vol",
+    "prey_tet_ml_undiluted": "tet/samp.vol",
+    "source_code_undiluted_fallback": "NA or infinite computed diluted density -> raw tet / samp.vol",
+    "source_readme_undiluted_indicator": "dil.vol=0 and sub.samp.vol=0",
+    "log_density": "log(density/ml + 1)"
+  },
+  "subsequent_analysis_plan": {
+    "v1_226": "Predator-only R versus ring adjacency, 14 heldout metapopulations, postpublication sample re-detection",
+    "v1_227": "Condition exact R and C comparison on source-verified prey density at visit t (not target t+1), 14 heldout metapopulations; no true colonization or rescue inference"
+  },
+  "source_protection": {
+    "author_code_only_parsed": true,
+    "biological_csv_read_in_v225": false,
+    "predictive_models_fitted_in_v225": 0,
+    "heldout_mammal_response_opened": false,
+    "eBird_used": false,
+    "GEB_scientific_HOLD": true
+  }
+}
