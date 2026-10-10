@@ -1,0 +1,141 @@
+{
+  "schema": "structural.wolfe_regime_matrix_replicate_result_freeze.v1_219",
+  "status": "REPRODUCED_POSTOUTCOME_MATRIX_LEAVE_ONE_OUT_AND_REPLICATE_AUDIT",
+  "provenance": {
+    "original_source_repo": "ExperimentalConservation/Experimental-data",
+    "original_source_commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "original_source_git_blob": "e78003d425b646b390ae02e36c007892c1c70926",
+    "source_rows": 176,
+    "scored_rows": 175,
+    "source_id_excluded": "6HoLM1",
+    "workflow_run": 38011867565,
+    "workflow_job": 114093447203,
+    "source_locked_artifact_id": 11653670895,
+    "source_locked_artifact_digest": "sha256:2ab81f78be63604036247746f48edb585978db9698da0457b7553789ebec664d",
+    "synthetic_tests": 5,
+    "workflow_status": "success"
+  },
+  "endpoint": "Day21 same metacommunity joint binary generalist Stentor and any specialist Didinium/Dileptus",
+  "six_patch_heterogeneous_j_low_minus_high_corridor": {
+    "by_matrix": {
+      "none": {
+        "low_observed": [
+          0,
+          4
+        ],
+        "high_observed": [
+          0,
+          3
+        ],
+        "missingness_interval": [
+          -0.25,
+          0
+        ]
+      },
+      "low": {
+        "low_observed": [
+          3,
+          4
+        ],
+        "high_observed": [
+          0,
+          4
+        ],
+        "missingness_interval": [
+          0.75,
+          0.75
+        ]
+      },
+      "high": {
+        "low_observed": [
+          1,
+          4
+        ],
+        "high_observed": [
+          0,
+          4
+        ],
+        "missingness_interval": [
+          0.25,
+          0.25
+        ]
+      }
+    },
+    "all_three_matrix_equal_weight_missingness_interval": [
+      0.25,
+      0.3333333333333333
+    ],
+    "leave_one_matrix_out": {
+      "exclude_none": [
+        0.5,
+        0.5
+      ],
+      "exclude_low": [
+        0,
+        0.125
+      ],
+      "exclude_high": [
+        0.25,
+        0.375
+      ]
+    }
+  },
+  "six_patch_heterogeneity_advantage_low_minus_high_corridor": {
+    "all_three_matrix_equal_weight_missingness_interval": [
+      0.25,
+      0.4166666666666667
+    ],
+    "leave_one_matrix_out": {
+      "exclude_none": [
+        0.5,
+        0.625
+      ],
+      "exclude_low": [
+        0,
+        0.25
+      ],
+      "exclude_high": [
+        0.25,
+        0.375
+      ]
+    }
+  },
+  "four_patch_comparator": {
+    "heterogeneous_j_low_minus_high_corridor": [
+      -0.08333333333333333,
+      -0.08333333333333333
+    ],
+    "heterogeneity_advantage_low_minus_high_corridor": [
+      -0.16666666666666666,
+      -0.08333333333333333
+    ],
+    "six_minus_four_heterogeneity_advantage_mixed_treatment_bundle_interval": [
+      0.3333333333333333,
+      0.5833333333333334
+    ]
+  },
+  "replicate_pairing_six_heterogeneous": {
+    "paired_completely_observed": 11,
+    "low_only_joint_positive": 4,
+    "high_only_joint_positive": 0,
+    "tied": 7,
+    "hypothetical_exact_two_sided_exchangeable_sign_probability": 0.125,
+    "missing_high_corridor_joint_zero_probability": 0.125,
+    "missing_high_corridor_joint_one_probability": 0.375,
+    "verified_randomization_test": false
+  },
+  "scientific_limits": {
+    "posthoc_subset_and_matrix_jackknife": true,
+    "original_authors_discussed_local_dispersal_cost_benefit_tradeoff": true,
+    "one_matrix_dominates_joint_positive_difference": true,
+    "effect_may_equal_zero_after_omitting_matrix_low": true,
+    "missingness_bounds_not_confidence_intervals": true,
+    "sign_probabilities_require_unverified_exchangeability": true,
+    "pure_patch_number_interaction_not_identifiable": true,
+    "terminal_guild_outcome_not_per_patch_dynamics": true,
+    "no_new_genuine_independent_replication": true,
+    "GEB_scientific_HOLD": true,
+    "original_global_mammal_heldout_reopened": false,
+    "eBird_used": false
+  }
+}
