@@ -1,0 +1,79 @@
+{
+  "schema": "structural.wolfe_posthoc_movement_regime_result_freeze.v1_217",
+  "status": "REPRODUCED_SOURCE_LOCKED_POSTOUTCOME_REGIME_COMPARISONS_NO_MECHANISM_CLAIM",
+  "source": {
+    "repository": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926",
+    "raw_rows": 176,
+    "excluded_ambiguous_id": "6HoLM1",
+    "scored_rows": 175
+  },
+  "workflow": {
+    "run_id": 38010782408,
+    "job_id": 114090027611,
+    "artifact_id": 11652429146,
+    "artifact_digest": "sha256:1399733ea149aea19c2c6d3af5d5a0c8105b86e09f74fbc7019b6e8228f91823",
+    "synthetic_tests_passed": 3,
+    "conclusion": "success"
+  },
+  "focal_6_patch_heterogeneity_contrast_by_local_corridor": {
+    "none": {
+      "observed": 0.3333333333333333,
+      "missingness_lower": 0.16666666666666666,
+      "missingness_upper": 0.3333333333333333
+    },
+    "low": {
+      "observed": 0.3333333333333333,
+      "missingness_lower": 0.3333333333333333,
+      "missingness_upper": 0.3333333333333333
+    },
+    "high": {
+      "observed": 0,
+      "missingness_lower": -0.08333333333333333,
+      "missingness_upper": 0.08333333333333333
+    }
+  },
+  "focal_low_frequency_minus_high_frequency_6patch": {
+    "observed": 0.3333333333333333,
+    "missingness_lower": 0.25,
+    "missingness_upper": 0.4166666666666667
+  },
+  "no_local_no_matrix_transfer_6patch": {
+    "heterogeneous_joint_positive": [
+      1,
+      4
+    ],
+    "homogeneous_joint_positive": [
+      0,
+      4
+    ]
+  },
+  "high_local_frequency_6patch": {
+    "observed_positive_joint_across_both_heterogeneity_arms": 0,
+    "observed_microcosms": 22,
+    "unobserved_or_unassigned": 2
+  },
+  "matches_prior_v1_212_four_patch": {
+    "observed": -0.027777777777777776,
+    "lower": -0.05555555555555555,
+    "upper": -0.027777777777777776
+  },
+  "matches_prior_v1_212_six_patch": {
+    "observed": 0.2222222222222222,
+    "lower": 0.1388888888888889,
+    "upper": 0.25
+  },
+  "evidence": {
+    "postoutcome": true,
+    "posthoc_regime_subgroup_selected_after_outcomes": true,
+    "finite_sample_missingness_bounds_are_confidence_intervals": false,
+    "causal_local_dispersal_effect_identified": false,
+    "pure_patch_count_effect_identified": false,
+    "source_population_rescue_identified": false,
+    "author_previous_dispersal_results_acknowledged": true,
+    "original_mammal_heldout_reopened": false,
+    "eBird_used": false,
+    "GEB_scientific_HOLD": true
+  }
+}
