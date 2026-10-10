@@ -1,0 +1,43 @@
+name: Hopson 2016 retrospective source-locked sample-redetection audit v1.222
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - development/hopson_temporal_detection_contract_v1_222.json
+      - scripts/hopson_temporal_detection_audit_v1_222.py
+      - tests/test_hopson_temporal_detection_audit_v1_222.py
+      - .github/workflows/hopson_temporal_audit_v1_222.yml
+permissions:
+  contents: read
+jobs:
+  retrospective-detection-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic source-safe validation
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_hopson_temporal_detection_audit_v1_222.py
+      - name: Fixed 2016 publisher mirror, md5-checked, descriptive only
+        run: |
+          python scripts/hopson_temporal_detection_audit_v1_222.py --out build/v222/hopson.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v222/hopson.json"))
+          assert d["status"]=="RETROSPECTIVE_EXPLORATORY_PUBLISHED_OUTCOME_NOT_COLONIZATION"
+          assert d["jars"]==210
+          assert d["independent_experimental_metapopulations"]==14
+          assert d["no_target_recolonization_or_rescue_estimated"]
+          assert d["GEB_scientific_HOLD"]
+          print("v1.222 retrospective source support only: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v222-hopson-published-redetection-only
+          path: build/v222/hopson.json
+          retention-days: 21
