@@ -1,0 +1,91 @@
+{
+  "schema": "structural.temporal_rescue_design_intake.v1_221",
+  "status": "PUBLISHED_METHODS_DESIGN_ONLY_NO_EMPIRICAL_ADMISSION",
+  "frozen_date": "2026-10-10",
+  "scope": "One response-unopened methodological triage of two previously published metapopulation sources, not a search for favorable outcomes",
+  "sources": [
+    {
+      "id": "hopson_fox_2019",
+      "article_doi": "10.1111/1365-2656.12905",
+      "dataset_doi": "10.5061/dryad.n8d6s43",
+      "article_url": "https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2656.12905",
+      "dataset_url": "https://datadryad.org/dataset/doi:10.5061/dryad.n8d6s43",
+      "article_context_already_exposed": true,
+      "metadata_statement": "Published methods: 15 ring patches, seven independent metapopulations per assigned short/occasional-long distance treatment; experimental sampling in two time blocks; 10% equal overall dispersal 3 times weekly; long-distance day-specific destination pattern was SHARED across all replicate metapopulations on that day",
+      "number_patches_per_metapopulation": 15,
+      "independent_metapopulation_replicates": 14,
+      "treatment_replicates": {
+        "short_distance": 7,
+        "occasional_long_distance": 7
+      },
+      "sample_day_blocks": 2,
+      "long_distance_daywise_route_realization_shared_across_replicates": true,
+      "raw_source_rows_opened": false,
+      "exact_individual_source_to_target_transfers_verified": false,
+      "source_public_file_data": "Summer 2016 Data - 8.26.csv",
+      "source_public_file_treatment": "Summer 2016 treatment layout.csv",
+      "limits": [
+        "Fourteen independently assigned metapopulations do not equal 210 independent patch-level experimental units",
+        "The seven long-distance metapopulations share a daily dispersal realization; seven do not mean seven independent daily route maps",
+        "The 2019 article already established increased prey synchrony under occasional long-distance dispersal",
+        "The physical destination map for every observed source-to-target event has not been verified in the published source files",
+        "Predator below-detection sampling may conflate temporary non-detection with local extinction"
+      ],
+      "preliminary_design_decision": "HOLD_NONFRESH_DESIGN_ONLY_OPERATOR_IDENTITY_AND_EVENT_SUPPORT_UNVERIFIED",
+      "distinct_assigned_dispersal_kernels": 2,
+      "physical_patch_layout_types": 1
+    },
+    {
+      "id": "green_anderson_2022",
+      "dataset_doi": "10.5061/dryad.3j9kd51kx",
+      "article_doi": "10.1111/1365-2656.13943",
+      "dataset_url": "https://datadryad.org/dataset/doi:10.5061/dryad.3j9kd51kx",
+      "metadata_statement": "Data synthesis of 22 experiments and 16 unique network structures including previously published Holyoak 1996/2000, four metacommunity replicates per experiment, patch-level predator/prey trajectories sampled 3x/week for >=75 days, fixed tubes linking patches",
+      "independent_experiments_reported": 22,
+      "unique_network_structures_reported": 16,
+      "intended_metacommunity_replicates_per_experiment": 4,
+      "maximum_potential_independent_metacommunity_units_before_source_id_validation": 88,
+      "unambiguous_independent_network_topology_units_at_most": 16,
+      "pooled_earlier_holyoak_studies": true,
+      "source_public_file": "anderson_lab_protist_data.csv",
+      "raw_source_rows_opened": false,
+      "per_interval_source_to_destination_migration_measured": false,
+      "exact_archived_graph_adjacency_verified": false,
+      "source_study_overlap_deduplicated": false,
+      "limits": [
+        "Twenty-two experiments are not 22 entirely new/independent published-source lineages because the synthesis includes Holyoak 1996/2000",
+        "Eighty-eight potential metacommunity replicates are not 88 independent network architectures",
+        "Connection of patches by fixed tubing is a physical graph, not a direct measurement of realized directed migration",
+        "The original synthesis already reported network connectivity/synchrony and predator/prey occupancy relationships",
+        "Exact source study IDs, time-ordered transitions, species detection, and independent estimable heldout groups have not been audited"
+      ],
+      "preliminary_design_decision": "HOLD_NONFRESH_STUDY_OVERLAP_GRAPH_OPERATOR_AND_EVENT_SUPPORT_UNVERIFIED",
+      "article_context_already_exposed": true
+    }
+  ],
+  "future_target": {
+    "ecological_fork": "Does source availability aid future 0->1 colonization while correlated loss of functioning donors negates the benefit, conditional on environment and geometry?",
+    "primary": "Lagged guild-specific occupied/viable donor state and independent directional transport add heldout next-interval 0->1 log-loss information beyond a strong lagged occupancy, prey, habitat, effort, and nearest-source reference",
+    "secondary": "1->0 local loss and complete donor cofailure modelled separately; do not combine with primary 0->1",
+    "third_order": "Higher-order simultaneous donor loss must be measured as joint state across sources, not inferred solely from pairwise source synchrony",
+    "note": "The source redundancy hypothesis and synchrony mechanism are already known in the literature; incremental independent prediction is the testable remaining claim"
+  },
+  "gate_contract": {
+    "independent_unit": "metapopulation experimental replicate; if testing operator portability hold out whole independently distinct network/realization units rather than patches",
+    "shared_route_realization_requires_clustering": true,
+    "study_reuse_requires_provenance_deduplication": true,
+    "before_pilot": "Replay current Structural v0.10/v0.11 then freeze v0.31 disjoint burned pilot / confirmatory and v0.42 response quality on same fingerprint",
+    "no_universal_block_minimum_claim": true,
+    "empirical_admitted": false,
+    "pilot_opened": false,
+    "confirmatory_opened": false
+  },
+  "guards": {
+    "eBird": false,
+    "Wolfe_reopened": false,
+    "Laan_Dryad_retried": false,
+    "original_mammal_heldout_reopened": false,
+    "original_GEB_predictions_reopened": false,
+    "GEB_scientific_HOLD": true
+  }
+}

@@ -1,0 +1,40 @@
+name: Temporal rescue published-design-only ledger v1.221
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - scripts/temporal_rescue_design_intake_v1_221.py
+      - tests/test_temporal_rescue_design_intake_v1_221.py
+      - development/temporal_rescue_source_design_v1_221.json
+      - .github/workflows/temporal_rescue_design_only_v1_221.yml
+permissions:
+  contents: read
+jobs:
+  metadata-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate published-methods units and guard the response boundary
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_temporal_rescue_design_intake_v1_221.py
+          python scripts/temporal_rescue_design_intake_v1_221.py development/temporal_rescue_source_design_v1_221.json --out build/v221/design_receipt.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v221/design_receipt.json"))
+          assert d["prospectively_eligible_systems_added"]==0
+          assert d["source_outcome_cells_read"]==0
+          assert d["model_fits"]==0
+          assert d["future_response_access_authorized"] is False
+          print("PUBLISHED-DESIGN ONLY; NO RESPONSE-ACCESS: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v221-source-design-no-response
+          path: build/v221/design_receipt.json
+          retention-days: 21

@@ -1,0 +1,39 @@
+{
+  "schema": "structural.hopson_zero_spell_contract.v1_223",
+  "status": "RETROSPECTIVE_POSTOUTCOME_DESCRIPTIVE_AFTER_V1_222",
+  "source_md5": {
+    "observations": "76de51cecdee69e87138c469a93b35a9",
+    "layout": "6957db366d97aa5a15fd7107b2429ac3"
+  },
+  "origin": "v1.222 real data 4,830 records and 554 zero-to-positive adjacent-visit samples already exposed",
+  "objectives": "Quantify how many nominal zero->positive re-detections follow one, two, three-or-more consecutive zero detections, vs a first left-censored run before a recorded positive.",
+  "run_rules": {
+    "unit": "jar",
+    "time": "day sorted",
+    "category_boundaries": [
+      1,
+      2,
+      3
+    ],
+    "three_plus_collapsed": true,
+    "prior_positive_requirement_for_between_positives": true,
+    "missing_interrupts_run": true,
+    "first_observed_zero_left_censored": true,
+    "last_zero_run_right_censored": true,
+    "zero_sample_volume_unusable": true,
+    "all_blocks_and_treatments_reported": true
+  },
+  "not_claimed": [
+    "True extinction",
+    "Recolonization",
+    "Rescue",
+    "False-negative identity of single zero",
+    "Any treatment benefit or significant p-value",
+    "Complete independent donor-to-target migration"
+  ],
+  "guards": {
+    "prior_GEB_scientific_HOLD": true,
+    "new_confirmatory_evidence": false,
+    "eBird": false
+  }
+}

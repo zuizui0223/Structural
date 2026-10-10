@@ -1,0 +1,78 @@
+{
+  "schema": "structural.hopson_temporal_detection_protocol.v1_222",
+  "status": "EXPLICIT_RETROSPECTIVE_ALREADY_EXPOSED_DESCRIPTIVE_BEFORE_FURTHER_BIOLOGICAL_ANALYSIS",
+  "preceding_exposure": "Hopson Dryad public outcome methods and first public raw rows were visible in open web results before this contract. Not pristine, not confirmatory.",
+  "source": {
+    "record": "https://zenodo.org/records/4960267",
+    "files": {
+      "Summer 2016 Data - 8.26.csv": {
+        "md5": "76de51cecdee69e87138c469a93b35a9",
+        "header": [
+          "date",
+          "day",
+          "jar.no",
+          "samp.vol",
+          "dil.vol",
+          "sub.samp.vol",
+          "eupl",
+          "tet"
+        ]
+      },
+      "Summer 2016 treatment layout.csv": {
+        "md5": "6957db366d97aa5a15fd7107b2429ac3",
+        "header": [
+          "jar.no",
+          "metapop.no",
+          "patch.no",
+          "trt",
+          "time.block"
+        ]
+      }
+    }
+  },
+  "universe": {
+    "metapopulations": 14,
+    "patches_each": 15,
+    "independent_units": "metapopulation",
+    "time_block_assignment": {
+      "1": {
+        "sw": 4,
+        "nn": 3
+      },
+      "2": {
+        "sw": 3,
+        "nn": 4
+      }
+    }
+  },
+  "parse_rules": {
+    "source_only_exact_url_md5": true,
+    "allow_raw_source_data_access_as_postoutcome_descriptive": true,
+    "positive": "eupl count >0",
+    "zero": "eupl count ==0 is nondetection only",
+    "invalid_or_missing": "NA/blank predator counts or zero sample volume excluded from usable pairs",
+    "pair": "two next observed visits of same jar sorted by experiment day; no max-gap tuning",
+    "no_null_as_zero": true,
+    "measures": [
+      "source row and valid volume accounting",
+      "zero and positive predator samples by time block and treatment",
+      "0_count→positive_count re-detection, positive→0 loss-of-detection",
+      "sampling day gaps",
+      "sample-volume minima median maxima"
+    ],
+    "forbid": [
+      "statistical treatment-significance",
+      "colonization or extinction estimated",
+      "source-rescue effect estimated",
+      "one actual independent migration path claimed"
+    ]
+  },
+  "guards": {
+    "eBird": false,
+    "original_global_mammals_response": false,
+    "original_graph_predictions": false,
+    "Wolfe_reopen": false,
+    "confirmatory_evidence": false,
+    "GEB_scientific_HOLD": true
+  }
+}

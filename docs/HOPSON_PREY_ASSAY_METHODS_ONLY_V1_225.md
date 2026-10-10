@@ -1,0 +1,7 @@
+# Hopson v1.225: author-assay identity before prey-coupled modelling
+
+A predator-zero series cannot be interpreted as demographic rescue without accounting for prey cycling and sampling error. Yet the source Tetrahymena assay uses dilution and subsampling on some visits. Direct comparison of raw `tet` counts across rows is **not valid** until the original author's transformation from `tet`, `dil.vol`, `sub.samp.vol`, and `samp.vol` is independently read from the original author R script/README.
+
+This v1.225 workflow reads **only** source-authored code and notes (MD5-pinned), extracts relevant line-numbered excerpts, and emits a compact receipt; it never opens the published biological CSV, runs a regression, generates an ecological effect or authorizes a Structural confirmatory pilot.
+
+After receipt validation, an additional contract can specify a retrospective quantitative test on the already-exposed source, such as whether prey concentration at the previous sample predicts later predator central sample zeros conditional on previous predator count and sample effort. Same-day prey and predator counts are concomitant responses, not causal pre-exposure variables. Given the authors' published predator-prey cycle findings, any new analysis remains **postpublication descriptive** without novel rescue inference. Treat individual nested jar-visits as repeated observations within **14 independent experimental metapopulations**, not thousands of experimental treatment units.

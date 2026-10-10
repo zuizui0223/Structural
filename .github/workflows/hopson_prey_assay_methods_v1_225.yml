@@ -1,0 +1,40 @@
+name: Hopson original prey assay methods only v1.225
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - development/hopson_prey_assay_methods_contract_v1_225.json
+      - scripts/hopson_prey_assay_methods_v1_225.py
+      - tests/test_hopson_prey_assay_methods_v1_225.py
+      - .github/workflows/hopson_prey_assay_methods_v1_225.yml
+permissions:
+  contents: read
+jobs:
+  source-methods-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_hopson_prey_assay_methods_v1_225.py
+      - name: Author assay methods provenance-only
+        run: |
+          python scripts/hopson_prey_assay_methods_v1_225.py --out build/v225/methods.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v225/methods.json"))
+          assert r["original_observation_data_file_fetched"] is False
+          assert r["ecological_response_rows_opened"]==0
+          assert r["model_fits"]==0
+          print("SOURCE METHODS ONLY; NO BIOLOGY OPEN: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v225-author-prey-assay-methods
+          path: build/v225/methods.json
+          retention-days: 21

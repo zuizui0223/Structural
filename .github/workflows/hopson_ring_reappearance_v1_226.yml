@@ -1,0 +1,42 @@
+name: Hopson ring localization observational redetection LOSO v1.226
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - scripts/hopson_ring_reappearance_loso_v1_226.py
+      - tests/test_hopson_ring_reappearance_loso_v1_226.py
+      - development/hopson_ring_reappearance_contract_v1_226.json
+      - .github/workflows/hopson_ring_reappearance_v1_226.yml
+permissions:
+  contents: read
+jobs:
+  retrospective-score:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest scikit-learn==1.6.1
+          python -m pytest -q tests/test_hopson_ring_reappearance_loso_v1_226.py
+      - name: Frozen original source + 14 whole-metapopulation prediction folds
+        run: |
+          python scripts/hopson_ring_reappearance_loso_v1_226.py --out build/v226/result.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v226/result.json"))
+          assert r["n_source_metapopulations"]==14
+          assert r["n_zero_to_positive_redetections"]==554
+          assert len(r["folds"])==14
+          assert r["predictors_are_all_at_t_or_earlier"]
+          assert r["GEB_scientific_HOLD"]
+          print("v1.226 response-exposed predictive diagnostic completed without rescue claim: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v226-hopson-ring-geometric-increment
+          path: build/v226/result.json
+          retention-days: 21

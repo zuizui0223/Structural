@@ -1,0 +1,45 @@
+{
+  "schema": "structural.hopson_sampling_zero_model_contract.v1_224",
+  "evidence_class": "RETROSPECTIVE_POSTOUTCOME_AFTER_ALL_V222_V223_BIOLOGICAL_DATA_EXPOSED",
+  "source": {
+    "observations_md5": "76de51cecdee69e87138c469a93b35a9",
+    "layout_md5": "6957db366d97aa5a15fd7107b2429ac3",
+    "frozen_v223_single_zero_count": 209
+  },
+  "fixed_selection": "Only interior jar visits where immediately previous and next Euplotes counts >0 and all three sample volumes positive; central count may be zero or positive. No cherry-picked treatment or zero run length.",
+  "observation_likelihood": "Each undiluted sample count Poisson(sample volume * shared concentration), with noninformative Gamma(.5,0) improper prior for rate. Condition on flanking counts, never central count. Center posterior predictive zero probability under declared middle concentration scale rho.",
+  "sensitivities": [
+    {
+      "rho": 1,
+      "meaning": "exactly unchanged local concentration across neighboring sampling visits"
+    },
+    {
+      "rho": 0.25,
+      "meaning": "hypothetical 75% lower middle-visit concentration than neighbor-estimated density"
+    },
+    {
+      "rho": 0.1,
+      "meaning": "hypothetical 90% lower middle-visit concentration than neighbor-estimated density"
+    }
+  ],
+  "report": [
+    "All eligible triple centers and their observed zeros",
+    "Expected central zeros under each sensitivity assumption (not population prediction)",
+    "Observed zeros with a model-assigned Pzero<.01 or <.05",
+    "Counts stratified by original two time blocks and two kernel treatments",
+    "All 14 metapopulation-level summaries; patch-time triplets are not independent",
+    "Central zeros whose two adjacent positive counts each >=5 or >=20",
+    "Fixed zero-probability calibration bins"
+  ],
+  "guards": {
+    "retrospective_exploration": true,
+    "source_known_published": true,
+    "sampling_model_not_measured_true_density": true,
+    "no_p_values": true,
+    "no_ci_or_significance_claims": true,
+    "not_proof_of_true_absence_colonization_migration_or_rescue": true,
+    "no_original_mammal_heldout_read": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}

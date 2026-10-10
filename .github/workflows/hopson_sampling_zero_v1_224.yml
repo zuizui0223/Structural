@@ -1,0 +1,42 @@
+name: Hopson conditional Poisson sample-zero model check v1.224
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - scripts/hopson_sampling_zero_check_v1_224.py
+      - tests/test_hopson_sampling_zero_check_v1_224.py
+      - development/hopson_sampling_zero_contract_v1_224.json
+      - .github/workflows/hopson_sampling_zero_v1_224.yml
+permissions:
+  contents: read
+jobs:
+  retrospective-observation-calibration:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_hopson_sampling_zero_check_v1_224.py
+      - name: Fixed publisher source data and model assumption grid
+        run: |
+          python scripts/hopson_sampling_zero_check_v1_224.py --out build/v224/check.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v224/check.json"))
+          assert d["single_zero_flanked_by_positives_anchor"]==209
+          assert d["hypothetical_mid_density_scales"]==[1,.25,.1]
+          assert d["independent_experimental_units"]==14
+          assert not d["no_parametric_p_value_or_confidence_interval"] is False
+          assert d["GEB_scientific_HOLD"]
+          print("v1.224 observation model sensitivity only: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v224-hopson-sampling-zero-calibration
+          path: build/v224/check.json
+          retention-days: 21

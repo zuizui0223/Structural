@@ -1,0 +1,92 @@
+{
+  "schema": "structural.hopson_2016_detection_support_freeze.v1_222",
+  "status": "EXECUTED_RETROSPECTIVE_PUBLISHED_SOURCE_ONLY_NO_COLONIZATION",
+  "provenance": {
+    "source": "https://zenodo.org/records/4960267",
+    "source_files": {
+      "observations": {
+        "file": "Summer 2016 Data - 8.26.csv",
+        "MD5": "76de51cecdee69e87138c469a93b35a9",
+        "SHA256": "b3b15ac9d1058d4df5c1a827ea7e372fbf147c02d779f6fc36c5af734b4ee4d4"
+      },
+      "layout": {
+        "file": "Summer 2016 treatment layout.csv",
+        "MD5": "6957db366d97aa5a15fd7107b2429ac3",
+        "SHA256": "48b13034382359e0ceffecf73c6f4885d42e13a98dde16b7eed45798832e7375"
+      }
+    },
+    "workflow_run": 38013852435,
+    "synthetic_tests": 4,
+    "workflow_success": true,
+    "artifact_id": 11655497751,
+    "artifact_digest": "sha256:a0c0060c3e1ae2598f73dc629dc69acd1460a7b1d985a57669d54eb59a9d9e3a",
+    "first_attempt_technical_stop": {
+      "run_id": 38013821364,
+      "reason": "original CSV newline CR handling, no source identity or ecological metric change"
+    }
+  },
+  "units": {
+    "independent_metapopulations": 14,
+    "patches": 210,
+    "records": 4830,
+    "sampling_visits_per_patch": 23,
+    "paired_adjacent_visits": 4620,
+    "gaps_days": {
+      "3": 2310,
+      "4": 2310
+    },
+    "missing_eupl_count_rows": 0
+  },
+  "observed_predator_sample_transition_counts": {
+    "positive_to_positive": 3005,
+    "positive_to_zero": 530,
+    "zero_to_positive": 554,
+    "zero_to_zero": 531
+  },
+  "by_time_block_and_kernel": {
+    "block_1_nn": {
+      "metapopulations": 3,
+      "sampled_rows": 1035,
+      "zero_to_positive": 109,
+      "positive_to_zero": 103
+    },
+    "block_1_sw": {
+      "metapopulations": 4,
+      "sampled_rows": 1380,
+      "zero_to_positive": 161,
+      "positive_to_zero": 158
+    },
+    "block_2_nn": {
+      "metapopulations": 4,
+      "sampled_rows": 1380,
+      "zero_to_positive": 151,
+      "positive_to_zero": 142
+    },
+    "block_2_sw": {
+      "metapopulations": 3,
+      "sampled_rows": 1035,
+      "zero_to_positive": 133,
+      "positive_to_zero": 127
+    }
+  },
+  "sampling": {
+    "median_sample_volume_ml": 0.3,
+    "range_observed_ml": [
+      0.298,
+      0.33
+    ],
+    "source_lab_protocol": "Euplotes counted undiluted, sample counts not patch census"
+  },
+  "evidence_limits": {
+    "eBird": false,
+    "source_Wolfe_reopened": false,
+    "source_mammal_heldout_reopened": false,
+    "observed_zero_not_proven_absence": true,
+    "zero_to_positive_not_proven_colonization": true,
+    "positive_to_zero_not_proven_local_extinction": true,
+    "treatment_p_values_computed": false,
+    "actual_individual_donor_target_movements_observed": false,
+    "confirmatory_eligible_systems_added": 0,
+    "GEB_scientific_HOLD": true
+  }
+}

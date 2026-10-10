@@ -1,0 +1,41 @@
+name: Hopson zero-spell redetection sensitivity v1.223
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - scripts/hopson_zero_spell_audit_v1_223.py
+      - tests/test_hopson_zero_spell_audit_v1_223.py
+      - development/hopson_zero_spell_contract_v1_223.json
+      - .github/workflows/hopson_zero_spell_v1_223.yml
+permissions:
+  contents: read
+jobs:
+  source-locked-retrospective:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_hopson_zero_spell_audit_v1_223.py
+      - name: Exact publisher source and fixed temporal-run categories
+        run: |
+          python scripts/hopson_zero_spell_audit_v1_223.py --out build/v223/result.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v223/result.json"))
+          assert d["original_v222_redetections"]==d["redetections_recomputed"]==554
+          assert sum(d["categories"].values())==554
+          assert d["sampling_unit"]=="210 nested jars × 23 sampling times in 14 independent metapopulations"
+          assert d["any_redetection_is_not_proven_recolonization"]
+          print("v1.223 source-locked zero-spell support PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v223-hopson-zero-spell-not-colonization
+          path: build/v223/result.json
+          retention-days: 21

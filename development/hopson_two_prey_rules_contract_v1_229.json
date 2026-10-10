@@ -1,0 +1,32 @@
+{
+  "schema": "structural.hopson_two_assay_interpretation_contract.v1_229",
+  "evidence_class": "EXPLICIT_NEW_POSTOUTCOME_SENSITIVITY_AFTER_FAILED_V227_AND_VOLUME_METADATA_EXPOSURE_V228",
+  "nonnegotiable_previous_status": "v1.227 STOP remains a failed original protocol; no repair/promotion by this study",
+  "fixed_observation_dataset": {
+    "zenodo": "4960267",
+    "obs_md5": "76de51cecdee69e87138c469a93b35a9",
+    "layout_md5": "6957db366d97aa5a15fd7107b2429ac3",
+    "prey_author_R_md5": "dadab72ec94583cdbf7197cc3eb09ea0",
+    "v228_assay_flags": {
+      "both_zero_undiluted": 3591,
+      "both_positive_diluted": 1238,
+      "dilution_zero_subsample_positive": 1
+    }
+  },
+  "methods": [
+    "author_R_literal: if sub.samp.vol>0, (tet/sub.samp.vol)*(dil.vol+samp.vol)/samp.vol, even if dil.vol=0; if sub.samp.vol=0, fallback tet/samp.vol",
+    "README_no_dilution: if dil.vol=0, tet/samp.vol, even if sub.samp.vol positive; otherwise original author R positive subsample formula"
+  ],
+  "frozen_reuse": "Use unmodified v1.227 predictor/fold/scoring functions in a distinct v1.229 runner, with each of the two explicit source interpretation functions supplied separately, and assert unchanged v1.226 anchor",
+  "report_all": "Both signed ring increment Cprey−Rprey, both prey reference effects Rprey−Rwithout, 14 independent fold values, two bootstrap descriptors, between-rule differences, no favorable-subset mining",
+  "epistemic_limits": {
+    "observational_redetection_not_colonization": true,
+    "author_preferred_interpretation_of_one_row_unverified": true,
+    "neither_result_confirmatory": true,
+    "model_uses_t_sampling_not_future_predictors": true,
+    "prey_environment_not_true_dispersal": true,
+    "original_529_mammal_heldout_reopened": false,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}

@@ -1,0 +1,42 @@
+name: Hopson retrospective two-assay prey/ring LOSO v1.229
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - scripts/hopson_two_prey_rules_loso_v1_229.py
+      - tests/test_hopson_two_prey_rules_loso_v1_229.py
+      - development/hopson_two_prey_rules_contract_v1_229.json
+      - .github/workflows/hopson_two_prey_rules_v1_229.yml
+permissions:
+  contents: read
+jobs:
+  two-assays-no-new-confirmation:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest scikit-learn==1.6.1
+          python -m pytest -q tests/test_hopson_two_prey_rules_loso_v1_229.py
+      - name: Compare both assay interpretations without selecting on score
+        run: |
+          python scripts/hopson_two_prey_rules_loso_v1_229.py --out build/v229/two_rules.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v229/two_rules.json"))
+          assert r["v227_frozen_scoring_terminal_STOP"] is True
+          assert len(r["two_fixed_assay_rule_results"])==2
+          assert all(v["n_prediction_rows"]==1085 and v["n_sample_redetections"]==554 for v in r["two_fixed_assay_rule_results"].values())
+          assert r["zero_new_confirmatory_systems"]
+          assert r["GEB_scientific_HOLD"]
+          print("Both fixed postoutcome assay interpretations reported; no biology claim")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v229-hopson-two-assay-prey-ring
+          path: build/v229/two_rules.json
+          retention-days: 21

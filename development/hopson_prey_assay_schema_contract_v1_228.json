@@ -1,0 +1,35 @@
+{
+  "schema": "structural.hopson_prey_assay_flag_domain_audit.v1_228",
+  "status": "FROZEN_SCHEMA_ONLY_AFTER_TERMINAL_V227_PROTOCOL_STOP",
+  "source": "Original published Hopson observation CSV, already exposed, Zenodo 4960267",
+  "locked_MD5": "76de51cecdee69e87138c469a93b35a9",
+  "original_v227_error": "Inconsistent dilution and subsample flags",
+  "methodology": {
+    "read_semantic_columns": [
+      "samp.vol",
+      "dil.vol",
+      "sub.samp.vol"
+    ],
+    "forbidden_to_use_as_endpoints": [
+      "eupl",
+      "tet"
+    ],
+    "categories": [
+      "both_zero_undiluted",
+      "both_positive_diluted",
+      "positive_dilution_zero_subsample",
+      "zero_dilution_positive_subsample",
+      "invalid_volume",
+      "invalid_nonfinite"
+    ],
+    "extract": "Rows per category and dilution/subsample combinations; all original 4830 rows; no outcome, species count, model fit or prediction",
+    "resolution": "The v1.227 result remains STOP. Only a new explicitly retrospective source-method-matched protocol, if independently specified, may be tried. Do not silently change v1.227 response subset or threshold."
+  },
+  "guards": {
+    "author_R_not_modified": true,
+    "original_v227_result_not_claimed": true,
+    "original_global_mammals_heldout_reopened": false,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}
