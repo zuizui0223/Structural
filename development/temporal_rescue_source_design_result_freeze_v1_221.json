@@ -1,0 +1,47 @@
+{
+  "schema": "structural.temporal_rescue_source_design_replay_freeze.v1_221",
+  "status": "PASS_PUBLISHED_DESIGN_LEDGER_ZERO_EMPIRICAL_ADMISSION",
+  "source": {
+    "Hopson_Fox": "10.1111/1365-2656.12905; 10.5061/dryad.n8d6s43",
+    "Green_Anderson": "10.5061/dryad.3j9kd51kx; 10.1111/1365-2656.13943",
+    "publication_method_metadata_only": true,
+    "biological_response_or_predicted_data_read": false
+  },
+  "experiment_unit_accounting": {
+    "Hopson": {
+      "metapopulations": 14,
+      "patches_per_metapopulation": 15,
+      "shared_long_route_realization_across_replicates": true,
+      "physical_ring_topology_types": 1,
+      "assigned_kernel_treatments": 2
+    },
+    "Green": {
+      "reported_experiments": 22,
+      "reported_unique_network_architectures": 16,
+      "potential_metapopulation_units_before_identity_check": 88,
+      "Holyoak_historical_source_overlap": true
+    }
+  },
+  "evidence": {
+    "source_files_downloaded": false,
+    "source_row_values_opened": 0,
+    "confirmatory_eligible_systems_added": 0,
+    "new_biological_effect_claimed": false
+  },
+  "CI": {
+    "commit": "a8930521641b83d75a0183ecaffbd01ba2e0e9f6",
+    "run_id": 38013180903,
+    "job_id": 114097569984,
+    "synthetic_tests_passed": 4,
+    "result": "success",
+    "artifact_id": 11655216407,
+    "artifact_digest": "sha256:1596cb71cf62a5fc27f59b244935cd2e64c37cfda6a60d85dd104b03eb65e884"
+  },
+  "restrictions": {
+    "v0_31_v0_42_gate_unchanged": true,
+    "Wolfe_v1_220_closed": true,
+    "GEB_scientific_HOLD": true,
+    "original_mammal_heldout_reopened": false,
+    "eBird": false
+  }
+}
