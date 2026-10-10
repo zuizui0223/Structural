@@ -1,0 +1,43 @@
+{
+  "schema": "structural.hopson_prey_assay_flag_result_freeze.v1_228",
+  "status": "STOP_V227_ASSAY_DOMAIN_MISMATCH_PINNED_METADATA_AUDIT_SUCCESS",
+  "provenance": {
+    "observations_MD5": "76de51cecdee69e87138c469a93b35a9",
+    "v227_failed_runs": [
+      38059094559,
+      38059122930
+    ],
+    "v227_failure_type": "ValueError: Inconsistent dilution and subsample flags",
+    "workflow_run": 38060012871,
+    "job_id": 114236180208,
+    "synthetic_tests_passed": 3,
+    "job_success": true,
+    "artifact_id": 11672548034,
+    "artifact_digest": "sha256:207ee5d6662daa4618fde626932adcc8d4c9f4beb297f3ef108da75a060f6dbe"
+  },
+  "rows": {
+    "total": 4830,
+    "both_zero_undiluted": 3591,
+    "both_positive_diluted": 1238,
+    "zero_dilution_positive_subsample": 1,
+    "positive_dilution_zero_subsample": 0,
+    "invalid_volume": 0,
+    "invalid_nonfinite": 0,
+    "rows_outside_frozen_v227_domain": 1
+  },
+  "method": {
+    "author_R_diluted": "(tet/sub.samp.vol)*(dil.vol+samp.vol)/samp.vol",
+    "author_R_undiluted_fallback": "tet/samp.vol when computed diluted concentration nonfinite",
+    "README": "dil.vol=0 says no dilution and sub.samp.vol=0 says no subsampling",
+    "one_row_zero_dilution_positive_subsample_cannot_be_mapped_uniquely_from_both_sources": true,
+    "v227_scoring_not_authorized": true
+  },
+  "evidence": {
+    "used_only_volume_metadata_not_predator_prey_count_values": true,
+    "new_colonization_rescue_or_prey_predictive_score": false,
+    "zero_new_confirmatory_systems": true,
+    "original_global_mammal_response_or_predictions_reopened": false,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}
