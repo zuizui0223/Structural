@@ -1,0 +1,34 @@
+{
+  "schema": "structural.hopson_ring_reappearance_loso_contract.v1_226",
+  "status": "POSTOUTCOME_EXPLORATORY_FROZEN_COMPARISON_BEFORE_NEW_SCORING",
+  "source": {
+    "observations_md5": "76de51cecdee69e87138c469a93b35a9",
+    "layout_md5": "6957db366d97aa5a15fd7107b2429ac3",
+    "source_rows": 4830,
+    "independent_metapopulations": 14,
+    "ring_patch_count": 15,
+    "known_sample_reappearance_positive_count": 554
+  },
+  "target": "All consecutive visits of each jar with Euplotes sample count exactly zero at t and valid count at t+1; next visit Euplotes sample >0. No true occupancy inference.",
+  "no_future_covariates": true,
+  "reference": "t current zero spell length, day/81, current total positive other patches /14, log1p other patch predator count sum, nearest ring distance to a positive, own current sample volume, treatment assigned small world, time block 2",
+  "candidate": "reference + exact number of positive neighbors at ring distance 1 and 2, from the same t observation (does not assert migrant movement)",
+  "validation": "Leave one entire of 14 independent experimental metapopulations out; fit L2 logistic with StandardScaler on training only; deterministic C=1, liblinear; equal fold mean C-R logloss; seeded 2000 descriptive cluster bootstrap",
+  "pre_declared_sign": "Candidate useful if C−R<0; sign not guaranteed and any loss increase must be reported. No subgroup rescue.",
+  "limits": [
+    "Dataset already published and all labels exposed in v1.222/223",
+    "Predict observed count redetection only, not local colonization",
+    "Ring geometry not actual realized time-varying source transport",
+    "Lagged prey unavailable until original author R dilution code is verified, so this is NOT a rich R3 reference",
+    "No causal rescue or ecological independent proof",
+    "Repeated rows within 14 metapopulations, independent heldout at metapopulation level",
+    "Do not reinterpret positive sign as model inadequacy theorem",
+    "No prospective Structural confirmatory admission"
+  ],
+  "safety": {
+    "eBird": false,
+    "GEB_HOLD": true,
+    "mammal_heldout_reopened": false,
+    "source_prey_R_assay_needed_separately": true
+  }
+}
