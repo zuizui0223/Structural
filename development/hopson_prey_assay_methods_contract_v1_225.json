@@ -1,0 +1,19 @@
+{
+  "schema": "structural.hopson_prey_assay_methods_only_contract.v1_225",
+  "status": "SOURCE_METHODS_PROVENANCE_ONLY_NO_BIOLOGICAL_OUTCOME_ANALYSIS",
+  "source": "Zenodo 4960267, exact published file MD5s",
+  "files": {
+    "Thesis Code Experimental - for data dryad.R": "dadab72ec94583cdbf7197cc3eb09ea0",
+    "README_for_Thesis Code Experimental - for data dryad.txt": "332b97a8e81ff3eb109dbc7a1b93137b"
+  },
+  "question": "How exactly did original authors calculate prey (Tetrahymena) density from sample, dilution and subsample volumes, prior to testing ecological covariates?",
+  "extraction": "Strictly only source R/README lines containing tet/eupl/dil/samp/density and original line numbers, max 300 characters/line; no biology CSV.",
+  "prohibitions": {
+    "biological_outcome_read": false,
+    "reanalysis": false,
+    "new_empirical_result": false,
+    "mammal_heldout_reopen": false,
+    "eBird": false,
+    "GEB_submission_authorized": false
+  }
+}
