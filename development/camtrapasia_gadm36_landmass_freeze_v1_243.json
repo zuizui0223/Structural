@@ -1,0 +1,79 @@
+{
+  "schema": "structural.camtrapasia_gadm36_landmass_screen_result_freeze.v1_243",
+  "status": "PASS_PINNED_GADM36_COUNTRY_POLYGON_COMPONENT_SCREEN",
+  "source": {
+    "GADM_version": "3.6",
+    "pinned_GitHub": "stephanietuerk/admin-boundaries@4e73ae720b9250f0974e8a93f949aaeab6989159",
+    "country_ISO_and_blob_SHA1": {
+      "IDN": "7fe728548987171b36f19657da2df253853c99c6",
+      "MYS": "d53bd009c0094c98ee4c530cbfca584196010394",
+      "VNM": "d5a56b71d57fd99bb70c49b521b70b320635260c"
+    },
+    "county_admin0_polygon_components": {
+      "Indonesia": 646,
+      "Malaysia": 493,
+      "Vietnam": 1192
+    }
+  },
+  "execution": {
+    "run_id": 37890421408,
+    "job_id": 113689870038,
+    "artifact_id": 11597413824,
+    "artifact_digest": "sha256:b34831fa23756869327e8baeaf2f39fcbb4f20373a5bd47f816c747153b00392",
+    "tests_passed": 2,
+    "run_success": true
+  },
+  "status_classes": {
+    "same_component": 2,
+    "different_component": 3,
+    "one_or_both_outside": 10,
+    "ambiguous": 0
+  },
+  "same_component_sites": [
+    {
+      "study_id": "Rademaker_et_al_2016_Bawean.Arjun",
+      "original_heldout_ID": "65489",
+      "block_id": "GB_09dd5f7909bd",
+      "site_region": "Pulau Bawean"
+    },
+    {
+      "study_id": "Rahman_et_al_2016_Bawean.Arjun",
+      "original_heldout_ID": "65489",
+      "block_id": "GB_09dd5f7909bd",
+      "site_region": "Pulau Bawean"
+    }
+  ],
+  "same_component_unique_original_heldout_island_count": 1,
+  "same_component_unique_original_heldout_geographic_block_count": 1,
+  "different_components_studies": [
+    "122.SEA",
+    "Mohd-Azlan_2018_Kuban.Arjun",
+    "USAID_2018_Bac_Hai_Van.Arjun"
+  ],
+  "unknown_10_are_not_verified_separate_islands": true,
+  "comparison_with_NaturalEarth_v242": {
+    "NE_same_component_count": 4,
+    "NE_different_component_count": 1,
+    "NE_unresolved_count": 10,
+    "NE_and_GADM_both_same_component_study_count": 2,
+    "source_GEOGRAPHY_version_sensitivity": true
+  },
+  "scope": {
+    "true_GADM3_6_polygon_source_island_ID_not_available": true,
+    "country_geometry_version_matches_GADM36_not_original_island_unit_mapping": true,
+    "study_center_not_camera_deployment_observation": true,
+    "source_camera_detection_values_read": 0,
+    "mammal_heldout_0_1_rows_read": 0,
+    "original_model_prediction_scores_read": 0,
+    "external_mammal_prediction_validation_authorized": false,
+    "GEB_scientific_hold": true
+  },
+  "guards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_mammal_outcomes_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

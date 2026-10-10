@@ -1,0 +1,44 @@
+name: Descriptive independent camera campaign-year replication v1.252
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_campaign_year_contract_v1_252.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  campaign-years-no-original-outcomes:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_camtrapasia_campaign_years_v1_252.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v248-all239-response-safe-source-land-candidates
+          path: build/v252/geo
+          repository: zuizui0223/Structural
+          run-id: 37892990657
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v238-camtrapasia-species-overlap-only
+          path: build/v252/taxa
+          repository: zuizui0223/Structural
+          run-id: 37888766560
+          github-token: ${{ github.token }}
+      - name: Frozen two-island campaign windows and nonoverlap, descriptive only
+        run: |
+          python scripts/camtrapasia_campaign_years_v1_252.py build/v252/geo/result.json build/v252/taxa/overlap.json --out build/v252/time_support.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v252-camtrapasia-cross-year-field-evidence
+          path: build/v252/time_support.json
+          retention-days: 21

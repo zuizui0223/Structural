@@ -1,0 +1,44 @@
+name: CamTrapAsia pre2017 photo positive study-based rarefaction v1.254
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_study_rarefaction_contract_v1_254.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  exact-study-rarefaction:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_camtrapasia_study_rarefaction_v1_254.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v248-all239-response-safe-source-land-candidates
+          path: build/v254/geo
+          repository: zuizui0223/Structural
+          run-id: 37892990657
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v238-camtrapasia-species-overlap-only
+          path: build/v254/taxa
+          repository: zuizui0223/Structural
+          run-id: 37888766560
+          github-token: ${{ github.token }}
+      - name: Exact expectation and seeded study subsets
+        run: |
+          python scripts/camtrapasia_study_rarefaction_v1_254.py build/v254/geo/result.json build/v254/taxa/overlap.json --out build/v254/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v254-pre2017-study-rarefaction
+          path: build/v254/result.json
+          retention-days: 21

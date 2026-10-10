@@ -1,0 +1,93 @@
+{
+  "schema": "structural.camtrapasia_repeated_wild_taxa_campaign_windows.v1_252",
+  "status": "POSTOUTCOME_DESCRIPTIVE_TEMPORAL_SUPPORT_AUDIT_FROZEN_BEFORE_READING_YEAR_COLUMNS",
+  "aim": "Determine whether source camera studies yielding documented wild detections across both Java and Sumatra represent nonoverlapping study campaigns rather than repeated reports from overlapping time windows.",
+  "evidence_class": "POSTOUTCOME_EXPLORATORY_NOT_PROSPECTIVE_PREDICTION_VALIDATION",
+  "frozen_positive_panel": "development/camtrapasia_cross_island_photo_replicability_freeze_v1_251.json",
+  "previously_observed_strict_replicated_taxa": [
+    "Arctictis binturong",
+    "Lariscus insignis",
+    "Macaca fascicularis",
+    "Martes flavigula",
+    "Muntiacus muntjak",
+    "Prionailurus bengalensis",
+    "Sus scrofa"
+  ],
+  "source_CamTrapAsia_metadata": {
+    "file": "CamTrapAsia_Metadata_20231031.csv",
+    "bytes": 245677,
+    "MD5": "2b50c534737b0c98a93da54128b10a32",
+    "only_columns": [
+      "survey_id",
+      "year_start",
+      "year_end"
+    ]
+  },
+  "source_CamTrapAsia_captures": {
+    "file": "CamTrapAsia_Captures_20231031.csv",
+    "bytes": 956340,
+    "MD5": "a73975d7626def4012a4e1197497ba87",
+    "only_columns": [
+      "survey_id",
+      "records",
+      "class",
+      "binomial_verified",
+      "domestic"
+    ]
+  },
+  "geographic_island_study_eligibility": {
+    "prior_v248_workflow_run": 37892990657,
+    "prior_v248_artifact": "structural-v248-all239-response-safe-source-land-candidates",
+    "prior_geo_path": "result.json",
+    "only_original_source_islands": [
+      {
+        "ID": "65554",
+        "label": "Java",
+        "expected_studies": 25
+      },
+      {
+        "ID": "70378",
+        "label": "Sumatra",
+        "expected_studies": 49
+      }
+    ],
+    "no_other_island_study_records_accessed": true
+  },
+  "field_taxon_definition": {
+    "all_38_frozen_name_overlaps_in_source_manifest": "development/camtrapasia_published_mammal_taxon_overlap_freeze_v1_238.json",
+    "wild_status_only": "domestic exactly wild,false,0,f,no,n,non-domestic,non domestic casefold",
+    "photo_record_requirement": "records positive integer (>0), multiple rows same study/taxon merged as one study-level detection",
+    "no_zeros_as_true_absence": true,
+    "seven_taxa_are_POSTOUTCOME_selected": true
+  },
+  "predeclared_campaign_rules": {
+    "study_start_end_years": "Parse exact 4-digit calendar years between 1980 and 2026. Missing/outside these bounds => unknown (not positive temporal separation).",
+    "negative_or_noninteger_years": "Exclude from timed comparisons and count quality faults; no imputations.",
+    "campaign_interval": "Closed interval [year_start,year_end]. A taxon has disjoint study-windows on an island if two DISTINCT source survey_id's record that taxon positively and end(year_i) < start(year_j) or the reverse.",
+    "threshold_year_for_IUCN_vintage": 2017,
+    "source_pre2017": "study_end < 2017",
+    "source_overlap2017": "study_start<=2017<=study_end",
+    "source_post2017": "study_start > 2017",
+    "note": "Study year ranges are NOT actual photography dates or population time series.",
+    "comparison": "Per island and for the seven preidentified taxa, number of wild-positive study IDs, time-eligible IDs, min/max campaign boundaries, whether any disjoint positive intervals, evidence both before and after 2017 from fully disjoint windows; cross-island disjoint evidence reported separately.",
+    "no_statistical_significance_or_selection_effect_test": true
+  },
+  "ecological_limits": {
+    "survey_year_windows_do_not_identify_individual_animal_detection_date": true,
+    "separated_campaigns_do_not_demonstrate_continuous_population_persistence": true,
+    "source_studies_are_not_verified_independent_sampling_locations": true,
+    "two_natural_islands_share_one_original_heldout_spatial_block": true,
+    "native_status_not_proven": true,
+    "model_predictions_and_original_IUCN_heldout_labels_remain_sealed": true,
+    "no_trend_in_population_size_or_dispersal_inferred": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_mammal_heldout_open": false,
+    "original_model_scores_open": false,
+    "GEB_submission_authorized": false
+  }
+}

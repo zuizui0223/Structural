@@ -1,0 +1,38 @@
+{
+  "schema": "structural.camtrapasia_study_centres_geogrid_freeze.v1_239",
+  "status": "PASS_CANDIDATE_CAMERA_STUDY_LOCATIONS_VS_ORIGINAL_HELDOUT_GRID",
+  "execution": {
+    "run_id": 37888969928,
+    "job_id": 113685317281,
+    "artifact_id": 11597044740,
+    "artifact_digest": "sha256:ec1111a301b49e6c9355943d5c0eec9f0c467d0cfa9d628d7a2dbceed52a6810",
+    "synthetic_tests_passed": 2
+  },
+  "sources": {
+    "CamTrapAsia_study_metadata_md5": "2b50c534737b0c98a93da54128b10a32",
+    "original_geography_index": "development/mammal_heldout_geographic_search_index_freeze_v1_235.json"
+  },
+  "source_study_records": 239,
+  "unique_survey_ids": 239,
+  "source_geocoded_sites": 239,
+  "source_studies_with_effort": 239,
+  "primary_10deg": {
+    "coincident_survey_ids": 184,
+    "overlapping_tiles": 12,
+    "tiles_with_2plus_original_heldout_blocks": 1
+  },
+  "shifted_10deg": {
+    "coincident_survey_ids": 226,
+    "overlapping_tiles": 14,
+    "tiles_with_2plus_original_heldout_blocks": 11
+  },
+  "scientific_limits": {
+    "coarse_grid_overlaps_are_extremely_boundary_sensitive": true,
+    "source_surveys_not_verified_islands": true,
+    "taxa38_not_site_detections": true,
+    "original_mammal_heldout_values_read": 0,
+    "source_camera_capture_values_read": 0,
+    "ecological_process_inference_permitted": false
+  },
+  "GEB_submission_authorized": false
+}

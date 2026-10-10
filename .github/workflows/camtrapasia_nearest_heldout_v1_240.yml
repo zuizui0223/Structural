@@ -1,0 +1,45 @@
+name: CamTrapAsia study centers to original heldout centroids v1.240
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_nearest_centroid_contract_v1_240.json
+      - scripts/camtrapasia_nearest_heldout_centroid_v1_240.py
+permissions:
+  contents: read
+  actions: read
+jobs:
+  safe-center-distance:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest numpy scipy
+          python -m pytest -q tests/test_camtrapasia_nearest_centroid_v1_240.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/v240/source
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600
+          path: build/v240/heldout
+          repository: zuizui0223/Structural
+          run-id: 36625810600
+          github-token: ${{ github.token }}
+      - name: Distance only between survey centers and original 4126 heldout centroids
+        run: |
+          python scripts/camtrapasia_nearest_heldout_centroid_v1_240.py build/v240/source/appendix2_safe_rows.csv build/v240/heldout/confirmatory_ids.csv --out build/v240/result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v240-camtrapasia-original-heldout-centroid-distances
+          path: build/v240/result.json
+          retention-days: 21

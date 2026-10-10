@@ -1,0 +1,59 @@
+{
+  "schema": "structural.camtrapasia_frozen_taxon_names_only.v1_238",
+  "status": "PREREAD_FIELD_TAXON_NAME_ONLY_COMPATIBILITY_CHECK",
+  "dependencies": [
+    "development/mammal_heldout_geographic_search_index_freeze_v1_235.json",
+    "development/camtrapasia_csv_headers_freeze_v1_237.json"
+  ],
+  "external_Zenodo_record": 10780971,
+  "external_species_traits": {
+    "filename": "Species_Traits_20231031.csv",
+    "size_bytes": 67450,
+    "md5": "59e0748f8aaf59b23b936248f1e63fc9",
+    "allowed_columns": [
+      "class",
+      "binomial_verified",
+      "taxonomic_level"
+    ],
+    "forbid_other_trait_or_camera_fields": true
+  },
+  "original_frozen_529": {
+    "artifact_run": 37153960728,
+    "artifact_name": "global-mammals-v112-ultrarare-pilot-03c170e50de4bd21f3c9148b36905e20aecc51d6-37153960728",
+    "filename": "ultrarare_species_universe.csv",
+    "sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "allowed_column": "species_name",
+    "forbid_pilot_occupancy": true
+  },
+  "precommitted_matching": {
+    "filter_class": "Mammalia exact casefold",
+    "column": "binomial_verified",
+    "canonical_rule": "Unicode NFC, periods/underscores to spaces, normalize internal whitespace and casefold, exactly as original Structural v1.188",
+    "no_genus_only_substitution": true,
+    "no_synonym_lookup": true,
+    "no_posthoc_taxonomic_relabel": true,
+    "min_exact_match_to_open_site_geographies": 1
+  },
+  "outputs": [
+    "number of distinct mammal binomial labels",
+    "number of original 529 exact matches",
+    "exact matched taxon name pairs",
+    "number of blank/nonbinomial mammal taxa, without per-site detection"
+  ],
+  "interpretation": "Taxonomic compatibility only. Source data include some mainland species/studies; overlaps do not establish marine-island or heldout geographic evidence.",
+  "research_firewall": {
+    "read_source_species_trait_rows_only_in_three_fields": true,
+    "no_capture_or_species_site_abundance_rows": true,
+    "no_mammal_original_heldout_values": true,
+    "no_model_prediction_read": true,
+    "no_source_detection_values": true,
+    "do_not_admit_external_score": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

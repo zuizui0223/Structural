@@ -1,0 +1,81 @@
+{
+  "schema": "structural.camtrapasia_field_photo_positive_observed_name_overlap_freeze.v1_251",
+  "status": "PASS_POSTHOC_CONFIDENT_WILD_CAMERA_POSITIVE_OVERLAP_NO_GEB_INFERENCE",
+  "execution": {
+    "run_id": 37893929698,
+    "job_id": 113700833277,
+    "artifact_id": 11599781149,
+    "artifact_digest": "sha256:90a5542bf3d42a08a12342e2f7d44cacd4902f1ce24de0720d99809e130dd0d6",
+    "synthetic_tests_passed": 2,
+    "success": true
+  },
+  "source": "development/camtrapasia_four_island_field_positive_freeze_v1_250.json",
+  "frozen_38_taxon_original_mammal_name_overlap": true,
+  "four_candidate_original_heldout_islands": [
+    "Bawean",
+    "Buton",
+    "Java",
+    "Sumatra"
+  ],
+  "field_studies_by_island": {
+    "Bawean": 2,
+    "Buton": 2,
+    "Java": 25,
+    "Sumatra": 49
+  },
+  "field_survey_effort_trap_nights": {
+    "Bawean": 19300,
+    "Buton": 1680,
+    "Java": 139918,
+    "Sumatra": 97798
+  },
+  "observed_verified_field_photo_focal_mammal_taxa": {
+    "Bawean": 0,
+    "Buton": 0,
+    "Java": 16,
+    "Sumatra": 18
+  },
+  "confidently_non_domestic_field_photo_taxa": {
+    "Java": 15,
+    "Sumatra": 17
+  },
+  "Java_Sumatra_positive_wild_taxon_union_count": 22,
+  "Java_Sumatra_positive_wild_taxon_intersection_count": 10,
+  "Jaccard_observed_positive_wild_name_sets": 0.45454545454545453,
+  "observed_wild_binomials_on_both_islands": [
+    "Arctictis binturong",
+    "Hystrix brachyura",
+    "Lariscus insignis",
+    "Macaca fascicularis",
+    "Martes flavigula",
+    "Muntiacus muntjak",
+    "Prionailurus bengalensis",
+    "Rattus tiomanicus",
+    "Rusa unicolor",
+    "Sus scrofa"
+  ],
+  "cross_island_positive_taxa_with_2plus_surveys_each": [
+    "Arctictis binturong",
+    "Lariscus insignis",
+    "Macaca fascicularis",
+    "Martes flavigula",
+    "Muntiacus muntjak",
+    "Prionailurus bengalensis",
+    "Sus scrofa"
+  ],
+  "original_heldout_spatial_block_Java_equals_Sumatra": true,
+  "limitations": {
+    "v250_source_camera_rows_already_exposed_before_this_secondary_overlap": true,
+    "geographic_matching_candidate_not_original_polygon_UUID": true,
+    "observed_camera_positive_not_native_mammal_status": true,
+    "positive_species_set_Jaccard_not_true_community_Jaccard": true,
+    "zero_focal_detected_taxa_does_not_mean_native_absence": true,
+    "same_spatial_block_cannot_validate_crossblock_original_GEB_spatial_gain": true,
+    "published_CamTrapAsia_records_are_prior_published_not_new_field_discovery": true,
+    "no_new_original_IUCN_heldout_data_reopened": true,
+    "original_GEB_prediction_scores_unread": true,
+    "no_evidence_of_displacement_rescue_or_source_sink": true
+  },
+  "GEB_scientific_hold": true,
+  "eBird": false
+}

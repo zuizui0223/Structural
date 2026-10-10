@@ -1,0 +1,33 @@
+{
+  "schema": "structural.camtrapasia_gadm36_outside_land_diagnostics.v1_244",
+  "status": "POST_GADM_FROZEN_GEOMETRY_DESCRIPTIVE_DIAGNOSIS_NOT_ECOLOGICAL_RETEST",
+  "frozen_inputs": [
+    "development/camtrapasia_gadm36_landmass_screen_result_freeze_v1_243.json",
+    "development/camtrapasia_land_component_contract_v1_242.json"
+  ],
+  "geometry_source": "Same pinned three GADM3.6 admin0 country MultiPolygons as v1.243. Original 15 source candidate study centers unchanged.",
+  "fixed_outputs": [
+    "For each of 15 candidates, whether site center is covered by country land polygon",
+    "whether original nearest heldout centroid is covered by same country's land polygon",
+    "for each outside coordinate, nearest coastline/land distance in km using WGS84 haversine after Shapely nearest_points",
+    "aggregation by status: site_inside/original_centroid_inside/neither, with no automatic case reclassification",
+    "for unknown prior v1.243 cases, distance to nearest mapped land for the excluded coordinate"
+  ],
+  "scientific_ceiling": {
+    "no_use_of_land_distance_as_unspecified_buffer": true,
+    "no_retroactive_assignment_of_unknown_to_same_land_component": true,
+    "point_outside_polygon_can_reflect_island_centroid_geometry_or_coordinate_error": true,
+    "unknown_does_not_equal_mammal_free_or_other_island": true,
+    "different_GADM_country_polygons_dont_prove_source_species_dispersal": true,
+    "source_biological_observations_unopened": true,
+    "original_IUCN_mammal_responses_unopened": true,
+    "GEB_scientific_hold": true
+  },
+  "policy": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

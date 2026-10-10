@@ -1,0 +1,36 @@
+name: Precheck four island study-year eligibility against 2017 map v1.253
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_study_year_eligibility_contract_v1_253.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  campaign-availability:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_camtrapasia_study_year_gate_v1_253.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v248-all239-response-safe-source-land-candidates
+          path: build/v253/geo
+          repository: zuizui0223/Structural
+          run-id: 37892990657
+          github-token: ${{ github.token }}
+      - run: |
+          python scripts/camtrapasia_four_island_study_year_gate_v1_253.py build/v253/geo/result.json --out build/v253/study_years.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v253-original-island-study-era-availability
+          path: build/v253/study_years.json
+          retention-days: 21

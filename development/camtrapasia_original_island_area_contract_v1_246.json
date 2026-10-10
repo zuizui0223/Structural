@@ -1,0 +1,50 @@
+{
+  "schema": "structural.camtrapasia_original_island_area_vs_GADM36_component.v1_246",
+  "status": "PREDECLARED_SOURCE_AREA_GEOGRAPHIC_ENTITY_VALIDATION_NOT_BIOLOGICAL_RESCORING",
+  "fixed_sources": {
+    "study_candidates": "v1.241 immutable 15 study sites / 10 unique original heldout islands",
+    "original_source_area": "Barreto response-safe Appendix2 Area in km2, original SHA256 b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+    "land_geometry": "Same Git SHA 4e73ae720b9250f0974e8a93f949aaeab6989159 GADM 3.6-derived unsimplified Admin0 country GeoJSON as v1.243",
+    "nearest_geometry_source": "v1.245 frozen deterministic nearest country component for off-land original centroids, not retuned"
+  },
+  "method": {
+    "area_source_units": "source Area km2, parse hex-coded numeric as frozen v1.221",
+    "geographic_reference_area": "WGS84 ellipsoidal area (pyproj Geod.geometry_area_perimeter) of individual land Polygon, in km2",
+    "component_selection": "If original centroid inside exactly one admin0 Polygon select it, otherwise choose the unique nearest GADM36 Polygon. No distance-based snap and no alternative candidate search.",
+    "source_to_component_area_ratio": "max(source area/component area, component area/source area)",
+    "strict_ratio_threshold_primary": 2,
+    "sensitivity_thresholds": [
+      1.5,
+      5
+    ],
+    "study_membership": "A study center must lie inside that same GADM36 polygon to be a same-land component candidate",
+    "report": [
+      "Original IDs and historical safe area for 10 nearest candidate islands",
+      "GADM36 polygon area and max/min area ratio",
+      "current v1.245 same/nearest/different category",
+      "counts among study centers under area-ratio≤2 and by strict vs offland-nearest"
+    ],
+    "stop_on_unquantifiable_or_invalid_area": true,
+    "do_not_adjust_area_threshold_after_values": true
+  },
+  "interpretation": {
+    "large_area_ratio_detects_potential_small_offshore_islet_vs_big_island_misassignment": true,
+    "good_area_ratio_is_not_unique_polygon_identifier": true,
+    "admin0_geometry_may_differ_from_actual_original_island_polygon": true,
+    "offland_source_nearest_polygon_heuristic_remains_unverified": true,
+    "camtrap_deployments_not_island_presence": true,
+    "no_species_detection_values": true,
+    "no_island_to_island_dispersal_evidence": true,
+    "no_external_global_mammal_predictive_validation": true
+  },
+  "guards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_IUCN_mammal_heldout_read": false,
+    "camera_capture_data_read": false,
+    "graph_predictions_replayed": false,
+    "GEB_submission_authorized": false
+  }
+}

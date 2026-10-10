@@ -1,0 +1,100 @@
+{
+  "schema": "structural.camtrapasia_study_rarefaction_evidence_freeze.v1_254",
+  "status": "PASS_EXPLORATORY_POSTOUTCOME_STUDY_BASED_WILD_POSITIVES_ONLY",
+  "provenance": {
+    "source_Java_Sumatra_exact_studies": "v1.248 geographical polygon + area candidate panel",
+    "original_529_name_manifest": "v1.238 previously opened 38 names",
+    "CamTrapAsia_metadata_MD5": "2b50c534737b0c98a93da54128b10a32",
+    "CamTrapAsia_capture_MD5": "a73975d7626def4012a4e1197497ba87",
+    "source_workflow_run_id": 38008595850,
+    "source_job_id": 114083088389,
+    "source_artifact_id": 11652516014,
+    "source_artifact_digest": "sha256:93d2ba9ab4d7d5c3670f514cf8b2297cc66bed0d1e68a45b46a5bfaf8a75cafc",
+    "synthetic_tests_passed": 2,
+    "job_success": true,
+    "input_capture_response_exposed_prior_to_contract": true
+  },
+  "original_heldout_geography": {
+    "java_original_heldout_ID": "65554",
+    "sumatra_original_heldout_ID": "70378",
+    "shared_original_heldout_block": "GB_8c3e9b18de7d",
+    "taxon_pool_size": 38
+  },
+  "primary_pre2017": {
+    "criterion": "Entire camera study campaign year_end < 2017",
+    "java_full_studies": 18,
+    "sumatra_full_studies": 49,
+    "standardized_studies": 18,
+    "java_observed_wild_positive_taxa": 13,
+    "sumatra_all49_observed_wild_positive_taxa": 17,
+    "sumatra_18_expected_wild_positive_taxa_exact": 15.345854766815439,
+    "sumatra_rarefaction_expected_minus_java_full": 2.345854766815439,
+    "sumatra_18_study_subsampling_wild_positive_taxa_5_50_95": [
+      14,
+      15,
+      17
+    ],
+    "expected_java_Sumatra_shared_positive_taxa_exact": 8.367343797466958,
+    "shared_positive_taxa_subsampling_5_50_95": [
+      8,
+      8,
+      9
+    ],
+    "photo_positive_jaccard_subsampling_5_50_95": [
+      0.38095238095238093,
+      0.42105263157894735,
+      0.47368421052631576
+    ],
+    "java_full_camera_effort_trap_nights": 59418,
+    "sumatra_all49_camera_effort_trap_nights": 97798,
+    "sumatra_random18_expected_effort_trap_nights": 35925.795918367345,
+    "java_median_effort_per_study": 810,
+    "sumatra_median_effort_per_study": 1249
+  },
+  "all_year_secondary": {
+    "study_count_k": 25,
+    "java_studies": 25,
+    "sumatra_studies": 49,
+    "java_observed_positive_taxa": 15,
+    "sumatra_expected_photo_positive_taxa_exact": 15.878550056116865,
+    "expected_shared_positive_taxa": 9.500578954610063,
+    "sumatra_subsample_positive_taxa_5_50_95": [
+      15,
+      16,
+      17
+    ],
+    "shared_taxa_subsample_5_50_95": [
+      9,
+      10,
+      10
+    ],
+    "jaccard_5_50_95": [
+      0.4090909090909091,
+      0.45454545454545453,
+      0.47619047619047616
+    ],
+    "java_effort_all_studies": 139918,
+    "sumatra_effort_all_studies": 97798,
+    "caution": "Java full dataset includes four spanning 2017 and three post-2017 study campaigns; Sumatra all ended before 2017."
+  },
+  "science": {
+    "source_photo_positive_taxa_richness_not_true_native_fauna": true,
+    "random_subset_quantiles_not_population_CI": true,
+    "studies_are_heterogeneous_in_effort_habitat_and_year": true,
+    "no_statistical_test_of_island_effect": true,
+    "study_based_counts_equalized_not_photo_effort_or_occupancy_detection": true,
+    "positive_detection_not_demographic_source_or_colonization": true,
+    "Java_and_Sumatra_not_between_original_heldout_blocks": true,
+    "no_new_independent_original_graph_prediction_test": true,
+    "original_IUCN_heldout_response_values_read": 0,
+    "original_GEB_predictions_read": 0,
+    "GEB_scientific_HOLD": true
+  },
+  "policy": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

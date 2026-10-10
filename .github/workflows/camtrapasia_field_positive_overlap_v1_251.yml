@@ -1,0 +1,37 @@
+name: Java Sumatra field positive overlap without new mammal response access v1.251
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_observed_positive_overlap_contract_v1_251.json
+permissions:
+  contents: read
+  actions: read
+jobs:
+  frozen-field-positives-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_camtrapasia_field_positive_overlap_v1_251.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: structural-v250-four-island-independent-camera-positive-pilot
+          path: build/v251/source
+          repository: zuizui0223/Structural
+          run-id: 37893632648
+          github-token: ${{ github.token }}
+      - name: Aggregate ONLY frozen v1.250 field-positive species and study counts
+        run: |
+          python scripts/camtrapasia_field_positive_overlap_v1_251.py build/v251/source/field_positive.json --out build/v251/overlap.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v251-two-island-field-photo-positive-name-overlap
+          path: build/v251/overlap.json
+          retention-days: 21

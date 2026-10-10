@@ -1,0 +1,36 @@
+{
+  "schema": "structural.camtrapasia_capture_CSV_header_freeze.v1_249",
+  "status": "PASS_CAPTURE_CSV_EXACT_HASH_AND_HEADER_ONLY",
+  "execution": {
+    "run_id": 37893257985,
+    "job_id": 113698716028,
+    "artifact_id": 11598813497,
+    "artifact_sha256": "94e3fe223197c32836431f9966bde737f4c823cecd57a03865bcabd8df58267",
+    "tests_passed": 3
+  },
+  "original_CamTrapAsia_capture_file": {
+    "bytes": 956340,
+    "md5": "a73975d7626def4012a4e1197497ba87"
+  },
+  "CSV_columns": [
+    "survey_id",
+    "records",
+    "dataset",
+    "Y_lat",
+    "X_long",
+    "year_start",
+    "country",
+    "domestic",
+    "uri",
+    "class",
+    "order",
+    "family",
+    "genus",
+    "species",
+    "binomial_verified",
+    "taxonomic_level"
+  ],
+  "source_capture_rows_opened": 0,
+  "original_IUCN_heldout_cells_opened": 0,
+  "GEB_submission_authorized": false
+}

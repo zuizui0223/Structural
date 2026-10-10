@@ -1,0 +1,62 @@
+{
+  "schema": "structural.camtrapasia_Java_Sumatra_repeated_wild_photo_freeze.v1_251",
+  "status": "PASS_POSTOUTCOME_DESCRIPTIVE_TWO_ISLAND_POSITIVES_ONLY",
+  "provenance": {
+    "prior_v250_run": 37893632648,
+    "recalculation_run": 37894290186,
+    "job_id": 113701968830,
+    "artifact_id": 11599394045,
+    "artifact_digest": "sha256:45eb8b7df636d2b2674cdc37eaf621486569c85c2efeae5e29df1f70308df3cc",
+    "tests_passed": 2
+  },
+  "comparison": {
+    "islands": [
+      "Java",
+      "Sumatra"
+    ],
+    "independent_original_heldout_spatial_blocks": 1,
+    "Java_positive_source_taxa": 16,
+    "Sumatra_positive_source_taxa": 18,
+    "positive_in_both_any_domestic_label": 11,
+    "positive_in_both_non_domestic_source_label": 10,
+    "repeated_non_domestic_two_plus_survey_IDs_each_island": 7
+  },
+  "strict_wild_cross_island_taxa": [
+    "Arctictis binturong",
+    "Hystrix brachyura",
+    "Lariscus insignis",
+    "Macaca fascicularis",
+    "Martes flavigula",
+    "Muntiacus muntjak",
+    "Prionailurus bengalensis",
+    "Rattus tiomanicus",
+    "Rusa unicolor",
+    "Sus scrofa"
+  ],
+  "replicated_each_island_two_plus_survey_IDs_and_all_non_domestic_records": [
+    "Arctictis binturong",
+    "Lariscus insignis",
+    "Macaca fascicularis",
+    "Martes flavigula",
+    "Muntiacus muntjak",
+    "Prionailurus bengalensis",
+    "Sus scrofa"
+  ],
+  "domestic_only_excluded": "Canis lupus",
+  "ecological_claim_ceiling": {
+    "field_positives_support_source_sample_rarity_not_global_biological_scarcity": true,
+    "capture_intensity_not_population_size": true,
+    "two_islands_one_original_geo_block_not_between_block_replication": true,
+    "native_status_and_colonization_unverified": true,
+    "no_external_GEB_graph_validation": true,
+    "source_field_capture_not_reopened_v251": true,
+    "original_IUCN_heldout_not_reopened": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

@@ -1,0 +1,11 @@
+# v1.252: camera photography cross-survey and temporal availability
+
+The original CamTrapAsia 2024 *publication date is not the same as camera observation dates*. To avoid falsely treating a retrospectively published source as prospective validation of an IUCN2017-derived native-mammal range map, an explicitly POSTOUTCOME descriptive study-year audit used the already-known seven taxa with repeated `wild` photo detections on both Java and Sumatra.
+
+All 74 source camera studies in this two-island subset have valid `year_start` and `year_end` campaign windows (25 Java, 49 Sumatra). Six of the seven wildlife taxa have photo-positive source study IDs with strictly **nonoverlapping study time intervals** in EACH island; `Lariscus insignis` was observed in two Java surveys both labelled 2018, so the campaigns are not distinguishable temporally there. Among the 7, four (Macaca fascicularis, Muntiacus muntjak, Prionailurus bengalensis, Sus scrofa) have positive Java study windows both entirely before AND after 2017, but **NONE** have a positive Sumatra study campaign entirely after 2017. For the seven taxa, all Sumatra positive campaigns end by 2015. Thus there are **zero of seven** species with positive, nonoverlapping pre/post-2017 campaigns IN BOTH islands.
+
+The result distinguishes multiple published records from temporally distinct observation campaigns, but **cannot prove ongoing population persistence**, taxonomic nativeness, island colonization, demographic rescue or any effect of original graph centrality. Only study start/end years are available here—not the day a focal species' photograph was taken. A study interval crossing 2017 is a mixed-time source, and neither publication in 2024 nor detection of a 529-pilot-ultrarare taxon establishes independent validation of the source IUCN2017 range polygons. This is postoutcome exploration, no p-values, no original model scores or heldout IUCN species responses opened.
+
+**Scientific lesson:** Match event time as well as species and geography when assembling island biogeography independent evidence; a seemingly current external dataset can contain exclusively historical observations relative to a baseline map.
+
+GEB scientific HOLD, no eBird, and source-model biological-response firewalls remain unchanged.

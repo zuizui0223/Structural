@@ -1,0 +1,67 @@
+{
+  "schema": "structural.camtrapasia_study_to_original_heldout_centroid_distance.v1_240",
+  "status": "PREDECLARED_GEOGRAPHY_ONLY_NEAREST_ISLAND_CENTROID_GATE_NO_DETECTION",
+  "sources": {
+    "original_Barreto_safe": {
+      "run_id": 36524988694,
+      "name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+      "file": "appendix2_safe_rows.csv",
+      "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+    },
+    "original_heldout_ids": {
+      "run_id": 36625810600,
+      "name": "global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600",
+      "file": "confirmatory_ids.csv",
+      "sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+      "expected_rows": 4126
+    },
+    "CamTrapAsia_metadata": {
+      "url": "https://zenodo.org/api/records/10780971/files/CamTrapAsia_Metadata_20231031.csv/content",
+      "bytes": 245677,
+      "md5": "2b50c534737b0c98a93da54128b10a32",
+      "rows_prior": 239
+    }
+  },
+  "footnote": "The routing sha above must equal original afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715; use original frozen value, no guessed change.",
+  "source_field_whitelist": [
+    "survey_id",
+    "Y_lat",
+    "X_long",
+    "effort"
+  ],
+  "comparison": {
+    "metric": "WGS84 great-circle distance from each of 239 camera study CENTER points to the nearest of 4126 original heldout island CENTROIDS",
+    "fixed_distances_km": [
+      5,
+      25,
+      100
+    ],
+    "count_unique_heldout_nearest_islands": true,
+    "count_unique_heldout_geographic_blocks_at_each_radius": true,
+    "max_source_sites": 239,
+    "site_location_ambiguity": "Study center is not guaranteed true individual camera station nor island centroid; near shore cross-water ambiguity.",
+    "never_identify_island_or_disperal_from_center_distance": true,
+    "no_polygon_membership_or_interisland_route_inferred": true
+  },
+  "outputs": [
+    "239 site counts in mutually exclusive distance bins 0-5,5-25,25-100,100+ km",
+    "unique nearest original heldout island candidates within each radius",
+    "unique original heldout blocks covered within each radius",
+    "median/quartile nearest great-circle distance for all sites"
+  ],
+  "gate_limits": {
+    "even_under_5km_is_not_island_identity": true,
+    "zero_nearby_stations_does_not_prove_no_island_survey_on_large_islands": true,
+    "nearness_not_evidence_that_38_matched_mammal_taxa_were_detected": true,
+    "field_detection_data_untouched": true,
+    "global_529_prediction_unopened": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_mammal_response_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "structural.camtrapasia_public_metadata_freeze.v1_236",
+  "status": "PASS_OFFICIAL_ZENODO_FILE_IDENTITY_ONLY",
+  "source_doi": "10.5281/zenodo.10780971",
+  "source_paper": "10.1002/ecy.4299",
+  "run_id": 37888405085,
+  "job_id": 113683537714,
+  "artifact_id": 11597153265,
+  "artifact_sha256": "c0e1730f6cf9e11ec574d2d84157df177ce5518172c7f462382d12545aa09724",
+  "test_count_passed": 3,
+  "file_manifest": {
+    "CamTrapAsia_Captures_20231031_csv": {
+      "bytes": 956340,
+      "md5": "a73975d7626def4012a4e1197497ba87"
+    },
+    "CamTrapAsia_Metadata_20231031_csv": {
+      "bytes": 245677,
+      "md5": "2b50c534737b0c98a93da54128b10a32"
+    },
+    "Species_Traits_20231031_csv": {
+      "bytes": 67450,
+      "md5": "59e0748f8aaf59b23b936248f1e63fc9"
+    }
+  },
+  "source_biological_rows_opened": 0,
+  "source_species_names_opened": 0,
+  "source_site_locations_opened": 0,
+  "original_mammal_heldout_response_reopened": false,
+  "admit_global_mammal_independent_validation": false,
+  "new_ecological_effect_computed": false
+}

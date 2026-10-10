@@ -1,0 +1,47 @@
+{
+  "schema": "structural.camtrapasia_gadm36_nearest_land_component_sensitivity.v1_245",
+  "status": "PREDECLARED_POST_V244_GEOGRAPHY_ONLY_NEAREST_COUNTRY_LAND_POLYGON_HEURISTIC",
+  "source_v243": "development/camtrapasia_gadm36_landmass_freeze_v1_243.json",
+  "source_v244": "development/camtrapasia_gadm36_outside_diagnostic_freeze_v1_244.json",
+  "country_source_geometry_git_commit": "4e73ae720b9250f0974e8a93f949aaeab6989159",
+  "frozen_site_set_v241": {
+    "n": 15,
+    "original_ID_count": 10,
+    "heldout_blocks": 7
+  },
+  "precommitted_method": {
+    "study_center_polygon": "GADM36 admin0 polygon covers study center; otherwise STOP unsupported",
+    "original_centroid_polygon": "If original heldout point is covered by one polygon, use that polygon",
+    "original_centroid_outside": "Choose nearest GADM36 country admin0 polygon by Shapely STRtree nearest geometric distance, WITHOUT snapping the actual coordinate, changing original model or tolerance; if multiple equally nearest polygons, report ambiguous.",
+    "separate_centroid_minimum_geodesic_distance_km": "Report original centroid to nearest polygon for context, from v244; not used as admission cutoff",
+    "no_new_distance_threshold": true,
+    "report_one_of": [
+      "both_inside_same",
+      "both_inside_different",
+      "original_offland_nearest_polygon_same_as_study",
+      "original_offland_nearest_polygon_differs_from_study",
+      "unresolved_ambiguous"
+    ],
+    "never_classify_original_offland_as_verified_same_island": true
+  },
+  "limits": {
+    "nearest_GADM_country_land_not_verified_original_island_polygon": true,
+    "source_original_barreto_island_polygon_ID_missing": true,
+    "internal_source_site_center_not_individual_camera_deployment": true,
+    "reported_nearest_reassignment_is_posthoc_spatial_diagnostic": true,
+    "even_all_positive_would_not_prove_independent_heldout_blocks_were_sampled": true,
+    "no_taxon_specific_field_capture_values": true,
+    "no_camera_negative_detection_interpretation": true,
+    "no_mammal_movement_or_recruitment_test": true,
+    "no_GEB_submission": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "old_mammal_IUCN_labels": false,
+    "graph_predictions_recomputed": false,
+    "GEB_submission_authorized": false
+  }
+}

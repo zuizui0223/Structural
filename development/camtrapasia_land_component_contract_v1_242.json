@@ -1,0 +1,74 @@
+{
+  "schema": "structural.camtrapasia_land_component_preflight.v1_242",
+  "status": "PREDECLARED_OFFICIAL_NATURAL_EARTH_LAND_POLYGON_CONTIGUITY_GEOGRAPHY_ONLY",
+  "earlier_15_site_screen": {
+    "run_id": 37889725368,
+    "artifact_name": "structural-v241-camera-study-15-safe-site-geography",
+    "artifact_id": 11598146312,
+    "artifact_digest": "sha256:15529635b02278c58153112015fff1f54b4ee1e0415b9af18ab89a228b9f5187",
+    "file": "result.json",
+    "expected_studies": 15,
+    "distinct_nearest_original_island_ids": 10,
+    "countries": [
+      "Indonesia",
+      "Malaysia",
+      "Vietnam"
+    ],
+    "source_Weigelt_not_required": true
+  },
+  "original_Barreto_geo": {
+    "run_id": 36524988694,
+    "name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+    "file": "appendix2_safe_rows.csv",
+    "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8"
+  },
+  "source_land": {
+    "dataset": "Natural Earth 1:10m physical vector land polygon v5.1.1 (independent coastline)",
+    "official_url": "https://naturalearth.s3.amazonaws.com/10m_physical/ne_10m_land.zip",
+    "max_compressed_bytes": 12000000,
+    "max_uncompressed_single_member_bytes": 45000000,
+    "expected_zip_members": [
+      "ne_10m_land.shp",
+      "ne_10m_land.shx",
+      "ne_10m_land.dbf",
+      "ne_10m_land.prj"
+    ],
+    "licensing": "Natural Earth: public domain; do not redistribute GIS source in Structural artifacts",
+    "version_note": "This is NOT original GADM 3.6. Same-landmass candidate verification should be tested against original-vintage GADM separately before final original-source validation."
+  },
+  "fixed_geometric_rule": {
+    "CRS": "EPSG:4326",
+    "focal_study_count": 15,
+    "focal_center_to_original_centroid_km_less_than": 25,
+    "local_polygon_bbox_expand_degrees": 0.5,
+    "method": "Clip Natural Earth land polygons to 0.5-degree-expanded bbox around BOTH points, union them, then test source survey center and original heldout centroid are contained in the same connected clipped-land polygon.",
+    "outcome_categories": [
+      "same_land_component",
+      "distinct_land_components_in_local_clip",
+      "one_or_both_points_outside_mapped_land",
+      "geometry_ambiguous"
+    ],
+    "no_biological_or_site_specific_score": true,
+    "no_point_coordinate_tuning_after_geo_classifications": true,
+    "land_cover_polygon_missing_is_unknown_not_oceanic_absence": true,
+    "different_local_components_do_not_prove_disconnect_outside_clip": true
+  },
+  "output": [
+    "15 source study IDs/landscape, nearest source-heldout ID, distance and geometry class",
+    "aggregate count by country and geometry class",
+    "downloaded public coastline ZIP SHA256 and source version",
+    "no species/detection/island-colonization values"
+  ],
+  "evidence_limit": "Strong evidence for same candidate physical land mass is necessary but insufficient for exact island population identity, surveyed native status or observed source movement.",
+  "safeguards": {
+    "open_original_529_heldout": false,
+    "open_camtrap_capture_file": false,
+    "open_prediction_scores": false,
+    "refit_graph": false,
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

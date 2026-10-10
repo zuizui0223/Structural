@@ -1,0 +1,38 @@
+{
+  "schema": "structural.camtrapasia_published_mammal_taxon_overlap_freeze.v1_238",
+  "status": "TAXON_OVERLAP_ONLY_PREGEOGRAPHY",
+  "source": {
+    "taxon_metadata_zenodo_md5": "59e0748f8aaf59b23b936248f1e63fc9",
+    "original_529_species_manifest_sha256": "4f801eac218edb00f319cd04416af3c6e7d7a90e04b68868eeed47f4d403dfd9",
+    "code_reuses_original_v188_separator_normalization": true
+  },
+  "execution": {
+    "run_id": 37888766560,
+    "job_id": 113684691634,
+    "artifact_id": 11596944865,
+    "artifact_digest": "sha256:4865981ad63bb827410bc02a35dd77ee191e95015db848793223bddc4c1aa9c0",
+    "synthetic_tests_passed": 2
+  },
+  "summary": {
+    "Mammalia_entries_with_verified_names": 235,
+    "distinct_valid_source_mammal_binomials": 187,
+    "original_target_taxa": 529,
+    "exact_shared_taxa": 38
+  },
+  "selected_examples": [
+    "Arctictis binturong",
+    "Galeopterus variegatus",
+    "Macaca fascicularis",
+    "Prionailurus bengalensis",
+    "Sus barbatus"
+  ],
+  "limits": {
+    "no_site_specific_detection_proven": true,
+    "no_original_heldout_island_match": true,
+    "no_native_status_verified": true,
+    "no_camtrap_study_island_status_verified": true,
+    "no_biological_score": true,
+    "field_capture_rows_opened": 0,
+    "original_mammal_response_opened": 0
+  }
+}

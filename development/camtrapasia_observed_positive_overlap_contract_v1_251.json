@@ -1,0 +1,35 @@
+{
+  "schema": "structural.camtrapasia_wild_positive_within_block_overlap.v1_251",
+  "status": "POSTOUTCOME_DESCRIPTIVE_SECONDARY_RECIPIENT_FIELD_OVERLAP_NO_CONFIRMATORY_INFERENCE",
+  "existing_biological_response_already_exposed_v250": true,
+  "source": "Official v1.250 GitHub action aggregate JSON artifact only, NOT another source camera row read",
+  "artifact": {
+    "run_id": 37893632648,
+    "name": "structural-v250-four-island-independent-camera-positive-pilot",
+    "sha256": "0eda0937ad5844f62b077e564140cf43d1a75430818ac3cc7b5e8af95ec9a99e",
+    "filename": "field_positive.json"
+  },
+  "allowed_aggregation": {
+    "categories": "Use only confidently non-domestic positive taxa with source field domestic='wild' (conservative frozen v1.250 encoding). Do not treat unrecorded taxa as absent.",
+    "compare": "Java versus Sumatra positive-taxa overlap using observed union/intersection and Jaccard of detected sets; this is descriptive field sample overlap, not true community dissimilarity.",
+    "repeated_positive": "Count a species robustly recorded when it has positive confirmed non-domestic camera records in >=2 original independent survey IDs on BOTH compared islands.",
+    "outputs": [
+      "wild-positive taxon counts",
+      "union/intersection/Jaccard of positive species lists",
+      "species names with positive detections from >=2 distinct survey IDs in BOTH islands",
+      "study effort and camera photo record context"
+    ],
+    "no_null_hypothesis_pvalues": true,
+    "no_effort_corrected_occupancy_probability": true,
+    "no_Java_vs_Sumatra_between_original_heldout_block_replication": true
+  },
+  "scientific_scope": "Java and Sumatra belong to the SAME original heldout spatial block, so even repeated camera detection for multiple taxa does not yield spatially independent confirmation of the original GEB graph effect. Both Bawean and Buton focal matches=0 are field non-detections of the preselected 38-name subset, NOT local faunal absence.",
+  "hard_guards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "IUCN_original_mammal_heldout_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

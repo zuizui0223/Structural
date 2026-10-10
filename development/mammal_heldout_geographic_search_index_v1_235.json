@@ -1,0 +1,79 @@
+{
+  "schema": "structural.mammal_heldout_survey_geographic_index.v1_235",
+  "status": "FROZEN_BEFORE_ANY_NEW_FIELD_SURVEY_RESPONSE_ACCESS",
+  "purpose": "Index 4,126 original heldout mammal island centroids and distinct spatial block IDs by globally fixed 10-degree WGS84 cells, so potential independent field surveys are screened for spatial feasibility before opening biological outcomes.",
+  "provenance": {
+    "Barreto_safe": {
+      "run_id": 36524988694,
+      "artifact_name": "global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694",
+      "filename": "appendix2_safe_rows.csv",
+      "sha256": "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+      "rows": 5592
+    },
+    "heldout_routing": {
+      "run_id": 36625810600,
+      "artifact_name": "global-mammals-v152-pilot-routing-f5ae81b05aac3ce4c5db6f43ce41e89c1d14548c-36625810600",
+      "filename": "confirmatory_ids.csv",
+      "sha256": "afda05287599110c7248c5cb0c1931689a2aee40f8ff4ff5b76509aff5350715",
+      "rows": 4126
+    },
+    "selected_nodes": {
+      "run_id": 36622553042,
+      "artifact_name": "global-mammals-v143-reference-fe0e65be12a223fb3f0991afae959cd62ef3aabb-36622553042",
+      "filename": "state_reference.csv",
+      "sha256": "5a04e8b64682979ee708f281418c017ff34c930bc8e51d7eff3d3437929b74b0",
+      "rows": 5401
+    }
+  },
+  "grid": {
+    "coordinate_system": "WGS84",
+    "latitude_edges": "-90,-80,...,90",
+    "longitude_edges": "-180,-170,...,180",
+    "cell_width_degrees": 10,
+    "alternative_offset_shift_degrees": 5,
+    "primary_grid_rule": "Half-open intervals; exact upper pole and antimeridian assigned to final/first appropriate bin; no region-country inference.",
+    "secondary_grid": "Same 10-degree cells shifted +5 degrees in both latitude and longitude for boundary sensitivity; non-global edge bins cropped.",
+    "fixed_sort": "descending distinct heldout block count, then descending heldout island count, then ascending latitude and longitude",
+    "published_result_limit": 25,
+    "all_nonempty_geographic_bins_reported_as_counts_only": true,
+    "no_Structural_island_ID_list_uploaded": true
+  },
+  "outputs": {
+    "primary_all_nonempty_tiles": [
+      "latitude_min",
+      "latitude_max",
+      "longitude_min",
+      "longitude_max",
+      "heldout_islands",
+      "distinct_heldout_blocks",
+      "selected_islands",
+      "n_heldout_not_selected_should_be_zero"
+    ],
+    "secondary_all_nonempty_tiles": [
+      "latitude_min",
+      "longitude_min",
+      "heldout_islands",
+      "distinct_heldout_blocks"
+    ],
+    "top25_screening_bins": true,
+    "candidate_not_admitted_without_taxa_and_sites": true,
+    "no_species_incidence_or_mammal_predictions_read": true
+  },
+  "limits": {
+    "geographic_grid_cell_not_biological_archipelago": true,
+    "distinct_spatial_blocks_are_not_independent_field_replicates_until_survey_aligns": true,
+    "inferred_nearest_movement_links": false,
+    "richness_or_presence_not_read": true,
+    "source_529_species_intersection_with_future_study_unknown": true,
+    "No_zero_mammal_island_representation_guarantee": true,
+    "all_inference_scientific_HOLD": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "original_mammal_heldout_response_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

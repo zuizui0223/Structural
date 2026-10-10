@@ -1,0 +1,29 @@
+name: CamTrapAsia official site/species CSV headers only v1.237
+on:
+  push:
+    branches: [science/heldout-geographic-search-index-v1-235]
+    paths:
+      - development/camtrapasia_csv_header_contract_v1_237.json
+permissions:
+  contents: read
+jobs:
+  site-taxa-header-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_zenodo_camtrapasia_header_v1_237.py
+      - name: Validate exact public source bytes then read only CSV headers
+        run: |
+          python scripts/zenodo_camtrapasia_header_only_v1_237.py --out build/v237/header_receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v237-camtrapasia-headers-only
+          path: build/v237/header_receipt.json
+          retention-days: 21

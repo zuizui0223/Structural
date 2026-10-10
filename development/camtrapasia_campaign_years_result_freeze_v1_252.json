@@ -1,0 +1,97 @@
+{
+  "schema": "structural.camtrapasia_campaign_years_replicated_wild_result_freeze.v1_252",
+  "status": "PASS_POSTOUTCOME_CAMPAIGN_YEAR_DESCRIPTIVE_RECHECK",
+  "provenance": {
+    "source_metadata_MD5": "2b50c534737b0c98a93da54128b10a32",
+    "source_capture_MD5": "a73975d7626def4012a4e1197497ba87",
+    "prior_taxonomic_source": "development/camtrapasia_published_mammal_taxon_overlap_freeze_v1_238.json",
+    "prior_species_selection": "development/camtrapasia_cross_island_photo_replicability_freeze_v1_251.json",
+    "prior_geography": "development/camtrapasia_full239_polygon_result_freeze_v1_248.json",
+    "GitHub_action_run_id": 37943622447,
+    "GitHub_job_id": 113864057057,
+    "aggregate_result_artifact_id": 11622537463,
+    "aggregate_result_sha256": "sha256:0b4ecbbb90873e46d19b87494339acf1b1c93c919b6ca4692e82db554bdd98c5",
+    "synthetic_tests_passed": 2,
+    "workflow_conclusion": "success"
+  },
+  "sampling": {
+    "original_Java_candidate_camera_studies": 25,
+    "original_Sumatra_candidate_camera_studies": 49,
+    "total_study_centers": 74,
+    "study_windows_valid": 74,
+    "study_windows_invalid_or_missing": 0,
+    "positive_taxa_selected_POSTOUTCOME": 7,
+    "geography_still_only_two_original_islands_one_heldout_spatial_block": true
+  },
+  "temporal_observations": {
+    "seven_repeated_taxa": [
+      "Arctictis binturong",
+      "Lariscus insignis",
+      "Macaca fascicularis",
+      "Martes flavigula",
+      "Muntiacus muntjak",
+      "Prionailurus bengalensis",
+      "Sus scrofa"
+    ],
+    "with_at_least_two_strictly_nonoverlapping_positive_study_intervals_on_each_island": 6,
+    "only_taxon_without_nonoverlap_on_Java": "Lariscus insignis",
+    "taxon_recorded_by_both_Java_pre_and_post_2017": [
+      "Macaca fascicularis",
+      "Muntiacus muntjak",
+      "Prionailurus bengalensis",
+      "Sus scrofa"
+    ],
+    "Java_pre2017_and_post2017_study_positive_taxa_count": 4,
+    "Sumatra_positive_study_interval_latest_year_per_taxon": {
+      "Arctictis binturong": 2015,
+      "Lariscus insignis": 2009,
+      "Macaca fascicularis": 2014,
+      "Martes flavigula": 2015,
+      "Muntiacus muntjak": 2015,
+      "Prionailurus bengalensis": 2015,
+      "Sus scrofa": 2015
+    },
+    "Sumatra_seven_taxa_positive_study_campaign_post2017_count": 0,
+    "taxa_with_positive_nonoverlap_campaigns_before_and_after2017_on_both_islands": 0,
+    "source_Java_study_years_examples": {
+      "Arctictis_binturong": [
+        2013,
+        2017
+      ],
+      "Macaca_fascicularis": [
+        2006,
+        2018
+      ],
+      "Prionailurus_bengalensis": [
+        2004,
+        2018
+      ]
+    },
+    "source_Sumatra_study_years_overall_min_max_for_seven_taxa": [
+      1987,
+      2015
+    ]
+  },
+  "conclusion_boundary": {
+    "published_during_or_after2024_does_not_mean_data_collected_after2017": true,
+    "study_campaign_year_end_not_species_photograph_exact_date": true,
+    "nonoverlap_does_not_prove_uninterrupted_population_persistence": true,
+    "cannot_conclude_arrival_colonization_or_extinction": true,
+    "two_islands_same_original_spatial_heldout_block": true,
+    "absence_of_post2017_Sumatra_cameras_does_not_mean_species_absence": true,
+    "original_IUCN2017_is_range_polygon_model_not_verifiable_true_2017_absence": true,
+    "exploratory_known_outcomes_selected_seven_not_confirmatory": true,
+    "global_GEB_predictive_skill_unmeasured": true,
+    "source_camera_positive_values_newly_rechecked_in_v252": true,
+    "original_IUCN_heldout_species_values_opened": 0,
+    "original_model_prediction_values_opened": 0,
+    "GEB_scientific_HOLD": true
+  },
+  "safeguards": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

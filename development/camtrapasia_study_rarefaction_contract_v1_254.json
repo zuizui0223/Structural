@@ -1,0 +1,43 @@
+{
+  "schema": "structural.camtrapasia_pre2017_study_positive_rarefaction.v1_254",
+  "status": "EXPLICIT_POSTOUTCOME_DESCRIPTIVE_PROTOCOL_BEFORE_NEW_NUMBERS",
+  "sources": {
+    "camera_md5": "a73975d7626def4012a4e1197497ba87",
+    "metadata_md5": "2b50c534737b0c98a93da54128b10a32",
+    "geo": "v1.248 frozen 25 Java and 49 Sumatra study IDs",
+    "taxonomy": "v1.238 frozen 38 shared binomials"
+  },
+  "study_design": {
+    "Java_ID": "65554",
+    "Sumatra_ID": "70378",
+    "Java_all": 25,
+    "Sumatra_all": 49,
+    "Java_before2017": 18,
+    "Sumatra_before2017": 49,
+    "before2017_definition": "campaign year_end strictly before 2017",
+    "same_original_geographic_block": true
+  },
+  "measure": {
+    "source_positive": "38 taxon names, class Mammalia, >=1 independent photo records, source domestic field exactly wild or other pre-existing v1.250 SAFE_WILD flags",
+    "absence_imputation": false,
+    "primary_k_studies": 18,
+    "secondary_k_studies_all_eras": 25,
+    "exact_mean": "sum_t [1 - choose(N-f_t,k)/choose(N,k)] where f_t positive source study count",
+    "seed": 20261010,
+    "random_subsamples": 20000,
+    "report_5_50_95_sampling_quantiles": true,
+    "quantiles_are_confidence_intervals": false,
+    "report_full_study_trapnight_effort": true,
+    "source_years_not_species_photo_years": true,
+    "no_island_effect_p_value": true
+  },
+  "guards": {
+    "IUCN_heldout_reopen": false,
+    "model_prediction_replay": false,
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

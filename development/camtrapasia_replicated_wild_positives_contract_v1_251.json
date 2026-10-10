@@ -1,0 +1,28 @@
+{
+  "schema": "structural.camtrapasia_cross_island_wild_detections.v1_251",
+  "status": "POSTOUTCOME_DESCRIPTIVE_DERIVATION_FROM_V250_AGGREGATE_ONLY",
+  "frozen_input": {
+    "workflow_run_id": 37893632648,
+    "artifact": "structural-v250-four-island-independent-camera-positive-pilot",
+    "result_filename": "field_positive.json",
+    "artifact_sha256": "0eda0937ad5844f62b077e564140cf43d1a75430818ac3cc7b5e8af95ec9a99e"
+  },
+  "target": "Java and Sumatra are two previously identified source-island landmass candidates; both lie in one original heldout spatial block.",
+  "operations": {
+    "source_taxa": 38,
+    "reported_any_positive_on_both": "species in both Java and Sumatra v250 positive taxon arrays",
+    "confidently_non_domestic_on_both": "confident_non_domestic_records >0 in each island",
+    "repeatedly_wild_detected_on_both": "Every photo record for the taxon on each island is non-domestic, unknown-domestic count zero and survey_count >=2 separately for Java AND Sumatra",
+    "excluded_wolf": "Canis.lupus was domestic-coded only, not evidence of wild wolves",
+    "no_nondetection_as_absence": true,
+    "no_native_status_inference": true,
+    "no_camera_individual_abundance_inference": true,
+    "do_not_compute_pvalues": true
+  },
+  "no_source_camera_CSV_re_read": true,
+  "no_original_IUCN_heldout_values_reopen": true,
+  "no_original_model_prediction_access": true,
+  "no_global_GEB_model_validation": true,
+  "GEB_HOLD": true,
+  "eBird": false
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "structural.camtrapasia_source_header_only.v1_237",
+  "status": "FROZEN_BEFORE_SOURCE_CSV_BYTE_TRANSPORT_OR_ANY_ROW_SEMANTICS",
+  "previous_result": "development/camtrapasia_public_metadata_freeze_v1_236.json",
+  "record_id": 10780971,
+  "official_source_files": [
+    {
+      "filename": "CamTrapAsia_Metadata_20231031.csv",
+      "bytes": 245677,
+      "md5": "2b50c534737b0c98a93da54128b10a32"
+    },
+    {
+      "filename": "Species_Traits_20231031.csv",
+      "bytes": 67450,
+      "md5": "59e0748f8aaf59b23b936248f1e63fc9"
+    }
+  ],
+  "filename_to_official_content_url": "https://zenodo.org/api/records/10780971/files/{filename}/content",
+  "allowed_redirect_hosts": [
+    "zenodo.org",
+    "www.zenodo.org",
+    "files.zenodo.org",
+    "s3.cern.ch"
+  ],
+  "download_byte_cap_equals_manifest_size": true,
+  "verify_byte_md5_and_exact_length_before_csv_header_decoding": true,
+  "read_first_line_of_each_csv_only": true,
+  "max_header_line_bytes": 12000,
+  "max_fields_per_header": 160,
+  "never_iterate_data_rows": true,
+  "prohibited_file": "CamTrapAsia_Captures_20231031.csv",
+  "output": "Only original official column names of site metadata and species-trait file; no source values, site locations, species names, abundances, or original IUCN labels.",
+  "next_gate_if_PASS": "Design a separate geography-only column reader and taxa-name reader, if the exact original column headers support those; no camera capture records until true survey-site/island identity and overlap frozen.",
+  "limits": {
+    "source_study_not_necessarily_on_saline_islands": true,
+    "missing_species_detection_is_not_absence_without_effort": true,
+    "one_camera_trap_site_is_not_an_island": true,
+    "all_original_529_responses_still_closed": true,
+    "admit_external_score_now": false
+  },
+  "policy": {
+    "eBird": false,
+    "ALA_replay": false,
+    "Hebert_retry": false,
+    "BALA_reopen": false,
+    "GEB_submission_authorized": false
+  }
+}

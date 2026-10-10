@@ -1,0 +1,47 @@
+{
+  "schema": "structural.camtrapasia_csv_headers_freeze.v1_237",
+  "status": "PASS_ZENODO_EXACT_BYTES_CSV_HEADERS_ONLY",
+  "execution": {
+    "run_id": 37888582697,
+    "job_id": 113684102356,
+    "artifact_id": 11597332625,
+    "artifact_digest": "sha256:59aa8d1dbd3c3b5bd107c20b0b6508fc03f3f97dc08619271a90980f1c02c62c",
+    "tests_passed": 3
+  },
+  "site_metadata": {
+    "filename": "CamTrapAsia_Metadata_20231031.csv",
+    "size_bytes": 245677,
+    "md5": "2b50c534737b0c98a93da54128b10a32",
+    "header_count": 65,
+    "has_columns": [
+      "survey_id",
+      "country",
+      "landscape",
+      "site",
+      "effort",
+      "Y_lat",
+      "X_long",
+      "n_cameras",
+      "year_start",
+      "year_end"
+    ],
+    "site_rows_opened": 0
+  },
+  "taxon_metadata": {
+    "filename": "Species_Traits_20231031.csv",
+    "size_bytes": 67450,
+    "md5": "59e0748f8aaf59b23b936248f1e63fc9",
+    "header_count": 18,
+    "has_columns": [
+      "class",
+      "species",
+      "binomial_verified",
+      "taxonomic_level",
+      "IUCN"
+    ],
+    "taxon_rows_opened": 0
+  },
+  "detection_data_accessed": false,
+  "original_heldout_accessed": false,
+  "external_score_authorized": false
+}
