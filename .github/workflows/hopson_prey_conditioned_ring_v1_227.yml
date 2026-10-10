@@ -1,0 +1,42 @@
+name: Hopson prey-adjusted ring reappearance LOSO v1.227
+on:
+  push:
+    branches: [science/temporal-rescue-design-intake-v1-221]
+    paths:
+      - scripts/hopson_prey_conditioned_ring_v1_227.py
+      - tests/test_hopson_prey_conditioned_ring_v1_227.py
+      - development/hopson_prey_conditioned_ring_contract_v1_227.json
+      - .github/workflows/hopson_prey_conditioned_ring_v1_227.yml
+permissions:
+  contents: read
+jobs:
+  retrospective-predictive:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest scikit-learn==1.6.1
+          python -m pytest -q tests/test_hopson_prey_conditioned_ring_v1_227.py
+      - name: Exact source assay and 14 whole-metapopulation retrospective folds
+        run: |
+          python scripts/hopson_prey_conditioned_ring_v1_227.py --out build/v227/result.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v227/result.json"))
+          assert r["n_independent_metapopulations"]==14
+          assert r["n_zero_to_positive_redetections"]==554
+          assert len(r["folds"])==14
+          assert not r["future_time_prey_used"]
+          assert r["GEB_scientific_HOLD"]
+          print("v1.227 prey-adjusted predictive audit PASS; no colonization claim")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v227-hopson-prey-ring-increment
+          path: build/v227/result.json
+          retention-days: 21

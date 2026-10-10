@@ -1,0 +1,29 @@
+{
+  "schema": "structural.hopson_prey_conditioned_ring_contract.v1_227",
+  "evidence": "Postpublication, after v1.222-v1.224 exposure, and v1.225 author source methods check; not preregistered",
+  "frozen_sources": {
+    "observations_MD5": "76de51cecdee69e87138c469a93b35a9",
+    "layout_MD5": "6957db366d97aa5a15fd7107b2429ac3",
+    "author_R_MD5": "dadab72ec94583cdbf7197cc3eb09ea0",
+    "author_density_R_lines": "eupl.ml = eupl / samp.vol; tet.ml = (tet/sub.samp.vol)*(dil.vol+samp.vol)/samp.vol, non-diluted fallback tet/samp.vol"
+  },
+  "primary": "Hold out all rows in one of 14 independent metapopulations, estimate incremental log loss for ring distance-1 and distance-2 prior-positive neighbors beyond a reference including contemporaneous prior prey density in focal patch and whole metapopulation mean, other prior source counts, zero streak, day, treatment, block, nearest source ring distance",
+  "secondary": "Does adding prior own + metapop prey density help the fixed v1.226 reference? Report direction regardless of outcome, never replace primary",
+  "predictor_timing": "Each feature at observed visit t; target at t+1 only. No future prey or density used.",
+  "identical_denominator_to_v226": true,
+  "assay_stop_rules": "nonfinite, missing or negative count/volume, inconsistent dilution flags, source row/header/MD5 drift: STOP without imputation",
+  "model": "reuse fixed v1.226 sklearn scaler + L2 logistic(C=1,liblinear), training other 13 metapops, 14 LOSO folds. Fixed 2,000 cluster bootstrap descriptive only",
+  "nonclaims": [
+    "Not evidence of actual immigration, local colonization, rescue or causal prey influence",
+    "No independent training/confirmatory pair in already published data",
+    "Tissue/prey sampling uncertainty and lagged prey phases not fully modeled",
+    "Ring-neighbor positivity is not realized organism path",
+    "Weak R reference not GEB R3",
+    "No taxon/treatment subset or hyperparameter tuning after result"
+  ],
+  "guards": {
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "mammal_heldout_reopened": false
+  }
+}
