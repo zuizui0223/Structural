@@ -22,7 +22,7 @@ def test_six_patch_exact_two_missing_and_focal_bounds():
 
 def test_decomposition_exact_and_non_additive_extrema():
     groups=synthetic()
-    groups[(6,"heterogeneous","low","low")]=[(1,1,1),(1,0,0),(0,1,0),(0,0,0)]
+    groups[(6,"heterogeneous","low","low")]=[(1,1,1),(0,0,0),(0,0,0),(0,0,0)]
     cells={k:list(v) for k,v in groups.items()}
     for k in MISSING_KEYS: cells[k].append((0,0,0))
     het,adv,metrics=summarize(cells)
