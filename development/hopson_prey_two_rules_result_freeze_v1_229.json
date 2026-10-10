@@ -1,0 +1,278 @@
+{
+  "schema": "structural.hopson_prey_and_ring_loso_sensitivity_freeze.v1_229",
+  "status": "SUCCESS_TWO_EXPLICIT_POSTOUTCOME_ASSAY_RULES_NO_CONFIRMED_CONNECTIVITY_EFFECT",
+  "provenance": {
+    "observation_MD5": "76de51cecdee69e87138c469a93b35a9",
+    "layout_MD5": "6957db366d97aa5a15fd7107b2429ac3",
+    "original_author_R_MD5": "dadab72ec94583cdbf7197cc3eb09ea0",
+    "original_v227_frozen_STOP": true,
+    "v228_flag_domain_audit_run": 38060012871,
+    "v228_flag_domain_receipt_path": "development/hopson_prey_volume_schema_result_freeze_v1_228.json",
+    "v229_workflow_run": 38060244732,
+    "job_id": 114236869002,
+    "synthetic_tests_passed": 3,
+    "workflow_success": true,
+    "artifact_id": 11672862812,
+    "artifact_digest": "sha256:f1c9d472e17a0d3ad559a817d7095d918bfba8353274098ee72bee5aaec2f0a7"
+  },
+  "source_design": {
+    "original_source_rows": 4830,
+    "anomalous_assay_flag_rows": 1,
+    "independent_metapopulations": 14,
+    "eligible_t_zero_next_sample_pairs": 1085,
+    "next_sample_positive_count": 554,
+    "experiment_already_published": true,
+    "outcome": "next sample predator count positive when sampled zero at prior visit, NOT true colonization"
+  },
+  "model_compare": {
+    "v226_no_prey_R_mean": 0.6512648520431975,
+    "v226_no_prey_C_mean": 0.6506935758624085,
+    "v226_no_prey_ring_increment": -0.000571276180789163,
+    "author_R_literal": {
+      "descriptive_bootstrap_2_5_97_5": [
+        -0.006762892383888378,
+        0.002610783854826239
+      ],
+      "n_prediction_rows": 1085,
+      "n_sample_redetections": 554,
+      "original_preypoor_v226_increment": -0.000571276180789163,
+      "per_independent_metapopulation": [
+        {
+          "id": 1,
+          "prey_increment": -0.05380395329790133,
+          "redetections": 41,
+          "ring_after_prey_increment": 0.009200390195643338,
+          "test_rows": 68
+        },
+        {
+          "id": 2,
+          "prey_increment": -0.012374123185818653,
+          "redetections": 40,
+          "ring_after_prey_increment": -0.006584426340368821,
+          "test_rows": 67
+        },
+        {
+          "id": 3,
+          "prey_increment": -0.0478013008296273,
+          "redetections": 41,
+          "ring_after_prey_increment": 0.004189189578265751,
+          "test_rows": 93
+        },
+        {
+          "id": 4,
+          "prey_increment": -0.03020698624880369,
+          "redetections": 39,
+          "ring_after_prey_increment": -0.013328471941593145,
+          "test_rows": 67
+        },
+        {
+          "id": 5,
+          "prey_increment": -0.00475655590779045,
+          "redetections": 41,
+          "ring_after_prey_increment": -0.006968265793234174,
+          "test_rows": 74
+        },
+        {
+          "id": 6,
+          "prey_increment": -0.05741440410231746,
+          "redetections": 34,
+          "ring_after_prey_increment": -0.0061723047339912185,
+          "test_rows": 78
+        },
+        {
+          "id": 7,
+          "prey_increment": -0.09306049857338117,
+          "redetections": 34,
+          "ring_after_prey_increment": -0.002031766862392481,
+          "test_rows": 75
+        },
+        {
+          "id": 8,
+          "prey_increment": -0.07148759179563224,
+          "redetections": 44,
+          "ring_after_prey_increment": -0.007897998721771216,
+          "test_rows": 66
+        },
+        {
+          "id": 9,
+          "prey_increment": -0.1303245225232358,
+          "redetections": 56,
+          "ring_after_prey_increment": -0.004538917115024077,
+          "test_rows": 135
+        },
+        {
+          "id": 10,
+          "prey_increment": -0.010378161368223338,
+          "redetections": 33,
+          "ring_after_prey_increment": 0.01685810723837522,
+          "test_rows": 52
+        },
+        {
+          "id": 11,
+          "prey_increment": 0.014670886960944984,
+          "redetections": 37,
+          "ring_after_prey_increment": -0.014924230811058203,
+          "test_rows": 67
+        },
+        {
+          "id": 12,
+          "prey_increment": 0.01535354479397999,
+          "redetections": 29,
+          "ring_after_prey_increment": 0.004964771982765126,
+          "test_rows": 53
+        },
+        {
+          "id": 13,
+          "prey_increment": -0.06479070718034996,
+          "redetections": 45,
+          "ring_after_prey_increment": 0.00811649911098311,
+          "test_rows": 70
+        },
+        {
+          "id": 14,
+          "prey_increment": -0.03854974987073462,
+          "redetections": 40,
+          "ring_after_prey_increment": -0.010637552190056354,
+          "test_rows": 120
+        }
+      ],
+      "prey_adjusted_C_mean": 0.6073592020766014,
+      "prey_adjusted_R_mean": 0.609484557533991,
+      "primary_ring_increment_C_minus_R": -0.002125355457389796,
+      "secondary_prey_reference_increment_Rprey_minus_Rwithoutprey": -0.041780294509206506
+    },
+    "README_no_dilution": {
+      "descriptive_bootstrap_2_5_97_5": [
+        -0.006762894314166518,
+        0.0026107816339264417
+      ],
+      "n_prediction_rows": 1085,
+      "n_sample_redetections": 554,
+      "original_preypoor_v226_increment": -0.000571276180789163,
+      "per_independent_metapopulation": [
+        {
+          "id": 1,
+          "prey_increment": -0.05380395801440352,
+          "redetections": 41,
+          "ring_after_prey_increment": 0.009200386936495608,
+          "test_rows": 68
+        },
+        {
+          "id": 2,
+          "prey_increment": -0.01237411462750837,
+          "redetections": 40,
+          "ring_after_prey_increment": -0.006584421297477272,
+          "test_rows": 67
+        },
+        {
+          "id": 3,
+          "prey_increment": -0.04780131002433574,
+          "redetections": 41,
+          "ring_after_prey_increment": 0.004189186754104068,
+          "test_rows": 93
+        },
+        {
+          "id": 4,
+          "prey_increment": -0.03020698537424482,
+          "redetections": 39,
+          "ring_after_prey_increment": -0.013328478615513895,
+          "test_rows": 67
+        },
+        {
+          "id": 5,
+          "prey_increment": -0.004756567051567684,
+          "redetections": 41,
+          "ring_after_prey_increment": -0.006968262780372547,
+          "test_rows": 74
+        },
+        {
+          "id": 6,
+          "prey_increment": -0.057414387714363135,
+          "redetections": 34,
+          "ring_after_prey_increment": -0.006172307097710772,
+          "test_rows": 78
+        },
+        {
+          "id": 7,
+          "prey_increment": -0.0930605371490909,
+          "redetections": 34,
+          "ring_after_prey_increment": -0.0020317630195102465,
+          "test_rows": 75
+        },
+        {
+          "id": 8,
+          "prey_increment": -0.07148755539358265,
+          "redetections": 44,
+          "ring_after_prey_increment": -0.007897992007544041,
+          "test_rows": 66
+        },
+        {
+          "id": 9,
+          "prey_increment": -0.1303245280867079,
+          "redetections": 56,
+          "ring_after_prey_increment": -0.0045389348944052665,
+          "test_rows": 135
+        },
+        {
+          "id": 10,
+          "prey_increment": -0.010378148851693969,
+          "redetections": 33,
+          "ring_after_prey_increment": 0.016858102967246658,
+          "test_rows": 52
+        },
+        {
+          "id": 11,
+          "prey_increment": 0.014670876119502907,
+          "redetections": 37,
+          "ring_after_prey_increment": -0.014924229480706708,
+          "test_rows": 67
+        },
+        {
+          "id": 12,
+          "prey_increment": 0.015353540377039288,
+          "redetections": 29,
+          "ring_after_prey_increment": 0.004964762243551468,
+          "test_rows": 53
+        },
+        {
+          "id": 13,
+          "prey_increment": -0.064790685378175,
+          "redetections": 45,
+          "ring_after_prey_increment": 0.008116499599926774,
+          "test_rows": 70
+        },
+        {
+          "id": 14,
+          "prey_increment": -0.038549756748752384,
+          "redetections": 40,
+          "ring_after_prey_increment": -0.010637548515826156,
+          "test_rows": 120
+        }
+      ],
+      "prey_adjusted_C_mean": 0.6073592008199388,
+      "prey_adjusted_R_mean": 0.6094845579062058,
+      "primary_ring_increment_C_minus_R": -0.0021253570862673093,
+      "secondary_prey_reference_increment_Rprey_minus_Rwithoutprey": -0.041780294136991705
+    }
+  },
+  "comparison_between_assay_rules": {
+    "abs_primary_ring_delta": 1.628877513339816e-9,
+    "abs_secondary_prey_increment_delta": 3.722148006479742e-10,
+    "interpretation": "Results from both explicit assay interpretations numerically indistinguishable at displayed precision; this does not undo terminal v227 original data-domain failure"
+  },
+  "scientific_decision": {
+    "prey_reference_improved_mean_logloss_in_12_of_14_folds": true,
+    "average_prey_reference_increment_approx_minus_0_04178": true,
+    "ring_extra_increment_after_prey_approx_minus_0_002125": true,
+    "ring_increment_description_range_crosses_zero": true,
+    "no_confirmatory_incremental_ring_information": true,
+    "not_new_predator_prey_cycle_discovery": true,
+    "no_realized_dispersal_or_demographic_rescue_measured": true,
+    "only_retrospective_evidence": true,
+    "do_not_claim_new_independent_confirmatory_system": true,
+    "source_R3_reference_not_met": true,
+    "original_mammal_heldout_untouched": true,
+    "eBird_used": false,
+    "GEB_scientific_HOLD": true
+  }
+}
