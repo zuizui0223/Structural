@@ -1,0 +1,145 @@
+{
+  "schema": "structural.hopson_ring_redetection_loso_result_freeze.v1_226",
+  "status": "PASS_POSTPUBLICATION_RETROSPECTIVE_SAMPLE_REDETECTION_NO_STABLE_INCREMENT",
+  "provenance": {
+    "study": "Hopson & Fox 2019; archived original data 2016 Zenodo 4960267",
+    "original_observation_MD5": "76de51cecdee69e87138c469a93b35a9",
+    "original_treatment_layout_MD5": "6957db366d97aa5a15fd7107b2429ac3",
+    "original_author_context_already_published": true,
+    "workflow_run": 38058852983,
+    "job_id": 114232801718,
+    "synthetic_tests": 4,
+    "workflow_success": true,
+    "artifact_id": 11672731345,
+    "artifact_digest": "sha256:911369a1bfe128daada6261a8651eb125fd9e4fa92043dea8b620077ed463322"
+  },
+  "source": {
+    "independent_metapopulations": 14,
+    "ring_patches_each": 15,
+    "eligible_zero_at_t_observation_pairs": 1085,
+    "positive_predator_sample_tplus1": 554,
+    "negative_predator_sample_tplus1": 531,
+    "heldout_unit": "entire metapopulation",
+    "crossval": "leave-one-metapopulation-out, 14 folds; StandardScaler fit within train only; L2 logistic C=1 liblinear"
+  },
+  "reference_features": [
+    "log(1+zero_count_streak)",
+    "day/81",
+    "fraction of other patches with Euplotes count>0",
+    "log(1+sum other patch counts)",
+    "nearest ring distance to positive patch /8",
+    "own current undiluted sample volume",
+    "assigned dispersal kernel",
+    "time block"
+  ],
+  "candidate_added": [
+    "observed positives exactly 1 ring step away",
+    "observed positives exactly 2 ring steps away"
+  ],
+  "result": {
+    "equal_metapopulation_mean_C_minus_R_log_loss": -0.000571276180789163,
+    "descriptive_metapop_bootstrap_2_5_97_5": [
+      -0.00482698636830764,
+      0.0036638158531861
+    ],
+    "metapop_folds": [
+      {
+        "id": 1,
+        "n": 68,
+        "positive": 41,
+        "delta": 0.014445573556162383
+      },
+      {
+        "id": 2,
+        "n": 67,
+        "positive": 40,
+        "delta": -0.009299280342489946
+      },
+      {
+        "id": 3,
+        "n": 93,
+        "positive": 41,
+        "delta": 0.004802544251606644
+      },
+      {
+        "id": 4,
+        "n": 67,
+        "positive": 39,
+        "delta": -0.0030521398014693446
+      },
+      {
+        "id": 5,
+        "n": 74,
+        "positive": 41,
+        "delta": -0.0053242919154571355
+      },
+      {
+        "id": 6,
+        "n": 78,
+        "positive": 34,
+        "delta": -0.0031628581489993035
+      },
+      {
+        "id": 7,
+        "n": 75,
+        "positive": 34,
+        "delta": 0.002539999002379112
+      },
+      {
+        "id": 8,
+        "n": 66,
+        "positive": 44,
+        "delta": -0.010600850621835689
+      },
+      {
+        "id": 9,
+        "n": 135,
+        "positive": 56,
+        "delta": -0.011244433912828922
+      },
+      {
+        "id": 10,
+        "n": 52,
+        "positive": 33,
+        "delta": 0.013555900849542502
+      },
+      {
+        "id": 11,
+        "n": 67,
+        "positive": 37,
+        "delta": -0.009661702840507824
+      },
+      {
+        "id": 12,
+        "n": 53,
+        "positive": 29,
+        "delta": 0.004793818165324759
+      },
+      {
+        "id": 13,
+        "n": 70,
+        "positive": 45,
+        "delta": 0.006642826291351933
+      },
+      {
+        "id": 14,
+        "n": 120,
+        "positive": 40,
+        "delta": -0.0024329710638274493
+      }
+    ]
+  },
+  "limits": {
+    "inference": "Near-ring observed source placements do not yield stable incremental heldout prediction under this weak reference; cannot infer actual migrant rescue or rejection of all structural effects",
+    "prey_not_yet_included": true,
+    "prey_assay_later_verified_v225": true,
+    "no_realized_individual_source_target_path": true,
+    "prediction_target_is_sample_redetection_not_colonization": true,
+    "published_experiment_not_fresh_independent_confirmation": true,
+    "descriptive_cluster_bootstrap_not_confirmatory_CI": true,
+    "original_GEB_reference_R3_not_fully_present": true,
+    "eBird": false,
+    "original_mammal_heldout_reopened": false,
+    "GEB_scientific_HOLD": true
+  }
+}
