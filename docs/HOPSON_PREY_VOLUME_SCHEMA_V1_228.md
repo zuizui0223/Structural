@@ -1,0 +1,7 @@
+# v1.228 — Why the predeclared v1.227 prey model stopped
+
+The v1.227 source-locked GitHub Actions on the published 2016 Hopson data failed before prediction, with `ValueError: Inconsistent dilution and subsample flags`. The author R line 14 computes prey density for a positive subsample and line 15 provides a fallback for nonfinite results; the v1.227 contract separately required either both dilution/subsample values positive or both zero. Therefore modifying the original v1.227 until it scores would obscure a genuine measurement-schema discrepancy.
+
+This version is an independent **metadata-only** adjudication of the exact already-exposed observation CSV. It decodes only three author assay volume columns across all 4,830 records and classifies four flag combinations plus invalid values; original predator `eupl` and prey `tet` count values are not used. It verifies the same source MD5 as all preceding Hopson runs. It emits an immutable count/flag receipt, not a prey effect or revised 227 prediction. The preceding failed scoring contract remains terminal. A later method-matched analysis, if worthwhile, must be clearly retrospective and may not be described as pre-outcome confirmation.
+
+The genuinely ecological question remains whether appropriately estimated prey dynamics and true independent donor state explain future recorded 0→positive predator observations beyond a good reference. But without repeated sampling-to-detection calibration and independently measured directional immigration, **no 0→1 sample transition is proof of colonization**.
