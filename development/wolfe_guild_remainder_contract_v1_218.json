@@ -1,0 +1,30 @@
+{
+  "schema": "structural.wolfe_six_patch_guild_remainder_contract.v1_218",
+  "evidence_class": "POSTOUTCOME_EXPLORATORY_AFTER_V1_217_REGIME_SPLIT",
+  "scope": "Only fixed 6-patch (heterogeneous/homogeneous) x matrix 3 x low/high local corridor; 1 ambiguous excluded under frozen v1.212.",
+  "source": {
+    "repo": "ExperimentalConservation/Experimental-data",
+    "commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "blob_sha1": "e78003d425b646b390ae02e36c007892c1c70926"
+  },
+  "endpoints": {
+    "G": "Stentor coeruleus positive in microcosm at day21",
+    "S": "Didinium nasutum OR Dileptus anser positive in microcosm",
+    "J": "G AND S in same metacommunity microcosm"
+  },
+  "missing": "2 absent microcosm-level rows among focal 6-patch low/high regime cells (1 high-heterogeneous-none-matrix and 1 high-homogeneous-high-matrix); enumerate all 4^2 G,S completions",
+  "estimands": [
+    "6-patch heterogeneous low-minus-high corridor contrasts in G, S, J",
+    "within-each-matrix product of G and S marginals vs binary covariance remainder",
+    "heterogeneity benefit low-minus-high corridor difference"
+  ],
+  "guardrails": {
+    "novel_contrast_preregistered": false,
+    "author_original_results_already_known": true,
+    "treatment_assignment_randomization_verified": false,
+    "causal_effect_or_predator_interaction_inference": false,
+    "mammal_heldout_opened": false,
+    "eBird": false,
+    "submission_authorized": false
+  }
+}
