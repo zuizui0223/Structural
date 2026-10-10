@@ -1,0 +1,830 @@
+{
+  "schema": "structural.helgeland_two_year_destination_resight_result_freeze.v1_232",
+  "status": "SUCCESS_SOURCE_LOCKED_POSTPUBLICATION_DESCRIPTIVE_REPEATED_DESTINATION_OBSERVATION",
+  "provenance": {
+    "author_repo": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "source_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence_blob_sha1": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "population_blob_sha1": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+    "workflow_run": 38061944937,
+    "job_id": 114241810690,
+    "synthetic_tests_passed": 4,
+    "success": true,
+    "artifact_id": 11673531561,
+    "artifact_digest": "sha256:a24d0e1bf0f11ccbf83a08fbde5116f7edb3ba55eb63145d158d65b47c459691"
+  },
+  "origin": {
+    "observed_t1_immigrants": 460,
+    "observed_t1_residents": 1789,
+    "ambiguous_natal_identity": 5,
+    "post_2021_births_without_t2_measurement": 784
+  },
+  "all_precommitted_periods_and_statuses": [
+    {
+      "different_destination_seen_t2": 1,
+      "era": "historical",
+      "group": "immigrant",
+      "same_destination_seen_t2": 80,
+      "total_nextyear_observed": 231,
+      "unknown_second_followup": 150
+    },
+    {
+      "ambiguous_second_followup": 2,
+      "different_destination_seen_t2": 3,
+      "era": "historical",
+      "group": "resident",
+      "same_destination_seen_t2": 447,
+      "total_nextyear_observed": 1095,
+      "unknown_second_followup": 643
+    },
+    {
+      "era": "boundary",
+      "group": "immigrant",
+      "same_destination_seen_t2": 25,
+      "total_nextyear_observed": 56,
+      "unknown_second_followup": 31
+    },
+    {
+      "ambiguous_second_followup": 1,
+      "era": "boundary",
+      "group": "resident",
+      "same_destination_seen_t2": 76,
+      "total_nextyear_observed": 185,
+      "unknown_second_followup": 108
+    },
+    {
+      "different_destination_seen_t2": 2,
+      "era": "later",
+      "group": "immigrant",
+      "same_destination_seen_t2": 54,
+      "total_nextyear_observed": 156,
+      "unknown_second_followup": 100
+    },
+    {
+      "era": "later",
+      "group": "resident",
+      "same_destination_seen_t2": 135,
+      "total_nextyear_observed": 414,
+      "unknown_second_followup": 279
+    },
+    {
+      "era": "right_censored_2021",
+      "group": "immigrant",
+      "not_observable_t2": 17,
+      "total_nextyear_observed": 17
+    },
+    {
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 95,
+      "total_nextyear_observed": 95
+    }
+  ],
+  "all_origin_group_details": [
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 20,
+      "same_destination_seen_t2": 1,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 22,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 2,
+      "unknown_or_ambiguous_t2": 2
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 23,
+      "same_destination_seen_t2": 3,
+      "total_nextyear_observed": 6,
+      "unknown_or_ambiguous_t2": 3
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 24,
+      "same_destination_seen_t2": 9,
+      "total_nextyear_observed": 20,
+      "unknown_or_ambiguous_t2": 11
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 28,
+      "same_destination_seen_t2": 5,
+      "total_nextyear_observed": 11,
+      "unknown_or_ambiguous_t2": 6
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 34,
+      "same_destination_seen_t2": 1,
+      "total_nextyear_observed": 4,
+      "unknown_or_ambiguous_t2": 3
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 35,
+      "same_destination_seen_t2": 6,
+      "total_nextyear_observed": 12,
+      "unknown_or_ambiguous_t2": 6
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 20,
+      "same_destination_seen_t2": 1,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 23,
+      "same_destination_seen_t2": 24,
+      "total_nextyear_observed": 50,
+      "unknown_or_ambiguous_t2": 26
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 24,
+      "same_destination_seen_t2": 15,
+      "total_nextyear_observed": 29,
+      "unknown_or_ambiguous_t2": 14
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 26,
+      "same_destination_seen_t2": 3,
+      "total_nextyear_observed": 13,
+      "unknown_or_ambiguous_t2": 10
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 27,
+      "same_destination_seen_t2": 8,
+      "total_nextyear_observed": 32,
+      "unknown_or_ambiguous_t2": 24
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 28,
+      "same_destination_seen_t2": 12,
+      "total_nextyear_observed": 25,
+      "unknown_or_ambiguous_t2": 13
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 34,
+      "same_destination_seen_t2": 7,
+      "total_nextyear_observed": 13,
+      "unknown_or_ambiguous_t2": 6
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 35,
+      "same_destination_seen_t2": 6,
+      "total_nextyear_observed": 19,
+      "unknown_or_ambiguous_t2": 13
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "boundary",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 38,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 3,
+      "unknown_or_ambiguous_t2": 3
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 20,
+      "same_destination_seen_t2": 4,
+      "total_nextyear_observed": 15,
+      "unknown_or_ambiguous_t2": 11
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 22,
+      "same_destination_seen_t2": 5,
+      "total_nextyear_observed": 9,
+      "unknown_or_ambiguous_t2": 4
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 23,
+      "same_destination_seen_t2": 10,
+      "total_nextyear_observed": 31,
+      "unknown_or_ambiguous_t2": 21
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 24,
+      "same_destination_seen_t2": 18,
+      "total_nextyear_observed": 59,
+      "unknown_or_ambiguous_t2": 41
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 26,
+      "same_destination_seen_t2": 6,
+      "total_nextyear_observed": 18,
+      "unknown_or_ambiguous_t2": 12
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 27,
+      "same_destination_seen_t2": 8,
+      "total_nextyear_observed": 15,
+      "unknown_or_ambiguous_t2": 7
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 28,
+      "same_destination_seen_t2": 8,
+      "total_nextyear_observed": 21,
+      "unknown_or_ambiguous_t2": 13
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 33,
+      "same_destination_seen_t2": 1,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 1,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 34,
+      "same_destination_seen_t2": 8,
+      "total_nextyear_observed": 21,
+      "unknown_or_ambiguous_t2": 12
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 35,
+      "same_destination_seen_t2": 12,
+      "total_nextyear_observed": 40,
+      "unknown_or_ambiguous_t2": 28
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 38,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 1
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 20,
+      "same_destination_seen_t2": 31,
+      "total_nextyear_observed": 67,
+      "unknown_or_ambiguous_t2": 36
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 22,
+      "same_destination_seen_t2": 11,
+      "total_nextyear_observed": 33,
+      "unknown_or_ambiguous_t2": 22
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 23,
+      "same_destination_seen_t2": 18,
+      "total_nextyear_observed": 79,
+      "unknown_or_ambiguous_t2": 61
+    },
+    {
+      "different_destination_seen_t2": 2,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 24,
+      "same_destination_seen_t2": 36,
+      "total_nextyear_observed": 80,
+      "unknown_or_ambiguous_t2": 42
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 26,
+      "same_destination_seen_t2": 124,
+      "total_nextyear_observed": 269,
+      "unknown_or_ambiguous_t2": 145
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 27,
+      "same_destination_seen_t2": 110,
+      "total_nextyear_observed": 293,
+      "unknown_or_ambiguous_t2": 183
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 28,
+      "same_destination_seen_t2": 35,
+      "total_nextyear_observed": 90,
+      "unknown_or_ambiguous_t2": 55
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 33,
+      "same_destination_seen_t2": 2,
+      "total_nextyear_observed": 5,
+      "unknown_or_ambiguous_t2": 3
+    },
+    {
+      "different_destination_seen_t2": 1,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 34,
+      "same_destination_seen_t2": 29,
+      "total_nextyear_observed": 53,
+      "unknown_or_ambiguous_t2": 23
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 35,
+      "same_destination_seen_t2": 25,
+      "total_nextyear_observed": 73,
+      "unknown_or_ambiguous_t2": 48
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "historical",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 38,
+      "same_destination_seen_t2": 26,
+      "total_nextyear_observed": 53,
+      "unknown_or_ambiguous_t2": 27
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 20,
+      "same_destination_seen_t2": 6,
+      "total_nextyear_observed": 16,
+      "unknown_or_ambiguous_t2": 10
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 22,
+      "same_destination_seen_t2": 1,
+      "total_nextyear_observed": 6,
+      "unknown_or_ambiguous_t2": 5
+    },
+    {
+      "different_destination_seen_t2": 1,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 23,
+      "same_destination_seen_t2": 7,
+      "total_nextyear_observed": 29,
+      "unknown_or_ambiguous_t2": 21
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 24,
+      "same_destination_seen_t2": 9,
+      "total_nextyear_observed": 20,
+      "unknown_or_ambiguous_t2": 11
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 26,
+      "same_destination_seen_t2": 1,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 27,
+      "same_destination_seen_t2": 2,
+      "total_nextyear_observed": 5,
+      "unknown_or_ambiguous_t2": 3
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 28,
+      "same_destination_seen_t2": 4,
+      "total_nextyear_observed": 6,
+      "unknown_or_ambiguous_t2": 2
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 34,
+      "same_destination_seen_t2": 3,
+      "total_nextyear_observed": 13,
+      "unknown_or_ambiguous_t2": 10
+    },
+    {
+      "different_destination_seen_t2": 1,
+      "era": "later",
+      "group": "immigrant",
+      "not_observable_t2": 0,
+      "origin_island": 35,
+      "same_destination_seen_t2": 21,
+      "total_nextyear_observed": 60,
+      "unknown_or_ambiguous_t2": 38
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 20,
+      "same_destination_seen_t2": 6,
+      "total_nextyear_observed": 16,
+      "unknown_or_ambiguous_t2": 10
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 22,
+      "same_destination_seen_t2": 3,
+      "total_nextyear_observed": 8,
+      "unknown_or_ambiguous_t2": 5
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 23,
+      "same_destination_seen_t2": 30,
+      "total_nextyear_observed": 91,
+      "unknown_or_ambiguous_t2": 61
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 24,
+      "same_destination_seen_t2": 13,
+      "total_nextyear_observed": 48,
+      "unknown_or_ambiguous_t2": 35
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 26,
+      "same_destination_seen_t2": 8,
+      "total_nextyear_observed": 22,
+      "unknown_or_ambiguous_t2": 14
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 27,
+      "same_destination_seen_t2": 32,
+      "total_nextyear_observed": 95,
+      "unknown_or_ambiguous_t2": 63
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 28,
+      "same_destination_seen_t2": 15,
+      "total_nextyear_observed": 43,
+      "unknown_or_ambiguous_t2": 28
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 34,
+      "same_destination_seen_t2": 13,
+      "total_nextyear_observed": 28,
+      "unknown_or_ambiguous_t2": 15
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 35,
+      "same_destination_seen_t2": 15,
+      "total_nextyear_observed": 62,
+      "unknown_or_ambiguous_t2": 47
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "later",
+      "group": "resident",
+      "not_observable_t2": 0,
+      "origin_island": 38,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 1
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "immigrant",
+      "not_observable_t2": 5,
+      "origin_island": 23,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 5,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "immigrant",
+      "not_observable_t2": 3,
+      "origin_island": 24,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 3,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "immigrant",
+      "not_observable_t2": 2,
+      "origin_island": 27,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 2,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "immigrant",
+      "not_observable_t2": 1,
+      "origin_island": 33,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "immigrant",
+      "not_observable_t2": 4,
+      "origin_island": 34,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 4,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "immigrant",
+      "not_observable_t2": 2,
+      "origin_island": 35,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 2,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 3,
+      "origin_island": 20,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 3,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 15,
+      "origin_island": 23,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 15,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 11,
+      "origin_island": 24,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 11,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 4,
+      "origin_island": 26,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 4,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 44,
+      "origin_island": 27,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 44,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 4,
+      "origin_island": 28,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 4,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 1,
+      "origin_island": 33,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 1,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 5,
+      "origin_island": 34,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 5,
+      "unknown_or_ambiguous_t2": 0
+    },
+    {
+      "different_destination_seen_t2": 0,
+      "era": "right_censored_2021",
+      "group": "resident",
+      "not_observable_t2": 8,
+      "origin_island": 35,
+      "same_destination_seen_t2": 0,
+      "total_nextyear_observed": 8,
+      "unknown_or_ambiguous_t2": 0
+    }
+  ],
+  "ecological_examples": {
+    "later_2015_2020_immigrant_recruits_at_different_island_t1": 156,
+    "later_2015_2020_same_destination_resight_t2": 54,
+    "later_2015_2020_different_destination_resight_t2": 2,
+    "later_2015_2020_unobserved_t2": 100,
+    "later_sleneset_born_observed_t1_migrants": 60,
+    "later_sleneset_born_same_dest_seen_t2": 21,
+    "later_hestmannoy_born_observed_t1_migrants": 5,
+    "later_hestmannoy_born_same_dest_seen_t2": 2
+  },
+  "science_limitations": {
+    "data_from_one_archipelago": true,
+    "older_movement_result_published_in_2021": true,
+    "individuals_observed_t2_not_necessarily_bred": true,
+    "unknown_t2_not_mortality": true,
+    "repeated_resighting_conditional_on_prior_resighting_not_true_survival_probability": true,
+    "not_demonstrated_demographic_rescue": true,
+    "no_true_island_0_to_1_colonization_inferred": true,
+    "no_adjustment_for_island_year_detection_effort": true,
+    "different_birth_cohort_exposure_windows": true,
+    "no_new_confirmatory_evidence": true,
+    "original_mammal_heldout_not_reopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}

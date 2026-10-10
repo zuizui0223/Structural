@@ -1,0 +1,48 @@
+name: Helgeland published island sparrow source identity v1.230
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - development/helgeland_source_identity_contract_v1_230.json
+      - scripts/helgeland_source_header_gate_v1_230.py
+      - tests/test_helgeland_source_header_gate_v1_230.py
+      - .github/workflows/helgeland_source_headers_v1_230.yml
+permissions:
+  contents: read
+jobs:
+  author-pinned-header-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic parser, blob integrity and no-label tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_source_header_gate_v1_230.py
+      - uses: actions/checkout@v4
+        with:
+          repository: torhanssonfrank/DensityRegulationHouseSparrows
+          ref: a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5
+          path: build/helgeland_author_source
+          persist-credentials: false
+      - name: Validate exact two source blobs and ONLY read their headers
+        run: |
+          python scripts/helgeland_source_header_gate_v1_230.py build/helgeland_author_source development/helgeland_source_identity_contract_v1_230.json --out build/v230/source_receipt.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v230/source_receipt.json"))
+          assert d["source_outcome_rows_decoded"]==0
+          assert d["archipelago_count"]==1
+          assert d["fresh_confirmatory_admission"] is False
+          assert d["GEB_scientific_HOLD"]
+          print("HELGEland SOURCE HEADER + GIT SHA ONLY: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v230-helgeland-author-headers
+          path: build/v230/source_receipt.json
+          retention-days: 21
