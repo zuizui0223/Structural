@@ -1,0 +1,91 @@
+{
+  "schema": "structural.wolfe_v1_220_postoutcome_closure_and_future_gate",
+  "status": "SCIENTIFIC_CLOSURE_NO_FRESH_OUTCOME_OR_NEW_EMPIRICAL_EFFECT",
+  "context": {
+    "study": "Wolfe et al. Oecologia 2022 DOI 10.1007/s00442-022-05178-9",
+    "published_evidence": {
+      "patch_level_negative_generalist_specialist_association": {
+        "n_patch_rows": 734,
+        "original_nominal_p": 0.0000023,
+        "authors_published": true
+      },
+      "patch_size_effect_on_stentor": {
+        "authors_published": true
+      },
+      "specialist_matrix_dispersal_benefit": {
+        "authors_published": true
+      },
+      "local_dispersal_no_global_main_effect": {
+        "authors_published": true
+      }
+    },
+    "author_repository": "ExperimentalConservation/Experimental-data",
+    "pinned_commit": "fabe50b58a13651be4168b91cd91589ccc261a96",
+    "landscape_csv_blob": "e78003d425b646b390ae02e36c007892c1c70926",
+    "available_landscape_aggregate_rows": 176,
+    "missing_in_pinned_author_wolfe_directory": [
+      "final_count_patch_data.csv",
+      "stentor_patch_size.csv"
+    ],
+    "code_references_missing_files": [
+      "Wolfe et al. /Wolfe et al. code/Predator coexistence.R",
+      "Wolfe et al. /Wolfe et al. code/Stentor patch size.R"
+    ]
+  },
+  "prior_structural_results": {
+    "v1_212": "postoutcome joint retention by 4 vs 6, incomplete 5 source rows",
+    "v1_216": "posthoc within-metacommunity marginal/covariance decomposition",
+    "v1_217": "posthoc low/high local corridor contrast",
+    "v1_218": "posthoc 4^2 missing-G/S enumeration",
+    "v1_219": "one matrix treatment largely responsible, leave-one-low-matrix admits zero"
+  },
+  "blocked_statements": [
+    "first demonstration of patch-level antagonism",
+    "observed spatial segregation from landscape joint retention",
+    "confirmed corridor-mediated competitive exclusion",
+    "observed colonization or demographic rescue",
+    "uniform high-corridor harm over all matrix regimes",
+    "independent replication of Structural mammal C-R3 result",
+    "734 independently randomized landscapes",
+    "preregistered posthoc contrasts"
+  ],
+  "formal_identifiability": {
+    "n_patches": 6,
+    "known_marginal_patch_occupancies_example": [
+      2,
+      2
+    ],
+    "local_cooccurrence_tight_bounds": [
+      0,
+      2
+    ],
+    "terminal_landscape_both_guilds_true_for_both_extremes": true,
+    "temporal_transition_not_identified_by_t1_snapshot": true,
+    "synthetic_only": true
+  },
+  "future_admission": {
+    "target": "Time-resolved patch-level habitat-size sorting versus independent directional transport/rescue conditional on strong current-state reference.",
+    "measurement_unit": "Independent randomized metacommunity with nested patch observations",
+    "required_blind_metadata": [
+      "site and independent replicate identities",
+      "patch geometry/area and heterogeneity intensity",
+      "matrix mortality and corridor-frequency assigned levels",
+      "movement operator independent of terminal outcome",
+      "baseline t and future t+1 sampling time and detection effort",
+      "lagged guild-specific patch presence and prey state",
+      "species-specific 0->1 and 1->0 endpoint supports by independent block",
+      "pre-frozen disjoint burned pilot and confirmatory replication IDs"
+    ],
+    "minimum_design_gate": "Structural v0.31/v0.32/v0.42 blocked response-quality and estimability checks before confirmatory opening",
+    "primary_future_estimand": "out-of-sample added log loss improvement of independent directional guild-specific dispersal state over size/prey/lagged occupancy/environmental R3-type reference for 0->1 colonization",
+    "secondary_not_rescue": "1->0 extinction and guild joint retention, separately predeclared",
+    "interpretation": "Cluster patch rows by independent metacommunity. No claim from patch-level count treated as n independent experimental units.",
+    "evidence_status": "NO NEW DATASET ADMITTED"
+  },
+  "guards": {
+    "eBird": false,
+    "original_529_mammal_heldout_reopened": false,
+    "original_wolfe_outcome_reopened": false,
+    "original_GEB_submission_authorized": false
+  }
+}
