@@ -1,0 +1,52 @@
+{
+  "schema": "structural.helgeland_parentage_ID_namespace_result_freeze.v1_234",
+  "status": "EXECUTED_IMMUTABLE_SOURCE_IDS_INCONSISTENT_STOP_LINKED_REPRODUCTIVE_INFERENCE",
+  "source": {
+    "repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "source_github_blobs": {
+      "presence": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+      "island_model_population": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+      "producer": "e6cc1558b740b03b9ca33c3af180e05079bcbba8"
+    },
+    "independent_archipelagos": 1,
+    "overlap_Ranke_2021_Hansson_Frank_2026": true,
+    "workflow": {
+      "run_id": 38107431252,
+      "job_id": 114375793900,
+      "synthetic_tests": 1,
+      "success": true,
+      "artifact_id": 11689724864,
+      "digest": "sha256:41ae579056b09a20a5707f8ee6ec83f6f40415e33fe18a83bcb3e07336925192"
+    }
+  },
+  "published_table_rows": 1903,
+  "producer_identity_crosswalk": {
+    "unique_producer_IDs": 1187,
+    "superficially_shared_IDs_with_known_nest_birth": 492,
+    "producer_rows_with_nest_ID_overlap": 771,
+    "of_which_natal_hatchyear_matches": 18,
+    "of_which_natal_hatchyear_conflicts": 753,
+    "same_ID_same_Year_observed_as_adult_any_island": 113,
+    "same_ID_same_Year_same_Island_observed_as_adult": 22,
+    "same_ID_same_Year_different_Island_observed_as_adult": 91,
+    "observed_immigrant_natal_IDs_in_2007_to_2014": 172,
+    "same_ID_later_producer_row_on_confirmed_immigrant_destination": 0,
+    "v233_immediate_year_immigrant_exact_ID_year_destination_links": 0,
+    "v233_immediate_year_resident_exact_ID_year_island_links": 0
+  },
+  "scientific_classification": {
+    "ID_namespace_or_table_provenance_mismatch_supported": true,
+    "exact_cause_independently_proven": false,
+    "N_nestlings_and_N_Recruits_outcome_columns_accessed": false,
+    "individual_offspring_production_from_disperer_NOT_IDENTIFIED": true,
+    "postmigration_reproduction_fitness_NOT_ESTIMABLE": true,
+    "no_imputation_or_posthoc_ID_mapping": true,
+    "v231_460_natal_observed_movers_and_v232_reobservations_remain_valid_as_their_own_endpoints": true,
+    "followup_requires_author_supplied_verified_key_with_birthyear_island_and_reproduction_year": true,
+    "no_confirmation_admission": true,
+    "original_mammal_heldout_unopened": true,
+    "eBird_used": false,
+    "GEB_scientific_HOLD": true
+  }
+}
