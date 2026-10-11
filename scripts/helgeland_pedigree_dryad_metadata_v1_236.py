@@ -89,7 +89,19 @@ def main():
     ds=get_json(BASE+"/datasets/"+ENC)
     version_json=get_json(BASE+"/datasets/"+ENC+"/versions")
     vv=versions(version_json)
-    if not vv:raise ValueError("No Dryad version ID available")
+    if not vv:
+        # Only metadata keys and primitive metadata types; no biological rows.
+        print("VERSION_METADATA_TOP_TYPE",type(version_json).__name__)
+        if isinstance(version_json,dict):
+            print("VERSION_METADATA_TOP_KEYS",sorted(version_json.keys()))
+            for key,val in version_json.items():
+                if isinstance(val,dict):
+                    print("VERSION_METADATA_CHILD",key,"keys",sorted(val.keys()))
+                elif isinstance(val,list):
+                    print("VERSION_METADATA_CHILD",key,"list_length",len(val),
+                          "first_type",type(val[0]).__name__ if val else None,
+                          "first_keys",sorted(val[0].keys()) if val and isinstance(val[0],dict) else None)
+        raise ValueError("No Dryad version ID available; source metadata shape requires explicit repair")
     latest=sorted(vv,key=lambda x:(int(x.get("versionNumber",0)),int(x["id"])))[-1]
     fl=get_json(BASE+"/versions/"+str(latest["id"])+"/files")
     r=audit(ds,version_json,fl)
