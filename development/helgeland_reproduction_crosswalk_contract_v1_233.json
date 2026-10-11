@@ -1,0 +1,25 @@
+{
+  "schema": "structural.helgeland_reproduction_identity_crosswalk_contract.v1_233",
+  "status": "RETROSPECTIVE_SOURCE_SCHEMA_AND_IDENTITY_CROSSWALK_AFTER_V231_V232_OUTCOMES_EXPOSED",
+  "authority": {
+    "repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence_blob": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "population_blob": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+    "producer_blob": "e6cc1558b740b03b9ca33c3af180e05079bcbba8"
+  },
+  "published_producer_semantics": "Individual-year island table with N_nestlings and N_Recruits outcomes, used by authors' BRMS negative-binomial production model, not a parent-to-offspring pedigree.",
+  "encoding": "Original producer CSV in Latin1 with 24 header fields but 25 fields per data row because first is R row-index; drop index, do NOT infer ID shift.",
+  "join": "Unique ID/year/island; natal known from unique nest stage birth year/island in original published presence file. At birth+1 (2007-2014) distinct next-year recorded capt/obs island, immigrant if origin != recorded destination, resident otherwise. No fill-forward, no offspring counts interpreted in v1.233.",
+  "guard": "All 11 study islands, all years 2007-2014 in producer table, all v1.231 natal known IDs. Report entire crosswalk and duplication counts, no source island selected on favorable outcomes. Any count mismatch or duplicate ID/year/island stops later reproduction interpretation, without altering outcome threshold.",
+  "nonclaims": {
+    "no_reproductive_output_statistic": true,
+    "no_true_survival_rate": true,
+    "no_causal_immigration_rescue": true,
+    "no_independent_study_replication": true,
+    "no_new_confirmatory_admission": true,
+    "no_original_mammal_response": true,
+    "eBird": false,
+    "GEB_HOLD": true
+  }
+}
