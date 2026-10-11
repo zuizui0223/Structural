@@ -18,4 +18,4 @@ def test_r_index_is_not_ID():
 def test_malformed_column_width_stops():
     names=["Year_ID_Location","Year_ID","ID","Year","Least_hatchyear","Island"]+["x"+str(i) for i in range(18)]
     b=(";".join(names)+"\n"+";".join(["1"]*24)+"\n").encode()
-    with pytest.raises(ValueError,match="25"):list(producer_identity_rows(b))
+    with pytest.raises(ValueError,match="R index"):list(producer_identity_rows(b))
