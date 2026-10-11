@@ -1,0 +1,46 @@
+name: Helgeland breeder ID and hatchyear provenance v1.234
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - scripts/helgeland_breeder_ID_natal_year_audit_v1_234.py
+      - tests/test_helgeland_breeder_ID_natal_year_audit_v1_234.py
+      - development/helgeland_breeder_ID_audit_contract_v1_234.json
+      - .github/workflows/helgeland_breeder_ID_natal_year_v1_234.yml
+permissions:
+  contents: read
+jobs:
+  ID-namespace-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_breeder_ID_natal_year_audit_v1_234.py
+      - uses: actions/checkout@v4
+        with:
+          repository: torhanssonfrank/DensityRegulationHouseSparrows
+          ref: a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5
+          path: build/author
+          persist-credentials: false
+      - run: |
+          python scripts/helgeland_breeder_ID_natal_year_audit_v1_234.py build/author --out build/v234/ID_readiness.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v234/ID_readiness.json"))
+          assert r["source_islands"]==11
+          assert r["previous_v1_233_nextyear_immigrant_exact_producer_matches"]==0
+          assert not r["breeder_output_measurements_read"]
+          assert r["GEB_scientific_HOLD"]
+          print("Helgeland ID namespace diagnostics only; no causal or breeding effect")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v234-helgeland-breeder-hatchyear-ID
+          path: build/v234/ID_readiness.json
+          retention-days: 21
