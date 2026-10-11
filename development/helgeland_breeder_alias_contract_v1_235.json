@@ -1,0 +1,31 @@
+{
+  "schema": "structural.helgeland_existing_key_alias_contract.v1_235",
+  "evidence": "Explicit postoutcome source-identity-only check following failed v1.233/v1.234 join; source cohort and reproduction findings already published",
+  "source": {
+    "github_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence_blob_sha1": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "producer_blob_sha1": "e6cc1558b740b03b9ca33c3af180e05079bcbba8"
+  },
+  "candidate_columns": [
+    "ID",
+    "Year_ID",
+    "Year_ID_Location"
+  ],
+  "identity_evidence": "Each key as literal published author producer string compared with unchanged presence ID. Exact match must also have consistent Least_hatchyear with unique nest-origin birth year AND simultaneous adult resighting on that Year and Island; report all variants regardless of match counts.",
+  "explicit_nonqueries": [
+    "N_nestlings",
+    "N_Recruits",
+    "r2s",
+    "Own_survival",
+    "sex"
+  ],
+  "no_auto_fix": "If all three fail, stop and require author verified long-term individual crosswalk. Even if any succeed, verify collisions before attributing reproductive outputs.",
+  "science": {
+    "not_fresh": true,
+    "not_independent_replication": true,
+    "no_reproductive_result": true,
+    "no_imputation": true,
+    "GEB_HOLD": true,
+    "eBird": false
+  }
+}
