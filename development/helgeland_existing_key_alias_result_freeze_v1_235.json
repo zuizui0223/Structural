@@ -1,0 +1,51 @@
+{
+  "schema": "structural.helgeland_published_breeder_named_alias_result_freeze.v1_235",
+  "status": "PASS_SOURCE_LOCKED_THREE_AUTHOR_NAMED_ALIASES_ZERO_VALID_ID_HATCHYEAR_ADULT_ISLAND_LINKS",
+  "source": {
+    "repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence_git_blob": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "producer_git_blob": "e6cc1558b740b03b9ca33c3af180e05079bcbba8",
+    "prior_v234_population_model_islands": 11,
+    "v235_natal_ID_universe": "ALL valid original stage=nest islands, not restricted to eleven population-model islands; counts NOT directly comparable to v234 771-row limited-island subset",
+    "workflow": {
+      "run_id": 38107952244,
+      "job_id": 114377352239,
+      "synthetic_tests_passed": 3,
+      "success": true,
+      "artifact_id": 11690304419,
+      "digest": "sha256:700e316054369bedcc68bc737186e29f191504659ff724ff97c03f4a14174ab5"
+    }
+  },
+  "results": {
+    "source_producer_rows": 1903,
+    "unique_individual_ids_with_one_source_nest_birth_year_and_island_over_broader_presence_universe": 16169,
+    "ID": {
+      "rows_with_literal_nest_ID_match": 892,
+      "rows_hatchyear_agrees_with_natal_year": 25,
+      "rows_hatchyear_conflicts": 867,
+      "rows_same_ID_year_same_island_adult_sighting": 1,
+      "rows_with_ALL_nest_year_adult_year_island_consistency": 0
+    },
+    "Year_ID": {
+      "rows_with_literal_nest_ID_match": 0,
+      "rows_with_ALL_nest_year_adult_year_island_consistency": 0
+    },
+    "Year_ID_Location": {
+      "rows_with_literal_nest_ID_match": 0,
+      "rows_with_ALL_nest_year_adult_year_island_consistency": 0
+    }
+  },
+  "science": {
+    "no_verified_crosswalk": true,
+    "no_source_output_N_nestlings_N_Recruits_decoded": true,
+    "no_biological_reproductive_effect_claimed": true,
+    "no_reproductive_value_or_rescue_inference": true,
+    "same_Helgeland_archipelago_2021_2026_not_independent": true,
+    "future_source_requirement": "validated personal mark/band ID correspondence mapping with natal year/island and adult breeding year/island, plus parentage/detection",
+    "no_new_confirmatory_systems": true,
+    "original_529_mammal_heldout_untouched": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}
