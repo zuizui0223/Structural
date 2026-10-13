@@ -1,0 +1,165 @@
+{
+  "schema": "structural.helgeland_habitat_conditional_pair_result_freeze.v1_241",
+  "status": "PASS_TEMPORAL_SCORE_PAIR_BEATS_HABITAT_IN_POOLED_AVERAGE_BUT_SINGLE_DONOR_DEPENDENT",
+  "provenance": {
+    "historical_source": "development/helgeland_natal_resight_result_freeze_v1_231.json",
+    "historical_source_blob": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "contract_commit_before_v241_scoring": "867b8caf1c489299db778adf23ae91fee51918a9",
+    "code_commit": "5cf9bb8c5fa5210fbe057c57a960ff2e6040248d",
+    "CI_run_id": 38418272689,
+    "CI_job_id": 115368431263,
+    "synthetic_tests_passed": 5,
+    "CI_success": true,
+    "CI_artifact_id": 11825133455,
+    "CI_artifact_digest": "sha256:b1cdbde52b1e2444c73e5df2389680fe160b01523c4306255ef081a98e286a2b",
+    "independent_source_locked_JS_formula_crosscheck": true
+  },
+  "design": {
+    "study": "Helgeland wild house sparrows, same published source as Ranke et al 2021",
+    "birth_cohort_historical_training": 259,
+    "birth_cohort_2014_excluded_boundary": 28,
+    "birth_cohort_later_temporal_test": 173,
+    "test_metric": "natal-origin-conditional target destination negative log probability for documented resighted firstyear immigrant",
+    "farm_islands": [
+      20,
+      26,
+      27,
+      28,
+      33,
+      38
+    ],
+    "nonfarm_islands": [
+      22,
+      23,
+      24,
+      34,
+      35
+    ],
+    "historical_only_ridge_beta_same_farm_class": 1.85,
+    "beta_grid": "[-4,4] in 0.01 intervals trained on historical only, beta^2/2 penalty",
+    "reference_P0": "destination popularity +1 excluding natal source",
+    "reference_H": "P0×exp(beta_same_class) normalized excluding natal source",
+    "candidate_R2": "historic i↔j undirected count +tau×H",
+    "candidate_C2": "historic i→j directed count +tau×R2",
+    "primary": "R2-H on later 173 heldout movers (negative favorable)",
+    "secondary": "H-P0, C2-R2"
+  },
+  "all_precommitted_tau_results": {
+    "tau_5": {
+      "P0": 1.8758777374312232,
+      "H": 1.66728860461545,
+      "R2": 1.6019473072392685,
+      "C2": 1.6788591694035166,
+      "R2_minus_H": -0.06534129737618155,
+      "H_minus_P0": -0.20858913281577318,
+      "C2_minus_R2": 0.07691186216424817,
+      "origins_R2_benefit": 6,
+      "origins_C2_benefit": 3,
+      "leave_one_origin_R2_minus_H_range": [
+        -0.1526445454279745,
+        0.0989808058314982
+      ]
+    },
+    "tau_10": {
+      "P0": 1.8758777374312232,
+      "H": 1.66728860461545,
+      "R2": 1.5706880473390539,
+      "C2": 1.6141121434586585,
+      "R2_minus_H": -0.09660055727639616,
+      "H_minus_P0": -0.20858913281577318,
+      "C2_minus_R2": 0.04342409611960463,
+      "origins_R2_benefit": 6,
+      "origins_C2_benefit": 3,
+      "leave_one_origin_R2_minus_H_range": [
+        -0.17939980853755783,
+        0.04805945055432281
+      ]
+    },
+    "tau_20": {
+      "P0": 1.8758777374312232,
+      "H": 1.66728860461545,
+      "R2": 1.5466919510982715,
+      "C2": 1.563408610523393,
+      "R2_minus_H": -0.12059665351717852,
+      "H_minus_P0": -0.20858913281577318,
+      "C2_minus_R2": 0.01671665942512157,
+      "origins_R2_benefit": 6,
+      "origins_C2_benefit": 4,
+      "leave_one_origin_R2_minus_H_range": [
+        -0.1936882235320614,
+        0.00039123876534561915
+      ]
+    }
+  },
+  "main_tau10_per_source": {
+    "nesøy": {
+      "n": 16,
+      "R2_minus_H": 0.19856541153000107
+    },
+    "myken": {
+      "n": 6,
+      "R2_minus_H": -0.10507740780887254
+    },
+    "træna": {
+      "n": 34,
+      "R2_minus_H": 0.2419022640560001
+    },
+    "selvær": {
+      "n": 23,
+      "R2_minus_H": -0.04113338791129389
+    },
+    "gjerøy": {
+      "n": 1,
+      "R2_minus_H": -0.02067711454558252
+    },
+    "hestmannøy": {
+      "n": 7,
+      "R2_minus_H": 0.28140163897996573
+    },
+    "indre kvarøy": {
+      "n": 6,
+      "R2_minus_H": -0.5321386088116572
+    },
+    "lurøy-onøy": {
+      "n": 1,
+      "R2_minus_H": 0.46987924360832767
+    },
+    "lovund": {
+      "n": 17,
+      "R2_minus_H": -0.21863377241727838
+    },
+    "sleneset": {
+      "n": 62,
+      "R2_minus_H": -0.3555886358120381
+    },
+    "aldra": {
+      "n": 0,
+      "R2_minus_H": null
+    }
+  },
+  "main_tau10_leave_one_origin_out": {
+    "nesøy": -0.12668116556239842,
+    "myken": -0.0962959997722356,
+    "træna": -0.17939980853755783,
+    "selvær": -0.10510552324571185,
+    "gjerøy": -0.09704197264111002,
+    "hestmannøy": -0.11254040892576078,
+    "indre kvarøy": -0.08095248356854252,
+    "lurøy-onøy": -0.09989404449084213,
+    "lovund": -0.08330206588283828,
+    "sleneset": 0.04805945055432281
+  },
+  "scientific_conclusion": {
+    "published_habitat_effect_predictively_useful_H_minus_P0": true,
+    "additional_undirected_pair_predictively_useful_in_pooled_after_farm_adjustment": true,
+    "broad_pairwise_generalization_NOT_supported_due_to_one_source_sensitive_sign_flip": true,
+    "stronger_reference_lacks_physical_distance_and_timevarying_source_density_effort": true,
+    "not_independent_replicated_ecology_or_proven_transport_mechanism": true,
+    "directional_effect_again_adverse_in_primary_tau10": true,
+    "one_published_archipelago_prior_work_overlap": true,
+    "no_new_confirmatory_systems": true,
+    "GEB_scientific_HOLD": true,
+    "original_mammal_heldout_unopened": true,
+    "eBird": false
+  }
+}
