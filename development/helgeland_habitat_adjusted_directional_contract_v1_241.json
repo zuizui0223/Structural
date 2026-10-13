@@ -1,0 +1,52 @@
+{
+  "schema": "structural.helgeland_habitat_controlled_pair_portability_protocol.v1_241",
+  "scientific_class": "EXPLICIT_RETROSPECTIVE_STRONGER_REFERENCE_TEST_AFTER_V240_RESULTS_EXPOSED",
+  "input": {
+    "path": "development/helgeland_natal_resight_result_freeze_v1_231.json",
+    "source_blob_sha": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "old_historical_migration_birth_cohorts": 259,
+    "boundary_2014_EXCLUDE": 28,
+    "new_later_birth_cohorts_TEST_ONLY": 173
+  },
+  "author_published_farm_classification": {
+    "citation": "Ranke et al 2021 Journal of Animal Ecology doi:10.1111/1365-2656.13580 Study populations and Fig 1",
+    "farm_island_IDs": [
+      20,
+      26,
+      27,
+      28,
+      33,
+      38
+    ],
+    "non_farm_island_IDs": [
+      22,
+      23,
+      24,
+      34,
+      35
+    ],
+    "fixed_type_across_training_testing": true
+  },
+  "nested_predictive_models": {
+    "P0": "Destination-year-agnostic attractiveness from historical incoming natal migrant counts plus one Laplace pseudocount, exclude self",
+    "H": "P0(j|i) * exp(beta * indicator[same farm class origin_i and recipient_j]), re-normalize for every origin i; beta trained ONLY historical 259 records by maximizing training multinomial loglik minus beta²/2",
+    "beta_grid": "ALL fixed 801 values from -4.00 through +4.00 step 0.01, deterministic ties prefer smaller absolute magnitude then smaller signed beta; no future outcome tuning",
+    "R2": "Historical UNDIRECTED pair U_ij=historic i→j + historic j→i smoothed toward H by tau prior pseudocounts",
+    "C2": "Historical DIRECTIONAL pair i→j smoothed toward R2 by tau prior pseudocounts",
+    "primary": "R2-H future 173 observed migrant destination mean negative logloss at tau=10; negative means exact pair information survives broad habitat-class + receiving popularity baseline",
+    "secondary": "H-P0: published farm/non-farm main status predictive in future resight observations; C2-R2: directionality beyond undirected after habitat reference",
+    "sensitivities": "tau=5,10,20 all frozen before this new scoring and all reported",
+    "robustness": "all origins with at least one later recorded migrant, every leave-one-origin-out primary, all 11 original source islands, no posthoc subgroup exclusions"
+  },
+  "do_not_claim": [
+    "Unique geography/distance-independent pair mechanism: inter-island distance is NOT explicitly measured or adjusted",
+    "Observed source extinction, population rescue, true colonization, observed immigrant reproductive fitness or synchronous recipient collapse",
+    "Independent archipelago replication or preregistered prospective result: both authors and previous Structural scripts exposed outcomes",
+    "If primary R2-H weak/adverse, no new-structure claim and no subgroup/tau rescue"
+  ],
+  "guards": {
+    "v0_31_42_original_GEB_scientific_HOLD": true,
+    "mammal_heldout_responses_and_predictions_unopened": true,
+    "eBird": false
+  }
+}
