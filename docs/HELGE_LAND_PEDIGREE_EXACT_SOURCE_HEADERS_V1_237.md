@@ -1,0 +1,9 @@
+# Helgeland 2025 Dryad pedigree v1.237 — frozen source file transport/header gate
+
+v1.236 successfully verified the published 2025 Saatoglu Dryad DOI `10.5061/dryad.qfttdz0sx` version 2 (immutable internal version ID **354268**), five exact filenames, byte sizes, and each file's published SHA-256 digest. GitHub Actions source receipt from run 38403471625 confirmed these fields without reading biological values.
+
+Before any retrospective geographic donor concentration hypothesis is scored, v1.237 must verify the **same five original file bodies**, matching both size and SHA-256. Follow only the source-advertised HAL `stash:download` path to a canonical Dryad API file ID, reject any host/path substitution, and read only the first header line of each tabular file; read README as a data dictionary but not raw phenotype observations. Any unauthorized download (401/403), unexpected API shape or checksum discrepancy is a recorded STOP. There is no opportunistic version swap or shadow dataset.
+
+The question is whether the 2025 within-study pedigree source has (a) identity-consistent parent and offspring IDs; (b) independently grounded **natal origins of both parents** and recipient islands; (c) breeding output and location; and (d) enough recipients/sources to estimate source diversity without double-counting each offspring as two independent arrivals. An immigrant's annual/lifetime reproductive advantage was already discovered in the original published paper and does not qualify as a Structural new effect. Even a valid parent pair yields no causal demographic rescue without observed vital rates, directionally resolved movement and a robust state/reference comparison.
+
+**Current evidence class:** postpublication opportunity only, one Helgeland archipelago, no original mammal heldout or graph prediction reopening, eBird off, GEB scientific HOLD intact.
