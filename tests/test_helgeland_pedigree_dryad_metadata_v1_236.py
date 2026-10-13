@@ -21,3 +21,11 @@ def test_missing_pedigree_file_stops():
 def test_changed_doi_stops():
     a,b,c=fixture();a["identifier"]="10.5061/dryad.other"
     with pytest.raises(ValueError,match="DOI"):audit(a,b,c)
+
+def test_dryad_hal_version_self_href_numeric_id():
+    vv={"_embedded":{"stash:versions":[
+        {"_links":{"self":{"href":"/api/v2/versions/207850"}},
+          "versionNumber":1,"curationStatus":"Published","publicationDate":"2025-03-25"}
+    ]}}
+    assert versions(vv)[0]["id"]==207850
+    assert versions(vv)[0]["versionNumber"]==1
