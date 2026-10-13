@@ -1,0 +1,7 @@
+# v1.242 — Verify whether original Ranke 2021 source provides exact island-to-island distances
+
+Why: the 2021 paper explicitly found shorter natal movements within habitat groups and strong distance dependence; v1.241's source-pair forecast improvements could be merely those already established geographic interactions. Further post-outcome subgroup searches on one donor are not new confirmatory work, especially since omitting Sleneset flipped the primary v1.241 sign.
+
+The original public 2021 paper cites Dryad dataset [10.5061/dryad.v41ns1rx1](https://doi.org/10.5061/dryad.v41ns1rx1). v1.242 queries ONLY the original version and file-name/size/checksum metadata through the source-documented public HAL API. It checks whether *there might be* files named distance/coordinate/location/site/island or spatial. A relevant **filename does not establish a valid distance matrix**. Exact breeding site coordinates for all 11 study island codes, source version and numeric units must be independently checked before any distance-adjusted reference model can be frozen and scored.
+
+No raw biological rows and no protected mammal heldout are opened; no natural island centroid guesses, no route re-estimations, no causal rescue claims. If metadata is unavailable, retain an explicit technical STOP and do not substitute a different published dataset. Ranke et al. 2021's geometry, habitat and mean density associations are prior art, not Structural discoveries.

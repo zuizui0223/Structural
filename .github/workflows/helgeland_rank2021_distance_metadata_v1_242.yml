@@ -1,0 +1,41 @@
+name: Helgeland Ranke 2021 original distance source metadata v1.242
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - scripts/helgeland_rank2021_distance_metadata_v1_242.py
+      - tests/test_helgeland_rank2021_distance_metadata_v1_242.py
+      - development/helgeland_rank2021_distance_metadata_contract_v1_242.json
+      - .github/workflows/helgeland_rank2021_distance_metadata_v1_242.yml
+permissions:
+  contents: read
+jobs:
+  original-Ranke-DOI-metadata:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_rank2021_distance_metadata_v1_242.py
+      - name: Original published Dryad version file name/schema metadata only
+        run: |
+          python scripts/helgeland_rank2021_distance_metadata_v1_242.py --out build/v242/metadata.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v242/metadata.json"))
+          assert r["source_DOI"]=="10.5061/dryad.v41ns1rx1"
+          assert r["biological_outcome_rows_read"]==0
+          assert not r["distance_matrix_or_breeding_location_coordinates_ACTUALLY_VERIFIED"]
+          assert r["GEB_scientific_HOLD"]
+          print("Ranke distance source metadata only:",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v242-ranke-distance-source-metadata
+          path: build/v242/metadata.json
+          retention-days: 21
