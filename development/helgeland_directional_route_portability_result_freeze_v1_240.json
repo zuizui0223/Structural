@@ -1,0 +1,692 @@
+{
+  "schema": "structural.helgeland_directional_portability_result_freeze.v1_240",
+  "status": "PASS_RETROSPECTIVE_TIME_SPLIT_UNDIRECTED_PAIR_INFO_PREDICTIVE_DIRECTIONAL_NOT_STABLE",
+  "provenance": {
+    "input_original_source_frozen_git_blob_sha1": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "input_1994_2022_author_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "model_frozen_pre_score_protocol_commit": "9c121130fdc03d7975fcc599ccde1150dab90327",
+    "code_commit_with_original_scoring": "a63da03b8ecb70c7ddfb83544a82f9bb2e91ad87",
+    "github_actions_run_id": 38416672282,
+    "job_id": 115362834836,
+    "synthetic_tests_passed": 5,
+    "actions_conclusion": "success",
+    "artifact_id": 11825160847,
+    "artifact_digest": "sha256:c6f75e00ae73414976fc397accc95b312e3fdf59845d082d1ddad2be3d1e7929",
+    "independently_recomputed_from_frozen_source_json_JS": true,
+    "no_new_raw_individual_published_observation_access": true,
+    "not_confirmatory_new_study": true
+  },
+  "comparison": {
+    "birth_year_training_era": "historical 1994–2013, n259",
+    "birth_year_bridge": "2014, n28, EXCLUDED",
+    "birth_year_temporal_test": "later 2015–2021, n173",
+    "endpoint": "Observed first-year migrant destination conditional on resighting, not emigration incidence or demographic rescue",
+    "R0": "1994–2013 destination popularity with Laplace α=1",
+    "R1": "historical symmetric pair source↔destination plus τ shrinkage to R0",
+    "C": "historical directed pair natal source→destination plus τ shrinkage to R1",
+    "signed_comparisons": "C−R1 primary and R1−R0 secondary, lower logloss better",
+    "fixed_tau_primary": 10,
+    "fixed_tau_sensitivity": [
+      5,
+      20
+    ]
+  },
+  "all_fixed_tau_results": {
+    "tau5": {
+      "tau": 5,
+      "mean_per_observed_migrant_logloss": {
+        "P0": 1.8758777374312232,
+        "R1": 1.5625618701134443,
+        "C": 1.6271336839943125
+      },
+      "primary_C_minus_R1": 0.06457181388086819,
+      "secondary_R1_minus_P0": -0.31331586731777894,
+      "n_future_mover_origins": 10,
+      "all_origin_score_summaries": [
+        {
+          "id": 20,
+          "island": "nesøy",
+          "test_migrants": 16,
+          "logloss": {
+            "P0": 1.991380128228971,
+            "R1": 2.3261544769564066,
+            "C": 2.725421332946754
+          },
+          "delta_directional_C_minus_undirected_R1": 0.3992668559903474,
+          "delta_undirected_R1_minus_popularity_P0": 0.3347743487274357
+        },
+        {
+          "id": 22,
+          "island": "myken",
+          "test_migrants": 6,
+          "logloss": {
+            "P0": 1.7646792257505568,
+            "R1": 1.3588873795028862,
+            "C": 1.1997140129296526
+          },
+          "delta_directional_C_minus_undirected_R1": -0.15917336657323355,
+          "delta_undirected_R1_minus_popularity_P0": -0.40579184624767056
+        },
+        {
+          "id": 23,
+          "island": "træna",
+          "test_migrants": 34,
+          "logloss": {
+            "P0": 1.8176374945794214,
+            "R1": 1.6735505482950657,
+            "C": 1.5085946057599136
+          },
+          "delta_directional_C_minus_undirected_R1": -0.16495594253515206,
+          "delta_undirected_R1_minus_popularity_P0": -0.14408694628435578
+        },
+        {
+          "id": 24,
+          "island": "selvær",
+          "test_migrants": 23,
+          "logloss": {
+            "P0": 1.7176154559348717,
+            "R1": 1.4382852598648783,
+            "C": 1.6369701561333199
+          },
+          "delta_directional_C_minus_undirected_R1": 0.19868489626844157,
+          "delta_undirected_R1_minus_popularity_P0": -0.2793301960699933
+        },
+        {
+          "id": 26,
+          "island": "gjerøy",
+          "test_migrants": 1,
+          "logloss": {
+            "P0": 1.6753053374217253,
+            "R1": 0.8841154774773013,
+            "C": 0.49177655193337455
+          },
+          "delta_directional_C_minus_undirected_R1": -0.3923389255439268,
+          "delta_undirected_R1_minus_popularity_P0": -0.7911898599444239
+        },
+        {
+          "id": 27,
+          "island": "hestmannøy",
+          "test_migrants": 7,
+          "logloss": {
+            "P0": 2.6685621528990273,
+            "R1": 2.34641177826752,
+            "C": 2.4103201422551335
+          },
+          "delta_directional_C_minus_undirected_R1": 0.06390836398761326,
+          "delta_undirected_R1_minus_popularity_P0": -0.32215037463150714
+        },
+        {
+          "id": 28,
+          "island": "indre kvarøy",
+          "test_migrants": 6,
+          "logloss": {
+            "P0": 2.3579215501109747,
+            "R1": 1.6218382661460418,
+            "C": 2.1318546709759696
+          },
+          "delta_directional_C_minus_undirected_R1": 0.5100164048299277,
+          "delta_undirected_R1_minus_popularity_P0": -0.7360832839649328
+        },
+        {
+          "id": 33,
+          "island": "lurøy-onøy",
+          "test_migrants": 1,
+          "logloss": {
+            "P0": 1.7105340293054692,
+            "R1": 2.0641740695490474,
+            "C": 2.2464956263430023
+          },
+          "delta_directional_C_minus_undirected_R1": 0.1823215567939549,
+          "delta_undirected_R1_minus_popularity_P0": 0.3536400402435782
+        },
+        {
+          "id": 34,
+          "island": "lovund",
+          "test_migrants": 17,
+          "logloss": {
+            "P0": 2.047345719091217,
+            "R1": 1.6150073670406613,
+            "C": 1.7580564553678737
+          },
+          "delta_directional_C_minus_undirected_R1": 0.14304908832721247,
+          "delta_undirected_R1_minus_popularity_P0": -0.432338352050556
+        },
+        {
+          "id": 35,
+          "island": "sleneset",
+          "test_migrants": 62,
+          "logloss": {
+            "P0": 1.7702206436289585,
+            "R1": 1.2646903414663735,
+            "C": 1.2815801741647523
+          },
+          "delta_directional_C_minus_undirected_R1": 0.01688983269837897,
+          "delta_undirected_R1_minus_popularity_P0": -0.5055303021625851
+        },
+        {
+          "id": 38,
+          "island": "aldra",
+          "test_migrants": 0,
+          "logloss": null,
+          "delta_directional_C_minus_undirected_R1": null,
+          "delta_undirected_R1_minus_popularity_P0": null
+        }
+      ],
+      "leave_one_origin_out": [
+        {
+          "omitted_island": "nesøy",
+          "excluded_recorded_migrants": 16,
+          "C_minus_R1": 0.03046276500346898,
+          "R1_minus_P0": -0.37936327787015744
+        },
+        {
+          "omitted_island": "myken",
+          "excluded_recorded_migrants": 6,
+          "C_minus_R1": 0.0726105628792191,
+          "R1_minus_P0": -0.30999337705682467
+        },
+        {
+          "omitted_island": "træna",
+          "excluded_recorded_migrants": 34,
+          "C_minus_R1": 0.12071529386752056,
+          "R1_minus_P0": -0.3547099918871054
+        },
+        {
+          "omitted_island": "selvær",
+          "excluded_recorded_migrants": 23,
+          "C_minus_R1": 0.044007807914773545,
+          "R1_minus_P0": -0.3185270035757727
+        },
+        {
+          "omitted_island": "gjerøy",
+          "excluded_recorded_migrants": 1,
+          "C_minus_R1": 0.0672282716682216,
+          "R1_minus_P0": -0.3105375301513449
+        },
+        {
+          "omitted_island": "hestmannøy",
+          "excluded_recorded_migrants": 7,
+          "C_minus_R1": 0.06459979068359575,
+          "R1_minus_P0": -0.31294332785274215
+        },
+        {
+          "omitted_island": "indre kvarøy",
+          "excluded_recorded_migrants": 6,
+          "C_minus_R1": 0.04856781660126121,
+          "R1_minus_P0": -0.2981266188154859
+        },
+        {
+          "omitted_island": "lurøy-onøy",
+          "excluded_recorded_migrants": 1,
+          "C_minus_R1": 0.06388722235230368,
+          "R1_minus_P0": -0.3171935179431356
+        },
+        {
+          "omitted_island": "lovund",
+          "excluded_recorded_migrants": 17,
+          "C_minus_R1": 0.056019803204022924,
+          "R1_minus_P0": -0.3003454683404891
+        },
+        {
+          "omitted_island": "sleneset",
+          "excluded_recorded_migrants": 62,
+          "C_minus_R1": 0.0912049925593756,
+          "R1_minus_P0": -0.20595284965671598
+        }
+      ],
+      "n_source_origins_R1_improved": 8,
+      "n_source_origins_C_improved": 3,
+      "R1_leave_origin_effect_range": [
+        -0.37936327787015744,
+        -0.20595284965671598
+      ],
+      "C_leave_origin_effect_range": [
+        0.03046276500346898,
+        0.12071529386752056
+      ]
+    },
+    "tau10": {
+      "tau": 10,
+      "mean_per_observed_migrant_logloss": {
+        "P0": 1.8758777374312232,
+        "R1": 1.543191794706299,
+        "C": 1.5665395642711337
+      },
+      "primary_C_minus_R1": 0.023347769564834753,
+      "secondary_R1_minus_P0": -0.33268594272492424,
+      "n_future_mover_origins": 10,
+      "all_origin_score_summaries": [
+        {
+          "id": 20,
+          "island": "nesøy",
+          "test_migrants": 16,
+          "logloss": {
+            "P0": 1.991380128228971,
+            "R1": 2.1615457296587723,
+            "C": 2.4172791639827373
+          },
+          "delta_directional_C_minus_undirected_R1": 0.255733434323965,
+          "delta_undirected_R1_minus_popularity_P0": 0.17016560142980142
+        },
+        {
+          "id": 22,
+          "island": "myken",
+          "test_migrants": 6,
+          "logloss": {
+            "P0": 1.7646792257505568,
+            "R1": 1.3670321285686666,
+            "C": 1.2383872684388566
+          },
+          "delta_directional_C_minus_undirected_R1": -0.12864486012981002,
+          "delta_undirected_R1_minus_popularity_P0": -0.3976470971818902
+        },
+        {
+          "id": 23,
+          "island": "træna",
+          "test_migrants": 34,
+          "logloss": {
+            "P0": 1.8176374945794214,
+            "R1": 1.647149856832957,
+            "C": 1.4798733470130434
+          },
+          "delta_directional_C_minus_undirected_R1": -0.1672765098199136,
+          "delta_undirected_R1_minus_popularity_P0": -0.1704876377464644
+        },
+        {
+          "id": 24,
+          "island": "selvær",
+          "test_migrants": 23,
+          "logloss": {
+            "P0": 1.7176154559348717,
+            "R1": 1.4140375647868055,
+            "C": 1.5532322334135378
+          },
+          "delta_directional_C_minus_undirected_R1": 0.1391946686267323,
+          "delta_undirected_R1_minus_popularity_P0": -0.3035778911480662
+        },
+        {
+          "id": 26,
+          "island": "gjerøy",
+          "test_migrants": 1,
+          "logloss": {
+            "P0": 1.6753053374217253,
+            "R1": 0.9453776205407256,
+            "C": 0.566808578379626
+          },
+          "delta_directional_C_minus_undirected_R1": -0.37856904216109966,
+          "delta_undirected_R1_minus_popularity_P0": -0.7299277168809997
+        },
+        {
+          "id": 27,
+          "island": "hestmannøy",
+          "test_migrants": 7,
+          "logloss": {
+            "P0": 2.6685621528990273,
+            "R1": 2.3332052042283706,
+            "C": 2.3371224246493143
+          },
+          "delta_directional_C_minus_undirected_R1": 0.003917220420943478,
+          "delta_undirected_R1_minus_popularity_P0": -0.3353569486706566
+        },
+        {
+          "id": 28,
+          "island": "indre kvarøy",
+          "test_migrants": 6,
+          "logloss": {
+            "P0": 2.3579215501109747,
+            "R1": 1.6732881678413694,
+            "C": 1.984400813032398
+          },
+          "delta_directional_C_minus_undirected_R1": 0.3111126451910288,
+          "delta_undirected_R1_minus_popularity_P0": -0.6846333822696055
+        },
+        {
+          "id": 33,
+          "island": "lurøy-onøy",
+          "test_migrants": 1,
+          "logloss": {
+            "P0": 1.7105340293054692,
+            "R1": 1.9633693704270818,
+            "C": 2.058679550231407
+          },
+          "delta_directional_C_minus_undirected_R1": 0.09531017980432499,
+          "delta_undirected_R1_minus_popularity_P0": 0.25283534112161266
+        },
+        {
+          "id": 34,
+          "island": "lovund",
+          "test_migrants": 17,
+          "logloss": {
+            "P0": 2.047345719091217,
+            "R1": 1.613716535463618,
+            "C": 1.7303437988460522
+          },
+          "delta_directional_C_minus_undirected_R1": 0.11662726338243429,
+          "delta_undirected_R1_minus_popularity_P0": -0.43362918362759933
+        },
+        {
+          "id": 35,
+          "island": "sleneset",
+          "test_migrants": 62,
+          "logloss": {
+            "P0": 1.7702206436289585,
+            "R1": 1.2733097320213569,
+            "C": 1.2670471719009813
+          },
+          "delta_directional_C_minus_undirected_R1": -0.006262560120375605,
+          "delta_undirected_R1_minus_popularity_P0": -0.49691091160760165
+        },
+        {
+          "id": 38,
+          "island": "aldra",
+          "test_migrants": 0,
+          "logloss": null,
+          "delta_directional_C_minus_undirected_R1": null,
+          "delta_undirected_R1_minus_popularity_P0": null
+        }
+      ],
+      "leave_one_origin_out": [
+        {
+          "omitted_island": "nesøy",
+          "excluded_recorded_migrants": 16,
+          "C_minus_R1": -0.0003348459520191752,
+          "R1_minus_P0": -0.38393195996362234
+        },
+        {
+          "omitted_island": "myken",
+          "excluded_recorded_migrants": 6,
+          "C_minus_R1": 0.028808582607756227,
+          "R1_minus_P0": -0.3303520090318595
+        },
+        {
+          "omitted_island": "træna",
+          "excluded_recorded_migrants": 34,
+          "C_minus_R1": 0.06997529114096038,
+          "R1_minus_P0": -0.3723603482592237
+        },
+        {
+          "omitted_island": "selvær",
+          "excluded_recorded_migrants": 23,
+          "C_minus_R1": 0.005584578375343909,
+          "R1_minus_P0": -0.3371491773000424
+        },
+        {
+          "omitted_island": "gjerøy",
+          "excluded_recorded_migrants": 1,
+          "C_minus_R1": 0.025684495214404243,
+          "R1_minus_P0": -0.33037639752634235
+        },
+        {
+          "omitted_island": "hestmannøy",
+          "excluded_recorded_migrants": 7,
+          "C_minus_R1": 0.02416713007090256,
+          "R1_minus_P0": -0.33257330994408
+        },
+        {
+          "omitted_island": "indre kvarøy",
+          "excluded_recorded_migrants": 6,
+          "C_minus_R1": 0.01300891175790573,
+          "R1_minus_P0": -0.3200411245376901
+        },
+        {
+          "omitted_island": "lurøy-onøy",
+          "excluded_recorded_migrants": 1,
+          "C_minus_R1": 0.022929383458791308,
+          "R1_minus_P0": -0.33609013623565986
+        },
+        {
+          "omitted_island": "lovund",
+          "excluded_recorded_migrants": 17,
+          "C_minus_R1": 0.013182696520609273,
+          "R1_minus_P0": -0.32168571775476085
+        },
+        {
+          "omitted_island": "sleneset",
+          "excluded_recorded_migrants": 62,
+          "C_minus_R1": 0.0398868726322497,
+          "R1_minus_P0": -0.24095668082649171
+        }
+      ],
+      "n_source_origins_R1_improved": 8,
+      "n_source_origins_C_improved": 4,
+      "R1_leave_origin_effect_range": [
+        -0.38393195996362234,
+        -0.24095668082649171
+      ],
+      "C_leave_origin_effect_range": [
+        -0.0003348459520191752,
+        0.06997529114096038
+      ]
+    },
+    "tau20": {
+      "tau": 20,
+      "mean_per_observed_migrant_logloss": {
+        "P0": 1.8758777374312232,
+        "R1": 1.538369267913879,
+        "C": 1.5264144858714173
+      },
+      "primary_C_minus_R1": -0.011954782042461698,
+      "secondary_R1_minus_P0": -0.33750846951734426,
+      "n_future_mover_origins": 10,
+      "all_origin_score_summaries": [
+        {
+          "id": 20,
+          "island": "nesøy",
+          "test_migrants": 16,
+          "logloss": {
+            "P0": 1.991380128228971,
+            "R1": 2.0434429818852786,
+            "C": 2.1815899081082257
+          },
+          "delta_directional_C_minus_undirected_R1": 0.1381469262229471,
+          "delta_undirected_R1_minus_popularity_P0": 0.052062853656307695
+        },
+        {
+          "id": 22,
+          "island": "myken",
+          "test_migrants": 6,
+          "logloss": {
+            "P0": 1.7646792257505568,
+            "R1": 1.3994274670955498,
+            "C": 1.291641263816515
+          },
+          "delta_directional_C_minus_undirected_R1": -0.10778620327903472,
+          "delta_undirected_R1_minus_popularity_P0": -0.36525175865500703
+        },
+        {
+          "id": 23,
+          "island": "træna",
+          "test_migrants": 34,
+          "logloss": {
+            "P0": 1.8176374945794214,
+            "R1": 1.620916480575557,
+            "C": 1.472252518290806
+          },
+          "delta_directional_C_minus_undirected_R1": -0.14866396228475096,
+          "delta_undirected_R1_minus_popularity_P0": -0.19672101400386457
+        },
+        {
+          "id": 24,
+          "island": "selvær",
+          "test_migrants": 23,
+          "logloss": {
+            "P0": 1.7176154559348717,
+            "R1": 1.3991168707058192,
+            "C": 1.4779437507238733
+          },
+          "delta_directional_C_minus_undirected_R1": 0.07882688001805419,
+          "delta_undirected_R1_minus_popularity_P0": -0.3184985852290525
+        },
+        {
+          "id": 26,
+          "island": "gjerøy",
+          "test_migrants": 1,
+          "logloss": {
+            "P0": 1.6753053374217253,
+            "R1": 1.0424503871179,
+            "C": 0.6904249508398995
+          },
+          "delta_directional_C_minus_undirected_R1": -0.35202543627800054,
+          "delta_undirected_R1_minus_popularity_P0": -0.6328549503038252
+        },
+        {
+          "id": 27,
+          "island": "hestmannøy",
+          "test_migrants": 7,
+          "logloss": {
+            "P0": 2.6685621528990273,
+            "R1": 2.323139585121311,
+            "C": 2.2992272964924423
+          },
+          "delta_directional_C_minus_undirected_R1": -0.023912288628868645,
+          "delta_undirected_R1_minus_popularity_P0": -0.3454225677777164
+        },
+        {
+          "id": 28,
+          "island": "indre kvarøy",
+          "test_migrants": 6,
+          "logloss": {
+            "P0": 2.3579215501109747,
+            "R1": 1.7564675078748107,
+            "C": 1.9011812806851918
+          },
+          "delta_directional_C_minus_undirected_R1": 0.14471377281038103,
+          "delta_undirected_R1_minus_popularity_P0": -0.6014540422361639
+        },
+        {
+          "id": 33,
+          "island": "lurøy-onøy",
+          "test_migrants": 1,
+          "logloss": {
+            "P0": 1.7105340293054692,
+            "R1": 1.8718021769015916,
+            "C": 1.9205923410710233
+          },
+          "delta_directional_C_minus_undirected_R1": 0.048790164169431716,
+          "delta_undirected_R1_minus_popularity_P0": 0.1612681475961224
+        },
+        {
+          "id": 34,
+          "island": "lovund",
+          "test_migrants": 17,
+          "logloss": {
+            "P0": 2.047345719091217,
+            "R1": 1.6154988173826939,
+            "C": 1.6982438701604265
+          },
+          "delta_directional_C_minus_undirected_R1": 0.08274505277773263,
+          "delta_undirected_R1_minus_popularity_P0": -0.43184690170852347
+        },
+        {
+          "id": 35,
+          "island": "sleneset",
+          "test_migrants": 62,
+          "logloss": {
+            "P0": 1.7702206436289585,
+            "R1": 1.2996269010957613,
+            "C": 1.2642304227482508
+          },
+          "delta_directional_C_minus_undirected_R1": -0.03539647834751033,
+          "delta_undirected_R1_minus_popularity_P0": -0.4705937425331972
+        },
+        {
+          "id": 38,
+          "island": "aldra",
+          "test_migrants": 0,
+          "logloss": null,
+          "delta_directional_C_minus_undirected_R1": null,
+          "delta_undirected_R1_minus_popularity_P0": null
+        }
+      ],
+      "leave_one_origin_out": [
+        {
+          "omitted_island": "nesøy",
+          "excluded_recorded_migrants": 16,
+          "C_minus_R1": -0.02725177141982808,
+          "R1_minus_P0": -0.377210005636952
+        },
+        {
+          "omitted_island": "myken",
+          "excluded_recorded_migrants": 6,
+          "C_minus_R1": -0.008511736968093691,
+          "R1_minus_P0": -0.3365117046381467
+        },
+        {
+          "omitted_island": "træna",
+          "excluded_recorded_migrants": 34,
+          "C_minus_R1": 0.021484873556371784,
+          "R1_minus_P0": -0.37194568885157664
+        },
+        {
+          "omitted_island": "selvær",
+          "excluded_recorded_migrants": 23,
+          "C_minus_R1": -0.025874636891740674,
+          "R1_minus_P0": -0.34042331844154894
+        },
+        {
+          "omitted_island": "gjerøy",
+          "excluded_recorded_migrants": 1,
+          "C_minus_R1": -0.009977627075975895,
+          "R1_minus_P0": -0.3357913388150972
+        },
+        {
+          "omitted_island": "hestmannøy",
+          "excluded_recorded_migrants": 7,
+          "C_minus_R1": -0.011450549837010687,
+          "R1_minus_P0": -0.33717474248226825
+        },
+        {
+          "omitted_island": "indre kvarøy",
+          "excluded_recorded_migrants": 6,
+          "C_minus_R1": -0.017583592396455933,
+          "R1_minus_P0": -0.32802539504840456
+        },
+        {
+          "omitted_island": "lurøy-onøy",
+          "excluded_recorded_migrants": 1,
+          "C_minus_R1": -0.0123079503343912,
+          "R1_minus_P0": -0.34040833357032946
+        },
+        {
+          "omitted_island": "lovund",
+          "excluded_recorded_migrants": 17,
+          "C_minus_R1": -0.022274635836969932,
+          "R1_minus_P0": -0.32722799934266444
+        },
+        {
+          "omitted_island": "sleneset",
+          "excluded_recorded_migrants": 62,
+          "C_minus_R1": 0.0011387780558539265,
+          "R1_minus_P0": -0.2631725512562371
+        }
+      ],
+      "n_source_origins_R1_improved": 8,
+      "n_source_origins_C_improved": 5,
+      "R1_leave_origin_effect_range": [
+        -0.377210005636952,
+        -0.2631725512562371
+      ],
+      "C_leave_origin_effect_range": [
+        -0.02725177141982808,
+        0.021484873556371784
+      ]
+    }
+  },
+  "interpretation": {
+    "undirected_pair_R1_minus_R0_primary_tau": -0.3326859427249247,
+    "directional_C_minus_R1_primary_tau": 0.023347769564834753,
+    "tau_5_C_minus_R1": 0.06457181388086752,
+    "tau_20_C_minus_R1": -0.011954782042461698,
+    "undirected_pair_improvement_observed_in_origin_count": 8,
+    "directional_improvement_observed_in_origin_count": 4,
+    "effect_direction_change_by_tau_true": true,
+    "cannot_claim_directional_transport_effect_necessarily_absent": true,
+    "no_geo_habitat_observation_effort_or_actual_future_donor_abundance_reference_R3": true,
+    "cannot_establish_origin_source_failure_causes_correlated_recipient_population_loss": true,
+    "historical_2021_published_movement_work_overlap": true,
+    "same_11_island_archipelago_not_independent_system": true,
+    "original_GEB_hold": true,
+    "eBird": false,
+    "original_mammal_heldout_values_unopened": true
+  }
+}
