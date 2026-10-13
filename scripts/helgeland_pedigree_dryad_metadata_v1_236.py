@@ -45,7 +45,7 @@ def versions(data):
             parsed=urlparse(href)
             if parsed.netloc and parsed.netloc!="datadryad.org":
                 raise ValueError("Version links outside pinned Dryad host")
-            m=re.fullmatch(r"/api/v2/versions/(\\d+)",parsed.path)
+            m=re.fullmatch(r"/api/v2/versions/(\d+)",parsed.path)
             if not m:
                 raise ValueError("Unrecognized version HAL self link")
             vid=int(m.group(1))
