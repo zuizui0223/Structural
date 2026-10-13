@@ -1,0 +1,47 @@
+{
+  "schema": "structural.helgeland_directional_destination_temporal_protocol.v1_240",
+  "status": "FROZEN_AFTER_V231_OUTCOMES_PUBLISHED_BEFORE_NEW_COMPARATIVE_SCORING",
+  "evidence_class": "RETROSPECTIVE_POSTPUBLICATION_CHRONOLOGIC_HOLDOUT_SINGLE_ARCHIPELAGO",
+  "input_source": {
+    "path": "development/helgeland_natal_resight_result_freeze_v1_231.json",
+    "github_blob_sha": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "source_author_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "source_interpretation": "Documented nestling-origin adult first-year resighting at different study island, NOT all true immigrants or net demographic rescue"
+  },
+  "immutable_eras": {
+    "training_birth_years": "1994–2013 historical aggregated, n=259 recorded moved IDs",
+    "excluded_bridge": "2014 birth, n=28; never train/test",
+    "chronologic_test": "2015–2021 birth, n=173 recorded moved IDs",
+    "independences": "Only chronological different birth cohorts, NOT independent island systems, field effort or experiments"
+  },
+  "reference_models": {
+    "destination_popularity": "For each candidate receiving island j other than source i, P0(j|i)=(historic_total_arrivals_to_j+1)/(sum_k!=i historic_total_arrivals_to_k + 10) ; fixed Laplace pseudo-count α=1 per allowed target",
+    "symmetric_pair": "For source i and target j, U_ij=historic_i_to_j + historic_j_to_i. R1(j|i)=(U_ij + tau*P0(j|i))/(sum_k!=i U_ik+tau), tau=10",
+    "candidate_directional": "C(j|i)=(historic_i_to_j+tau*R1(j|i))/(historic_total_emigrants_from_i+tau), tau=10",
+    "impossible_self_moves": "P0(i|i)=R1(i|i)=C(i|i)=0; 10 allowed destinations for each origin",
+    "terminal_score": "Mean negative log probability of actual observed destination j, conditioned on known natal source i, using 173 later moved IDs; lower better",
+    "primary": "C-R1 later heldout log loss: negative means directional orientation beyond symmetric pair topology, positive is adverse",
+    "secondary": "R1-P0 later heldout log loss for undirected historical link versus destination popularity",
+    "sensitivities": "Replay all three models with tau=5 and tau=20 in addition to primary 10, fixed before scoring; do NOT select best tau",
+    "supplementary": "Per-donor 11-island heldout score changes, equal-weight across represented donor islands vs weighted per-arrival, unseen historical routes in future births; no posthoc island or cohort selection"
+  },
+  "stop_and_claim_guards": {
+    "historical_and_later_counts_must_reconcile": [
+      259,
+      173
+    ],
+    "source_ids_same_as_destinations": true,
+    "no_new_biological_rows_opened": true,
+    "no_future_derived_inputs_in_prior_training": true,
+    "no_distance_or_environment_data_assumed": true,
+    "no_genuine_future_prospective_confirmatory_claim": true,
+    "no_conclusions_about_directional_effect_on_survival_or_0_to_1_island_colonization": true,
+    "if_C_minus_R1_positive": "report non-support, do not rescue through tau or selected islands",
+    "if_C_minus_R1_negative": "retrospective out-of-time prediction of observed migrant destinations only, already studied in earlier Ranke et al 2021",
+    "known_Ranke_2021_island_dispersal_prior_art": true,
+    "no_new_independent_confirmatory_system": true,
+    "GEB_scientific_HOLD": true,
+    "original_mammal_heldout_unopened": true,
+    "eBird_used": false
+  }
+}
