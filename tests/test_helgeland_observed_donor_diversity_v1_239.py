@@ -32,3 +32,25 @@ def test_shared_donor_between_distinct_destinations():
 
 def test_frozen_three_cohorts():
     assert EXPECTED_COUNTS=={"historical":259,"bridge":28,"later":173}
+
+def test_full_frozen_schema_path_uses_marked_not_renamed_field():
+    from helgeland_observed_donor_diversity_v1_239 import compute
+    counts={"historical":259,"bridge":28,"later":173}
+    roster=list(range(1,12))
+    source={"schema":"structural.helgeland_nestling_origin_nextyear_resight_freeze.v1_231",
+      "data":{"n_model_islands":11,"source_rows":73593,
+      "per_origin":[{"era":era,"origin":i,"island_name":f"island_{i}",
+          "marked":count+1 if i==1 else 1,
+          "retained":1,"exported":count if i==1 else 0}
+          for era,count in counts.items() for i in roster],
+      "observed_cross_island_edges":[
+          {"era":era,"origin":1,"destination":2,"observed_n":count}
+          for era,count in counts.items()]}}
+    x=compute(source)
+    for era,count in counts.items():
+        rows=x["periods"][era]["all_recipient_islands"]
+        assert len(rows)==11
+        recipient=next(r for r in rows if r["island_id"]==2)
+        assert recipient["incoming"]==count
+        assert recipient["hill_simpson"]==1
+        assert recipient["observed_immigrant_fraction_of_known_nextyear_recruits"]==pytest.approx(count/(count+1))
