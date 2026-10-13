@@ -1,0 +1,43 @@
+{
+  "schema": "structural.helgeland_documented_donor_network_v1_239",
+  "evidence_class": "EXPLICIT_RETROSPECTIVE_AFTER_COMPLETE_v231_MOVEMENT_EDGES_ALREADY_EXPOSED",
+  "source": {
+    "exact_git_blob_of_v231_frozen_JSON": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "path": "development/helgeland_natal_resight_result_freeze_v1_231.json",
+    "three_published_birth_era_movers": {
+      "historical": 259,
+      "bridge": 28,
+      "later": 173
+    },
+    "independent_archipelagos": 1,
+    "not_biological_population_occupancy_model": true
+  },
+  "fixed_formulas": {
+    "target_observed_imports": "Sum documented (origin!=destination) natal->adult next-year resight IDs across all sources for each recipient",
+    "observed_resident_natal_nextyear": "v1.231 known natal origin same-island next-year resight count for recipient itself",
+    "observed_immigrant_fraction": "imports/(imports + resident next-year resights) when denominator>0",
+    "donor_richness": "Number of source islands with >=1 documented immigrant to recipient",
+    "hill_simpson": "(sum incoming counts)^2/(sum incoming source counts^2), null if no immigrants",
+    "hill_shannon": "exp[-sum_s p_s ln(p_s)]",
+    "prob_two_distinct_observed_immigrants_same_origin": "sum_s n_s(n_s-1)/(N(N-1)) when N>=2",
+    "dominant_donor": "Most recorded immigrants to recipient, deterministic numeric donor-ID tie break",
+    "observed_vs_marked_donor_fraction": "dominant observed share divided by dominant natal-marked cohort fraction among all nonrecipient islands; detection/effort confounded",
+    "recipient_pair_shared_donor_probability": "sum_s p(s|recipientA)*p(s|recipientB) for independent draws from observed migrant lists",
+    "hypothetical_source_deletion": "Remove all recorded edges from a given source; count missing recorded immigrants only, NOT any demographic or causal extinction"
+  },
+  "universe": "ALL 11 recipient islands and ALL 11 source islands for EACH historical/bridge/later era; no threshold chosen after outcome or favorable island cherry-pick",
+  "claim_boundary": [
+    "Same published Helgeland bird source also used by Ranke et al 2021 and Hansson Frank 2026; no independent replication",
+    "Parentage and actual reproductive contribution from Dryad 2025 remain unavailable due to 401 API and 403 website, no substitution",
+    "Recorded natal-resighted immigrant does not imply survival at receiving island, fitness, rescue or island recolonization",
+    "Source diversity depends on finite sample and study-specific detection",
+    "Same-source recipient overlap means shared DOCUMENTED migrant origin, not documented simultaneous local loss",
+    "Annual exposure differs historical 20 years versus later 7 years: no unadjusted temporal claim",
+    "No predictive heldout score, causal inference, confidence intervals or p-values"
+  ],
+  "guards": {
+    "original_global_mammal_heldout_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}
