@@ -31,14 +31,28 @@ def objects(data):
         for value in data:yield from objects(value)
 
 def versions(data):
+    # Dryad HAL versions may expose their ID in _links.self.href and not
+    # in an 'id' key. The collection must still have versionNumber.
     options=[]
     for x in objects(data):
-        if not isinstance(x,dict):continue
-        if isinstance(x.get("id"),int) and ("versionNumber" in x or
-                         "versionStatus" in x or "curationStatus" in x):
-            options.append(x)
-    unique={int(x["id"]):x for x in options}
-    return list(unique.values())
+        if not isinstance(x,dict) or "versionNumber" not in x:
+            continue
+        vid=x.get("id")
+        if not isinstance(vid,int):
+            href=(x.get("_links") or {}).get("self",{}).get("href","")
+            from urllib.parse import urlparse
+            import re
+            parsed=urlparse(href)
+            if parsed.netloc and parsed.netloc!="datadryad.org":
+                raise ValueError("Version links outside pinned Dryad host")
+            m=re.fullmatch(r"/api/v2/versions/(\\d+)",parsed.path)
+            if not m:
+                raise ValueError("Unrecognized version HAL self link")
+            vid=int(m.group(1))
+        if x.get("curationStatus") not in (None,"Published"):
+            continue
+        options.append({**x,"id":vid})
+    return list({int(x["id"]):x for x in options}.values())
 
 def files(data):
     found=[]
@@ -55,7 +69,7 @@ def audit(dataset,versions_json,file_json):
             DOI.lower(),"doi:"+DOI.lower()):
         raise ValueError("Unexpected dataset DOI in Dryad metadata")
     vv=versions(versions_json)
-    if not vv:raise ValueError("No discoverable Dryad version object")
+    if not vv:raise ValueError("No discoverable Published Dryad version object")
     latest=sorted(vv,key=lambda x:(int(x.get("versionNumber",0)),int(x["id"])))[-1]
     found=files(file_json)
     if set(found)!=FILES:
@@ -101,6 +115,12 @@ def main():
                     print("VERSION_METADATA_CHILD",key,"list_length",len(val),
                           "first_type",type(val[0]).__name__ if val else None,
                           "first_keys",sorted(val[0].keys()) if val and isinstance(val[0],dict) else None)
+        embedded=version_json.get("_embedded",{}) if isinstance(version_json,dict) else {}
+        entries=embedded.get("stash:versions",[])
+        if entries and isinstance(entries[0],dict):
+            print("VERSION_ENTRY_KEYS",sorted(entries[0].keys()))
+            print("VERSION_ENTRY_METADATA", {k:entries[0].get(k) for k in ("versionNumber","versionStatus","curationStatus")})
+            print("VERSION_SELF_LINK",entries[0].get("_links",{}).get("self",{}))
         raise ValueError("No Dryad version ID available; source metadata shape requires explicit repair")
     latest=sorted(vv,key=lambda x:(int(x.get("versionNumber",0)),int(x["id"])))[-1]
     fl=get_json(BASE+"/versions/"+str(latest["id"])+"/files")
