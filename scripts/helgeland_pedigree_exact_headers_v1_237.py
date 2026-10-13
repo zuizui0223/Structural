@@ -30,7 +30,7 @@ def download_href(x,expected_id):
     expected=f"/api/v2/files/{expected_id}/download"
     if u.path!=expected or u.query:
         raise ValueError("Unexpected advertised Dryad file download route")
-    return BASE+u.path
+    return "https://datadryad.org"+u.path
 def source_files(data):
     items=data.get("_embedded",{}).get("stash:files")
     if not isinstance(items,list):raise ValueError("No Dryad file list")
