@@ -1,0 +1,687 @@
+{
+  "schema": "structural.helgeland_natal_resight_source_diversity_result_freeze.v1_239",
+  "status": "PASS_SAME_SOURCE_DESCRIPTIVE_ALL_RECIPIENTS_NOT_CAUSAL_DEMOGRAPHIC_RESCUE",
+  "provenance": {
+    "input_frozen_git_blob": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "original_source_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "original_provenance": "v1.231 source-locked birth island to next calendar year observed destination; 11 islands, one published archipelago",
+    "CI_success_run": 38406501755,
+    "CI_success_job": 115327384532,
+    "synthetic_regression_tests_passed": 6,
+    "CI_output_artifact_id": 11816824571,
+    "CI_output_artifact_digest": "sha256:7fb0c86e4c8e645814a23d1e708efebc83a534dfdc301a203cead16311164af7",
+    "independent_Javascript_formula_crosscheck": true
+  },
+  "mathematics": {
+    "hill2": "N^2 / sum_i count_source_i^2",
+    "observed_pair_same_natal_source": "sum_i c_i(c_i-1)/(N(N-1))",
+    "import_fraction": "immigrant documented firstyear arrivals/(immigrant + natal resident documented firstyear arrivals)",
+    "zero_incoming": "null donor diversity, not zero"
+  },
+  "periods": {
+    "historical": {
+      "total_documented_natal_immigrants": 259,
+      "source_effective_number": 6.698052920619071,
+      "all_recipients": [
+        {
+          "recipient": 20,
+          "recipient_name": "nesøy",
+          "documented_natal_immigrants": 7,
+          "documented_natal_residents": 67,
+          "immigrant_fraction_among_resighted_nextyear": 0.0945945945945946,
+          "origin_source_count": 2,
+          "hill_2_effective_donor_number": 1.6896551724137931,
+          "pair_same_origin_fraction": 0.5238095238095238,
+          "largest_donor": 27,
+          "largest_donor_name": "hestmannøy",
+          "largest_donor_count": 5,
+          "largest_donor_fraction": 0.7142857142857143
+        },
+        {
+          "recipient": 22,
+          "recipient_name": "myken",
+          "documented_natal_immigrants": 15,
+          "documented_natal_residents": 33,
+          "immigrant_fraction_among_resighted_nextyear": 0.3125,
+          "origin_source_count": 5,
+          "hill_2_effective_donor_number": 3.260869565217391,
+          "pair_same_origin_fraction": 0.2571428571428571,
+          "largest_donor": 24,
+          "largest_donor_name": "selvær",
+          "largest_donor_count": 7,
+          "largest_donor_fraction": 0.4666666666666667
+        },
+        {
+          "recipient": 23,
+          "recipient_name": "træna",
+          "documented_natal_immigrants": 63,
+          "documented_natal_residents": 98,
+          "immigrant_fraction_among_resighted_nextyear": 0.391304347826087,
+          "origin_source_count": 5,
+          "hill_2_effective_donor_number": 1.718925941966219,
+          "pair_same_origin_fraction": 0.5750128008192524,
+          "largest_donor": 24,
+          "largest_donor_name": "selvær",
+          "largest_donor_count": 47,
+          "largest_donor_fraction": 0.746031746031746
+        },
+        {
+          "recipient": 24,
+          "recipient_name": "selvær",
+          "documented_natal_immigrants": 32,
+          "documented_natal_residents": 92,
+          "immigrant_fraction_among_resighted_nextyear": 0.25806451612903225,
+          "origin_source_count": 5,
+          "hill_2_effective_donor_number": 2.8603351955307263,
+          "pair_same_origin_fraction": 0.3286290322580645,
+          "largest_donor": 23,
+          "largest_donor_name": "træna",
+          "largest_donor_count": 17,
+          "largest_donor_fraction": 0.53125
+        },
+        {
+          "recipient": 26,
+          "recipient_name": "gjerøy",
+          "documented_natal_immigrants": 18,
+          "documented_natal_residents": 277,
+          "immigrant_fraction_among_resighted_nextyear": 0.061016949152542375,
+          "origin_source_count": 6,
+          "hill_2_effective_donor_number": 4.5,
+          "pair_same_origin_fraction": 0.17647058823529413,
+          "largest_donor": 20,
+          "largest_donor_name": "nesøy",
+          "largest_donor_count": 5,
+          "largest_donor_fraction": 0.2777777777777778
+        },
+        {
+          "recipient": 27,
+          "recipient_name": "hestmannøy",
+          "documented_natal_immigrants": 46,
+          "documented_natal_residents": 309,
+          "immigrant_fraction_among_resighted_nextyear": 0.1295774647887324,
+          "origin_source_count": 9,
+          "hill_2_effective_donor_number": 4.990566037735849,
+          "pair_same_origin_fraction": 0.1826086956521739,
+          "largest_donor": 28,
+          "largest_donor_name": "indre kvarøy",
+          "largest_donor_count": 14,
+          "largest_donor_fraction": 0.30434782608695654
+        },
+        {
+          "recipient": 28,
+          "recipient_name": "indre kvarøy",
+          "documented_natal_immigrants": 14,
+          "documented_natal_residents": 99,
+          "immigrant_fraction_among_resighted_nextyear": 0.12389380530973451,
+          "origin_source_count": 5,
+          "hill_2_effective_donor_number": 3.6296296296296298,
+          "pair_same_origin_fraction": 0.21978021978021978,
+          "largest_donor": 26,
+          "largest_donor_name": "gjerøy",
+          "largest_donor_count": 6,
+          "largest_donor_fraction": 0.42857142857142855
+        },
+        {
+          "recipient": 33,
+          "recipient_name": "lurøy-onøy",
+          "documented_natal_immigrants": 9,
+          "documented_natal_residents": 5,
+          "immigrant_fraction_among_resighted_nextyear": 0.6428571428571429,
+          "origin_source_count": 4,
+          "hill_2_effective_donor_number": 3,
+          "pair_same_origin_fraction": 0.25,
+          "largest_donor": 28,
+          "largest_donor_name": "indre kvarøy",
+          "largest_donor_count": 4,
+          "largest_donor_fraction": 0.4444444444444444
+        },
+        {
+          "recipient": 34,
+          "recipient_name": "lovund",
+          "documented_natal_immigrants": 45,
+          "documented_natal_residents": 58,
+          "immigrant_fraction_among_resighted_nextyear": 0.4368932038834951,
+          "origin_source_count": 6,
+          "hill_2_effective_donor_number": 2.785419532324622,
+          "pair_same_origin_fraction": 0.34444444444444444,
+          "largest_donor": 35,
+          "largest_donor_name": "sleneset",
+          "largest_donor_count": 24,
+          "largest_donor_fraction": 0.5333333333333333
+        },
+        {
+          "recipient": 35,
+          "recipient_name": "sleneset",
+          "documented_natal_immigrants": 9,
+          "documented_natal_residents": 84,
+          "immigrant_fraction_among_resighted_nextyear": 0.0967741935483871,
+          "origin_source_count": 3,
+          "hill_2_effective_donor_number": 1.588235294117647,
+          "pair_same_origin_fraction": 0.5833333333333334,
+          "largest_donor": 34,
+          "largest_donor_name": "lovund",
+          "largest_donor_count": 7,
+          "largest_donor_fraction": 0.7777777777777778
+        },
+        {
+          "recipient": 38,
+          "recipient_name": "aldra",
+          "documented_natal_immigrants": 1,
+          "documented_natal_residents": 56,
+          "immigrant_fraction_among_resighted_nextyear": 0.017543859649122806,
+          "origin_source_count": 1,
+          "hill_2_effective_donor_number": 1,
+          "pair_same_origin_fraction": null,
+          "largest_donor": 34,
+          "largest_donor_name": "lovund",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 1
+        }
+      ],
+      "all_sources": [
+        {
+          "source": 20,
+          "source_name": "nesøy",
+          "exported_documented_natal_immigrants": 16
+        },
+        {
+          "source": 22,
+          "source_name": "myken",
+          "exported_documented_natal_immigrants": 11
+        },
+        {
+          "source": 23,
+          "source_name": "træna",
+          "exported_documented_natal_immigrants": 33
+        },
+        {
+          "source": 24,
+          "source_name": "selvær",
+          "exported_documented_natal_immigrants": 68
+        },
+        {
+          "source": 26,
+          "source_name": "gjerøy",
+          "exported_documented_natal_immigrants": 18
+        },
+        {
+          "source": 27,
+          "source_name": "hestmannøy",
+          "exported_documented_natal_immigrants": 15
+        },
+        {
+          "source": 28,
+          "source_name": "indre kvarøy",
+          "exported_documented_natal_immigrants": 27
+        },
+        {
+          "source": 33,
+          "source_name": "lurøy-onøy",
+          "exported_documented_natal_immigrants": 1
+        },
+        {
+          "source": 34,
+          "source_name": "lovund",
+          "exported_documented_natal_immigrants": 23
+        },
+        {
+          "source": 35,
+          "source_name": "sleneset",
+          "exported_documented_natal_immigrants": 46
+        },
+        {
+          "source": 38,
+          "source_name": "aldra",
+          "exported_documented_natal_immigrants": 1
+        }
+      ]
+    },
+    "bridge": {
+      "total_documented_natal_immigrants": 28,
+      "source_effective_number": 3.881188118811881,
+      "all_recipients": [
+        {
+          "recipient": 20,
+          "recipient_name": "nesøy",
+          "documented_natal_immigrants": 0,
+          "documented_natal_residents": 1,
+          "immigrant_fraction_among_resighted_nextyear": 0,
+          "origin_source_count": 0,
+          "hill_2_effective_donor_number": null,
+          "pair_same_origin_fraction": null,
+          "largest_donor": null,
+          "largest_donor_name": null,
+          "largest_donor_count": 0,
+          "largest_donor_fraction": null
+        },
+        {
+          "recipient": 22,
+          "recipient_name": "myken",
+          "documented_natal_immigrants": 2,
+          "documented_natal_residents": 0,
+          "immigrant_fraction_among_resighted_nextyear": 1,
+          "origin_source_count": 2,
+          "hill_2_effective_donor_number": 2,
+          "pair_same_origin_fraction": 0,
+          "largest_donor": 23,
+          "largest_donor_name": "træna",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 0.5
+        },
+        {
+          "recipient": 23,
+          "recipient_name": "træna",
+          "documented_natal_immigrants": 14,
+          "documented_natal_residents": 31,
+          "immigrant_fraction_among_resighted_nextyear": 0.3111111111111111,
+          "origin_source_count": 3,
+          "hill_2_effective_donor_number": 1.7818181818181817,
+          "pair_same_origin_fraction": 0.5274725274725275,
+          "largest_donor": 24,
+          "largest_donor_name": "selvær",
+          "largest_donor_count": 10,
+          "largest_donor_fraction": 0.7142857142857143
+        },
+        {
+          "recipient": 24,
+          "recipient_name": "selvær",
+          "documented_natal_immigrants": 2,
+          "documented_natal_residents": 17,
+          "immigrant_fraction_among_resighted_nextyear": 0.10526315789473684,
+          "origin_source_count": 2,
+          "hill_2_effective_donor_number": 2,
+          "pair_same_origin_fraction": 0,
+          "largest_donor": 23,
+          "largest_donor_name": "træna",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 0.5
+        },
+        {
+          "recipient": 26,
+          "recipient_name": "gjerøy",
+          "documented_natal_immigrants": 1,
+          "documented_natal_residents": 5,
+          "immigrant_fraction_among_resighted_nextyear": 0.16666666666666666,
+          "origin_source_count": 1,
+          "hill_2_effective_donor_number": 1,
+          "pair_same_origin_fraction": null,
+          "largest_donor": 28,
+          "largest_donor_name": "indre kvarøy",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 1
+        },
+        {
+          "recipient": 27,
+          "recipient_name": "hestmannøy",
+          "documented_natal_immigrants": 5,
+          "documented_natal_residents": 16,
+          "immigrant_fraction_among_resighted_nextyear": 0.23809523809523808,
+          "origin_source_count": 2,
+          "hill_2_effective_donor_number": 1.4705882352941178,
+          "pair_same_origin_fraction": 0.6,
+          "largest_donor": 28,
+          "largest_donor_name": "indre kvarøy",
+          "largest_donor_count": 4,
+          "largest_donor_fraction": 0.8
+        },
+        {
+          "recipient": 28,
+          "recipient_name": "indre kvarøy",
+          "documented_natal_immigrants": 2,
+          "documented_natal_residents": 16,
+          "immigrant_fraction_among_resighted_nextyear": 0.1111111111111111,
+          "origin_source_count": 2,
+          "hill_2_effective_donor_number": 2,
+          "pair_same_origin_fraction": 0,
+          "largest_donor": 23,
+          "largest_donor_name": "træna",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 0.5
+        },
+        {
+          "recipient": 33,
+          "recipient_name": "lurøy-onøy",
+          "documented_natal_immigrants": 0,
+          "documented_natal_residents": 0,
+          "immigrant_fraction_among_resighted_nextyear": null,
+          "origin_source_count": 0,
+          "hill_2_effective_donor_number": null,
+          "pair_same_origin_fraction": null,
+          "largest_donor": null,
+          "largest_donor_name": null,
+          "largest_donor_count": 0,
+          "largest_donor_fraction": null
+        },
+        {
+          "recipient": 34,
+          "recipient_name": "lovund",
+          "documented_natal_immigrants": 2,
+          "documented_natal_residents": 8,
+          "immigrant_fraction_among_resighted_nextyear": 0.2,
+          "origin_source_count": 2,
+          "hill_2_effective_donor_number": 2,
+          "pair_same_origin_fraction": 0,
+          "largest_donor": 23,
+          "largest_donor_name": "træna",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 0.5
+        },
+        {
+          "recipient": 35,
+          "recipient_name": "sleneset",
+          "documented_natal_immigrants": 0,
+          "documented_natal_residents": 8,
+          "immigrant_fraction_among_resighted_nextyear": 0,
+          "origin_source_count": 0,
+          "hill_2_effective_donor_number": null,
+          "pair_same_origin_fraction": null,
+          "largest_donor": null,
+          "largest_donor_name": null,
+          "largest_donor_count": 0,
+          "largest_donor_fraction": null
+        },
+        {
+          "recipient": 38,
+          "recipient_name": "aldra",
+          "documented_natal_immigrants": 0,
+          "documented_natal_residents": 0,
+          "immigrant_fraction_among_resighted_nextyear": null,
+          "origin_source_count": 0,
+          "hill_2_effective_donor_number": null,
+          "pair_same_origin_fraction": null,
+          "largest_donor": null,
+          "largest_donor_name": null,
+          "largest_donor_count": 0,
+          "largest_donor_fraction": null
+        }
+      ],
+      "all_sources": [
+        {
+          "source": 20,
+          "source_name": "nesøy",
+          "exported_documented_natal_immigrants": 0
+        },
+        {
+          "source": 22,
+          "source_name": "myken",
+          "exported_documented_natal_immigrants": 0
+        },
+        {
+          "source": 23,
+          "source_name": "træna",
+          "exported_documented_natal_immigrants": 4
+        },
+        {
+          "source": 24,
+          "source_name": "selvær",
+          "exported_documented_natal_immigrants": 11
+        },
+        {
+          "source": 26,
+          "source_name": "gjerøy",
+          "exported_documented_natal_immigrants": 0
+        },
+        {
+          "source": 27,
+          "source_name": "hestmannøy",
+          "exported_documented_natal_immigrants": 0
+        },
+        {
+          "source": 28,
+          "source_name": "indre kvarøy",
+          "exported_documented_natal_immigrants": 5
+        },
+        {
+          "source": 33,
+          "source_name": "lurøy-onøy",
+          "exported_documented_natal_immigrants": 0
+        },
+        {
+          "source": 34,
+          "source_name": "lovund",
+          "exported_documented_natal_immigrants": 2
+        },
+        {
+          "source": 35,
+          "source_name": "sleneset",
+          "exported_documented_natal_immigrants": 6
+        },
+        {
+          "source": 38,
+          "source_name": "aldra",
+          "exported_documented_natal_immigrants": 0
+        }
+      ]
+    },
+    "later": {
+      "total_documented_natal_immigrants": 173,
+      "source_effective_number": 4.829594965305793,
+      "all_recipients": [
+        {
+          "recipient": 20,
+          "recipient_name": "nesøy",
+          "documented_natal_immigrants": 3,
+          "documented_natal_residents": 19,
+          "immigrant_fraction_among_resighted_nextyear": 0.13636363636363635,
+          "origin_source_count": 3,
+          "hill_2_effective_donor_number": 3,
+          "pair_same_origin_fraction": 0,
+          "largest_donor": 23,
+          "largest_donor_name": "træna",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 0.3333333333333333
+        },
+        {
+          "recipient": 22,
+          "recipient_name": "myken",
+          "documented_natal_immigrants": 6,
+          "documented_natal_residents": 8,
+          "immigrant_fraction_among_resighted_nextyear": 0.42857142857142855,
+          "origin_source_count": 3,
+          "hill_2_effective_donor_number": 2.5714285714285716,
+          "pair_same_origin_fraction": 0.26666666666666666,
+          "largest_donor": 24,
+          "largest_donor_name": "selvær",
+          "largest_donor_count": 3,
+          "largest_donor_fraction": 0.5
+        },
+        {
+          "recipient": 23,
+          "recipient_name": "træna",
+          "documented_natal_immigrants": 37,
+          "documented_natal_residents": 106,
+          "immigrant_fraction_among_resighted_nextyear": 0.25874125874125875,
+          "origin_source_count": 5,
+          "hill_2_effective_donor_number": 3.519280205655527,
+          "pair_same_origin_fraction": 0.26426426426426425,
+          "largest_donor": 24,
+          "largest_donor_name": "selvær",
+          "largest_donor_count": 14,
+          "largest_donor_fraction": 0.3783783783783784
+        },
+        {
+          "recipient": 24,
+          "recipient_name": "selvær",
+          "documented_natal_immigrants": 26,
+          "documented_natal_residents": 59,
+          "immigrant_fraction_among_resighted_nextyear": 0.3058823529411765,
+          "origin_source_count": 6,
+          "hill_2_effective_donor_number": 3.25,
+          "pair_same_origin_fraction": 0.28,
+          "largest_donor": 23,
+          "largest_donor_name": "træna",
+          "largest_donor_count": 13,
+          "largest_donor_fraction": 0.5
+        },
+        {
+          "recipient": 26,
+          "recipient_name": "gjerøy",
+          "documented_natal_immigrants": 3,
+          "documented_natal_residents": 26,
+          "immigrant_fraction_among_resighted_nextyear": 0.10344827586206896,
+          "origin_source_count": 3,
+          "hill_2_effective_donor_number": 3,
+          "pair_same_origin_fraction": 0,
+          "largest_donor": 20,
+          "largest_donor_name": "nesøy",
+          "largest_donor_count": 1,
+          "largest_donor_fraction": 0.3333333333333333
+        },
+        {
+          "recipient": 27,
+          "recipient_name": "hestmannøy",
+          "documented_natal_immigrants": 16,
+          "documented_natal_residents": 139,
+          "immigrant_fraction_among_resighted_nextyear": 0.1032258064516129,
+          "origin_source_count": 6,
+          "hill_2_effective_donor_number": 4.129032258064516,
+          "pair_same_origin_fraction": 0.19166666666666668,
+          "largest_donor": 20,
+          "largest_donor_name": "nesøy",
+          "largest_donor_count": 5,
+          "largest_donor_fraction": 0.3125
+        },
+        {
+          "recipient": 28,
+          "recipient_name": "indre kvarøy",
+          "documented_natal_immigrants": 9,
+          "documented_natal_residents": 47,
+          "immigrant_fraction_among_resighted_nextyear": 0.16071428571428573,
+          "origin_source_count": 4,
+          "hill_2_effective_donor_number": 3.5217391304347827,
+          "pair_same_origin_fraction": 0.19444444444444445,
+          "largest_donor": 27,
+          "largest_donor_name": "hestmannøy",
+          "largest_donor_count": 3,
+          "largest_donor_fraction": 0.3333333333333333
+        },
+        {
+          "recipient": 33,
+          "recipient_name": "lurøy-onøy",
+          "documented_natal_immigrants": 3,
+          "documented_natal_residents": 1,
+          "immigrant_fraction_among_resighted_nextyear": 0.75,
+          "origin_source_count": 2,
+          "hill_2_effective_donor_number": 1.8,
+          "pair_same_origin_fraction": 0.3333333333333333,
+          "largest_donor": 27,
+          "largest_donor_name": "hestmannøy",
+          "largest_donor_count": 2,
+          "largest_donor_fraction": 0.6666666666666666
+        },
+        {
+          "recipient": 34,
+          "recipient_name": "lovund",
+          "documented_natal_immigrants": 61,
+          "documented_natal_residents": 33,
+          "immigrant_fraction_among_resighted_nextyear": 0.648936170212766,
+          "origin_source_count": 5,
+          "hill_2_effective_donor_number": 2.077610273590173,
+          "pair_same_origin_fraction": 0.4726775956284153,
+          "largest_donor": 35,
+          "largest_donor_name": "sleneset",
+          "largest_donor_count": 39,
+          "largest_donor_fraction": 0.639344262295082
+        },
+        {
+          "recipient": 35,
+          "recipient_name": "sleneset",
+          "documented_natal_immigrants": 9,
+          "documented_natal_residents": 70,
+          "immigrant_fraction_among_resighted_nextyear": 0.11392405063291139,
+          "origin_source_count": 4,
+          "hill_2_effective_donor_number": 2.6129032258064515,
+          "pair_same_origin_fraction": 0.3055555555555556,
+          "largest_donor": 34,
+          "largest_donor_name": "lovund",
+          "largest_donor_count": 5,
+          "largest_donor_fraction": 0.5555555555555556
+        },
+        {
+          "recipient": 38,
+          "recipient_name": "aldra",
+          "documented_natal_immigrants": 0,
+          "documented_natal_residents": 1,
+          "immigrant_fraction_among_resighted_nextyear": 0,
+          "origin_source_count": 0,
+          "hill_2_effective_donor_number": null,
+          "pair_same_origin_fraction": null,
+          "largest_donor": null,
+          "largest_donor_name": null,
+          "largest_donor_count": 0,
+          "largest_donor_fraction": null
+        }
+      ],
+      "all_sources": [
+        {
+          "source": 20,
+          "source_name": "nesøy",
+          "exported_documented_natal_immigrants": 16
+        },
+        {
+          "source": 22,
+          "source_name": "myken",
+          "exported_documented_natal_immigrants": 6
+        },
+        {
+          "source": 23,
+          "source_name": "træna",
+          "exported_documented_natal_immigrants": 34
+        },
+        {
+          "source": 24,
+          "source_name": "selvær",
+          "exported_documented_natal_immigrants": 23
+        },
+        {
+          "source": 26,
+          "source_name": "gjerøy",
+          "exported_documented_natal_immigrants": 1
+        },
+        {
+          "source": 27,
+          "source_name": "hestmannøy",
+          "exported_documented_natal_immigrants": 7
+        },
+        {
+          "source": 28,
+          "source_name": "indre kvarøy",
+          "exported_documented_natal_immigrants": 6
+        },
+        {
+          "source": 33,
+          "source_name": "lurøy-onøy",
+          "exported_documented_natal_immigrants": 1
+        },
+        {
+          "source": 34,
+          "source_name": "lovund",
+          "exported_documented_natal_immigrants": 17
+        },
+        {
+          "source": 35,
+          "source_name": "sleneset",
+          "exported_documented_natal_immigrants": 62
+        },
+        {
+          "source": 38,
+          "source_name": "aldra",
+          "exported_documented_natal_immigrants": 0
+        }
+      ]
+    }
+  },
+  "publication_overlap": "Source study already partly analyzed by Ranke et al 2021 and subsequent Hansson Frank et al 2026, same archipelago; not independent confirmatory ecological replication.",
+  "interpretation_limits": {
+    "only_documented_marked_birds": true,
+    "missing_resight_or_unknown_natal_ID_not_death_or_true_absence": true,
+    "birth_year_pooled_20_vs_7_years_comparisons_not_temporal_inference": true,
+    "observed_incoming_source_counts_subject_to_origin_recipient_detection_and_sampling_effort": true,
+    "source_deletion_impact_not_identified": true,
+    "true_source_sink_demographic_contribution_not_identified": true,
+    "offspring_pedigree_study_access_401_API_and_403_public_portal": true,
+    "fresh_confirmatory_systems_added": 0,
+    "original_GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}
