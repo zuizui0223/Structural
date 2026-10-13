@@ -73,14 +73,14 @@ def compute(source):
         for i in islands:
             if supply[i]["exported"]!=sources[i]:
                 raise ValueError("Frozen destination and origin export counts disagree")
-        total_marked=sum(supply[i]["natalMarked"] for i in islands)
+        total_marked=sum(supply[i]["marked"] for i in islands)
         recips=[]
         for target in islands:
             counts=target_counts[target];m=source_stats(counts)
             residents=supply[target]["retained"]
-            marked_elsewhere=total_marked-supply[target]["natalMarked"]
+            marked_elsewhere=total_marked-supply[target]["marked"]
             dominant=m["dominant_id"]
-            baseline=(supply[dominant]["natalMarked"]/marked_elsewhere
+            baseline=(supply[dominant]["marked"]/marked_elsewhere
                       if dominant is not None and marked_elsewhere>0 else None)
             obsfrac=m["incoming"]/(m["incoming"]+residents) if m["incoming"]+residents>0 else None
             recips.append({
