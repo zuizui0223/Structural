@@ -1,0 +1,25 @@
+{
+  "schema": "structural.fox_hydra_published_source.v1_246",
+  "evidence_class": "PRIOR_PUBLISHED_MECHANISM_DATA_METADATA_ONLY",
+  "authors": "Fox, Vasseur, Cotroneo, Guan and Simon",
+  "article_DOI": "10.1038/s41559-017-0271-y",
+  "dryad_DOI": "10.5061/dryad.2rs23",
+  "expected_files": [
+    "data_for_Fox_et_el_2017_nature_ee.csv",
+    "README_for_data_for_Fox_et_el_2017_nature_ee.txt"
+  ],
+  "known_prior_art": "Fox et al. (2017) experimentally showed forced local extinction can break synchrony and improve metapopulation persistence at high dispersal: spatial hydra effect.",
+  "ecological_fork": {
+    "cost": "forced local extinctions remove viable donors",
+    "benefit": "extinction can disrupt synchronized cyclic donors, preventing simultaneous failure",
+    "future_test": "independent randomized perturbation × dispersal regime with time-lagged viable donor state and patch-level 0-to-1 recolonization, detection-corrected, compared with strong prey/geometry/lagged state reference"
+  },
+  "gates": {
+    "new_confirmatory_systems_admitted": 0,
+    "source_original_biological_rows_opened": 0,
+    "Helgeland_postoutcome_lane_closed": true,
+    "original_mammal_heldout_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}
