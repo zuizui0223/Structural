@@ -1,0 +1,54 @@
+{
+  "schema": "structural.source_loss_correlated_failure_sign_contract.v1_260",
+  "evidence_class": "ANALYTICAL_KNOWN_TRUTH_NO_NEW_BIOLOGY_DATA_OR_CONFIRMATION",
+  "question": "Holding surviving donors' marginal local failure probability fixed, can reduced synchronization compensate for loss of one donor, and how does source-to-target arrival success change the sign?",
+  "references": [
+    {
+      "paper": "Fox et al. 2017 Nat Ecol Evol",
+      "DOI": "10.1038/s41559-017-0271-y",
+      "documented_result": "Transient local catastrophic extinctions, habitat intact, can reduce synchrony and increase metapopulation persistence under high dispersal and cyclic protist predator/prey dynamics"
+    },
+    {
+      "paper": "Matter & Roland 2010 Proc R Soc B",
+      "DOI": "10.1098/rspb.2009.1520",
+      "documented_result": "Experimental removal of two adjacent butterfly local populations in a 17-population network decreased immigration and increased synchrony in nearby residual populations; no direct experimentally demonstrated eventual metapopulation extinction effect"
+    }
+  ],
+  "synthetic_state_model": {
+    "per_surviving_donor_failure_probability_q": 0.35,
+    "before_n": 4,
+    "before_c": 0.22,
+    "after_n": 3,
+    "after_c_hypothetical_synchrony_reduction": 0.01,
+    "after_n_without_reduction": 3,
+    "after_c_without_reduction": 0.22,
+    "arrival_probability_a_grid": [
+      0.25,
+      0.3,
+      0.45,
+      0.5,
+      0.6,
+      0.75,
+      0.9,
+      1
+    ],
+    "common_catastrophe": "One Bernoulli(c) event forces all n donor failures. Otherwise donor failures iid Bernoulli(p), p=(q-c)/(1-c), so each donor's unconditional failure probability is q.",
+    "source_to_target_arrival": "Each viable donor independently produces >=1 effective arrival with Bernoulli(a), independent conditional on viability; no dispersal-distance geometry modeled.",
+    "endpoint": "Whether ZERO successful arrivals reach ONE target in ONE period, not metapopulation extinction or recolonization",
+    "equal_marginal_failure": "Each donor fixed q before/after; expected viable donor count decreases with n",
+    "exact_formula": "P(no arrival)=c+(1-c)*(1-a*(1-q)/(1-c))**n",
+    "solve": "Nonzero root for P_after(no arrival)=P_before(no arrival), positive bracket [.1,1], 90-step bisection; include no-common-shock counterfactual and predeclared a grid",
+    "known_truth_validation": "Enumerate every local donor viability vector for n<=5 and verify exact formula independently within float tolerance 1e-13"
+  },
+  "epistemic_limits": [
+    "This is a stylized mechanism existence witness, not newly discovered empirical result",
+    "Fox experimental transient patch reset cannot be equated with lasting loss of an occupied island",
+    "Matter butterfly synchrony increase is prior published, but it did not experimentally demonstrate later global extinction",
+    "Neither common-shock c nor per-survivor target dispersal success a is inferred from real experiment data",
+    "Original Structural v1.123 source-loss leverage hypothesis remains future-only; this does not change its confirmation or outcome exposure",
+    "Do not market opposite results as contradictory: intervention permanence, density heterogeneity, predator cycles, dispersal and external shock processes differ",
+    "Source count and covariance are necessary to define temporal risk, but this model does not identify which source island to protect",
+    "All original mammal heldout responses and GEB scientific HOLD intact, eBird excluded"
+  ],
+  "source_data_candidate": "Fox 2017 DOI 10.5061/dryad.2rs23 contains experiment raw CSV and README; data not accessed in analytical model"
+}
