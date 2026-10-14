@@ -199,6 +199,7 @@ def main():
        "R2_ranking":out["all_four_predeclared_routes"]["R2"]["all_5040_year_alignment_assignments"],
        "R2_two_year_2019_2020_omitted":out["primary_R2_2019_and_2020_omission_as_one_of_all_21_diagnostics"],
        "route_year_alignment_percentiles":{name:rr["all_5040_year_alignment_assignments"]["fraction_at_least_as_favorable_including_ties"]
-         for name,rr in out["all_four_predeclared_routes"].items()}
+         for name,rr in out["all_four_predeclared_routes"].items()},
+       "R2_all_eleven_donor_predictor_ablations":out["all_four_predeclared_routes"]["R2"]["all_11_source_annual_volume_ablations"]
        },sort_keys=True))
 if __name__=="__main__":main()
