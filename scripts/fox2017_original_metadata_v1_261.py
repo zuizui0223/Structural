@@ -49,15 +49,30 @@ def validate(dataset,version_data,file_data):
         files[name]=f
     if set(files)!=NAMES:raise ValueError("Different Fox published source file set")
     out={}
+    auditability=True
     for name,obj in sorted(files.items()):
-        digest=obj.get("digest","")
+        raw_digest=obj.get("digest")
         size=obj.get("size")
-        if (not isinstance(digest,str) or not re.fullmatch(r"[0-9a-f]{64}",digest)
-            or not isinstance(size,int) or size<=0):
-            raise ValueError("Publisher source hash or size missing")
-        out[name]={"id":source_id(obj,"files"),"bytes":size,"sha256":digest}
+        if not isinstance(size,int) or size<=0:
+            raise ValueError("Original publisher source file has no verifiable size")
+        digest=raw_digest if isinstance(raw_digest,str) else ""
+        matched=re.fullmatch(r"(?:(sha256|md5):)?([0-9a-fA-F]{64}|[0-9a-fA-F]{32})",digest)
+        alg=(matched.group(1) or ("sha256" if len(matched.group(2))==64 else "md5")) if matched else None
+        if matched and (alg=="sha256" and len(matched.group(2))!=64 or alg=="md5" and len(matched.group(2))!=32):
+            matched=None
+            alg=None
+        auditable=matched is not None
+        if not auditable:auditability=False
+        out[name]={"id":source_id(obj,"files"),"bytes":size,
+                   "digest_algorithm":alg,
+                   "digest_value":matched.group(2).lower() if matched else None,
+                   "digest_usable_for_bytewise_verification":auditable,
+                   "published_digest_type":type(raw_digest).__name__,
+                   "published_digest_string_length":len(digest)}
     return {"schema":"structural.fox2017_spatial_hydra_source_only.v1_261",
-            "status":"PASS_ORIGINAL_DRYAD_EXPERIMENT_FILE_IDENTITIES_ONLY",
+            "status":("PASS_ORIGINAL_DRYAD_EXPERIMENT_FILE_IDENTITIES_ONLY"
+                      if auditability else
+                      "HOLD_ORIGINAL_FILE_BYTES_UNAUDITABLE_FROM_PUBLISHER_METADATA"),
             "dataset_DOI":DOI,
             "2017_study_DOI":"10.1038/s41559-017-0271-y",
             "source_archived_published_data":True,
