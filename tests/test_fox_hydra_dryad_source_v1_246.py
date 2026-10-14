@@ -27,7 +27,9 @@ def test_different_doi_stops():
 def test_missing_source_or_bad_sha_stops():
     ds,v,f=fixture()
     f["_embedded"]["stash:files"][0]["digest"]="0"
-    with pytest.raises(ValueError,match="SHA256"):receipt(ds,v,f)
+    result=receipt(ds,v,f)
+    assert result["status"]=="SOURCE_DIGEST_NOT_VERIFIED_HOLD_METADATA_ONLY"
+    assert result["biological_data_rows_read"]==0
     ds,v,f=fixture()
     f["_embedded"]["stash:files"].pop()
     with pytest.raises(ValueError):receipt(ds,v,f)
