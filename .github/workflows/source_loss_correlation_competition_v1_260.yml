@@ -1,0 +1,40 @@
+name: Structural ecological extinction/synchrony counterexample v1.260
+on:
+  push:
+    branches: [science/extinction-synchrony-sign-v1-260]
+    paths:
+      - scripts/source_loss_correlation_competition_v1_260.py
+      - tests/test_source_loss_correlation_competition_v1_260.py
+      - development/source_loss_correlation_competition_contract_v1_260.json
+      - .github/workflows/source_loss_correlation_competition_v1_260.yml
+permissions:
+  contents: read
+jobs:
+  known-truth-not-confirmatory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_source_loss_correlation_competition_v1_260.py
+      - run: |
+          python scripts/source_loss_correlation_competition_v1_260.py --out build/v260/known_truth.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v260/known_truth.json"))
+          assert d["not_confirmatory_data_or_validation"]
+          assert d["no_real_observation_rows_used"]
+          assert abs(d["nontrivial_arrival_success_threshold_a"] - .49927179513163855)<1e-9
+          assert d["GEB_scientific_HOLD"]
+          print("Exact shared-failure sign boundary validated as known truth ONLY")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v260-source-loss-synchrony-exact-witness
+          path: build/v260/known_truth.json
+          retention-days: 21
