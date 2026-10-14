@@ -1,0 +1,386 @@
+{
+  "schema": "structural.helgeland_observed_natal_year_alignment_freeze.v1_245",
+  "status": "PASS_POSTPUBLICATION_5040_YEAR_ALIGNMENT_CHECK_NO_TIME_SPECIFICITY",
+  "provenance": {
+    "published_author_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "source_original_presence_blob": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "source_frozen_natal_edges_blob": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "v245_pre_score_contract_commit": "9d7188637e90b641dd21e78f410223d1d9afb1c2",
+    "CI_run_initial": 38499563773,
+    "CI_initial_artifact_id": 11865102267,
+    "CI_initial_artifact_sha256": "dfc279ca052c872446eed6b45bd4b2b4f23ee3887b2e620003a276e175007d70",
+    "CI_donor_logging_run": 38499696549,
+    "CI_donor_artifact_id": 11865476625,
+    "CI_donor_artifact_sha256": "f10654bd26ee1990ef7d8b868d60c0fb11a6721c9cebbcdcdb3868c94bfb5268",
+    "synthetic_tests_passed": 4,
+    "CI_success": true
+  },
+  "test_set": {
+    "train_natal_birth_years": "1994–2013",
+    "excluded_birth_year": 2014,
+    "test_birth_years": [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "test_observed_migrant_destinations": 173
+  },
+  "published_v244_model": {
+    "fixed_historical_R2_static_logloss": 1.9687875628786762,
+    "dynamic_calendar_matched_logloss": 1.9235496421904021,
+    "pooled_dynamic_minus_static": -0.04523792068827423
+  },
+  "year_reassignment": {
+    "all_permutations": 5040,
+    "permuted_assignments_strictly_more_favorable_than_real": 2942,
+    "observed_tied_assignment_count": 1,
+    "fraction_shuffled_as_good_or_better_than_real": 0.5839285714285715,
+    "median_permuted_logloss": 1.9210508354191553,
+    "actual_calendar_alignment_logloss": 1.9235496421904021,
+    "minimum_permuted_logloss": 1.8944648419046735,
+    "maximum_permuted_logloss": 1.9533200681001857,
+    "descriptive_not_randomization_p_value": true
+  },
+  "all_four_route_alignment_rank_fractions": {
+    "P0": 0.36904761904761907,
+    "H": 0.7071428571428572,
+    "R2": 0.5839285714285715,
+    "C2": 0.458531746031746
+  },
+  "all_seven_year_R2_deltas": [
+    {
+      "y": 2015,
+      "n": 15,
+      "d": 0.012689511796275591
+    },
+    {
+      "y": 2016,
+      "n": 27,
+      "d": -0.013312819495164229
+    },
+    {
+      "y": 2017,
+      "n": 34,
+      "d": -0.02730029901645908
+    },
+    {
+      "y": 2018,
+      "n": 12,
+      "d": 0.04065501477817227
+    },
+    {
+      "y": 2019,
+      "n": 27,
+      "d": -0.1816777968618684
+    },
+    {
+      "y": 2020,
+      "n": 41,
+      "d": -0.11515020388505474
+    },
+    {
+      "y": 2021,
+      "n": 17,
+      "d": 0.14175011965488776
+    }
+  ],
+  "all_28_one_and_two_year_omissions_R2": [
+    {
+      "years": [
+        2015
+      ],
+      "remaining": 158,
+      "delta": -0.050737360481111236
+    },
+    {
+      "years": [
+        2015,
+        2016
+      ],
+      "remaining": 131,
+      "delta": -0.058450815493481995
+    },
+    {
+      "years": [
+        2015,
+        2017
+      ],
+      "remaining": 124,
+      "delta": -0.057163651527870694
+    },
+    {
+      "years": [
+        2015,
+        2018
+      ],
+      "remaining": 146,
+      "delta": -0.05824906255721673
+    },
+    {
+      "years": [
+        2015,
+        2019
+      ],
+      "remaining": 131,
+      "delta": -0.023749636952252885
+    },
+    {
+      "years": [
+        2015,
+        2020
+      ],
+      "remaining": 117,
+      "delta": -0.028165338433575476
+    },
+    {
+      "years": [
+        2015,
+        2021
+      ],
+      "remaining": 141,
+      "delta": -0.07394507085211821
+    },
+    {
+      "years": [
+        2016
+      ],
+      "remaining": 146,
+      "delta": -0.05114187775823292
+    },
+    {
+      "years": [
+        2016,
+        2017
+      ],
+      "remaining": 112,
+      "delta": -0.05837949987627141
+    },
+    {
+      "years": [
+        2016,
+        2018
+      ],
+      "remaining": 134,
+      "delta": -0.05936249500029906
+    },
+    {
+      "years": [
+        2016,
+        2019
+      ],
+      "remaining": 119,
+      "delta": -0.02152448434816437
+    },
+    {
+      "years": [
+        2016,
+        2020
+      ],
+      "remaining": 105,
+      "delta": -0.02614815041347393
+    },
+    {
+      "years": [
+        2016,
+        2021
+      ],
+      "remaining": 129,
+      "delta": -0.0765617533863186
+    },
+    {
+      "years": [
+        2017
+      ],
+      "remaining": 139,
+      "delta": -0.04962554037778297
+    },
+    {
+      "years": [
+        2017,
+        2018
+      ],
+      "remaining": 127,
+      "delta": -0.05815598653425118
+    },
+    {
+      "years": [
+        2017,
+        2019
+      ],
+      "remaining": 112,
+      "delta": -0.0177915142610838
+    },
+    {
+      "years": [
+        2017,
+        2020
+      ],
+      "remaining": 98,
+      "delta": -0.022212160747189676
+    },
+    {
+      "years": [
+        2017,
+        2021
+      ],
+      "remaining": 122,
+      "delta": -0.07629264054626987
+    },
+    {
+      "years": [
+        2018
+      ],
+      "remaining": 161,
+      "delta": -0.051639878611239184
+    },
+    {
+      "years": [
+        2018,
+        2019
+      ],
+      "remaining": 134,
+      "delta": -0.025438208515963144
+    },
+    {
+      "years": [
+        2018,
+        2020
+      ],
+      "remaining": 120,
+      "delta": -0.02994051747601887
+    },
+    {
+      "years": [
+        2018,
+        2021
+      ],
+      "remaining": 144,
+      "delta": -0.07447064229543472
+    },
+    {
+      "years": [
+        2019
+      ],
+      "remaining": 146,
+      "delta": -0.020005888793157494
+    },
+    {
+      "years": [
+        2019,
+        2020
+      ],
+      "remaining": 105,
+      "delta": 0.01714570090939286
+    },
+    {
+      "years": [
+        2019,
+        2021
+      ],
+      "remaining": 129,
+      "delta": -0.04132257207700842
+    },
+    {
+      "years": [
+        2020
+      ],
+      "remaining": 132,
+      "delta": -0.023522741816546948
+    },
+    {
+      "years": [
+        2020,
+        2021
+      ],
+      "remaining": 115,
+      "delta": -0.047954382207976425
+    },
+    {
+      "years": [
+        2021
+      ],
+      "remaining": 156,
+      "delta": -0.06561482252054188
+    }
+  ],
+  "year_pair_2019_2020_excluded": {
+    "years": [
+      2019,
+      2020
+    ],
+    "remaining": 105,
+    "delta": 0.01714570090939286
+  },
+  "all_11_donor_predictor_ablation_R2": [
+    {
+      "source_id": 20,
+      "source_name": "Nesøy",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": 0.007950575650438774
+    },
+    {
+      "source_id": 22,
+      "source_name": "Myken",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": 0.0005947913141217676
+    },
+    {
+      "source_id": 23,
+      "source_name": "Træna",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": 0.001949849051692043
+    },
+    {
+      "source_id": 24,
+      "source_name": "Selvær",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": -0.015001940283608128
+    },
+    {
+      "source_id": 26,
+      "source_name": "Gjerøy",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": 0.000578226214672517
+    },
+    {
+      "source_id": 27,
+      "source_name": "Hestmannøy",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": -0.0020176550966117812
+    },
+    {
+      "source_id": 28,
+      "source_name": "Indre Kvarøy",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": -0.0007940563583410665
+    },
+    {
+      "source_id": 33,
+      "source_name": "Lurøy-Onøy",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": 0.0010517927646205294
+    },
+    {
+      "source_id": 34,
+      "source_name": "Lovund",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": -0.005009842049976232
+    },
+    {
+      "source_id": 35,
+      "source_name": "Sleneset",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": 0.06696061383598839
+    },
+    {
+      "source_id": 38,
+      "source_name": "Aldra",
+      "loss_replacing_this_source_annual_mark_count_minus_full_dynamic": 0.00024141158925417017
+    }
+  ],
+  "scientific_limit": {
+    "calendar_matched_years_not_better_than_typical_permutation": true,
+    "pooled_delta_sign_changes_without_years_2019_and_2020": true,
+    "Sleneset_predictor_ablation_worsening": 0.06696061383598839,
+    "one_published_Helgeland_archipelago_no_independent_replication": true,
+    "source_marking_effort_confound": true,
+    "actual_source_population_failure_or_rescue_not_tested": true,
+    "mammal_529_heldout_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}

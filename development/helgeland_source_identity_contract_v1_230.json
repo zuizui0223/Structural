@@ -1,0 +1,72 @@
+{
+  "schema": "structural.helgeland_direct_movement_provenance_preflight.v1_230",
+  "status": "FROZEN_PUBLISHED_SOURCE_NO_NEW_RESPONSE_SCORE",
+  "scientific_question": "Do source islands with comparable island size and source population abundance differ in their next-year CONTRIBUTION of surviving recruits to other islands, conditional on habitat, destination demography and measured movement? Not a generic nearest-neighbor or source-count sign test.",
+  "authority": {
+    "author_github_repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "source_files": [
+      {
+        "path": "Data/presence_data_1994_2022.txt",
+        "bytes": 3523152,
+        "git_blob_sha1": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+        "required_header_fields": [
+          "Year",
+          "date",
+          "Island",
+          "Location",
+          "stage",
+          "ID"
+        ]
+      },
+      {
+        "path": "Data/estimated_pop_sizes_nestling_to_adult_model_with_lurøy_onøy.txt",
+        "bytes": 24027,
+        "git_blob_sha1": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+        "required_header_fields": [
+          "Location",
+          "Island",
+          "Year",
+          "N_corr",
+          "N_obs"
+        ]
+      }
+    ]
+  },
+  "overlap": "Same Helgeland population as Ranke et al. 2021 (doi:10.1111/1365-2656.13580, 1993–2014); not a second archipelago or independent 2021 vs 2026 replicate. 2026 Hansson Frank et al. DOI 10.1002/ecy.70356 uses same long-term source.",
+  "published_design": {
+    "2021": "11 islands, 1993–2014, 2,192 ringed recruits, 376 identified inter-island dispersers; movement size/distance/habitat already studied.",
+    "2026": "11 islands, 1994–2022, individual ID, year, island, stage and CMR survival/density analysis. Raw population N_corr is a derived posterior/model quantity.",
+    "known_island_occupancy_limitation": "Most 11 islands occupied over most of study period, so true island-level 0→1 endpoints likely sparse. Need explicit 0→1 estimability check rather than inventing them."
+  },
+  "distinction": {
+    "confirmed_by_source_columns_if_headers_pass": [
+      "individual resighting time/marking island fields exist",
+      "island-year estimated population size columns exist"
+    ],
+    "not_confirmed_by_header_alone": [
+      "natal origin unambiguously known for every adult",
+      "all demographic migration direction year-by-year",
+      "individual reproductive descendants/parentage accessible in pinned files",
+      "biological colonization event counts",
+      "source/destination contribution, rescue, 0→1 support",
+      "detectability of unringed individuals"
+    ],
+    "flags": "Identified ID at observation island does not imply observed migration unless same ID documented across islands with well-defined marking stage and detection. First observed island may differ from birth island."
+  },
+  "inference_design": {
+    "unit": "Island-year rows nested within ONE archipelago, with dependence across common years, individual lineages and source/destination islands; 11 islands are not 29 independent archipelagos.",
+    "retrospective_contrast": "For a born-on-island, marked individual: identify natal ID only when nestling/juvenile provenance verified, check later destination and independent recruit/survival support. Evaluate source exporter contributions per production and corrected sampling effort, not movement counts alone.",
+    "primary_future_test": "Prediction of t+1 destination immigrant recruitment by pre-t viable natal source supply × independently observed historical directional dispersal transition operator after accounting for destination population density/food/habitat and distance. Do not use t+1 observed immigrants as t predictors.",
+    "secondary": "Per-immigrant reproductive value and whether the destinations persist when local recruitment is low, only if parentage, offspring survival and detection variables actually present.",
+    "STOP": "If birth-island identity, detection, true movement or lagged source operator cannot be verified, no immigrant-fitness or causal rescue claim. 0→1 only if enough actual empty-to-occupied islands across independent holdouts.",
+    "independent_evidence_gate": "2026 & 2021 outcomes already published/context exposed; this can be retrospective only, never pristine confirmatory without new independent source; Structural v0.31/0.42 for future eligible systems only."
+  },
+  "guards": {
+    "Wolfe_Hopson_data_not_reopened": true,
+    "original_529_mammal_heldout_reopened": false,
+    "eBird": false,
+    "GEB_submission_authorized": false,
+    "biological_response_rows_decoded_in_v230": 0
+  }
+}

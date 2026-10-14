@@ -1,0 +1,59 @@
+{
+  "schema": "structural.helgeland_source_header_execution_freeze.v1_230",
+  "status": "PASS_IMMUTABLE_AUTHOR_GIT_HEADERS_ONLY_NO_OUTCOME_ACCESS",
+  "source": {
+    "repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "files": [
+      {
+        "path": "Data/presence_data_1994_2022.txt",
+        "size_bytes": 3523152,
+        "git_blob_sha1": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+        "fields": [
+          "Year",
+          "date",
+          "scriptsex",
+          "Island",
+          "Location",
+          "stage",
+          "Least_age",
+          "Least_hatchyear",
+          "ID"
+        ]
+      },
+      {
+        "path": "Data/estimated_pop_sizes_nestling_to_adult_model_with_lurøy_onøy.txt",
+        "size_bytes": 24027,
+        "git_blob_sha1": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+        "fields": [
+          "Location",
+          "Island",
+          "Year",
+          "N_corr",
+          ".lower",
+          ".upper",
+          ".width",
+          "N_obs"
+        ]
+      }
+    ]
+  },
+  "execution": {
+    "run_id": 38061112212,
+    "job_id": 114239396571,
+    "synthetic_tests": 4,
+    "success": true,
+    "artifact_id": 11673186954,
+    "artifact_digest": "sha256:4aab03a63bf8c728a7ffbea47242c8147571164e5d0ddcc7be70fa654bb321a7"
+  },
+  "science": {
+    "islands_in_published_2026_study": 11,
+    "one_archipelago": true,
+    "study_overlap_2021_2026": true,
+    "realized_movement_observations_counted": 0,
+    "individual_natal_provenance_verified": false,
+    "confirmatory_eligible_systems_added": 0,
+    "original_GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}

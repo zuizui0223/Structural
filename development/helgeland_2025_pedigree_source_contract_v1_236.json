@@ -1,0 +1,29 @@
+{
+  "schema": "structural.helgeland_pedigree_source_metadata_contract.v1_236",
+  "status": "FUTURE_QUERY_OF_PUBLISHED_METADATA_ONLY_NOT_PRE_REGISTERING_OUTCOMES",
+  "source_Dryad_DOI": "10.5061/dryad.qfttdz0sx",
+  "source_paper_DOI": "10.1111/1365-2656.70049",
+  "original_publication_date": "2025-03-25",
+  "expected_five_files": [
+    "ARS_Survival.txt",
+    "LRS.txt",
+    "README.md",
+    "Rectype_ARS_Survival.txt",
+    "Rectype_LRS.txt"
+  ],
+  "data_role_constraints": {
+    "LRS": "ID, natal island, adult island, observed immigrant status, sex, hatch year and published lifetime reproductive success",
+    "ARS_Survival": "ID, natal/island roles, annual recruits and observed annual survival",
+    "Rectype_LRS": "offspring recruit ID, mother and father IDs, each parent's dispersal status, offspring island and lifetime reproduction",
+    "Rectype_ARS_Survival": "offspring annual recruits, parental immigrant/resident types, offspring resighting and subsequent survival"
+  },
+  "potential_ecological_question": "Not whether immigrants have higher fitness (published). Instead, does the natal island diversity and functional independence of parents contributing offspring to each recipient island differ from what island abundance or directed movements alone suggest? Must distinguish observed recruitment from true long-term demographic rescue.",
+  "preflight_action": "Only Dryad exact DOI/version/file metadata, file IDs, source version. Freeze bytes and validate join fields before reading response rows; no reproductive result in v1.236.",
+  "publication_overlap": "This 2025 dataset is the SAME Helgeland population as 2021 and 2026 studies, not an independent system.",
+  "scientific_guards": {
+    "GEB_HOLD": true,
+    "original_mammal_heldout_unopened": true,
+    "no_new_confirmatory_system": true,
+    "eBird": false
+  }
+}

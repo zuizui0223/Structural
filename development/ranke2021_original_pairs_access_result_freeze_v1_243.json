@@ -1,0 +1,53 @@
+{
+  "schema": "structural.ranke2021_original_pair_distance_access_result_freeze.v1_243",
+  "status": "SUCCESS_SOURCE_IDENTITY_METADATA_BUT_PUBLIC_DISTANCE_FILE_ACCESS_TECHNICAL_STOP",
+  "publisher_source": {
+    "DOI": "10.5061/dryad.v41ns1rx1",
+    "published_version_number": 2,
+    "version_id": 136299,
+    "files": {
+      "description.txt": {
+        "id": 913633,
+        "size_bytes": 3266,
+        "sha256": "a8dbce0f8d9f84dbf13b0a1197143cfde83feefb2ff93518655dbcb1959aaa4f"
+      },
+      "island-pairs.txt": {
+        "id": 913634,
+        "size_bytes": 527964,
+        "sha256": "c5d4f44a3f3f0987ad2202d66737754238cf199a51eca07d31af46ee48e2226e"
+      }
+    }
+  },
+  "access_attempts_on_first_original_file": [
+    {
+      "url": "https://datadryad.org/api/v2/files/913633/download",
+      "HTTP_status": 401
+    },
+    {
+      "url": "https://datadryad.org/downloads/file_stream/913633",
+      "HTTP_status": 403
+    },
+    {
+      "url": "https://datadryad.org/stash/downloads/file_stream/913633",
+      "HTTP_status": 403
+    }
+  ],
+  "CI": {
+    "run_id": 38498579646,
+    "job_id": 115639881696,
+    "synthetic_tests": 3,
+    "status": "success_technical_stop",
+    "artifact_id": 11863833791,
+    "digest": "sha256:5da96d6b1f82999844ca02b732822319e35182f94b196f86d6d7a33abfe09b8e"
+  },
+  "epistemic_limits": {
+    "numerical_original_pair_distance_rows_read": 0,
+    "distance_adjusted_model_run": false,
+    "DOI_source_matrix_not_verified_beyond_filename_and_hash_metadata": true,
+    "do_not_fabricate_coordinates_or_distances": true,
+    "prior_Ranke2021_already_reports_distance_dependence": true,
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "original_global_mammal_heldout_unopened": true
+  }
+}

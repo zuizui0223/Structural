@@ -1,0 +1,73 @@
+{
+  "schema": "structural.helgeland_yearly_natal_cohort_supply_temporal_protocol.v1_244",
+  "status": "RETROSPECTIVE_ALREADY_PUBLISHED_SOURCE_DESIGN_FIXED_BEFORE_NEW_ANNUAL_JOIN",
+  "source": {
+    "author_repo": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "author_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence_path": "Data/presence_data_1994_2022.txt",
+    "presence_git_blob": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "island_population_path": "Data/estimated_pop_sizes_nestling_to_adult_model_with_lurøy_onøy.txt",
+    "population_git_blob": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+    "study_islands": [
+      20,
+      22,
+      23,
+      24,
+      26,
+      27,
+      28,
+      33,
+      34,
+      35,
+      38
+    ],
+    "anchor_v231": {
+      "historical_natal_marked": 9868,
+      "historical_recorded_migrants": 259,
+      "boundary_2014_natal_marked": 664,
+      "boundary_recorded_migrants": 28,
+      "later_natal_marked": 4484,
+      "later_recorded_migrants": 173
+    }
+  },
+  "estimand": "Does PREVIOUS-BIRTH-YEAR source natal nestling marking volume improve later first-year OBSERVED migrant destination probabilities beyond frozen historical movement topology?",
+  "cohort_split": {
+    "historical": "1994–2013 natal birth year TRAIN both source output and historical movement routes",
+    "boundary": "2014 exclude both training and testing",
+    "future": "2015–2021 natal nestling cohort counts as time-t observable predictor; test NEXT calendar year 2016–2022 recorded migrants only; no year 2022 nestlings as t predictor",
+    "years_with_no_test_migrants": "show zero immigration events and omit from conditional destination logloss; do not redefine sample"
+  },
+  "identity": "Only unique original mark ID with exactly one stage=nest birth island/year in fixed 11 island universe; t+1 target stage capt/obs and exactly one destination island; no unobserved migrant imputation or death inference",
+  "forecast_model": {
+    "observed_source_supply_Nit": "count unique stage=nest marked individuals from source island i in birth year t, regardless of resighting at t+1; *not true nestling production or ecological viable adults*",
+    "historic_source_yield_h_i": "(259-era observed 1994-2013 emigrants from i + 0.5) / (historical 1994-2013 unique marked nestling counts i + 1); fixed Jeffreys smoothing, outcome-detection confounded",
+    "historical_static_source_Ni": "total historical 1994–2013 marked nestlings / 20 years",
+    "destination_conditionals": "Same v1.241 P0 (historical recipient popularity), H (farm/nonfarm same-class historical ridge beta), R2 (undirected pair with tau10 H prior), C2 (directed with tau10 R2 prior); train only 1994-2013 historical source and destination outcomes",
+    "static_destination_prob": "for each target j: normalized sum over i!=j of historical mean marked natal_i × historical source emigrant yield_i × historically trained route probability P(j|i)",
+    "dynamic_destination_prob": "for each target j in future year t: normalized sum over i!=j of observed known-at-t marked natal_i,t × historical emigrant yield_i × same historically trained P(j|i)",
+    "time_lag": "predict next-year t+1 documentation using t marked natal source volume. Never use t+1 destination abundance, resight effort or any t+1 response as feature",
+    "primary_comparison": "R2-route forecast dynamic minus static mean negative log destination probability over all 173 next-year observed migrants born 2015-2021, negative supports incremental predictive source-output information",
+    "secondary_route_controls": [
+      "P0",
+      "H",
+      "C2"
+    ],
+    "report": "All 7 test natal birth years, all 11 source annual natal count arrays, 11 receiving island results, each route static/dynamic heldout log-loss, each year's signed delta; no posthoc year or origin subgroup promotion",
+    "source_fingerprint_and_anchors_required": true
+  },
+  "limitations": [
+    "Already-published cohort outcomes and same single archipelago, not independent confirmatory evidence",
+    "Observed marked nestling counts are strongly affected by effort and do not directly measure true donor demographic viability",
+    "Conditional-on-observed-migrant destination cannot estimate source extinction, failed emigration or population rescue",
+    "Historical 2021 study already documented effects of population size and recruit production on migration",
+    "Route R2 (habitat and pair) is NOT physically distance-adjusted; v1.243 original distance file access stopped API401/website403",
+    "N_corr includes whole-period model fit and is intentionally NOT used as a lagged prospective feature",
+    "If source marking effort varies annually, apparent dynamic prediction may be observation process"
+  ],
+  "guards": {
+    "original_529_mammal_heldout_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "no_manuscript_promotion": true
+  }
+}

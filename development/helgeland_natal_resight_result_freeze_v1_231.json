@@ -1,0 +1,1163 @@
+{
+  "schema": "structural.helgeland_nestling_origin_nextyear_resight_freeze.v1_231",
+  "status": "POSTPUBLICATION_SOURCE_LOCKED_OBSERVED_NATAL_EXPORTS_WITHIN_SINGLE_ARCHIPELAGO",
+  "provenance": {
+    "author_repo": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "author_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence_blob": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "population_blob": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+    "workflow_run_id": 38061567401,
+    "job_id": 114240715942,
+    "synthetic_tests_passed": 2,
+    "run_success": true,
+    "artifact_id": 11673332317,
+    "artifact_digest": "sha256:b4081c6eae958d2d4b55ae2209848d9d382eb48e8cf9a2baa36f77e71e9b26fd"
+  },
+  "data": {
+    "source_rows": 73593,
+    "n_model_islands": 11,
+    "metadata_attrition": {
+      "ambiguous_natal_id_global": 5,
+      "outside_model_islands": 3005,
+      "source_rows": 73593
+    },
+    "cohorts": {
+      "bridge": {
+        "ambiguous_destination": 2,
+        "immigrant": 28,
+        "marked_nest_individuals": 664,
+        "resident": 102,
+        "unknown_followup": 532,
+        "share_export_among_nextyear_observed": 0.2153846153846154,
+        "percent_known_followup": 19.57831325301205
+      },
+      "historical": {
+        "ambiguous_destination": 6,
+        "immigrant": 259,
+        "marked_nest_individuals": 9868,
+        "resident": 1178,
+        "unknown_followup": 8425,
+        "share_export_among_nextyear_observed": 0.1802366040361865,
+        "percent_known_followup": 14.562221321443047
+      },
+      "later": {
+        "ambiguous_destination": 11,
+        "immigrant": 173,
+        "marked_nest_individuals": 4484,
+        "resident": 509,
+        "unknown_followup": 3791,
+        "share_export_among_nextyear_observed": 0.2536656891495601,
+        "percent_known_followup": 15.209634255129348
+      }
+    },
+    "per_origin": [
+      {
+        "ambiguous": 0,
+        "era": "historical",
+        "export_share_observed": 0.1927710843373494,
+        "exported": 16,
+        "marked": 590,
+        "no_followup": 507,
+        "observed_recruits": 83,
+        "origin": 20,
+        "retained": 67,
+        "island_name": "nesøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 20.25397389555758
+      },
+      {
+        "ambiguous": 1,
+        "era": "historical",
+        "export_share_observed": 0.25,
+        "exported": 11,
+        "marked": 327,
+        "no_followup": 282,
+        "observed_recruits": 44,
+        "origin": 22,
+        "retained": 33,
+        "island_name": "myken",
+        "mean_model_adjusted_adults_same_birth_year_interval": 21.72953362149553
+      },
+      {
+        "ambiguous": 0,
+        "era": "historical",
+        "export_share_observed": 0.25190839694656486,
+        "exported": 33,
+        "marked": 1204,
+        "no_followup": 1073,
+        "observed_recruits": 131,
+        "origin": 23,
+        "retained": 98,
+        "island_name": "træna",
+        "mean_model_adjusted_adults_same_birth_year_interval": 43.163869197163834
+      },
+      {
+        "ambiguous": 1,
+        "era": "historical",
+        "export_share_observed": 0.425,
+        "exported": 68,
+        "marked": 1040,
+        "no_followup": 879,
+        "observed_recruits": 160,
+        "origin": 24,
+        "retained": 92,
+        "island_name": "selvær",
+        "mean_model_adjusted_adults_same_birth_year_interval": 49.23423978044226
+      },
+      {
+        "ambiguous": 1,
+        "era": "historical",
+        "export_share_observed": 0.061016949152542375,
+        "exported": 18,
+        "marked": 1614,
+        "no_followup": 1318,
+        "observed_recruits": 295,
+        "origin": 26,
+        "retained": 277,
+        "island_name": "gjerøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 84.61610520960015
+      },
+      {
+        "ambiguous": 2,
+        "era": "historical",
+        "export_share_observed": 0.046296296296296294,
+        "exported": 15,
+        "marked": 2411,
+        "no_followup": 2085,
+        "observed_recruits": 324,
+        "origin": 27,
+        "retained": 309,
+        "island_name": "hestmannøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 141.52053364556164
+      },
+      {
+        "ambiguous": 0,
+        "era": "historical",
+        "export_share_observed": 0.21428571428571427,
+        "exported": 27,
+        "marked": 881,
+        "no_followup": 755,
+        "observed_recruits": 126,
+        "origin": 28,
+        "retained": 99,
+        "island_name": "indre kvarøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 53.181568847181836
+      },
+      {
+        "ambiguous": 0,
+        "era": "historical",
+        "export_share_observed": 0.16666666666666666,
+        "exported": 1,
+        "marked": 52,
+        "no_followup": 46,
+        "observed_recruits": 6,
+        "origin": 33,
+        "retained": 5,
+        "island_name": "lurøy-onøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 33.051796332061855
+      },
+      {
+        "ambiguous": 1,
+        "era": "historical",
+        "export_share_observed": 0.2839506172839506,
+        "exported": 23,
+        "marked": 624,
+        "no_followup": 542,
+        "observed_recruits": 81,
+        "origin": 34,
+        "retained": 58,
+        "island_name": "lovund",
+        "mean_model_adjusted_adults_same_birth_year_interval": 24.79279599214465
+      },
+      {
+        "ambiguous": 0,
+        "era": "historical",
+        "export_share_observed": 0.35384615384615387,
+        "exported": 46,
+        "marked": 844,
+        "no_followup": 714,
+        "observed_recruits": 130,
+        "origin": 35,
+        "retained": 84,
+        "island_name": "sleneset",
+        "mean_model_adjusted_adults_same_birth_year_interval": 32.60382985324458
+      },
+      {
+        "ambiguous": 0,
+        "era": "historical",
+        "export_share_observed": 0.017543859649122806,
+        "exported": 1,
+        "marked": 281,
+        "no_followup": 224,
+        "observed_recruits": 57,
+        "origin": 38,
+        "retained": 56,
+        "island_name": "aldra",
+        "mean_model_adjusted_adults_same_birth_year_interval": 26.740801218581034
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": 0,
+        "exported": 0,
+        "marked": 28,
+        "no_followup": 27,
+        "observed_recruits": 1,
+        "origin": 20,
+        "retained": 1,
+        "island_name": "nesøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": null,
+        "exported": 0,
+        "marked": 0,
+        "no_followup": 0,
+        "observed_recruits": 0,
+        "origin": 22,
+        "retained": 0,
+        "island_name": "myken",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 1,
+        "era": "bridge",
+        "export_share_observed": 0.11428571428571428,
+        "exported": 4,
+        "marked": 161,
+        "no_followup": 125,
+        "observed_recruits": 35,
+        "origin": 23,
+        "retained": 31,
+        "island_name": "træna",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": 0.39285714285714285,
+        "exported": 11,
+        "marked": 128,
+        "no_followup": 100,
+        "observed_recruits": 28,
+        "origin": 24,
+        "retained": 17,
+        "island_name": "selvær",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": 0,
+        "exported": 0,
+        "marked": 50,
+        "no_followup": 45,
+        "observed_recruits": 5,
+        "origin": 26,
+        "retained": 5,
+        "island_name": "gjerøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": 0,
+        "exported": 0,
+        "marked": 63,
+        "no_followup": 47,
+        "observed_recruits": 16,
+        "origin": 27,
+        "retained": 16,
+        "island_name": "hestmannøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": 0.23809523809523808,
+        "exported": 5,
+        "marked": 85,
+        "no_followup": 64,
+        "observed_recruits": 21,
+        "origin": 28,
+        "retained": 16,
+        "island_name": "indre kvarøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": null,
+        "exported": 0,
+        "marked": 0,
+        "no_followup": 0,
+        "observed_recruits": 0,
+        "origin": 33,
+        "retained": 0,
+        "island_name": "lurøy-onøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": 0.2,
+        "exported": 2,
+        "marked": 56,
+        "no_followup": 46,
+        "observed_recruits": 10,
+        "origin": 34,
+        "retained": 8,
+        "island_name": "lovund",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 1,
+        "era": "bridge",
+        "export_share_observed": 0.42857142857142855,
+        "exported": 6,
+        "marked": 92,
+        "no_followup": 77,
+        "observed_recruits": 14,
+        "origin": 35,
+        "retained": 8,
+        "island_name": "sleneset",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 0,
+        "era": "bridge",
+        "export_share_observed": null,
+        "exported": 0,
+        "marked": 1,
+        "no_followup": 1,
+        "observed_recruits": 0,
+        "origin": 38,
+        "retained": 0,
+        "island_name": "aldra",
+        "mean_model_adjusted_adults_same_birth_year_interval": null
+      },
+      {
+        "ambiguous": 1,
+        "era": "later",
+        "export_share_observed": 0.45714285714285713,
+        "exported": 16,
+        "marked": 232,
+        "no_followup": 196,
+        "observed_recruits": 35,
+        "origin": 20,
+        "retained": 19,
+        "island_name": "nesøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 11.419590989283847
+      },
+      {
+        "ambiguous": 2,
+        "era": "later",
+        "export_share_observed": 0.42857142857142855,
+        "exported": 6,
+        "marked": 119,
+        "no_followup": 103,
+        "observed_recruits": 14,
+        "origin": 22,
+        "retained": 8,
+        "island_name": "myken",
+        "mean_model_adjusted_adults_same_birth_year_interval": 9.685904062311863
+      },
+      {
+        "ambiguous": 1,
+        "era": "later",
+        "export_share_observed": 0.24285714285714285,
+        "exported": 34,
+        "marked": 899,
+        "no_followup": 758,
+        "observed_recruits": 140,
+        "origin": 23,
+        "retained": 106,
+        "island_name": "træna",
+        "mean_model_adjusted_adults_same_birth_year_interval": 110.78506220660189
+      },
+      {
+        "ambiguous": 2,
+        "era": "later",
+        "export_share_observed": 0.2804878048780488,
+        "exported": 23,
+        "marked": 667,
+        "no_followup": 583,
+        "observed_recruits": 82,
+        "origin": 24,
+        "retained": 59,
+        "island_name": "selvær",
+        "mean_model_adjusted_adults_same_birth_year_interval": 46.55505831352751
+      },
+      {
+        "ambiguous": 1,
+        "era": "later",
+        "export_share_observed": 0.037037037037037035,
+        "exported": 1,
+        "marked": 209,
+        "no_followup": 181,
+        "observed_recruits": 27,
+        "origin": 26,
+        "retained": 26,
+        "island_name": "gjerøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 43.01967226722636
+      },
+      {
+        "ambiguous": 1,
+        "era": "later",
+        "export_share_observed": 0.04794520547945205,
+        "exported": 7,
+        "marked": 792,
+        "no_followup": 645,
+        "observed_recruits": 146,
+        "origin": 27,
+        "retained": 139,
+        "island_name": "hestmannøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 135.14203232241758
+      },
+      {
+        "ambiguous": 1,
+        "era": "later",
+        "export_share_observed": 0.11320754716981132,
+        "exported": 6,
+        "marked": 353,
+        "no_followup": 299,
+        "observed_recruits": 53,
+        "origin": 28,
+        "retained": 47,
+        "island_name": "indre kvarøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 60.601303632549765
+      },
+      {
+        "ambiguous": 0,
+        "era": "later",
+        "export_share_observed": 0.5,
+        "exported": 1,
+        "marked": 18,
+        "no_followup": 16,
+        "observed_recruits": 2,
+        "origin": 33,
+        "retained": 1,
+        "island_name": "lurøy-onøy",
+        "mean_model_adjusted_adults_same_birth_year_interval": 39.72353340522255
+      },
+      {
+        "ambiguous": 0,
+        "era": "later",
+        "export_share_observed": 0.34,
+        "exported": 17,
+        "marked": 425,
+        "no_followup": 375,
+        "observed_recruits": 50,
+        "origin": 34,
+        "retained": 33,
+        "island_name": "lovund",
+        "mean_model_adjusted_adults_same_birth_year_interval": 58.26638252710411
+      },
+      {
+        "ambiguous": 2,
+        "era": "later",
+        "export_share_observed": 0.4696969696969697,
+        "exported": 62,
+        "marked": 755,
+        "no_followup": 621,
+        "observed_recruits": 132,
+        "origin": 35,
+        "retained": 70,
+        "island_name": "sleneset",
+        "mean_model_adjusted_adults_same_birth_year_interval": 43.77367372000066
+      },
+      {
+        "ambiguous": 0,
+        "era": "later",
+        "export_share_observed": 0,
+        "exported": 0,
+        "marked": 15,
+        "no_followup": 14,
+        "observed_recruits": 1,
+        "origin": 38,
+        "retained": 1,
+        "island_name": "aldra",
+        "mean_model_adjusted_adults_same_birth_year_interval": 5.170843199726003
+      }
+    ],
+    "observed_cross_island_edges": [
+      {
+        "destination": 22,
+        "era": "historical",
+        "observed_n": 3,
+        "origin": 20
+      },
+      {
+        "destination": 24,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 20
+      },
+      {
+        "destination": 26,
+        "era": "historical",
+        "observed_n": 5,
+        "origin": 20
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 7,
+        "origin": 20
+      },
+      {
+        "destination": 23,
+        "era": "historical",
+        "observed_n": 3,
+        "origin": 22
+      },
+      {
+        "destination": 24,
+        "era": "historical",
+        "observed_n": 6,
+        "origin": 22
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 22
+      },
+      {
+        "destination": 34,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 22
+      },
+      {
+        "destination": 22,
+        "era": "historical",
+        "observed_n": 3,
+        "origin": 23
+      },
+      {
+        "destination": 24,
+        "era": "historical",
+        "observed_n": 17,
+        "origin": 23
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 2,
+        "origin": 23
+      },
+      {
+        "destination": 28,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 33,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 34,
+        "era": "historical",
+        "observed_n": 9,
+        "origin": 23
+      },
+      {
+        "destination": 22,
+        "era": "historical",
+        "observed_n": 7,
+        "origin": 24
+      },
+      {
+        "destination": 23,
+        "era": "historical",
+        "observed_n": 47,
+        "origin": 24
+      },
+      {
+        "destination": 26,
+        "era": "historical",
+        "observed_n": 2,
+        "origin": 24
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 3,
+        "origin": 24
+      },
+      {
+        "destination": 34,
+        "era": "historical",
+        "observed_n": 8,
+        "origin": 24
+      },
+      {
+        "destination": 35,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 24
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 12,
+        "origin": 26
+      },
+      {
+        "destination": 28,
+        "era": "historical",
+        "observed_n": 6,
+        "origin": 26
+      },
+      {
+        "destination": 20,
+        "era": "historical",
+        "observed_n": 5,
+        "origin": 27
+      },
+      {
+        "destination": 23,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 27
+      },
+      {
+        "destination": 26,
+        "era": "historical",
+        "observed_n": 4,
+        "origin": 27
+      },
+      {
+        "destination": 28,
+        "era": "historical",
+        "observed_n": 2,
+        "origin": 27
+      },
+      {
+        "destination": 33,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 27
+      },
+      {
+        "destination": 34,
+        "era": "historical",
+        "observed_n": 2,
+        "origin": 27
+      },
+      {
+        "destination": 20,
+        "era": "historical",
+        "observed_n": 2,
+        "origin": 28
+      },
+      {
+        "destination": 22,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 28
+      },
+      {
+        "destination": 26,
+        "era": "historical",
+        "observed_n": 5,
+        "origin": 28
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 14,
+        "origin": 28
+      },
+      {
+        "destination": 33,
+        "era": "historical",
+        "observed_n": 4,
+        "origin": 28
+      },
+      {
+        "destination": 34,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 28
+      },
+      {
+        "destination": 35,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 33
+      },
+      {
+        "destination": 23,
+        "era": "historical",
+        "observed_n": 3,
+        "origin": 34
+      },
+      {
+        "destination": 24,
+        "era": "historical",
+        "observed_n": 4,
+        "origin": 34
+      },
+      {
+        "destination": 26,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 34
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 2,
+        "origin": 34
+      },
+      {
+        "destination": 28,
+        "era": "historical",
+        "observed_n": 2,
+        "origin": 34
+      },
+      {
+        "destination": 33,
+        "era": "historical",
+        "observed_n": 3,
+        "origin": 34
+      },
+      {
+        "destination": 35,
+        "era": "historical",
+        "observed_n": 7,
+        "origin": 34
+      },
+      {
+        "destination": 38,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 34
+      },
+      {
+        "destination": 22,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 35
+      },
+      {
+        "destination": 23,
+        "era": "historical",
+        "observed_n": 9,
+        "origin": 35
+      },
+      {
+        "destination": 24,
+        "era": "historical",
+        "observed_n": 4,
+        "origin": 35
+      },
+      {
+        "destination": 26,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 35
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 4,
+        "origin": 35
+      },
+      {
+        "destination": 28,
+        "era": "historical",
+        "observed_n": 3,
+        "origin": 35
+      },
+      {
+        "destination": 34,
+        "era": "historical",
+        "observed_n": 24,
+        "origin": 35
+      },
+      {
+        "destination": 27,
+        "era": "historical",
+        "observed_n": 1,
+        "origin": 38
+      },
+      {
+        "destination": 22,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 24,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 28,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 34,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 23,
+        "era": "bridge",
+        "observed_n": 10,
+        "origin": 24
+      },
+      {
+        "destination": 27,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 24
+      },
+      {
+        "destination": 26,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 28
+      },
+      {
+        "destination": 27,
+        "era": "bridge",
+        "observed_n": 4,
+        "origin": 28
+      },
+      {
+        "destination": 23,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 34
+      },
+      {
+        "destination": 24,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 34
+      },
+      {
+        "destination": 22,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 35
+      },
+      {
+        "destination": 23,
+        "era": "bridge",
+        "observed_n": 3,
+        "origin": 35
+      },
+      {
+        "destination": 28,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 35
+      },
+      {
+        "destination": 34,
+        "era": "bridge",
+        "observed_n": 1,
+        "origin": 35
+      },
+      {
+        "destination": 22,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 20
+      },
+      {
+        "destination": 23,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 20
+      },
+      {
+        "destination": 24,
+        "era": "later",
+        "observed_n": 4,
+        "origin": 20
+      },
+      {
+        "destination": 26,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 20
+      },
+      {
+        "destination": 27,
+        "era": "later",
+        "observed_n": 5,
+        "origin": 20
+      },
+      {
+        "destination": 34,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 20
+      },
+      {
+        "destination": 35,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 20
+      },
+      {
+        "destination": 23,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 22
+      },
+      {
+        "destination": 24,
+        "era": "later",
+        "observed_n": 3,
+        "origin": 22
+      },
+      {
+        "destination": 34,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 22
+      },
+      {
+        "destination": 20,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 22,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 23
+      },
+      {
+        "destination": 24,
+        "era": "later",
+        "observed_n": 13,
+        "origin": 23
+      },
+      {
+        "destination": 28,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 34,
+        "era": "later",
+        "observed_n": 16,
+        "origin": 23
+      },
+      {
+        "destination": 35,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 23
+      },
+      {
+        "destination": 20,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 24
+      },
+      {
+        "destination": 22,
+        "era": "later",
+        "observed_n": 3,
+        "origin": 24
+      },
+      {
+        "destination": 23,
+        "era": "later",
+        "observed_n": 14,
+        "origin": 24
+      },
+      {
+        "destination": 27,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 24
+      },
+      {
+        "destination": 33,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 24
+      },
+      {
+        "destination": 34,
+        "era": "later",
+        "observed_n": 3,
+        "origin": 24
+      },
+      {
+        "destination": 27,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 26
+      },
+      {
+        "destination": 24,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 27
+      },
+      {
+        "destination": 26,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 27
+      },
+      {
+        "destination": 28,
+        "era": "later",
+        "observed_n": 3,
+        "origin": 27
+      },
+      {
+        "destination": 33,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 27
+      },
+      {
+        "destination": 26,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 28
+      },
+      {
+        "destination": 27,
+        "era": "later",
+        "observed_n": 3,
+        "origin": 28
+      },
+      {
+        "destination": 35,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 28
+      },
+      {
+        "destination": 27,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 33
+      },
+      {
+        "destination": 23,
+        "era": "later",
+        "observed_n": 8,
+        "origin": 34
+      },
+      {
+        "destination": 24,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 34
+      },
+      {
+        "destination": 28,
+        "era": "later",
+        "observed_n": 2,
+        "origin": 34
+      },
+      {
+        "destination": 35,
+        "era": "later",
+        "observed_n": 5,
+        "origin": 34
+      },
+      {
+        "destination": 20,
+        "era": "later",
+        "observed_n": 1,
+        "origin": 35
+      },
+      {
+        "destination": 23,
+        "era": "later",
+        "observed_n": 11,
+        "origin": 35
+      },
+      {
+        "destination": 24,
+        "era": "later",
+        "observed_n": 3,
+        "origin": 35
+      },
+      {
+        "destination": 27,
+        "era": "later",
+        "observed_n": 5,
+        "origin": 35
+      },
+      {
+        "destination": 28,
+        "era": "later",
+        "observed_n": 3,
+        "origin": 35
+      },
+      {
+        "destination": 34,
+        "era": "later",
+        "observed_n": 39,
+        "origin": 35
+      }
+    ]
+  },
+  "selected_preexisting_contrast": {
+    "prior_2021_finding": "Ranke et al. 2021 already showed habitat-structured dispersal among Helgeland islands (DOI 10.1111/1365-2656.13580)",
+    "historical_largest_number_of_observed_migrant_recruits": {
+      "island": "selvær",
+      "id": 24,
+      "exported": 68,
+      "observed_marked_nextyear_recruits": 160,
+      "share": 0.425,
+      "mean_corrected_island_N": 49.23423978044226
+    },
+    "later_largest_number_of_observed_migrant_recruits": {
+      "island": "sleneset",
+      "id": 35,
+      "exported": 62,
+      "observed_marked_nextyear_recruits": 132,
+      "share": 0.4696969696969697,
+      "mean_corrected_island_N": 43.77367372000066
+    },
+    "later_large_population_low_observed_emigrant_share": {
+      "island": "hestmannøy",
+      "id": 27,
+      "exported": 7,
+      "observed_marked_nextyear_recruits": 146,
+      "share": 0.04794520547945205,
+      "mean_corrected_island_N": 135.14203232241758
+    },
+    "caution": "Historical cohort 20 birth years vs later 7 years; never compare total exports as annual rates without denominators/detection. N_corr is full-period model-estimated posterior population size, not independent real-time lagged input."
+  },
+  "interpretation": {
+    "no_resighting_is_not_death": true,
+    "natal_to_nextyear_resighted_other_island_not_all_immigration": true,
+    "export_share_conditional_on_nextyear_resighting_not_true_emigration_probability": true,
+    "stage_origin_conflicts_excluded": true,
+    "offspring_ever_reproduced_or_genetic_reproductive_value_not_estimated": true,
+    "true_natal_and_source_sink_demography_not_identified_for_unringed_or_unsighted": true,
+    "same_archipelago_and_prior_2021_publication_not_independent_replicate": true,
+    "no_claim_of_new_connectivity_law": true,
+    "GEB_scientific_HOLD": true,
+    "eBird_off": true
+  }
+}

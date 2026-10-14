@@ -1,0 +1,35 @@
+{
+  "schema": "structural.helgeland_public_Dryad_pedigree_transport_result_freeze.v1_238",
+  "status": "STOP_SOURCE_TRANSPORT_HTTP_403_ON_BOTH_PREDECLARED_PUBLIC_ROUTES",
+  "source": {
+    "DOI": "10.5061/dryad.qfttdz0sx",
+    "version_id": 354268,
+    "tested_file": "ARS_Survival.txt",
+    "id": 3972792,
+    "expected_bytes": 220060,
+    "sha256": "6cdc608d8e58c5ac27bd9ba2109f07d466499ee62183a35ecf5483774980a9a5"
+  },
+  "provenance": {
+    "run_id": 38404825465,
+    "job_id": 115321583779,
+    "synthetic_tests_passed": 3,
+    "workflow_conclusion": "success_code_validated_source_transport_stopped",
+    "artifact_id": 11818660878,
+    "artifact_digest": "sha256:570ac51f50f8f4e0f1132656cb00e2f1c57114e4eabc5e46a694a87b9ad75629"
+  },
+  "routes": {
+    "https://datadryad.org/downloads/file_stream/3972792": 403,
+    "https://datadryad.org/stash/downloads/file_stream/3972792": 403,
+    "https://datadryad.org/api/v2/files/3972792/download": "401_on_v1_237"
+  },
+  "interpretation": {
+    "zero_raw_biological_files_verified": true,
+    "zero_rows_semantically_opened": true,
+    "no_parentage_or_offspring_performance_estimated": true,
+    "alternative_exact_version_source_not_used": true,
+    "future_authorization_or_an_open_independent_same_sha_mirror_needed": true,
+    "one_published_archipelago_not_confirmatory": true,
+    "original_GEB_HOLD": true,
+    "eBird": false
+  }
+}

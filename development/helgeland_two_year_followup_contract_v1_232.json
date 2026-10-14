@@ -1,0 +1,44 @@
+{
+  "schema": "structural.helgeland_two_year_t2_resighting_contract.v1_232",
+  "evidence_class": "POSTPUBLICATION_EXPLORATORY_AFTER_V231_IMMIGRANT_EXPORT_OBSERVED",
+  "source": {
+    "repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence": "Data/presence_data_1994_2022.txt",
+    "presence_sha": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "population": "Data/estimated_pop_sizes_nestling_to_adult_model_with_lurøy_onøy.txt",
+    "population_sha": "c31823caff36dcd07ae30d657f8507a44ab4f7b0"
+  },
+  "observational_units": "Only marked nest-stage individuals with one natal island+year, recorded at one island in the following year; separate immigrant versus resident by natal and next-year destination",
+  "t2": "Year birth+2: observed on SAME t+1 destination island, observed DIFFERENT island, not reobserved, or multiple destination islands (ambiguous)",
+  "complete_years": {
+    "historical": [
+      1994,
+      2012
+    ],
+    "boundary": [
+      2013,
+      2014
+    ],
+    "later": [
+      2015,
+      2020
+    ],
+    "right_censored": [
+      2021,
+      2021
+    ]
+  },
+  "hard_v231_replay_anchor": {
+    "nextyear_observed_immigrant": 460,
+    "nextyear_observed_resident": 1789
+  },
+  "complete_reporting": "All registered-year groups and natal origin islands with all unknown/ambiguous follow-up categories; no favourable island filtering, no p-values or regression",
+  "limitations": "Unknown 2-year resighting is NOT death or failed establishment. Same-destination sighting is NOT realized fitness or offspring production. Detection effort and island habitat prior published, no new independent 2021/2026 experiments.",
+  "guards": {
+    "eBird": false,
+    "global_mammal_outcomes": false,
+    "GEB_scientific_HOLD": true,
+    "fresh_confirmatory": false
+  }
+}

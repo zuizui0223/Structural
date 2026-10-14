@@ -1,0 +1,24 @@
+{
+  "schema": "structural.helgeland_breeder_ID_natal_date_audit_protocol.v1_234",
+  "status": "ID_NAMESPACE_QUANTIFICATION_AFTER_v233_ZERO_EXACT_JOIN",
+  "source": {
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "same_three_blob_sha1s_as_v233": true
+  },
+  "predefined_checks": [
+    "Total producer rows and IDs overlapping natal known bird IDs",
+    "Producer Least_hatchyear exactly agrees with recorded stage=nest year for that ID",
+    "Producer ID/year/island appears as observed capt/obs in identical year/island, separately from natal hatchyear",
+    "Producer rows within same confirmed immigrant destination at any later year 2007–2014 without choosing a favorable lag",
+    "All producer rows with ID overlap stratified year less than natal, equal, +1, +2, +3 or more"
+  ],
+  "stop": "Do not compute N_nestlings, N_Recruits, any parentage or immigrant fitness effect until ID+nest origin/year and observational island/year consistency is verified; if overlap is nominal only or hatchyear contradictory, terminal no-fit.",
+  "all_years_all_islands": true,
+  "postpublication": true,
+  "guards": {
+    "not_confirmatory": true,
+    "original_global_mammal_heldout": false,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}

@@ -1,0 +1,45 @@
+name: Helgeland historical directional route portability LOSO-style v1.240
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - development/helgeland_directional_routing_temporal_contract_v1_240.json
+      - scripts/helgeland_directional_route_portability_v1_240.py
+      - tests/test_helgeland_directional_route_portability_v1_240.py
+      - development/helgeland_natal_resight_result_freeze_v1_231.json
+      - .github/workflows/helgeland_directional_portability_v1_240.yml
+permissions:
+  contents: read
+jobs:
+  retrospective-temporal-routing:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic fixed-reference probability and strict train/test boundary
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_directional_route_portability_v1_240.py
+      - name: Evaluate only historical to later, no 2014 bridge leakage
+        run: |
+          python scripts/helgeland_directional_route_portability_v1_240.py development/helgeland_natal_resight_result_freeze_v1_231.json --out build/v240/result.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v240/result.json"))
+          assert d["train_historical_migrant_birth_cohorts"]==259
+          assert d["excluded_birth_cohort_2014"]==28
+          assert d["test_later_birth_cohort_migrants"]==173
+          assert set(d["all_precommitted_sensitivity_results"])=={"5","10","20"}
+          assert d["no_test_label_used_in_training_features"]
+          assert d["GEB_scientific_HOLD"]
+          print("Temporally heldout observed-migration destination scores locked:",d["primary_C_minus_R1_logloss"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v240-helgeland-directional-vs-undirected
+          path: build/v240/result.json
+          retention-days: 21

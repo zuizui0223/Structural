@@ -1,0 +1,45 @@
+{
+  "schema": "structural.helgeland_known_natal_resight_contract.v1_231",
+  "evidence": "retrospective post-publication, source already used by Ranke 2021 and Hansson Frank 2026",
+  "source": {
+    "repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence": "Data/presence_data_1994_2022.txt",
+    "presence_sha": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "population": "Data/estimated_pop_sizes_nestling_to_adult_model_with_lurøy_onøy.txt",
+    "population_sha": "c31823caff36dcd07ae30d657f8507a44ab4f7b0"
+  },
+  "known_natal_origin": "only unique nest-stage individual island and birth year, never first adult observation",
+  "destination": "exactly one different island at next calendar year from capt/obs stages, if available",
+  "ambiguous": "exclude individual with more than one nest year/island or next-year destinations; count exclusions",
+  "unseen": "unknown fate, not extinction",
+  "fixed_source_islands": "islands listed by author population model, must equal eleven; do not select result-favorable islands",
+  "cohort_split": {
+    "historical": [
+      1994,
+      2013
+    ],
+    "bridge": [
+      2014,
+      2014
+    ],
+    "later": [
+      2015,
+      2021
+    ],
+    "future_2022": "cannot have 2023 resighting in file"
+  },
+  "results": "full counts of marked nestlings, resident and emigrant resightings, unknown followup, origin-destination edges for each cohort; no p-values or re-fitting",
+  "limits": {
+    "habitat_type_link_not_approved": true,
+    "unknown_recruitment_detection_bias": true,
+    "postpublication": true,
+    "not_confirmatory": true,
+    "only_one_archipelago": true,
+    "not_all_natal_movements": true,
+    "not_demographic_rescue": true,
+    "original_mammal_heldout": false,
+    "eBird": false,
+    "GEB_hold": true
+  }
+}

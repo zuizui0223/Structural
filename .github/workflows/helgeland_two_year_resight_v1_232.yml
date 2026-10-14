@@ -1,0 +1,46 @@
+name: Helgeland observed immigrant destination two-year follow-up v1.232
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - scripts/helgeland_two_year_resight_v1_232.py
+      - tests/test_helgeland_two_year_resight_v1_232.py
+      - development/helgeland_two_year_followup_contract_v1_232.json
+      - .github/workflows/helgeland_two_year_resight_v1_232.yml
+permissions:
+  contents: read
+jobs:
+  same-destination-resighting:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_two_year_resight_v1_232.py
+      - uses: actions/checkout@v4
+        with:
+          repository: torhanssonfrank/DensityRegulationHouseSparrows
+          ref: a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5
+          path: build/helgeland_source
+          persist-credentials: false
+      - run: |
+          python scripts/helgeland_two_year_resight_v1_232.py build/helgeland_source development/helgeland_two_year_followup_contract_v1_232.json --out build/v232/result.json
+          python - <<'PY'
+          import json
+          x=json.load(open("build/v232/result.json"))
+          assert x["original_t1_observed_immigrants"]==460
+          assert x["original_t1_observed_residents"]==1789
+          assert x["no_t2_observation_not_mortality"]
+          assert x["GEB_scientific_HOLD"]
+          print("v1.232 documented multi-year resight observation only: PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v232-helgeland-destination-resighting
+          path: build/v232/result.json
+          retention-days: 21

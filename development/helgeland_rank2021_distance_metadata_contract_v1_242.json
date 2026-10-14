@@ -1,0 +1,33 @@
+{
+  "schema": "structural.helgeland_rank2021_distance_source_metadata_protocol.v1_242",
+  "status": "PUBLISHED_SOURCE_METADATA_ONLY_NO_DISTANCE_VALUES_OR_BIOLOGICAL_RESPONSE_READ",
+  "target": {
+    "original_paper_DOI": "10.1111/1365-2656.13580",
+    "original_paper_data_DOI": "10.5061/dryad.v41ns1rx1",
+    "official_api": "https://datadryad.org/api/v2",
+    "allowed_version": "most recent Published version by versionNumber before outcome lookup",
+    "exact_focal_system": "11 Helgeland house sparrow islands as Ranke 2021 and later Hansson Frank 2026",
+    "prior_relevant_method": "Ranke 2021 explicitly modeled geographic distance, farm/nonfarm habitat and dispersal."
+  },
+  "approved_operations": [
+    "GET Dryad dataset public metadata",
+    "GET Dryad dataset version metadata",
+    "GET files metadata (name,size,SHA256 only) from pinned published version"
+  ],
+  "prohibited_operations": [
+    "download any biological file bytes",
+    "infer island-centroid coordinates",
+    "make up or map unmatched island geonames to exact breeding locations",
+    "score new distance-adjusted R3 using only file names",
+    "unfreeze v1.241 or earlier score",
+    "retry original 529 mammal heldout",
+    "use eBird"
+  ],
+  "next_gate": "If original author-matched pairwise distance or precise natal-breeding locality coordinate table can be identified in the PUBLIC SOURCE with verified semantics and all 11 IDs, freeze before any refit. If not: STOP distance-adjusted claim.",
+  "known_current_results": {
+    "v1_241_R2_minus_H_pooled": -0.09660055727639527,
+    "v1_241_R2_minus_H_when_Sleneset_excluded": 0.04805945055432281,
+    "current_distance_adjustment_absent": true,
+    "original_GEB_scientific_HOLD": true
+  }
+}

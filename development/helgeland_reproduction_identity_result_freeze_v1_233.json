@@ -1,0 +1,56 @@
+{
+  "schema": "structural.helgeland_reproductive_crosswalk_source_result_freeze.v1_233",
+  "status": "PASS_SOURCE_LOCKED_CROSSWALK_WITH_ZERO_EXACT_NEXTYEAR_MIGRANT_OR_RESIDENT_MATCHES",
+  "source": {
+    "repository": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "presence_git_blob": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "population_git_blob": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+    "producer_git_blob": "e6cc1558b740b03b9ca33c3af180e05079bcbba8"
+  },
+  "workflow": {
+    "run": 38107307637,
+    "job": 114375415298,
+    "synthetic_tests": 3,
+    "success": true,
+    "artifact": 11689674732,
+    "digest": "sha256:616e13d34ff63a2ed4bb25fd7c40efe5b5d5e7226b1f36f7e01ff8878f810298"
+  },
+  "geometry": {
+    "raw_presence_rows": 73593,
+    "study_islands": 11,
+    "producer_rows": 1903,
+    "producer_unique_IDs": 1187,
+    "producer_birth_years": [
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014"
+    ],
+    "producer_duplicate_ID_year_island_records": 0,
+    "producer_ID_overlap_with_known_natal": 492,
+    "natal_ambiguous_IDs": 5
+  },
+  "join_failure": {
+    "frozen_birth_to_nextyear_2007_2014_immigrant_observed": 172,
+    "matched_immigrant_producer_ID_year_island_records": 0,
+    "analogous_resident_observed": 697,
+    "matched_resident_producer_ID_year_island_records": 0
+  },
+  "science": {
+    "no_nestling_recruitment_or_offspring_values_semantically_read": true,
+    "individual_ID_only_overlap_not_true_parentage": true,
+    "nextyear_breeding_not_established": true,
+    "need_hatchyear_namespace_and_different_year_audit": true,
+    "no_reproduction_effect_scored": true,
+    "no_rescue_inferred": true,
+    "one_published_archipelago": true,
+    "original_mammal_heldout_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}

@@ -1,0 +1,45 @@
+name: Helgeland nest-marked individual next-year destinations v1.231
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - scripts/helgeland_natal_resight_v1_231.py
+      - tests/test_helgeland_natal_resight_v1_231.py
+      - development/helgeland_natal_resight_contract_v1_231.json
+      - .github/workflows/helgeland_natal_resight_v1_231.yml
+permissions:
+  contents: read
+jobs:
+  published-natal-resight-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_natal_resight_v1_231.py
+      - uses: actions/checkout@v4
+        with:
+          repository: torhanssonfrank/DensityRegulationHouseSparrows
+          ref: a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5
+          path: build/helgeland_source
+          persist-credentials: false
+      - run: |
+          python scripts/helgeland_natal_resight_v1_231.py build/helgeland_source development/helgeland_natal_resight_contract_v1_231.json --out build/v231/summary.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v231/summary.json"))
+          assert r["n_model_islands"]==11
+          assert r["same_2021_and_2026_archipelago"]
+          assert r["GEB_scientific_HOLD"]
+          print("Observed nest-origin next-year recruitment only; no rescue claim")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v231-helgeland-natal-resight
+          path: build/v231/summary.json
+          retention-days: 21

@@ -1,0 +1,55 @@
+{
+  "schema": "structural.helgeland_rank2021_Dryad_source_metadata_result_freeze.v1_242",
+  "status": "PASS_ORIGINAL_2021_SOURCE_VERSION_FILES_IDENTIFIED_NO_DISTANCE_VALUES_VERIFIED",
+  "original_source": {
+    "study": "Ranke et al 2021 Journal of Animal Ecology doi:10.1111/1365-2656.13580",
+    "dryad_dataset_doi": "10.5061/dryad.v41ns1rx1",
+    "published_version_number": 2,
+    "version_id": 136299,
+    "files": {
+      "description.txt": {
+        "bytes": 3266,
+        "sha256": "a8dbce0f8d9f84dbf13b0a1197143cfde83feefb2ff93518655dbcb1959aaa4f"
+      },
+      "emigration.txt": {
+        "bytes": 43464,
+        "sha256": "f97a7b6b776d8e4c09b4529af77722b1506177f06443b802c6ea71d07254db9b"
+      },
+      "immigration.txt": {
+        "bytes": 43527,
+        "sha256": "166364424d601955f1220b317d60b404d84675f7c5a14e498fb8de4d6a1dd2e6"
+      },
+      "island-pairs.txt": {
+        "bytes": 527964,
+        "sha256": "c5d4f44a3f3f0987ad2202d66737754238cf199a51eca07d31af46ee48e2226e"
+      }
+    }
+  },
+  "execution": {
+    "run_id": 38419510281,
+    "job_id": 115372801070,
+    "synthetic_tests_passed": 3,
+    "CI_conclusion": "success",
+    "artifact_id": 11825287546,
+    "artifact_digest": "sha256:f62baffae4880b62d8bf1f92ce0dd7b4c98d39c7771815fbdb47029d1ed1f6a1"
+  },
+  "potential_pair_geo_source": {
+    "filename": "island-pairs.txt",
+    "bytes": 527964,
+    "key_question": "Whether file contains exact island pair distances and original 11 island codes",
+    "actual_distance_matrix_verified": false,
+    "raw_data_source_file_access_attempted": false,
+    "download_and_fields_not_yet_checked": true,
+    "reference_not_upgraded": "Geographical distance remains unaccounted in v1.241; a file name alone cannot justify a distance-adjusted model"
+  },
+  "science_limits": {
+    "original_Ranke_2021_already_reports_negative_distance_effect_and_farm_nonfarm_sorting": true,
+    "v1_241_pooled_R2_minus_H": -0.09660055727639527,
+    "v1_241_when_Sleneset_excluded_R2_minus_H": 0.04805945055432281,
+    "no_new_independent_confirmatory_system": true,
+    "no_proven_causal_source_loss_or_shared_recipient_failure": true,
+    "GEB_scientific_HOLD": true,
+    "eBird_used": false,
+    "original_mammal_heldout_not_reopened": true
+  }
+}

@@ -1,0 +1,7 @@
+# v1.234 — Diagnose producer ID namespace before claiming emigrant offspring output
+
+v1.233 found **492** producer IDs apparently overlapping individual IDs with known nest-origin records, but **zero** exact ID+year+destination producer matches for 172 observed migrant and 697 resident next-year recruits in 2007–2014. This is a critical failed join, not a prompt to search outcome-favorable lag thresholds.
+
+The original producer file contains the recorded `Least_hatchyear` independently of current year. Freeze a source-locked diagnostic comparing it to the `stage=nest` recorded year in the original presence file for every apparent shared ID, and checking **every producer ID/year/island** against actual adult resightings in that year. Report calendar age-offset categories from before birth to 3+ years later, without selecting a convenient offset. Also describe whether ANY producer record appears at the originally observed migrant's receiving island in a subsequent author window year. Do not read `N_nestlings` or `N_Recruits` values.
+
+If an ID namespace is inconsistent or no exact credible join is observed, demographic source contributions remain unidentifiable from these two published files, despite the original author reporting fecundity data. The analysis would fail closed, rather than assigning unrelated offspring to migrants. All same-archipelago historical-study overlap and original GEB scientific HOLD persist.

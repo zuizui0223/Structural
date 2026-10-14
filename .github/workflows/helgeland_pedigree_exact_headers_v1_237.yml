@@ -1,0 +1,41 @@
+name: Helgeland Dryad exact source SHA256 and tabular headers v1.237
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - development/helgeland_pedigree_download_header_contract_v1_237.json
+      - scripts/helgeland_pedigree_exact_headers_v1_237.py
+      - tests/test_helgeland_pedigree_exact_headers_v1_237.py
+      - .github/workflows/helgeland_pedigree_exact_headers_v1_237.yml
+permissions:
+  contents: read
+jobs:
+  locked-source-header-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_pedigree_exact_headers_v1_237.py
+      - name: Dryad official advertised transport and SHA256 headers only
+        run: |
+          python scripts/helgeland_pedigree_exact_headers_v1_237.py development/helgeland_pedigree_download_header_contract_v1_237.json --out build/v237/source_headers.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v237/source_headers.json"))
+          assert d["version_id"]==354268
+          assert d["raw_biological_observation_rows_parsed"]==0
+          assert d["status"] in ("TECHNICAL_STOP_SOURCE_DOWNLOAD_ACCESS","PASS_FIVE_SOURCE_FILE_SHA256_AND_HEADERS_ONLY")
+          assert d["GEB_scientific_HOLD"]
+          print("Published Dryad identity/headers result:",d["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v237-helgeland-pedigree-source-access
+          path: build/v237/source_headers.json
+          retention-days: 21
