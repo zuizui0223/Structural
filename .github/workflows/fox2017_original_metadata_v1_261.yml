@@ -29,7 +29,7 @@ jobs:
           r=json.load(open("build/v261/original_source.json"))
           assert r["dataset_DOI"]=="10.5061/dryad.2rs23"
           assert r["biological_rows_decoded"]==0
-          assert r["status"] in ("PASS_ORIGINAL_DRYAD_EXPERIMENT_FILE_IDENTITIES_ONLY","STOP_ORIGINAL_DRYAD_METADATA_TRANSPORT")
+          assert r["status"] in ("PASS_ORIGINAL_DRYAD_EXPERIMENT_FILE_IDENTITIES_ONLY","HOLD_ORIGINAL_FILE_BYTES_UNAUDITABLE_FROM_PUBLISHER_METADATA","STOP_ORIGINAL_DRYAD_METADATA_TRANSPORT")
           assert r["GEB_scientific_HOLD"]
           print("Original Fox 2017 publisher meta:",r["status"])
           PY
