@@ -1,0 +1,38 @@
+{
+  "schema": "structural.fox2017_published_original_file_metadata_result_freeze.v1_261",
+  "status": "PASS_ORIGINAL_EXPERIMENT_MD5_METADATA_ONLY_ZERO_DATA_BODY_READ",
+  "provenance": {
+    "DOI": "10.5061/dryad.2rs23",
+    "version_number": 1,
+    "version_id": 5720,
+    "github_actions_run": 38566457092,
+    "job_id": 115860253913,
+    "synthetic_tests": 4,
+    "job_success": true,
+    "artifact_id": 11896070764,
+    "artifact_sha256": "c8b9bdec3e2ffa6f9ba702cdb097c1b6b99f6c98cdef50a8514f3745b166ff0a"
+  },
+  "published_files": {
+    "data_for_Fox_et_el_2017_nature_ee.csv": {
+      "id": 29820,
+      "bytes": 323814,
+      "algorithm": "MD5",
+      "digest": "a39aec4a41c5fcb301203ee56f922b89"
+    },
+    "README_for_data_for_Fox_et_el_2017_nature_ee.txt": {
+      "id": 29821,
+      "bytes": 1440,
+      "algorithm": "MD5",
+      "digest": "b25b2ddd88e046ac58849a20a549e9e7"
+    }
+  },
+  "constraints": {
+    "original_paper_DOI": "10.1038/s41559-017-0271-y",
+    "paper_already_published": true,
+    "raw_protist_observations_read": 0,
+    "migration_direction_not_confirmed": true,
+    "independent_confirmatory_systems_added": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}
