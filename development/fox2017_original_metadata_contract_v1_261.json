@@ -1,0 +1,22 @@
+{
+  "schema": "structural.fox2017_original_source_metadata_contract.v1_261",
+  "evidence_class": "RETROSPECTIVE_PUBLISHED_EXPERIMENT_SOURCE_ONLY",
+  "publisher_source": {
+    "article_DOI": "10.1038/s41559-017-0271-y",
+    "Dryad_DOI": "10.5061/dryad.2rs23",
+    "archive_published": "2018-07-17",
+    "exact_files": [
+      "data_for_Fox_et_el_2017_nature_ee.csv",
+      "README_for_data_for_Fox_et_el_2017_nature_ee.txt"
+    ]
+  },
+  "precommitted_action": "Only publisher version/file names, original sizes, checksum digests and IDs; no biological rows, metapop numbers, effect sizes or treatments accessed.",
+  "scientific_question": "When does local source extinction improve persistence through desynchronization despite losing recolonist source capacity? Fox 2017 found spatial hydra under high dispersal, but this already published effect is not a new Structural result.",
+  "future_requirements": [
+    "Independently verified experimental metapopulation units and local patch time series, actual perturbation treatment allocation, recorded 0→1 and 1→0, source-to-target operator or causal experiment",
+    "Do not equate transient Fox perturbation with permanent island loss",
+    "No fresh confirmatory promotion from published dataset"
+  ],
+  "GEB_scientific_HOLD": true,
+  "eBird": false
+}

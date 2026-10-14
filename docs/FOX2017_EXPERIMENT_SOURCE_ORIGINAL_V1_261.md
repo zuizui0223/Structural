@@ -1,0 +1,7 @@
+# v1.261 — Fox (2017) original experiment source authenticity
+
+Fox et al., *Population extinctions can increase metapopulation persistence*, Nat Ecol Evol 2017 DOI 10.1038/s41559-017-0271-y, conducted lab protist predator–prey experiments involving local population extinctions while patches remained intact. The authors already published the spatial hydra phenomenon in high-dispersal regimes. Original CSV and README are publicly catalogued in Dryad dataset DOI 10.5061/dryad.2rs23 (2018-07-17).
+
+Before any retrospective reanalysis, v1.261 checks exact DOI, publisher archived version identity and TWO author-named original files by file IDs, byte size and SHA256. It accesses no experiment rows, does not count replicate metapopulations or identify donor-to-target movement. A metadata transport failure is recorded as a source STOP, not negative ecological evidence.
+
+Scientific boundary: the v1.260 exact mixture-correlation source-loss sign flip is an illustrative known-truth result not fitted to Fox. The prior Matter & Roland (2010, Proc R Soc B DOI 10.1098/rspb.2009.1520) field experiment found local extinctions increased remaining-population synchrony and reduced immigration; this direction too is already published. The experiments differ in source permanence, movement and growth dynamics. An independent source-sealed test of post-loss covariance vs donor viability, direct recolonist arrival and recipient persistence is required for new Structural ecological confirmation. No eBird and GEB heldout remains closed.

@@ -1,0 +1,40 @@
+name: Fox 2017 original spatial hydra publisher metadata v1.261
+on:
+  push:
+    branches: [science/extinction-synchrony-sign-v1-260]
+    paths:
+      - scripts/fox2017_original_metadata_v1_261.py
+      - tests/test_fox2017_original_metadata_v1_261.py
+      - development/fox2017_original_metadata_contract_v1_261.json
+      - .github/workflows/fox2017_original_metadata_v1_261.yml
+permissions:
+  contents: read
+jobs:
+  official-source-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_fox2017_original_metadata_v1_261.py
+      - run: |
+          python scripts/fox2017_original_metadata_v1_261.py --out build/v261/original_source.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v261/original_source.json"))
+          assert r["dataset_DOI"]=="10.5061/dryad.2rs23"
+          assert r["biological_rows_decoded"]==0
+          assert r["status"] in ("PASS_ORIGINAL_DRYAD_EXPERIMENT_FILE_IDENTITIES_ONLY","STOP_ORIGINAL_DRYAD_METADATA_TRANSPORT")
+          assert r["GEB_scientific_HOLD"]
+          print("Original Fox 2017 publisher meta:",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v261-fox2017-original-source
+          path: build/v261/original_source.json
+          retention-days: 21
