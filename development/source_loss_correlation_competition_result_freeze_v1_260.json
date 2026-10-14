@@ -1,0 +1,69 @@
+{
+  "schema": "structural.source_loss_correlated_failure_known_truth_result_freeze.v1_260",
+  "status": "PASS_EXACT_MIXTURE_MODEL_ANALYTIC_AND_ENUMERATION_KNOWN_TRUTH_NOT_EMPIRICAL",
+  "provenance": {
+    "repository": "zuizui0223/Structural",
+    "source_commit": "f22fdd3acbf8bed361866ef61a872252b2ceb7be",
+    "github_actions_run": 38565341805,
+    "job_id": 115856471689,
+    "tests_passed": 7,
+    "conclusion": "success",
+    "artifact_id": 11894985864,
+    "artifact_sha256": "c34cb8516580396d256146b0d481406f385c81928a8092fe428a3082b5b4cbe2"
+  },
+  "model": {
+    "per_donor_marginal_local_failure_probability": 0.35,
+    "before": {
+      "donors": 4,
+      "global_shared_catastrophe": 0.22,
+      "pairwise_failure_correlation": 0.523809523809524
+    },
+    "after_hypothetical_decoupling": {
+      "donors": 3,
+      "global_shared_catastrophe": 0.01,
+      "pairwise_failure_correlation": 0.018759018759018763
+    },
+    "after_without_decoupling": {
+      "donors": 3,
+      "global_shared_catastrophe": 0.22
+    },
+    "formula_no_arrivals": "c+(1-c)*(1-a*(1-q)/(1-c))**n",
+    "formula_expected_arrivals": "n*(1-q)*a",
+    "root_nonzero_arrival_success_probability": 0.49927179513163855
+  },
+  "validated_scenarios": [
+    {
+      "arrival_probability_a": 0.3,
+      "no_arrival_probability_before": 0.466796875,
+      "no_arrival_probability_after": 0.5226618457300274,
+      "delta_after_minus_before": 0.055864970730027386,
+      "interpretation": "donor loss dominates under limited delivery probability"
+    },
+    {
+      "arrival_probability_a": 0.75,
+      "no_arrival_probability_before": 0.2354248046875,
+      "no_arrival_probability_after": 0.13946065771349864,
+      "delta_after_minus_before": -0.09596414697400135,
+      "interpretation": "reduced common failure can outweigh loss of one donor under high delivery probability"
+    },
+    {
+      "arrival_probability_a": 1,
+      "no_arrival_probability_before": 0.22060185185185185,
+      "no_arrival_probability_after": 0.050102030405060706,
+      "delta_after_minus_before": -0.17049982144679116
+    }
+  ],
+  "epistemic_limits": {
+    "model_not_real_dataset": true,
+    "shared_failure_change_NOT_observed_after_real_source_loss": true,
+    "one_step_no_delivery_NOT_island_extinction_colonization_or_regional_persistence": true,
+    "fox_2017_spatial_hydra_published_prior_art": true,
+    "matter_roland_2010_synchrony_increase_published_prior_art": true,
+    "permanent_donor_removal_not_equivalent_to_transient_protist_reset": true,
+    "fox_and_matter_effects_not_analyzed_or_estimated_here": true,
+    "source_leverage_future_hypothesis_v1_123_not_promoted": true,
+    "original_mammal_data_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}
