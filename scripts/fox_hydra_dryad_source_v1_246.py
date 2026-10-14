@@ -52,13 +52,23 @@ def receipt(dataset,ver,filedata):
         size=item.get("size")
         if name not in NAMES or name in out:
             raise ValueError("Unexpected source filename")
-        if not isinstance(sha,str) or re.fullmatch(r"[a-fA-F0-9]{64}",sha) is None:
-            raise ValueError("Unverified source SHA256")
         if not isinstance(size,int) or size<1000:
             raise ValueError("Unverified source size")
-        out[name]={"id":original_id(item,"files"),"bytes":size,"sha256":sha.lower()}
+        # Original archive may expose MD5, SHA256 or no digest. Metadata
+        # cannot be promoted to original-byte verification without a check.
+        digest=(sha or "").strip().lower() if isinstance(sha,str) else ""
+        if re.fullmatch(r"[0-9a-f]{64}",digest):
+            algorithm="publisher_sha256"
+        elif re.fullmatch(r"[0-9a-f]{32}",digest):
+            algorithm="publisher_md5"
+        else:
+            algorithm="UNVERIFIED_SOURCE_DIGEST"
+        out[name]={"id":original_id(item,"files"),"bytes":size,
+                   "source_digest_if_present":digest or None,
+                   "digest_class":algorithm,
+                   "original_file_bytes_read":False}
     return {"schema":"structural.fox_spatial_hydra_published_source_metadata.v1_246",
-            "status":"PASS_PUBLISHED_FOX_DATASET_METADATA_ONLY",
+            "status":("SOURCE_DIGEST_NOT_VERIFIED_HOLD_METADATA_ONLY" if any(x["digest_class"]=="UNVERIFIED_SOURCE_DIGEST" for x in out.values()) else "PASS_PUBLISHED_FOX_DATASET_DIGEST_METADATA_ONLY"),
             "article_DOI":"10.1038/s41559-017-0271-y","data_DOI":DOI,
             "source_version":vv[-1][0],"source_version_id":vv[-1][1],
             "source_files":out,
