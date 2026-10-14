@@ -1,0 +1,41 @@
+name: Fox spatial hydra published source gate v1.246
+on:
+  push:
+    branches: [science/spatial-hydra-counterexample-v1-246]
+    paths:
+      - development/fox_spatial_hydra_source_contract_v1_246.json
+      - scripts/fox_hydra_dryad_source_v1_246.py
+      - tests/test_fox_hydra_dryad_source_v1_246.py
+      - .github/workflows/fox_hydra_dryad_source_v1_246.yml
+permissions:
+  contents: read
+jobs:
+  immutable-author-metadata:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_fox_hydra_dryad_source_v1_246.py
+      - run: |
+          python scripts/fox_hydra_dryad_source_v1_246.py --out build/v246/source.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v246/source.json"))
+          assert r["data_DOI"]=="10.5061/dryad.2rs23"
+          assert len(r["source_files"])==2
+          assert r["biological_data_rows_read"]==0
+          assert r["new_independent_confirmatory_systems"]==0
+          assert r["original_GEB_scientific_HOLD"]
+          print("Fox spatial hydra source metadata verified without biology:",r["source_version_id"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v246-fox-hydra-source
+          path: build/v246/source.json
+          retention-days: 21

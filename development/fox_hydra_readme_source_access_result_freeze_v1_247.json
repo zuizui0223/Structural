@@ -1,0 +1,47 @@
+{
+  "schema": "structural.fox_spatial_hydra_source_README_access_freeze.v1_247",
+  "status": "STOP_AUTHOR_ORIGINAL_README_ACCESS_HTTP_401_403",
+  "source": {
+    "dataset_DOI": "10.5061/dryad.2rs23",
+    "source_version": 1,
+    "source_version_id": 5720,
+    "readme_file_id": 29821,
+    "readme_file_size": 1440,
+    "readme_publisher_MD5": "b25b2ddd88e046ac58849a20a549e9e7",
+    "original_experiment_csv_file_id": 29820,
+    "original_experiment_csv_size": 323814,
+    "original_experiment_csv_MD5": "a39aec4a41c5fcb301203ee56f922b89"
+  },
+  "execution": {
+    "run_id": 38501368489,
+    "job_id": 115648858944,
+    "synthetic_tests_passed": 3,
+    "CI_code_success": true,
+    "artifact_id": 11865802121,
+    "artifact_digest": "sha256:889a5907cc6414f0ab2720dfe4c26936205a55959fc6d1a925921ac9329698e9"
+  },
+  "attempts": [
+    {
+      "url": "https://datadryad.org/api/v2/files/29821/download",
+      "http_status": 401
+    },
+    {
+      "url": "https://datadryad.org/downloads/file_stream/29821",
+      "http_status": 403
+    },
+    {
+      "url": "https://datadryad.org/stash/downloads/file_stream/29821",
+      "http_status": 403
+    }
+  ],
+  "scientific_bounds": {
+    "experiment_readme_original_MD5_body_verified": false,
+    "raw_microcosm_outcomes_read": false,
+    "study_replicate_unit_structure_independently_validated": false,
+    "forced_local_extinction_and_synchrony_effect_already_published_Fox_et_al_2017": true,
+    "source_counts_and_transport_not_inferred_from_metadata": true,
+    "no_new_confirmatory_systems": true,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}

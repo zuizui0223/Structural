@@ -1,0 +1,40 @@
+{
+  "schema": "structural.fox_spatial_hydra_source_metadata_result_freeze.v1_246",
+  "status": "PASS_ORIGINAL_PUBLISHED_MD5_METADATA_ONLY_NOT_A_NEW_BIOLOGICAL_RESULT",
+  "publication": {
+    "paper_DOI": "10.1038/s41559-017-0271-y",
+    "paper_year": 2017,
+    "data_DOI": "10.5061/dryad.2rs23",
+    "data_published": "2018-07-17",
+    "Dryad_version": 1,
+    "Dryad_version_id": 5720
+  },
+  "original_author_files": {
+    "data_for_Fox_et_el_2017_nature_ee.csv": {
+      "file_id": 29820,
+      "bytes": 323814,
+      "source_MD5": "a39aec4a41c5fcb301203ee56f922b89"
+    },
+    "README_for_data_for_Fox_et_el_2017_nature_ee.txt": {
+      "file_id": 29821,
+      "bytes": 1440,
+      "source_MD5": "b25b2ddd88e046ac58849a20a549e9e7"
+    }
+  },
+  "CI": {
+    "run_id": 38501165961,
+    "job_id": 115648205782,
+    "synthetic_tests_passed": 3,
+    "conclusion": "success",
+    "artifact_id": 11866345237,
+    "artifact_digest": "sha256:9858f656f2b7ab0947ed3a028345b5184f3f7b45e08bf554939e47e15468c1b6"
+  },
+  "scientific_limits": {
+    "published_spatial_hydra_effect_prior_art": true,
+    "no_experimental_source_rows_or_treatment_data_decoded": true,
+    "published_MD5_not_yet_verified_against_raw_bytes": true,
+    "no_independent_confirmatory_evidence": true,
+    "original_GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}

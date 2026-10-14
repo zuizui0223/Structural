@@ -1,0 +1,5 @@
+# v1.247 Fox spatial hydra original experimental README
+
+The v1.246 source metadata freeze identified original published Dryad version 1, source README file ID 29821, size 1,440 bytes, MD5 b25b2ddd88e046ac58849a20a549e9e7. Before inspecting even column names of Fox's published experiment, this code attempts exactly the original three publisher-owned download paths. A README is accepted only if original bytes match both MD5 and length; it then reports only a bounded set of source-method lines about treatment, independent replicates, patches, dispersal and local extinction. All CSV biological rows and treatment responses remain UNOPENED.
+
+If publisher download routes return 401/403, the correct result is a technical source-document STOP, not assumption-based reconstructed microcosm design. The hydra mechanism was published in Nature Ecology & Evolution in 2017, and no reproduction of the same effect can be framed as a new discovery. An actually new test would require an independent experiment measuring local catastrophic mortality and realized rescue, not the original exposed response.
