@@ -1,0 +1,60 @@
+{
+  "schema": "structural.helgeland_year_alignment_2026_bird_activity_protocol.v1_245",
+  "evidence_class": "EXPLICIT_POSTOUTCOME_AUDIT_MOTIVATED_BY_V244_POOLED_FAVORABLE_SIGN_AND_2019_2020_CONCENTRATION",
+  "source_identity": {
+    "author_presence_git_sha": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "author_pop_git_sha": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+    "v231_frozen_git_sha": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "v244_precommitted_analysis": "development/helgeland_annual_natal_supply_contract_v1_244.json",
+    "v244_published_outcome_exposed": true,
+    "initial_v244_R2_dynamic_minus_static": -0.045237920688274036
+  },
+  "exact_year_alignment_test": {
+    "real_source_birth_years": [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "destination_labels_fixed_as_recorded_t_plus_1": true,
+    "mark_pattern_year_assignment": "All 7! = 5,040 one-to-one permutations of observed seven year-specific source natal marked nestling count vectors across fixed observed recipient-year labels",
+    "measured_score": "mean observed next-year recorded migrant-destination logloss using previously frozen 1994–2013 historic model and permuted current source nestling counts; compare to fixed static prediction",
+    "primary_route": "R2 symmetric historical pair mobility smoothed to historical same-farm habitat H, tau=10",
+    "secondary_route_sensitivities": [
+      "P0",
+      "H",
+      "C2"
+    ],
+    "evidence_metric": "rank/percentile of correctly aligned seven years among all 5040 labels, INCLUDING observed matching alignment; descriptive only, NOT randomization p-value; years not exchangeable due secular trends/effort",
+    "all_year_counts_anchor": [
+      15,
+      27,
+      34,
+      12,
+      27,
+      41,
+      17
+    ],
+    "all_11_source_islands_same_fixed_model": true,
+    "year_omission": "Report all 7 single-year and all 21 two-year removals of observed-aligned yearly loss contributions; check total 173 documented emigrants; no favorable deletion promoted",
+    "source_island_ablation": "For each of all 11 natal source islands individually, replace ONLY its later 7 observed marked-nestling annual volumes by that island's historical mean; leave every other source's supply dynamic, and hold yields + historical routing unchanged. Compare to all-dynamic loss. This is predictor-state ablation, NOT actual population deletion.",
+    "report_full": "Four route rank distributions (summary counts, min, max, median, matching rank); per-year and all single/double year omissions; all eleven source ablations; no subgroup p or posthoc threshold."
+  },
+  "requirements_and_STOP": {
+    "original_future_test_records_only_labels_no_fitting": true,
+    "original_Helgeland_same_archipelago_published_prior_art": true,
+    "not_a_causal_year_randomization_or_independent_heldout": true,
+    "v241_distance_reference_missing": true,
+    "source_marks_not_biological_viability": true,
+    "if_any_anchor_drift": "STOP instead of changing data or excluding unfavorable years",
+    "no_claim_that_prospectively_independent_donor_failure_predicts_recolonization": true
+  },
+  "guards": {
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "original_global_529_mammal_heldout_reopened": false
+  }
+}
