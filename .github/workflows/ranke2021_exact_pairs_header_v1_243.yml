@@ -1,0 +1,39 @@
+name: Ranke 2021 original island-pair headers source gate v1.243
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - scripts/ranke2021_exact_pairs_header_v1_243.py
+      - tests/test_ranke2021_exact_pairs_header_v1_243.py
+      - .github/workflows/ranke2021_exact_pairs_header_v1_243.yml
+permissions:
+  contents: read
+jobs:
+  original-source:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_ranke2021_exact_pairs_header_v1_243.py
+      - run: |
+          python scripts/ranke2021_exact_pairs_header_v1_243.py --out build/v243/source.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v243/source.json"))
+          assert d["original_Dryad_version_id"]==136299
+          assert d["numeric_distance_rows_decoded"]==0
+          assert d["status"] in ("SOURCE_DOWNLOAD_STOP","PASS_ORIGINAL_SHA256_FILE_HEADERS_ONLY")
+          assert d["GEB_scientific_HOLD"]
+          print("Original Dryad source distance header state:",d["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v243-Ranke-original-pairs
+          path: build/v243/source.json
+          retention-days: 21
