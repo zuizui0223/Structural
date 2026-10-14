@@ -28,8 +28,10 @@ def test_no_wrong_source_file():
 def test_publisher_hash_required():
     d,v,f=fixture()
     f["_embedded"]["stash:files"][0]["digest"]="wrong"
-    with pytest.raises(ValueError,match="hash"):
-        validate(d,v,f)
+    result=validate(d,v,f)
+    assert result["status"]=="HOLD_ORIGINAL_FILE_BYTES_UNAUDITABLE_FROM_PUBLISHER_METADATA"
+    assert not all(x["digest_usable_for_bytewise_verification"]
+                   for x in result["source_file_metadata"].values())
 def test_wrong_dataset_prohibited():
     d,v,f=fixture()
     d["identifier"]="10.5061/dryad.different"
