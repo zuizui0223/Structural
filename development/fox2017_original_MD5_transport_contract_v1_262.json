@@ -1,0 +1,28 @@
+{
+  "schema": "structural.fox2017_original_MD5_download_contract.v1_262",
+  "evidence": "already published and source metadata opened in v1.261",
+  "source": {
+    "DOI": "10.5061/dryad.2rs23",
+    "version_id": 5720,
+    "files": [
+      {
+        "name": "data_for_Fox_et_el_2017_nature_ee.csv",
+        "id": 29820,
+        "bytes": 323814,
+        "md5": "a39aec4a41c5fcb301203ee56f922b89"
+      },
+      {
+        "name": "README_for_data_for_Fox_et_el_2017_nature_ee.txt",
+        "id": 29821,
+        "bytes": 1440,
+        "md5": "b25b2ddd88e046ac58849a20a549e9e7"
+      }
+    ]
+  },
+  "only_allowed_routes": "Three original publisher file-ID API/website URL variants; accept ONLY exact published MD5 and byte counts for two fixed files",
+  "decode": "CSV header row and author README semantic data dictionary only; no protist cell body",
+  "if_401_403": "technical STOP, no data semantics, no biological inference. Never fall back to another dataset, DOI, version or synthetic observations.",
+  "independent_confirmatory": false,
+  "GEB_scientific_HOLD": true,
+  "eBird": false
+}
