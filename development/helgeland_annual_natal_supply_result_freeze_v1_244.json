@@ -1,0 +1,110 @@
+{
+  "schema": "structural.helgeland_annual_source_volume_result_freeze.v1_244",
+  "status": "EXECUTED_PUBLISHED_SOURCE_TEMPORAL_MARKED_COHORT_PREDICTION_WITH_7_YEAR_HETEROGENEITY",
+  "provenance": {
+    "original_author_repo": "torhanssonfrank/DensityRegulationHouseSparrows",
+    "original_author_commit": "a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5",
+    "original_presence_git_blob": "c998367c55d0d88ec17e6d1dc2931a97c46aff55",
+    "original_island_population_git_blob": "c31823caff36dcd07ae30d657f8507a44ab4f7b0",
+    "original_v231_natal_migrant_summary_git_blob": "955d58e958b2f241cda726706bec0260fea79dd5",
+    "precommitted_protocol_commit": "96249bc6c8727b69267814ad44113a33f538914e",
+    "code_commit": "1966ad06deb35a3a533087c7a31a13da0962c77c",
+    "CI_run": 38499076516,
+    "CI_job": 115641467191,
+    "tests_passed": 3,
+    "CI_conclusion": "success",
+    "artifact_id": 11865061347,
+    "artifact_sha256": "8109dbbba5a91b5748e8066693989e2d4b9fdcbd4a46914549037a3452ee7653"
+  },
+  "cohorts": {
+    "historical_train_birth_years": "1994-2013",
+    "historical_natal_marked": 9868,
+    "historical_documented_firstyear_emigrants": 259,
+    "excluded_birth_year_2014_marked": 664,
+    "excluded_2014_documented_emigrants": 28,
+    "later_test_birth_years": "2015-2021",
+    "test_birth_years": 7,
+    "test_natal_marked_total": 4484,
+    "test_documented_immigrants": 173,
+    "endpoint": "receiving island conditional on resighting next calendar year as a known natal-origin emigrant"
+  },
+  "forecast_mechanism": {
+    "static": "historic 20-year mean natal-marked per donor × historic observed emigrant yield per nest mark × frozen historical conditional directed/undirected/habitat route",
+    "dynamic": "replace only historic donor marked-nestling mean with current birth-year nest-marked count",
+    "yields": "(historic observed emigrants from source +.5)/(historical marked nestlings from source+1)",
+    "no_future_outcome_predictors": true,
+    "neither_true_breeding_output_nor_survival_or_true_source_viability_identified": true,
+    "habitat_R2_route_not_explicit_physical_distance_adjusted": true
+  },
+  "heldout_mean_negative_logloss": {
+    "P0": {
+      "static": 2.0110453704746805,
+      "dynamic": 2.0220756854602104,
+      "difference": 0.011030314985529976
+    },
+    "H": {
+      "static": 1.9501531851133147,
+      "dynamic": 1.9337383667451644,
+      "difference": -0.016414818368150286
+    },
+    "R2": {
+      "static": 1.9687875628786762,
+      "dynamic": 1.9235496421904021,
+      "difference": -0.045237920688274036
+    },
+    "C2": {
+      "static": 1.977371845247034,
+      "dynamic": 1.9150442224860431,
+      "difference": -0.0623276227609908
+    }
+  },
+  "R2_seven_years": [
+    {
+      "birth_year": 2015,
+      "n_recorded_immigrants": 15,
+      "dynamic_minus_static": 0.012689511796275591
+    },
+    {
+      "birth_year": 2016,
+      "n_recorded_immigrants": 27,
+      "dynamic_minus_static": -0.013312819495164229
+    },
+    {
+      "birth_year": 2017,
+      "n_recorded_immigrants": 34,
+      "dynamic_minus_static": -0.02730029901645908
+    },
+    {
+      "birth_year": 2018,
+      "n_recorded_immigrants": 12,
+      "dynamic_minus_static": 0.04065501477817227
+    },
+    {
+      "birth_year": 2019,
+      "n_recorded_immigrants": 27,
+      "dynamic_minus_static": -0.1816777968618684
+    },
+    {
+      "birth_year": 2020,
+      "n_recorded_immigrants": 41,
+      "dynamic_minus_static": -0.11515020388505474
+    },
+    {
+      "birth_year": 2021,
+      "n_recorded_immigrants": 17,
+      "dynamic_minus_static": 0.14175011965488776
+    }
+  ],
+  "limits": {
+    "only_four_of_seven_birth_years_favor_R2_dynamic": true,
+    "improvement_2019_2020_concentrated": true,
+    "no_source_loss_or_0to1_population_rescue_estimated": true,
+    "no_fresh_independent_heldout_system": true,
+    "original_Ranke_2021_already_studied_productivity_dispersal_dependence": true,
+    "marked_nestling_counts_may_track_sampling_effort": true,
+    "true_dispersal_probabilities_unidentified": true,
+    "original_GEB_HOLD": true,
+    "eBird": false,
+    "original_mammal_heldout_unopened": true
+  }
+}
