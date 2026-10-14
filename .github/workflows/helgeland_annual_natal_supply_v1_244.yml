@@ -1,0 +1,51 @@
+name: Helgeland natal-source annual availability heldout destination v1.244
+on:
+  push:
+    branches: [science/helgeland-archipelago-source-intake-v1-230]
+    paths:
+      - scripts/helgeland_annual_natal_supply_v1_244.py
+      - tests/test_helgeland_annual_natal_supply_v1_244.py
+      - development/helgeland_annual_natal_supply_contract_v1_244.json
+      - .github/workflows/helgeland_annual_natal_supply_v1_244.yml
+permissions:
+  contents: read
+jobs:
+  published-yearly-source-activity:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_helgeland_annual_natal_supply_v1_244.py
+      - uses: actions/checkout@v4
+        with:
+          repository: torhanssonfrank/DensityRegulationHouseSparrows
+          ref: a4e1c9ebc1148d7c7aca2bb5730b9d7104094fe5
+          path: build/helgeland_author
+          persist-credentials: false
+      - name: Complete published source-locked historical versus later year scoring
+        run: |
+          python scripts/helgeland_annual_natal_supply_v1_244.py build/helgeland_author development/helgeland_natal_resight_result_freeze_v1_231.json --out build/v244/result.json
+          python - <<'PY'
+          import json
+          r=json.load(open("build/v244/result.json"))
+          assert r["training_historical_marked_total"]==9868
+          assert r["training_historical_movers"]==259
+          assert r["test_future_marked_total"]==4484
+          assert r["test_future_documented_movers"]==173
+          assert r["2014_boundary_marked_and_movers_excluded"]==[664,28]
+          assert len(r["all_seven_test_birth_years"])==7
+          assert set(r["all_predeclared_route_sensitivities"])=={"P0","H","R2","C2"}
+          assert r["GEB_scientific_HOLD"]
+          print("Temporal source volume prediction explicitly retrospective:",r["main_primary_dynamic_minus_static"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v244-helgeland-annual-donor-volume
+          path: build/v244/result.json
+          retention-days: 21
