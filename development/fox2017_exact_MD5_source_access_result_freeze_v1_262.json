@@ -1,0 +1,36 @@
+{
+  "schema": "structural.fox2017_original_file_data_access_result_freeze.v1_262",
+  "status": "TECHNICAL_STOP_2017_DRYAD_SOURCE_BYTES_INACCESSIBLE_401_API_403_PUBLIC",
+  "provenance": {
+    "version_id": 5720,
+    "file_ids": [
+      29820,
+      29821
+    ],
+    "source_MD5s": [
+      "a39aec4a41c5fcb301203ee56f922b89",
+      "b25b2ddd88e046ac58849a20a549e9e7"
+    ],
+    "github_actions_run": 38566852268,
+    "job_id": 115861612619,
+    "synthetic_tests": 3,
+    "CI_success": "code and technical stop status passed; original source body NOT available",
+    "artifact_id": 11896091458,
+    "artifact_sha256": "e155a6333c0ae7687bb11e95f567ecb62adfca943fab3676574031fb9cf17bde"
+  },
+  "source_transport_result": {
+    "publisher_API_file_download": "HTTP401 both",
+    "publisher_public_stream": "HTTP403 both",
+    "publisher_legacy_public_stream": "HTTP403 both"
+  },
+  "consequences": {
+    "fox2017_observation_rows_opened": 0,
+    "source_experiment_reanalysis_done": false,
+    "original_2017_biological_conclusions_not_recomputed": true,
+    "known_truth_v260_remains_synthetic_not_matched_to_Fox": true,
+    "no_spatial_hydra_new_discovery": true,
+    "no_confirmatory_system_admitted": true,
+    "original_GEB_HOLD": true,
+    "eBird": false
+  }
+}
