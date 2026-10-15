@@ -1,0 +1,88 @@
+{
+  "schema": "structural.higher_order_cutset_known_truth_protocol.v1_246",
+  "status": "MATHEMATICAL_KNOWN_TRUTH_NOT_EMPIRICAL_ECOLOGICAL_EFFECT",
+  "source_context": [
+    {
+      "article": "Fox et al. 2017 Nature Ecology & Evolution",
+      "doi": "10.1038/s41559-017-0271-y",
+      "prior_art": "deliberate catastrophic local extinction can disrupt spatial synchrony and increase persistence in cycling lab protist metapopulations; phenomenon spatial hydra effect already published"
+    },
+    {
+      "article": "Matter and Roland 2009/2010 Proceedings Royal Society B",
+      "doi": "10.1098/rspb.2009.1520",
+      "prior_art": "severe annual adult removal of 2 of 17 butterfly meadow populations reduced immigration to neighboring meadows, increased local synchrony"
+    },
+    {
+      "article": "Matter and Roland 2010 Oikos",
+      "doi": "10.1111/j.1600-0706.2010.18666.x",
+      "prior_art": "reductions in within-generation abundance but limited documented effects on surrounding population persistence"
+    },
+    {
+      "article": "Park et al. 2024 Royal Society Open Science",
+      "doi": "10.1098/rsos.240557",
+      "prior_art": "same butterfly adult-removal experiment, target populations persisted despite 8 generations of observed adult removal, genetic evidence consistent with immigrants from multiple sources; NOT realized local extinction"
+    }
+  ],
+  "predeclared_binary_viability_space": {
+    "n_potential_donor_islands": 4,
+    "state_bits": "x=(x1,x2,x3,x4), xi=1 if natal donor potentially viable, 0 if unavailable",
+    "all_sixteen_source_availability_vectors": "cartesian {0,1}^4",
+    "fixed_pmf_formula": "p_s(x)=1/16 + s/32 [(-1)^(x1+x2+x3) - (-1)^(x1+x2+x4)]",
+    "compared_s_values": [
+      -1,
+      1
+    ],
+    "four_pairwise_joint_live_probabilities": "1/4 for every unordered pair",
+    "four_marginal_viability_probabilities": "1/2 for each donor",
+    "full_global_live_donor_count_histogram": "binomial 4 choose k divided by 16 for k=0..4, equal between worlds",
+    "proof_obligations": [
+      "Both 16-state laws nonnegative, exactly total mass 1",
+      "Each donor marginal identical at 1/2",
+      "Each of six donor pairs has identical joint viability 1/4, covariance 0",
+      "Every global source-count state k=0..4 has identical probability, not only matching mean",
+      "Both receivers have 3 potentially accessible donors and one excluded donor",
+      "Recipient A has donor set {1,2,3}, B has donor set {1,2,4}, both fixed across worlds",
+      "A's source-unavailable-all risk and B's must interchange between two worlds",
+      "Absolute A risk difference exactly 1/8 and ratio of high/low exactly 3",
+      "Aggregate mean risk of A/B equal between worlds; risk redistribution rather than universal improvement"
+    ]
+  },
+  "exact_target": {
+    "recipient_A_accessible_sources": [
+      1,
+      2,
+      3
+    ],
+    "recipient_B_accessible_sources": [
+      1,
+      2,
+      4
+    ],
+    "outcome": "all accessible donor viability bits 0 at source-state observation; NOT measured arrival or local extinction",
+    "rescue_opportunity_not_actual_rescue": "At least one accessible viable donor; potential opportunity only, no arrival/colonization/fitness",
+    "required_result": {
+      "minus_world_A_failure": "1/16",
+      "plus_world_A_failure": "3/16",
+      "minus_world_B_failure": "3/16",
+      "plus_world_B_failure": "1/16",
+      "difference_A_plus_minus": "1/8",
+      "difference_B_plus_minus": "-1/8",
+      "both_worlds_global_zero_donor_probability": "1/16",
+      "assumption_qualifier": "No directed movement intensities, distance or weather given"
+    }
+  },
+  "ecological_question": "Even after observing the full global donor-count distribution and every marginal/pairwise donor cofailure relation, does higher-order joint donor unavailability interacting with recipient-specific accessibility predict failure of all local replacement source options?",
+  "specific_future_measurement": {
+    "independent_prospective_study": "Four-or-more natal donor groups with independently measured time-resolved viability, source-to-recipient directional access, contemporaneous environmental covariates, and recipient next-interval actual recolonization",
+    "primary_mechanism": "A recipient-specific triple-donor cutoff/last viable source failure event must predict later true local colonization opportunity or persistence beyond donor count and pairwise synchrony reference.",
+    "reference_controls": "Number and identities of accessible source islands, empirical marginals and pairwise cofailure, full global donor-count histogram, source-to-recipient distances, habitat/environment/effort, actual source abundance as measured",
+    "evidence_boundary": "Known truth alone counts ZERO ecological observations, effect sizes, confirmatory runs or evidence of real extinction."
+  },
+  "Structural_scientific_firewall": {
+    "original_global_mammal_response_unopened": true,
+    "old_GEB_HOLD_maintained": true,
+    "all_v0_31_v0_42_future_gates_unchanged": true,
+    "source_leverage_v1_123_preexisting_hypothesis_not_relabelled_as_new": true,
+    "eBird_used": false
+  }
+}
