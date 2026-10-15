@@ -53,6 +53,13 @@ def file_id(file):
     m=re.fullmatch(r"/api/v2/files/(\d+)",p.path)
     if m is None:raise ValueError("No source file id")
     return int(m.group(1))
+def digest_algorithm_from_publisher_hex(value):
+    if not isinstance(value,str) or re.fullmatch(r"[0-9a-fA-F]+",value) is None:
+        raise ValueError("Unrecognized published digest characters")
+    if len(value)==32:return "md5"
+    if len(value)==64:return "sha256"
+    raise ValueError("Unrecognized published digest length")
+
 def file_metadata(data):
     e=(data.get("_embedded") or {}).get("stash:files")
     if not isinstance(e,list) or data.get("total")!=len(e):
@@ -67,7 +74,8 @@ def file_metadata(data):
     return {name:{
          "publisher_file_id":file_id(f),
          "bytes":f.get("size"),
-         "sha256":f.get("digest"),
+         "digest":f.get("digest"),
+         "published_digest_algorithm":digest_algorithm_from_publisher_hex(f.get("digest")),
          "download_advertised":bool((f.get("_links") or {}).get("stash:download"))
     } for name,f in files.items()}
 
@@ -89,7 +97,10 @@ def check_readme(name,meta):
             checks.append({"source_route":url.split("/files/")[0] if "/files/" in url else "public_html",
                            "status":getattr(err,"code",None),"kind":type(err).__name__})
             continue
-        if len(raw)!=n or hashlib.sha256(raw).hexdigest()!=meta["sha256"]:
+        alg=meta["published_digest_algorithm"]
+        actual=(hashlib.md5(raw).hexdigest() if alg=="md5" else
+                hashlib.sha256(raw).hexdigest())
+        if len(raw)!=n or actual.lower()!=meta["digest"].lower():
             checks.append({"source_route":"publisher","status":"RAW_NOTE_HASH_MISMATCH"})
             continue
         try:content=raw.decode("utf-8-sig")
