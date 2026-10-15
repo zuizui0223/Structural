@@ -1,0 +1,65 @@
+{
+  "schema": "structural.higher_order_source_cofailure_exact_result_freeze.v1_246",
+  "status": "PASS_16_STATE_KNOWN_TRUTH_NONEMPIRICAL_HIGHER_ORDER_CUTSET",
+  "provenance": {
+    "protocol_commit_before_code": "cd3b690d1379a4e10b7fc4b374a4a2205792f184",
+    "code_commit": "4fc9b2ca090fc0730552e22b65502b25f7101f45",
+    "CI_run": 38671673575,
+    "CI_job": 116215978150,
+    "synthetic_tests_passed": 10,
+    "workflow_conclusion": "success",
+    "artifact_id": 11944237382,
+    "artifact_digest": "sha256:1f6400451ee6a68b3bbdd353617d12b92aa4150ec30b1537661cff74e5676933"
+  },
+  "four_donor_worlds": {
+    "source_availability_states": 16,
+    "distribution": "p_s(x)=1/16+(s/32)*[(-1)^(x1+x2+x3)-(-1)^(x1+x2+x4)], s in {-1,+1}",
+    "per_source_viable_probability": "1/2",
+    "each_of_six_pairs_jointly_viable_probability": "1/4",
+    "pairwise_covariances": "0",
+    "full_joint_global_viable_source_count_distribution": [
+      "1/16",
+      "4/16",
+      "6/16",
+      "4/16",
+      "1/16"
+    ],
+    "both_worlds_all_four_nonviable_probability": "1/16"
+  },
+  "recipients": {
+    "recipient_A_accessible_donors": [
+      1,
+      2,
+      3
+    ],
+    "recipient_B_accessible_donors": [
+      1,
+      2,
+      4
+    ],
+    "minus_world": {
+      "A_all_accessible_unavailable": "1/16",
+      "B_all_accessible_unavailable": "3/16"
+    },
+    "plus_world": {
+      "A_all_accessible_unavailable": "3/16",
+      "B_all_accessible_unavailable": "1/16"
+    },
+    "maximum_to_minimum_ratio": "3",
+    "risk_abs_difference_between_worlds": "1/8",
+    "both_worlds_aggregate_A_plus_B_cutset_risk": "1/4",
+    "both_worlds_both_receivers_all_donors_nonviable": "1/16"
+  },
+  "epistemic_boundary": {
+    "exact_rational_mathematics_not_real_biological_observation": true,
+    "no_actual_dispersal_travel_recruitment_or_rescue_events": true,
+    "recipient_donor_eligibility_is_fixed_assumed_access_map": true,
+    "recolonization_given_any_viable_donor_not_guaranteed": true,
+    "does_not_discover_2017_spatial_hydra_effect": true,
+    "butterfly_Matter_2009_2010_and_Park_2024_same_experimental_lineage": true,
+    "no_confirmatory_system_admitted": true,
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "original_A_Islands_Global_mammal_heldout_values_unopened": true
+  }
+}
