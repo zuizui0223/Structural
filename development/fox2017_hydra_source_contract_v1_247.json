@@ -1,0 +1,34 @@
+{
+  "schema": "structural.fox2017_spatial_hydra_public_metadata_protocol.v1_247",
+  "status": "METADATA_ONLY_INDEPENDENT_PUBLISHED_EXPERIMENT_NOT_CONFIRMATORY",
+  "scientific_purpose": "See whether Fox et al. 2017 actual experimental record has time-resolved individual-patch source failure and correct independent replicate ID needed to measure v1.246 direct-loss versus feedback terms.",
+  "source": {
+    "journal_DOI": "10.1038/s41559-017-0271-y",
+    "dryad_DOI": "10.5061/dryad.2rs23",
+    "published_dataset_date": "2018-07-17",
+    "fixed_original_filenames": [
+      "data_for_Fox_et_el_2017_nature_ee.csv",
+      "README_for_data_for_Fox_et_el_2017_nature_ee.txt"
+    ]
+  },
+  "provenance_vs_v246": "Fox effect already published. New two-paper competing-mechanism decomposition v1.246 was synthetic only. This is source metadata for a RETROSPECTIVE measurement feasibility question.",
+  "methodological_requirements": [
+    "Whole metapopulation experimental replicates distinct from patches and patch-time rows",
+    "Exact time of forced extinction and independently measured source-to-target true deliverable donor states",
+    "Control and intervention pre/post joint state of remaining donors with detection and time lag",
+    "Distinguish observed synchronized predator counts from actual joint viable migrant DELIVERY",
+    "Whole system time-to-extinction field and treatment status distinct from window probability"
+  ],
+  "technical": {
+    "meta_api": "Official Dryad version and 2 file identities (sizes and SHA256)",
+    "allowed_download": "only original README through two official publisher methods URLs, with exact size/SHA256 check",
+    "forbidden": "No biological CSV downloaded or read, no replicate/persistence score, no new effect, no filename substitution",
+    "stop": "HTTP 401/403 or no verified method notes => source access STOP, no inferred patch-level data structure"
+  },
+  "guards": {
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "original_529_mammal_heldout_unopened": true,
+    "zero_new_confirmatory_systems": true
+  }
+}
