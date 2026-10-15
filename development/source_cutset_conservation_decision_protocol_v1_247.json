@@ -1,0 +1,41 @@
+{
+  "schema": "structural.higher_order_source_cutset_conservation_decision_protocol.v1_247",
+  "status": "PURE_POLICY_KNOWN_TRUTH_NO_COST_OR_INTERVENTION_DATA",
+  "parent_v246": "development/higher_order_source_cutset_result_freeze_v1_246.json",
+  "frozen_original_viability_model": "p_s(x)=1/16+s/32[(-1)^(x1+x2+x3)-(-1)^(x1+x2+x4)], s ±1",
+  "observed_summaries_indistinguishable": [
+    "all 4 per-source marginal viability",
+    "all 6 pairwise co-viabilities/covariances",
+    "global viable-source-count histogram k0..4",
+    "receiver donor-accessibility sets A=(1,2,3), B=(1,2,4)"
+  ],
+  "action": "Choose exactly one of recipient A or recipient B for a supplemental potential donor, equal cost, whose viability succeeds with a fixed probability q independently of all existing donors. The action does not change other donor states and does not ensure actual recolonization.",
+  "fixed_premisses": [
+    "No change to source→target movement capacity assumed except this potential additional donor",
+    "No redistribution of actual migrants or competition",
+    "Supplying additional donor prevents all-accessible-donors-unavailable event for protected receiver only when donor viable",
+    "No intervention effectiveness/cost is measured in ecology; this is an explicit hypothetical conservation decision"
+  ],
+  "q_grid_exact": [
+    "1/4",
+    "1/2",
+    "1"
+  ],
+  "decision_criterion": "maximize reduction of probability selected receiving island has no potentially viable accessible donor = q*P(original local cutset failure), with equal costs",
+  "predeclared_output": [
+    "full minus and plus world results for every q and each action",
+    "optimal receiver A/B for each world and signed intervention regret of choosing the wrong receiver",
+    "same aggregate no-addition risk 1/4 across A+B",
+    "at q=1 either world optimal reduction 3/16 and suboptimal reduction 1/16, difference 1/8",
+    "at q=1/2 optimal reduction 3/32 and suboptimal 1/32, regret 1/16",
+    "the summary-only model sees identical features and cannot select the receiver; selecting a single recipient based only on summaries may regret 1/8 at q1"
+  ],
+  "evidence_boundary": {
+    "no_real_source_restoration_intervention": true,
+    "no_demographic_persistence_or_immigrant_arrival": true,
+    "no_species_population_field_measurements": true,
+    "new_confirmatory_evidence": false,
+    "old_GEB_HOLD": true,
+    "eBird": false
+  }
+}
