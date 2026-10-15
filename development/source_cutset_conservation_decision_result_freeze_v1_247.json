@@ -1,0 +1,64 @@
+{
+  "schema": "structural.higher_order_donor_cutset_conservation_decision_result_freeze.v1_247",
+  "status": "PASS_EXACT_CONSERVATION_CHOICE_KNOWN_TRUTH_NOT_AN_ACTUAL_RESTORATION",
+  "provenance": {
+    "original_source_cutset_protocol_commit": "cd3b690d1379a4e10b7fc4b374a4a2205792f184",
+    "v246_source_witness_commit": "4fc9b2ca090fc0730552e22b65502b25f7101f45",
+    "v246_freeze_path": "development/higher_order_source_cutset_result_freeze_v1_246.json",
+    "v247_protocol_commit": "6d2f70060cf6f07cc8cba2b04f3c3b4f96d659a5",
+    "v247_code_commit": "29cffd299d4781124178f7a072724df6c09f0dcf",
+    "CI_run": 38672010776,
+    "CI_job": 116217079052,
+    "CI_conclusion": "success",
+    "synthetic_tests": 7,
+    "artifact_id": 11944064488,
+    "artifact_digest": "sha256:0c23fa2364291d439c5d90377b415b02f73c3622b6ea9e6aa88f11da6c968b18"
+  },
+  "hypothetical_actions": {
+    "cost": "identical for A or B",
+    "restriction": "choose exactly one recipient island",
+    "mechanism": "chosen recipient gets a new supplemental potential donor with independent viability chance q; when viable, it prevents no-potential-donor state, not actual species rescue",
+    "fixed_q_grid": [
+      "1/4",
+      "1/2",
+      "1"
+    ]
+  },
+  "model_worlds": {
+    "minus": {
+      "baseline_A_cutset_failure": "1/16",
+      "baseline_B_cutset_failure": "3/16",
+      "optimal_A_or_B": "B"
+    },
+    "plus": {
+      "baseline_A_cutset_failure": "3/16",
+      "baseline_B_cutset_failure": "1/16",
+      "optimal_A_or_B": "A"
+    },
+    "both_worlds_same_every_donor_marginal_and_pairwise_and_entire_count_histogram": true,
+    "both_worlds_same_aggregate_AplusB_risk": "1/4"
+  },
+  "intervention_exact_results": {
+    "q_1": {
+      "correct_action_expected_cutset_risk_avoided": "3/16",
+      "wrong_action_expected_cutset_risk_avoided": "1/16",
+      "difference": "1/8"
+    },
+    "q_1_2": {
+      "correct_action_expected_cutset_risk_avoided": "3/32",
+      "wrong_action_expected_cutset_risk_avoided": "1/32",
+      "difference": "1/16"
+    },
+    "for_all_fixed_q": "Choice ranking opposite in two otherwise marginal/pairwise/global-count identical worlds"
+  },
+  "ecological_limits": {
+    "no_donor_or_recipient_biological_field_measurement": true,
+    "no_actual_supplemental_source_restoration_cost_or_efficacy_known": true,
+    "source_viability_not_realized_dispersal": true,
+    "recipient_cutset_risk_not_recipient_population_extinction_probability": true,
+    "ecological_mechanism_untested_and_no_new_confirmatory_evidence": true,
+    "original_mammal_heldout_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}
