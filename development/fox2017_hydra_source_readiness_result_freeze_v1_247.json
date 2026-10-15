@@ -1,0 +1,51 @@
+{
+  "schema": "structural.fox2017_published_source_readiness_freeze.v1_247",
+  "status": "PASS_ORIGINAL_DRYAD_METADATA_METHOD_README_TECHNICAL_STOP",
+  "source": {
+    "paper_DOI": "10.1038/s41559-017-0271-y",
+    "dataset_DOI": "10.5061/dryad.2rs23",
+    "version_number": 1,
+    "version_id": 5720,
+    "files": {
+      "data_for_Fox_et_el_2017_nature_ee.csv": {
+        "publisher_file_id": 29820,
+        "byte_size": 323814,
+        "publisher_MD5": "a39aec4a41c5fcb301203ee56f922b89"
+      },
+      "README_for_data_for_Fox_et_el_2017_nature_ee.txt": {
+        "publisher_file_id": 29821,
+        "byte_size": 1440,
+        "publisher_MD5": "b25b2ddd88e046ac58849a20a549e9e7"
+      }
+    }
+  },
+  "provenance": {
+    "last_success_run_id": 38700542330,
+    "job_id": 116307382816,
+    "synthetic_tests_passed": 5,
+    "workflow_conclusion": "success",
+    "artifact_id": 11956480934,
+    "artifact_digest": "sha256:100cf049ec2bfaffdfd69f570c43fc6608373ec4c960a079a913487c2ce28476"
+  },
+  "technical_gate": {
+    "all_published_file_names_sizes_digests_verified_from_Dryad_metadata": true,
+    "old_32_char_publisher_digests_are_MD5_not_SHA256": true,
+    "original_README_API_http_status": 401,
+    "original_README_web_http_status": 403,
+    "biological_CSV_downloaded": false,
+    "experimental_patch_level_rows_read": 0,
+    "independent_metapopulation_replicates_confirmed_from_raw": false,
+    "actual_directed_source_to_target_delivery_per_timestep_confirmed": false,
+    "retrospective_mechanism_estimation_authorized": false,
+    "user_confirmation_not_needed_for_public_metadata": false,
+    "no_additional_source_version_substitution": true
+  },
+  "scientific_limits": {
+    "Fox_et_al_2017_spatial_hydra_has_already_been_published": true,
+    "Matter_Roland_2010_field_synchrony_distinct_endpoint": true,
+    "no_new_independent_confirmatory_system": true,
+    "original_GEB_scientific_HOLD": true,
+    "eBird": false,
+    "mammal_heldout_unopened": true
+  }
+}
