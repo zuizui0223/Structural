@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
 from fox2017_hydra_source_readiness_v1_247 import (
-    published_versions,file_metadata,check_readme,FILES)
+    published_versions,file_metadata,check_readme,FILES,digest_algorithm_from_publisher_hex)
 
 def test_original_two_file_version_source_metadata():
     ver={"_embedded":{"stash:versions":[{
@@ -32,3 +32,10 @@ def test_unapproved_version_host_refused():
     vv={"_embedded":{"stash:versions":[{"versionNumber":1,
         "_links":{"self":{"href":"https://evil.example/api/v2/versions/1"}}}]}}
     with pytest.raises(ValueError):published_versions(vv)
+
+def test_legacy_source_MD5_never_labelled_sha256():
+    assert digest_algorithm_from_publisher_hex("b25b2ddd88e046ac58849a20a549e9e7")=="md5"
+    assert digest_algorithm_from_publisher_hex("a39aec4a41c5fcb301203ee56f922b89")=="md5"
+    assert digest_algorithm_from_publisher_hex("a"*64)=="sha256"
+    with pytest.raises(ValueError):digest_algorithm_from_publisher_hex("not a publisher checksum")
+    with pytest.raises(ValueError):digest_algorithm_from_publisher_hex("a"*40)
