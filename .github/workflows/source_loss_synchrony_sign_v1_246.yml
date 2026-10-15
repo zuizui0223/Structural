@@ -1,0 +1,45 @@
+name: Exact source-loss synchrony countermechanism v1.246
+on:
+  push:
+    branches: [science/source-loss-synchrony-sign-gate-v1-246]
+    paths:
+      - scripts/source_loss_synchrony_mechanism_sign_v1_246.py
+      - tests/test_source_loss_synchrony_mechanism_sign_v1_246.py
+      - development/competing_source_loss_mechanism_protocol_v1_246.json
+      - .github/workflows/source_loss_synchrony_sign_v1_246.yml
+permissions:
+  contents: read
+jobs:
+  synthetic-known-truth-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact fraction identities, source-roster and synthetic counterexamples
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_source_loss_synchrony_mechanism_sign_v1_246.py
+      - name: Source-loss sign gate, no biological outcomes or network labels
+        run: |
+          python scripts/source_loss_synchrony_mechanism_sign_v1_246.py --out build/v246/result.json
+          python - <<'PY'
+          import json
+          from fractions import Fraction
+          r=json.load(open("build/v246/result.json"))
+          e=r["examples"]
+          assert Fraction(e["hydra_like_decorrelation"]["calculation"]["total_change_in_no_viable_delivery"]["exact"])==-Fraction(1,20)
+          assert Fraction(e["static_deletion_no_feedback"]["calculation"]["total_change_in_no_viable_delivery"]["exact"])==Fraction(1,5)
+          assert Fraction(e["amplified_cofailure_after_removal"]["calculation"]["total_change_in_no_viable_delivery"]["exact"])==Fraction(7,20)
+          assert r["GEB_scientific_HOLD"]
+          assert r["no_empirical_persistence_or_source_colonization_measured"]
+          print("v1.246 exact source-loss intervention signs: PASS, synthetic only")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v246-source-loss-sign-known-truth
+          path: build/v246/result.json
+          retention-days: 21
