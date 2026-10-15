@@ -1,0 +1,45 @@
+name: Conservation-choice higher-order cutset known truth v1.247
+on:
+  push:
+    branches: [science/higher-order-donor-cutsets-v1-246]
+    paths:
+      - development/source_cutset_conservation_decision_protocol_v1_247.json
+      - scripts/higher_order_cutset_conservation_decision_v1_247.py
+      - tests/test_higher_order_cutset_conservation_decision_v1_247.py
+      - docs/HIGHER_ORDER_DONOR_CONSERVATION_DECISION_V1_247.md
+      - .github/workflows/higher_order_conservation_decision_v1_247.yml
+permissions:
+  contents: read
+jobs:
+  exact-hypothetical-policy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source failure model and exact equal-cost conservation action
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_higher_order_cutset_conservation_decision_v1_247.py
+      - name: Produce exactly rational hypothetical two-receiver decision
+        run: |
+          python scripts/higher_order_cutset_conservation_decision_v1_247.py --out build/v247/conservation.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v247/conservation.json"))
+          assert d["when_q_is_one"]["minus_optimal"]=="B"
+          assert d["when_q_is_one"]["plus_optimal"]=="A"
+          assert d["when_q_is_one"]["wrong_choice_regret"]["exact"]=="1/8"
+          assert d["when_q_is_one_half"]["wrong_choice_regret"]["exact"]=="1/16"
+          assert d["observed_biological_source_and_recipient_records"]==0
+          assert d["original_GEB_scientific_HOLD"]
+          print("Conservation-policy ranking reversal exact known-truth PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v247-exact-conservation-choice
+          path: build/v247/conservation.json
+          retention-days: 21
