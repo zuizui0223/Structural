@@ -1,0 +1,56 @@
+{
+  "schema": "structural.dynamic_source_loss_vs_synchrony_competing_mechanism_contract.v1_246",
+  "status": "PROSPECTIVE_DIAGNOSTIC_CONTRACT_NOT_EMPIRICAL_ADMISSION",
+  "location": "independent standalone science/source-loss-synchrony-sign-gate-v1-246 branch; does not reopen original GEB",
+  "scientific_question": "When source loss removes donor support, can changed synchrony of surviving sources reverse the sign of complete source-delivery interruptions? This is a one-step rescue-window mechanism, not an equivalence to metapopulation persistence.",
+  "published_priors": [
+    {
+      "study": "Fox et al. 2017 Nature Ecology & Evolution",
+      "DOI": "10.1038/s41559-017-0271-y",
+      "Dryad": "10.5061/dryad.2rs23",
+      "original_result": "repeated catastrophic local extinctions promoted experimental predator persistence under otherwise synchronizing high-dispersal regimes; already published"
+    },
+    {
+      "study": "Matter & Roland 2010 Proc R Soc B",
+      "DOI": "10.1098/rspb.2009.1520",
+      "original_result": "experimentally removed two subpopulations in a 17-meadow butterfly network; immigration decreased and residual meadow population synchrony increased; global extinction rate was NOT observed to increase during the field study"
+    }
+  ],
+  "not_new_vs_existing_Structural": {
+    "v1_203_known_truth": "Previous v1.203 already proved equal first and second source moments do not determine complete all-source failure; do NOT repeat as a new insight.",
+    "v1_144_BALA_primary": "Independent three-wave retrospective source-leverage outcome failed its primary C-R2; its endpoint and inference remain unchanged.",
+    "GEB_v0_42": "zero eligible confirmatory systems, no v0.31-v0.42 gate bypass"
+  },
+  "mathematical_definition": {
+    "baseline_joint": "P_before on binary source delivery states X=(A,B,C) at a fixed target and forecast lag",
+    "removed_source": "C",
+    "post_loss_joint": "P_after on binary states (A,B) after removal and dynamic response",
+    "q_before": "P_before(A=0,B=0,C=0)",
+    "q_static": "P_before(A=0,B=0)",
+    "q_after": "P_after(A=0,B=0)",
+    "direct": "q_static-q_before=P_before(C=1,A=0,B=0)>=0",
+    "dynamic": "q_after-q_static; can have either sign even when A,B marginals unchanged",
+    "total": "q_after-q_before=direct+dynamic",
+    "strict_hydra_condition": "q_static-q_after>direct (the dynamic reduction in surviving-source failure exceeds lost unique donor opportunities)",
+    "pure_static_theorem": "with no change in remaining source-state law q_after=q_static, donor deletion cannot reduce complete source failure at the specified target and lag"
+  },
+  "fixed_known_truth_scenarios": [
+    "C independent P(active)=0.4 and A/B identical Bernoulli(.5); C removed with A/B unchanged => q_before=.3, q_after=.5, direct=.2",
+    "same initial but A/B independently Bernoulli(.5) after removal => q_before=.3, q_after=.25; direct=.2 dynamic=-.25 net=-.05",
+    "A/B independent Bernoulli(.5), C independent Bernoulli(.4), after C removal A/B synchronize with the SAME .5 marginals => q_before=.15, q_after=.5; direct=.1 dynamic=+.25 net=+.35"
+  ],
+  "empirical_admission_requirements": [
+    "One focal target/island, fixed donor roster and measured actual source-to-target effective delivery X_i(t)",
+    "Measured pre-loss unique-donor activity and joint all-zero probability, repeated before and after intervention",
+    "Control patch/focal site, randomized or defensibly exogenous source loss and independent replicate metapopulations",
+    "Survey detection, prey/environment common shocks and actual donor movement measured, not graph adjacency",
+    "Separate local population synchronization from observed ecosystem-wide time to extinction",
+    "Prospective split across independent systems and the original v0.31-v0.42 gates before target outcomes"
+  ],
+  "guards": {
+    "original_529_mammal_heldout_unopened": true,
+    "eBird": false,
+    "no_new_confirmatory_systems": true,
+    "GEB_scientific_HOLD": true
+  }
+}

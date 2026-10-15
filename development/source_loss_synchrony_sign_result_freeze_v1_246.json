@@ -1,0 +1,75 @@
+{
+  "schema": "structural.source_loss_synchrony_exact_known_truth_freeze.v1_246",
+  "status": "PASS_EXACT_KNOWN_TRUTH_NOT_OBSERVED_ECOLOGICAL_PERSISTENCE",
+  "code_revision": "2b47e158a1f474fc73dea89a5797bc397259033d",
+  "provenance": {
+    "run_id": 38699812624,
+    "job_id": 116304986516,
+    "synthetic_regression_tests_passed": 6,
+    "CI_conclusion": "success",
+    "artifact_id": 11956090430,
+    "artifact_digest": "sha256:2b30ab6268d60623ab88d771971475796d8669724628f45aa0f112ad3dd6c874"
+  },
+  "definition": {
+    "Q_before": "P(all baseline sources jointly unable to deliver viable migrants to one declared target at one future lag)",
+    "Q_static": "P(surviving source set jointly nonviable BEFORE any source-loss change)",
+    "Q_after": "P(surviving source set jointly nonviable AFTER source-loss dynamical response)",
+    "identity": "Q_after-Q_before=[Q_static-Q_before]+[Q_after-Q_static]",
+    "nonnegative_unique_removed_source": "Q_static-Q_before=P(removed donor is the sole active donor)>=0",
+    "strict_hydra_window_condition": "Q_static-Q_after>Q_static-Q_before",
+    "requires_dynamic_feedback_to_beat_static_loss": true
+  },
+  "known_truth_scenarios": {
+    "static_no_feedback": {
+      "Q_before": 0.3,
+      "Q_static": 0.5,
+      "Q_after": 0.5,
+      "direct_source_loss": 0.2,
+      "dynamic_reorganization": 0,
+      "net_complete_no_delivery_increase": 0.2,
+      "persistences_estimated": false
+    },
+    "hydra_like_decorrelation": {
+      "Q_before": 0.3,
+      "Q_static": 0.5,
+      "Q_after": 0.25,
+      "direct_source_loss": 0.2,
+      "dynamic_reorganization": -0.25,
+      "net_complete_no_delivery_change": -0.05,
+      "surviving_source_marginals_each_before_after": 0.5,
+      "mean_viable_source_count_before": 1.4,
+      "mean_viable_source_count_after": 1,
+      "persistences_estimated": false
+    },
+    "amplified_synch": {
+      "Q_before": 0.15,
+      "Q_static": 0.25,
+      "Q_after": 0.5,
+      "direct_source_loss": 0.1,
+      "dynamic_reorganization": 0.25,
+      "net_complete_no_delivery_increase": 0.35,
+      "surviving_source_marginals_each_before_after": 0.5,
+      "mean_viable_source_count_before": 1.4,
+      "mean_viable_source_count_after": 1,
+      "persistences_estimated": false
+    }
+  },
+  "published_ecology": {
+    "Fox_2017_DOI": "10.1038/s41559-017-0271-y",
+    "Fox_2017_existing_result": "lab local catastrophic predator extinctions reduced synchronization and prolonged predator metapopulation persistence under high dispersal",
+    "Matter_Roland_2010_DOI": "10.1098/rspb.2009.1520",
+    "Matter_Roland_2010_existing_result": "experimental removal of two of 17 butterfly subpopulations increased remaining-population synchrony and reduced immigration; no observed global persistence reduction proven",
+    "same_effect_estimand": false,
+    "not_original_scientific_discovery": true
+  },
+  "limits": {
+    "result_is_one_time_window_viable_delivery_not_persistence_time": true,
+    "binary_source_states_are_synthetic": true,
+    "actual_source_target_migration_unobserved": true,
+    "v1_203_prior_higher_order_pairwise_insufficiency_not_relabelled": true,
+    "v1_144_independent_BALA_primary_non_support_unchanged": true,
+    "original_GEB_scientific_HOLD": true,
+    "eBird": false,
+    "mammal_heldout_unopened": true
+  }
+}
