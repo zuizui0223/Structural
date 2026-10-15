@@ -1,0 +1,45 @@
+name: Higher-order donor cutset exact known truth v1.246
+on:
+  push:
+    branches: [science/higher-order-donor-cutsets-v1-246]
+    paths:
+      - development/source_cutset_higher_order_known_truth_contract_v1_246.json
+      - scripts/higher_order_donor_cutset_known_truth_v1_246.py
+      - tests/test_higher_order_donor_cutset_known_truth_v1_246.py
+      - docs/HIGHER_ORDER_DONOR_CUTSET_ECOLOGY_V1_246.md
+      - .github/workflows/higher_order_donor_cutset_v1_246.yml
+permissions:
+  contents: read
+jobs:
+  exact-mathematical-witness:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact rational states, marginals, pairs, counts and claim firewall
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_higher_order_donor_cutset_known_truth_v1_246.py
+      - name: Construct and freeze mathematical (nonempirical) witness
+        run: |
+          python scripts/higher_order_donor_cutset_known_truth_v1_246.py --out build/v246/witness.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v246/witness.json"))
+          assert d["status"]=="KNOWN_TRUTH_ONLY_NO_ECOLOGICAL_RESPONSE_OBSERVED"
+          assert d["exact_A_cutset_plus_minus_difference"]["exact"]=="1/8"
+          assert d["exact_B_cutset_plus_minus_difference"]["exact"]=="-1/8"
+          assert d["all_marginal_and_pairwise_source_moments_are_identical"]
+          assert d["new_confirmatory_systems"]==0
+          assert d["GEB_scientific_HOLD"]
+          print("Exact ecological cutset nonidentification witness validated; 0 empirical effects")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v246-higher-order-donor-cutset
+          path: build/v246/witness.json
+          retention-days: 21
