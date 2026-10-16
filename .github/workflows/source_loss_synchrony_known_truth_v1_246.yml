@@ -1,0 +1,45 @@
+name: Structural source-loss asynchrony vs depletion known-truth v1.246
+on:
+  push:
+    branches: [science/source-loss-dual-synchrony-mechanism-v1-246]
+    paths:
+      - scripts/source_loss_synchrony_gate_v1_246.py
+      - tests/test_source_loss_synchrony_gate_v1_246.py
+      - development/source_loss_synchrony_mechanism_contract_v1_246.json
+      - .github/workflows/source_loss_synchrony_known_truth_v1_246.yml
+permissions:
+  contents: read
+jobs:
+  known-truth-no-empirical-admission:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact rational probability and guardrail tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_source_loss_synchrony_gate_v1_246.py
+      - name: Verify sign-reversal threshold, with no response access
+        run: |
+          python scripts/source_loss_synchrony_gate_v1_246.py --out build/v246/exact_known_truth.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v246/exact_known_truth.json"))
+          assert d["biological_data_accessed"] is False
+          assert d["initial_donors"]==3 and d["surviving_donors"]==2
+          assert len(d["known_truth_results"])==6
+          assert d["known_truth_results"][1]["net_anticorrelated_minus_preloss"]<0
+          assert d["known_truth_results"][4]["net_anticorrelated_minus_preloss"]>0
+          assert d["no_new_confirmatory_systems_admitted"]
+          assert d["GEB_scientific_HOLD"]
+          print("Exact counter-mechanism known truth PASS; neither ecological source paper reanalyzed")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v246-source-loss-synchrony-known-truth
+          path: build/v246/exact_known_truth.json
+          retention-days: 21
