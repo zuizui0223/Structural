@@ -1,0 +1,83 @@
+{
+  "schema": "structural.source_loss_synchrony_opposing_mechanisms_contract.v1_246",
+  "status": "FROZEN_PUBLISHED_PRIOR_ART_PLUS_EXACT_SYNTHETIC_IDENTIFIABILITY_GATE_NOT_CONFIRMATORY",
+  "purpose": "Identify why a reduced donor count does not have a universal sign for recipient recolonization when dispersal-mediated temporal synchrony changes",
+  "empirical_anchors": [
+    {
+      "study": "Fox et al. 2017 Nature Ecology & Evolution",
+      "paper_doi": "10.1038/s41559-017-0271-y",
+      "dataset_doi": "10.5061/dryad.2rs23",
+      "dryad_dataset_id": 5685,
+      "dryad_version_id": 5720,
+      "published_source_files": [
+        {
+          "name": "data_for_Fox_et_el_2017_nature_ee.csv",
+          "bytes": 323814,
+          "source_md5": "a39aec4a41c5fcb301203ee56f922b89"
+        },
+        {
+          "name": "README_for_data_for_Fox_et_el_2017_nature_ee.txt",
+          "bytes": 1440,
+          "source_md5": "b25b2ddd88e046ac58849a20a549e9e7"
+        }
+      ],
+      "treatment": "catastrophic experimental local population extinction with patch still habitable, in dispersing cyclic/quasi-cyclic protist predator-prey systems",
+      "published_result": "Extinctions interrupt spatial synchrony; in high dispersal treatment metapopulation persistence can increase",
+      "source_exposure": "Dryad public metadata verified, NO raw biological file accessed; results from paper abstract/publicly reported"
+    },
+    {
+      "study": "Matter and Roland 2009/2010 Proceedings of the Royal Society B",
+      "paper_doi": "10.1098/rspb.2009.1520",
+      "pubmed_id": "19889700",
+      "population_organism": "Parnassius smintheus",
+      "treatment": "Experimental removal of two adjacent populations among 17 linked alpine butterfly populations; altered immigration",
+      "published_result": "Population removal REDUCED immigration to surrounding sites and INCREASED spatial synchrony; modeling suggests carrying-capacity heterogeneity can reverse the sign",
+      "source_exposure": "Authors' published abstract and open article methods only; no individual butterfly records used"
+    }
+  ],
+  "synthetic_known_truth": {
+    "initial": "Exactly three donors have Bernoulli(.5) independent state; each living donor independently provides target establishment with q; preloss probability is 1-(1-q/2)^3",
+    "postloss_common_state": "Exactly one donor removed: two remain, each still individually viable with probability .5, their joint dependence can differ",
+    "postloss_independent": "Two remaining donors independent; P(establishment)=1-(1-q/2)^2",
+    "postloss_asynchronous": "Two donors exactly anticorrelated, one alive every occasion; P(establishment)=q",
+    "postloss_synchronized": "Two donors perfectly correlated (both survive or both fail); P(establishment)=q-q^2/2",
+    "fixed_grid_q": [
+      "1/4",
+      "1/2",
+      "3/4",
+      "4/5",
+      "9/10",
+      "1"
+    ],
+    "exact_delta_async": "-q/2 + 3*q^2/4 - q^3/8",
+    "async_sign_switch": "q=3-sqrt(5), about 0.7639320225, model-specific not a field estimate",
+    "decomposable_loss_vs_dependence": "Represent n=3 independent -> n=2 independent donor-loss penalty plus n=2 independent -> n=2 anti/sync synchronization change. This is a path-specific accounting identity not an identified mediation effect.",
+    "fixed_marginal_alive_probability_each_donor": "1/2 in ALL cases; do not change marginal quality to force sign switch"
+  },
+  "ecological_distinctions": {
+    "patch_mortality_vs_permanent_habitat_loss": "Fox resets a local population while retaining an available patch; permanent island/habitat deletion is NOT the same intervention",
+    "outcome_persistence_vs_one_step_recolonization": "Published papers concern persistence/synchrony; exact synthetic exercise concerns only one-step chance at least one source establishes at recipient, NOT expected extinction time",
+    "counterfactual_dependence_unobserved": "After removing one donor, anti/sync joint state processes are hypothetical intervention mechanisms, not established changes observed in either study",
+    "no_generalization_from_the_two_studies": "Different organisms, life histories, intervention durations, patch carrying capacities and dispersal",
+    "source_loss_geometry_role": "Structural frozen v1.123 source loss leverage E_i must be distinguished from joint viable-donor cofailure S_i and realized propagule establishment q",
+    "prospective_endpoint_requirements": [
+      "at least three temporal censuses and repeated independent source-viability observations",
+      "measured donor-to-recipient dispersal/establishment probabilities",
+      "pre/post synchrony with detector/effort adjustment",
+      "matched number and leverage of removed sources",
+      "patch still suitable versus permanently destroyed",
+      "independent experimental units and heldout response"
+    ],
+    "previous_source_loss_attempts": "BALA v1.144 64 target rows/20 taxa C−R2=+0.000674 non-support, cannot reopen or rescue under new story",
+    "original_GEB_confirmatory_queue": "zero eligible; v0.31/v0.42 gates unchanged"
+  },
+  "guardrails": {
+    "eBird": false,
+    "original_mammal_heldout_unopened": true,
+    "no_dryad_biological_rows_read": true,
+    "no_new_confirmatory_empirical_effect": true,
+    "GEB_scientific_HOLD": true,
+    "not_a_first_discovery_of_spatial_hydra": true,
+    "not_a_first_discovery_of_synch_inducing_removal": true
+  }
+}

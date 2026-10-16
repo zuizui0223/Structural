@@ -1,0 +1,243 @@
+{
+  "schema": "structural.source_loss_synchrony_mechanistic_known_truth_freeze.v1_246",
+  "status": "PASS_EXACT_RATIONAL_IDENTIFIABILITY_NOT_EMPIRICAL_HYDRA_REPLICATION",
+  "source": {
+    "algorithm_commit": "3f8de9dfb89615b73ecbf941f2104813c4b2f7d5",
+    "studies": [
+      {
+        "paper_DOI": "10.1038/s41559-017-0271-y",
+        "Dryad_DOI": "10.5061/dryad.2rs23",
+        "already_published_result": "Fox et al (2017) pulsed catastrophic protist extinctions can desynchronize and prolong persistence",
+        "raw_experimental_data_accessed": false
+      },
+      {
+        "paper_DOI": "10.1098/rspb.2009.1520",
+        "already_published_result": "Matter and Roland 2009 removal two adjacent butterfly populations increased synchrony and reduced immigration",
+        "raw_experimental_data_accessed": false
+      }
+    ],
+    "original_Structural_BALA_temporal_source_loss_test": "development/source_loss_leverage_cross_system_synthesis_v1_144.json",
+    "BALA_primary_C_minus_R2": 0.00067423414692237,
+    "BALA_primary_supported": false
+  },
+  "execution": {
+    "run_id": 38910808283,
+    "job_id": 117005876544,
+    "synthetic_tests_passed": 5,
+    "CI_success": true,
+    "artifact_id": 12049604237,
+    "artifact_digest": "sha256:a407e8fb1cc40845314a2fd3fab6405de7c4d92edaa0c2013fa166d9a9af8614"
+  },
+  "math": {
+    "Fox_2017_empirical_spatial_hydra_not_reestimated": true,
+    "GEB_scientific_HOLD": true,
+    "Matter_Roland_2009_empirical_butterfly_increase_sync_not_reestimated": true,
+    "analytical_crossover_q": "3-sqrt(5)",
+    "biological_data_accessed": false,
+    "change_to_anticorrelated_dependence_formula": "q^2/4",
+    "change_to_synchronized_dependence_formula": "-q^2/4",
+    "crossover_q_float": 0.7639320225002102,
+    "depletion_component_formula": "-q*(2-q)^2/8",
+    "eBird_used": false,
+    "each_source_marginal_viability_pre_and_post": 0.5,
+    "initial_donors": 3,
+    "known_truth_results": [
+      {
+        "all_marginal_viability_probabilities": 0.5,
+        "direct_donor_depletion_component": -0.095703125,
+        "exact_fraction_components": {
+          "anti": "1/4",
+          "depleted": "15/64",
+          "depletion": "-49/512",
+          "desync": "1/64",
+          "pre": "169/512",
+          "sync": "7/32",
+          "synchronizing": "-1/64"
+        },
+        "net_anticorrelated_minus_preloss": -0.080078125,
+        "net_synchronized_minus_preloss": -0.111328125,
+        "post_depletion_asynchrony_component": 0.015625,
+        "post_depletion_synchrony_component": -0.015625,
+        "postloss_anticorrelated_P_establishment": 0.25,
+        "postloss_independent_P_establishment": 0.234375,
+        "postloss_source_count": 2,
+        "postloss_synchronized_P_establishment": 0.21875,
+        "preloss_P_establishment": 0.330078125,
+        "preloss_source_count": 3,
+        "q_exact": "1/4",
+        "q_float": 0.25
+      },
+      {
+        "all_marginal_viability_probabilities": 0.5,
+        "direct_donor_depletion_component": -0.140625,
+        "exact_fraction_components": {
+          "anti": "1/2",
+          "depleted": "7/16",
+          "depletion": "-9/64",
+          "desync": "1/16",
+          "pre": "37/64",
+          "sync": "3/8",
+          "synchronizing": "-1/16"
+        },
+        "net_anticorrelated_minus_preloss": -0.078125,
+        "net_synchronized_minus_preloss": -0.203125,
+        "post_depletion_asynchrony_component": 0.0625,
+        "post_depletion_synchrony_component": -0.0625,
+        "postloss_anticorrelated_P_establishment": 0.5,
+        "postloss_independent_P_establishment": 0.4375,
+        "postloss_source_count": 2,
+        "postloss_synchronized_P_establishment": 0.375,
+        "preloss_P_establishment": 0.578125,
+        "preloss_source_count": 3,
+        "q_exact": "1/2",
+        "q_float": 0.5
+      },
+      {
+        "all_marginal_viability_probabilities": 0.5,
+        "direct_donor_depletion_component": -0.146484375,
+        "exact_fraction_components": {
+          "anti": "3/4",
+          "depleted": "39/64",
+          "depletion": "-75/512",
+          "desync": "9/64",
+          "pre": "387/512",
+          "sync": "15/32",
+          "synchronizing": "-9/64"
+        },
+        "net_anticorrelated_minus_preloss": -0.005859375,
+        "net_synchronized_minus_preloss": -0.287109375,
+        "post_depletion_asynchrony_component": 0.140625,
+        "post_depletion_synchrony_component": -0.140625,
+        "postloss_anticorrelated_P_establishment": 0.75,
+        "postloss_independent_P_establishment": 0.609375,
+        "postloss_source_count": 2,
+        "postloss_synchronized_P_establishment": 0.46875,
+        "preloss_P_establishment": 0.755859375,
+        "preloss_source_count": 3,
+        "q_exact": "3/4",
+        "q_float": 0.75
+      },
+      {
+        "all_marginal_viability_probabilities": 0.5,
+        "direct_donor_depletion_component": -0.144,
+        "exact_fraction_components": {
+          "anti": "4/5",
+          "depleted": "16/25",
+          "depletion": "-18/125",
+          "desync": "4/25",
+          "pre": "98/125",
+          "sync": "12/25",
+          "synchronizing": "-4/25"
+        },
+        "net_anticorrelated_minus_preloss": 0.016,
+        "net_synchronized_minus_preloss": -0.304,
+        "post_depletion_asynchrony_component": 0.16,
+        "post_depletion_synchrony_component": -0.16,
+        "postloss_anticorrelated_P_establishment": 0.8,
+        "postloss_independent_P_establishment": 0.64,
+        "postloss_source_count": 2,
+        "postloss_synchronized_P_establishment": 0.48,
+        "preloss_P_establishment": 0.784,
+        "preloss_source_count": 3,
+        "q_exact": "4/5",
+        "q_float": 0.8
+      },
+      {
+        "all_marginal_viability_probabilities": 0.5,
+        "direct_donor_depletion_component": -0.136125,
+        "exact_fraction_components": {
+          "anti": "9/10",
+          "depleted": "279/400",
+          "depletion": "-1089/8000",
+          "desync": "81/400",
+          "pre": "6669/8000",
+          "sync": "99/200",
+          "synchronizing": "-81/400"
+        },
+        "net_anticorrelated_minus_preloss": 0.066375,
+        "net_synchronized_minus_preloss": -0.338625,
+        "post_depletion_asynchrony_component": 0.2025,
+        "post_depletion_synchrony_component": -0.2025,
+        "postloss_anticorrelated_P_establishment": 0.9,
+        "postloss_independent_P_establishment": 0.6975,
+        "postloss_source_count": 2,
+        "postloss_synchronized_P_establishment": 0.495,
+        "preloss_P_establishment": 0.833625,
+        "preloss_source_count": 3,
+        "q_exact": "9/10",
+        "q_float": 0.9
+      },
+      {
+        "all_marginal_viability_probabilities": 0.5,
+        "direct_donor_depletion_component": -0.125,
+        "exact_fraction_components": {
+          "anti": "1/1",
+          "depleted": "3/4",
+          "depletion": "-1/8",
+          "desync": "1/4",
+          "pre": "7/8",
+          "sync": "1/2",
+          "synchronizing": "-1/4"
+        },
+        "net_anticorrelated_minus_preloss": 0.125,
+        "net_synchronized_minus_preloss": -0.375,
+        "post_depletion_asynchrony_component": 0.25,
+        "post_depletion_synchrony_component": -0.25,
+        "postloss_anticorrelated_P_establishment": 1,
+        "postloss_independent_P_establishment": 0.75,
+        "postloss_source_count": 2,
+        "postloss_synchronized_P_establishment": 0.5,
+        "preloss_P_establishment": 0.875,
+        "preloss_source_count": 3,
+        "q_exact": "1/1",
+        "q_float": 1
+      }
+    ],
+    "net_anti_loss_vs_pre_formula": "-q/2+3*q^2/4-q^3/8",
+    "no_live_donor_probability": {
+      "three_independent_pre": 0.125,
+      "two_anticorrelated_post": 0,
+      "two_independent_post": 0.25,
+      "two_perfectly_synchronized_post": 0.5
+    },
+    "no_new_confirmatory_systems_admitted": true,
+    "not_a_calibrated_field_recolonization_operator": true,
+    "not_expected_metapopulation_persistence_or_extinction_time": true,
+    "original_mammal_heldout_unopened": true,
+    "postloss_anticorrelated_formula": "q",
+    "postloss_independent_formula": "1-(1-q/2)^2",
+    "postloss_synchronized_formula": "q-q^2/2",
+    "preloss_formula": "1-(1-q/2)^3",
+    "removed_donors": 1,
+    "schema": "structural.source_loss_synchrony_sign_competition.known_truth.v1_246",
+    "status": "SYNTHETIC_EXACT_MATH_ONLY_NOT_ECOLOGICAL_EFFECT_SIZE",
+    "surviving_donors": 2,
+    "synthetic_q_grid_exact_fraction": [
+      "1/4",
+      "1/2",
+      "3/4",
+      "4/5",
+      "9/10",
+      "1"
+    ]
+  },
+  "decision": {
+    "fixed_donor_marginals_and_one_lost_donor_in_all_experiments": true,
+    "hypothetical_recolonization_chance_q_sign_threshold": 0.7639320225002102,
+    "source_loss_is_not_universally_detrimental_true_in_toy": false,
+    "what_proven": "Co-dependence of true live donor sources and establishment efficiency jointly determine sign of target colonization opportunity; nominal source loss alone cannot determine it.",
+    "not_a_real_persistence_time_or_field_observation": true,
+    "must_distinguish_pulse_extinction_and_permanent_island_habitat_loss": true,
+    "future_required_measured": [
+      "pre/post donor synchrony with independent repeated temporal observations",
+      "actual donor immigration into recipient",
+      "per-donor establishment/detection",
+      "donor-site occupancy and habitat persistence",
+      "recipient t2 biological colonization or contraction",
+      "replicated loss interventions or independent observed systems"
+    ],
+    "no_new_confirmatory_evidence": true,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}
