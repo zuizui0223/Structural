@@ -19,7 +19,13 @@
     "GitHub_Actions_v247_artifact_id": 12091401771,
     "GitHub_Actions_v247_artifact_sha256": "80c28f39ac8a040037d7c58c54c4c5895d95cc85d83365fcf7806a335ed584b4",
     "GitHub_Actions_v246_original_protocol_run": 39006142564,
-    "GitHub_Actions_v246_terminal_source_design_mismatch": "CI synthetic tests passed but raw source had original 62 not expected 60 experimental landscapes"
+    "GitHub_Actions_v246_terminal_source_design_mismatch": "CI synthetic tests passed but raw source had original 62 not expected 60 experimental landscapes",
+    "latest_regression_checked_Actions_run_id": 39006634186,
+    "latest_regression_checked_job_id": 117320328758,
+    "latest_regression_synthetic_tests_passed": 3,
+    "latest_regression_passed_source_reanalysis": true,
+    "latest_regression_artifact_id": 12090983773,
+    "latest_regression_artifact_digest": "sha256:9ecf8f2b856c9362aa43dbaa1553c8ed1f7b6281130e1c25fbcf0a2991af581f"
   },
   "original_complete_table": {
     "raw_count_rows": 693,
