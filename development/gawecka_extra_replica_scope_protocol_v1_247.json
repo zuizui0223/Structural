@@ -1,0 +1,43 @@
+{
+  "schema": "structural.gawecka_raw_extra_replica_sensitivity_v1_247",
+  "status": "EXPLICIT_POSTRESPONSE_SCOPE_RECONCILIATION_AFTER_DISCOVERY_OF_62_PUBLIC_LANDSCAPES",
+  "original_source": {
+    "github_repository": "kgawecka/recovery_foodweb_experiment",
+    "commit": "483ed8ae80790a3ed0fb806e681fcc3162c1ebe7",
+    "experiment_blob_sha1": "18c1aef8ad894e28cd2b6462bd20f471363bf92e",
+    "author_derived_recovery_blob_sha1": "b88097e0b38b58277f57197fee35ae4754c1d6e3",
+    "metadata_blob_sha1": "97b77bfad604dcf27a3372e1195c1a78fd6b0bf0"
+  },
+  "provenance": "v1.246 intended 3 community x4 layout x5 replicate =60 before raw outcome access. Author raw and author derived outputs BOTH have two additional sixth replicates, most complex foodweb BRBR_LIER_DIRA x 1C and 1P. v1.246 retained as literal failed 60-only design; v1.247 explicitly new after original counts/results exposure.",
+  "two_exhaustive_denominators": {
+    "paper_described_scope": "60 independent experimental landscapes: only replica 1-5 for all 3x4 cells, expected 15 one-peripheral-source landscapes and 150 initially empty patch series",
+    "all_raw_scope": "62 independent original landscapes: 3x4x5 plus BRBR_LIER_DIRA /1C/6 and /1P/6, expected 16 one-peripheral-source landscapes and 158 initially empty patch series",
+    "source_original_records": 693,
+    "original_nonexperimental_control_landscape_5_records": 135,
+    "original_total_noncontrol_landscape_observations": 558,
+    "five_replicate_60_landscape_observations": 540,
+    "two_extra_landscapes_eighteen_observations": 18,
+    "observations_per_landscape_expected": 9
+  },
+  "frozen_endpoint_reused": "Exactly v1.246 code-defined initial empty/one-peripheral-source center vs earliest distal first sampled positive order, with all censoring and 3 foodweb classes",
+  "classes": [
+    "centre_detected_BEFORE_far_first_positive",
+    "first_centre_and_far_same_visit",
+    "far_detected_BEFORE_centre_first_positive",
+    "far_detected_centre_never_detected",
+    "centre_detected_far_never_detected",
+    "neither_centre_nor_far_detected"
+  ],
+  "prohibitions": [
+    "Do not pick between 60 and 62 based on favorable sign",
+    "Never hide replica 6 from 62 source reality",
+    "Do not count 45/48 patch-level observations as independent landscapes",
+    "Do not infer actual individual movement, local population extinction or spatial hydra effects",
+    "No p value or new confirmatory inference"
+  ],
+  "guards": {
+    "original_global_mammal_heldout_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  }
+}
