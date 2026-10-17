@@ -1,6 +1,6 @@
 {
   "schema": "structural.gawecka_star_first_positive_60_vs_62_source_direct_result_freeze.v1_247",
-  "status": "ORIGINAL_SHA_FINGERPRINTED_REAL_DATA_DIRECT_CROSSCHECK_BEFORE_ACTIONS_FINAL",
+  "status": "PASS_ORIGINAL_EXPERIMENT_60_VS_62_SOURCE_LOCKED_CI_AND_INDEPENDENT_REPLAY",
   "provenance": {
     "article_DOI": "10.1111/ele.70254",
     "pub_repo": "kgawecka/recovery_foodweb_experiment",
@@ -12,7 +12,14 @@
     "separate_postsource_v247_scope_contract_commit": "0b6fe54a1ed33119f944e88679643c7519bd97be",
     "computed_from_original_GitHub_CSV_contents_via_independent_JavaScript_extraction": true,
     "GitHub_Actions_v247_run_id": 39006395777,
-    "GitHub_Actions_v247_result": "pending_at_freeze_time"
+    "GitHub_Actions_v247_result": "success",
+    "GitHub_Actions_v247_successful_run": 39006395777,
+    "GitHub_Actions_v247_job_id": 117319650767,
+    "GitHub_Actions_v247_synthetic_tests_passed": 3,
+    "GitHub_Actions_v247_artifact_id": 12091401771,
+    "GitHub_Actions_v247_artifact_sha256": "80c28f39ac8a040037d7c58c54c4c5895d95cc85d83365fcf7806a335ed584b4",
+    "GitHub_Actions_v246_original_protocol_run": 39006142564,
+    "GitHub_Actions_v246_terminal_source_design_mismatch": "CI synthetic tests passed but raw source had original 62 not expected 60 experimental landscapes"
   },
   "original_complete_table": {
     "raw_count_rows": 693,
@@ -248,7 +255,16 @@
         "center_day": 19.020833333333332
       }
     ],
-    "independent_landscape_replicates_not_independent_patches": true
+    "independent_landscape_replicates_not_independent_patches": true,
+    "summary_observed_first_positive": {
+      "centre_detected_by_end": 14,
+      "any_distance2_positive_by_end": 13,
+      "both_centre_and_any_distance2_positive_by_end": 13,
+      "center_first_detected_positive_day_median_among_observed": 12.802083333333332,
+      "earliest_distal_first_detected_positive_day_median_among_observed": 19.989583333333332,
+      "median_within_same_landscape_distal_minus_center_day_among_both_seen": 8.958333333333332,
+      "inference_limit": "Intervals sampled at 3–4 day resolution with right-censored never-positive; medians are among observed positives and not unbiased interval-censored colonization time estimates"
+    }
   },
   "complete_source_62_experimental_landscapes": {
     "one_peripheral_source_landscapes": 16,
