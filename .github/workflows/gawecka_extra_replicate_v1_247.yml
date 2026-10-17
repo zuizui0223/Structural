@@ -1,0 +1,51 @@
+name: Gawecka reported 60 versus original 62 source landscapes v1.247
+on:
+  push:
+    branches: [science/star-stepstone-first-detection-v1-246]
+    paths:
+      - development/gawecka_extra_replica_scope_protocol_v1_247.json
+      - scripts/gawecka_extra_replicate_v1_247.py
+      - tests/test_gawecka_extra_replicate_v1_247.py
+      - .github/workflows/gawecka_extra_replicate_v1_247.yml
+permissions:
+  contents: read
+jobs:
+  source-locked-raw-design-reconciliation:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Known-truth extra-replicate scope tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_gawecka_extra_replicate_v1_247.py
+      - uses: actions/checkout@v4
+        with:
+          repository: kgawecka/recovery_foodweb_experiment
+          ref: 483ed8ae80790a3ed0fb806e681fcc3162c1ebe7
+          path: build/author_original
+          persist-credentials: false
+      - name: Replay both pre-specified original raw denominators without cherry-picking
+        run: |
+          python scripts/gawecka_extra_replicate_v1_247.py build/author_original --out build/v247/60_and_62_landscapes.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v247/60_and_62_landscapes.json"))
+          assert d["paper_described_60_landscapes"]["total_landscapes"]==60
+          assert d["all_62_original_source_landscape_sensitivity"]["landscapes_total"]==62
+          assert d["paper_described_60_landscapes"]["n_independent_focal_1P_landscapes"]==15
+          assert d["all_62_original_source_landscape_sensitivity"]["one_source_peripheral_landscapes"]==16
+          assert d["paper_described_60_landscapes"]["total_initially_empty_patches"]==150
+          assert d["all_62_original_source_landscape_sensitivity"]["initially_empty_patch_series"]==158
+          assert d["GEB_scientific_HOLD"]
+          print("Both paper and full-source landscape scopes verified; sample positivity only")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v247-gawecka-60-vs-62
+          path: build/v247/60_and_62_landscapes.json
+          retention-days: 21

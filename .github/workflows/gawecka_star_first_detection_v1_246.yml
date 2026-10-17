@@ -1,0 +1,52 @@
+name: Five-patch experimental star observed stepping-stone detection v1.246
+on:
+  push:
+    branches: [science/star-stepstone-first-detection-v1-246]
+    paths:
+      - development/gawecka_star_stepstone_detection_protocol_v1_246.json
+      - scripts/gawecka_star_first_detection_v1_246.py
+      - tests/test_gawecka_star_first_detection_v1_246.py
+      - .github/workflows/gawecka_star_first_detection_v1_246.yml
+permissions:
+  contents: read
+jobs:
+  source-locked-retrospective-detection-order:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Five known-truth tests and original design geometry
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_gawecka_star_first_detection_v1_246.py
+      - uses: actions/checkout@v4
+        with:
+          repository: kgawecka/recovery_foodweb_experiment
+          ref: 483ed8ae80790a3ed0fb806e681fcc3162c1ebe7
+          path: build/author_original
+          persist-credentials: false
+      - name: Original published 60 experimental landscapes and 15 one-source geometry comparisons
+        run: |
+          python scripts/gawecka_star_first_detection_v1_246.py build/author_original --out build/v246/source_results.json
+          python - <<'PY'
+          import json
+          d=json.load(open("build/v246/source_results.json"))
+          assert d["total_independent_spatial_treatment_landscapes"]==60
+          assert d["one_peripheral_source_independent_landscapes"]==15
+          assert d["original_empty_patch_series_total"]==150
+          assert d["distance1_initially_empty_patch_series"]==105
+          assert d["distance2_initially_empty_patch_series"]==45
+          assert sum(d["focal_classification_counts"].values())==15
+          assert d["no_synchronous_local_extinction_or_hydra_intervention"]
+          assert d["GEB_scientific_HOLD"]
+          print("Source-verified observed initial-empty patch first-detection order PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v246-gawecka-star-first-detection
+          path: build/v246/source_results.json
+          retention-days: 21

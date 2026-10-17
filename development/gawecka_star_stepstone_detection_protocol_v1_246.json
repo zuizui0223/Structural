@@ -1,0 +1,111 @@
+{
+  "schema": "structural.gawecka_star_network_stepstone_detection_protocol.v1_246",
+  "status": "PUBLISHED_OUTCOME_EXPOSED_RETROSPECTIVE_DESIGN_FROZEN_BEFORE_SOURCE_BIOLOGICAL_ROWS_PARSED",
+  "original_publication": {
+    "paper_DOI": "10.1111/ele.70254",
+    "publication_date": "2025-11-17",
+    "article": "Gawecka et al. 2025 The Roles of Space and Food-Web Complexity in Mediating Ecological Recovery",
+    "preexisting_main_effects": "Authors already showed source number/position influences colonization of empty patches, foodweb complexity retards recovery. DO NOT claim them as new findings."
+  },
+  "source_fingerprint": {
+    "repository": "kgawecka/recovery_foodweb_experiment",
+    "commit": "483ed8ae80790a3ed0fb806e681fcc3162c1ebe7",
+    "main_experiment_path": "Data/experiment_data.csv",
+    "main_experiment_git_blob_sha": "18c1aef8ad894e28cd2b6462bd20f471363bf92e",
+    "metadata_path": "Data/metadata.txt",
+    "metadata_git_blob_sha": "97b77bfad604dcf27a3372e1195c1a78fd6b0bf0",
+    "original_author_derived_phenotype_output_path": "Output/data_recovery_pop_exp.csv",
+    "original_output_git_blob_sha": "b88097e0b38b58277f57197fee35ae4754c1d6e3",
+    "original_R_source": "Code/experiment_analysis.R",
+    "code_git_blob_sha": "ac9788d3c2ffbbdf2caf36a8215515cd892180e9"
+  },
+  "original_design": {
+    "independent_unit": "experimental 5-patch landscape defined by (community,landscape,replica)",
+    "eligible_community_levels": [
+      "BRBR",
+      "BRBR_LIER",
+      "BRBR_LIER_DIRA"
+    ],
+    "experimental_layout_levels": [
+      "1C",
+      "1P",
+      "4C",
+      "4P"
+    ],
+    "expected_replicates_per_cell": 5,
+    "expected_independent_experimental_landscapes": 60,
+    "source_initial_position": {
+      "1C": [
+        1
+      ],
+      "1P": [
+        2
+      ],
+      "4C": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "4P": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "star_adjacency": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "count_variable": "patch1_BRBR ... patch5_BRBR",
+    "time": "parse date dd/mm/yyyy and time H:M:S; actual elapsed since FIRST sample in same experimental landscape; no date interpolation",
+    "all_empty_baseline_zero_required": true,
+    "all_initially_introduced_BRBR_source_patch_count_positive_required": true,
+    "all_patches_every_visit_observed_or_explicit_missing": true
+  },
+  "focal_question": "In one-peripheral-source landscapes (1P), is positive Brevicoryne count ever first observed in a TWO-LINK peripheral patch before a positive sample is recorded in the obligatory ONE-LINK center stepping stone?",
+  "frozen_estimand": {
+    "main_stratum": "exactly landscape=1P, all 3 community classes and all 5 replication landscapes",
+    "primary_observation": "For each independent 1P landscape: compare first observed positive of central patch1 (distance1) with earliest of peripheral empty patches3,4,5 (distance2), using actual timestamp ordering only",
+    "outcomes": [
+      "center positive earlier than earliest distal positive",
+      "center and earliest distal positive same sampling timestamp",
+      "distal positive earlier than center first positive",
+      "distal positive but center never detected positive",
+      "center detected but distal never detected",
+      "neither ever detected"
+    ],
+    "all_15_landscape_categories_reported": true,
+    "secondary": "For each 1P landscape first distance2 patch observed positivity vs first center observed positivity, signed time difference only if both detected; record patches-level first positivity and right censoring, no imputation of death or colonization",
+    "exploratory_all_layout_control": "Report first-positive fraction by topology path distance over all 60 landscapes with all 150 initially empty patch series; do NOT infer causal distance effect comparing different layout treatments",
+    "missing_samples": "NA or blank is missing, never zero. Detect interval only from an actually sampled previous zero to next positive. Ambiguous prior missing flag retained.",
+    "confidence": "No p-values, no sampling-row or patch-level pseudo-independent CI. 15 landscapes are experimental clusters for main 1P."
+  },
+  "nonclaims": {
+    "not_new_colonization_main_effect": true,
+    "sampled_zero_not_physical_absence": true,
+    "positive_far_before_center_does_not_show_impossible_direct_transport": true,
+    "no_observed_migrant_identity_or_rate": true,
+    "star_microcosm_not_island_extinction": true,
+    "no_synchrony_or_spatial_hydra_effect_identified": true,
+    "single_published_experiment_not_independent_confirmatory_v0_31": true,
+    "original_GEB_scientific_HOLD": true,
+    "original_global_mammal_heldout_unopened": true,
+    "eBird": false
+  }
+}

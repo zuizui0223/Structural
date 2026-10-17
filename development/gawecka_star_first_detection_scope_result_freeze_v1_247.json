@@ -1,0 +1,520 @@
+{
+  "schema": "structural.gawecka_star_first_positive_60_vs_62_source_direct_result_freeze.v1_247",
+  "status": "PASS_ORIGINAL_EXPERIMENT_60_VS_62_SOURCE_LOCKED_CI_AND_INDEPENDENT_REPLAY",
+  "provenance": {
+    "article_DOI": "10.1111/ele.70254",
+    "pub_repo": "kgawecka/recovery_foodweb_experiment",
+    "pub_commit": "483ed8ae80790a3ed0fb806e681fcc3162c1ebe7",
+    "source_original_raw_blob_sha1": "18c1aef8ad894e28cd2b6462bd20f471363bf92e",
+    "source_author_derived_file_blob_sha1": "b88097e0b38b58277f57197fee35ae4754c1d6e3",
+    "first_scope_protocol_commit": "9f131fee20826ea40f131c4a42acc456859635c6",
+    "v246_initial_source_gate_expected_60_failed_on_original_62": true,
+    "separate_postsource_v247_scope_contract_commit": "0b6fe54a1ed33119f944e88679643c7519bd97be",
+    "computed_from_original_GitHub_CSV_contents_via_independent_JavaScript_extraction": true,
+    "GitHub_Actions_v247_run_id": 39006395777,
+    "GitHub_Actions_v247_result": "success",
+    "GitHub_Actions_v247_successful_run": 39006395777,
+    "GitHub_Actions_v247_job_id": 117319650767,
+    "GitHub_Actions_v247_synthetic_tests_passed": 3,
+    "GitHub_Actions_v247_artifact_id": 12091401771,
+    "GitHub_Actions_v247_artifact_sha256": "80c28f39ac8a040037d7c58c54c4c5895d95cc85d83365fcf7806a335ed584b4",
+    "GitHub_Actions_v246_original_protocol_run": 39006142564,
+    "GitHub_Actions_v246_terminal_source_design_mismatch": "CI synthetic tests passed but raw source had original 62 not expected 60 experimental landscapes",
+    "latest_regression_checked_Actions_run_id": 39006634186,
+    "latest_regression_checked_job_id": 117320328758,
+    "latest_regression_synthetic_tests_passed": 3,
+    "latest_regression_passed_source_reanalysis": true,
+    "latest_regression_artifact_id": 12090983773,
+    "latest_regression_artifact_digest": "sha256:9ecf8f2b856c9362aa43dbaa1553c8ed1f7b6281130e1c25fbcf0a2991af581f"
+  },
+  "original_complete_table": {
+    "raw_count_rows": 693,
+    "experimental_groups": 62,
+    "full_source_including_five_source_controls": 77,
+    "sample_times_per_landscape": 9,
+    "source_original_control_groups": 15,
+    "original_author_derived_recovery_output_rows": 620,
+    "author_derived_noncontrol_landscapes": 62,
+    "source_extra_sixth_replicates": [
+      "BRBR_LIER_DIRA / 1C / replica 6",
+      "BRBR_LIER_DIRA / 1P / replica 6"
+    ]
+  },
+  "paper_method_60_experimental_landscapes": {
+    "one_peripheral_source_landscapes": 15,
+    "source2_center1_distal3to5_initial_geometry_true": true,
+    "classification_counts": {
+      "far_detected_BEFORE_centre_first_positive": 2,
+      "neither_centre_nor_far_detected": 1,
+      "centre_detected_BEFORE_far_first_positive": 10,
+      "first_centre_and_far_same_visit": 1,
+      "centre_detected_far_never_detected": 1
+    },
+    "all_15_landscape_first_detection_records": [
+      {
+        "community": "BRBR",
+        "replica": 1,
+        "center_first_positive_day": 19.052083333333332,
+        "first_distal_first_positive_day": 15.052083333333334,
+        "distal_first_positive_days": {
+          "3": 15.052083333333334,
+          "4": 21.9375,
+          "5": 15.052083333333334
+        },
+        "classification": "far_detected_BEFORE_centre_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 2,
+        "center_first_positive_day": null,
+        "first_distal_first_positive_day": null,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": null,
+          "5": null
+        },
+        "classification": "neither_centre_nor_far_detected",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 3,
+        "center_first_positive_day": 8.03125,
+        "first_distal_first_positive_day": 22.0625,
+        "distal_first_positive_days": {
+          "3": 22.0625,
+          "4": 26.041666666666668,
+          "5": 26.041666666666668
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 4,
+        "center_first_positive_day": 8.760416666666666,
+        "first_distal_first_positive_day": 19.020833333333332,
+        "distal_first_positive_days": {
+          "3": 19.020833333333332,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 5,
+        "center_first_positive_day": 2.0104166666666665,
+        "first_distal_first_positive_day": 5.989583333333333,
+        "distal_first_positive_days": {
+          "3": 5.989583333333333,
+          "4": 21.854166666666668,
+          "5": 25.8125
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 1,
+        "center_first_positive_day": 7.729166666666667,
+        "first_distal_first_positive_day": 14.770833333333334,
+        "distal_first_positive_days": {
+          "3": 21.729166666666668,
+          "4": 14.770833333333334,
+          "5": 21.729166666666668
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 2,
+        "center_first_positive_day": 11.78125,
+        "first_distal_first_positive_day": 21.802083333333332,
+        "distal_first_positive_days": {
+          "3": 25.770833333333332,
+          "4": 21.802083333333332,
+          "5": 21.802083333333332
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 4,
+        "center_first_positive_day": 15.9375,
+        "first_distal_first_positive_day": 26.052083333333332,
+        "distal_first_positive_days": {
+          "3": 26.052083333333332,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 3,
+        "center_first_positive_day": 18.875,
+        "first_distal_first_positive_day": 21.75,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": 21.75,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 5,
+        "center_first_positive_day": 12.8125,
+        "first_distal_first_positive_day": 21.770833333333332,
+        "distal_first_positive_days": {
+          "3": 21.770833333333332,
+          "4": 21.770833333333332,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 1,
+        "center_first_positive_day": 4.791666666666667,
+        "first_distal_first_positive_day": 14.927083333333334,
+        "distal_first_positive_days": {
+          "3": 14.927083333333334,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 2,
+        "center_first_positive_day": 19.989583333333332,
+        "first_distal_first_positive_day": 19.989583333333332,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": 19.989583333333332,
+          "5": null
+        },
+        "classification": "first_centre_and_far_same_visit",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 3,
+        "center_first_positive_day": 12.791666666666666,
+        "first_distal_first_positive_day": 22.84375,
+        "distal_first_positive_days": {
+          "3": 22.84375,
+          "4": 22.84375,
+          "5": 22.84375
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 5,
+        "center_first_positive_day": 15.96875,
+        "first_distal_first_positive_day": null,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_far_never_detected",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 4,
+        "center_first_positive_day": 19.020833333333332,
+        "first_distal_first_positive_day": 12.947916666666666,
+        "distal_first_positive_days": {
+          "3": 12.947916666666666,
+          "4": 19.020833333333332,
+          "5": 25.947916666666668
+        },
+        "classification": "far_detected_BEFORE_centre_first_positive",
+        "n_sampled_visits": 9
+      }
+    ],
+    "first_distal_before_center_community_and_replicates": [
+      {
+        "community": "BRBR",
+        "replica": 1,
+        "far_day": 15.052083333333334,
+        "center_day": 19.052083333333332
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 4,
+        "far_day": 12.947916666666666,
+        "center_day": 19.020833333333332
+      }
+    ],
+    "independent_landscape_replicates_not_independent_patches": true,
+    "summary_observed_first_positive": {
+      "centre_detected_by_end": 14,
+      "any_distance2_positive_by_end": 13,
+      "both_centre_and_any_distance2_positive_by_end": 13,
+      "center_first_detected_positive_day_median_among_observed": 12.802083333333332,
+      "earliest_distal_first_detected_positive_day_median_among_observed": 19.989583333333332,
+      "median_within_same_landscape_distal_minus_center_day_among_both_seen": 8.958333333333332,
+      "inference_limit": "Intervals sampled at 3–4 day resolution with right-censored never-positive; medians are among observed positives and not unbiased interval-censored colonization time estimates"
+    }
+  },
+  "complete_source_62_experimental_landscapes": {
+    "one_peripheral_source_landscapes": 16,
+    "classification_counts": {
+      "far_detected_BEFORE_centre_first_positive": 3,
+      "centre_detected_BEFORE_far_first_positive": 10,
+      "neither_centre_nor_far_detected": 1,
+      "first_centre_and_far_same_visit": 1,
+      "centre_detected_far_never_detected": 1
+    },
+    "all_16_landscape_first_detection_records": [
+      {
+        "community": "BRBR",
+        "replica": 1,
+        "center_first_positive_day": 19.052083333333332,
+        "first_distal_first_positive_day": 15.052083333333334,
+        "distal_first_positive_days": {
+          "3": 15.052083333333334,
+          "4": 21.9375,
+          "5": 15.052083333333334
+        },
+        "classification": "far_detected_BEFORE_centre_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 1,
+        "center_first_positive_day": 7.729166666666667,
+        "first_distal_first_positive_day": 14.770833333333334,
+        "distal_first_positive_days": {
+          "3": 21.729166666666668,
+          "4": 14.770833333333334,
+          "5": 21.729166666666668
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 1,
+        "center_first_positive_day": 4.791666666666667,
+        "first_distal_first_positive_day": 14.927083333333334,
+        "distal_first_positive_days": {
+          "3": 14.927083333333334,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 2,
+        "center_first_positive_day": null,
+        "first_distal_first_positive_day": null,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": null,
+          "5": null
+        },
+        "classification": "neither_centre_nor_far_detected",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 2,
+        "center_first_positive_day": 19.989583333333332,
+        "first_distal_first_positive_day": 19.989583333333332,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": 19.989583333333332,
+          "5": null
+        },
+        "classification": "first_centre_and_far_same_visit",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 3,
+        "center_first_positive_day": 12.791666666666666,
+        "first_distal_first_positive_day": 22.84375,
+        "distal_first_positive_days": {
+          "3": 22.84375,
+          "4": 22.84375,
+          "5": 22.84375
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 3,
+        "center_first_positive_day": 8.03125,
+        "first_distal_first_positive_day": 22.0625,
+        "distal_first_positive_days": {
+          "3": 22.0625,
+          "4": 26.041666666666668,
+          "5": 26.041666666666668
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 2,
+        "center_first_positive_day": 11.78125,
+        "first_distal_first_positive_day": 21.802083333333332,
+        "distal_first_positive_days": {
+          "3": 25.770833333333332,
+          "4": 21.802083333333332,
+          "5": 21.802083333333332
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 4,
+        "center_first_positive_day": 8.760416666666666,
+        "first_distal_first_positive_day": 19.020833333333332,
+        "distal_first_positive_days": {
+          "3": 19.020833333333332,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 4,
+        "center_first_positive_day": 15.9375,
+        "first_distal_first_positive_day": 26.052083333333332,
+        "distal_first_positive_days": {
+          "3": 26.052083333333332,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 5,
+        "center_first_positive_day": 15.96875,
+        "first_distal_first_positive_day": null,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": null,
+          "5": null
+        },
+        "classification": "centre_detected_far_never_detected",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 3,
+        "center_first_positive_day": 18.875,
+        "first_distal_first_positive_day": 21.75,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": 21.75,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER",
+        "replica": 5,
+        "center_first_positive_day": 12.8125,
+        "first_distal_first_positive_day": 21.770833333333332,
+        "distal_first_positive_days": {
+          "3": 21.770833333333332,
+          "4": 21.770833333333332,
+          "5": null
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 4,
+        "center_first_positive_day": 19.020833333333332,
+        "first_distal_first_positive_day": 12.947916666666666,
+        "distal_first_positive_days": {
+          "3": 12.947916666666666,
+          "4": 19.020833333333332,
+          "5": 25.947916666666668
+        },
+        "classification": "far_detected_BEFORE_centre_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR",
+        "replica": 5,
+        "center_first_positive_day": 2.0104166666666665,
+        "first_distal_first_positive_day": 5.989583333333333,
+        "distal_first_positive_days": {
+          "3": 5.989583333333333,
+          "4": 21.854166666666668,
+          "5": 25.8125
+        },
+        "classification": "centre_detected_BEFORE_far_first_positive",
+        "n_sampled_visits": 9
+      },
+      {
+        "community": "BRBR_LIER_DIRA",
+        "replica": 6,
+        "center_first_positive_day": 21.760416666666668,
+        "first_distal_first_positive_day": 11.989583333333334,
+        "distal_first_positive_days": {
+          "3": null,
+          "4": 11.989583333333334,
+          "5": null
+        },
+        "classification": "far_detected_BEFORE_centre_first_positive",
+        "n_sampled_visits": 9
+      }
+    ],
+    "additional_1P_complex_foodweb_replica6": {
+      "community": "BRBR_LIER_DIRA",
+      "replica": 6,
+      "center_first_positive_day": 21.760416666666668,
+      "first_distal_first_positive_day": 11.989583333333334,
+      "distal_first_positive_days": {
+        "3": null,
+        "4": 11.989583333333334,
+        "5": null
+      },
+      "classification": "far_detected_BEFORE_centre_first_positive",
+      "n_sampled_visits": 9
+    }
+  },
+  "scientific_limit": {
+    "already_published_initial_source_number_and_position_main_effect": true,
+    "original_gawecka_experiment_not_catastrophic_extinction_intervention": true,
+    "far_positive_before_center_observed_is_not_direct_teleportation_through_unconnected_graph": true,
+    "intermittent_counts_cannot_observe_undetected_transit": true,
+    "no_actual_migrant_identity_or_route_directly_recorded": true,
+    "no_source_sink_demographic_rescue_demonstrated": true,
+    "retrospective_after_exposure_not_new_confirmatory": true,
+    "no_original_GEB_mammal_heldout_read": true,
+    "eBird_used": false,
+    "GEB_scientific_HOLD": true
+  }
+}
