@@ -39,7 +39,7 @@ def test_both_denominators_persist_and_extra_observed():
     assert result["paper_described_60_landscapes"]["n_independent_focal_1P_landscapes"]==15
     assert result["all_62_original_source_landscape_sensitivity"]["one_source_peripheral_landscapes"]==16
     assert result["all_62_original_source_landscape_sensitivity"]["1P_first_centre_vs_distal_category_counts"]["far_detected_BEFORE_centre_first_positive"]==1
-    assert result["paper_described_60_landscapes"]["original_empty_patch_series_total"] if False else True
+    assert result["paper_described_60_landscapes"]["total_initially_empty_patches"]==150
 
 def test_source_design_cannot_silently_promote_other_rep7():
     raw=example().decode()
