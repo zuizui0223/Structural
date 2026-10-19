@@ -44,7 +44,10 @@ def audit(group_csv: Path, freeze_json: Path, split_json:Path):
         if total[k]!=freeze["overall"][k]:
             raise ValueError("Frozen overall transition totals mismatch")
     for expected in freeze["source_count_groups"]:
-        for k in COUNTS:
+        # The original per-tier freeze only reported n01_2plus, not n10_2plus.
+        # Do not invent missing per-tier historical reference values; the overall
+        # n10_2plus still has an authoritative frozen total.
+        for k in ("n00","n01","n10","n11","n01_2plus"):
             if group[expected["sources"]][k]!=expected[k]:
                 raise ValueError("Original source-tier total changed: "+expected["sources"]+" "+k)
     for expected in freeze["by_realm"]:
