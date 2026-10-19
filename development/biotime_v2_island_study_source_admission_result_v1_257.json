@@ -1,0 +1,76 @@
+{
+  "schema": "structural.biotime_island_study_metadata_gate_result.v1_257",
+  "date": "2026-10-19",
+  "status": "BIOLOGICAL_ISLAND_SOURCE_GATE_HOLD",
+  "sources": {
+    "original_study_metadata_DOI": "10.5281/zenodo.15222193",
+    "original_study_metadata_md5": "3daed71ed554888309f9f2443a847bea",
+    "studied_ids": [
+      "373",
+      "375"
+    ],
+    "author_methods_audit_run": "https://github.com/zuizui0223/Structural/actions/runs/39222136487",
+    "author_methods_artifact_id": 12172655748,
+    "author_methods_artifact_digest": "sha256:ac3e19c5ee9d26610d268a28c94fbcb7bd8fab6d456bee323b05a0fffc4c47da",
+    "original_physical_GSHHG_audit_run": "https://github.com/zuizui0223/Structural/actions/runs/39220652038",
+    "full_metadata_trace": "biotime_island_study_373_375_source_metadata_v1_257.json"
+  },
+  "study_method_findings": [
+    {
+      "STUDY_ID": "373",
+      "TITLE": "Village survey Medium and large mammal survey data",
+      "TAXA": "Mammals",
+      "ORGANISMS": "Mammals",
+      "START_YEAR": 2005,
+      "END_YEAR": 2012,
+      "original_metadata_coordinate_positions": 31,
+      "observation_method": "Fixed/periodic infrared sensor camera sampling from Japanese nationwide monitoring",
+      "reported_coordinate_precision": "Authors state detailed coordinates withheld and public study coordinates provided only to first decimal place for conservation reasons; camera locations individually not published",
+      "site_identity_in_SAMPLE_DESC_NAME": "year_surveyCode_siteCode",
+      "physical_frame_GSHHG_interior_sites": 28,
+      "physical_frame_GSHHG_distinct_island_polygons": 4,
+      "why_not_admissible": "Coarsened site georeferencing cannot establish individual camera placements relative to a precise GSHHG island shoreline or independent donor geometry; nationwide camera network not source-proven as one archipelago",
+      "source_site_link": "http://www.biodic.go.jp/moni1000/findings/data/index.html"
+    },
+    {
+      "STUDY_ID": "375",
+      "TITLE": "Surface of the earth wandering beetles survey data",
+      "TAXA": "Invertebrates",
+      "ORGANISMS": "Beetles",
+      "START_YEAR": 2004,
+      "END_YEAR": 2014,
+      "original_metadata_coordinate_positions": 32,
+      "observation_method": "Pitfall-trap sampling of ground-active beetles in forest and grassland plots across Japanese monitoring sites",
+      "site_identity_in_SAMPLE_DESC_NAME": "year_month_day_plot",
+      "physical_frame_GSHHG_interior_sites": 30,
+      "physical_frame_GSHHG_distinct_island_polygons": 7,
+      "why_not_admissible": "Different taxonomic/measurement domain than 373; national plot frame is not validated as one archipelago with biologically measurable cross-island donor movements",
+      "source_site_link": "http://www.biodic.go.jp/moni1000/findings/data/index.html"
+    }
+  ],
+  "pairwise_methods_evaluation": {
+    "same_primary_data_provider": true,
+    "same_taxonomic_outcome": false,
+    "independent_archipelago_geographies_verified": false,
+    "equivalent_species_detection_methods": false,
+    "source_to_target_movement_measured": false,
+    "source_373_public_coordinate_precision_adequate_for_island_polygon_identity": false,
+    "metadata_center_distance_km": 94.482,
+    "metadata_centroid_separation_not_independent_geography_proof": true,
+    "source_record_conflict_note": "Source generic SUMMARY_METHODS labels differ from detailed author METHODS (e.g., 373 detailed infrared cameras; 375 detailed pitfall traps); use methods text not summary label for biological method inference",
+    "evidence_ceiling": "The two earlier GSHHG-positive STUDY_IDs are geometry-only candidates, not two genuine independent archipelago tests of structural island source/colonization mechanisms."
+  },
+  "numerical_boundaries": {
+    "generic_BioTIME_repeated_community_physical_proxy_studies": 33,
+    "GSHHG_terrestrial_multi_island_geometry_positive_studies": 2,
+    "confirmed_same_taxon_independent_archipelago_replicates_from_those_two": 0,
+    "reserved_33_species_site_response_rows_opened": 0,
+    "crosswalk_site_count_output_is_not_species_occurrence": true
+  },
+  "decision": {
+    "next_action": "Stop claiming the BioTIME 33 or 2 constitute a global independent island mechanism sample; retain general global temporal community sampled detection result separately. For island ecology use independently surveyed oceanic/continental island checklists with a validated stable island identity and documented temporal detection, or a genuinely observed movement/establishment dataset.",
+    "confirmatory_transition_authorized": false,
+    "GEB_scientific_HOLD": true,
+    "eBird_off": true
+  }
+}
