@@ -1,0 +1,103 @@
+{
+  "schema": "structural.nrmn_rls_marine_island_geo_protocol.v1_262",
+  "freeze_date": "2026-10-19",
+  "status": "GEO_RULES_FROZEN_BEFORE_AUTHOR_GSHHG_REEF_SITE_CROSSWALK",
+  "goal": "Determine which of the TEN source-frozen RLS same-method repeated marine survey localities contain at least two independently mapped island coastlines with repeat fish Method-1 survey-event opportunities, without opening any fish species responses.",
+  "official_data": {
+    "survey_dataset": "aodn-cloud-optimised/diver_survey_metadata_qc.parquet",
+    "survey_sidecar_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "methods_protocol": "development/nrmn_rls_method1_physical_protocol_v1_261.json",
+    "methods_run": "https://github.com/zuizui0223/Structural/actions/runs/39234366588",
+    "frozen_RLS_source_groups": 10,
+    "survey_fields_only": [
+      "survey_id",
+      "survey_date",
+      "country",
+      "area",
+      "location",
+      "site_code",
+      "latitude",
+      "longitude",
+      "depth",
+      "program",
+      "methods"
+    ],
+    "source_GIS": "https://github.com/GenericMappingTools/gshhg-gmt/releases/download/2.3.7/gshhg-shp-2.3.7.zip",
+    "GSHHG_zip_bytes": 149157845,
+    "GSHHG_zip_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+    "GIS_layer": "GSHHS_shp/h/GSHHS_h_L1.shp",
+    "island_repo_reference": "https://github.com/zuizui0223/island/blob/main/config/island_source_gshhg.yml"
+  },
+  "sample_frame": {
+    "only_method_1": true,
+    "ignore_method_0_as_fish_sample": true,
+    "only_RLS": true,
+    "event": "unique survey_id of a valid physical location and calendar date",
+    "site": "normalized country/area/location/site_code; stable within 0.01 degrees lat and lon across all observed method 1 survey events",
+    "pair": "same site, same month, consecutive years, >=2 distinct Method 1 transect survey IDs at t and t+1",
+    "location_proxy": "median coordinate across valid eligible Method 1 site visits",
+    "no_site_codes_or_coordinates_in_artifacts": true,
+    "include_all_10_groups": true
+  },
+  "geography": {
+    "marine_shoreline_algorithm": "For each eligible marine survey site, identify actual GSHHG 2.3.7 L1 landmass polygon distances to coastline. A polygon is a proximity proxy, not an observed fish dispersal connection.",
+    "operational_primary_island_area_min_km2": 0.1,
+    "operational_mainland_area_min_km2": 7000000,
+    "max_site_to_island_shore_km": 5,
+    "mainland_versus_island_exclusion_margin_km": 1,
+    "two_nearest_island_ambiguity_margin_km": 1,
+    "no_GSHHG_land_interior_as_marine_site": true,
+    "source_bounding_box_selection_buffer_degrees": 2,
+    "sensitivity_island_area_min_km2": [
+      0.01,
+      1,
+      5
+    ],
+    "sensitivity_site_to_island_shore_km": [
+      2,
+      10
+    ],
+    "within_10_km_second_island_distance_required_for_ambiguity_test": true,
+    "no_oceanic_geological_origin_claim": true,
+    "no_marine_currents_or_larval_dispersal_measured": true
+  },
+  "group_eligibility": {
+    "min_separate_island_polygons": 2,
+    "min_method1_strict_repeat_sites_per_island": 3,
+    "min_total_method1_annual_site_month_pairs_in_two_islands": 10,
+    "no_analysis_of_event_species_values": true,
+    "individual_RLS_site_codes_are_not_breeding_population_IDs": true
+  },
+  "outputs": {
+    "one_aggregate_per_each_frozen_RLS_geographic_group": true,
+    "report_counts": [
+      "physical_RLS_method1_strict_sites",
+      "method1_strict_site_month_year_pairs",
+      "marine_sites_mapped_near_any_island",
+      "marine_sites_near_mainland_only",
+      "marine_land_interior_flags",
+      "ambiguous_near_multiple_coastlines",
+      "islands_with_3plus_strict_sites",
+      "independent_island_survey_network_proxy_candidate",
+      "sensitivity_counts"
+    ],
+    "no_outputs": [
+      "site_code",
+      "survey_id",
+      "latitude",
+      "longitude",
+      "species_name",
+      "total",
+      "biomass",
+      "individual reef fish observations"
+    ]
+  },
+  "interpretation": {
+    "positive_survey_frame_is_not": "verified island species occurrence, colonization or larval transfer",
+    "need_later": "for any apparent inter-island network, separately freeze study physical origin/effort and train-only fish detection reference before opening fish responses",
+    "if_zero": "STOP literal multi-island fish dynamics research using these 10 frozen locations; do not loosen thresholds after seeing outcomes"
+  },
+  "no_fish_response_rows_read": true,
+  "eBird_used": false,
+  "GEB_scientific_HOLD": true
+}
