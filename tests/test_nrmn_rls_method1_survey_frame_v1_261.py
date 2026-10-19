@@ -41,7 +41,7 @@ def test_strict_method1_site_annual_pairs_and_all_ten_candidate_reporting():
         for _ in range(2):
             rows.append(survey(sid,"R7",y,method="12, 13"));sid+=1
     result=tally_method1(rows,CONTRACT)
-    assert result["source_survey_rows_seen"]==40
+    assert result["source_rows_seen"]==40
     assert result["method1_unique_events_by_program"]["RLS"]==30
     assert result["all_methods_unique_events_by_program"]["RLS"]==40
     assert result["RLS_method1_strict_site_year_month_pairs"]==10
