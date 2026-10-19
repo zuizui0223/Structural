@@ -1,0 +1,80 @@
+{
+  "schema": "structural.nrmn_source_only_multi_island_feasibility_result.v1_262",
+  "date": "2026-10-19",
+  "evidence_class": "ACTUAL_PUBLIC_SURVEY_EVENT_PHYSICAL_GIS_ONLY_ZERO_FISH_RESPONSE",
+  "source": {
+    "AODN_survey": "aodn-cloud-optimised/diver_survey_metadata_qc.parquet",
+    "AODN_survey_sidecar_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "GSHHG_tag": "2.3.7",
+    "GSHHG_zip_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+    "AODN_original_unique_valid_survey_ids": 36971,
+    "fish_abundance_data_accesses": 0
+  },
+  "independent_source_only_executions": [
+    {
+      "run_id": 39235440095,
+      "url": "https://github.com/zuizui0223/Structural/actions/runs/39235440095",
+      "artifact_id": 12179595620,
+      "zip_sha256": "eac1fc67ac15e5b8a9cd8dd9b702c5be8017fd1cb8bfa87835b32c0fc47206e2",
+      "programs": [
+        "ATRC",
+        "RLS"
+      ],
+      "frozen_physical_locality_groups": 20,
+      "strict_method1_comparable_site_month_year_pairs": 1156,
+      "distinct_repeat_survey_sites": 347,
+      "multi_island_geographic_groups_passing_precommitted_island_site_year_quality": 0,
+      "stricter_island_replication_gate": "At least two distinct GSHHG island polygons within a fixed study locality, each >=3 active sites, >=3 strict pairs, >=2 prior observation years"
+    },
+    {
+      "run_id": 39235526185,
+      "url": "https://github.com/zuizui0223/Structural/actions/runs/39235526185",
+      "artifact_id": 12178671912,
+      "zip_sha256": "d5e2e8825c088df6a76c9dd9ca41b21ea4a502c8352c1a945b367a7f2af9bc68",
+      "programs": [
+        "RLS"
+      ],
+      "frozen_physical_locality_groups": 10,
+      "strict_method1_comparable_site_month_year_pairs": 442,
+      "distinct_repeat_survey_sites": 174,
+      "multi_island_geographic_groups_passing_source_preset_3_sites_per_island": 0,
+      "looser_RLS_gate": "At least two distinct GSHHG landmass island polygon IDs each with >=3 eligible source-repeated site codes; nearest island coast <=5km and >=1km closer than another landmass"
+    }
+  ],
+  "observed_island_surrounding_reef_systems_examples": [
+    {
+      "program": "RLS",
+      "region": "Rottnest Island",
+      "strict_pairs": 105,
+      "source_verified_reef_sites_near_one_island": 5,
+      "distinct_assigned_islands": 1
+    },
+    {
+      "program": "RLS",
+      "region": "Lord Howe Island",
+      "strict_pairs": 32,
+      "source_verified_reef_sites_near_one_island": 9,
+      "distinct_assigned_islands": 1
+    },
+    {
+      "program": "ATRC",
+      "region": "Maria Island",
+      "strict_pairs": 150,
+      "source_verified_reef_sites_near_island": 9,
+      "individually_islands_with_3plus_sites_and_2plus_years": 1
+    }
+  ],
+  "decision": {
+    "multi_island_source_to_receiver_colonization_directly_testable_in_this_fixed_CI_frame": false,
+    "unexpected_value": "Actual official source supports within-single-island reef patch turnover studies, not source-to-target between-island rescue in these geographically repeated sampling groups.",
+    "source_biology_not_opened": true,
+    "do_not_relabel_reef_patch_sites_as_distinct_islands": true,
+    "do_not_lower_cutoffs_after_negative_GIS": true,
+    "next_mainline": "Find source-independent, genuinely repeatedly sampled multiple oceanic/continental islands with native taxon island-year detection, then assess full temporal distribution.",
+    "distinct_optional_followup": "If pursuing a separate marine-reef study, freeze within-island site-level sampled-detection hypothesis as independent project, with no claim of inter-island dispersal.",
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "original_mammal_heldout_unopened": true,
+    "new_confirmatory_species_systems": 0
+  }
+}
