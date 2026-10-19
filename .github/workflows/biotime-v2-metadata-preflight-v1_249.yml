@@ -1,0 +1,40 @@
+name: BioTIME 2.0 metadata-only study eligibility v1.249
+
+on:
+  push:
+    paths:
+      - ".github/workflows/biotime-v2-metadata-preflight-v1_249.yml"
+      - "scripts/biotime_v2_metadata_preflight_v1_249.py"
+      - "tests/test_biotime_v2_metadata_preflight_v1_249.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biotime-v2-metadata-preflight-v1_249.yml"
+      - "scripts/biotime_v2_metadata_preflight_v1_249.py"
+      - "tests/test_biotime_v2_metadata_preflight_v1_249.py"
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test framework
+        run: python -m pip install pytest
+      - name: Verify metadata-only and checksum constraints
+        run: python -m pytest -q tests/test_biotime_v2_metadata_preflight_v1_249.py
+      - name: Acquire exactly the author-deposited BioTIME v2 metadata; no species observations
+        run: |
+          python scripts/biotime_v2_metadata_preflight_v1_249.py --out biotime_v2_metadata_preflight_v1_249.json
+      - name: Upload immutable metadata audit / exact STOP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biotime-v2-metadata-only-v1-249
+          path: biotime_v2_metadata_preflight_v1_249.json
+          if-no-files-found: error
