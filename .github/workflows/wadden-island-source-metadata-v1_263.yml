@@ -1,0 +1,56 @@
+name: Wadden experimental saltmarsh islands original Dryad metadata v1.263
+
+on:
+  push:
+    paths:
+      - ".github/workflows/wadden-island-source-metadata-v1_263.yml"
+      - "development/wadden_experimental_island_source_protocol_v1_263.json"
+      - "scripts/wadden_original_dryad_source_metadata_v1_263.py"
+      - "tests/test_wadden_original_dryad_source_metadata_v1_263.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dryad-original-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install isolated original source metadata test runner
+        run: python -m pip install pytest
+      - name: Test original version and five file metadata gate, prohibit raw biological responses
+        run: python -m pytest -q tests/test_wadden_original_dryad_source_metadata_v1_263.py
+      - name: Fetch ONLY official published Dryad dataset/version/file metadata
+        run: |
+          python scripts/wadden_original_dryad_source_metadata_v1_263.py \
+            --contract development/wadden_experimental_island_source_protocol_v1_263.json \
+            --out wadden_original_source_metadata_v1_263.json
+      - name: Assert no original presence or dispersule count data opened
+        if: always()
+        run: |
+          if test -f wadden_original_source_metadata_v1_263.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("wadden_original_source_metadata_v1_263.json").read_text())
+          assert x["GEB_scientific_HOLD"] is True
+          if x["status"]=="ORIGINAL_DRYAD_FILE_METADATA_IDENTIFIED_NO_BIOLOGY":
+            assert x["publisher_doi"]=="10.5061/dryad.gxd2547z3"
+            assert x["actual_seed_trap_or_plant_presence_rows_read"]==0
+            assert x["independently_replicated_archipelago_experiments_admitted"]==0
+            assert len(x["required_source_files"])==5
+          print("WADDEN METADATA ONLY",x["status"])
+          PY
+          fi
+      - name: Upload original source metadata / explicit technical STOP only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wadden-experimental-island-source-metadata-v1-263
+          path: wadden_original_source_metadata_v1_263.json
+          if-no-files-found: warn
