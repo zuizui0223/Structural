@@ -1,0 +1,47 @@
+{
+  "schema": "structural.jncc_seabirds_count_comparative_source_preflight.v1_264",
+  "frozen_at": "2026-10-19",
+  "status": "SOURCE_ONLY_FROZEN_BEFORE_BIOLOGICAL_SITE_X_SPECIES_COUNT_ROWS",
+  "purpose": "Test whether official 2000-vs-2015/2022 breeding seabird census source includes stable comparable colony/site and species identifiers appropriate for independent macro-island occupancy dynamics; do not infer colonization from aggregate species trends.",
+  "official_source": {
+    "publisher": "UK Joint Nature Conservation Committee (JNCC)",
+    "official_catalogue": "https://jncc.gov.uk/resources/63f0ea40-485d-46dd-b967-150df90a7b2b",
+    "exact_original_file_url": "https://data.jncc.gov.uk/data/63f0ea40-485d-46dd-b967-150df90a7b2b/comparative-seabirds-count-dataset-revised-20240708.xlsx",
+    "dataset_label": "Seabird 2000 and Seabirds Count comparative dataset, corrected 11 July 2024",
+    "source_version_filename": "comparative-seabirds-count-dataset-revised-20240708.xlsx",
+    "size_max_bytes": 8000000,
+    "licence": "Open Government Licence 3.0",
+    "census0": "Seabird 2000, 1998–2002",
+    "census1": "Seabirds Count, 2015–2022",
+    "full_census_sites_reported": "over 10,000",
+    "species_reported": "25",
+    "embargo_sensitive_species": "Public comparative workbook might omit or suppress protected breeding seabirds; do not infer zero from suppression"
+  },
+  "pre_biological_metadata_allowed": [
+    "Original XLSX ZIP file structure and SHA256",
+    "Worksheet names, dimensions, sharedStrings size and top source-authored schema/header labels",
+    "Worksheet row/column counts without displaying census counts",
+    "Whether site/colony identity, taxon, region, grid reference, count-type and census wave fields are visibly present",
+    "Whether workbook contains macros, external links or hidden worksheets"
+  ],
+  "prohibited_before_design_freeze": [
+    "Row-by-row species abundance/count values from either wave",
+    "Census-specific site-level presence/absence and transitions",
+    "Island effects, geo selected subsets, species subset p-values, habitat topology features",
+    "Synthetic assignment of census absence to an unlisted/sensitive/nonvisited colony"
+  ],
+  "prospective_next_design_gates": [
+    "Confirm that the published file contains a stable site or colony key across both waves; otherwise STOP two-wave spatial colonization inference",
+    "Separate complete census/colony visit records from only positive breeding records and confidential suppression",
+    "Freeze island polygon/OS grid crosswalk independently from species-level response, including continental vs oceanic geological classification",
+    "Investigate whether comparable complete counts exist per species, site and wave before comparing true occupied/not-occupied state",
+    "Treat 2000-versus-2020 as TWO historical windows, not an annual survival/recolonization series",
+    "Control for detection method changes, site mergers/splits, survey units (pairs vs adults/nests), availability of true zero, and documented species censoring",
+    "Primary comparisons require multiple independent archipelagos and holdout at archipelago unit, not more rows from same colony"
+  ],
+  "evidence_class": "JNCC_OFFICIAL_FULL_CENSUS_DATABASE_SOURCE_STRUCTURAL_SCHEMA_ONLY",
+  "original_global_mammal_heldout_unopened": true,
+  "eBird_used": false,
+  "GEB_scientific_HOLD": true,
+  "new_biological_outcomes_accessed": 0
+}
