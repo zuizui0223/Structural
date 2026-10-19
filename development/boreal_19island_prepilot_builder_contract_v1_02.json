@@ -1,0 +1,102 @@
+{
+  "schema": "structural.boreal_19island_prepilot_builder_contract.v1_02",
+  "status": "RESPONSE_SEALED_V012_V031_V042_PREDECLARED",
+  "candidate_id": "lac_la_ronge_boreal_19island_beetles_2026",
+  "parents": [
+    "development/boreal_19island_header_projection_freeze_v0_95.json",
+    "development/boreal_19island_safe_geometry_freeze_v0_97.json",
+    "development/boreal_19island_spatial_partition_freeze_v1_00.json",
+    "development/boreal_19island_state_reference_freeze_v0_99.json",
+    "development/boreal_19island_source_operator_freeze_v1_01.json",
+    "development/boreal_lake_islands_dryad_metadata_result_v0_65.json",
+    "development/independent_system_intake_contract_v0_12.json",
+    "development/transition_pilot_protocol_contract_v0_31.json",
+    "development/response_quality_attrition_gate_v0_42.json"
+  ],
+  "analysis_population": {
+    "island_count": 19,
+    "selection_rule": "source-defined islands that burned between 1995 and 2021",
+    "selection_basis": "fire-history and Landsat availability, not beetle response",
+    "selection_parent": "development/boreal_19island_header_projection_freeze_v0_95.json",
+    "outcome_selected": false
+  },
+  "response_file": {
+    "name": "beetles_speciesmatrix_presenceabsence.csv",
+    "dryad_file_id": 4569032,
+    "expected_size_bytes": 49005,
+    "expected_sha256": "01eef34863bfd49fdc68dfae0aec58766a6fcdd1234751a9c75824df9f038be0",
+    "parent_matrix_island_rows": 42,
+    "species_columns": 466,
+    "required_response_domain": ["0", "1"],
+    "semantic_access_scope_after_future_pilot_authorization": "exact frozen 19-island analysis population only; during pilot, only the six frozen pilot island rows; all other matrix rows remain semantically opaque"
+  },
+  "intake_identity": {
+    "schema": "structural.independent_system_intake.v0_12",
+    "status": "response_sealed_dual_isolation_intake_draft",
+    "source_id": "doi:10.5061/dryad.tdz08kq78",
+    "source_version": "dryad-v7-version-id-422440",
+    "origin": "independent_island_network"
+  },
+  "source_fingerprint_fields": [
+    "Dryad identifier",
+    "Dryad version id",
+    "Dryad version number",
+    "source article DOI",
+    "primary response file id",
+    "primary response file SHA-256",
+    "exact 19-island ordered analysis population",
+    "response-independent population selection rule"
+  ],
+  "v012_compatibility_aliases": {
+    "safe_projection_v0_74": "SHA-256 of committed v0.97 geometry freeze JSON",
+    "spatial_partition_v0_75": "SHA-256 of committed v1.00 spatial freeze JSON",
+    "habitat_reference_v0_76": "SHA-256 of committed v0.99 state freeze JSON",
+    "reason": "generic v0.12 validator retains historical interface keys; the exact 19-island parent paths and hashes are additionally bound explicitly"
+  },
+  "freshness_semantics": {
+    "temporal_replication": "no",
+    "immutable_source_identity": "yes",
+    "spatial_unit_id_documented": "yes",
+    "coordinates_or_geometry_documented": "yes",
+    "outcome_file_separable": "yes",
+    "operator_semantics_declarable": "yes",
+    "connectivity_question_already_published": "no",
+    "response_result_seen_by_project": "no"
+  },
+  "endpoint_design": {
+    "mode": "static_cross_sectional_occurrence",
+    "endpoint_semantics": "beetle species detected in the standardized 30 x 30 m insular sampling assemblage on the exact frozen 19-island analysis population, not complete whole-island occupancy",
+    "temporal_transition_required": false,
+    "whole_island_occupancy_claim_authorized": false,
+    "colonization_claim_authorized": false,
+    "rescue_persistence_claim_authorized": false,
+    "required_response_domain": ["0", "1"]
+  },
+  "v0_31": {
+    "partition_axis": "response_independent_spatial_components_v097",
+    "endpoint_id": "fixed_pilot_supported_beetle_plot_occurrence_19island",
+    "heldout_design_id": "leave_one_spatial_component_out_fixed_pilot_supported_species_universe_19island",
+    "minimum_test_rows": 3,
+    "minimum_train_positive": 5,
+    "minimum_train_negative": 5,
+    "minimum_estimable_blocks": 3,
+    "species_universe_rule": "after one-shot pilot access, define one common species universe as beetle species detected on at least two distinct frozen pilot islands; use that identical universe for every held-out pilot block",
+    "pilot_used_for_effect_estimation": false
+  },
+  "v0_42": {
+    "minimum_response_qualified_blocks": 3,
+    "post_open_rescue_forbidden": true
+  },
+  "response_boundary": {
+    "response_firewall_state": "response_sealed",
+    "response_values_accessed": false,
+    "pilot_response_authorized": false,
+    "confirmatory_response_authorized": false,
+    "mechanism_response_authorized": false,
+    "counts_as_empirical_evidence": false,
+    "predictive_denominator_contribution": 0
+  },
+  "success_ceiling": {
+    "next_action": "commit exact v0.12 intake, v0.12 validation receipt, v0.31 protocol, fingerprint-bound v0.42 quality contract and v1.02 prepilot receipt; only then design a separate 19-island pilot byte router"
+  }
+}
