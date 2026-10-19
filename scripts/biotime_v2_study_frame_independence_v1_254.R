@@ -132,8 +132,8 @@ audit_frame_independence <- function(raw, pilot_ids, reserved_ids,
   flagged <- pair_ids[shared_sites>0L | shared_frames>0L]
   setorder(flagged,a,b)
 
-  hard <- pair_ids[near_duplicate_frame,.(a,b)]
-  soft <- pair_ids[shared_geography,.(a,b)]
+  hard <- pair_ids[near_duplicate_frame==TRUE,.(a,b)]
+  soft <- pair_ids[shared_geography==TRUE,.(a,b)]
   hard_groups <- connected_groups(ids,hard)
   soft_groups <- connected_groups(ids,soft)
   qual_groups <- Filter(function(g) any(g %in% qualified_ids),hard_groups)
