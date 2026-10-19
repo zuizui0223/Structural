@@ -59,3 +59,33 @@ def test_year_field_guard():
     assert m._simple_numeric_year("1893") == 1893
     assert m._simple_numeric_year("2023-08") is None
     assert m._simple_numeric_year("n/a") is None
+
+
+
+def test_study_screen_is_candidate_only_not_a_temporal_endpoint():
+    rows = [
+        {"STUDY_ID":"1","START_YEAR":"2011","END_YEAR":"2020",
+         "NUMBER_LAT_LONG":"25","NUMBER_OF_SAMPLES":"400",
+         "NUMBER_OF_SPECIES":"35","REALM":"Terrestrial"},
+        {"STUDY_ID":"2","START_YEAR":"2019","END_YEAR":"2020",
+         "NUMBER_LAT_LONG":"2","NUMBER_OF_SAMPLES":"20",
+         "NUMBER_OF_SPECIES":"3","REALM":"Freshwater"},
+    ]
+    result=m.spatial_temporal_study_screen(rows)
+    assert result["status"]=="POTENTIAL_BY_METADATA_NOT_RESPONSE_APPROVED"
+    assert result["source_studies_seen"]==2
+    assert result["numerical_metadata_screen_counts"]["span5_sites10_samples100_species10"]==1
+    assert result["numerical_metadata_screen_counts"].get("span8_sites20_samples1000_species20",0)==0
+    assert "the same location was surveyed in at least two or three separate years" in result["not_yet_verified"]
+
+
+def test_duplicate_study_id_is_not_independent_study():
+    row={"STUDY_ID":"1","START_YEAR":"2011","END_YEAR":"2020",
+         "NUMBER_LAT_LONG":"25","NUMBER_OF_SAMPLES":"400",
+         "NUMBER_OF_SPECIES":"35","REALM":"Terrestrial"}
+    try:
+        m.spatial_temporal_study_screen([row,row])
+    except m.SourceStop as e:
+        assert "Duplicate" in str(e)
+    else:
+        raise AssertionError("Duplicate study ID was treated as independent")
