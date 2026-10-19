@@ -1,0 +1,44 @@
+{
+  "schema": "structural.gift_metadata_freeze_contract.v0_90",
+  "status": "metadata_only_plant_system_preselection_frozen_before_species_composition",
+  "candidate_id": "gift_native_angiosperm_islands_v3_2",
+  "database": {
+    "package": "GIFT",
+    "database_version": "3.2",
+    "api": "https://gift.uni-goettingen.de/api/extended/",
+    "package_version": "1.3.4"
+  },
+  "call": {
+    "function": "GIFT_checklists",
+    "taxon_name": "Angiospermae",
+    "complete_taxon": true,
+    "floristic_group": "native",
+    "complete_floristic": true,
+    "geo_type": "Island",
+    "suit_geo": true,
+    "remove_overlap": false,
+    "list_set_only": true,
+    "GIFT_version": "3.2"
+  },
+  "rationale": "native angiosperms are used because GIFT's suitability assessment is explicitly maintained for native angiosperm regional coverage; metadata-only retrieval permits island/checklist selection without opening species composition",
+  "allowed_outputs": [
+    "checklist/list metadata returned under list_set_only=TRUE",
+    "package version",
+    "database version",
+    "retrieval timestamp",
+    "row/column counts",
+    "SHA-256 of canonical metadata CSV"
+  ],
+  "forbidden_before_separate_freeze": [
+    "species composition",
+    "species richness calculated from checklist contents",
+    "C_minus_R3",
+    "source-pool features",
+    "result-based archipelago selection"
+  ],
+  "workflow": ".github/workflows/gift-metadata-freeze-v0_90.yml",
+  "script": "scripts/freeze_gift_metadata_v0_90.R",
+  "counts_as_empirical_evidence": false,
+  "pilot_response_authorized": false,
+  "confirmatory_response_authorized": false
+}

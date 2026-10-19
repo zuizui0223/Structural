@@ -1,0 +1,31 @@
+{
+  "schema": "structural.active_priority.v0_90",
+  "status": "global_mammals_plus_GIFT_macro_core",
+  "supersedes": "development/structural_active_priority_v0_89.json",
+  "fresh_active_empirical_candidate": null,
+  "fresh_confirmatory_eligible_count": 0,
+  "hypothesis": "development/prospective_dual_isolation_source_pool_hypothesis_v0_55.json",
+  "primary_goal": "advance the global two-taxon macro test without opening either primary biological response prematurely",
+  "prepared_sequence": [
+    "retain the already-verified A-Islands outside-Actions backup; do not repeat artifact preservation",
+    "run the exact authenticated 5592-mammal routing-ID workflow only",
+    "complete the response-independent historical-overlap exclusion before mammal occurrence opening",
+    "run GIFT v3.2 list_set_only metadata freeze for native angiosperm islands",
+    "freeze final GIFT island/archipelago eligibility from metadata only",
+    "freeze one joint mammal-plus-plant analysis contract with R3 species_x_regional_pool and leave-block-out source features",
+    "execute each biological response once under the frozen contract"
+  ],
+  "boreal": {
+    "role": "supplementary_local_contrast_only",
+    "v0_89_exact_replay_verifier_preserved": true,
+    "may_not_block_macro_progress": true
+  },
+  "prohibited": [
+    "continue boreal as the bottleneck for the macro paper",
+    "treat exact numeric ID non-overlap across unrelated island databases as proof of independence",
+    "open mammal occurrence cells before historical-overlap exclusion",
+    "request GIFT species lists before metadata selection is committed",
+    "compute any source feature from a held-out block",
+    "use A-Islands, Tanzania or the consumed 318-island mammal result as confirmatory evidence"
+  ]
+}
