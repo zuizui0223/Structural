@@ -1,0 +1,54 @@
+name: JNCC comparative seabird censuses source structural preflight v1.264
+
+on:
+  push:
+    paths:
+      - ".github/workflows/jncc-seabird-census-source-preflight-v1_264.yml"
+      - "development/jncc_seabird_comparative_source_preflight_protocol_v1_264.json"
+      - "scripts/jncc_seabird_comparative_source_preflight_v1_264.py"
+      - "tests/test_jncc_seabird_source_preflight_v1_264.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-publisher-schema-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test synthetic sheet metadata before source workbook values
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_jncc_seabird_source_preflight_v1_264.py
+      - name: Download only corrected 2024 official JNCC comparative census XLSX and inspect file schema
+        run: |
+          python scripts/jncc_seabird_comparative_source_preflight_v1_264.py \
+            --protocol development/jncc_seabird_comparative_source_preflight_protocol_v1_264.json \
+            --source-out jncc_official_comparative_20240708.xlsx \
+            --receipt-out jncc_seabird_source_structure_v1_264.json
+      - name: Enforce no read of colony/species census biological outcomes
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("jncc_seabird_source_structure_v1_264.json").read_text())
+          assert r["schema"]=="structural.jncc_comparative_seabird_xlsx_source.v1_264"
+          assert r["status"]=="SOURCE_DOWNLOADED_XLSX_SHEETS_STRUCTURE_ONLY"
+          assert r["biological_census_count_rows_read"]==0
+          assert r["official_source_sha256"]
+          print("Publisher original source sheet inventory", [(x["name"],x["approx_dimension_ref"]) for x in r["sheets"]])
+          PY
+      - name: Retain authentic public JNCC original source and schema-only record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jncc-seabird-comparative-source-only-v1-264
+          path: |
+            jncc_official_comparative_20240708.xlsx
+            jncc_seabird_source_structure_v1_264.json
+          if-no-files-found: warn
