@@ -1,0 +1,56 @@
+name: BioTIME two geographic-island studies public methods v1.257
+
+on:
+  push:
+    paths:
+      - ".github/workflows/biotime-v2-island-study-metadata-v1_257.yml"
+      - "scripts/biotime_v2_island_study_metadata_v1_257.py"
+      - "tests/test_biotime_v2_island_study_metadata_v1_257.py"
+      - "development/biotime_v2_island_study_metadata_protocol_v1_257.json"
+  pull_request:
+    paths:
+      - ".github/workflows/biotime-v2-island-study-metadata-v1_257.yml"
+      - "scripts/biotime_v2_island_study_metadata_v1_257.py"
+      - "tests/test_biotime_v2_island_study_metadata_v1_257.py"
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-provenance-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install synthetic-only test dependency
+        run: python -m pip install pytest
+      - name: Prove immutable original 373/375 selection and confidential field exclusions
+        run: python -m pytest -q tests/test_biotime_v2_island_study_metadata_v1_257.py
+      - name: Query only source-publisher metadata and DOI with exact MD5
+        run: |
+          python scripts/biotime_v2_island_study_metadata_v1_257.py \
+            --protocol development/biotime_v2_island_study_metadata_protocol_v1_257.json \
+            --output biotime_island_study_373_375_source_metadata_v1_257.json
+      - name: Verify no biological species outcomes or contact fields in result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("biotime_island_study_373_375_source_metadata_v1_257.json")
+          r=json.loads(f.read_text())
+          assert r["total_unique_studies_in_publisher_metadata"]==708
+          assert set(r["chosen_studies"])=={"373","375"}
+          assert r["species_or_site_year_responses_read"] is False
+          assert r["future_33_reserved_study_species_queries"]==0
+          for study in r["chosen_studies"].values():
+            assert not any(x in study for x in ("CONTACT_1","CONTACT_2","CONT_1_MAIL","CONT_2_MAIL"))
+          print("BIOLOGICAL ENDPOINTS OPENED:",0,"; Source metadata study IDs:",sorted(r["chosen_studies"]))
+          PY
+      - name: Archive only metadata and author methods for two predeclared studies
+        uses: actions/upload-artifact@v4
+        with:
+          name: biotime-island-study-source-metadata-only-v1-257
+          path: biotime_island_study_373_375_source_metadata_v1_257.json
