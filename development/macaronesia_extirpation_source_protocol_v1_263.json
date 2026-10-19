@@ -1,0 +1,50 @@
+{
+  "schema": "structural.macaronesia_local_extirpation_source_gate.v1_263",
+  "frozen_on": "2026-10-19",
+  "status": "FROZEN_SOURCE_IDENTITY_AND_HEADER_ONLY_BEFORE_EXTIRPATION_OUTCOMES",
+  "research_question": "Does spatial configuration of conspecific populations across actual islands relate to documented local extirpation beyond source count, isolation, island area, life history and anthropogenic covariates?",
+  "source": {
+    "provider": "Consejo Superior de Investigaciones Científicas (Digital.CSIC), 2025 deposition / 2026-06-18 data distribution",
+    "title": "Database of local and global extinct species, biogeographical variables, and biological traits of the Macaronesian vascular flora",
+    "handle": "http://hdl.handle.net/10261/377677",
+    "workbook_url": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+    "workbook_filename": "Extinct_species_biogeographical_variables_&_biological_traits_Macaronesian_flora.xlsx",
+    "workbook_expected_bytes": 332776,
+    "readme_url": "https://digital.csic.es/bitstream/10261/377677/4/README.docx",
+    "readme_filename": "README.docx",
+    "readme_expected_bytes": 23793,
+    "license": "CC BY-SA 4.0",
+    "original_peer_reviewed_paper": "Geographic and Biological Drivers Shape Anthropogenic Extinctions in the Macaronesian Vascular Flora, Global Change Biology (2025), DOI 10.1111/gcb.70072"
+  },
+  "source_announced_tables": {
+    "S1": "documented locally or globally extinct/extirpated Macaronesian vascular taxa",
+    "S2": "island biogeographic and demographic descriptors for islands with extirpations",
+    "S3_S4": "native vascular flora of Azores and Canary islands with extant and extinct taxa, 9 functional traits, study-defined geographic frame"
+  },
+  "source_preflight": {
+    "allowed": "publisher exact HTTPS workbook and README transport; source SHA256; file length; workbook ZIP integrity, sheet names, nominal Excel dimensions and first-row headers only",
+    "prohibited": "decoding species occurrence values, extinct/extant response state per taxon/island, source-specific taxon conservation labels or counts, any heldout predictions",
+    "max_file_bytes_workbook": 5000000,
+    "max_file_bytes_readme": 1000000,
+    "strict_fail_closed_if_filenames_or_archival_formats_changed": true,
+    "published_source_bytes_fingerprinted_before_results": true
+  },
+  "criteria_for_future_admission": [
+    "Unique site and taxon keys and native vs introduced status demonstrable without reading future species response",
+    "Local extirpation distinguishable from globally extinct and extant island populations",
+    "Historically occupied island species universe and current observed species denominator simultaneously documented, not pseudozeros",
+    "At least two separately treated archipelagos with enough source and local extirpation events for a source-aware reference",
+    "Temporality of source-island contemporaneous occupancy must be explicitly labelled post-loss, NOT pre-loss predictor",
+    "Species-by-island overdispersion and island survey effort/area/human impact are strong baseline controls",
+    "Previously published source paper findings are prior art; no recoding as Structural new biological discovery"
+  ],
+  "scope_stop": {
+    "island_counts_from_source_not_independent_movement": true,
+    "time_order_not_observed_by_binary_retrospective_status": true,
+    "no_eBird": true,
+    "original_mammal_heldout_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  },
+  "next_step": "Execute exact original source transport and metadata-only header inventory; determine if actual species×island extirpation table can be assembled before opening labels."
+}
