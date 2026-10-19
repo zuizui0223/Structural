@@ -1,0 +1,54 @@
+name: NRMN RLS Method1-only survey denominator v1.261
+
+on:
+  push:
+    paths:
+      - ".github/workflows/nrmn-rls-method1-survey-v1_261.yml"
+      - "scripts/nrmn_rls_method1_survey_frame_v1_261.py"
+      - "tests/test_nrmn_rls_method1_survey_frame_v1_261.py"
+      - "development/nrmn_rls_method1_survey_frame_protocol_v1_261.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test and official column reader only
+        run: python -m pip install pytest pyarrow
+      - name: Verify source-free Method1 synthetic sample-event accounting first
+        run: python -m pytest -q tests/test_nrmn_rls_method1_survey_frame_v1_261.py
+      - name: Count survey-only original source Method1 RLS and separated ATRC groups
+        run: |
+          python scripts/nrmn_rls_method1_survey_frame_v1_261.py \
+            --protocol development/nrmn_rls_method1_survey_frame_protocol_v1_261.json \
+            --frame-contract development/nrmn_marine_survey_event_frame_protocol_v1_260.json \
+            --out nrmn_rls_method1_survey_qualified_groups_v1_261.json
+      - name: Check ten RLS prior physical groups and no fish biological response
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("nrmn_rls_method1_survey_qualified_groups_v1_261.json").read_text())
+          assert r["schema"]=="structural.nrmn_rls_method1_frame.v1_261"
+          assert r["status"]=="METHOD1_PHYSICAL_SURVEY_ONLY"
+          assert len(r["frozen_RLS_candidate_physical_gate"])==10
+          assert r["biological_fish_responses_accessed"] is False
+          assert r["source_rows_seen"] > 10000
+          assert r["RLS_method1_strict_site_year_month_pairs"] <= 539
+          print("RLS Method1 previous-year matching pairs",r["RLS_method1_strict_site_year_month_pairs"])
+          PY
+      - name: Retain source-only aggregate and no individual survey keys
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrmn-rls-method1-siteyear-frame-v1-261
+          path: nrmn_rls_method1_survey_qualified_groups_v1_261.json
+          if-no-files-found: warn
