@@ -40,17 +40,11 @@ def constant_probabilities(presence_delta:float,absence_delta:float):
 
 def analyze(original79,rare,ultrarare):
     # Every number is read from frozen summary files only; no outcomes/predictions.
-    status1=original79.get("status")
-    status2=rare.get("status")
-    status3=ultrarare.get("status")
-    if (status1!="SUCCESSFUL_POSTHOC_NONRESCUING_DIAGNOSTICS_FROZEN" and
-        status1!="SUCCESSFUL_POSTHOC_NONRESCUING_DIAGNOSTICS_FROZEN"):
-        # The primary exploratory score is in prediction_behavior v1.85, not this older diagnostic label.
-        if not ("outcome_asymmetry" in original79):
-            raise ValueError("Exploratory v1.85 source mismatch")
-    if status2!="PROSPECTIVE_SPECIES_LAYER_NONREPLICATION_FROZEN":
+    if "outcome_asymmetry" not in original79 or "ranking_context" not in original79:
+        raise ValueError("Exploratory v1.85 source mismatch")
+    if rare.get("status")!="PROSPECTIVE_SPECIES_LAYER_NONREPLICATION_FROZEN":
         raise ValueError("Rare frozen source status changed")
-    if status3!="PROSPECTIVE_ULTRARARE_PRESENCE_OPPORTUNITY_RESULT_FROZEN":
+    if ultrarare.get("status")!="PROSPECTIVE_ULTRARARE_PRESENCE_OPPORTUNITY_RESULT_FROZEN":
         raise ValueError("Ultrarare frozen source status changed")
 
     ds=[
