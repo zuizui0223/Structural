@@ -1,0 +1,29 @@
+name: BioTIME exact-source two-study island biology gate v1.257
+
+on:
+  push:
+    paths:
+      - ".github/workflows/biotime-v2-island-method-admission-v1_257.yml"
+      - "development/biotime_v2_island_study_source_admission_result_v1_257.json"
+      - "development/biotime_v2_gshhg_island_feasibility_result_freeze_v1_256.json"
+      - "tests/test_biotime_v2_island_metadata_gate_v1_257.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biotime-v2-island-method-admission-v1_257.yml"
+      - "development/biotime_v2_island_study_source_admission_result_v1_257.json"
+      - "tests/test_biotime_v2_island_metadata_gate_v1_257.py"
+
+permissions:
+  contents: read
+
+jobs:
+  archived-methods-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Independently audit original metadata biological nonadmission
+        run: python -m pytest -q tests/test_biotime_v2_island_metadata_gate_v1_257.py
