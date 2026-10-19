@@ -1,0 +1,131 @@
+{
+  "schema": "structural.nrmn_rls_method1_pre_fish_frame.v1_261",
+  "frozen_at": "2026-10-19",
+  "status": "FROZEN_FROM_OFFICIAL_SURVEY_METADATA_AND_METHODS_BEFORE_ANY_FISH_RESPONSE_ACCESS",
+  "scientific_question": "Among independently surveyed marine reef sites, how many year-to-year same-site sampling opportunities were specifically assessed using Method 1 fish transects? This is a survey-effort gate, NOT observed fish colonization.",
+  "source": {
+    "site_source": "aodn-cloud-optimised/diver_survey_metadata_qc.parquet",
+    "survey_sidecar_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "survey_frame_run": "https://github.com/zuizui0223/Structural/actions/runs/39233006937",
+    "survey_frame_artifact_id": 12177453281,
+    "survey_frame_artifact_sha256": "e1481e2f5dcb8b232ae57bab6839a2c83cc9ff07f3fba11b23d5f9d8b72dd524",
+    "fish_schema_verified_no_rows": "https://github.com/zuizui0223/Structural/actions/runs/39232355754",
+    "upstream_method_description": "https://reeflifesurvey.com/wp-content/uploads/2023/03/NEW-Methods-Manual_010223.pdf",
+    "fish_method": "Method 1: 50 m transect, 5m wide swath in 2 distinct blocks; method 0 is off-transect and must not fill sampled-negative."
+  },
+  "allowed_source_fields": [
+    "survey_id",
+    "survey_date",
+    "country",
+    "area",
+    "location",
+    "site_code",
+    "latitude",
+    "longitude",
+    "depth",
+    "program",
+    "methods"
+  ],
+  "survey_restrictions": {
+    "program": "RLS only; ATRC and OTHER have separately reported counts but no mixing with primary RLS hypotheses",
+    "method1_present": "methods contains integer token 1 split from comma/space lists; 13 or 12 alone must NOT be interpreted as method 1",
+    "unit": "source survey_id (one 50m transect); one site-month-year must have >=2 distinct method1 survey IDs",
+    "study_group": "program+country+area+location from official metadata; names are NOT verified island polygons",
+    "site": "normalized country|area|location|site_code; must have coordinate span <=0.01 latitude and longitude degrees",
+    "temporal": "calendar month exactly equal and consecutive years; >=2 transects with method1 on each side; >=3 distinct surveyed years at >=5 sites; >=10 strict site-month adjacent-year pairs across >=2 distinct prior years",
+    "count_limit": 3000000
+  },
+  "frozen_RLS_physical_group_candidates": [
+    {
+      "country": "australia",
+      "area": "western australia",
+      "location": "rottnest island",
+      "prior_all_method_pair_n": 105
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "port stephens",
+      "prior_all_method_pair_n": 62
+    },
+    {
+      "country": "australia",
+      "area": "south australia",
+      "location": "encounter",
+      "prior_all_method_pair_n": 61
+    },
+    {
+      "country": "australia",
+      "area": "western australia",
+      "location": "ningaloo reef",
+      "prior_all_method_pair_n": 58
+    },
+    {
+      "country": "australia",
+      "area": "victoria",
+      "location": "port phillip heads",
+      "prior_all_method_pair_n": 54
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "lord howe island",
+      "prior_all_method_pair_n": 32
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "sydney",
+      "prior_all_method_pair_n": 23
+    },
+    {
+      "country": "canada",
+      "area": "british columbia",
+      "location": "vancouver island",
+      "prior_all_method_pair_n": 16
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "solitary islands",
+      "prior_all_method_pair_n": 16
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "jervis bay",
+      "prior_all_method_pair_n": 15
+    }
+  ],
+  "reporting": {
+    "survey_program_counts": "Report RLS, ATRC and OTHER source surveys both before/after method 1 filtering, no personal or survey IDs",
+    "candidate_counts": "Report all TEN frozen RLS candidate groups regardless of whether strict method1 repeat survey support succeeds",
+    "candidate_output_fields": [
+      "country",
+      "area",
+      "location",
+      "original_all_methods_strict_pairs",
+      "method1_survey_events",
+      "method1_stable_sites",
+      "method1_sites_3plus_observed_years",
+      "method1_strict_site_month_year_pairs",
+      "method1_distinct_prior_years",
+      "method1_physically_qualified"
+    ],
+    "eligibility_exclusion": "No method1, no stable site code, or monthly year match missing = no fish survey frame; do not impute sample absence.",
+    "do_not_output": [
+      "survey_id",
+      "latitude",
+      "longitude",
+      "fish_species",
+      "species_name",
+      "total",
+      "biomass",
+      "personally identifying fields"
+    ]
+  },
+  "no_fish_rows_accessed": true,
+  "eBird_off": true,
+  "original_mammal_holdout_unopened": true,
+  "GEB_scientific_HOLD": true
+}
