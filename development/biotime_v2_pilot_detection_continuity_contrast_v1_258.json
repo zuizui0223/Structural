@@ -1,0 +1,164 @@
+{
+  "schema": "structural.biotime_v2_pilot_detection_contrast.v1_258",
+  "date": "2026-10-19",
+  "source_csv": "development/biotime_v2_burned_pilot_by_study_source_group_v1_252.csv",
+  "source_blob_sha": "db52765c6ff1e4c7f98989480b899f3ee34c338c",
+  "source_pilot_run": "https://github.com/zuizui0223/Structural/actions/runs/39211305878",
+  "data_access": "Previously frozen 54 study-by-source-tier count rows ONLY; no biological observation reread",
+  "evidence_class": "POSTHOC_RECONCILED_19_STUDY_PILOT_OBSERVATIONAL_DESC",
+  "groups": {
+    "1": {
+      "n00": 25324,
+      "n01": 1236,
+      "n10": 1225,
+      "n11": 630,
+      "new_detection": 0.04653614457831325,
+      "continued_detection": 0.33962264150943394
+    },
+    ">=5": {
+      "n00": 42810,
+      "n01": 3270,
+      "n10": 5170,
+      "n11": 14514,
+      "new_detection": 0.07096354166666667,
+      "continued_detection": 0.7373501320869742
+    }
+  },
+  "comparison": {
+    "new_detection_5plus_vs_1_odds_ratio": 1.5650072685131637,
+    "continued_detection_5plus_vs_1_odds_ratio": 5.458736299161832,
+    "relative_odds_ratio_of_continuity_association_to_new_detection": 3.487994215099019,
+    "new_detection_absolute_difference_pct": 2.442739708835342,
+    "continued_detection_absolute_difference_pct": 39.77274905775403,
+    "pilot_study_ids_with_both_new_detection_denominators": 14,
+    "pilot_study_ids_with_both_continuity_denominators": 13,
+    "study_persistence_positive": 13,
+    "study_persistence_negative": 0,
+    "study_persistence_tie": 0,
+    "stable_prior_detected_denominator_studies": [
+      "110",
+      "273",
+      "372",
+      "377",
+      "507",
+      "658",
+      "838"
+    ],
+    "stable_prior_detected_denominator_count": 7,
+    "stable_studies_with_positive_persistence_diff": 7
+  },
+  "selected_study_differences": [
+    {
+      "study": "110",
+      "reappearance_diff_pct": 14.2459,
+      "persistence_diff_pct": 3.78792,
+      "n_priordetected_low": 1233,
+      "n_priordetected_many": 3356
+    },
+    {
+      "study": "172",
+      "reappearance_diff_pct": 7.69231,
+      "persistence_diff_pct": null,
+      "n_priordetected_low": 0,
+      "n_priordetected_many": 12
+    },
+    {
+      "study": "273",
+      "reappearance_diff_pct": 8.34112,
+      "persistence_diff_pct": 46.11558,
+      "n_priordetected_low": 39,
+      "n_priordetected_many": 603
+    },
+    {
+      "study": "372",
+      "reappearance_diff_pct": 10.80657,
+      "persistence_diff_pct": 37.71329,
+      "n_priordetected_low": 87,
+      "n_priordetected_many": 2386
+    },
+    {
+      "study": "376",
+      "reappearance_diff_pct": 12.94118,
+      "persistence_diff_pct": 54.54545,
+      "n_priordetected_low": 1,
+      "n_priordetected_many": 33
+    },
+    {
+      "study": "377",
+      "reappearance_diff_pct": 8.36439,
+      "persistence_diff_pct": 33.96181,
+      "n_priordetected_low": 64,
+      "n_priordetected_many": 2545
+    },
+    {
+      "study": "433",
+      "reappearance_diff_pct": 27.52101,
+      "persistence_diff_pct": 14.83254,
+      "n_priordetected_low": 19,
+      "n_priordetected_many": 209
+    },
+    {
+      "study": "507",
+      "reappearance_diff_pct": 24.00154,
+      "persistence_diff_pct": 48.07537,
+      "n_priordetected_low": 109,
+      "n_priordetected_many": 465
+    },
+    {
+      "study": "558",
+      "reappearance_diff_pct": 0,
+      "persistence_diff_pct": 99.83254,
+      "n_priordetected_low": 4,
+      "n_priordetected_many": 4180
+    },
+    {
+      "study": "589",
+      "reappearance_diff_pct": 5.7659,
+      "persistence_diff_pct": 48.6631,
+      "n_priordetected_low": 22,
+      "n_priordetected_many": 187
+    },
+    {
+      "study": "644",
+      "reappearance_diff_pct": 6.11225,
+      "persistence_diff_pct": 51.78687,
+      "n_priordetected_low": 19,
+      "n_priordetected_many": 162
+    },
+    {
+      "study": "658",
+      "reappearance_diff_pct": 21.37925,
+      "persistence_diff_pct": 34.22877,
+      "n_priordetected_low": 129,
+      "n_priordetected_many": 851
+    },
+    {
+      "study": "693",
+      "reappearance_diff_pct": 3.36766,
+      "persistence_diff_pct": 72.03602,
+      "n_priordetected_low": 1,
+      "n_priordetected_many": 3998
+    },
+    {
+      "study": "838",
+      "reappearance_diff_pct": 19.006,
+      "persistence_diff_pct": 40.90186,
+      "n_priordetected_low": 128,
+      "n_priordetected_many": 697
+    }
+  ],
+  "interpretation": {
+    "important": "Higher source count is more strongly associated with next-survey retention of previously detected taxa than with new detection among those previously not detected.",
+    "confounding": "This pattern can arise from local abundance, detection probability, species prevalence, survey effort and habitat; not evidence of source immigration or demographic rescue.",
+    "asymmetry": "At previously detected recipient cells, source count includes the recipient itself, whereas at 0→1 recipient cells all t positive sites are elsewhere. Thus the two odds ratios do not estimate identical donor exposures.",
+    "independence": "Study IDs are not necessarily independent; later physical geography audit consolidates fourteen pilot study IDs to twelve physical networks. Do not calculate a naive independent binomial significance for 13 of 13.",
+    "no_network_topology_effect_measured": true
+  },
+  "protected_response": {
+    "reserved_76_study_taxon_rows_opened": 0,
+    "original_529_mammals_holdout_opened": 0,
+    "new_confirmatory_systems": 0,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true
+  }
+}
