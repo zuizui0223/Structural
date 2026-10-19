@@ -173,7 +173,7 @@ pilot_detection_summary <- function(raw, pilot_ids, realm_by_id) {
          taxon="only publisher resolution=species with nonblank ID and positive abundance or biomass",
          zeros="no species record in an otherwise sampled target unit, not estimated ecological absence",
          regional_source="t study-year-month detected species pool; t+1 cannot define denominator",
-         01_replicated="species detected in >=2 distinct next-year SAMPLE_DESC events",
+         detected_01_replicated="species detected in >=2 distinct next-year SAMPLE_DESC events",
          external_new="t+1 detections of species absent from entire prior-year study-month pool excluded from 01/00",
          method_changed="not ruled out; method/gear comparability NOT validated",
          no_true_colonization_or_extinction=TRUE,
