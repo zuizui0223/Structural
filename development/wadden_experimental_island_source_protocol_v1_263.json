@@ -1,0 +1,59 @@
+{
+  "schema": "structural.wadden_experimental_island_source_preintake.v1_263",
+  "freeze_date": "2026-10-19",
+  "frozen_before_new_dataset_api_read": true,
+  "source": {
+    "doi": "10.5061/dryad.gxd2547z3",
+    "original_repository": "Dryad",
+    "dataset_api": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.gxd2547z3",
+    "versions_api": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.gxd2547z3/versions",
+    "expected_updated_year": 2026,
+    "expected_min_version_files": [
+      "DynaCom_coordinates.csv",
+      "DynaCom_saltmarsh_vegetation_frequency_2014_2023.csv",
+      "DynaCom_saltmarsh_vegetation_survey_2014_2023.csv",
+      "DynaCom_seed_trapping_experiment_2020_2021.csv",
+      "README.md"
+    ],
+    "expected_metadata_max_file_bytes": 20000000,
+    "permitted_get_domains": [
+      "datadryad.org"
+    ]
+  },
+  "prior_source_documented_design": {
+    "experiment": "12 artificial saltmarsh islands within one Wadden Sea tidal-flat study region, plus nearby natural saltmarsh plot/control units",
+    "experimental_unit": "independently assigned plot / island cage, NOT 10x10cm cell or annual row",
+    "coverage": "annual vegetation survey 2014–2023",
+    "seed_traps": "monthly 2020–2021; five transects and 6 distance classes 0/50/100/200/300/500 m from saltmarsh",
+    "life_stage_separation": "seed propagule arrival in traps versus rooted plant detection in vegetation plots",
+    "ecology_hypotheses": [
+      "Distance-dependent propagule supply may diverge from subsequent establishment due to flooding elevation and local microsite conditions",
+      "Experimental transplanted versus bare patch histories may alter establishment conditional on external propagule availability",
+      "Observed rooted 0→1 within a plot is not demonstrated dispersal from a specific donor population"
+    ],
+    "known_priors": "Published 2017 experimental island setup and 2025/2026 data releases exist; must not claim it was a novel experimental island invention"
+  },
+  "source_semantic_gates": [
+    "Original five latest files with exact source IDs and version metadata identifiable",
+    "Coordinates PlotID, survey Year, Type, Zone, Treatment and seed-trap transect/year station keys must be separately documented",
+    "Distinguish experimental 12 island cages from control plots and repeated 10x10cm subsamples",
+    "Don't interpret annual plant observation as direct natally identified seed immigration",
+    "Do not conflate 2020–21 seed traps with 2014–23 plot observations without explicit spatial and time crosswalk",
+    "Single original Wadden Sea experiment is ONE independent landscape, not 12 independent archipelagos"
+  ],
+  "no_biology_in_current_stage": true,
+  "exclude_response_columns": [
+    "rooted plant species presence",
+    "frequency values",
+    "seed counts",
+    "germination counts",
+    "offspring production"
+  ],
+  "output_only": "source version, exact file IDs, names, checksums, sizes, source status and anti-pseudoreplication design decision",
+  "keep_other_firewalls": {
+    "GEB_scientific_HOLD": true,
+    "original_529_mammal_response_closed": true,
+    "BioTIME_76_reserved_fish_etc_closed": true,
+    "eBird_off": true
+  }
+}
