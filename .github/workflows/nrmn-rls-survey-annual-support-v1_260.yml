@@ -1,0 +1,57 @@
+name: NRMN RLS survey-event annual support v1.260
+
+on:
+  push:
+    paths:
+      - ".github/workflows/nrmn-rls-survey-annual-support-v1_260.yml"
+      - "development/nrmn_marine_survey_event_frame_protocol_v1_260.json"
+      - "scripts/nrmn_marine_survey_event_frame_v1_260.py"
+      - "tests/test_nrmn_marine_survey_event_frame_v1_260.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-only-survey-frame:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-only Arrow reader and tests
+        run: python -m pip install 'pyarrow>=17,<23' pytest
+      - name: Verify fixed site/year/month and programme frame accounting on fake data
+        run: python -m pytest -q tests/test_nrmn_marine_survey_event_frame_v1_260.py
+      - name: Retrieve only eleven original physical AODN survey fields on public S3
+        run: |
+          python scripts/nrmn_marine_survey_event_frame_v1_260.py \
+            --contract development/nrmn_marine_survey_event_frame_protocol_v1_260.json \
+            --out nrmn_rls_survey_event_physical_frame_v1_260.json
+      - name: Assert exact original physical schema and no fish result values
+        if: always()
+        run: |
+          if test -f nrmn_rls_survey_event_physical_frame_v1_260.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("nrmn_rls_survey_event_physical_frame_v1_260.json").read_text())
+          assert r["GEB_scientific_HOLD"]
+          if r["status"]=="PHYSICAL_SURVEY_METADATA_ONLY":
+            assert r["schema"]=="structural.nrmn_marine_event_frame.v1_260"
+            assert r["biological_fish_species_or_counts_accessed"] is False
+            assert not r["geological_island_groups_identified"]
+            assert r["source_metadata_sha256"]=="6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce"
+            assert r["source_rows_seen"]>=r["unique_valid_survey_ids"]>0
+          print("SURVEY-PHYSICAL STATUS:",r["status"])
+          PY
+          fi
+      - name: Retain event/region aggregate metadata only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrmn-rls-survey-physical-support-v1-260
+          path: nrmn_rls_survey_event_physical_frame_v1_260.json
+          if-no-files-found: warn

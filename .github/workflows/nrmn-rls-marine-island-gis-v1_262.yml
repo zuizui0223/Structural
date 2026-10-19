@@ -1,0 +1,57 @@
+name: NRMN RLS marine-island physical GIS v1.262
+
+on:
+  push:
+    paths:
+      - ".github/workflows/nrmn-rls-marine-island-gis-v1_262.yml"
+      - "development/nrmn_rls_marine_island_gis_protocol_v1_262.json"
+      - "scripts/nrmn_rls_marine_island_gis_v1_262.py"
+      - "tests/test_nrmn_rls_marine_island_gis_v1_262.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  physical-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install physical-survey and GSHHG polygon reader dependencies
+        run: python -m pip install 'pyarrow>=17,<23' 'shapely>=2,<3' 'pyproj>=3,<4' 'pyshp>=2,<3' pytest
+      - name: Test marine coast and no-fish-response admission rules on synthetic polygons
+        run: python -m pytest -q tests/test_nrmn_rls_marine_island_gis_v1_262.py
+      - name: Read official AODN eleven physical fields and tagged GSHHG v2.3.7 shoreline
+        run: |
+          python scripts/nrmn_rls_marine_island_gis_v1_262.py \
+            --protocol development/nrmn_rls_marine_island_gis_protocol_v1_262.json \
+            --method-protocol development/nrmn_rls_method1_physical_protocol_v1_261.json \
+            --survey-contract development/nrmn_marine_survey_event_frame_protocol_v1_260.json \
+            --out nrmn_rls_marine_island_physical_v1_262.json
+      - name: Validate original ten groups, no fish, GIS source fingerprint
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("nrmn_rls_marine_island_physical_v1_262.json")
+          j=json.loads(f.read_text())
+          assert j["schema"]=="structural.nrmn_rls_marine_island_gis.v1_262"
+          assert j["status"]=="SOURCE_VERIFIED_MARINE_SHORELINE_PHYSICAL_ONLY"
+          assert len(j["frozen_ten_RLS_regions"])==10
+          assert j["fish_biological_rows_accessed"]==0
+          assert j["source_GSHHG"]["sha256"]=="8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41"
+          assert j["source_survey_rows_seen"]==36974
+          assert j["method1_strict_pairs_in_frozen_10_groups"]==442
+          print("Island-near shore qualifying survey geographies:",j["two_island_survey_geometry_qualified_regions"])
+          PY
+      - name: Publish ONLY ten region-level coastal geometry counts and source fingerprints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrmn-rls-marine-island-source-geography-v1-262
+          path: nrmn_rls_marine_island_physical_v1_262.json
+          if-no-files-found: warn

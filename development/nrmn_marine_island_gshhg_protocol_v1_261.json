@@ -1,0 +1,216 @@
+{
+  "schema": "structural.nrmn_rls_atrc_marine_island_feasibility_protocol.v1_261",
+  "date": "2026-10-19",
+  "status": "RESPONSE_BLIND_SOURCE_LOCKED_BEFORE_MARINE_GIS_SURVEY_QUERY",
+  "objective": "Classify physically verified marine survey recurrence near distinct GSHHG shoreline polygons, comparing within-island reef monitoring vs true between-island networks; species outcomes must remain unopened.",
+  "source": {
+    "AODN_dataset": "diver_survey_metadata_qc.parquet",
+    "AODN_metadata_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "S3_bucket": "aodn-cloud-optimised",
+    "S3_endpoint": "https://s3.ap-southeast-2.amazonaws.com",
+    "region": "ap-southeast-2",
+    "frozen_previous_frame_run": 39233006937,
+    "frozen_previous_frame_artifact_sha256": "e1481e2f5dcb8b232ae57bab6839a2c83cc9ff07f3fba11b23d5f9d8b72dd524",
+    "GSHHG_project": "GenericMappingTools/gshhg-gmt",
+    "GSHHG_version": "2.3.7",
+    "GSHHG_tagged_zip_url": "https://github.com/GenericMappingTools/gshhg-gmt/releases/download/2.3.7/gshhg-shp-2.3.7.zip",
+    "GSHHG_zip_bytes": 149157845,
+    "GSHHG_zip_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+    "GSHHG_layer": "GSHHS_shp/h/GSHHS_h_L1",
+    "island_repository_reference": "https://github.com/zuizui0223/island/blob/main/config/island_source_gshhg.yml"
+  },
+  "frozen_physical_groups": [
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "tasmania",
+      "location": "maria island",
+      "prior_strict_site_month_year_pairs": 150
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "new south wales",
+      "location": "jervis bay",
+      "prior_strict_site_month_year_pairs": 137
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "western australia",
+      "location": "jurien",
+      "prior_strict_site_month_year_pairs": 136
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "tasmania",
+      "location": "kent group",
+      "prior_strict_site_month_year_pairs": 81
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "tasmania",
+      "location": "port davey",
+      "prior_strict_site_month_year_pairs": 62
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "tasmania",
+      "location": "tinderbox",
+      "prior_strict_site_month_year_pairs": 49
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "tasmania",
+      "location": "ninepin point",
+      "prior_strict_site_month_year_pairs": 44
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "western australia",
+      "location": "ngari capes",
+      "prior_strict_site_month_year_pairs": 21
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "south australia",
+      "location": "encounter",
+      "prior_strict_site_month_year_pairs": 18
+    },
+    {
+      "program": "ATRC",
+      "country": "australia",
+      "area": "tasmania",
+      "location": "bicheno",
+      "prior_strict_site_month_year_pairs": 16
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "western australia",
+      "location": "rottnest island",
+      "prior_strict_site_month_year_pairs": 105
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "new south wales",
+      "location": "port stephens",
+      "prior_strict_site_month_year_pairs": 62
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "south australia",
+      "location": "encounter",
+      "prior_strict_site_month_year_pairs": 61
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "western australia",
+      "location": "ningaloo reef",
+      "prior_strict_site_month_year_pairs": 58
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "victoria",
+      "location": "port phillip heads",
+      "prior_strict_site_month_year_pairs": 54
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "new south wales",
+      "location": "lord howe island",
+      "prior_strict_site_month_year_pairs": 32
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "new south wales",
+      "location": "sydney",
+      "prior_strict_site_month_year_pairs": 23
+    },
+    {
+      "program": "RLS",
+      "country": "canada",
+      "area": "british columbia",
+      "location": "vancouver island",
+      "prior_strict_site_month_year_pairs": 16
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "new south wales",
+      "location": "solitary islands",
+      "prior_strict_site_month_year_pairs": 16
+    },
+    {
+      "program": "RLS",
+      "country": "australia",
+      "area": "new south wales",
+      "location": "jervis bay",
+      "prior_strict_site_month_year_pairs": 15
+    }
+  ],
+  "permitted_AODN_columns": [
+    "survey_id",
+    "survey_date",
+    "country",
+    "area",
+    "location",
+    "site_code",
+    "latitude",
+    "longitude",
+    "program",
+    "methods"
+  ],
+  "M1_presence_rule": "split methods by commas/whitespace and require exactly integer 1; Method 0/2/13 without 1 is not a fish census",
+  "event_rule": "one unique valid survey_id; site program+country+area+location+site_code; date YYYY-MM-DD; stable latitude and longitude range <=0.01deg",
+  "matched_pair": "same site_code, year t to t+1, same calendar month, >=2 distinct M1 transect survey_ids at both t and t+1",
+  "GIS": {
+    "site_centroid": "arithmetic mean of all valid M1 event latitude/longitude at a stable site",
+    "polygon_min_area_km2": 5,
+    "polygon_mainland_area_km2": 7000000,
+    "nearest_candidate_search_latlon_bbox_pad_degrees": 0.5,
+    "nearest_qualified_island_coast_km_primary": 5,
+    "nearest_qualified_island_coast_km_sensitivity": 10,
+    "nearest_land_margin_min_km": 1,
+    "point_on_land": "ineligible marine coordinate/shoreline metadata ambiguity; never interpret as terrestrial sampling",
+    "min_strict_active_sites_per_island": 3,
+    "min_strict_month_year_pairs_per_island": 3,
+    "min_prior_years_per_island": 2,
+    "inter_island_network": "at least 2 distinct qualified landmass polygon IDs each meeting all 3 site/year criteria within same fixed AODN program+country+area+location",
+    "not_interchangeable_with": "island geological origin; actual water connectivity; fish source/sink; observed larval dispersal"
+  },
+  "output_only": [
+    "study group physical event/pair counts",
+    "number of reef sites assigned closest coastline polygon",
+    "counts of distinct eligible islands and within-island strict repeated sites",
+    "positive/negative source-only island network feasibility",
+    "source archive checksum"
+  ],
+  "prohibited_output": [
+    "site coordinates",
+    "site codes",
+    "survey IDs",
+    "fish species names, counts or biomasses",
+    "derived fish occurrence or colonization"
+  ],
+  "protected": {
+    "fish_response_rows_accessed": 0,
+    "original_mammal_holdout_unopened": true,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true,
+    "confirmatory_admissions": 0
+  },
+  "scientific_next_gate": "If geography support positive, freeze a burned-pilot fish Method1 event/read design and disjoint marine networks before any species-level fish data access. If null, retain RLS as general reef temporal monitoring, not multiple-island dispersal validation."
+}

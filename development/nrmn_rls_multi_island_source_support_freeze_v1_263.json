@@ -1,0 +1,82 @@
+{
+  "schema": "structural.nrmn_rls_method1_gshhg_physical_result_freeze.v1_263",
+  "date": "2026-10-19",
+  "status": "SOURCE_VERIFIED_ZERO_WITHIN_REGION_MULTI_ISLAND_REPLICATION",
+  "source": {
+    "survey_s3": "s3://aodn-cloud-optimised/diver_survey_metadata_qc.parquet",
+    "survey_sidecar_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "GSHHG_release": "2.3.7",
+    "GSHHG_archive_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+    "original_AODN_repository": "aodn/aodn_cloud_optimised",
+    "protected_fish_source": "s3://aodn-cloud-optimised/diver_reef_fish_abundance_biomass_qc.parquet"
+  },
+  "replays": [
+    {
+      "label": "GSHHG min5km2 primary",
+      "url": "https://github.com/zuizui0223/Structural/actions/runs/39235526185",
+      "artifact_id": 12178671912,
+      "artifact_digest": "sha256:d5e2e8825c088df6a76c9dd9ca41b21ea4a502c8352c1a945b367a7f2af9bc68",
+      "strict_physical_sites": 174,
+      "strict_site_month_next_year_pairs": 442,
+      "qualifying_multi_island_geographies": 0
+    },
+    {
+      "label": "GSHHG min0.1km2 marine islet, pre-frozen separate rule",
+      "url": "https://github.com/zuizui0223/Structural/actions/runs/39235710185",
+      "artifact_id": 12179920415,
+      "artifact_digest": "sha256:1fea523b300fe60b640c6119cc0ce6a8876c0bea29f1fcafc283e424a0cd8939",
+      "strict_physical_sites": 174,
+      "strict_site_month_next_year_pairs": 442,
+      "qualifying_multi_island_geographies": 0
+    }
+  ],
+  "combined": {
+    "public_survey_records": 36974,
+    "unique_valid_survey_ids": 36971,
+    "RLS_survey_ids": 20657,
+    "RLS_with_Method1_event_ids": 20633,
+    "RLS_all_regions_strict_pairs": 539,
+    "source_frozen_RLS_geographic_groups": 10,
+    "frozen_10_groups_strict_pair_count": 442,
+    "frozen_10_groups_repeated_strict_sites": 174,
+    "GSHHG_L1_polygon_count": 144749,
+    "valid_geography_units_for_within_region_multi_island_fish_source_contrast": 0
+  },
+  "source_grounded_examples": [
+    {
+      "location": "rottnest island",
+      "strict_paired_sites": 16,
+      "strict_pairs": 105,
+      "min5km2_rule_valid_island_count": 1
+    },
+    {
+      "location": "lord howe island",
+      "strict_paired_sites": 19,
+      "strict_pairs": 32,
+      "min5km2_rule_valid_island_count": 1
+    },
+    {
+      "location": "encounter",
+      "strict_paired_sites": 37,
+      "strict_pairs": 61,
+      "min5km2_rule_valid_island_count": 1
+    },
+    {
+      "location": "solitary islands",
+      "strict_paired_sites": 12,
+      "strict_pairs": 16,
+      "min5km2_rule_valid_island_count": 0
+    }
+  ],
+  "decision": {
+    "stop": "No fish biological 0→1 test of multi-island source configuration is authorized from these original ten predeclared regional survey networks: none supplies >=2 separately sampled eligible island polygons with 3+ annual sampled sites each.",
+    "do_not": "Do not retroactively relax source or site/year eligibility to rescue a positive marine connectivity claim.",
+    "biology": "No original fish species, total, biomass or block record opened; no ecological effect, extinction, colonization, natal movement or rescue effect in this result.",
+    "alternative_research": "An independent between-region island-vs-mainland or within-single-island fish turnover hypothesis would require a distinct protocol and geographic controls.",
+    "island_origin": "GSHHG landmass area does not establish geological oceanic-vs-continental island origin.",
+    "eBird_off": true,
+    "original_mammal_heldout_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems_admitted": 0
+  }
+}

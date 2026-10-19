@@ -1,0 +1,123 @@
+{
+  "schema": "structural.nrmn_rls_method1_physical_protocol.v1_261",
+  "frozen_at": "2026-10-19",
+  "status": "FROZEN_BEFORE_SAMPLING_METHOD_SPECIFIC_SURVEY_ROWS",
+  "question": "Which independently sampled reef regions yield at least two separate fixed Method-1 transects in the same month in successive years, so species t-to-t+1 sampled detection changes could be evaluated without inventing unsampled zeros?",
+  "authoritative_source": {
+    "official": "AODN IMOS National Reef Monitoring Network",
+    "repo": "aodn/aodn_cloud_optimised",
+    "bucket": "aodn-cloud-optimised",
+    "dataset": "diver_survey_metadata_qc.parquet",
+    "survey_common_metadata_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "original_v1_260_run": 39233006937,
+    "original_v1_260_aggregate_artifact_id": 12177453281,
+    "v1_260_total_unique_valid_survey_ids": 36971,
+    "v1_260_total_RLS_survey_ids": 20657,
+    "v1_260_RLS_all_methods_strict_site_month_year_pairs": 539,
+    "no_fish_response_source_access": true
+  },
+  "frozen_RLS_geographic_groups": [
+    {
+      "country": "australia",
+      "area": "western australia",
+      "location": "rottnest island",
+      "previous_strict_all_method_pairs": 105
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "port stephens",
+      "previous_strict_all_method_pairs": 62
+    },
+    {
+      "country": "australia",
+      "area": "south australia",
+      "location": "encounter",
+      "previous_strict_all_method_pairs": 61
+    },
+    {
+      "country": "australia",
+      "area": "western australia",
+      "location": "ningaloo reef",
+      "previous_strict_all_method_pairs": 58
+    },
+    {
+      "country": "australia",
+      "area": "victoria",
+      "location": "port phillip heads",
+      "previous_strict_all_method_pairs": 54
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "lord howe island",
+      "previous_strict_all_method_pairs": 32
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "sydney",
+      "previous_strict_all_method_pairs": 23
+    },
+    {
+      "country": "canada",
+      "area": "british columbia",
+      "location": "vancouver island",
+      "previous_strict_all_method_pairs": 16
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "solitary islands",
+      "previous_strict_all_method_pairs": 16
+    },
+    {
+      "country": "australia",
+      "area": "new south wales",
+      "location": "jervis bay",
+      "previous_strict_all_method_pairs": 15
+    }
+  ],
+  "fixed_input_columns": [
+    "survey_id",
+    "survey_date",
+    "country",
+    "area",
+    "location",
+    "site_code",
+    "latitude",
+    "longitude",
+    "depth",
+    "program",
+    "methods"
+  ],
+  "method_1_rule": "Only a survey whose original comma-delimited numeric methods field contains integer 1; a value of 11 or 13 does not count as 1. Never infer method from other codes.",
+  "event_unit": "unique survey_id; duplicate IDs removed before counting. A distinct survey ID approximates one physical transect, not one independent site or breeding population.",
+  "site_unit": "RLS+country+area+location+site_code trimmed casefold; stable if all observed 11-column record coordinates vary <=0.01 degrees latitude and longitude",
+  "target_unit": "same RLS site+calendar month in consecutive years with at least 2 distinct Method 1 survey IDs in both",
+  "study_precondition": "Fixed 10 RLS source groups already passed survey method-agnostic frame v1.260; no post-outcome source group selection",
+  "strict_eligibility": {
+    "at_least_5_stable_sites_with_3plus_years": true,
+    "at_least_10_method1_site_month_adjacent_year_pairs": true,
+    "at_least_2_distinct_prior_years_with_method1_pairs": true,
+    "enforce_source_method_label_stability": true
+  },
+  "outputs": {
+    "per_10_group": "survey+site+years+strict pairs only with source methods+Method1 categories and counts; NO survey_id, site lat/lon, site_code or fish taxa",
+    "aggregate": "strict pairs all 10, qualification counts and program/season coverage",
+    "classify_island_by_location_name_only": false,
+    "assert_no_fish_rows_accessed": true
+  },
+  "limits": {
+    "only_RLS_program": true,
+    "ATRC_separate_not_pooledup": true,
+    "marine_reef_island_identity_requires_independent_geometry": true,
+    "no_biological_response_metrics": true,
+    "no_next_year_fish_presence_or_absence": true,
+    "no_eBird": true,
+    "no_original_529_mammal_holdout": true,
+    "GEB_scientific_HOLD": true,
+    "newly_admitted_confirmatory_systems": 0
+  },
+  "next_step": "If 2+ physically independent reef localities retain method1 matched sampling, freeze source-independent geographic/archipelago groupings and pilot/holdout before fish species observations; otherwise STOP rescue via lowering thresholds."
+}

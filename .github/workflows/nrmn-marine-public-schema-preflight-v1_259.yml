@@ -1,0 +1,64 @@
+name: NRMN public marine survey and fish schema gate v1.259
+
+on:
+  push:
+    paths:
+      - ".github/workflows/nrmn-marine-public-schema-preflight-v1_259.yml"
+      - "development/nrmn_marine_event_source_protocol_v1_259.json"
+      - "scripts/nrmn_marine_event_source_preflight_v1_259.py"
+      - "tests/test_nrmn_marine_event_source_preflight_v1_259.py"
+  pull_request:
+    paths:
+      - ".github/workflows/nrmn-marine-public-schema-preflight-v1_259.yml"
+      - "development/nrmn_marine_event_source_protocol_v1_259.json"
+      - "scripts/nrmn_marine_event_source_preflight_v1_259.py"
+      - "tests/test_nrmn_marine_event_source_preflight_v1_259.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-headers-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Arrow and synthetic-only test dependencies
+        run: python -m pip install 'pyarrow>=17,<23' pytest
+      - name: Reject schema/ID/authority drift before any public row
+        run: python -m pytest -q tests/test_nrmn_marine_event_source_preflight_v1_259.py
+      - name: Check only AODN anonymous S3 original _common_metadata for survey and fish
+        run: |
+          python scripts/nrmn_marine_event_source_preflight_v1_259.py \
+            --contract development/nrmn_marine_event_source_protocol_v1_259.json \
+            --out nrmn_marine_public_schema_preflight_v1_259.json
+      - name: Verify source provenance and zero biological row access
+        if: always()
+        run: |
+          if test -f nrmn_marine_public_schema_preflight_v1_259.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("nrmn_marine_public_schema_preflight_v1_259.json")
+          r=json.loads(p.read_text())
+          assert r["biological_records_opened"]==0
+          assert r["survey_event_rows_opened"]==0
+          assert r["GEB_scientific_HOLD"]
+          if r["status"]=="PASS_PUBLISHER_PUBLIC_METADATA_ONLY":
+            assert set(r["datasets"])=={"survey","fish"}
+            assert r["fish_species_abundance_rows_opened"]==0
+            assert r["strict_shared_survey_id_type"]=="int32"
+          print({"status":r["status"],"metadata_only":True})
+          PY
+          fi
+      - name: Preserve exact source metadata-only receipt, even on transport STOP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrmn-marine-public-schemas-v1-259
+          path: nrmn_marine_public_schema_preflight_v1_259.json
+          if-no-files-found: warn

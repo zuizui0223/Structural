@@ -1,0 +1,74 @@
+{
+  "schema": "structural.nrmn_marine_event_frame_contract.v1_260",
+  "date": "2026-10-19",
+  "status": "PHYSICAL_SURVEY_ONLY_FROZEN_BEFORE_SURVEY_ROW_ACCESS",
+  "purpose": "Assess whether AODN Reef Life Survey and partners have repeated site/time complete-survey denominator suitable for multi-island temporal occupancy tests. This stage has no fish species detections.",
+  "source": {
+    "bucket": "aodn-cloud-optimised",
+    "endpoint": "https://s3.ap-southeast-2.amazonaws.com",
+    "region": "ap-southeast-2",
+    "survey_dataset": "diver_survey_metadata_qc.parquet",
+    "survey_metadata_sidecar_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "fish_metadata_sidecar_sha256": "b153369a3fc95fac56dbb888b84cd1963394d8e86b0cddb563855506f8b9ad2a",
+    "schema_provenance_run": 39232355754,
+    "metadata_uuid": "997c2e15-b345-438f-afac-49a4ac19be38"
+  },
+  "allowed_input_columns": [
+    "survey_id",
+    "survey_date",
+    "country",
+    "area",
+    "location",
+    "site_code",
+    "latitude",
+    "longitude",
+    "depth",
+    "program",
+    "methods"
+  ],
+  "excluded_input_columns": [
+    "species_name",
+    "total",
+    "biomass",
+    "size_class",
+    "reporting_name",
+    "phylum",
+    "class",
+    "order",
+    "family"
+  ],
+  "logic": {
+    "survey_event": "one unique, physically valid, nonduplicated source survey_id and valid YYYY-MM-DD date",
+    "site_identity": "country|area|location|site_code casefold + trimmed",
+    "temporal_date": "valid date 1992-01-01 to 2026-10-19; no time-of-day needed",
+    "valid_latitude": "[-90,90] finite",
+    "valid_longitude": "[-180,180] finite",
+    "site_coordinate_stability": "max observed coordinate span <=0.01 degrees latitude and longitude; attrition if greater",
+    "primary_program": "RLS (label contains standalone RLS), analysed separately from ATRC and mixed/other",
+    "calendar_pair": "same program, same official site identity, same calendar month at t and t+1",
+    "min_distinct_transects_each_side": 2,
+    "strict_geographic_group": "program, country, area, location; not yet independently surveyed island/archipelago",
+    "min_strict_repeated_sites": 5,
+    "min_strict_same_month_adjacent_year_site_pairs": 10,
+    "min_distinct_observed_years_per_stable_site": 3,
+    "min_prior_years_for_qualified_group": 2
+  },
+  "output": {
+    "study_source": "report physical geographic group counts, year span, program label, distinct sites and strict next-year sample opportunities",
+    "bounded_group_report": "at most 150 stable group records sorted by physical support (also count unreported groups)",
+    "column_schema_only_for_biology": true,
+    "do_not_emit_row_coordinates": true,
+    "no_survey_id_values": true,
+    "no_fish_records": true,
+    "no_sampled_0_to_1_labels": true
+  },
+  "limits": {
+    "max_survey_rows": 3000000,
+    "no_fish_reads": true,
+    "no_original_mammal_holdout_reopen": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true
+  },
+  "scientific_next_gate": "Map independently verified reef sites to actual island polygons using marine-appropriate distance-to-coast and geological-origin annotations. Freeze fish Method 1 survey-matching and non-detection interpretation before accessing fish data.",
+  "evidence_class": "AODN_OFFICIAL_SURVEY_EVENT_METADATA_PHYSICAL_FEASIBILITY"
+}

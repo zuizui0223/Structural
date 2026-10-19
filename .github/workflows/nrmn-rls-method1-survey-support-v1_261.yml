@@ -1,0 +1,62 @@
+name: NRMN RLS Method-1 repeat-survey support v1.261
+
+on:
+  push:
+    paths:
+      - ".github/workflows/nrmn-rls-method1-survey-support-v1_261.yml"
+      - "development/nrmn_rls_method1_physical_protocol_v1_261.json"
+      - "scripts/nrmn_rls_method1_physical_v1_261.py"
+      - "tests/test_nrmn_rls_method1_physical_v1_261.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  method1-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only official source-compatible Arrow and test reader
+        run: python -m pip install 'pyarrow>=17,<23' pytest
+      - name: Assert method-11 does not masquerade as Method-1, identical transects not duplicated
+        run: |
+          python -m pytest -q \
+            tests/test_nrmn_rls_method1_physical_v1_261.py \
+            tests/test_nrmn_marine_survey_event_frame_v1_260.py
+      - name: Read eleven survey fields ONLY, compare ten predeclared RLS geography groups
+        run: |
+          python scripts/nrmn_rls_method1_physical_v1_261.py \
+            --contract development/nrmn_rls_method1_physical_protocol_v1_261.json \
+            --out nrmn_rls_method1_annual_pair_support_v1_261.json
+      - name: Audit no biological labels and source-only ten-group invariant
+        if: always()
+        run: |
+          if test -f nrmn_rls_method1_annual_pair_support_v1_261.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("nrmn_rls_method1_annual_pair_support_v1_261.json").read_text())
+          if j["status"]=="SOURCE_ONLY_METHOD_1_REPEATED_SURVEY_FRAME":
+            assert j["schema"]=="structural.nrmn_rls_method1_physical.v1_261"
+            assert j["frozen_source_10_group_count"]==10
+            assert j["fixed_groups_with_source_survey_records"]==10
+            assert j["fish_species_or_abundance_columns_read"] is False
+            assert not any("species_name" in row or "survey_id" in row or "latitude" in row or "longitude" in row
+                           for row in j["fixed_RLS_group_method1_physical_support"])
+            assert j["source_rows_seen"]==36974
+            assert j["all_RLS_unique_survey_events"]==20657
+          print("RESULT STATUS:",j["status"])
+          PY
+          fi
+      - name: Preserve counts and original source fingerprint, not coordinates or biological observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrmn-rls-method1-10-regions-v1-261
+          path: nrmn_rls_method1_annual_pair_support_v1_261.json
+          if-no-files-found: warn

@@ -1,0 +1,65 @@
+name: NRMN RLS offshore islands GSHHG v1.262
+
+on:
+  push:
+    paths:
+      - ".github/workflows/nrmn-rls-offshore-islands-v1_262.yml"
+      - "development/nrmn_rls_offshore_island_geometry_protocol_v1_262.json"
+      - "scripts/nrmn_rls_offshore_island_geometry_v1_262.py"
+      - "tests/test_nrmn_rls_offshore_island_geometry_v1_262.py"
+      - "development/nrmn_rls_method1_physical_protocol_v1_261.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  physical-coastline-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install AODN Arrow survey-only and original GIS interpretation tools
+        run: |
+          python -m pip install 'pyarrow>=17,<23' 'pyshp>=2,<3' 'shapely>=2,<3' 'pyproj>=3,<4' pytest
+      - name: Reject mainland, land-inside and ambiguous shorelines using artificial polygons
+        run: |
+          python -m pytest -q \
+            tests/test_nrmn_rls_offshore_island_geometry_v1_262.py \
+            tests/test_nrmn_rls_method1_physical_v1_261.py \
+            tests/test_nrmn_marine_survey_event_frame_v1_260.py
+      - name: Independently verify original GSHHG L1 coastlines and source-only RLS Method 1 sites
+        run: |
+          python scripts/nrmn_rls_offshore_island_geometry_v1_262.py \
+            --protocol development/nrmn_rls_offshore_island_geometry_protocol_v1_262.json \
+            --method1 development/nrmn_rls_method1_physical_protocol_v1_261.json \
+            --source-frame development/nrmn_marine_survey_event_frame_protocol_v1_260.json \
+            --out nrmn_rls_marine_island_physical_feasibility_v1_262.json
+      - name: Validate original survey pair denominators and absence of fish biology
+        if: always()
+        run: |
+          if test -f nrmn_rls_marine_island_physical_feasibility_v1_262.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("nrmn_rls_marine_island_physical_feasibility_v1_262.json").read_text())
+          assert r["schema"]=="structural.nrmn_rls_offshore_island_geometry_result.v1_262"
+          assert r["status"]=="SOURCE_ONLY_OFFSHORE_ISLAND_PROXIMITY_AUDIT"
+          assert r["source_frame"]["ten_fixed_group_strict_method1_pairs"]==442
+          assert len(r["region_results"])==10
+          assert r["biological_fish_species_or_total_accesses"]==0
+          assert r["GSHHG_source"]["sha256"]=="8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41"
+          assert all("survey_id" not in row and "site_code" not in row and "longitude" not in row for row in r["region_results"])
+          print("OFFSHORE ISLAND FRAMES",r["primary_multi_island_RLS_region_count"])
+          PY
+          fi
+      - name: Retain cohort counts and original source hash only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrmn-rls-offshore-island-feasibility-v1-262
+          path: nrmn_rls_marine_island_physical_feasibility_v1_262.json
+          if-no-files-found: warn
