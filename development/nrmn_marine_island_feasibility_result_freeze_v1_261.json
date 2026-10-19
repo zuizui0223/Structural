@@ -1,0 +1,102 @@
+{
+  "schema": "structural.nrmn_marine_island_feasibility_result_freeze.v1_261",
+  "date": "2026-10-19",
+  "status": "SOURCE_VERIFIED_SOURCE_ONLY_CONSERVATIVE_MARINE_ISLAND_FEASIBILITY",
+  "source": {
+    "AODN_dataset": "aodn-cloud-optimised/diver_survey_metadata_qc.parquet",
+    "survey_sidecar_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "GSHHG_version": "2.3.7",
+    "GSHHG_zip_bytes": 149157845,
+    "GSHHG_zip_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+    "GSHHG_polygons_original": 144749,
+    "candidate_polygons_near_sites": 602,
+    "protocol": "development/nrmn_marine_island_gshhg_protocol_v1_261.json",
+    "original_AODN_survey_registry": "https://github.com/aodn/aodn_cloud_optimised/blob/main/aodn_cloud_optimised/config/dataset/diver_survey_metadata_qc.json"
+  },
+  "execution": {
+    "workflow_run": 39235440095,
+    "workflow_url": "https://github.com/zuizui0223/Structural/actions/runs/39235440095",
+    "artifact_id": 12179595620,
+    "artifact_zip_sha256": "eac1fc67ac15e5b8a9cd8dd9b702c5be8017fd1cb8bfa87835b32c0fc47206e2",
+    "tests": "6 original synthetic Methods 1, survey ID, site-month/year and sea/land tests passed before source access",
+    "current_archive_name": "nrmn-marine-island-Method1-source-only-v1-261"
+  },
+  "support": {
+    "original_survey_metadata_records": 36974,
+    "unique_valid_survey_ids": 36971,
+    "M1_survey_events_in_fixed_20_groups": 17627,
+    "source_stable_M1_sites_strict_pairs": 347,
+    "Method1_same_month_consecutive_year_site_pairs": 1156,
+    "RLS": {
+      "groups": 10,
+      "physical_sites": 174,
+      "strict_pairs": 442,
+      "near_island_sites": 23
+    },
+    "ATRC": {
+      "groups": 10,
+      "physical_sites": 173,
+      "strict_pairs": 714,
+      "near_island_sites": 25
+    },
+    "shore_status_source_sites": {
+      "assigned_island_nearshore": 48,
+      "mainland_nearshore": 121,
+      "small_landmass_nearshore": 21,
+      "on_land_marine_coordinates_ambiguous": 84,
+      "multiple_coasts_ambiguous": 71,
+      "beyond_shore_distance": 2
+    },
+    "conservative_inter_island_networks": 0,
+    "RLS_inter_island": 0,
+    "ATRC_inter_island": 0
+  },
+  "examples": [
+    {
+      "program": "RLS",
+      "location": "rottnest island",
+      "M1_site_month_year_pairs": 105,
+      "near_island_stable_sites": 5,
+      "eligible_distinct_island_polygons": 1,
+      "multi_island": false
+    },
+    {
+      "program": "RLS",
+      "location": "lord howe island",
+      "M1_site_month_year_pairs": 32,
+      "near_island_stable_sites": 9,
+      "eligible_distinct_island_polygons": 1,
+      "multi_island": false
+    },
+    {
+      "program": "ATRC",
+      "location": "maria island",
+      "M1_site_month_year_pairs": 150,
+      "near_island_stable_sites": 9,
+      "eligible_distinct_island_polygons": 1,
+      "multi_island": false
+    },
+    {
+      "program": "RLS",
+      "location": "solitary islands",
+      "M1_site_month_year_pairs": 16,
+      "near_island_stable_sites": 0,
+      "eligible_distinct_island_polygons": 0,
+      "multi_island": false
+    }
+  ],
+  "scientific_conclusions": [
+    "Conservative strict repeat samples exist at reefs near single islands, but original 20 named localities do not provide two separate GSHHG >5-km2 island populations with independent 3-site, 3-pair, 2-year support in the same program/location.",
+    "Large 84/347 marine sites are assigned coordinates that lie on GSHHG land polygons; these are uncertainty in public metadata vs coastline not proof of diver sampling on land.",
+    "Survey site coordinates may differ from source survey-specific coordinates; this possible measurement ambiguity must be separately checked without biological results before claiming no genuine multi-island field monitoring.",
+    "Source geography, not occurrence response, is tested; nearshore reef labels are not natal fish origin, demographic rescue, oceanic geological origin, or measured dispersal.",
+    "Retain reef-patch temporal metacommunity suitability as distinct from inter-island dispersal mechanism; do not reinterpret null feasibility as a test of fish ecology."
+  ],
+  "protected": {
+    "fish_observation_rows_accessed": 0,
+    "original_mammal_holdout_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}
