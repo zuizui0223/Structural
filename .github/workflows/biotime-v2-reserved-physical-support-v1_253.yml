@@ -1,0 +1,78 @@
+name: BioTIME v2 reserved study physical support v1.253
+
+on:
+  push:
+    paths:
+      - ".github/workflows/biotime-v2-reserved-physical-support-v1_253.yml"
+      - "scripts/biotime_v2_reserved_physical_support_v1_253.R"
+      - "tests/test_biotime_v2_reserved_physical_support_v1_253.R"
+      - "development/biotime_v2_reserved_physical_support_protocol_v1_253.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  physical-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install R protocol parsing and event deduplication dependencies
+        run: Rscript -e 'install.packages(c("data.table","jsonlite"), repos="https://cloud.r-project.org")'
+      - name: Test on synthetic physical study frame with prohibited fake response column
+        run: Rscript tests/test_biotime_v2_reserved_physical_support_v1_253.R
+      - name: Fetch original MD5-verified public BioTIME source
+        run: |
+          python scripts/biotime_v2_full_source_transport_v1_250.py \
+            --out-rds biotime_v2_query_15April25.rds \
+            --out-meta biotime_v2_metadata_15April25.csv \
+            --out-receipt biotime_source_transport_v1_253.json
+      - name: Audit six physical fields in 76 reserved study IDs only
+        run: |
+          Rscript scripts/biotime_v2_reserved_physical_support_v1_253.R \
+            biotime_v2_query_15April25.rds \
+            development/biotime_v2_pilot_confirmatory_split_v1_251.json \
+            development/biotime_v2_reserved_physical_support_protocol_v1_253.json \
+            biotime_v2_reserved_physical_support_v1_253.json \
+            biotime_v2_reserved_physical_studies_v1_253.csv
+      - name: Validate heldout study population and strict response firewall
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          j=json.loads(Path("biotime_v2_reserved_physical_support_v1_253.json").read_text())
+          assert j["schema"]=="structural.biotime_v2_reserved_physical_support.v1_253"
+          assert j["new_confirmatory_study_species_endpoints_accessed"]==0
+          assert j["totals"]["reserved_studies"]==76
+          assert sum(x["reserved_studies"] for x in j["by_realm"])==76
+          assert j["source_read_columns"]==["STUDY_ID","YEAR","MONTH","LATITUDE","LONGITUDE","SAMPLE_DESC"]
+          with open("biotime_v2_reserved_physical_studies_v1_253.csv") as f:
+            rows=list(csv.DictReader(f))
+          assert len(rows)==76 and len({row["study"] for row in rows})==76
+          assert all(k not in row for row in rows for k in ("taxon","newID","ABUNDANCE","BIOMASS","valid_name"))
+          print("PHYSICAL ONLY", j["totals"])
+          PY
+      - name: Retain source receipt and six-field physical summaries only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biotime-v2-reserved-physical-only-v1-253
+          path: |
+            biotime_source_transport_v1_253.json
+            biotime_v2_reserved_physical_support_v1_253.json
+            biotime_v2_reserved_physical_studies_v1_253.csv
+          if-no-files-found: warn
+      - name: Remove response-bearing original dataset and metadata
+        if: always()
+        run: |
+          rm -f biotime_v2_query_15April25.rds \
+            biotime_v2_query_15April25.rds.partial \
+            biotime_v2_metadata_15April25.csv
