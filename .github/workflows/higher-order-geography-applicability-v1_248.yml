@@ -1,0 +1,50 @@
+name: Higher-order donor geographic applicability v1.248
+
+on:
+  push:
+    paths:
+      - ".github/workflows/higher-order-geography-applicability-v1_248.yml"
+      - "scripts/higher_order_geometry_applicability_v1_248.py"
+      - "tests/test_higher_order_geometry_applicability_v1_248.py"
+      - "docs/HIGHER_ORDER_SOURCE_ECOLOGY_APPLICABILITY_V1_248.md"
+  pull_request:
+    paths:
+      - ".github/workflows/higher-order-geography-applicability-v1_248.yml"
+      - "scripts/higher_order_geometry_applicability_v1_248.py"
+      - "tests/test_higher_order_geometry_applicability_v1_248.py"
+      - "docs/HIGHER_ORDER_SOURCE_ECOLOGY_APPLICABILITY_V1_248.md"
+
+permissions:
+  contents: read
+
+jobs:
+  source-free-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Verify exact four-source identities and response-free pilot limits
+        run: python -m pytest -q tests/test_higher_order_geometry_applicability_v1_248.py
+      - name: Audit original frozen count and graph metadata (no heldout response)
+        run: |
+          python scripts/higher_order_geometry_applicability_v1_248.py --out /tmp/structural_v1_248.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result=json.loads(Path("/tmp/structural_v1_248.json").read_text())
+          assert result["species_eligibility"]["at_most_two_sources_species"] == 433
+          assert result["species_eligibility"]["three_or_four_sources_species"] == 96
+          assert result["geometry_operator"]["regional_components"] == 12
+          assert result["known_truth_only"]["receiver_A_world_difference"] == "3/160"
+          assert result["known_truth_only"]["receiver_B_world_difference"] == "-3/160"
+          assert result["safety"]["new_heldout_response_accesses"] == 0
+          assert result["safety"]["number_of_confirmatory_systems_admitted"] == 0
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structural-v1_248-response-free-applicability
+          path: /tmp/structural_v1_248.json
