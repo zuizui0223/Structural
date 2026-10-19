@@ -62,6 +62,65 @@ def _simple_numeric_year(value):
     return int(float(s))
 
 
+
+def _integer_metadata(value):
+    s=(value or "").strip()
+    if not re.fullmatch(r"\d+(?:\.0+)?",s):
+        return None
+    return int(float(s))
+
+
+def spatial_temporal_study_screen(records):
+    """Pre-outcome potential, NEVER proof of same-plot temporal replication."""
+    required=("STUDY_ID","START_YEAR","END_YEAR","NUMBER_LAT_LONG","NUMBER_OF_SAMPLES","NUMBER_OF_SPECIES","REALM")
+    if not all(k in records[0] for k in required):
+        return {"status":"MISSING_REQUIRED_FIELD","required_fields":list(required)}
+    universe=set()
+    counts=Counter()
+    realms={}
+    by_realm=Counter()
+    for row in records:
+        sid=str(row.get("STUDY_ID","")).strip()
+        if not sid or sid in universe:
+            raise SourceStop("Duplicate/missing BioTIME study ID; cannot count independent study units")
+        universe.add(sid)
+        start=_simple_numeric_year(row.get("START_YEAR"))
+        end=_simple_numeric_year(row.get("END_YEAR"))
+        nsites=_integer_metadata(row.get("NUMBER_LAT_LONG"))
+        nsamples=_integer_metadata(row.get("NUMBER_OF_SAMPLES"))
+        nspecies=_integer_metadata(row.get("NUMBER_OF_SPECIES"))
+        realm=str(row.get("REALM","")).strip()
+        if (start is None or end is None or nsites is None or nsamples is None or nspecies is None or end<start):
+            counts["incomplete_or_inconsistent"]+=1
+            continue
+        years=end-start+1  # span, not number of actual sampled years
+        counts["complete_metadata"]+=1
+        by_realm[realm]+=1
+        if years>=3 and nsites>=5:
+            counts["span3_sites5"]+=1
+        if years>=5 and nsites>=10:
+            counts["span5_sites10"]+=1
+        if years>=5 and nsites>=10 and nsamples>=100 and nspecies>=10:
+            counts["span5_sites10_samples100_species10"]+=1
+            counts["strong_candidate_"+realm]+=1
+        if years>=8 and nsites>=20 and nsamples>=1000 and nspecies>=20:
+            counts["span8_sites20_samples1000_species20"]+=1
+    return {
+        "status":"POTENTIAL_BY_METADATA_NOT_RESPONSE_APPROVED",
+        "source_studies_seen":len(universe),
+        "numerical_metadata_screen_counts":dict(counts),
+        "complete_metadata_by_realm":dict(by_realm),
+        "screen_basis":"Observed calendar span and number of georeferenced locations, sample events, taxa at study level",
+        "not_yet_verified":[
+            "the same location was surveyed in at least two or three separate years",
+            "matched season and sampling method/effort across years",
+            "a complete enumerated sample frame for species-by-site non-detections",
+            "absence detection probability, island boundary and spatial network",
+            "source-to-recipient dispersal, colonization or demographic rescue"
+        ],
+    }
+
+
 def study_summary(raw:bytes):
     try:
         text=raw.decode("utf-8-sig")
@@ -90,12 +149,13 @@ def study_summary(raw:bytes):
         time_columns[col]={"yearlike_rows":len(yrs),"min":min(yrs) if yrs else None, "max":max(yrs) if yrs else None}
     site_cols=[f for f in fields if re.search(r"(?:site|plot|location|latitud|longitud|sampling|replicate|method|realm|biome|island|country|taxa|taxon)", f,flags=re.I)]
     relevant_levels={}
-    for col in site_cols:
-        if re.search(r"(?:realm|biome|method|habitat|country)",col,flags=re.I):
+    for col in fields:
+        if col.upper() in ("REALM","BIOME_MAP","TAXA","ABUNDANCE_TYPE","BIOMASS_TYPE"):
             vals=[str(row.get(col,"")).strip() for row in records]
             counts=Counter(v for v in vals if v)
             relevant_levels[col]={"distinct":len(counts),"top_counts":[[key,count] for key,count in counts.most_common(10)]}
     return {
+        "metadata_source_level_study_screen":spatial_temporal_study_screen(records),
         "metadata_rows":len(records),
         "metadata_columns":fields,
         "study_identifier_column":study_cols[0] if study_cols else None,
