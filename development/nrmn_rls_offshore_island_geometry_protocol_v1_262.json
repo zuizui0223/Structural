@@ -1,0 +1,72 @@
+{
+  "schema": "structural.nrmn_rls_offshore_island_geometry_protocol.v1_262",
+  "date": "2026-10-19",
+  "status": "FROZEN_BEFORE_RLS_SITE_COORDINATE_TO_GSHHG_CROSSWALK",
+  "question": "Do source-confirmed Method1 repeat-sampled reef-transects in the ten RLS regions occur next to distinct island shorelines, rather than only mainland coasts or single-island reefs?",
+  "source": {
+    "survey_dataset": "aodn-cloud-optimised/diver_survey_metadata_qc.parquet",
+    "survey_sidecar_sha256": "6bb15e9aff7600c7e429c989d929a4eb6841ffff423915e041adf263a8603dce",
+    "ten_region_cohort": "development/nrmn_rls_method1_physical_protocol_v1_261.json",
+    "method1_run": "https://github.com/zuizui0223/Structural/actions/runs/39234366588",
+    "prior_physical_method1_pairs": 442,
+    "GSHHG_release": "https://github.com/GenericMappingTools/gshhg-gmt/releases/download/2.3.7/gshhg-shp-2.3.7.zip",
+    "GSHHG_expected_bytes": 149157845,
+    "GSHHG_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+    "GSHHG_layer": "GSHHS_shp/h/GSHHS_h_L1.shp",
+    "used_by_island_repo": "https://github.com/zuizui0223/island/blob/main/config/island_source_gshhg.yml"
+  },
+  "frame": {
+    "only_RLS_program": true,
+    "survey_method": "physical metadata field methods contains numeric Method 1 token",
+    "stable_site_key": "RLS+country+area+location+site_code, max original coordinate range 0.01 degrees each coordinate",
+    "eligible_site": "at least one same-calendar-month consecutive-year Method1 survey pair with >=2 unique survey_id per year",
+    "site_coordinate": "median latitude and longitude from eligible site Method1 physical transects, never fish observations",
+    "ten_groups_source_preselected": true
+  },
+  "marine_geography": {
+    "polygon_source": "GSHHG L1 high-resolution landmass polygons",
+    "island_area_km2_min": 5,
+    "continent_area_km2_min": 7000000,
+    "primary_max_distance_from_land_shore_km": 5,
+    "primary_min_mainland_separation_margin_km": 1,
+    "individually_ambiguous_land_inside_points": "Never infer that marine survey occurred on land; count separately",
+    "land_polygon_area_sensitivity_min_km2": [
+      1,
+      20
+    ],
+    "nearshore_distance_sensitivity_km": [
+      2,
+      10
+    ],
+    "assign_to_island_if": "marine point outside GSHHG land and <=5km of shoreline of exactly one unambiguous island, with mainland coast distance at least 1km farther than selected island",
+    "multi_island_region_condition": "two or more different GSHHG island polygon IDs each with at least 3 distinct original strict Method1 repeat-sampled RLS site codes",
+    "marine_research_scope": "reef metacommunity spatial network around islands, not observed land animal movement or island species extinction",
+    "origin": "GSHHG shoreline does not identify oceanic versus continental geology or larval dispersal routes"
+  },
+  "outputs": {
+    "scope": "only 10 fixed RLS regions, per region aggregate surveyed site counts by nearest land type, source-locked polygon sha and number of multi-island networks",
+    "never_export": [
+      "survey_id",
+      "site_code",
+      "latitude",
+      "longitude",
+      "species_name",
+      "total",
+      "biomass",
+      "individual fish detections"
+    ],
+    "physical_species_accesses": 0
+  },
+  "stop_go": {
+    "if_under_two_geographically_distinct_multi_island_regions": "STOP cross-archipelago general island connectivity confirmation; may still investigate reef-patch metacommunity in separate ecological paper",
+    "group_prevalence_cannot_repair_low_island_support": true,
+    "no_posthoc_redefinition_of_reef_island_radius": true,
+    "do_not_open_fish_responses_before_independent_holdout_proposal": true
+  },
+  "guards": {
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "previous_mammal_heldout_unopened": true,
+    "new_confirmatory_systems": 0
+  }
+}
