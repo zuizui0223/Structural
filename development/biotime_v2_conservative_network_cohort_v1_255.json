@@ -1,0 +1,157 @@
+{
+  "schema": "structural.biotime_v2_conservative_network_cohort.v1_255",
+  "status": "RESPONSE_FREE_POTENTIAL_NETWORKS_FROZEN_BEFORE_RESERVED_BIOLOGICAL_RESPONSE",
+  "date": "2026-10-19",
+  "source": {
+    "doi": "10.5281/zenodo.15222193",
+    "original_rds_md5": "2fed9f6c8028d4c44d80769c594be056",
+    "physical_support_freeze": "development/biotime_v2_reserved_physical_support_freeze_v1_253.json",
+    "independence_protocol": "development/biotime_v2_study_frame_independence_protocol_v1_254.json",
+    "source_audit_url": "https://github.com/zuizui0223/Structural/actions/runs/39217432431",
+    "network_independence_artifact": 12169998233,
+    "network_independence_zip_sha256": "b4d739b143d726d4851ad4b0d0f6fd54c7f8c6c6dbeeb322db67bd7f2cbb7e4f",
+    "physical_overlap_pairs_csv_sha256": "8cd3119ee465637ef86482f3f24e2391d7041d204d252374631b5cb203b713cb",
+    "physical_per_study_csv_sha256": "bb1332881cc42319c32feec7811f2535bdb6684c9c6cf5968fa99b33d6852318"
+  },
+  "cohort_count_steps": {
+    "pre_registered_study_ids": 76,
+    "matched_time_and_year_qualified": 47,
+    "min_five_active_sites": 44,
+    "remaining_after_remove_cross_split_shared_geography": 40,
+    "remaining_network_proxy_representatives": 33
+  },
+  "eliminated_for_less_than_five_active_strict_month_sites": [
+    "176",
+    "271",
+    "848"
+  ],
+  "eliminated_for_shared_geography_with_prior_burned_pilot": [
+    "272",
+    "559",
+    "560",
+    "837"
+  ],
+  "within_reserved_near_duplicate_groups": [
+    {
+      "members": [
+        "295",
+        "296"
+      ],
+      "representative": "295",
+      "strict_pair_counts": {
+        "295": 69,
+        "296": 69
+      }
+    },
+    {
+      "members": [
+        "367",
+        "917"
+      ],
+      "representative": "917",
+      "strict_pair_counts": {
+        "367": 34,
+        "917": 42
+      }
+    },
+    {
+      "members": [
+        "679",
+        "681",
+        "835"
+      ],
+      "representative": "681",
+      "strict_pair_counts": {
+        "679": 24,
+        "681": 93,
+        "835": 92
+      }
+    },
+    {
+      "members": [
+        "570",
+        "596",
+        "597",
+        "731"
+      ],
+      "representative": "597",
+      "strict_pair_counts": {
+        "570": 918,
+        "596": 914,
+        "597": 1770,
+        "731": 296
+      }
+    }
+  ],
+  "representative_rule": "Within a connected near-duplicate physical-frame component, retain the member with most strict same-month adjacent-year site pairs; break ties by numerically smallest STUDY_ID. Rule uses only source-free physical survey metadata.",
+  "skipped_near_duplicate_study_ids": [
+    "296",
+    "367",
+    "570",
+    "596",
+    "679",
+    "731",
+    "835"
+  ],
+  "selected_study_ids_by_realm": {
+    "Freshwater": [
+      "555",
+      "562",
+      "565",
+      "642",
+      "784"
+    ],
+    "Marine": [
+      "69",
+      "86",
+      "124",
+      "125",
+      "128",
+      "295",
+      "374",
+      "428",
+      "438",
+      "505",
+      "917"
+    ],
+    "Terrestrial": [
+      "214",
+      "300",
+      "301",
+      "321",
+      "373",
+      "375",
+      "597",
+      "659",
+      "676",
+      "678",
+      "681",
+      "682",
+      "683",
+      "702",
+      "768",
+      "797",
+      "836"
+    ]
+  },
+  "unit_of_future_holdout": "spatially independent study-network proxy, not row, species, plot or nominal STUDY_ID where physical frame duplicates exist",
+  "stages_before_species_response": [
+    "Verify study geography against a source-independent polygon island/mainland GIS where the literal-island estimand is intended",
+    "Verify documented sampling method, event effort comparability, and disjoint survey frame from burned pilot beyond the conservative shared-geography rule",
+    "Freeze train-only baseline, CAL-only calibration model, source-proximity reference and C configuration operator without future-response tuning",
+    "Freeze study-network/temporal block and min 0->1/0->0 event denominators before any species response access",
+    "Only then open species responses for the confirmed eligible subset once; STOP non-estimable systems without subgroup rescue"
+  ],
+  "not_claimed": [
+    "33 independently evolved archipelagos or 33 biological populations",
+    "33 observed colonization experiments or directional dispersal networks",
+    "Measured immigration probability, source-sink rescue or intervention benefit",
+    "Prospectively fresh ecological replication; original database already public",
+    "Any C-CAL heldout improvement or new biological effect"
+  ],
+  "reserved_species_response_rows_opened": 0,
+  "original_529_mammal_heldout_reopened": false,
+  "eBird": false,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_admissions": 0
+}
