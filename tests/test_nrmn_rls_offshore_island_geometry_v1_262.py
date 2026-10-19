@@ -60,3 +60,28 @@ def test_mainland_nearshore_does_not_count_as_island_replication():
     rows=[{"group":group,"site_key":str(i),"assignment":"mainland_nearshore",
            "island_id":None,"strict_pairs":2} for i in range(8)]
     assert summarize_regions(rows)[0]["qualified_archipelago_sampling_network"] is False
+
+
+def test_nearshore_gis_uses_original_pyshp_polygon_attributes(tmp_path):
+    import shapefile
+    from nrmn_rls_offshore_island_geometry_v1_262 import coastline_assignments
+    p=tmp_path/"tiny_land"
+    with shapefile.Writer(str(p),shapeType=shapefile.POLYGON) as w:
+        w.field("id","N",size=10,decimal=0)
+        w.field("area","F",size=16,decimal=2)
+        w.poly([[[0,0],[.10,0],[.10,.10],[0,.10],[0,0]]])
+        w.record(101,120.0)
+        w.poly([[[.50,0],[.60,0],[.60,.10],[.50,.10],[.50,0]]])
+        w.record(102,9_000_000.0)
+    group=("RLS","australia","other","example")
+    points=[
+        {"group":group,"site_key":"a","strict_pairs":1,"lat":.05,"lon":.12},
+        {"group":group,"site_key":"b","strict_pairs":1,"lat":.05,"lon":.48},
+        {"group":group,"site_key":"c","strict_pairs":1,"lat":.05,"lon":.05}
+    ]
+    out,info=coastline_assignments(points,p.with_suffix(".shp"))
+    assert out[0]["assignment"]=="near_island"
+    assert out[0]["island_id"]=="101"
+    assert out[1]["assignment"]=="mainland_nearshore"
+    assert out[2]["assignment"]=="on_land_or_uncertain"
+    assert info["publisher_polygon_count"]==2
