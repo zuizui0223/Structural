@@ -49,6 +49,6 @@ stopifnot(
   result$overall$n11==4L,
   result$overall$eligible_species_pair_cells==9L,
   result$overall$unseen_prior_source_next_detections==1L,
-  !any(grepl("secret",toJSON(result)))
+  !any(grepl("secret",jsonlite::toJSON(result)))
 )
 cat("PASS pilot turnover synthetic: exact 9-cell transition accounting, replicated 01, 1 external new detection, no holdout leakage.\n")
