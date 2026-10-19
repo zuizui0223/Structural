@@ -160,11 +160,8 @@ pilot_detection_summary <- function(raw, pilot_ids, realm_by_id) {
   grand[["pilot_valid_raw_rows"]] <- as.numeric(valid_physical_n)
   grand[["pilot_positive_species_rows"]] <- as.numeric(positive_raw)
   grand[["pilot_input_records"]] <- as.numeric(input_n)
-  realm <- study_out[,lapply(.SD,sum),by=.(realm),.SDcols=scorecols]
-  realm[,n_studies:=study_out[,sum(realm==.BY$realm),by=realm]$V1[match(realm,study_out$realm)]]
-  # Robust explicit realm count to avoid accidental vector recycling.
-  realm[,n_studies:=as.integer(vapply(realm,
-     function(r) sum(study_out$realm==r),integer(1)))]
+  realm <- study_out[,c(lapply(.SD,sum),list(n_studies=.N)),
+                    by=.(realm),.SDcols=scorecols]
   setorder(realm,realm)
 
   list(overall=grand,by_study_group=groups,
