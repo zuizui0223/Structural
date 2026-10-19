@@ -1,0 +1,123 @@
+{
+  "schema": "structural.biotime2_reserved_physical_support_freeze.v1_253",
+  "source": {
+    "doi": "10.5281/zenodo.15222193",
+    "rds_md5": "2fed9f6c8028d4c44d80769c594be056",
+    "physical_columns": [
+      "STUDY_ID",
+      "YEAR",
+      "MONTH",
+      "LATITUDE",
+      "LONGITUDE",
+      "SAMPLE_DESC"
+    ]
+  },
+  "study_split": "development/biotime_v2_pilot_confirmatory_split_v1_251.json",
+  "authoritative_run": {
+    "url": "https://github.com/zuizui0223/Structural/actions/runs/39212967211",
+    "id": 39212967211,
+    "artifact_id": 12169330718,
+    "artifact_sha256": "4b87cc8ba87d79cb73e044fbc2892e2beea8ccde100e8eb2d7b48d7f4f75d82a",
+    "result_csv_sha256": "7e4aae23c3c9390be101732c5605d641132b463413f70098ac481ea15fcbcb43",
+    "summary_json_sha256": "cb65f605346d8d042732740c2ff48d66315b0daf34ccf54df3ab199467c1d599"
+  },
+  "eligible_by_realm": {
+    "Freshwater": [
+      "555",
+      "559",
+      "560",
+      "562",
+      "565",
+      "642",
+      "784",
+      "848"
+    ],
+    "Marine": [
+      "69",
+      "86",
+      "124",
+      "125",
+      "128",
+      "176",
+      "271",
+      "272",
+      "295",
+      "296",
+      "367",
+      "374",
+      "428",
+      "438",
+      "505",
+      "917"
+    ],
+    "Terrestrial": [
+      "214",
+      "300",
+      "301",
+      "321",
+      "373",
+      "375",
+      "570",
+      "596",
+      "597",
+      "659",
+      "676",
+      "678",
+      "679",
+      "681",
+      "682",
+      "683",
+      "702",
+      "731",
+      "768",
+      "797",
+      "835",
+      "836",
+      "837"
+    ]
+  },
+  "by_realm": {
+    "Freshwater": {
+      "reserved": 24,
+      "strict_pair_any": 13,
+      "qualified": 8,
+      "strict_site_month_year_pairs": 15892
+    },
+    "Marine": {
+      "reserved": 27,
+      "strict_pair_any": 25,
+      "qualified": 16,
+      "strict_site_month_year_pairs": 3609
+    },
+    "Terrestrial": {
+      "reserved": 25,
+      "strict_pair_any": 24,
+      "qualified": 23,
+      "strict_site_month_year_pairs": 14705
+    }
+  },
+  "total": {
+    "reserved_studies": 76,
+    "studies_with_any_strict_pair": 62,
+    "physically_qualified": 47,
+    "strict_site_month_year_pairs": 34206
+  },
+  "eligibility": {
+    "min_month_matched_consecutive_pairs": 10,
+    "min_sites_observed_three_distinct_years": 5,
+    "min_distinct_prior_years_in_qualifying_pairs": 2
+  },
+  "limitations": [
+    "47 distinct STUDY_ID is not necessarily 47 independent geographies or unique study networks",
+    "Marine study IDs 295 and 296 have identical aggregate physical sampling descriptors; raw physical-frame overlap unverified",
+    "Freshwater 559 and 560 have highly similar counts; potential duplicated frames unverified",
+    "Site coordinates are provisional study locations, not island/polygon crosswalk",
+    "No species outcome opened in reserved 76 studies; no confirmed 0->1",
+    "Physical support does not verify detection-class estimability, species identities, sampling gear comparability, or movement"
+  ],
+  "evidence_class": "RESPONSE_COLUMN_OPAQUE_PHYSICAL_GATE_PASSED_ONLY",
+  "next_gate": "audit all 95 study IDs for duplicated location-year-month samples and any pilot/reserved overlap using ONLY physical frame fields",
+  "no_new_confirmatory_admissions": true,
+  "GEB_scientific_HOLD": true,
+  "eBird_off": true
+}

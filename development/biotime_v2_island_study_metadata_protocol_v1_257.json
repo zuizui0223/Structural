@@ -1,0 +1,64 @@
+{
+  "schema": "structural.biotime_island_study_metadata_admission.v1_257",
+  "date": "2026-10-19",
+  "status": "SOURCE_METADATA_ONLY_BEFORE_RESERVED_TAXON_RESPONSE",
+  "authority": {
+    "canonical_source_doi": "10.5281/zenodo.15222193",
+    "metadata_file": "biotime_v2_metadata_15April25.csv",
+    "expected_md5": "3daed71ed554888309f9f2443a847bea",
+    "previous_gis": "development/biotime_v2_gshhg_island_feasibility_result_freeze_v1_256.json"
+  },
+  "studied_ids": [
+    "373",
+    "375"
+  ],
+  "purpose": "Determine whether two GSHHG-conforming terrestrial multi-island study frames are ecologically interpretable and independent by publicly documented study methods, region and taxonomic group; not source-to-target movement or observed colonization.",
+  "allowed_fields": [
+    "STUDY_ID",
+    "REALM",
+    "TITLE",
+    "HABITAT",
+    "TAXA",
+    "ORGANISMS",
+    "START_YEAR",
+    "END_YEAR",
+    "NUMBER_LAT_LONG",
+    "NUMBER_OF_SAMPLES",
+    "NUMBER_OF_SPECIES",
+    "CEN_LATITUDE",
+    "CEN_LONGITUDE",
+    "CENT_LAT",
+    "CENT_LONG",
+    "GRAIN_SIZE_TEXT",
+    "METHODS",
+    "SUMMARY_METHODS",
+    "SAMPLE_DESC_NAME",
+    "AB_BIO",
+    "WEB_LINK"
+  ],
+  "output_constraints": {
+    "no_contact_names_or_addresses": true,
+    "no_email_fields": true,
+    "no_biological_raw_species_rows": true,
+    "no_personal_identifiers": true,
+    "published_methods_trim_2000_chars": true,
+    "require_both_original_study_ids": true,
+    "count_expected_original_studies": 708,
+    "avoid_coastal_points_as_trusted_breeding_sites": true
+  },
+  "decision_gates": [
+    "Are both study regions genuinely in separate archipelagos rather than two datasets from one sampling design?",
+    "Does each dataset study the same organism(s) and compatible sampling events across separate islands?",
+    "Does the source metadata support site-level annual detection inference rather than re-encounters or aggregate site summaries?",
+    "Does the record establish independent geological origin? If not, leave oceanic-versus-continental origin unknown."
+  ],
+  "nonclaims": [
+    "No taxon-site-year 0-to-1 results in studies 373 or 375",
+    "No confirmed propagule dispersal or demographic rescue",
+    "This source cannot by itself estimate a universal two-archipelago island law"
+  ],
+  "eBird": false,
+  "original_mammal_holdout_accesses": 0,
+  "reserved_biotime_species_response_accesses": 0,
+  "GEB_scientific_HOLD": true
+}

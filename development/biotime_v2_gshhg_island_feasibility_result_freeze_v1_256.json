@@ -1,0 +1,96 @@
+{
+  "schema": "structural.biotime_gshhg_island_crosswalk_freeze.v1_256",
+  "date": "2026-10-19",
+  "status": "SUCCESSFUL_SOURCE_LOCKED_RESPONSE_OPAQUE_GIS",
+  "source": {
+    "BioTIME_2_doi": "10.5281/zenodo.15222193",
+    "rds_md5": "2fed9f6c8028d4c44d80769c594be056",
+    "GSHHG_release": "2.3.7",
+    "zip_bytes": 149157845,
+    "GSHHG_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+    "original_layer": "GSHHS_shp/h/GSHHS_h_L1"
+  },
+  "provenance": {
+    "run_id": 39220652038,
+    "run_url": "https://github.com/zuizui0223/Structural/actions/runs/39220652038",
+    "artifact_id": 12171453422,
+    "artifact_sha256": "7b28a2dfb10b2c7d86f3672fa42b7e61afa5b0c8cf4cff4d41ef26a41e8d7089",
+    "corresponding_protocol": "development/biotime_v2_gshhg_island_crosswalk_protocol_v1_256.json",
+    "source_geometry_repo": "zuizui0223/island"
+  },
+  "results": {
+    "study_network_proxies": 33,
+    "strictly_resampled_site_points": 2127,
+    "original_gshhg_polygons": 144749,
+    "candidate_intersecting_polygons": 50,
+    "realms": [
+      {
+        "realm": "Freshwater",
+        "networks": 5,
+        "at_least_one_interior_island_point": 0,
+        "at_least_two_island_polygons": 0,
+        "qualified_inter_island_networks": 0
+      },
+      {
+        "realm": "Marine",
+        "networks": 11,
+        "at_least_one_interior_island_point": 3,
+        "at_least_two_island_polygons": 2,
+        "qualified_inter_island_networks": 0,
+        "marine_nearshore_is_not_terrestrial_island": true
+      },
+      {
+        "realm": "Terrestrial",
+        "networks": 17,
+        "at_least_one_interior_island_point": 4,
+        "at_least_two_island_polygons": 3,
+        "qualified_inter_island_networks": 2
+      }
+    ],
+    "qualifying_terrestrial_studies": [
+      {
+        "study_id": "373",
+        "physical_sites": 30,
+        "polygon_interior_sites": 28,
+        "distinct_island_polygons": 4,
+        "islands_with_at_least_three_sites": 3,
+        "shoreline_ambiguous_sites": 2
+      },
+      {
+        "study_id": "375",
+        "physical_sites": 31,
+        "polygon_interior_sites": 30,
+        "distinct_island_polygons": 7,
+        "islands_with_at_least_three_sites": 2,
+        "water_or_unclassified_sites": 1
+      }
+    ],
+    "near_miss_terrestrial": [
+      {
+        "study_id": "597",
+        "physical_sites": 10,
+        "polygon_interior_sites": 10,
+        "distinct_island_polygons": 2,
+        "islands_with_at_least_three_sites": 1
+      },
+      {
+        "study_id": "678",
+        "physical_sites": 12,
+        "polygon_interior_sites": 12,
+        "distinct_island_polygons": 1,
+        "islands_with_at_least_three_sites": 1
+      }
+    ],
+    "strict_multi_island_study_proxies": 2
+  },
+  "scientific_interpretation": {
+    "ecological_result": "No biological outcomes newly opened. This is a physical feasibility classification.",
+    "BioTIME_can_support_global_temporal_assemblage_macroanalysis": true,
+    "sufficient_to_claim_global_independent_oceanic_archipelago_replication": false,
+    "oceanic_vs_continental_geology_verified": false,
+    "two_island_networks_geographically_independent_of_each_other": "NOT_YET_AUDITED",
+    "new_species_response_accesses": 0,
+    "original_529_mammal_holdout_unopened": true,
+    "GEB_scientific_HOLD": true
+  }
+}

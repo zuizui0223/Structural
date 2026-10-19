@@ -1,0 +1,100 @@
+{
+  "schema": "structural.biotime_pilot_detection_protocol.v1_252",
+  "freeze_date": "2026-10-19",
+  "status": "FROZEN_BEFORE_PILOT_SPECIES_RESPONSE_ACCESS",
+  "goal": "Count same-species within-site next-year detected/nondetected transitions conditional on known prior study-month source pool in exactly 19 burned-pilot studies. No island colonization, demographic rescue or predictive claim.",
+  "source": {
+    "doi": "10.5281/zenodo.15222193",
+    "rds_filename": "biotime_v2_query_15April25.rds",
+    "rds_md5": "2fed9f6c8028d4c44d80769c594be056",
+    "metadata_filename": "biotime_v2_metadata_15April25.csv",
+    "metadata_md5": "3daed71ed554888309f9f2443a847bea"
+  },
+  "design_authority": "development/biotime_v2_pilot_confirmatory_split_v1_251.json",
+  "pilot_count": 19,
+  "holdout_count": 76,
+  "source_join": "Use exact frozen pilot STUDY_ID only, before any taxon column is inspected; holdout taxon responses are not queried.",
+  "physical_sampling_frame": {
+    "site_proxy": "study + rounded latitude/longitude 5 decimals, not a permanent plot identity",
+    "survey_event": "unique within-study/month/site/year nonblank SAMPLE_DESC; this field is constructed in the original BioTIME source",
+    "pair": "identical study/site/month in consecutive calendar years",
+    "month": "valid 1..12, same calendar month in both years",
+    "min_events_each_year": 2,
+    "depth_or_method_match": "NOT verified from study metadata; descriptive quality limitation"
+  },
+  "taxon_eligibility": {
+    "taxon_key": "nonempty newID",
+    "resolution": "case-insensitive literal species",
+    "valid_name": "nonblank source-validated name; never displayed per species",
+    "detection": "ABUNDANCE>0 or BIOMASS>0, ignoring nonfinite values",
+    "missing_site_taxon_record": "Not detected in a sampled event, NOT a verified true ecological absence"
+  },
+  "prior_source_pool": {
+    "study": "exact same study",
+    "year": "t only; t+1 must not define denominator",
+    "month": "same month as matched target",
+    "species": "detected at one or more sampled sites in study-month-year at t",
+    "source_sites": "distinct 5-decimal coordinate sites with prior-year positive detection",
+    "recipient": "for prior non-detections, focal recipient does not count among positive sources"
+  },
+  "eligibility_strata": [
+    {
+      "name": "1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "name": "2",
+      "min": 2,
+      "max": 2
+    },
+    {
+      "name": "3-4",
+      "min": 3,
+      "max": 4
+    },
+    {
+      "name": ">=5",
+      "min": 5,
+      "max": null
+    }
+  ],
+  "denominator": "For each paired sampled site-month-year and each taxon observed somewhere in prior-year study-month regional pool, classify target sample detection t/t+1 into 00,01,10,11.",
+  "outcomes": {
+    "10": "detected t then not detected t+1; no local extinction inference",
+    "11": "detected at both",
+    "00": "not detected in either sampled target month",
+    "01": "not detected in t but detected at least once in t+1 with known t regional source; detection transition only",
+    "new_external": "detected t+1 but not in t regional source pool, excluded from 00/01 pool denominator"
+  },
+  "quality_sensitivity": {
+    "01_replicated": "t+1 taxon detected in >=2 distinct SAMPLE_DESC events among eligible recipient pairs",
+    "10_replicated": "t taxon detected in >=2 distinct SAMPLE_DESC events; other year lacks detection",
+    "survey_effort": "report within-pair n_events distribution, per-study event and taxon attrition, and realm separation",
+    "sample_method": "not proven identical by event-count or same-month matching"
+  },
+  "reporting": {
+    "per_study": "19 rows with study ID, realm and cell counts; no species identifiers or sites exported",
+    "by_realm": "Freshwater, Marine, Terrestrial",
+    "by_source_count": "1,2,3-4,>=5",
+    "metrics": "raw cell counts, rates with denominator explicitly shown; descriptive only",
+    "reconciliation": "all 00+01+10+11 exactly equal sum of predeclared prior source pools across comparable target-year pairs"
+  },
+  "constraints": {
+    "no_confirmatory_holdout_species_access": true,
+    "no_original_mammal_heldout_access": true,
+    "eBird_off": true,
+    "no_q_estimation": true,
+    "no_dispersion_interpretation": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  },
+  "stop_rules": [
+    "Source MD5 mismatch or RDS changes",
+    "Original v1_251 hashed pilot/holdout identities mismatch",
+    "Required original source taxon/schema columns missing",
+    "No matched sampled pairs / eligible species detection",
+    "Integer transition accounting identities fail",
+    "Do not enlarge pilot or inspect reserved holdout to fix unsupported result"
+  ]
+}

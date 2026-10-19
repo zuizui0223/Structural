@@ -1,0 +1,149 @@
+{
+  "schema": "structural.biotime_v2_burned_pilot_aggregate_freeze.v1_252",
+  "source": {
+    "doi": "10.5281/zenodo.15222193",
+    "publisher_rds_md5": "2fed9f6c8028d4c44d80769c594be056",
+    "rds_file_bytes": 173851491
+  },
+  "design": {
+    "protocol": "development/biotime_v2_burned_pilot_detection_protocol_v1_252.json",
+    "pilot_split": "development/biotime_v2_pilot_confirmatory_split_v1_251.json",
+    "study_pilot_n": 19,
+    "reserved_study_holdout_n": 76
+  },
+  "execution": {
+    "github_actions_run": 39211305878,
+    "url": "https://github.com/zuizui0223/Structural/actions/runs/39211305878",
+    "artifact_id": 12167208910,
+    "artifact_zip_sha256": "0df9894a1aeb16f0c0418469287442852659fd604431f4f2a655c61037a33534",
+    "workflows": "Synthetic accountant, exact publisher MD5, 19-study response restriction and accounting all passed"
+  },
+  "overall": {
+    "eligible_species_pair_cells": 123584,
+    "n00": 91967,
+    "n01": 6274,
+    "n10": 8584,
+    "n11": 16759,
+    "n01_2plus": 2266,
+    "n10_2plus": 2556,
+    "target_site_month_year_pairs": 6838,
+    "unseen_prior_source_next_detections": 3172,
+    "pilot_input_records": 945936,
+    "pilot_positive_species_rows": 822927,
+    "source_pilot_studies": 19,
+    "nonzero_comparable_studies": 14,
+    "source_studies_with_01": 13
+  },
+  "source_count_groups": [
+    {
+      "sources": "1",
+      "n00": 25324,
+      "n01": 1236,
+      "n10": 1225,
+      "n11": 630,
+      "n01_2plus": 394
+    },
+    {
+      "sources": "2",
+      "n00": 11949,
+      "n01": 797,
+      "n10": 897,
+      "n11": 615,
+      "n01_2plus": 299
+    },
+    {
+      "sources": "3-4",
+      "n00": 11884,
+      "n01": 971,
+      "n10": 1292,
+      "n11": 1000,
+      "n01_2plus": 378
+    },
+    {
+      "sources": ">=5",
+      "n00": 42810,
+      "n01": 3270,
+      "n10": 5170,
+      "n11": 14514,
+      "n01_2plus": 1195
+    }
+  ],
+  "by_realm": [
+    {
+      "realm": "Freshwater",
+      "studies": 6,
+      "n00": 1106,
+      "n01": 95,
+      "n10": 166,
+      "n11": 4676
+    },
+    {
+      "realm": "Marine",
+      "studies": 7,
+      "n00": 23953,
+      "n01": 3415,
+      "n10": 4704,
+      "n11": 3906
+    },
+    {
+      "realm": "Terrestrial",
+      "studies": 6,
+      "n00": 66908,
+      "n01": 2764,
+      "n10": 3714,
+      "n11": 8177
+    }
+  ],
+  "strict_method_quality": {
+    "nonzero_eligible_study_ids": [
+      "110",
+      "172",
+      "273",
+      "372",
+      "376",
+      "377",
+      "433",
+      "507",
+      "558",
+      "589",
+      "644",
+      "658",
+      "693",
+      "838"
+    ],
+    "no_eligible_strict_pairs_study_ids": [
+      "500",
+      "501",
+      "795",
+      "825",
+      "830"
+    ],
+    "five_zero_study_cause": "monthly replicate criterion/positive species eligibility causes some studies to have no eligible cells; full cause per study not separately identified"
+  },
+  "exploratory_association": {
+    "per_study_5plus_vs_1_previous_source_sites_positive": 13,
+    "tie": 1,
+    "negative": 0,
+    "eligible_studies": 14,
+    "pooled_n01_rate_by_source_group": {
+      "one": 0.04653614457831325,
+      "two": 0.062529420995,
+      "three_to_four": 0.0755348,
+      "fiveplus": 0.07096354166666666
+    },
+    "interpretation": "prevalence/detectability/protocol differences not controlled; must not infer causal source rescue"
+  },
+  "limits": [
+    "Published historical data and internally held study split, not a newly collected independent pristine sample",
+    "Species detected at sites is not confirmed breeding viable source population",
+    "00 and 01 use non-detection in a sample month, not true biological absence and arrival",
+    "Source count measured over t-year study-month site proxies, not island-verified geography or actual movement",
+    "No absolute confidence intervals or experiment effects estimated",
+    "The 76-study holdout remains unqueried for species outcomes",
+    "Method, gear and sampling completeness are not yet harmonized across study networks"
+  ],
+  "evidence_class": "BURNED_PILOT_RETROSPECTIVE_DETECTION_DESCRIPTIVE_ONLY",
+  "eBird": false,
+  "GEB_scientific_HOLD": true,
+  "confirmatory_admissions": 0
+}

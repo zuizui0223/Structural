@@ -1,0 +1,38 @@
+name: Occupancy role calibration-only exact counterexample v1.250
+
+on:
+  push:
+    paths:
+      - ".github/workflows/occupancy-role-calibration-witness-v1_250.yml"
+      - "scripts/occupancy_role_calibration_witness_v1_250.py"
+      - "tests/test_occupancy_role_calibration_witness_v1_250.py"
+  pull_request:
+    paths:
+      - ".github/workflows/occupancy-role-calibration-witness-v1_250.yml"
+      - "scripts/occupancy_role_calibration_witness_v1_250.py"
+      - "tests/test_occupancy_role_calibration_witness_v1_250.py"
+
+permissions:
+  contents: read
+
+jobs:
+  exact-source-summary-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Execute source-safe algebraic regressions
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_occupancy_role_calibration_witness_v1_250.py
+      - name: Reproduce calibration-only null from frozen mammal scoring summaries
+        run: |
+          python scripts/occupancy_role_calibration_witness_v1_250.py \
+            --out occupancy_role_calibration_witness_v1_250.json
+      - name: Archive summary-only exact-math receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: occupancy-role-calibration-witness-v1-250
+          path: occupancy_role_calibration_witness_v1_250.json

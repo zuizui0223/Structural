@@ -1,0 +1,69 @@
+{
+  "schema": "structural.biotime_physical_holdout_gate.v1_253",
+  "freeze_date": "2026-10-19",
+  "status": "RESPONSE_FREE_GATE_SPECIFIED_BEFORE_ANY_RESERVED_STUDY_SPECIES_VALUES",
+  "source": {
+    "doi": "10.5281/zenodo.15222193",
+    "file": "biotime_v2_query_15April25.rds",
+    "expected_md5": "2fed9f6c8028d4c44d80769c594be056"
+  },
+  "split_authority": "development/biotime_v2_pilot_confirmatory_split_v1_251.json",
+  "reserved_studies": 76,
+  "pilot_studies_blocked_from_holdout_analysis": 19,
+  "permitted_input_columns": [
+    "STUDY_ID",
+    "YEAR",
+    "MONTH",
+    "LATITUDE",
+    "LONGITUDE",
+    "SAMPLE_DESC"
+  ],
+  "prohibited_input_fields": [
+    "newID",
+    "valid_name",
+    "resolution",
+    "ABUNDANCE",
+    "BIOMASS",
+    "taxon",
+    "SPECIES",
+    "BIOMASS_TYPE"
+  ],
+  "geometry_and_time": {
+    "site_proxy": "5-decimal source coordinates",
+    "event": "unique nonblank SAMPLE_DESC within site-month-year",
+    "pair": "same study/site_proxy/month at t and t+1",
+    "min_events_at_t": 2,
+    "min_events_at_t_plus_one": 2,
+    "valid_months": [
+      1,
+      12
+    ],
+    "valid_years": [
+      1800,
+      2026
+    ]
+  },
+  "study_quality_gate": {
+    "min_strict_month_matched_consecutive_pairs": 10,
+    "min_distinct_sites_observed_in_at_least_3_years": 5,
+    "min_distinct_earlier_years_in_qualifying_pairs": 2,
+    "required_eligible_studies_per_realm_for_stratum_model": 3
+  },
+  "outputs": [
+    "source verification receipt",
+    "per-study anonymous-to-response site-year physical counts",
+    "physical estimable study counts by realm and overall"
+  ],
+  "not_outputs": [
+    "taxon rows",
+    "species detections",
+    "0->1,1->0 transitions",
+    "ecological scores",
+    "predictions"
+  ],
+  "main_scientific_constraint": "No 76-study taxon response opening until post-gate model/reference, prediction windows and response quality are separately frozen; physical gate cannot certify ecological class estimability.",
+  "evidence_class": "RESPONSE_COLUMN_OPAQUE_PHYSICAL_SUPPORT_ONLY",
+  "eBird": false,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_studies": 0
+}

@@ -1,0 +1,44 @@
+name: BioTIME v2 conservative 33-network cohort v1.255
+
+on:
+  push:
+    paths:
+      - ".github/workflows/biotime-v2-conservative-network-cohort-v1_255.yml"
+      - "development/biotime_v2_conservative_network_cohort_v1_255.json"
+      - "development/biotime_v2_reserved_physical_support_freeze_v1_253.json"
+      - "scripts/verify_biotime_v2_conservative_network_cohort_v1_255.py"
+      - "tests/test_biotime_v2_conservative_network_cohort_v1_255.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biotime-v2-conservative-network-cohort-v1_255.yml"
+      - "development/biotime_v2_conservative_network_cohort_v1_255.json"
+      - "development/biotime_v2_reserved_physical_support_freeze_v1_253.json"
+      - "scripts/verify_biotime_v2_conservative_network_cohort_v1_255.py"
+      - "tests/test_biotime_v2_conservative_network_cohort_v1_255.py"
+
+permissions:
+  contents: read
+
+jobs:
+  integrity-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free test runner
+        run: python -m pip install pytest
+      - name: Reject cross-split and lower-effort network representative substitutions
+        run: python -m pytest -q tests/test_biotime_v2_conservative_network_cohort_v1_255.py
+      - name: Verify 33-network frozen source-independent admission boundary
+        run: |
+          python scripts/verify_biotime_v2_conservative_network_cohort_v1_255.py \
+            --cohort development/biotime_v2_conservative_network_cohort_v1_255.json \
+            --physical development/biotime_v2_reserved_physical_support_freeze_v1_253.json \
+            --out /tmp/biotime_network_cohort_v1_255.json
+      - name: Retain source-opaque cohort integrity receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: biotime-33-network-cohort-v1-255
+          path: /tmp/biotime_network_cohort_v1_255.json

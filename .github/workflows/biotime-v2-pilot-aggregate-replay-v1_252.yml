@@ -1,0 +1,39 @@
+name: BioTIME v2 aggregate-only replay v1.252
+
+on:
+  push:
+    paths:
+      - ".github/workflows/biotime-v2-pilot-aggregate-replay-v1_252.yml"
+      - "development/biotime_v2_burned_pilot_aggregate_freeze_v1_252.json"
+      - "development/biotime_v2_burned_pilot_by_study_source_group_v1_252.csv"
+      - "scripts/verify_biotime_v2_pilot_aggregate_v1_252.py"
+      - "tests/test_biotime_v2_pilot_aggregate_replay_v1_252.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biotime-v2-pilot-aggregate-replay-v1_252.yml"
+      - "development/biotime_v2_burned_pilot_aggregate_freeze_v1_252.json"
+      - "development/biotime_v2_burned_pilot_by_study_source_group_v1_252.csv"
+      - "scripts/verify_biotime_v2_pilot_aggregate_v1_252.py"
+      - "tests/test_biotime_v2_pilot_aggregate_replay_v1_252.py"
+
+permissions:
+  contents: read
+
+jobs:
+  persisted-aggregates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free test runner
+        run: python -m pip install pytest
+      - name: Validate no-output-reopen archived aggregated study×source-group table
+        run: python -m pytest -q tests/test_biotime_v2_pilot_aggregate_replay_v1_252.py
+      - name: Independently replay frozen group totals and study directions
+        run: |
+          python scripts/verify_biotime_v2_pilot_aggregate_v1_252.py \
+            --groups development/biotime_v2_burned_pilot_by_study_source_group_v1_252.csv \
+            --freeze development/biotime_v2_burned_pilot_aggregate_freeze_v1_252.json \
+            --split development/biotime_v2_pilot_confirmatory_split_v1_251.json
