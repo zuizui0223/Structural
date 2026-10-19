@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 import urllib.request
 import urllib.error
+from biotime_v2_metadata_preflight_v1_249 import source_bytes as get_official_metadata
 
 DOI="10.5281/zenodo.15222193"
 FILENAME="biotime_v2_query_15April25.rds"
@@ -56,6 +57,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--out-rds",required=True,type=Path)
     p.add_argument("--out-receipt",required=True,type=Path)
+    p.add_argument("--out-meta",required=True,type=Path)
     a=p.parse_args()
     rec={
         "schema":"structural.biotime2_full_source_transport.v1_250",
@@ -65,6 +67,10 @@ def main():
         "new_confirmatory_admissions":0,"GEB_scientific_HOLD":True,"eBird_used":False,
     }
     try:
+        meta,meta_url,_=get_official_metadata()
+        a.out_meta.parent.mkdir(parents=True,exist_ok=True)
+        a.out_meta.write_bytes(meta)
+        rec["metadata"]={"publisher_md5_verified":True,"bytes":len(meta),"source_url":meta_url}
         rec["source"]=download(a.out_rds)
         rec["status"]="ORIGINAL_RDS_SOURCE_VERIFIED"
     except Exception as e:
