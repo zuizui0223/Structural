@@ -1,0 +1,76 @@
+{
+  "schema": "structural.biotime_study_frame_independence_protocol.v1_254",
+  "freeze_date": "2026-10-19",
+  "status": "FROZEN_BEFORE_REPLAYING_THE_95_STUDY_PHYSICAL_NETWORKS",
+  "source": {
+    "doi": "10.5281/zenodo.15222193",
+    "rds_md5": "2fed9f6c8028d4c44d80769c594be056"
+  },
+  "study_split": "development/biotime_v2_pilot_confirmatory_split_v1_251.json",
+  "reserved_physical_freeze": "development/biotime_v2_reserved_physical_support_freeze_v1_253.json",
+  "study_ids": {
+    "burned_pilot": 19,
+    "reserved": 76,
+    "total": 95
+  },
+  "allowed_rds_columns": [
+    "STUDY_ID",
+    "YEAR",
+    "MONTH",
+    "LATITUDE",
+    "LONGITUDE",
+    "SAMPLE_DESC"
+  ],
+  "never_read_columns": [
+    "newID",
+    "valid_name",
+    "resolution",
+    "ABUNDANCE",
+    "BIOMASS",
+    "SPECIES",
+    "taxon",
+    "taxa"
+  ],
+  "physical_key": {
+    "site": "study-independent latitude and longitude rounded to five decimals",
+    "frame": "site plus valid calendar year and month",
+    "event": "nonempty SAMPLE_DESC only for declaring a location-month-year as genuinely sampled",
+    "study": "STUDY_ID kept only as a group label, never part of the cross-study physical-frame identity"
+  },
+  "pairwise_tests": {
+    "frame_intersection_min": 10,
+    "near_duplicate_frame_containment_min": 0.8,
+    "near_duplicate_site_containment_min": 0.8,
+    "shared_geography_sites_min": 5,
+    "shared_geography_site_containment_min": 0.8,
+    "definitions": [
+      "containment=intersect/min(number of physical keys in study A, number in B)",
+      "jaccard=intersect/union",
+      "frame near-duplicate if frame intersection >=10 and frame containment >=0.80 AND site containment >=0.80",
+      "shared geography if >=5 sites overlap and site containment >=0.80; warning even if time windows disjoint",
+      "same physical frame does not prove identical species data, shared study authors, survey effort, or detection process"
+    ]
+  },
+  "separate_geometry_sufficiency": {
+    "purpose": "At least five distinct active matched-year sites needed to define an across-site configuration contrast",
+    "min_active_sites_with_2plus_both_years_month": 5,
+    "must_preserve_v1_253_physical_eligibility_without_relaxation": true,
+    "not_promote_44_studies_to_44_independent_networks_without_overlap_audit": true
+  },
+  "admission_rules": {
+    "cross_pilot_reserved_near_duplicate": "STOP separate-network holdout interpretation for the affected network; keep reserved taxa sealed",
+    "within_reserved_near_duplicate": "Group studies in a single independent network block; no per-STUDY_ID pseudoreplication",
+    "cross_pilot_reserved_shared_geography_only": "Flag higher-conservatism hold pending source-method provenance; do not automatically interpret as independent replicates",
+    "no_split_retuning_by_biological_effects": true
+  },
+  "output_restriction": {
+    "per_study": "physical key totals only",
+    "per_pair": "only nonzero overlap or threshold positives; study IDs, shared site/year-month counts and ratios",
+    "graph": "connected components for near-duplicate and shared-geography networks",
+    "no_biological_response_fields": true
+  },
+  "evidence_class": "RESPONSE_BLIND_PHYSICAL_DUPLICATE_AND_NETWORK_SUPPORT_GATE",
+  "GEB_scientific_HOLD": true,
+  "eBird_off": true,
+  "confirmatory_admissions": 0
+}
