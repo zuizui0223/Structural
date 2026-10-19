@@ -1,0 +1,83 @@
+name: BioTIME v2 source-frame independence v1.254
+
+on:
+  push:
+    paths:
+      - ".github/workflows/biotime-v2-study-frame-independence-v1_254.yml"
+      - "scripts/biotime_v2_study_frame_independence_v1_254.R"
+      - "tests/test_biotime_v2_study_frame_independence_v1_254.R"
+      - "development/biotime_v2_study_frame_independence_protocol_v1_254.json"
+      - "development/biotime_v2_reserved_physical_support_freeze_v1_253.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  physical-network-independence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install R physical-key and manifest tools
+        run: Rscript -e 'install.packages(c("data.table","jsonlite"), repos="https://cloud.r-project.org")'
+      - name: Prove overlapping pilot/reserved identity and false response columns are excluded
+        run: Rscript tests/test_biotime_v2_study_frame_independence_v1_254.R
+      - name: Source-lock exact 2025 BioTIME files
+        run: |
+          python scripts/biotime_v2_full_source_transport_v1_250.py \
+            --out-rds biotime_v2_query_15April25.rds \
+            --out-meta biotime_v2_metadata_15April25.csv \
+            --out-receipt biotime_source_transport_v1_254.json
+      - name: Quantify 95-study site/time frame overlap without accessing species values
+        run: |
+          Rscript scripts/biotime_v2_study_frame_independence_v1_254.R \
+            biotime_v2_query_15April25.rds \
+            development/biotime_v2_pilot_confirmatory_split_v1_251.json \
+            development/biotime_v2_reserved_physical_support_freeze_v1_253.json \
+            development/biotime_v2_study_frame_independence_protocol_v1_254.json \
+            biotime_v2_study_frame_independence_v1_254.json \
+            biotime_v2_shared_study_frames_v1_254.csv
+      - name: Verify preserved 19/76/47 denominators and no reserved biological response use
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          a=json.loads(Path("biotime_v2_study_frame_independence_v1_254.json").read_text())
+          assert a["schema"]=="structural.biotime_study_frame_independence.v1_254"
+          r=a["results"]
+          assert r["all_studies"]==95
+          assert r["reserved_studies"]==76
+          assert r["original_burned_pilot_studies"]==19
+          assert r["v253_reserved_physically_qualified"]==47
+          assert a["any_reserved_taxon_response_opened"] is False
+          assert a["study_frame_input_columns"]==["STUDY_ID","YEAR","MONTH","LATITUDE","LONGITUDE","SAMPLE_DESC"]
+          with open("biotime_v2_shared_study_frames_v1_254.csv",newline="") as f:
+            pairs=list(csv.DictReader(f))
+          assert all("ABUNDANCE" not in r and "newID" not in r and "taxon" not in r for r in pairs)
+          print("PHYSICAL NETWORK GATE",r)
+          PY
+      - name: Retain only study-pair/site-time-count summaries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biotime-v2-physical-network-independence-v1-254
+          path: |
+            biotime_source_transport_v1_254.json
+            biotime_v2_study_frame_independence_v1_254.json
+            biotime_v2_shared_study_frames_v1_254.csv
+            biotime_v2_study_frame_independence_v1_254_studies.csv
+          if-no-files-found: warn
+      - name: Delete response-bearing original BioTIME RDS after analysis
+        if: always()
+        run: |
+          rm -f biotime_v2_query_15April25.rds \
+            biotime_v2_query_15April25.rds.partial \
+            biotime_v2_metadata_15April25.csv
