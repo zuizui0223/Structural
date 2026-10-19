@@ -53,3 +53,23 @@ def test_marine_sites_do_not_enter_terrestrial_island_networks():
     assert report["strict_multi_island_study_network_total"]==2
     assert next(r for r in rows if r["study"]=="M")["inter_island_network_primary"] is False
     assert next(r for r in rows if r["study"]=="T")["inter_island_network_primary"] is True
+
+
+def test_reads_real_pyshp_field_descriptors(tmp_path):
+    """Regression: pyshp fields are descriptor lists, not field-name strings."""
+    import shapefile
+    from biotime_v2_gshhg_island_crosswalk_v1_256 import load_original_geography
+    source=tmp_path/"source"
+    writer=shapefile.Writer(str(source),shapeType=shapefile.POLYGON)
+    writer.field("id","N",size=12,decimal=0)
+    writer.field("area","F",size=16,decimal=2)
+    writer.poly([[[0,0],[1,0],[1,1],[0,1],[0,0]]])
+    writer.record(123,100.0)
+    writer.close()
+    test_sites=[{"study":"A","realm":"Terrestrial","latitude":"0.5",
+                 "longitude":"0.5","strict_matched_pair_n":"1"}]
+    polygons,receipt=load_original_geography(source.with_suffix(".shp"),test_sites)
+    assert receipt["candidate_polygon_count"]==1
+    result=classify_points_with_polygons(test_sites,polygons)
+    assert result[0]["polygon_id"]=="123"
+    assert result[0]["class"]=="island_polygon_interior"
