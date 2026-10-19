@@ -1,0 +1,46 @@
+{
+  "schema": "structural.biotime2_metadata_eligibility_freeze.v1_249",
+  "source": {
+    "doi": "10.5281/zenodo.15222193",
+    "date": "2025-04-15",
+    "file": "biotime_v2_metadata_15April25.csv",
+    "publisher_md5": "3daed71ed554888309f9f2443a847bea",
+    "verified_byte_size": 2545416
+  },
+  "provenance": {
+    "github_actions_run_id": 39203984350,
+    "artifact_id": 12164982767,
+    "artifact_sha256": "4b646baa1cfd46c54cb7ac1f52a17c85f84babe5ed24b8fee47b4b36bc2768b7",
+    "source_response_accesses": 0
+  },
+  "source_708_studies": {
+    "total": 708,
+    "terrestrial": 328,
+    "marine": 229,
+    "freshwater": 151,
+    "start_year_min": 1874,
+    "end_year_max": 2023
+  },
+  "study_level_potential": {
+    "calendar_span_3_years_min_5_coordinates": 356,
+    "calendar_span_5_years_min_10_coordinates": 264,
+    "calendar_span_5_years_min_10_coordinates_100_samples_10_species": 226,
+    "calendar_span_8_years_min_20_coordinates_1000_samples_20_species": 89
+  },
+  "priority_226_by_realm": {
+    "marine": 107,
+    "terrestrial": 61,
+    "freshwater": 58
+  },
+  "limitations": [
+    "A calendar span does not establish repeated surveys of identical sites",
+    "A sampling-event count does not establish consistent per-site effort or valid observed absence",
+    "No species-level site-year incidence, time-ahead survival, movement, or recolonization was measured in this metadata-only audit",
+    "BioTIME sampling-site geolocations do not automatically identify literal oceanic islands",
+    "The metadata screening counts are not study-level independent ecological effect estimates"
+  ],
+  "evidence_status": "VERIFIED_METADATA_ONLY_NOT_BIOLOGICAL_CONFIRMATION",
+  "initial_eligibility_screen_is_outcome_independent": true,
+  "GEB_scientific_HOLD": true,
+  "eBird": false
+}
