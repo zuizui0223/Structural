@@ -139,7 +139,7 @@ def classify_points_with_polygons(rows:list[dict],polygon_records):
 
 def load_original_geography(shp_file:Path,rows):
     source=shapefile.Reader(str(shp_file))
-    fields={name.casefold() for name in source.fields[1:]}
+    fields={str(descriptor[0]).casefold() for descriptor in source.fields[1:]}
     if "area" not in fields or "id" not in fields:
         raise ValueError("GSHHG original polygon 'area' or 'id' attribute missing; do not improvise")
     points=[Point(float(x["longitude"]),float(x["latitude"])) for x in rows]
