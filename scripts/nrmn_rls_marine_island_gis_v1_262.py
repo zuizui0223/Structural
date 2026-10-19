@@ -88,6 +88,8 @@ def classify_marine_site(lat,lon,polygons,protocol,*,area_floor=None,max_km=None
     if mainland_dist<=1:
         return {"class":"mainland_or_ambiguous","island_id":None}
     if not islands or islands[0][0]>reach:
+        if mainland_dist<=reach:
+            return {"class":"mainland_or_ambiguous","island_id":None}
         return {"class":"no_eligible_island_within_5km","island_id":None}
     first=islands[0]
     if mainland_dist<=first[0]+g["mainland_versus_island_exclusion_margin_km"]:
