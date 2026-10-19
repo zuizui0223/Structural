@@ -1,0 +1,169 @@
+name: Global mammals macro state/operator v1.27
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - development/global_mammals_macro_state_operator_request_v1_27.json
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  freeze-state-and-source-operator:
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}
+    steps:
+      - name: Checkout frozen Structural code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate one-shot response-independent request
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          req = json.loads(
+              Path(
+                  "development/global_mammals_macro_state_operator_request_v1_27.json"
+              ).read_text(encoding="utf-8")
+          )
+          assert req["schema"] == (
+              "structural.global_mammals_macro_state_operator_request.v1_27"
+          )
+          assert req["status"] == "REQUEST_GLOBAL_MACRO_STATE_AND_SOURCE_OPERATOR"
+          assert req["candidate_id"] == "global_island_native_mammals_barreto_2024"
+          assert req["analysis_route"] == "contaminated_macro_analysis_only"
+          assert req["safe_artifact_id"] == 11013887248
+          assert req["spatial_artifact_id"] == 11015850157
+          assert req["island_count"] == 5592
+          assert req["source_operator_k_rule"] == "smallest_connected_k"
+          assert req["source_operator_search_max_k"] == 64
+          assert req["expected_selected_k"] == 36
+          assert req["Appendix_1_access_authorized"] is False
+          assert req["mammal_species_names_opened"] is False
+          assert req["mammal_occurrence_values_opened"] is False
+          assert req["fresh_system_denominator_contribution"] == 0
+          assert req["one_shot"] is True
+          PY
+
+      - name: Download exact frozen v1.23 safe rows
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v123-appendix2-safe-ea565b98419f8aacde9fb13c26724bb385635b95-36524988694
+          path: build/global_mammals_v127/safe
+          repository: zuizui0223/Structural
+          run-id: 36524988694
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen v1.25 spatial design
+        uses: actions/download-artifact@v4
+        with:
+          name: global-mammals-v125-spatial-9333854097f15617b25a09ba79a67db4854c6b3f-36527735618
+          path: build/global_mammals_v127/spatial
+          repository: zuizui0223/Structural
+          run-id: 36527735618
+          github-token: ${{ github.token }}
+
+      - name: Verify exact parent artifact members
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          checks = {
+              Path("build/global_mammals_v127/safe/appendix2_safe_rows.csv"):
+                  "b60fbfd643b8a517d3a632a50db6b2b9916f9f3f34bae123ba7b7e89665b39e8",
+              Path("build/global_mammals_v127/spatial/island_partition.csv"):
+                  "3f85efb3b71423a8392cb1f7a5590c7b03cedef377fee0997df457a029b998bd",
+              Path("build/global_mammals_v127/spatial/block_table.csv"):
+                  "4646034c1e5cd408e252c6d187a763e292850edd5c7d1619567b634e410bb27d",
+              Path("build/global_mammals_v127/spatial/spatial_receipt.json"):
+                  "0282a503943b8d63a8ff3e104da72fa210713fca5a357c64669225ecef7d1727",
+          }
+          for path, expected in checks.items():
+              if not path.exists():
+                  raise SystemExit(f"missing frozen parent file: {path}")
+              observed = hashlib.sha256(path.read_bytes()).hexdigest()
+              if observed != expected:
+                  raise SystemExit(f"parent SHA mismatch: {path.name}")
+          PY
+
+      - name: Freeze R0-R1 state and distinct global source operator
+        run: |
+          mkdir -p build/global_mammals_v127/output
+          python scripts/freeze_global_mammals_macro_state_operator_v1_27.py \
+            build/global_mammals_v127/safe/appendix2_safe_rows.csv \
+            build/global_mammals_v127/spatial/island_partition.csv \
+            build/global_mammals_v127/spatial/spatial_receipt.json \
+            --state-reference build/global_mammals_v127/output/state_reference.csv \
+            --source-operator build/global_mammals_v127/output/source_operator.json \
+            --receipt build/global_mammals_v127/output/state_operator_receipt.json
+
+      - name: Enforce response-independent macro ceiling
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          root = Path("build/global_mammals_v127/output")
+          receipt = json.loads(
+              (root / "state_operator_receipt.json").read_text(encoding="utf-8")
+          )
+          operator = json.loads(
+              (root / "source_operator.json").read_text(encoding="utf-8")
+          )
+          assert receipt["status"] == (
+              "GLOBAL_MACRO_STATE_AND_SOURCE_OPERATOR_FROZEN_RESPONSE_INDEPENDENTLY"
+          )
+          assert receipt["analysis_route"] == "contaminated_macro_analysis_only"
+          assert receipt["island_count"] == 5592
+          assert receipt["bioregion_count"] == 12
+          assert receipt["state_reference"]["state_reference_row_count"] == 5592
+          assert receipt["source_operator"]["selected_k"] == 36
+          assert receipt["source_operator"]["edge_count"] == 124733
+          assert receipt["source_operator"]["cross_validation_block_edge_count"] == 37235
+          assert receipt["source_operator"]["kernel_scale_km_hex"] == (
+              "0x1.0329e68e17975p+7"
+          )
+          assert operator["selected_k"] == 36
+          assert operator["edge_count"] == 124733
+          assert operator["cross_validation_block_edge_count"] == 37235
+          assert operator["validation_blocks_reused_as_source_components"] is False
+          assert operator["response_used_to_choose_k"] is False
+          assert operator["response_used_to_choose_kernel_scale"] is False
+          assert len(operator["operator_fingerprint"]) == 64
+          assert receipt["Appendix_1_reopened"] is False
+          assert receipt["mammal_species_names_opened"] is False
+          assert receipt["mammal_occurrence_values_opened"] is False
+          assert receipt["counts_as_fresh_confirmation"] is False
+          assert receipt["fresh_system_denominator_contribution"] == 0
+          assert receipt["original_fresh_chain_restored"] is False
+          assert receipt["mammal_response_access_authorized"] is False
+
+          with (root / "state_reference.csv").open(
+              "r", encoding="utf-8", newline=""
+          ) as handle:
+              assert sum(1 for _ in csv.reader(handle)) == 5593
+          PY
+
+      - name: Upload response-independent macro state/operator
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-mammals-v127-state-operator-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            build/global_mammals_v127/output/state_reference.csv
+            build/global_mammals_v127/output/source_operator.json
+            build/global_mammals_v127/output/state_operator_receipt.json
+          if-no-files-found: error
+          retention-days: 30
