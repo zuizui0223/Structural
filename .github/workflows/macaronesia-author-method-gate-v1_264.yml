@@ -1,0 +1,47 @@
+name: Macaronesia author method semantics gate v1.264
+on:
+  push:
+    paths:
+      - ".github/workflows/macaronesia-author-method-gate-v1_264.yml"
+      - "scripts/macaronesia_extirpation_author_methods_v1_264.py"
+      - "tests/test_macaronesia_author_methods_v1_264.py"
+      - "development/macaronesia_source_methods_gate_v1_264.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-author-methods-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install source-free Python regression runner
+        run: python -m pip install pytest
+      - name: Validate no Table S1/S3/S4 response decoding on synthetic files
+        run: python -m pytest -q tests/test_macaronesia_author_methods_v1_264.py
+      - name: Read only original author Read me tab and README DOCX methodology
+        run: |
+          python scripts/macaronesia_extirpation_author_methods_v1_264.py \
+            --contract development/macaronesia_source_methods_gate_v1_264.json \
+            --output macaronesia_author_methods_v1_264.json
+      - name: Check publisher checksum and no species/extirpation outcomes accessed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("macaronesia_author_methods_v1_264.json").read_text())
+          assert j["status"]=="AUTHOR_METHODOLOGY_ONLY_VERIFIED"
+          assert j["source_sheet"]=="Read me"
+          assert j["species_extirpation_rows_read"]==0
+          assert j["GEB_scientific_HOLD"] and j["eBird_off"]
+          print("Original README source semantics; nonmethod sheet reads",0)
+          PY
+      - name: Retain author methodology receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macaronesia-author-source-methodology-v1-264
+          path: macaronesia_author_methods_v1_264.json
+          if-no-files-found: warn
