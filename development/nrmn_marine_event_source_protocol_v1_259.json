@@ -1,0 +1,72 @@
+{
+  "schema": "structural.nrmn_marine_event_source_preflight.v1_259",
+  "freeze_date": "2026-10-19",
+  "study_goal": "Find independent, source-verified, repeated marine survey-event network sampling around multiple islands before fish detection or future colonization responses are accessed.",
+  "source_owner": "AODN / IMOS National Reef Monitoring Network (RLS, ATRC and partners)",
+  "authority": {
+    "upstream_source_repo": "https://github.com/aodn/aodn_cloud_optimised",
+    "upstream_source_tree_sha": "2409b27a9c85d6db5db2885fdc0e48596b448b78",
+    "region": "ap-southeast-2",
+    "s3_endpoint": "https://s3.ap-southeast-2.amazonaws.com",
+    "bucket": "aodn-cloud-optimised",
+    "survey_dataset": "diver_survey_metadata_qc.parquet",
+    "fish_dataset": "diver_reef_fish_abundance_biomass_qc.parquet",
+    "survey_config_blob_sha": "393bb8830f8942e6c4605777f7904b44e967e65a",
+    "fish_config_blob_sha": "5f41ca204d1aee55c210c5e023bc50e8a61e587c",
+    "survey_metadata_uuid": "997c2e15-b345-438f-afac-49a4ac19be38",
+    "fish_metadata_uuid": "b273fafa-03d6-4fc2-9acf-39d8c06581e5",
+    "survey_wfs_layer": "ep_survey_list_public_data",
+    "fish_upstream_csv_regex": "ep_m1_public_data.*\\.csv",
+    "survey_upstream_csv_regex": "ep_survey_list_public_data\\.csv",
+    "license": "CC BY 4.0",
+    "source_notebook": "https://github.com/aodn/aodn_cloud_optimised/blob/main/notebooks/diver_survey_metadata_qc.ipynb"
+  },
+  "expected_survey_fields": [
+    "survey_id",
+    "country",
+    "area",
+    "location",
+    "site_code",
+    "site_name",
+    "latitude",
+    "longitude",
+    "depth",
+    "survey_date",
+    "program",
+    "methods"
+  ],
+  "expected_fish_fields": [
+    "survey_id",
+    "country",
+    "site_code",
+    "latitude",
+    "longitude",
+    "survey_date",
+    "method",
+    "block",
+    "species_name",
+    "total",
+    "biomass"
+  ],
+  "preoutcome_checks": [
+    "Official two dataset paths must exist and be readable via public anonymous S3 from frozen AODN bucket",
+    "Arrow _common_metadata schema must contain exact expected columns for survey and reef fish separately",
+    "Time partition fields timestamp and polygon verified; no species or abundance values read",
+    "Survey-date temporal coverage and island network support audited from survey metadata only after this source preflight",
+    "Survey population and fish records must join by source-provided survey_id; no assumption of complete absence without survey event method validation",
+    "RLS vs ATRC and other program methods cannot be pooled as independent networks without program and event unit grouping",
+    "RLS marine transect site proximity to coast is not an oceanic geological island class"
+  ],
+  "limits": {
+    "max_parquet_sidecar_bytes": 5000000,
+    "max_s3_list_keys": 12,
+    "network_conclusion_before_data": false,
+    "actual_colonization_inferred": false,
+    "ecological_response_rows_accessed": 0,
+    "eBird": false,
+    "original_GEB_mammal_response_unopened": true,
+    "GEB_scientific_HOLD": true
+  },
+  "next_condition": "Only after exact schema/source attestation run frozen survey-event-only repeat-sampling denominator audit; fish biological values must remain inaccessible.",
+  "evidence_class": "PUBLISHED_METADATA_SCHEMA_ONLY_PROSPECTIVE_FEASIBILITY"
+}
