@@ -1,0 +1,73 @@
+{
+  "schema": "structural.biotime_gshhg_island_crosswalk_protocol.v1_256",
+  "status": "FROZEN_BEFORE_NEW_GEOGRAPHY_ONLY_ISLAND_CROSSWALK",
+  "date": "2026-10-19",
+  "biotime_source": {
+    "doi": "10.5281/zenodo.15222193",
+    "rds_md5": "2fed9f6c8028d4c44d80769c594be056"
+  },
+  "selected_studies": "development/biotime_v2_conservative_network_cohort_v1_255.json",
+  "selection": "Only the 33 conservative physical-network representative STUDY_IDs; no alternate biology-selected cohorts",
+  "gshhg_source": {
+    "project": "GenericMappingTools/gshhg-gmt",
+    "tag": "2.3.7",
+    "exact_url": "https://github.com/GenericMappingTools/gshhg-gmt/releases/download/2.3.7/gshhg-shp-2.3.7.zip",
+    "github_asset_bytes": 149157845,
+    "layer": "GSHHS_shp/h/GSHHS_h_L1.shp",
+    "license_reference": "https://www.soest.hawaii.edu/pwessel/gshhg/",
+    "source_used_in_island_repo": "https://github.com/zuizui0223/island/blob/main/config/island_source_gshhg.yml",
+    "notes": [
+      "Shapefile L1 land polygon, not proof of oceanic geological origin",
+      "Polygon area attributes are in km^2 and must be validated",
+      "Only official GitHub release asset, no alternate geometry substitution after inspection"
+    ]
+  },
+  "bio_input_columns": [
+    "STUDY_ID",
+    "YEAR",
+    "MONTH",
+    "LATITUDE",
+    "LONGITUDE",
+    "SAMPLE_DESC"
+  ],
+  "frame": {
+    "site": "latitude and longitude rounded to 5 decimals",
+    "eligible_site": "same study, same site, same calendar month, consecutive years with >=2 distinct SAMPLE_DESC sampling events in each month-year",
+    "no_species_or_abundance_columns": true
+  },
+  "polygon_rules": {
+    "landmass_area_analytical_min_km2": 5,
+    "sensitivity_min_areas_km2": [
+      1,
+      20
+    ],
+    "continent_area_cutoff_km2": 7000000,
+    "primary_min_interior_shoreline_distance_km": 1,
+    "sensitivity_min_interior_shoreline_distance_km": 0.25,
+    "outside_land_polygons": "water or unclassified; do not infer absence or continental site",
+    "small_landmass": "polygon under 5 km2, outside primary island analytical universe; report separately",
+    "mainland": "L1 polygon area >=7 million km2",
+    "island": "L1 polygon 5 to <7 million km2, not independently classed as oceanic vs continental island",
+    "overlapping_polygon_membership": "STOP, do not choose polygon after looking at the site outcome"
+  },
+  "study_island_network_requirement": {
+    "primary_realms": [
+      "Terrestrial",
+      "Freshwater"
+    ],
+    "marine_realm": "analyzed only as nearshore/marine, NEVER called island land observations",
+    "required_distinct_island_polygons": 2,
+    "min_strictly_repeated_sites_per_island": 3,
+    "never_use_future_species_detection_for_island_assignment": true,
+    "no_geological_origin_classification_without_independent_origin_source": true
+  },
+  "artifacts": {
+    "permit": "per STUDY_ID counts by land/island/mainland/water categories and number of island polygon groups; global source checksum; source-safe categorical quality summary",
+    "forbid": "BioTIME site coordinates, taxa, individual sample, abundance/biomass, species future responses"
+  },
+  "scientific_gate": "If fewer than two independent archipelago/geography blocks remain, STOP a universal literal-island occupancy-network claim. The existing 33 remain a general global repeated-community research line only.",
+  "eBird": false,
+  "original_global_mammal_holdout_reopened": false,
+  "reserved_33_taxon_response_accesses": 0,
+  "GEB_scientific_HOLD": true
+}
