@@ -244,6 +244,7 @@ def _read_author_tables(archive_bytes):
         raise ValueError("2016 required core or island/distribution field terms missing")
     if c["encoding"].lower()!="utf-8" or d["encoding"].lower()!="utf-8":
         raise ValueError("Unexpected original archive text encoding")
+    key_audit=Counter()
     def parse(zip_obj,table,indices,fields_to_keep):
         with zip_obj.open(table["record_path"]) as zstream:
             with io.TextIOWrapper(zstream,encoding="utf-8-sig",newline="") as handle:
@@ -255,13 +256,25 @@ def _read_author_tables(archive_bytes):
                     if any(index>=len(line) for index in indices.values()):
                         raise ValueError("Original DwC-A row shorter than declared schema columns")
                     value={col:line[indices[col]] for col in fields_to_keep if col in indices}
-                    value["taxonID"]=line[0] if table["rowtype"].endswith("/Distribution") else value.get("taxonID",line[0])
+                    # Darwin Core extension coreid points to the <core><id index="0"/>,
+                    # not necessarily the core field with term dct:taxonID.
+                    if table["rowtype"].endswith("/Taxon") and value.get("taxonID","")!=line[0]:
+                        key_audit["published_taxonID_field_differs_from_coreid"]+=1
+                    value["taxonID"]=line[0]
                     yield value
     with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
+        manifest=ET.fromstring(archive.read("meta.xml"))
+        core=next((x for x in manifest if x.tag.endswith("}core")),None)
+        extension=next((x for x in manifest if x.tag.endswith("}extension")),None)
+        if core is None or extension is None:
+            raise ValueError("Original Darwin Core manifest lacks core/extension")
+        id_node=next((x for x in core if x.tag.endswith("}id")),None)
+        coreid_node=next((x for x in extension if x.tag.endswith("}coreid")),None)
+        if id_node is None or coreid_node is None or id_node.attrib.get("index")!="0" or coreid_node.attrib.get("index")!="0":
+            raise ValueError("Original Darwin Core id/coreid join key is not aligned at index0")
         taxa=list(parse(archive,c,ct,required_taxa))
         distributions=list(parse(archive,d,dt,required_dist))
-        # Distribution coreid at index 0, not a new source prediction.
-    return taxa,distributions
+    return taxa,distributions,dict(key_audit)
 
 
 def main():
@@ -297,13 +310,14 @@ def main():
         s1=download_original(S1_URL,332776,5_000_000)
         if hashlib.sha256(s1).hexdigest()!=S1_SHA:
             raise ValueError("Original CSIC published S1 source changed")
-        taxa,distributions=_read_author_tables(dwca)
+        taxa,distributions,key_audit=_read_author_tables(dwca)
         losses=parse_sheet_s1(s1)
         crosswalk=summary_join(taxa,distributions,losses)
         if (crosswalk["strict_S1_azores_source_loss_pairs"]!=24 or
             crosswalk["strict_S1_azores_source_taxa"]!=20):
             raise ValueError("Frozen 24/20 Azores S1 confirmed local-loss denominators changed")
         out["crosswalk"]=crosswalk
+        out["archive_join_key_audit"]=key_audit
         out["status"]="SOURCE_AUTHENTICATED_AZORES2016_S1_COVERAGE_ANALYSIS"
         out["S1_strict_azores_pairs"]=24
         out["S1_strict_azores_taxa"]=20
