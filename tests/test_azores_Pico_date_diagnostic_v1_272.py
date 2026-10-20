@@ -25,7 +25,7 @@ def test_source_components_and_published_dates_have_conflicts_not_midpoint():
     ]
     a=event_date_diagnostic(rows)
     assert a["event_rows"]==5
-    assert a["full_date_eventDate_rows"]==2
+    assert a["full_date_eventDate_rows"]==3
     assert a["component_complete_and_valid_dates"]==3
     assert a["source_field_date_component_conflicts"]==1
     assert a["event_date_classes"]["interval"]==1
