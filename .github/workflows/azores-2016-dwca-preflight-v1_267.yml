@@ -1,0 +1,52 @@
+name: Azores 2016 original island checklist metadata gate v1.267
+
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-2016-dwca-preflight-v1_267.yml"
+      - "development/azores_2016_independent_island_checklist_source_v1_267.json"
+      - "scripts/azores_2016_dwca_structure_v1_267.py"
+      - "tests/test_azores_2016_dwca_structure_v1_267.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-schema-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free test runner
+        run: python -m pip install pytest
+      - name: Verify DwC-A taxon/distribution schema inventory without opening biological records
+        run: python -m pytest -q tests/test_azores_2016_dwca_structure_v1_267.py
+      - name: Inspect only original 2016 Azores IPT archived meta.xml with source URL and checksum
+        run: |
+          python scripts/azores_2016_dwca_structure_v1_267.py \
+            --contract development/azores_2016_independent_island_checklist_source_v1_267.json \
+            --out azores_2016_dwca_schema_only_v1_267.json
+      - name: Enforce response firewall and confirm distribution schema if present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("azores_2016_dwca_schema_only_v1_267.json").read_text())
+          assert j["schema"]=="structural.azores2016_dwca_schema_audit.v1_267"
+          assert j["status"]=="ORIGINAL_IPT_DWCA_SCHEMAS_READ"
+          assert j["archive"]["source_taxon_distribution_rows_decoded"]==0
+          assert j["archive"]["source_biological_record_bytes_read"]==0
+          assert j["GEB_scientific_HOLD"]
+          print("S1 cases previously consumed, external checklist schema-only:",len(j["archive"]["extensions"]))
+          PY
+      - name: Retain only source metadata file list and 2016 field URIs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-2016-checklist-schema-only-v1-267
+          path: azores_2016_dwca_schema_only_v1_267.json
+          if-no-files-found: warn
