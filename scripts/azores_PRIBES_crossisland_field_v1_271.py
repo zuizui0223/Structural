@@ -316,22 +316,29 @@ def main():
         "source_historic_S1_SHA256":SOURCE_SHA_S1,
         "source_island_count":4,
     }
+    stage="contract_source_identity"
+    verified_sources=[]
     try:
         if contract["S1"]["sha256"]!=SOURCE_SHA_S1:
             raise ValueError("Published CSIC S1 author-defined loss source changed")
         detail={}
         for label,islands in labels:
+            stage="original_field_archive:"+label
             src=info.get(label)
             if not src or not src.get("url") or not src.get("sha256"):
                 raise ValueError("Incomplete frozen source manifest "+label)
             original=get_original(src)
             rec=read_dated_field(original,islands)
             detail[label]=rec
+            verified_sources.append(label)
+        stage="original_CSIC_S1"
         s1=download_original(contract["S1"]["CSIC_original_url"],332776,5_000_000)
         if hashlib.sha256(s1).hexdigest()!=SOURCE_SHA_S1:
             raise ValueError("Official CSIC S1 changed")
+        stage="historical_S1_parse"
         original_cases=parse_sheet_s1(s1)
         if len(original_cases)!=168:raise ValueError("Original S1 168-case source frame changed")
+        stage="four_island_evidence_aggregation"
         comparison=synthesize_observations(detail,original_cases,FULL_ISLANDS)
         if comparison["strict_S1_case_pairs"]!=24 or comparison["S1_strict_azores_taxa_in_synthetic_loss_input"]!=20:
             raise ValueError("Already frozen 24/20 strict Azores source cases changed")
@@ -347,6 +354,8 @@ def main():
             "status":"VERIFIED_DATED_PRIBES_FIELD_S1_CROSSCHECK",
         })
     except Exception as exc:
+        out["stop_stage"]=stage
+        out["original_sources_verified_before_stop"]=verified_sources
         out["error_type"]=type(exc).__name__
         out["stop_reason"]=str(exc)[:500]
     args.out.parent.mkdir(parents=True,exist_ok=True)
@@ -354,6 +363,7 @@ def main():
     print(json.dumps({
         "status":out["status"],
         "error":out.get("stop_reason"),
+        "stop_stage":out.get("stop_stage"),
         "dated_S1_taxa":out.get("comparison",{}).get("S1_taxa_with_any_dated_field_positive"),
         "historic_lost_island_positive":out.get("comparison",{}).get("S1_cases_same_island_dated_field_detection"),
         "biological_rescue_events_claimed":0},sort_keys=True))
