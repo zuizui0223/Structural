@@ -37,6 +37,8 @@ def date_kind(value):
         return "full_day" if _day(s) else "other"
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}[Tt ][0-9:.Zz+\-]+",s):
         return "day_and_time" if _day(s[:10]) else "other"
+    if re.fullmatch(r"\d{1,2}/\d{1,2}/\d{4}",s):
+        return "slash_numeric_day"
     if "/" in s:return "interval"
     if re.fullmatch(r"\d{4}-\d{2}",s):return "month_only"
     if re.fullmatch(r"\d{4}",s):return "year_only"
@@ -53,6 +55,27 @@ def _components(row):
         return None
 
 
+def slash_date_matches_author_components(original,fields):
+    """Compare apparent M/D/Y and D/M/Y against original author's independent date components."""
+    component=_components(fields)
+    if component is None:
+        return "NO_VALID_COMPONENTS"
+    m=re.fullmatch(r"(\d{1,2})/(\d{1,2})/(\d{4})",str(original or "").strip())
+    if not m:return "NOT_SLASH_NUMERIC_DAY"
+    a,b,y=map(int,m.groups())
+    def trydate(mon,day):
+        try:
+            return date(y,mon,day)
+        except ValueError:
+            return None
+    us=trydate(a,b)==component
+    eu=trydate(b,a)==component
+    if us and eu:return "BOTH_SAME_DAY"
+    if us:return "MDY"
+    if eu:return "DMY"
+    return "CONFLICT"
+
+
 def event_date_diagnostic(event_rows):
     reasons=Counter()
     examples=defaultdict(list)
@@ -60,6 +83,7 @@ def event_date_diagnostic(event_rows):
     valid_parts=0
     conflict=0
     reliable=0
+    slash_validation=Counter()
     unique_dates=set()
     n=0
     for r in event_rows:
@@ -77,6 +101,14 @@ def event_date_diagnostic(event_rows):
             yrs[str(p.year)]+=1
         iso_value=(date_value[:10] if kind in {"full_day","day_and_time"} else None)
         dt=_day(iso_value) if iso_value else None
+        if kind=="slash_numeric_day":
+            comparison=slash_date_matches_author_components(date_value,r)
+            slash_validation[comparison]+=1
+            if comparison=="CONFLICT":
+                conflict+=1
+            if comparison in ("MDY","DMY","BOTH_SAME_DAY") and p:
+                reliable+=1
+                unique_dates.add(p.isoformat())
         if dt and p and p!=dt:
             conflict+=1
         if dt and (not p or dt==p):
@@ -90,6 +122,11 @@ def event_date_diagnostic(event_rows):
         "component_complete_and_valid_dates":valid_parts,
         "component_years":dict(sorted(yrs.items())),
         "source_field_date_component_conflicts":conflict,
+        "slash_MDY_source_component_match":slash_validation["MDY"],
+        "slash_DMY_source_component_match":slash_validation["DMY"],
+        "slash_both_same_day":slash_validation["BOTH_SAME_DAY"],
+        "slash_component_conflicts":slash_validation["CONFLICT"],
+        "slash_missing_or_invalid_components":slash_validation["NO_VALID_COMPONENTS"],
         "reliable_full_day_rows":reliable,
         "distinct_exact_days":len(unique_dates),
         "source_taxon_occurrence_rows_decoded":0,
