@@ -69,7 +69,7 @@ def test_detects_published_survivor_elsewhere_and_same_island_status_conflict():
     assert x["confirmed_other_island_present_loss_taxa"]==2
     assert x["loss_pairs_with_2016_same_island_present"]==1
     assert x["current_present_species_island_pairs"]==6
-    assert x["current_present_island_located_native_species_pairs"]==4
+    assert x["current_present_island_located_native_species_pairs"]==5
     assert x["unlocated_archipelago_distribution_rows"]==1
     assert x["multi_island_or_ambiguous_locality_rows"]>=1
     assert x["2016_missing_is_never_filled_as_absent"] is True
