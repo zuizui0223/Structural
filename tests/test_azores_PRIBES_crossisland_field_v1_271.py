@@ -129,3 +129,22 @@ def test_manifest_published_saojorge_uses_bytes_key_pico_uses_expected_bytes():
             pass
         else:
             raise AssertionError("Do not silently choose an unsupported/mismatched original source length")
+
+
+def test_original_author_source_receipts_use_one_canonical_verified_size_access():
+    from azores_PRIBES_crossisland_field_v1_271 import format_author_source_receipt
+    data={"raw_event_rows":1655,"raw_occurrence_rows":4523,
+          "valid_dated_event_rows":1655,"excluded_invalid_dates":0,
+          "field_event_year_counts":{"2020":1655},
+          "island_event_counts":{"São Jorge":1655},
+          "valid_field_species_observations":4250,
+          "excluded_occurrence_rows":{}}
+    early={"url":"original","bytes":261438,"sha256":"older"}
+    later={"url":"original","expected_bytes":568461,"sha256":"newer"}
+    s=format_author_source_receipt("Sao Jorge PRIBES",early,data)
+    p=format_author_source_receipt("Pico PRIBES",later,data)
+    assert s["original_bytes"]==261438
+    assert p["original_bytes"]==568461
+    assert s["valid_dated_events"]==1655
+    assert p["field_event_years"]=={"2020":1655}
+    assert "field_taxa" not in s
