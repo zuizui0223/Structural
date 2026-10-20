@@ -1,0 +1,65 @@
+{
+  "schema": "structural.azores_pribes_two_original_source_manifest.v1_270",
+  "frozen_date": "2026-10-20",
+  "status": "BOTH_ORIGINAL_NEW_SOURCES_METADATA_VERIFIED_BEFORE_BIOLOGICAL_DATA_ACCESS",
+  "provenance": {
+    "original_contract": "development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json",
+    "GitHub_Actions_run": 39414357161,
+    "URL": "https://github.com/zuizui0223/Structural/actions/runs/39414357161",
+    "archive_artifact_id": 12260229441,
+    "artifact_digest": "sha256:09e00c87071bae22db519636f9c6050b2001ade6cdf01aa586eb2e484f4dcab9"
+  },
+  "sources": [
+    {
+      "label": "Pico PRIBES",
+      "doi": "10.15468/vk4y7k",
+      "url": "https://ipt.gbif.pt/ipt/archive.do?r=pico_vascular_plants&v=1.7",
+      "expected_bytes": 568461,
+      "sha256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+      "core_rowtype": "Event",
+      "extension_rowtype": "Occurrence",
+      "author_has_island": true,
+      "author_has_eventDate": true,
+      "author_has_scientificName": true
+    },
+    {
+      "label": "Graciosa Santa Maria PRIBES",
+      "doi": "10.15468/hgyfh3",
+      "url": "https://ipt.gbif.pt/ipt/archive.do?r=gra_smr_vascular_plants&v=1.6",
+      "expected_bytes": 159486,
+      "sha256": "e1903e0e8b91ee59a10453fddcc2dd74e99000d4ee2f50d3b5fe8731555fd77b",
+      "core_rowtype": "Event",
+      "extension_rowtype": "Occurrence",
+      "author_has_island": true,
+      "author_has_eventDate": true,
+      "author_has_scientificName": true
+    }
+  ],
+  "existing_source": {
+    "label": "Sao Jorge PRIBES",
+    "url": "https://ipt.gbif.pt/ipt/archive.do?r=sao_jorge_plants&v=1.2",
+    "doi": "10.15468/drbja9",
+    "bytes": 261438,
+    "sha256": "bf0934a3df0b0bd6565865348a53da5eef50af2bfb621cc0ade927e2ed908c55",
+    "preexisting_event_core_rows": 1655,
+    "preexisting_occurrence_rows": 4523
+  },
+  "allowed_three_source_islands": [
+    "São Jorge",
+    "Pico",
+    "Graciosa",
+    "Santa Maria"
+  ],
+  "conditions": [
+    "Review only source event/occurrence rows for strictly fixed 4 islands after observed raw SHA matches manifest.",
+    "Only valid exact day-level event dates after 2017 qualify.",
+    "Join original extension coreid to source Event core row index 0.",
+    "Only species-rank or explicitly compatible resolution, non-absent occurrence rows.",
+    "No missing-as-zero or fish/mammal/BioTIME/RLS outcomes.",
+    "Only raw count summaries of historical S1 cases; not source/donor survival at historic loss date."
+  ],
+  "fish_species_or_previous_response_values_opened": 0,
+  "new_Pico_and_Graciosa_field_observation_rows_opened": 0,
+  "GEB_scientific_HOLD": true,
+  "eBird_used": false
+}
