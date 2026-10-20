@@ -178,3 +178,14 @@ def test_archive_eventdate_vocabulary_prevents_assuming_one_observation_year():
     assert {"date":"2008-06-12","count":1} in x["source_eventDate_values_top"]
     assert x["S1_loss_island_published_present_eventDate_values"]=={"2010-01-01":1}
     assert x["2016_published_present_is_not_confirmed_contemporaneous_survival"] is True
+
+
+def test_other_island_documentations_stratified_by_number_of_recorded_losses():
+    taxa,records,losses=fixture()
+    x=summary_join(taxa,records,losses)
+    by=x["other_island_checklist_reports_by_number_of_S1_loss_islands"]
+    assert by["1"]["loss_affected_taxa"]==2
+    assert by["2"]["loss_affected_taxa"]==1
+    assert by["1"]["other_island_documented_counts"]==[0,1]
+    assert by["2"]["other_island_documented_counts"]==[2]
+    assert by["2"]["mean_other_island_documentations"]==2.0
