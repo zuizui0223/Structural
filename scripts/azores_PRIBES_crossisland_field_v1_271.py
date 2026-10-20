@@ -21,6 +21,7 @@ import xml.etree.ElementTree as ET
 import csv
 
 from azores_2016_dwca_structure_v1_267 import summarize_archive
+from azores_Pico_date_diagnostic_v1_272 import slash_date_matches_author_components
 from azores2016_s1_loss_presence_crosswalk_v1_268 import canonical_binomial,normalized_locality,normalized_text
 from macaronesia_local_loss_pilot_v1_265 import parse_sheet_s1
 from macaronesia_extirpation_source_profile_v1_263 import download_original
@@ -82,6 +83,7 @@ def read_dated_field(raw,permitted_islands):
     event_dates=Counter()
     island_dates=defaultdict(Counter)
     invalid_date=0
+    mdy_recovered=0
     for e in events:
         key=e["coreid"]
         if key in lookup:raise ValueError("Duplicate Event coreid in published source")
@@ -89,12 +91,24 @@ def read_dated_field(raw,permitted_islands):
         if isl not in permitted_islands:
             raise ValueError("Original source Event island outside frozen source islands")
         d=str(e.get("eventDate") or "").strip()
-        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}",d):
-            invalid_date+=1
-            continue
-        try:
-            when=date.fromisoformat(d)
-        except ValueError:
+        if re.fullmatch(r"\d{1,2}/\d{1,2}/\d{4}",d):
+            # Pico's original 2801 author Event strings are M/D/YYYY and ALL
+            # match its independently supplied year/month/day fields. This
+            # strict exception was frozen from Event-only v1.272 diagnostics.
+            if slash_date_matches_author_components(d,e)!="MDY":
+                invalid_date+=1
+                continue
+            try:
+                when=date(int(e["year"]),int(e["month"]),int(e["day"]))
+            except (TypeError,ValueError):
+                invalid_date+=1;continue
+            mdy_recovered+=1
+        elif re.fullmatch(r"\d{4}-\d{2}-\d{2}",d):
+            try:
+                when=date.fromisoformat(d)
+            except ValueError:
+                invalid_date+=1;continue
+        else:
             invalid_date+=1;continue
         if not date(2017,1,1)<=when<=date(2026,10,20):
             invalid_date+=1;continue
@@ -146,6 +160,7 @@ def read_dated_field(raw,permitted_islands):
         "raw_occurrence_rows":len(occurrences),
         "valid_dated_event_rows":len(lookup),
         "excluded_invalid_dates":invalid_date,
+        "source_MDY_recovered_events":mdy_recovered,
         "field_event_year_counts":dict(sorted(event_dates.items())),
         "island_event_counts":{isl:sum(island_dates[isl].values()) for isl in sorted(permitted_islands)},
         "field_species_observations_by_year":dict(sorted(byyear.items())),
@@ -269,6 +284,7 @@ def format_author_source_receipt(label,src,details):
         "occurrence_rows":details["raw_occurrence_rows"],
         "valid_dated_events":details["valid_dated_event_rows"],
         "invalid_or_out_of_date_events":details["excluded_invalid_dates"],
+        "original_MDY_day_dates_recovered":details["source_MDY_recovered_events"],
         "field_event_years":details["field_event_year_counts"],
         "event_count_by_island":details["island_event_counts"],
         "eligible_species_rank_occurrences":details["valid_field_species_observations"],
@@ -321,6 +337,13 @@ def main():
     try:
         if contract["S1"]["sha256"]!=SOURCE_SHA_S1:
             raise ValueError("Published CSIC S1 author-defined loss source changed")
+        date_gate=json.loads((Path(__file__).resolve().parents[1]/
+            "development/azores_Pico_author_MDY_date_correction_v1_273.json").read_text())
+        if (date_gate["schema"]!="structural.azores_Pico_eventDate_author_MDY_correction.v1_273"
+            or date_gate["original_source"]["sha256"]!=info["Pico PRIBES"]["sha256"]
+            or date_gate["official_date_audit"]["MDY_component_matches"]!=2801
+            or date_gate["official_date_audit"]["date_format_conflicts"]!=0):
+            raise ValueError("Pico corrected author-day parsing not supported by predeclared source-only diagnosis")
         detail={}
         for label,islands in labels:
             stage="original_field_archive:"+label
@@ -332,6 +355,12 @@ def main():
             detail[label]=rec
             verified_sources.append(label)
         stage="original_CSIC_S1"
+        pico=detail["Pico PRIBES"]
+        if (pico["raw_event_rows"]!=2801 or pico["source_MDY_recovered_events"]!=2801
+            or pico["excluded_invalid_dates"]!=0
+            or pico["field_event_year_counts"]!=
+                {"2020":171,"2021":1603,"2022":898,"2024":129}):
+            raise ValueError("Author-proven 2801 original Pico event dates do not reproduce exactly")
         s1=download_original(contract["S1"]["CSIC_original_url"],332776,5_000_000)
         if hashlib.sha256(s1).hexdigest()!=SOURCE_SHA_S1:
             raise ValueError("Official CSIC S1 changed")
