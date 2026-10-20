@@ -284,7 +284,7 @@ def format_author_source_receipt(label,src,details):
         "occurrence_rows":details["raw_occurrence_rows"],
         "valid_dated_events":details["valid_dated_event_rows"],
         "invalid_or_out_of_date_events":details["excluded_invalid_dates"],
-        "original_MDY_day_dates_recovered":details["source_MDY_recovered_events"],
+        "original_MDY_day_dates_recovered":details.get("source_MDY_recovered_events",0),
         "field_event_years":details["field_event_year_counts"],
         "event_count_by_island":details["island_event_counts"],
         "eligible_species_rank_occurrences":details["valid_field_species_observations"],
