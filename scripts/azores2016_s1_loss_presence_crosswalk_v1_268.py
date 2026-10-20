@@ -83,6 +83,8 @@ def summary_join(taxa,observations,losses):
         taxon_by_id[tid]=t
     all_status=Counter()
     means_counts=Counter()
+    records_with_explicit_eventdate=0
+    island_pair_source_dates=defaultdict(list)
     island_species=defaultdict(set)
     native_island_species=defaultdict(set)
     positives=defaultdict(set)
@@ -96,6 +98,8 @@ def summary_join(taxa,observations,losses):
         means=normalized_text(rec.get("establishmentMeans"))
         all_status[status or "[MISSING]"]+=1
         means_counts[means or "[MISSING]"]+=1
+        event_date=str(rec.get("eventDate") or "").strip()
+        if event_date:records_with_explicit_eventdate+=1
         island=normalized_locality(rec.get("locality"))
         loc=normalized_text(rec.get("locality"))
         if island is None:
@@ -117,6 +121,7 @@ def summary_join(taxa,observations,losses):
         if not valid_vascular_species(taxon):
             continue
         island_species[island].add(tid)
+        island_pair_source_dates[(tid,island)].append(event_date)
         recorded_island_taxon_pairs.add((tid,island))
         positives[tid].add(island)
         if means in NATIVE:
@@ -132,6 +137,7 @@ def summary_join(taxa,observations,losses):
         if bp:bi[bp].add(tid)
 
     cases=[]
+    date_by_loss_pair={}
     for r in losses:
         if (normalized_text(r.get("Archipelago")) not in {"azores","acores"}
             or normalized_text(r.get("Category"))!="well-supported"
@@ -144,6 +150,7 @@ def summary_join(taxa,observations,losses):
         if not name:
             raise ValueError("Source reported extirpation without taxon name")
         cases.append((name,isl))
+        date_by_loss_pair[(name,isl)]=str(r.get("Date") or "").strip()
     if len(set(cases))!=len(cases):
         raise ValueError("Original S1 Azores duplicate taxon-island cases not expected")
     by_species=defaultdict(set)
@@ -167,6 +174,10 @@ def summary_join(taxa,observations,losses):
             method_counts["not_matched"]+=1
 
     same_island=0
+    same_island_missing_eventdate=0
+    same_island_S1_last_record_before_2010=0
+    same_island_S1_last_record_2010_or_later=0
+    same_island_S1_unparsed_last_record=0
     other_taxa=0
     other_native_taxa=0
     repeated_other_taxa=0
@@ -177,6 +188,18 @@ def summary_join(taxa,observations,losses):
         if tid is None:continue
         check=positives.get(tid,set())
         same_island+=len(check & loss_islands)
+        for lost_island in (check & loss_islands):
+            dates=island_pair_source_dates.get((tid,lost_island),[])
+            if dates and not any(d.strip() for d in dates):
+                same_island_missing_eventdate+=1
+            source_last=date_by_loss_pair.get((name,lost_island),"")
+            y=re.fullmatch(r"(?:17|18|19|20)\d{2}(?:\.0+)?",source_last)
+            if not y:
+                same_island_S1_unparsed_last_record+=1
+            elif int(float(source_last))<2010:
+                same_island_S1_last_record_before_2010+=1
+            else:
+                same_island_S1_last_record_2010_or_later+=1
         elsewhere=check-loss_islands
         other_island_counts[len(elsewhere)]+=1
         if elsewhere:
@@ -191,6 +214,7 @@ def summary_join(taxa,observations,losses):
         "source_distribution_rows":records_count,
         "source_distribution_status_vocab":dict(sorted(all_status.items())),
         "source_establishment_means_vocab":dict(sorted(means_counts.items())),
+        "all_2016_distribution_rows_with_explicit_eventDate":records_with_explicit_eventdate,
         "source_accepted_vascular_species_taxon_records":len(accepted),
         "source_accepted_vascular_species_unique_IDs":len(set(str(t["taxonID"]) for t in accepted)),
         "current_present_species_island_pairs":len(recorded_island_taxon_pairs),
@@ -208,6 +232,10 @@ def summary_join(taxa,observations,losses):
         "S1_taxa_with_no_2016_species_match":method_counts["not_matched"],
         "S1_source_match_methods":dict(method_counts),
         "loss_pairs_with_2016_same_island_present":same_island,
+        "2016_same_island_present_source_records_without_eventDate":same_island_missing_eventdate,
+        "same_island_2016_present_and_S1_last_record_pre_2010":same_island_S1_last_record_before_2010,
+        "same_island_2016_present_and_S1_last_record_2010_or_later":same_island_S1_last_record_2010_or_later,
+        "same_island_2016_present_and_S1_last_record_unparsed":same_island_S1_unparsed_last_record,
         "confirmed_other_island_present_loss_taxa":other_taxa,
         "confirmed_native_other_island_present_loss_taxa":other_native_taxa,
         "S1_two_island_loss_taxa_with_current_other_island_present":repeated_other_taxa,
@@ -215,6 +243,8 @@ def summary_join(taxa,observations,losses):
         "taxa_by_2016_other_documented_island_count":{str(k):v for k,v in sorted(other_island_counts.items())},
         "2016_missing_is_never_filled_as_absent":True,
         "2016_state_is_not_pre_loss_t0":True,
+        "2016_published_present_is_not_confirmed_contemporaneous_survival":True,
+        "checklist_is_based_on_2010_sources_and_may_retain_historic_presence":True,
         "no_manual_synonym_or_fuzzy_matching":True,
         "not_observed_migration_or_rescue":True,
         "individual_species_or_taxon_IDs_exported":False,
@@ -235,7 +265,7 @@ def _read_author_tables(archive_bytes):
         raise ValueError("2016 original taxon/distribution schema no longer matches predeclared source")
     d=chosen[0]
     required_taxa={"taxonID","scientificName","kingdom","phylum","taxonRank","acceptedNameUsageID"}
-    required_dist={"locality","occurrenceStatus","establishmentMeans"}
+    required_dist={"locality","occurrenceStatus","establishmentMeans","eventDate"}
     def fields(table):
         return {str(x["term"]).rsplit("/",1)[-1]:int(x["index"]) for x in table["fields"]
                 if x["term"] and x["index"] is not None}
