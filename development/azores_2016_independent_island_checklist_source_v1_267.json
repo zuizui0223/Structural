@@ -1,0 +1,69 @@
+{
+  "schema": "structural.azores_2016_island_checklist_source_preflight.v1_267",
+  "frozen_date": "2026-10-20",
+  "status": "FROZEN_BEFORE_2016_CHECKLIST_SPECIES_ISLAND_VALUES",
+  "source": {
+    "original_provider": "Universidade dos Açores / GBIF Portugal IPT",
+    "title": "A list of the terrestrial and marine biota from the Azores",
+    "version": "1.2",
+    "publication_date": "2016-03-03",
+    "gbif_dataset_uuid": "ec1a0bfb-7d8e-4c6b-bc4d-dfd68a1e844f",
+    "original_provider_page": "https://ipt.gbif.pt/ipt/resource?r=uac_checklist_acores&v=1.2",
+    "exact_original_dwca_url": "https://ipt.gbif.pt/ipt/archive.do?r=uac_checklist_acores&v=1.2",
+    "upstream_comprehensive_checklist_basis": "2010 Borges et al. book, 2016 published database version",
+    "reported_core_record_count": 15256,
+    "approximate_official_download_size_mb": 2,
+    "license": "CC BY 4.0",
+    "description": "Distribution of terrestrial taxa when known for nine named Azorean islands; taxa with only archipelago occurrence must not be expanded to nine islands."
+  },
+  "source_provenance": "https://ipt.gbif.pt/ipt/resource?r=uac_checklist_acores&v=1.2",
+  "permitted_preflight_reads": [
+    "IPT original URL response signature and total SHA256",
+    "DwC-A ZIP member filenames and compressed/uncompressed byte sizes",
+    "DwC-A meta.xml taxon core/extension row delimiter, core file path, field URI schema and encoding",
+    "eml.xml metadata title/date/license when bundled",
+    "No taxon.txt or distribution.txt biological record rows in preflight"
+  ],
+  "forbidden_preflight_reads": [
+    "source taxon names",
+    "per-island taxon states",
+    "individual distribution rows",
+    "historical case outcome labels",
+    "earlier mammal/BioTIME/RLS heldout values"
+  ],
+  "authority_tests": [
+    "The DwC-A actually contains an island/location field at taxon-core or distribution extension grain",
+    "Potentially distinguish 9 actual Azores island names from merely archipelago-level 'Azores'",
+    "Native/introduced statuses documented (or else no nativeness inference)",
+    "Taxon-level occurrence is neither measured viable pre-loss population nor observed source migration",
+    "2016 published checklist is a post-loss/end-state observation for many 2025 historical losses; cannot be t0 historical source",
+    "2016 taxon-island checklist from older 2010 book may share literature with source S1; not independent demographic follow-up"
+  ],
+  "fixed_island_names": [
+    "Corvo",
+    "Flores",
+    "Faial",
+    "Pico",
+    "Graciosa",
+    "São Jorge",
+    "Terceira",
+    "São Miguel",
+    "Santa Maria"
+  ],
+  "transport_guards": {
+    "max_download_bytes": 25000000,
+    "max_uncompressed_zip_bytes": 150000000,
+    "timeout_seconds": 55,
+    "retries": 0,
+    "no_mirror_after_failure": true
+  },
+  "next_action": "If schema contains actual island-level taxon checklist and indigenous/native status, freeze exact join and risk-set semantics, then open only target Macaronesia S1 Azores records and its external checklist (no S3/S4). Otherwise STOP 2016 join without imputation.",
+  "scientific_limits": {
+    "case_only_pilot_S1_already_exposed": true,
+    "extant_checklist_does_not_supply_true_historic_at_risk_denominator": true,
+    "no_confirmatory_system_admitted": true,
+    "does_not_claim_colonization_or_rescue": true,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true
+  }
+}
