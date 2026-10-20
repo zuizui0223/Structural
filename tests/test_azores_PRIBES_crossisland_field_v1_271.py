@@ -115,3 +115,17 @@ def test_cross_island_one_loss_case_other_field_positive_not_recolonization():
     assert result["confirmed_demographic_recolonization_events"]==0
     assert "Alpha alba" not in str(result)
     assert "Beta beta" not in str(result)
+
+
+def test_manifest_published_saojorge_uses_bytes_key_pico_uses_expected_bytes():
+    from azores_PRIBES_crossisland_field_v1_271 import locked_archive_size
+    assert locked_archive_size({"bytes":261438})==261438
+    assert locked_archive_size({"expected_bytes":568461})==568461
+    assert locked_archive_size({"expected_bytes":568461,"bytes":568461})==568461
+    for record in ({}, {"bytes":261438,"expected_bytes":261439}):
+        try:
+            locked_archive_size(record)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Do not silently choose an unsupported/mismatched original source length")
