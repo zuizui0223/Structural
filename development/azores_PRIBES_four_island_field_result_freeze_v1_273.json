@@ -1,0 +1,100 @@
+{
+  "schema": "structural.azores_PRIBES_dated_multiisland_field_result.v1_273",
+  "date": "2026-10-20",
+  "status": "FOUR_ORIGINAL_PRIBES_ISLANDS_DATED_CASE_ONLY_OBSERVATIONS_VERIFIED",
+  "provenance": {
+    "run_id": 39417672322,
+    "url": "https://github.com/zuizui0223/Structural/actions/runs/39417672322",
+    "artifact_id": 12262113862,
+    "artifact_sha256": "a1b4d6c6db3ba5ba179db1336e12993e3586bef4100754d3d516f08aa9cc1b8e",
+    "original_case_contract": "development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json",
+    "date_correction_contract": "development/azores_Pico_author_MDY_date_correction_v1_273.json",
+    "source_manifest": "development/azores_PRIBES_original_source_manifest_v1_270.json",
+    "original_pico_source_SHA256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+    "original_SaoJorge_source_SHA256": "bf0934a3df0b0bd6565865348a53da5eef50af2bfb621cc0ade927e2ed908c55",
+    "original_Graciosa_SantaMaria_source_SHA256": "e1903e0e8b91ee59a10453fddcc2dd74e99000d4ee2f50d3b5fe8731555fd77b",
+    "historical_S1_source_SHA256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1"
+  },
+  "source_events": {
+    "SaoJorge": {
+      "original_events": 1655,
+      "dated_valid_events": 1655,
+      "source_years": {
+        "2020": 1655
+      },
+      "raw_occurrence_rows": 4523,
+      "retained_species_rank_occurrence_rows": 4286
+    },
+    "Pico": {
+      "original_events": 2801,
+      "dated_valid_events": 2801,
+      "source_years": {
+        "2020": 171,
+        "2021": 1603,
+        "2022": 898,
+        "2024": 129
+      },
+      "original_MDY_recovered_according_to_author_components": 2801,
+      "raw_occurrence_rows": 11023,
+      "retained_species_rank_occurrence_rows": 10325
+    },
+    "Graciosa_SantaMaria": {
+      "original_events": 998,
+      "dated_valid_events": 998,
+      "source_years": {
+        "2019": 998
+      },
+      "per_island_event_count": {
+        "Graciosa": 492,
+        "SantaMaria": 506
+      },
+      "raw_occurrence_rows": 2722,
+      "retained_species_rank_occurrence_rows": 2581
+    }
+  },
+  "crossisland": {
+    "strict_well_supported_island_loss_S1_cases": 24,
+    "affected_S1_Azores_taxa": 20,
+    "affected_taxa_with_at_least_one_post2017_dated_field_record": 12,
+    "affected_taxa_with_field_positive_on_island_other_than_documented_lost_islands": 12,
+    "affected_taxa_with_2plus_2019_2024_survey_islands_positive": 7,
+    "affected_taxa_with_3_survey_islands_positive": 1,
+    "affected_taxa_with_4_survey_islands_positive": 2,
+    "affected_taxa_with_0_field_detected_survey_islands": 8,
+    "affected_taxa_with_1_field_detected_survey_island": 5,
+    "affected_taxa_with_2_field_detected_survey_islands": 4,
+    "historically_twice_lost_taxa_documented_elsewhere_in_recent_field": 2,
+    "recorded_on_same_historically_lost_island": 0,
+    "dated_field_species_island_positive_pairs_total_all_taxa": 683,
+    "dated_field_species_island_year_positive_triples_total_all_taxa": 995,
+    "per_island_distinct_species": {
+      "Pico": 227,
+      "São Jorge": 227,
+      "Graciosa": 116,
+      "Santa Maria": 113
+    },
+    "S1_affected_taxa_detected_by_island": {
+      "Pico": 11,
+      "São Jorge": 8,
+      "Graciosa": 3,
+      "Santa Maria": 2
+    },
+    "field_native_or_endemic_labeled_affected_taxa_detected_elsewhere": 12
+  },
+  "interpretation": [
+    "Distinct island records are actual dated field observations; better grounded than nominally 2016 checklist with universal year 2010.",
+    "Zero direct recent detections on the historically lost island among sampled sites is not evidence of continued absence, and the four selected island surveys do not uniformly cover all habitats.",
+    "Twelve affected taxa have a positive documented location on a non-loss surveyed island; this is observed occurrence, NOT historical source viability, observed propagule exchange, proven reproductive persistence or demographic rescue.",
+    "Repeated 2019–2024 surveys in Pico are not intrinsically standardized same-site annual detection / absence samples.",
+    "Do not rank island importance by positive richness because survey effort/date/area differ.",
+    "2016 published checklist has source literature overlap with S1; 2020+ PRIBES field sources are distinct surveys but only within one Azorean archipelago."
+  ],
+  "safety": {
+    "S2_S3_S4_values_read": 0,
+    "original_mammal_BioTIME_RLS_holdout_accesses": 0,
+    "individual_species_names_exported": false,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}
