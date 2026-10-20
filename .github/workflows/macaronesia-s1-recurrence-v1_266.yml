@@ -1,0 +1,68 @@
+name: Macaronesia S1 recurrence and record-date audit v1.266
+on:
+  push:
+    paths:
+      - '.github/workflows/macaronesia-s1-recurrence-v1_266.yml'
+      - 'scripts/macaronesia_s1_recurrence_v1_266.py'
+      - 'tests/test_macaronesia_s1_recurrence_v1_266.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s1-case-only-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install repository and declared test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Test new recurrence, alias sensitivity and date-accounting rules
+        run: python -m pytest -q tests/test_macaronesia_s1_recurrence_v1_266.py tests/test_macaronesia_local_loss_pilot_v1_265.py
+      - name: Run entire repository suite and preserve baseline failures separately
+        id: full_suite
+        continue-on-error: true
+        run: python -m pytest -q --junitxml=full_suite.xml > full_suite.log 2>&1
+      - name: Summarize full-suite status without suppressing failures
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, pathlib, xml.etree.ElementTree as ET
+          p=pathlib.Path('full_suite.xml')
+          if p.exists():
+            root=ET.parse(p).getroot()
+            cases=root.findall('.//testcase')
+            failed=[x.attrib.get('classname','')+'::'+x.attrib.get('name','') for x in cases if x.find('failure') is not None or x.find('error') is not None]
+            s={'test_cases':len(cases),'failed_or_errored':len(failed),'failure_names':failed,'skipped':sum(x.find('skipped') is not None for x in cases)}
+          else:
+            s={'status':'full suite result missing; not claimed passing'}
+          pathlib.Path('macaronesia_full_suite_summary_v1_266.json').write_text(json.dumps(s,indent=2)+'\n')
+          print(json.dumps(s))
+          PY
+      - name: Reuse original SHA-locked S1 and compute only aggregate case recurrence
+        run: python scripts/macaronesia_s1_recurrence_v1_266.py --out macaronesia_S1_recurrence_v1_266.json
+      - name: Verify primary totals and source limits
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path('macaronesia_S1_recurrence_v1_266.json').read_text())
+          r=j['raw_names']
+          assert j['source_rows']==168 and r['taxon_island_pairs']==62
+          assert r['distinct_taxa']==48 and r['repeat_taxa']==14
+          assert j['S2_S3_S4_cells_read']==0
+          assert not j['species_names_or_individual_event_rows_exported']
+          assert sum(int(k)*v for k,v in r['taxa_by_number_of_islands'].items())==62
+          print('S1 case-only recurrence:', r['last_record_gaps_years'])
+          PY
+      - name: Retain aggregates and complete regression status, not source species records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macaronesia-s1-recurrence-v1-266
+          path: |
+            macaronesia_S1_recurrence_v1_266.json
+            macaronesia_full_suite_summary_v1_266.json
+            full_suite.log
+          if-no-files-found: warn
