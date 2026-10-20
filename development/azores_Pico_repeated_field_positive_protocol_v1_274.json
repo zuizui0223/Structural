@@ -1,0 +1,43 @@
+{
+  "schema": "structural.azores_Pico_repeated_year_field_detection_exploratory_contract.v1_274",
+  "date": "2026-10-20",
+  "status": "POST_OUTCOME_EXPLORATORY_ADDITIONAL_REPEATED_POSITIVE_QUESTION",
+  "why": "The source-verified Pico Event core has distinct exact date records across 2020, 2021, 2022 and 2024. Assess whether historically loss-affected taxa found in Pico recur in multiple distinct field observation years rather than single survey hits.",
+  "source": {
+    "published_case": "development/azores_PRIBES_four_island_field_result_freeze_v1_273.json",
+    "source_ID_contract": "development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json",
+    "source_manifest": "development/azores_PRIBES_original_source_manifest_v1_270.json",
+    "author_date_gate": "development/azores_Pico_author_MDY_date_correction_v1_273.json",
+    "Pico_years": [
+      2020,
+      2021,
+      2022,
+      2024
+    ],
+    "Pico_valid_event_counts_by_year": {
+      "2020": 171,
+      "2021": 1603,
+      "2022": 898,
+      "2024": 129
+    },
+    "fixed_S1_taxa": 20,
+    "fixed_S1_Azores_loss_cases": 24
+  },
+  "measure": {
+    "primary": "Count S1 loss-affected taxa seen on Pico in 1,2,3,4 independently dated calendar years",
+    "separate": "Count distinct S1 taxon × Pico-year positive detections and per-year richness",
+    "exposure": "Only source-reported species-rank non-absent positive observations with author MDY reconstructed exactly",
+    "no_zero_imputation": true,
+    "not_biological_population_persistence": true,
+    "not_same_site_resampling_guarantee": true,
+    "notes": "Observed repeated island occurrences may represent persistent populations, immigration, misidentified taxa or spatially different sampled plants; cannot distinguish mechanisms."
+  },
+  "controls": {
+    "no_other_sources_as_temporally_replicated_islands": true,
+    "no_species_name_export": true,
+    "no_S2_S3_S4": true,
+    "no_mammal_BioTIME_RLS_responses": true,
+    "GEB_scientific_HOLD": true,
+    "eBird_off": true
+  }
+}
