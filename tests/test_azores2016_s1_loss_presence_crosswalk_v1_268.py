@@ -148,3 +148,20 @@ def test_author_dwca_coreid_links_extension_not_different_taxonid_field():
     result=summary_join(taxa,distributions,[loss("Alpha alba","Pico")])
     assert result["confirmed_other_island_present_loss_taxa"]==1
     assert result["strict_S1_azores_source_taxa"]==1
+
+
+def test_last_record_year_not_conflated_with_2016_date_of_live_population():
+    taxa,records,losses=fixture()
+    x=summary_join(taxa,records,losses)
+    assert x["loss_pairs_with_2016_same_island_present"]==1
+    assert x["2016_same_island_present_source_records_without_eventDate"]>=1
+    assert x["same_island_2016_present_and_S1_last_record_pre_2010"]==1
+    assert x["2016_published_present_is_not_confirmed_contemporaneous_survival"] is True
+
+def test_explicit_eventdate_is_not_silently_filled_from_publication_year():
+    taxa,records,losses=fixture()
+    for x in records:x["eventDate"]=""
+    records[1]["eventDate"]="2008-06-12"
+    x=summary_join(taxa,records,losses)
+    assert x["all_2016_distribution_rows_with_explicit_eventDate"]==1
+    assert x["2016_published_present_is_not_confirmed_contemporaneous_survival"] is True
