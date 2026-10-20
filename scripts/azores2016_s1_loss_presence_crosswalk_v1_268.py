@@ -186,6 +186,7 @@ def summary_join(taxa,observations,losses):
     repeated_other_taxa=0
     recorded_other_by_case=0
     other_island_counts=Counter()
+    source_footprints_by_loss_count=defaultdict(list)
     for name,loss_islands in by_species.items():
         tid=matched[name]
         if tid is None:continue
@@ -207,6 +208,7 @@ def summary_join(taxa,observations,losses):
                 same_island_S1_last_record_2010_or_later+=1
         elsewhere=check-loss_islands
         other_island_counts[len(elsewhere)]+=1
+        source_footprints_by_loss_count[len(loss_islands)].append(len(elsewhere))
         if elsewhere:
             other_taxa+=1
             recorded_other_by_case+=len(loss_islands)
@@ -214,6 +216,15 @@ def summary_join(taxa,observations,losses):
             if any(tid in native_island_species[x] for x in elsewhere):
                 other_native_taxa+=1
 
+    other_footprints={}
+    for k,values in sorted(source_footprints_by_loss_count.items()):
+        vals=sorted(values)
+        other_footprints[str(k)]={
+            "loss_affected_taxa":len(vals),
+            "other_island_documented_counts":vals,
+            "mean_other_island_documentations":sum(vals)/len(vals) if vals else None,
+            "taxa_with_any_other_island_documentation":sum(v>0 for v in vals),
+        }
     result={
         "source_taxon_core_rows":len(taxa),
         "source_distribution_rows":records_count,
@@ -250,6 +261,7 @@ def summary_join(taxa,observations,losses):
         "S1_two_island_loss_taxa_with_current_other_island_present":repeated_other_taxa,
         "confirmed_other_island_present_2016_loss_cases":recorded_other_by_case,
         "taxa_by_2016_other_documented_island_count":{str(k):v for k,v in sorted(other_island_counts.items())},
+        "other_island_checklist_reports_by_number_of_S1_loss_islands":other_footprints,
         "2016_missing_is_never_filled_as_absent":True,
         "2016_state_is_not_pre_loss_t0":True,
         "2016_published_present_is_not_confirmed_contemporaneous_survival":True,
