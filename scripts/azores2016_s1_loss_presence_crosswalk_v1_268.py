@@ -84,6 +84,7 @@ def summary_join(taxa,observations,losses):
     all_status=Counter()
     means_counts=Counter()
     records_with_explicit_eventdate=0
+    source_eventdate_values=Counter()
     island_pair_source_dates=defaultdict(list)
     island_species=defaultdict(set)
     native_island_species=defaultdict(set)
@@ -100,6 +101,7 @@ def summary_join(taxa,observations,losses):
         means_counts[means or "[MISSING]"]+=1
         event_date=str(rec.get("eventDate") or "").strip()
         if event_date:records_with_explicit_eventdate+=1
+        source_eventdate_values[event_date or "[MISSING]"]+=1
         island=normalized_locality(rec.get("locality"))
         loc=normalized_text(rec.get("locality"))
         if island is None:
@@ -175,6 +177,7 @@ def summary_join(taxa,observations,losses):
 
     same_island=0
     same_island_missing_eventdate=0
+    same_island_source_event_dates=Counter()
     same_island_S1_last_record_before_2010=0
     same_island_S1_last_record_2010_or_later=0
     same_island_S1_unparsed_last_record=0
@@ -190,6 +193,8 @@ def summary_join(taxa,observations,losses):
         same_island+=len(check & loss_islands)
         for lost_island in (check & loss_islands):
             dates=island_pair_source_dates.get((tid,lost_island),[])
+            for d in set(dates):
+                same_island_source_event_dates[d or "[MISSING]"]+=1
             if dates and not any(d.strip() for d in dates):
                 same_island_missing_eventdate+=1
             source_last=date_by_loss_pair.get((name,lost_island),"")
@@ -215,6 +220,9 @@ def summary_join(taxa,observations,losses):
         "source_distribution_status_vocab":dict(sorted(all_status.items())),
         "source_establishment_means_vocab":dict(sorted(means_counts.items())),
         "all_2016_distribution_rows_with_explicit_eventDate":records_with_explicit_eventdate,
+        "source_eventDate_distinct_values":len(source_eventdate_values),
+        "source_eventDate_values_top":[{"date":v,"count":n} for v,n in
+             sorted(source_eventdate_values.items(),key=lambda kv:(-kv[1],kv[0]))[:15]],
         "source_accepted_vascular_species_taxon_records":len(accepted),
         "source_accepted_vascular_species_unique_IDs":len(set(str(t["taxonID"]) for t in accepted)),
         "current_present_species_island_pairs":len(recorded_island_taxon_pairs),
@@ -233,6 +241,7 @@ def summary_join(taxa,observations,losses):
         "S1_source_match_methods":dict(method_counts),
         "loss_pairs_with_2016_same_island_present":same_island,
         "2016_same_island_present_source_records_without_eventDate":same_island_missing_eventdate,
+        "S1_loss_island_published_present_eventDate_values":dict(sorted(same_island_source_event_dates.items())),
         "same_island_2016_present_and_S1_last_record_pre_2010":same_island_S1_last_record_before_2010,
         "same_island_2016_present_and_S1_last_record_2010_or_later":same_island_S1_last_record_2010_or_later,
         "same_island_2016_present_and_S1_last_record_unparsed":same_island_S1_unparsed_last_record,
