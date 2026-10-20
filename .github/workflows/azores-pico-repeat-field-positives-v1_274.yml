@@ -1,0 +1,50 @@
+name: Azores Pico documented multi-year field taxa v1.274
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-pico-repeat-field-positives-v1_274.yml"
+      - "scripts/azores_Pico_repeated_field_positives_v1_274.py"
+      - "tests/test_azores_Pico_repeated_field_positives_v1_274.py"
+      - "development/azores_Pico_repeated_field_positive_protocol_v1_274.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  aggregate-multi-year-field-positive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Verify source-free historical taxon repeated-year counting
+        run: python -m pytest -q tests/test_azores_Pico_repeated_field_positives_v1_274.py
+      - name: Summarize only original Pico and S1 published field-positive years
+        run: |
+          python scripts/azores_Pico_repeated_field_positives_v1_274.py \
+            --protocol development/azores_Pico_repeated_field_positive_protocol_v1_274.json \
+            --out azores_Pico_S1_multiyear_field_positives_v1_274.json
+      - name: Protect previous 11 taxa and 2801 dates and true non-detection uncertainty
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("azores_Pico_S1_multiyear_field_positives_v1_274.json").read_text())
+          assert j["status"]=="VERIFIED_REPEATED_PICO_DATED_FIELD_POSITIVES_ONLY"
+          assert j["historical_strict_S1_Azores_taxa"]==20
+          assert j["source_Pico_event_rows"]==2801
+          assert j["comparison"]["historically_loss_affected_taxa_seen_on_Pico"]==11
+          assert j["comparison"]["not_population_persistence_or_colonization"]
+          assert j["S2_S3_S4_values_opened"]==0 and j["GEB_scientific_HOLD"]
+          print("Repeated Pico field records of historic taxa, positive only")
+          PY
+      - name: Upload only source-locked annual count table
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-Pico-dated-repeated-historical-loss-taxa-v1-274
+          path: azores_Pico_S1_multiyear_field_positives_v1_274.json
+          if-no-files-found: warn
