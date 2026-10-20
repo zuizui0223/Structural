@@ -251,13 +251,21 @@ def synthesize_observations(field_sources,S1_records,islands):
     }
 
 
+def locked_archive_size(src):
+    """Original SaoJorge receipt names its count 'bytes'; newer sources use 'expected_bytes'."""
+    values={int(src[k]) for k in ("bytes","expected_bytes") if src.get(k) is not None}
+    if len(values)!=1 or next(iter(values))<=0:
+        raise ValueError("Ambiguous/missing source-author archive byte count")
+    return next(iter(values))
+
+
 def get_original(src):
     request=urllib.request.Request(src["url"],headers={
         "User-Agent":"Structural-Azores-Four-Island-Original-Survey-Join/1.0",
         "Accept":"application/zip,application/octet-stream"})
     with urllib.request.urlopen(request,timeout=70) as f:
         raw=f.read(SOURCE_MAX+1)
-    if len(raw)!=src["expected_bytes"] or hashlib.sha256(raw).hexdigest()!=src["sha256"]:
+    if len(raw)!=locked_archive_size(src) or hashlib.sha256(raw).hexdigest()!=src["sha256"]:
         raise ValueError("Original source SHA or bytes changed: "+src["label"])
     return raw
 
