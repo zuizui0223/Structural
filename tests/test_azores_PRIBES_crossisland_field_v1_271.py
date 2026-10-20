@@ -148,3 +148,52 @@ def test_original_author_source_receipts_use_one_canonical_verified_size_access(
     assert s["valid_dated_events"]==1655
     assert p["field_event_years"]=={"2020":1655}
     assert "field_taxa" not in s
+
+
+def archive_pico_original_MDY_rows():
+    ns="http://rs.tdwg.org/dwc/text/"
+    term="http://rs.tdwg.org/dwc/terms/"
+    meta=f'''<archive xmlns="{ns}">
+        <core rowType="{term}Event" encoding="UTF-8" ignoreHeaderLines="1">
+            <files><location>event.txt</location></files>
+            <id index="0"/>
+            <field index="1" term="{term}eventDate"/>
+            <field index="2" term="{term}year"/>
+            <field index="3" term="{term}month"/>
+            <field index="4" term="{term}day"/>
+            <field index="5" term="{term}island"/>
+        </core>
+        <extension rowType="{term}Occurrence" encoding="UTF-8" ignoreHeaderLines="1">
+            <files><location>occurrence.txt</location></files>
+            <coreid index="0"/>
+            <field index="1" term="{term}scientificName"/>
+            <field index="2" term="{term}taxonRank"/>
+            <field index="3" term="{term}establishmentMeans"/>
+        </extension>
+    </archive>'''
+    src=io.BytesIO()
+    with zipfile.ZipFile(src,"w") as z:
+        z.writestr("meta.xml",meta)
+        z.writestr("event.txt",(
+          "id\teventDate\tyear\tmonth\tday\tisland\n"
+          "A\t8/11/2020\t2020\t8\t11\tPico\n"
+          "B\t8/12/2020\t2020\t8\t12\tPico\n"
+          "C\t8/13/2020\t2020\t11\t13\tPico\n"
+        ))
+        z.writestr("occurrence.txt",(
+          "coreid\tscientificName\ttaxonRank\testablishmentMeans\n"
+          "A\tAlpha alba\tspecies\tnative\n"
+          "B\tAlpha alba\tspecies\tnative\n"
+          "C\tNot reliable\tspecies\tnative\n"
+        ))
+    return src.getvalue()
+
+def test_original_pico_MDY_recovery_requires_independent_author_components():
+    r=read_dated_field(archive_pico_original_MDY_rows(),{"Pico"})
+    assert r["raw_event_rows"]==3
+    assert r["valid_dated_event_rows"]==2
+    assert r["source_MDY_recovered_events"]==2
+    assert r["excluded_invalid_dates"]==1
+    assert r["field_event_year_counts"]=={"2020":2}
+    assert r["unique_species_island_positive_pairs"]==1
+    assert len(r["field_taxa"])==1
