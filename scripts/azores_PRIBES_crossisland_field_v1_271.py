@@ -128,7 +128,19 @@ def read_dated_field(raw,permitted_islands):
                            "establishment":means or "[MISSING]"})
         byyear[str(yr)]+=1
         island_observations[island]+=1
-    pairs={(r["name"],r["island"]) for r in field_rows}
+    # A taxon can have many occurrence rows in one dated sampling year.
+    # Preserve the raw observation count separately, but count only one
+    # taxon × island × year positive when matching historical case taxa.
+    annual={}
+    for row in field_rows:
+        key=(row["name"],row["island"],row["year"])
+        if key not in annual:
+            annual[key]=row.copy()
+        elif row["native"]!=annual[key]["native"]:
+            annual[key]["native"]=False  # disagreeing annotations are not known native
+            annual[key]["establishment"]="[CONFLICTING]"
+    distinct_field_rows=list(annual.values())
+    pairs={(r["name"],r["island"]) for r in distinct_field_rows}
     return {
         "raw_event_rows":len(events),
         "raw_occurrence_rows":len(occurrences),
@@ -141,7 +153,7 @@ def read_dated_field(raw,permitted_islands):
         "excluded_occurrence_rows":dict(sorted(skipped.items())),
         "valid_field_species_observations":len(field_rows),
         "unique_species_island_positive_pairs":len(pairs),
-        "field_taxa":field_rows,
+        "field_taxa":distinct_field_rows,
     }
 
 
