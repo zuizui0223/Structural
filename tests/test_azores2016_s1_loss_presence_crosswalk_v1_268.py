@@ -33,7 +33,7 @@ def fixture():
       occur(1,"Azores"),occur(1,"Flores"),occur(1,"Pico"),
       occur(1,"Pico","absent"),occur(1,"Terceira",means="introduced"),
       occur(2,"Santa Maria"),occur(2,"Faial","absent"),
-      occur(3,"São Miguel"),occur(3,"Pico / Faial"),
+      occur(3,"São Miguel",status="absent"),occur(3,"Pico / Faial"),
       occur(4,"Faial"),
       occur(5,"São Jorge"),
     ]
@@ -68,8 +68,8 @@ def test_detects_published_survivor_elsewhere_and_same_island_status_conflict():
     assert x["confirmed_native_other_island_present_loss_taxa"]==2
     assert x["confirmed_other_island_present_loss_taxa"]==2
     assert x["loss_pairs_with_2016_same_island_present"]==1
-    assert x["current_present_species_island_pairs"]==6
-    assert x["current_present_island_located_native_species_pairs"]==5
+    assert x["current_present_species_island_pairs"]==5
+    assert x["current_present_island_located_native_species_pairs"]==4
     assert x["unlocated_archipelago_distribution_rows"]==1
     assert x["multi_island_or_ambiguous_locality_rows"]>=1
     assert x["2016_missing_is_never_filled_as_absent"] is True
