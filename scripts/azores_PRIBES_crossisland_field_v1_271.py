@@ -259,6 +259,23 @@ def locked_archive_size(src):
     return next(iter(values))
 
 
+def format_author_source_receipt(label,src,details):
+    """Single verified original source size accessor for transport AND output."""
+    return {
+        "label":label,
+        "sha256":src["sha256"],
+        "original_bytes":locked_archive_size(src),
+        "event_rows":details["raw_event_rows"],
+        "occurrence_rows":details["raw_occurrence_rows"],
+        "valid_dated_events":details["valid_dated_event_rows"],
+        "invalid_or_out_of_date_events":details["excluded_invalid_dates"],
+        "field_event_years":details["field_event_year_counts"],
+        "event_count_by_island":details["island_event_counts"],
+        "eligible_species_rank_occurrences":details["valid_field_species_observations"],
+        "excluded_occurrence_rows":details["excluded_occurrence_rows"],
+    }
+
+
 def get_original(src):
     request=urllib.request.Request(src["url"],headers={
         "User-Agent":"Structural-Azores-Four-Island-Original-Survey-Join/1.0",
@@ -322,17 +339,8 @@ def main():
             or detail["Sao Jorge PRIBES"]["raw_occurrence_rows"]!=4523):
             raise ValueError("Previous original SaoJorge source row count not reproducible")
         out.update({
-            "source_manifests":[{
-                "label":label,"sha256":info[label]["sha256"],"original_bytes":info[label]["expected_bytes"],
-                "event_rows":detail[label]["raw_event_rows"],
-                "occurrence_rows":detail[label]["raw_occurrence_rows"],
-                "valid_dated_events":detail[label]["valid_dated_event_rows"],
-                "invalid_or_out_of_date_events":detail[label]["excluded_invalid_dates"],
-                "field_event_years":detail[label]["field_event_year_counts"],
-                "event_count_by_island":detail[label]["island_event_counts"],
-                "eligible_species_rank_occurrences":detail[label]["valid_field_species_observations"],
-                "excluded_occurrence_rows":detail[label]["excluded_occurrence_rows"]
-            } for label,_ in labels],
+            "source_manifests":[format_author_source_receipt(label,info[label],detail[label])
+                                for label,_ in labels],
             "comparison":comparison,
             "S1_strict_Azores_taxa":20,
             "S1_strict_Azores_loss_pairs":24,
