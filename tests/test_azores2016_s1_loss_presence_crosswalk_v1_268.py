@@ -166,3 +166,15 @@ def test_explicit_eventdate_is_not_silently_filled_from_publication_year():
     x=summary_join(taxa,records,losses)
     assert x["all_2016_distribution_rows_with_explicit_eventDate"]==1
     assert x["2016_published_present_is_not_confirmed_contemporaneous_survival"] is True
+
+
+def test_archive_eventdate_vocabulary_prevents_assuming_one_observation_year():
+    taxa,records,losses=fixture()
+    for rec in records:rec["eventDate"]="2010-01-01"
+    records[1]["eventDate"]="2008-06-12"
+    x=summary_join(taxa,records,losses)
+    assert x["all_2016_distribution_rows_with_explicit_eventDate"]==len(records)
+    assert x["source_eventDate_values_top"][0]=={"date":"2010-01-01","count":len(records)-1}
+    assert {"date":"2008-06-12","count":1} in x["source_eventDate_values_top"]
+    assert x["S1_loss_island_published_present_eventDate_values"]=={"2010-01-01":1}
+    assert x["2016_published_present_is_not_confirmed_contemporaneous_survival"] is True
