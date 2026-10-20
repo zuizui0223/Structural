@@ -130,6 +130,7 @@ def test_author_dwca_coreid_links_extension_not_different_taxonid_field():
     <field index="1" term="'''+core_ns+'''locality"/>
     <field index="2" term="'''+core_ns+'''occurrenceStatus"/>
     <field index="3" term="'''+core_ns+'''establishmentMeans"/>
+    <field index="4" term="'''+core_ns+'''eventDate"/>
   </extension>
 </archive>'''
     b=io.BytesIO()
@@ -139,8 +140,8 @@ def test_author_dwca_coreid_links_extension_not_different_taxonid_field():
                    ("id\\ttaxonID\\tscientificName\\tkingdom\\tphylum\\trank\\taccepted\\n"
                     "CORE-101\\tDIFFERENT-999\\tAlpha alba L.\\tPlantae\\tMagnoliophyta\\tspecies\\tCORE-101\\n").replace("\\t","\t").replace("\\n","\n"))
         z.writestr("distribution.txt",
-                   ("coreid\\tlocality\\toccurrenceStatus\\testablishmentMeans\\n"
-                    "CORE-101\\tFlores\\tpresent\\tnative\\n").replace("\\t","\t").replace("\\n","\n"))
+                   ("coreid\\tlocality\\toccurrenceStatus\\testablishmentMeans\\teventDate\\n"
+                    "CORE-101\\tFlores\\tpresent\\tnative\\t\\n").replace("\\t","\t").replace("\\n","\n"))
     taxa,distributions,keys=_read_author_tables(b.getvalue())
     assert taxa[0]["taxonID"]=="CORE-101"
     assert distributions[0]["taxonID"]=="CORE-101"
