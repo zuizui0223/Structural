@@ -175,10 +175,9 @@ def main():
         "Pico_sha256":PICO_SHA,"S1_sha256":S1_SHA,
         "S2_S3_S4_values_opened":0,
         "original_mammal_BioTIME_RLS_holdouts_opened":0,
-        "GEB_scientific_HOLD":True,"eBird_off":False is True else False,
+        "GEB_scientific_HOLD":True,"eBird_off":True,
         "new_confirmatory_systems":0,
     }
-    output["eBird_off"]=True
     try:
         source=get_original(pico)
         s1=download_original(S1_URL,332776,5_000_000)
