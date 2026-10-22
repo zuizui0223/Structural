@@ -1,0 +1,54 @@
+name: Pico PRIBES verified physical site revisit v1.275
+
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-pico-site-revisit-v1_275.yml"
+      - "development/azores_Pico_event_site_revisit_protocol_v1_275.json"
+      - "scripts/azores_Pico_event_site_revisit_v1_275.py"
+      - "tests/test_azores_Pico_event_site_revisit_v1_275.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-event-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free regression framework
+        run: python -m pip install pytest
+      - name: Confirm test-first source locationID/GPS/date criteria
+        run: python -m pytest -q tests/test_azores_Pico_event_site_revisit_v1_275.py
+      - name: Check publisher SHA and only the 2,801 original Pico Event survey rows
+        run: |
+          python scripts/azores_Pico_event_site_revisit_v1_275.py \
+            --contract development/azores_Pico_event_site_revisit_protocol_v1_275.json \
+            --out azores_Pico_event_site_revisit_v1_275.json
+      - name: Verify exact publication keys and no taxon/plant observation access
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          x=json.loads(Path("azores_Pico_event_site_revisit_v1_275.json").read_text())
+          assert x["schema"]=="structural.azores_Pico_event_site_revisit.v1_275"
+          assert x["status"]=="SOURCE_VERIFIED_EVENT_ONLY_PHYSICAL_SITE_AUDIT"
+          assert x["original_Event_core_rows"]==2801
+          assert x["source_event_year_counts"]=={"2020":171,"2021":1603,"2022":898,"2024":129}
+          assert x["positive_plant_species_rows_read"]==0
+          assert x["occurrence_extension_bytes_read"]==0
+          assert x["GEB_scientific_HOLD"]
+          print("PICO EVENT-ONLY",x["author_siteIDs_revisited_2plus_years_with_verified_coordinates"],"author-defined repeated sites")
+          PY
+      - name: Keep only response-free geographic support summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-Pico-author-site-revisit-v1-275
+          path: azores_Pico_event_site_revisit_v1_275.json
+          if-no-files-found: warn
