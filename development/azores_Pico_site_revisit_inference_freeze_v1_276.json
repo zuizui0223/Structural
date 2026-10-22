@@ -1,0 +1,67 @@
+{
+  "schema": "structural.azores_Pico_site_revisit_and_species_spatial_repetition_evidence.v1_276",
+  "observed_on": "2026-10-22",
+  "status": "EVENT_ONLY_SITE_REVISIT_VERIFIED; SPECIES_AT_SAME_GPS_YEAR_CROSSWALK_TRANSPORT_BLOCKED",
+  "physical": {
+    "source": "Pico PRIBES DwC-A v1.7 DOI 10.15468/vk4y7k",
+    "sha256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+    "original_event_core_rows": 2801,
+    "event_year_counts": {
+      "2020": 171,
+      "2021": 1603,
+      "2022": 898,
+      "2024": 129
+    },
+    "original_author_locationID_field_exists": false,
+    "source_author_siteIDs_revisited_in_multiple_years": 0,
+    "all_events_have_published_geo_coordinates": 2801,
+    "different_calendar_year_GPS5_proxy_repeats": 5,
+    "different_calendar_year_GPS4_proxy_repeats": 20,
+    "different_calendar_year_GPS3_proxy_repeats": 30,
+    "geocoded_field_site_is_permanent_plot": false,
+    "protocol_field_original_nonempty_events": 2801,
+    "method_consistency_at_author_source_site_proven": false
+  },
+  "already_verified_positive": {
+    "source": "PRIBES v1.271 and Pico v1.274 prior analysed same published source events and taxa",
+    "strict_historical_S1_Azores_loss_taxa": 20,
+    "Pico_loss_affected_taxa_with_one_or_more_2020_2024_positives": 11,
+    "Pico_loss_affected_taxa_with_2plus_source_calendar_years": 8,
+    "Pico_loss_affected_taxa_with_3plus_source_calendar_years": 2,
+    "Pico_historical_loss_affected_taxon_year_positive_pairs": 21,
+    "quantitative_evidence_type": "island-year positive re-encounters, not same-site continuous survival"
+  },
+  "same_taxon_same_GPS_site_year_result": {
+    "verified": false,
+    "measured_count": null,
+    "reason": "The original source re-download step timed out twice in run 39713929210, attempts 1 and 2. Both attempts reached the source stage after passing synthetically frozen GPS tests. Original same-taxonomy site-year crosswalk was not scored.",
+    "run_id": 39713929210,
+    "first_attempt": "SOURCE_STOP_NO_SITE_POSITIVE_RESULT (urllib timed out)",
+    "second_attempt": "SOURCE_STOP_NO_SITE_POSITIVE_RESULT (urllib timed out)",
+    "source_code": "scripts/azores_Pico_spatial_positive_recurrence_v1_276.py",
+    "synthetic_tests_pre_original_source": "passed after an initial Python syntax correction; original observational endpoint not scored",
+    "no_invented_zero": true,
+    "no_unsupported_further_source_polling": true
+  },
+  "interpretation": {
+    "allow_claim": "The case taxa are documented across multiple island survey years in Pico; exact original GPS positions overlap across years at 5 source-event coordinate proxies.",
+    "do_not_claim": [
+      "Eight long-lived fixed-site populations",
+      "Five species or five genetically independent surviving populations",
+      "Five observed same-species repeated sites, which was not tested",
+      "Zero repeat species at sites (a transport failure is not an ecological zero)",
+      "Recolonization, propagule connectivity, demographic source rescue",
+      "Uniform per-site negative sampling effort or zero/non-detection from missing records"
+    ],
+    "next_scientific_step": "To claim site-level positive recurrence, resolve exact original source access or reuse a source-verified canonical archive without altering the source SHA, and match taxon×GPS proxy×survey-year; otherwise retain island-year positive status only.",
+    "source_of_site_dating": "Source author-supplied M/D/YYYY and year/month/day concordance independently verified 2801/2801, not post-hoc temporal inference"
+  },
+  "firewall": {
+    "Macaronesia_S2_S3_S4_unopened": true,
+    "original_Structural_529_mammal_heldout_unopened": true,
+    "prior_BioTIME_RLS_protected_outcomes_unopened": true,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}
