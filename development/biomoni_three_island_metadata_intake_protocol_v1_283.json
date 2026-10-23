@@ -1,0 +1,80 @@
+{
+  "schema": "structural.biomoni_three_island_response_opaque_intake.v1_283",
+  "date": "2026-10-23",
+  "status": "PROTOCOL_FROZEN_BEFORE_BIOMONI_ORIGINAL_ARCHIVE_RETRIEVAL",
+  "original_public_source": {
+    "project": "BioMonI / ISLAND-BIODIV woody forest vegetation; Morgado et al. 2025; published GBIF Darwin Core archive",
+    "dataset_uuid": "eab982cf-81df-4d08-b9f4-c2f5c56b8ad3",
+    "publisher": "Universidade dos Açores",
+    "source_version": "1.7",
+    "official_ip_resource": "https://ipt.gbif.pt/ipt/resource?r=biomoni_trees&v=1.7",
+    "fixed_source_archive_url": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+    "license": "CC BY 4.0",
+    "expected_event_core_rows_published": 30,
+    "expected_occurrence_extension_rows_published": 402,
+    "island_count_published": 3,
+    "island_set": [
+      "Terceira",
+      "Tenerife",
+      "Réunion"
+    ],
+    "plots_per_island_claimed": 10,
+    "plot_size": "50m by 50m",
+    "field_sampling_years": "2012-2013",
+    "sampling_heterogeneity": "Réunion 20 within-plot tree subplots; other islands four or five; tree DBH>=1cm subset; forest-based purposive habitat frame"
+  },
+  "question": "Before any woody taxon identity or status is read, does the original published archive directly encode a complete species-by-plot taxonomic census, native versus introduced establishment classes, unique source plot identifiers, and native/introduced comparability adequate to test between-plot co-occurrence outside MOVECLIM?",
+  "metadata_only_permitted": [
+    "GET exact official zip by fixed URL, cap raw archive bytes to 5MB",
+    "SHA-256 full opaque original archive bytes, inspect zip central directory names/byte sizes/CRC only",
+    "Open only meta.xml and inspect rowType, declared filenames, field index and DarwinCore URI names, encoding and ignoreHeaderLines",
+    "Check presence of required column semantics, never values; do not open any text/csv/tsv data member",
+    "Maintain counts of opened Event/Occurrence biological rows as zero",
+    "Record provisional metadata sufficiency and physical/sampling mismatch risks; never infer species status categories or positive ecological direction"
+  ],
+  "required_event_semantic_fields_any": [
+    "eventID",
+    "locationID",
+    "island"
+  ],
+  "required_taxon_semantic_fields_any": [
+    "scientificName",
+    "establishmentMeans"
+  ],
+  "reference_taxonomy": "Species names and island names must be frozen by source labels before response analysis; avoid synonyms/fuzzy matching post-outcome",
+  "strong_admission_conditions": [
+    "At least 30 separately keyed author original plots and 10 independently keyed per island; fail rather than collapse subplots as independent sites",
+    "Species-level woody plant occurrence from a defined census, not positive-only opportunistic records",
+    "All 3 islands' tree-plot effort denominators and DBH threshold measurable; Reunion different effort requires fixed normalization or held separately",
+    "Exact native and introduced classification recorded per species×island in original author data OR independently provenance-fixed verified taxon status source chosen before target values; absent this STOP without biological rows",
+    "Do not treat forest-only data as representative of degraded habitat",
+    "No use of local-loss taxa as replication absent independently eligible taxon overlap before outcome"
+  ],
+  "stop_conditions": [
+    "No well-defined native/introduced status field",
+    "No unique author plot key in Event schema",
+    "Row and file layout lacks reproducible Event/Occurrence linkage",
+    "No comparable woody census or sampling opportunity",
+    "Original source URL inaccessible",
+    "Any file exceeds 5MB, XML exceeds 256kB or archive metadata invalid"
+  ],
+  "possible_future_comparisons": [
+    "Within island: plot native vs introduced *woody* richness association conditional on sampling protocol and forest setting; separate island slopes then assess compatibility",
+    "Within Terceira: predeclared S1 historical-loss taxa membership only if independently sufficient eligible focal taxa and native/alien status; else not scored",
+    "Compare across islands as descriptive transfer, not three independent macroeco forests"
+  ],
+  "cannot_prove": [
+    "Pico historical source population survived before local losses",
+    "Alien plant suppression caused native loss",
+    "Rescue or inter-island colonization",
+    "Independent full Structural 529-mammal predictor confirmation"
+  ],
+  "firewall": {
+    "fresh_confirmatory_admissions": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "macaronesia_S2_S3_S4_unopened": true,
+    "mammal_BioTIME_RLS_heldouts_unopened": true,
+    "biomoni_species_values_opened_by_this_preflight": 0
+  }
+}
