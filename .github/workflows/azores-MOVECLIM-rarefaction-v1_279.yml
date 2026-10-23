@@ -1,4 +1,5 @@
 name: MOVECLIM plot-effort rarefaction exact bounds v1.279
+# Revalidate source-free formula and exact original aggregate on updated implementation.
 on:
   push:
     paths:
