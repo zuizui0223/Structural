@@ -1,0 +1,31 @@
+{
+  "schema": "structural.moveclim2013_source_free_rarefaction_bound.v1_279",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_SOURCE_FREE_EFFORT_BOUNDS",
+  "source_file": "development/azores_MOVECLIM_2013_native_plot_field_result_freeze_v1_278.json",
+  "question": "Can observed Pico historical-loss-affected native taxon richness of five, versus one each at three other islands, be explained solely by Pico having more sampled 10x10m plots (24 versus 10,12,12)?",
+  "fixed_design": {
+    "primary_equal_plot_m": 10,
+    "sensitivity_equal_plot_m": 8,
+    "plot_sampling": "uniform sampling without replacement of m already-surveyed independent plot identifiers",
+    "original_species_positive_plot_counts_not_available": "Use bound over all possible unknown k_i in [1,N], with exactly T distinct detected native loss-affected species and total positive taxon x plot cells P.",
+    "inclusion_probability": "1 - choose(N-k,m)/choose(N,m)",
+    "lower_bound": "distribute P-T excess into one taxon up to N before moving to next; follows discrete concavity",
+    "upper_bound": "distribute P as equally as possible across taxa; follows discrete concavity",
+    "return": "exact Fraction and float lower/upper mean rarefied richness for each island",
+    "no_taxonomic_or_site_labels": "Only integer plot count N, species count T, total positive plot count P",
+    "unit_test": "Exhaustively enumerate small occupancy vectors and confirm hypergeometric bound optimizing extrema"
+  },
+  "primary_interpretation": "Bound applies to EXPECTED taxon richness in a random m-plot subset of the already sampled habitat; not every possible subset, no ecological extinction-risk or conservation rescue inference.",
+  "incomplete_causal_controls": [
+    "Plot selection preferentially native/better-preserved vegetation",
+    "unequal island/elevation habitat coverage",
+    "total indigenous species richness",
+    "species historic range size and true extinction dates"
+  ],
+  "source_response_reopens": 0,
+  "S2_S3_S4_unopened": true,
+  "eBird": false,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0
+}
