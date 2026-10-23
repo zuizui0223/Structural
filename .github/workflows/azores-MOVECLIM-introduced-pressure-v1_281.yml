@@ -1,0 +1,60 @@
+name: Azores native plot introduced-pressure association v1.281
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-MOVECLIM-introduced-pressure-v1_281.yml"
+      - "development/azores_MOVECLIM_2013_introduced_pressure_protocol_v1_281.json"
+      - "scripts/azores_MOVECLIM_introduced_pressure_v1_281.py"
+      - "tests/test_azores_MOVECLIM_introduced_pressure_v1_281.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-verified-2013-plot-context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Check original plot identities and synthetic elevation/alien-status contrast
+        run: python -m pytest -q tests/test_azores_MOVECLIM_introduced_pressure_v1_281.py
+      - name: Exact-source retrospective 2013 introduced context, original 20 S1 taxa only
+        run: |
+          python scripts/azores_MOVECLIM_introduced_pressure_v1_281.py \
+            --protocol development/azores_MOVECLIM_2013_introduced_pressure_protocol_v1_281.json \
+            --out azores_MOVECLIM_2013_introduced_pressure_result_v1_281.json
+      - name: Verify all original source denominations and no causal/refugium claim
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("azores_MOVECLIM_2013_introduced_pressure_result_v1_281.json").read_text())
+          assert r["status"]=="RETROSPECTIVE_PUBLISHED_NATIVE_PLOT_ASSOCIATION"
+          assert r["author_defined_independent_plots"]==58
+          assert r["original_2013_field_events"]==232
+          assert r["original_2013_field_occurrences"]==2539
+          assert r["strict_historical_S1_taxa"]==20
+          assert r["strict_historical_S1_loss_pairs"]==24
+          assert sum(x["independent_plots"] for x in r["by_island"].values())==58
+          assert r["by_island"]["Pico"]["focal_native_taxa"]==5
+          assert r["by_island"]["Pico"]["focal_taxon_plot_positives"]==26
+          assert r["by_island"]["Pico"]["taxon_weighted_comparison_eligible"]
+          assert r["no_species_names_site_ids_coordinates_or_raw_rows_exported"] is True
+          assert r["not_invader_causality_or_regional_refugium"] is True
+          assert r["not_demographic_rescue_or_natal_dispersal"] is True
+          assert r["other_protected_biological_endpoints_opened"]==0
+          assert r["confirmatory_systems_admitted"]==0
+          assert r["GEB_scientific_HOLD"] and r["eBird_used"] is False
+          print("PASS: source-locked published retrospective association; protected denominators remain sealed")
+          PY
+      - name: Keep only aggregate scientific result, even after source transport STOP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-moveclim-introduced-pressure-v1-281-aggregates
+          path: azores_MOVECLIM_2013_introduced_pressure_result_v1_281.json
+          if-no-files-found: warn
