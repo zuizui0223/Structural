@@ -1,0 +1,60 @@
+name: Azores MOVECLIM native-richness adjusted stress v1.282
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-MOVECLIM-richness-adjusted-v1_282.yml"
+      - "development/azores_MOVECLIM_richness_elevation_adjustment_protocol_v1_282.json"
+      - "scripts/azores_MOVECLIM_richness_adjusted_v1_282.py"
+      - "tests/test_azores_MOVECLIM_richness_adjusted_v1_282.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-verified-focal-habitat-falsification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install pytest
+      - name: Test fixed un-tuned 2-predictor model and source plot reconciliation
+        run: |
+          python -m pytest -q tests/test_azores_MOVECLIM_introduced_pressure_v1_281.py \
+             tests/test_azores_MOVECLIM_richness_adjusted_v1_282.py
+      - name: Run original SHA-pinned retrospective 2013 native richness plus continuous elevation correction
+        run: |
+          python scripts/azores_MOVECLIM_richness_adjusted_v1_282.py \
+            --protocol development/azores_MOVECLIM_richness_elevation_adjustment_protocol_v1_282.json \
+            --out azores_MOVECLIM_2013_richness_adjusted_v1_282.json
+      - name: Check unchanged original response universe and forbid causal mechanism promotion
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("azores_MOVECLIM_2013_richness_adjusted_v1_282.json").read_text())
+          assert r["status"]=="RETROSPECTIVE_RICHNESS_ELEVATION_STRESS_TEST_COMPLETED"
+          assert r["independent_plots"]==24
+          assert r["focal_native_taxa"]==5 and r["reference_native_taxa"]==49
+          assert r["focal_positive_plots"]==19 and r["focal_negative_plots"]==5
+          assert r["introduced_species_plot_positives"]==27
+          assert r["focal_species_plot_positives"]==26
+          assert abs(r["original_v281_primary_focal_minus_reference"]-(-0.44816750143280726))<1e-9
+          assert r["not_a_causal_effect_or_true_refuge"]
+          assert r["not_independent_fresh_confirmatory"]
+          assert r["not_observed_dispersal_colonization_rescue"]
+          assert r["no_taxon_or_plot_id_export"]
+          assert r["other_protected_biological_endpoints_opened"]==0
+          assert r["GEB_scientific_HOLD"] and r["confirmatory_systems_admitted"]==0
+          assert not r["eBird_used"]
+          print("PASS: adjustment is descriptive, not a causal island refugium or population rescue")
+          PY
+      - name: Retain aggregate only and failure provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-MOVECLIM-2013-richness-adjusted-v1-282
+          path: azores_MOVECLIM_2013_richness_adjusted_v1_282.json
+          if-no-files-found: warn
