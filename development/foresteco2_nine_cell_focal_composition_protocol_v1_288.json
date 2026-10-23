@@ -70,7 +70,10 @@
     "min_total_focal_native_plot_taxon_positive_cells": 6,
     "all_nine_cells_min_reference_native_plot_taxon_positives": 1,
     "source_original_rows_must_equal": 1150,
-    "no_adjustment_of_thresholds_after_response": true
+    "no_adjustment_of_thresholds_after_response": true,
+    "max_fraction_unclassified_original_Occurrence_rows": 0.2,
+    "non_species_rank_excluded_from_this_fraction": true,
+    "unknown_class_non_species_exclusion_note": "Non-species ranks are excluded from target but contribute to reporting; among eligible species-rank records with clean binomial, >20% unknown/mixed establishment status is a terminal scoring STOP."
   },
   "uncertainty": {
     "resample": "2000 independent with-replacement samples of source plots within each original island×forest cell; calculate D on 9 sampled cells with same frozen 0.5 continuity; fixed seed 1729",
