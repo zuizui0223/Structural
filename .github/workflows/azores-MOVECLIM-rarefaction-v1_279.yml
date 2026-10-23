@@ -1,0 +1,49 @@
+name: MOVECLIM plot-effort rarefaction exact bounds v1.279
+on:
+  push:
+    paths:
+      - '.github/workflows/azores-MOVECLIM-rarefaction-v1_279.yml'
+      - 'scripts/azores_MOVECLIM_2013_rarefaction_bounds_v1_279.py'
+      - 'tests/test_azores_MOVECLIM_2013_rarefaction_bounds_v1_279.py'
+      - 'development/azores_MOVECLIM_2013_rarefaction_bound_contract_v1_279.json'
+      - 'development/azores_MOVECLIM_2013_native_plot_field_result_freeze_v1_278.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-combinatorial-source-free:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install minimal test runner
+        run: python -m pip install pytest
+      - name: Exhaustive small-N hypergeometric extremal bound tests
+        run: python -m pytest -q tests/test_azores_MOVECLIM_2013_rarefaction_bounds_v1_279.py
+      - name: Compute 10-plot and sensitivity 8-plot exact bounds from FROZEN aggregate only
+        run: |
+          python scripts/azores_MOVECLIM_2013_rarefaction_bounds_v1_279.py \
+            --source development/azores_MOVECLIM_2013_native_plot_field_result_freeze_v1_278.json \
+            --contract development/azores_MOVECLIM_2013_rarefaction_bound_contract_v1_279.json \
+            --out azores_MOVECLIM_equal_plot_richness_bounds_v1_279.json
+      - name: Verify nontrivial positive lower bound without missing-plot imputation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('azores_MOVECLIM_equal_plot_richness_bounds_v1_279.json').read_text())
+          assert j['status']=='SOURCE_FREE_EXACT_PLOT_EFFORT_BOUNDS'
+          assert j['m10']['Pico']['historical_affected_taxa']['expected_lower_fraction']=='8/3'
+          assert j['m10']['Pico']['historical_affected_taxa']['expected_lower_float']>2.6
+          assert all(j['m10'][s]['historical_affected_taxa']['expected_upper_float']==1.0 for s in ('Flores','São Miguel','Terceira'))
+          assert j['protected_biological_rows_opened_this_run']==0
+          assert j['GEB_scientific_HOLD'] and j['eBird_used'] is False
+          print('Expectation under 10-plot uniform subsampling, not every 10-plot draw.')
+          PY
+      - name: Preserve mathematical bounds and original aggregate source hash only
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-MOVECLIM-native-richness-effort-bounds-v1-279
+          path: azores_MOVECLIM_equal_plot_richness_bounds_v1_279.json
