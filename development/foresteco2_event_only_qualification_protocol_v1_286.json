@@ -1,0 +1,71 @@
+{
+  "schema": "structural.foresteco2_event_only_qualification.v1_286",
+  "date": "2026-10-23",
+  "status": "FROZEN_AFTER_XML_SCHEMA_BEFORE_ANY_EVENT_VALUE",
+  "source_archive_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants-azo-foresteco2&v=1.2",
+  "source_uuid": "158e0f0d-26e3-4883-bf5e-6040c1bb1ff4",
+  "expected_zip_sha256": "11d87393d716672f9765ed479341f39605c732def3333caaae16095b5008636a",
+  "schema_preflight_workflow_run": 39917454417,
+  "read_permissions": {
+    "Event": "Only original Event file, mapped by meta.xml, including site keys, island, habitat, calendar year and sampleSizeValue; this is response-independent geometry/effort qualification",
+    "Occurrence": "READ ZERO ROWS, no species/taxon/establishment/cover fields",
+    "S1": "DO NOT OPEN THIS STAGE"
+  },
+  "frozen_group_definitions": {
+    "islands": {
+      "Pico": [
+        "pico"
+      ],
+      "Terceira": [
+        "terceira"
+      ],
+      "São Miguel": [
+        "são miguel",
+        "sao miguel"
+      ]
+    },
+    "habitat": {
+      "NF": [
+        "nf",
+        "natural forest",
+        "native forest",
+        "natural forests",
+        "native forests"
+      ],
+      "EW": [
+        "ew",
+        "exotic woodland",
+        "exotic woodlands",
+        "exotic forest",
+        "exotic forests"
+      ],
+      "PF": [
+        "pf",
+        "production forest",
+        "production forests",
+        "plantation forest",
+        "plantation forests"
+      ]
+    },
+    "forbid_fuzzy_habitat_inference_from_species": true
+  },
+  "required_rows": 90,
+  "required_distinct_event_ids": 90,
+  "required_distinct_locationIDs_within_islands": 90,
+  "required_per_island": 30,
+  "required_per_island_per_type": 10,
+  "allowed_calendar_years": [
+    2017,
+    2018
+  ],
+  "sample_area_expected": "100 square meters; publish author source unit, warn or STOP if non-100 numeric plot-size declaration",
+  "no_response_scoring": true,
+  "failure_policy": "Any source hash mismatch, unknown habitat, ID duplicate, bad plot counts, or malformed source Event ends this version; no outcome/taxon read or rescuing categories by inspecting plant compositions",
+  "publication_discrepancy": "Author IPT publisher metadata states 90 Event/1150 Occurrence, method-step paragraph says 105 Event; the frozen authoritative Event universe is exactly 90",
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "confirmatory_admissions": 0,
+    "protected_biological_rows_opened": 0
+  }
+}
