@@ -1,0 +1,53 @@
+name: ForestEco2 independent 90-site historical-loss native forest composition v1.288
+on:
+  push:
+    paths:
+      - ".github/workflows/foresteco2-native-loss-composition-v1_288.yml"
+      - "development/foresteco2_nine_cell_focal_composition_protocol_v1_288.json"
+      - "scripts/foresteco2_nine_cell_focal_original_v1_288.py"
+      - "tests/test_foresteco2_nine_cell_focal_original_v1_288.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  published-source-independent-plant-endpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install existing source reader dependencies
+        run: python -m pip install pytest openpyxl
+      - name: Frozen 90-plot/9-cell biological response tests, no outcome opened
+        run: python -m pytest -q tests/test_foresteco2_nine_cell_focal_original_v1_288.py
+      - name: Execute exactly once on fixed 2017/2018 original published biological data
+        run: |
+          python scripts/foresteco2_nine_cell_focal_original_v1_288.py \
+            --protocol development/foresteco2_nine_cell_focal_composition_protocol_v1_288.json \
+            --out foresteco2_native_loss_focal_result_v1_288.json
+      - name: Record positive or STOP without rescue, enforce frozen evidence ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("foresteco2_native_loss_focal_result_v1_288.json").read_text(encoding="utf-8"))
+          assert r["status"] in [
+             "RETROSPECTIVE_INDEPENDENT_FOREST_SOURCE_DESCRIPTIVE_SCORE",
+             "STOP_FOCAL_ESTIMABILITY_AFTER_ONE_SHOT",
+             "STOP_UNCLASSIFIED_ORIGIN_EXCEEDS_FROZEN_THRESHOLD"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0
+          assert r["eBird_used"] is False
+          assert r.get("focal_prediction_scored",False) == (
+             r["status"]=="RETROSPECTIVE_INDEPENDENT_FOREST_SOURCE_DESCRIPTIVE_SCORE")
+          if "original_v1_286_gate_remains_terminal" in r:
+             assert r["original_v1_286_gate_remains_terminal"]
+          print("PASS: original source biology evaluated only against frozen endpoint/stops:",r["status"])
+          PY
+      - name: Retain aggregate result and terminal evidence without taxon or source-site names
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: foresteco2-native-loss-focal-original-v1-288
+          path: foresteco2_native_loss_focal_result_v1_288.json
+          if-no-files-found: warn
