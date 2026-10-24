@@ -51,7 +51,7 @@ def test_relative_native_enrichment_is_not_always_absolute_native_gain():
     assert t[("Terceira","T1")]["logratio_direction"]=="negative"
     assert t[("Terceira","T1")]["native_richness_direction"]=="positive"
     assert t[("Terceira","T1")]["alien_richness_direction"]=="positive"
-    assert t[("Terceira","T1")]["negative_relative_ratio_but_absolute_native_gain"]
+    assert t[("Terceira","T1")]["relative_native_decline_but_absolute_native_gain"]
     # Terceira T3: native richness falls but alien richness also falls;
     # therefore native/alien composition improves.
     assert t[("Terceira","T3")]["logratio_direction"]=="positive"
