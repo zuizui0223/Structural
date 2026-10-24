@@ -286,7 +286,7 @@ def main():
     method=json.loads(args.method_contract.read_text(encoding="utf-8"))
     if (cfg.get("schema")!="structural.biomoni_terceira_woody_beetle_beta_transfer.v1_300"
         or cfg.get("status")!="FROZEN_BEFORE_FIRST_WOODY_AND_BEETLE_OCCURRENCE_BODY_ACCESS"
-        or any(cfg["source"][i+"_sha256"]!=SOURCE[i][1] for i in ("woody","beetle"))
+        or any(cfg["source"]["wood_sha256" if i=="woody" else "beetle_sha256"]!=SOURCE[i][1] for i in ("woody","beetle"))
         or event.get("schema")!="structural.biomoni_colocated_terceira_event_crosswalk.v1_298"
         or method.get("schema")!="structural.biomoni_shared_protocol_standardized_event_v1_299"):
         raise ValueError("Original cross-taxon source and ecological estimator not frozen")
