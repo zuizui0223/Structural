@@ -1,5 +1,8 @@
 # Azores trail vegetation: independent two-island observational test and response-sealed admission (v1.291–v1.295)
 
+**Current result (v1.296, 2026-10-24):** This older note records the original response-firewall preparation, not the latest conclusion. The later [actual field execution v1.295](https://github.com/zuizui0223/Structural/actions/runs/40074317603) scored 4 independent trails; the [source-free v1.296 synthesis](AZORES_TRAIL_WEIGHTING_NATIVE_RICHNESS_DISSOCIATION_V1_296.md) confirmed that original equal-trail and equal-island contrasts were −0.0344 and −0.1250, whereas nonindependent area-group weighting flips the sign to +0.0979. On two trails, the direction of native/alien ratio change disagreed with the direction of absolute native richness change. No causal trail effect or independent archipelago generalization was established. **Use the v1.296 document for scientific conclusions; v1.292 strict source Event design remains terminal.**
+
+
 **2026-10-24 · Primary ecological question:** Within independently surveyed native forest trails, does native-versus-introduced plant composition differ between the trail edge and nearby forest interior after matching sampling line positions? This is an empirical extension beyond 2013 Pico vegetation co-occurrence, not a retest of the old rare historical-loss cohort, and **not a dispersal/rescue experiment**.
 
 ## External original source and what is new
