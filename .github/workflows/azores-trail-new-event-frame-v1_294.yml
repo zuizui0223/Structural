@@ -1,0 +1,50 @@
+name: Azores trail independent Event-exposed physical match source-only v1.294
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-trail-new-event-frame-v1_294.yml"
+      - "development/azores_trail_new_event_frame_v1_294.json"
+      - "scripts/azores_trail_new_event_frame_v1_294.py"
+      - "tests/test_azores_trail_new_event_frame_v1_294.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  novel-physically-matched-trails-before-species:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install source-only test runner
+        run: python -m pip install pytest
+      - name: Verify fixed original sampling grammar and no species access
+        run: python -m pytest -q tests/test_azores_trail_new_event_frame_v1_294.py
+      - name: Count source-author matched trail line plots without opening plant biological response
+        run: |
+          python scripts/azores_trail_new_event_frame_v1_294.py \
+            --protocol development/azores_trail_new_event_frame_v1_294.json \
+            --out azores_trail_new_event_frame_result_v1_294.json
+      - name: Require exploratory-only judgement with old original gate STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('azores_trail_new_event_frame_result_v1_294.json').read_text())
+          assert r["status"] in {"RETROSPECTIVE_MATCHED_FRAME_PASS_ONLY_OCCURRENCE_STILL_SEALED",
+                                 "RETROSPECTIVE_PHYSICAL_FRAME_TERMINAL_NO_BIOLOGY"}
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["original_species_or_nativeness_values_opened"]==0
+          assert r["v1_292_original_gate_terminal_immutable"]
+          assert r["new_exploratory_not_pristine_confirmatory"]
+          assert r["new_confirmatory_systems"]==0 and r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          print("Original biological data unopened; frame:",r["status"])
+          PY
+      - name: Preserve exact Event-only evidence and source sampling fingerprint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-trail-post-event-exploratory-match-v1-294
+          path: azores_trail_new_event_frame_result_v1_294.json
+          if-no-files-found: warn
