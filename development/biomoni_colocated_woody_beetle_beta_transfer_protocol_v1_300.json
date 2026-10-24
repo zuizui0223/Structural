@@ -28,7 +28,7 @@
       1,
       4
     ],
-    "original_full_site_woody_beetle_crosswalk_sha256": "7282890ecbbee81d9759f80107bdc6115a8c6cda1a61195f8a1e44",
+    "original_full_site_woody_beetle_crosswalk_sha256": "7282890ecbbee81d9759f80107bdc6114e2d55c60ad30a0c59830414dbfec0d5",
     "selected_beetle_Event_coreids_sha256": "e17b77f160740eb580893399f41344bfaecb8c9156299185fa0449cce4bd0960",
     "selected_tree_beetle_method_site_fingerprint": "85ab34df618cce249d31c73b77ecb252fa6b136ddb5ac66cda1a61195f8a1e44",
     "note": "The full original beetle Event set is NOT comparable (13–27 Events per plot); the new mode-limited 6/plot subset is fixed BEFORE biological responses, is not a rescue of the full-method hypothesis."
