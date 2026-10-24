@@ -13,14 +13,24 @@ def original():
     cross=json.loads((ROOT/"development/biomoni_terceira_colocated_event_gate_v1_298.json").read_text(encoding="utf-8"))
     return p,cross
 
+def incomplete_shared_modes_fixture():
+    t,b=fixtures()
+    # The historical full-method gate requires 4 common protocols.
+    # Two single-site modules are deliberately relabelled SOURCE-ONLY,
+    # yielding 3 common protocols, thus preserving original v1.298 STOP.
+    for rec in b:
+        if rec["source_coreid"].startswith("b-ter-0-AAS-") or rec["source_coreid"].startswith("b-ter-0-FSD-"):
+            rec["samplingProtocol"]="site0-unique-only"
+    return t,b
+
 def test_synthetic_first_six_standardized_mode_events_per_site_protects_unopened_responses():
-    trees,beetles=fixtures()
+    trees,beetles=incomplete_shared_modes_fixture()
     protocol,cross=original()
     r=evaluate(trees,beetles,protocol,cross)
     # Synthetic fixture has FIVE shared modes (4 each), not the published
     # source's THREE shared modes (1/4/1); should legitimately stop.
     assert r["status"]=="TERMINAL_NO_FROZEN_SHARED_METHODS"
-    assert r["source_reported_shared_mode_count"]==5
+    assert r["source_reported_shared_mode_count"]==3
     assert r["original_beetle_Occurrence_rows_opened"]==0
     assert r["original_woody_Occurrence_rows_opened"]==0
     assert r["old_v1_298_full_method_gate_remains_terminal"]
@@ -59,7 +69,7 @@ def test_three_shared_modes_one_four_one_generate_sixty_exact_source_event_ids()
     assert "TER-NFBF" not in json.dumps(r)
 
 def test_even_sample_different_beetle_method_design_must_stop():
-    t,b=fixtures()
+    t,b=incomplete_shared_modes_fixture()
     protocol,cross=original()
     # Source data mode set may not be relaxed merely for significance.
     protocol["method_subsample"]["prospective_shared_mode_count_exact"]=4
