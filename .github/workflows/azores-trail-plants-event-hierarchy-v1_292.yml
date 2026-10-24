@@ -1,0 +1,48 @@
+name: Azores trail plants frozen Event hierarchy before occurrence v1.292
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-trail-plants-event-hierarchy-v1_292.yml"
+      - "development/azores_trail_event_hierarchy_contract_v1_292.json"
+      - "scripts/azores_trail_plants_event_hierarchy_v1_292.py"
+      - "tests/test_azores_trail_plants_event_hierarchy_v1_292.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  historical-forest-trail-sampling-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Validate true area, plot, line hierarchy with synthetic source-only fixtures
+        run: python -m pytest -q tests/test_azores_trail_plants_event_hierarchy_v1_292.py
+      - name: Verify exact v1.4 ZIP and read Event values only, NEVER plant occurrence
+        run: |
+          python scripts/azores_trail_plants_event_hierarchy_v1_292.py \
+            --contract development/azores_trail_event_hierarchy_contract_v1_292.json \
+            --out azores_trail_event_physical_gate_v1_292.json
+      - name: Admit only score-design freezing; no outcome or causal claim
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('azores_trail_event_physical_gate_v1_292.json').read_text())
+          assert r["status"] in {"MATCHED_TRAIL_LINE_FRAME_POSSIBLE_OCCURRENCE_UNOPENED",
+                                  "SOURCE_ONLY_TERMINAL_NO_MATCHED_TRAIL_FRAME"}
+          assert r["original_Occurrence_rows_opened"]==0 and r["plant_names_or_native_placement_read"]==0
+          assert r["confirmatory_systems_admitted"]==0
+          assert r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          print("Source-only physical sampling frame:",r["status"])
+          PY
+      - name: Upload Event-only aggregate role metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-trail-original-v1-4-event-hierarchy-v1-292
+          path: azores_trail_event_physical_gate_v1_292.json
+          if-no-files-found: warn
