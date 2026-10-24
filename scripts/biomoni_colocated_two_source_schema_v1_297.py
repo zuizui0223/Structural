@@ -121,7 +121,7 @@ def main():
     c=json.loads(args.protocol.read_text(encoding="utf-8"))
     if (c.get("schema")!="structural.biomoni_colocated_cross_taxon_source_gate.v1_297"
         or c["status"]!="PRE_BIOLOGICAL_RESPONSE_TWO_SOURCE_FREEZE"
-        or any(c["sources"][i]["original_archive"]!=SOURCES[i]["url"] for i in SOURCES)):
+        or any(c["sources"]["beetles" if i=="beetle" else i]["original_archive"]!=SOURCES[i]["url"] for i in SOURCES)):
         raise ValueError("Cross-taxon sources not frozen")
     result={"schema":"structural.biomoni_colocated_opaque_metadata_result.v1_297",
             "status":"TERMINAL_SOURCE_TRANSPORT_OR_SCHEMA",
