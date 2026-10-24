@@ -1,0 +1,81 @@
+{
+  "schema": "structural.azores_trail_plants_source_opaque_design.v1_291",
+  "date": "2026-10-24",
+  "status": "FROZEN_SOURCE_ONLY_BEFORE_ORIGINAL_2026_TRAIL_ARCHIVE_OPEN",
+  "source": {
+    "dataset": "Trail-based plant community monitoring in Azorean native forests (Terceira & São Miguel, 2017–2019)",
+    "doi": "10.15468/ysbzk7",
+    "gbif_uuid": "7c190e4a-6987-4042-97aa-534590b45ce5",
+    "publisher": "Universidade dos Açores",
+    "exact_original_archive": "https://ipt.gbif.pt/ipt/archive.do?r=plants_trails_azores&v=1.4",
+    "public_2026_versions": {
+      "v1_0_Event": 260,
+      "v1_2_Event": 210,
+      "v1_0_and_v1_2_Occurrence": 2733
+    },
+    "note": "Historical versions disagree on Event rows 260 vs 210; latest v1.4 counts must NOT be inferred or coerced from an earlier version."
+  },
+  "why_separate": "A different 2017–2019 plant survey lineage on two islands; no reuse of the closed 2013 MOVECLIM focal-plot response or ForestEco2 plant records. Even if eligible it would be an exploratory cross-island habitat-filter test, not replication of historical loss taxa automatically.",
+  "published_design": {
+    "islands": [
+      "Terceira",
+      "São Miguel"
+    ],
+    "trails_by_island": {
+      "Terceira": [
+        "Mistérios Negros",
+        "Serreta",
+        "Guilherme Moniz"
+      ],
+      "São Miguel": [
+        "Malhadas"
+      ]
+    },
+    "nested_hierarchy": "year > island/trail > area along trail > physical 2x10m plot > transect line > 10 plant-cover points; 260 or 210 events are line observations, not independent whole forest plots",
+    "sampling_area_labels": [
+      "0",
+      "50",
+      "250",
+      "max",
+      "Control_50"
+    ],
+    "plot_side": "1=trail edge; 2/3=forest interior",
+    "line_positions_cm": [
+      "25",
+      "50",
+      "100",
+      "150"
+    ],
+    "eventid_granularity": "year.trail_name.sampling_area.plot.line, trail_name itself may contain periods and must be joined from middle tokens",
+    "max_original_zip_bytes": 1000000,
+    "max_meta_xml_bytes": 256000
+  },
+  "response_blind_only": [
+    "Download exact v1.4 source archive one time under strict 1MB cap",
+    "Read ZIP central directory filenames/sizes/checksums and Darwin Core meta.xml field terms, indices and rowType only",
+    "Do not read Event file, Occurrence file, species names, nativeness values or site/location labels",
+    "Output archive SHA256 and schema roles; never infer ecological effect or dataset independence by number of Event rows alone"
+  ],
+  "qualified_only_if": [
+    "Exactly one Event core with an explicit id index and one Occurrence extension with coreid index",
+    "Event metadata has eventID, island or locality and year/eventDate, or eventID with documented grammar",
+    "Occurrence metadata contains scientificName and establishmentMeans; if native status missing, stop any native/alien-score eligibility",
+    "Original archive has no unsafe paths, malformed XML or semantic access to biological data"
+  ],
+  "next_gate": "Source-only Event value inspection following separate v1.292 freeze: enumerate complete trail×year×area×plot×line universe and balanced edge-versus-interior supports per trail, 0 occurrence rows opened. Never open species-level records until hierarchies and island/trail denominators explicitly fixed.",
+  "unscorable_conditions": [
+    "Event response association or nativeness statuses missing",
+    "No matched edge/interior plot groups within >=2 independently sampled trails",
+    "Only one usable island or all alien taxa absent",
+    "Source version mismatch or unexplained source role changes"
+  ],
+  "statistical_goal_future": "Within-trail matched edge vs interior native-and-alien compositional contrast with trail as independent replication, not 260 pseudoreplicated line records; no claim of experimental trampling causation unless event codes identify actual randomized intervention.",
+  "prior_work": "Publisher metadata itself describes trail disturbance and invasion-monitoring purpose; simple trail effects would be expected, not necessarily newly discovered mechanism. Study question is a contrast in relative native/alien composition after specifying nested sampling effort.",
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_admissions": 0,
+    "eBird": false,
+    "old_MOOVECLIM_ForestEco2_responses_unopened": true,
+    "original_mammal_BioTIME_RLS_S2_S3_S4_responses_unopened": true
+  }
+}
