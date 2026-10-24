@@ -1,0 +1,54 @@
+{
+  "schema": "structural.biomoni_colocated_terceira_event_crosswalk.v1_298",
+  "date": "2026-10-24",
+  "status": "FROZEN_BEFORE_ORIGINAL_TREE_BEETLE_EVENT_VALUE_ACCESS",
+  "prior_metadata_run": 40079532147,
+  "source_hashes": {
+    "woody": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "beetle": "e518beb6f529067cc2f38013e03c4f833e86133fddface1df6f9ba7c532885e8"
+  },
+  "source_urls": {
+    "woody": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+    "beetle": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_beetles&v=1.3"
+  },
+  "source_only_permission": "Read only original Event cores and their locationID/island/decimalLatitude/decimalLongitude/year/eventDate/samplingProtocol/samplingEffort, no Occurrence extension bytes, no tree species or beetle species/abundance.",
+  "original_published_counts": {
+    "woody_Event": 30,
+    "beetle_Event": 308,
+    "woody_Terceira_plots": 10,
+    "beetle_Terceira_plots": 10
+  },
+  "site_join": {
+    "island_exact_normalized": "terceira",
+    "key": "Uppercase letters A-Z and digits 0-9 retained from author Event locationID, e.g. TER-NFBF-T-01 and TER_NFBF_T01 become TERNFBFT01",
+    "minimum_unique_matching_keys": 10,
+    "maximum_unmatched_or_ambiguous_Terceira_keys": 0,
+    "require_exact_bijection": true,
+    "no_nearest_neighbor_spatial_join": true,
+    "coordinates_secondary_validation": "Difference at most 0.0003 decimal degrees in both lat and longitude between original paired plot coordinates; 2012/2013 author roundoff allowed",
+    "date_alignment": "Qualifying years of both sources must occur in 2012/2013 on Terceira, with at most two-year site-pair sampling offset; same-day sampling NOT assumed",
+    "woody_site_sampling": "One author Event per Terceira 50m×50m plot; reject replicated tree site rows claiming independent plots",
+    "beetle_site_sampling": "Original 308 sub-method Events nested in 16 50m×50m plots; require each Terceira plot has at least eight original method event records, at least four samplingProtocol mode categories common across every site, and overall max/min events per plot <=1.5. Do not treat those Events as 308 independent plots.",
+    "field_enforcement": "Input source must contain locationID, island, event date, latitude/longitude. If one field genuinely absent stop before plant/arthropod response."
+  },
+  "report": "Only aggregate original Event counts and method-class shared-set sizes, per-island plot counts, 10/10 exact joins, coordinate max absolute differences, date ranges, beetle sampling method counts by anonymous category and source-coreID crosswalk SHA256; no original site labels, coordinates, full dates or species emitted.",
+  "hard_stops": [
+    "Fewer/more than ten exact author Terceira keys on either side",
+    "Any ambiguous normalized locationID",
+    "Any paired original location >0.0003 degrees apart",
+    "More than 1.5x beetle Event-method effort variation between matched plots",
+    "Fewer than four beetle common sampling modes",
+    "Unpaired taxon endpoints cannot repair source site IDs",
+    "Any unexpected source version SHA"
+  ],
+  "next_possible_science": "After v1.298 passes, prospectively freeze ORIGINAL tree native woody-assemblage and beetle endemic/community plot-by-species outcomes, sample effort and distance-based cross-taxon concordance metric before first Occurrence body access. Plot-label permutation must be on 10 unique sites, never 45 pairwise distances independently.",
+  "firewall": {
+    "woody_Occurrence_rows_opened": 0,
+    "beetle_Occurrence_rows_opened": 0,
+    "original_Pico_v1_290_ForestEco2_v1_288_Trail_v1_295_responses_reopened": 0,
+    "original_GEB_mammal_BioTIME_RLS_S2S3S4_unopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
