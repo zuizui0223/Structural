@@ -1,0 +1,53 @@
+name: BioMonI shared beetle methods six equal events per forest plot v1.299
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-woody-beetle-common-method-v1_299.yml"
+      - "development/biomoni_common_method_study_design_v1_299.json"
+      - "scripts/biomoni_common_method_terceira_v1_299.py"
+      - "tests/test_biomoni_common_method_terceira_v1_299.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  equal-original-beetle-effort-before-woody-or-beetle-species:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install pytest
+      - name: Prove new distinct method-subset estimand with both species response sealed
+        run: python -m pytest -q tests/test_biomoni_common_method_terceira_v1_299.py
+      - name: Derive source-Event-only equal 1/4/1 common method scheme and fingerprint
+        run: |
+          python scripts/biomoni_common_method_terceira_v1_299.py \
+            --contract development/biomoni_common_method_study_design_v1_299.json \
+            --original-crosswalk-contract development/biomoni_terceira_colocated_event_gate_v1_298.json \
+            --out biomoni_terceira_common_method_event_receipt_v1_299.json
+      - name: Enforce method stop vs new exploratory source-only eligibility
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_terceira_common_method_event_receipt_v1_299.json").read_text())
+          assert r["status"] in {
+              "EXPLORATORY_TEN_PLOTS_SIX_COMMON_METHOD_BEETLE_EVENTS_EACH_RESPONSE_SEALED",
+              "TERMINAL_NO_FROZEN_SHARED_METHODS"}
+          assert r["original_woody_Occurrence_rows_opened"]==0
+          assert r["original_beetle_Occurrence_rows_opened"]==0
+          assert r["old_v1_298_full_method_gate_remains_terminal"]
+          assert r["GEB_scientific_HOLD"] and r["confirmatory_systems_admitted"]==0
+          assert not r["eBird_used"]
+          print("Original same ten sites, mode-standardization before any biological response:",r["status"])
+          PY
+      - name: Upload original physical sampling event metadata-only result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-terceira-plot-six-beetle-events-response-sealed-v1-299
+          path: biomoni_terceira_common_method_event_receipt_v1_299.json
+          if-no-files-found: warn
