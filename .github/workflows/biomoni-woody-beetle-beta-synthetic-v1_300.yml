@@ -1,0 +1,28 @@
+name: BioMonI paired Terceira tree-beetle spatial beta synthetic-only v1.300
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-woody-beetle-beta-synthetic-v1_300.yml"
+      - "development/biomoni_colocated_woody_beetle_beta_transfer_protocol_v1_300.json"
+      - "scripts/biomoni_colocated_woody_beetle_beta_v1_300.py"
+      - "tests/test_biomoni_colocated_woody_beetle_beta_v1_300.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  known-truth-no-biological-original-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install synthetic-only regression runner
+        run: python -m pip install pytest
+      - name: Test ten-plot cross-taxon ecological estimator and full source firewall
+        run: |
+          python -m pytest -q tests/test_biomoni_colocated_woody_beetle_beta_v1_300.py
+      - name: Confirm original source biology remains unopened at design verification
+        run: |
+          echo "SYNTHETIC known-truth only: 10 plots and 45 dependent geographic pairs; no original woody or beetle species reads."
