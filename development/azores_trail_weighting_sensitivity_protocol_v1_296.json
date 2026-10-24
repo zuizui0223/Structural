@@ -1,0 +1,31 @@
+{
+  "schema": "structural.azores_trail_aggregation_sensitivity.v1_296",
+  "date": "2026-10-24",
+  "status": "POSTHOC_SOURCE_FREE_AGGREGATION_ONLY_ORIGINAL_PRIMARY_IMMUTABLE",
+  "source": "development/azores_trail_native_alien_field_aggregate_freeze_v1_295.json",
+  "scope": "Only four per-trail originally scored effects and number of matched trail-year-area groups. No original Event/Occurrence open or plant-level refit.",
+  "question": "Can aggregation level conceal/reverse native-to-alien spatial-gradient direction in observational island trail plant communities, and is the log-ratio direction the same as absolute native-richness direction?",
+  "calculations": {
+    "primary_reference": "Original v1.295 equal-independent-trail average remains sole frozen primary point estimate; never replace by more favorable pooled result",
+    "sensitivity1": "Equal island weight: average Terceira mean across its 3 trails and Sao Miguel 1-trail mean, purely descriptive, NOT independent island replication",
+    "sensitivity2": "Group-count-weighted trail effect: weighted average over matched area-year group count (n=1,7,6,3); treats 17 repeated within-trail area groups as potential units and is intentionally a NONINDEPENDENT descriptive sensitivity, not a valid new primary",
+    "individual_patterns": "For each original trail report whether relative native/alien log ratio is positive vs negative, whether absolute native species richness is positive vs negative, and whether alien species richness changes correspondingly",
+    "heterogeneity": "Report per-island trail range, number of positive and negative signs and bounded min-max of original 4 trail effects; do not fit model or calculate significance",
+    "weighting_direction": "Report signed directions under all 3 weighting schemes and whether sign reverses. A positive nonindependent pooled average must NOT rescue negative/near-zero original primary."
+  },
+  "no_extra_endpoints": [
+    "Original focal historical-loss taxon responses",
+    "Causal visitor/trampling effect",
+    "Biological dispersal or source rescue",
+    "Intervention/persistence benefit",
+    "Across-archipelago generality"
+  ],
+  "evidence_class": "posthoc source-free arithmetic on already frozen observational trail aggregates, no new independent ecological confirmation",
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_admissions": 0,
+    "eBird": false,
+    "original_plant_2017_19_rows_reopened": 0,
+    "original_Pico_mammal_BioTIME_RLS_S2S3S4_rows_reopened": 0
+  }
+}
