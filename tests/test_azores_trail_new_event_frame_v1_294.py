@@ -36,7 +36,10 @@ def test_new_retrospective_frame_can_pass_physical_gate_without_plant_labels():
 def test_one_island_or_more_than_fifth_invalid_source_ends_before_biology():
     rows=records()
     for e in rows:
-        if e["island"]=="São Miguel":e["eventID"]=e["eventID"].replace(".0.",".unknown.").replace(".50.",".unknown.")
+        if e["island"]=="São Miguel":
+            parts=e["eventID"].split(".")
+            parts[-3]="invalid"+parts[-3]
+            e["eventID"]=".".join(parts)
     r=profile(rows,protocol(len(rows)))
     assert r["status"]=="RETROSPECTIVE_PHYSICAL_FRAME_TERMINAL_NO_BIOLOGY"
     assert r["original_Occurrence_rows_opened"]==0
