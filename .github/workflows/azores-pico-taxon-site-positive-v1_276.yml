@@ -1,0 +1,49 @@
+name: Pico historic loss taxa exact-GPS year repetition v1.276
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-pico-taxon-site-positive-v1_276.yml"
+      - "development/azores_Pico_spatial_recurrence_protocol_v1_276.json"
+      - "scripts/azores_Pico_spatial_positive_recurrence_v1_276.py"
+      - "tests/test_azores_Pico_spatial_positive_recurrence_v1_276.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-source-pico-positive-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free regression framework
+        run: python -m pip install pytest
+      - name: Prove source-independent GPS5 within-taxon and between-year recurrence fixtures
+        run: python -m pytest -q tests/test_azores_Pico_spatial_positive_recurrence_v1_276.py
+      - name: Count original SHA-locked Pico S1 recurrence at identical GPS sites
+        run: |
+          python scripts/azores_Pico_spatial_positive_recurrence_v1_276.py \
+            --contract development/azores_Pico_spatial_recurrence_protocol_v1_276.json \
+            --out azores_Pico_spatial_S1_positive_recurrence_v1_276.json
+      - name: Verify fixed S1 20, Pico 11 and multi-year 8 and no inference from zeros
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("azores_Pico_spatial_S1_positive_recurrence_v1_276.json").read_text())
+          assert j["status"]=="ORIGINAL_PICO_S1_EXACT_GPS_TAXON_POSITIVE_AUDIT"
+          assert j["positive_summary"]["Pico_taxa_positive_any_year"]==11
+          assert j["positive_summary"]["Pico_taxa_seen_in_2plus_distinct_years"]==8
+          assert j["positive_summary"]["Pico_positive_taxon_year_pairs"]==21
+          assert j["GEB_scientific_HOLD"] and j["S2_S3_S4_values_opened"]==0
+          print("Positive taxa repeating across different years on exact GPS site proxies:",j["positive_summary"]["GPS5_S1_taxa_positive_at_same_site_in_2plus_years"])
+          PY
+      - name: Preserve only aggregate taxon-year and GPS-scale sensitivity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-Pico-exactGPS-repeated-S1-taxa-v1-276
+          path: azores_Pico_spatial_S1_positive_recurrence_v1_276.json
+          if-no-files-found: warn

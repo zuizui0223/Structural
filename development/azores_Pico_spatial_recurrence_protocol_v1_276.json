@@ -1,0 +1,56 @@
+{
+  "schema": "structural.azores_Pico_spatially_repeated_loss_taxa.v1_276",
+  "date": "2026-10-22",
+  "status": "FROZEN_POSTHOC_FOCUSED_REPETITION_CHECK_BEFORE_LOCATION_SPECIES_JOIN",
+  "question": "Of 8 well-supported historically extirpation-affected Azorean taxa documented on Pico in >=2 PRIBES survey years, are any positively recorded on the same exact source GPS-location proxy in more than one calendar year?",
+  "authority": {
+    "Pico_DOI": "10.15468/vk4y7k",
+    "Pico_sha256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+    "Pico_event_rows": 2801,
+    "Pico_occurrence_rows": 11023,
+    "S1_DOI": "10.20350/digitalCSIC/17024",
+    "S1_sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "author_event_date_MDY_verified_2801": true,
+    "original_case_taxa": 20,
+    "Pico_affected_taxa_with_1plus_year": 11,
+    "Pico_affected_taxa_with_2plus_year": 8,
+    "physical_revisit_gate": "development/azores_Pico_event_site_revisit_protocol_v1_275.json",
+    "source_verified_locationID_missing": true,
+    "GPS_precision_revisit_denominators": {
+      "5decimal": 5,
+      "4decimal": 20,
+      "3decimal": 30
+    },
+    "prior_source_positive_result_run": 39418418784,
+    "physical_site_source_run": 39713271468
+  },
+  "eligibility": {
+    "strict_S1": "Well-supported island-level extirpation, Azores, unique case taxon normalized binomial",
+    "Pico_field": "Event-core author-verified year,month,day; Occurrence extension coreid to source Event index0; exact taxonRank=species; not explicitly absent; canonical genus epithet name",
+    "site_unit": "same island and identical decimalLatitude/decimalLongitude rounded to five decimal places, not true permanent author site",
+    "year_unit": "distinct valid 2020/2021/2022/2024 original author Event calendar years",
+    "positive_repetition": "same S1 taxon at same GPS5 site in at least two different years",
+    "sensitivity_sites": "GPS4 and GPS3 separately to quantify scale dependence, never promote to primary",
+    "do_not_use": "eventID as siteID, locality string as plot, missing taxa as absence, year-to-year abundance as population persistence, source status as natal origin",
+    "coordinate_uncertainty": "report source uncertainty numeric summaries without coordinates or taxon IDs; a nominal precise coordinate does not override source uncertainty"
+  },
+  "outputs": [
+    "valid original event count and dated year histogram",
+    "S1 20 taxon original cohort audit",
+    "Pico field taxon-year n11, n8 multi-year invariants",
+    "confirmed repeated taxon×GPS site-year positives at GPS5",
+    "same tally sensitivity at GPS4/3",
+    "number of eight multi-year taxa confirmed same GPS proxy location across 2+ years",
+    "coordinate uncertainty distribution summary",
+    "number of valid parent Event/Occurrence joins"
+  ],
+  "interpretation": "Positive repeated GPS proxy records are evidence of recurring source documentation, not verified identical individuals, breeding, genetic rescue or colonization. Zero GPS repetition does not mean extinct on Pico.",
+  "protection": {
+    "S2_S3_S4_unopened": true,
+    "original_mammal_BioTIME_RLS_heldout_unopened": true,
+    "no_names_or_coordinates_in_public_artifact": true,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true,
+    "confirmatory_admissions": 0
+  }
+}

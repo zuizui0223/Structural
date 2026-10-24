@@ -1,0 +1,44 @@
+{
+  "schema": "structural.pico_PRIBES_original_event_date_diagnostic.v1_272",
+  "date": "2026-10-20",
+  "status": "DIAGNOSTIC_ONLY_NO_NEW_OCCURRENCE_VALUES",
+  "motivation": "Original SHA-pinned 2801 Pico Event records all failed exact ISO YYYY-MM-DD parsing despite Event core and occurrence extension being valid. Identify original author date/time semantics from Event core only. Do not silently infer absence or recode source date posthoc.",
+  "source": {
+    "doi": "10.15468/vk4y7k",
+    "url": "https://ipt.gbif.pt/ipt/archive.do?r=pico_vascular_plants&v=1.7",
+    "expected_bytes": 568461,
+    "sha256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+    "expected_event_rows": 2801,
+    "source_schema_manifest": "development/azores_PRIBES_original_source_manifest_v1_270.json"
+  },
+  "allowed_columns": [
+    "eventDate",
+    "year",
+    "month",
+    "day"
+  ],
+  "required_event_core_id_idx": 0,
+  "allowed_output": [
+    "histogram of date token classes",
+    "up to 3 bounded raw eventDate example values per class",
+    "count reconcilable with independently authored year/month/day components",
+    "range of valid year components",
+    "count of inconsistent component-vs-eventDate strings",
+    "original source hash and event row denominator"
+  ],
+  "forbidden": [
+    "individual event IDs",
+    "coordinates",
+    "plant scientific names",
+    "occurrence field values",
+    "posthoc S1 match/recovery labels",
+    "invented arrival or extinction dates"
+  ],
+  "next_condition": "If author eventDate is an ISO datetime with a unique valid calendar day, preserve the day; if explicit year/month/day source components valid, reconstruct day only after comparing them to author eventDate and reporting conflicts. Date ranges/unknown components remain temporally unresolved, not assigned a convenient mid-date.",
+  "limits": {
+    "no_additional_fish_or_previous_mammal_BioTIME_data": true,
+    "no_eBird": true,
+    "no_new_confirmatory_systems": true,
+    "GEB_scientific_HOLD": true
+  }
+}

@@ -1,0 +1,48 @@
+name: Azores PRIBES two additional original source schemas v1.270
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-pribes-two-sources-preflight-v1_270.yml"
+      - "scripts/azores_pribes_modern_source_preflight_v1_270.py"
+      - "tests/test_azores_pribes_modern_source_preflight_v1_270.py"
+      - "development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  schema-and-transport-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free test runner
+        run: python -m pip install pytest
+      - name: Verify original Event/Occurrence metadata without reading taxa
+        run: python -m pytest -q tests/test_azores_pribes_modern_source_preflight_v1_270.py
+      - name: Acquire two original published Pico and Graciosa+SantaMaria archive metadata
+        run: |
+          python scripts/azores_pribes_modern_source_preflight_v1_270.py \
+            --contract development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json \
+            --out azores_PRIBES_two_original_source_headers_v1_270.json
+      - name: Require both original source schemas validated with no biological rows
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=json.loads(pathlib.Path("azores_PRIBES_two_original_source_headers_v1_270.json").read_text())
+          assert r["status"]=="SOURCE_TWO_NEW_PRIBES_SCHEMA_VERIFIED"
+          assert len(r["sources"])==2
+          assert all(x["event_and_occurrence_fields_eligible"] for x in r["sources"])
+          assert r["biological_event_occurrence_rows_read"]==0
+          assert r["GEB_scientific_HOLD"]
+          print("Pico and Graciosa/Santa Maria original archive fingerprints:",[(x["source_label"],x["bytes"],x["sha256"]) for x in r["sources"]])
+          PY
+      - name: Upload only original source SHA and meta.xml terms
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-PRIBES-two-source-headers-v1-270
+          path: azores_PRIBES_two_original_source_headers_v1_270.json
+          if-no-files-found: warn

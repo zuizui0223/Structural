@@ -1,0 +1,54 @@
+name: Azores 2020 Sao Jorge genuine dated field detections vs historic loss v1.269
+
+on:
+  push:
+    paths:
+      - ".github/workflows/azores2020-SaoJorge-field-v1_269.yml"
+      - "development/azores2020_SaoJorge_field_record_crosscheck_contract_v1_269.json"
+      - "scripts/azores2020_SaoJorge_field_record_crosscheck_v1_269.py"
+      - "tests/test_azores2020_SaoJorge_field_crosscheck_v1_269.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  observed-field-events-vs-published-loss:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free test runner
+        run: python -m pip install pytest
+      - name: Verify source-core Event and Occurrence extension linkage with nominal-year rejection
+        run: python -m pytest -q tests/test_azores2020_SaoJorge_field_crosscheck_v1_269.py
+      - name: Read original fixed published 2020 event archive and historical CSIC S1 records
+        run: |
+          python scripts/azores2020_SaoJorge_field_record_crosscheck_v1_269.py \
+            --contract development/azores2020_SaoJorge_field_record_crosscheck_contract_v1_269.json \
+            --out azores2020_SaoJorge_S1_field_detection_crosscheck_v1_269.json
+      - name: Verify original S1 20-target case frame and protected data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('azores2020_SaoJorge_S1_field_detection_crosscheck_v1_269.json').read_text())
+          assert j['status']=='ORIGINAL_DATED_FIELD_OBSERVATION_CROSSCHECK'
+          assert j['strict_S1_Azores_source_loss_cases']==24
+          assert j['strict_S1_Azores_source_loss_taxa']==20
+          assert j['original_archive']['valid_post_2017_event_count']>0
+          assert j['S2_S3_S4_values_opened']==0
+          assert j['GEB_scientific_HOLD']
+          assert j['field_result']['no_unobserved_zero_imputation']
+          print("2020 dated field observation; not recolonization, no source demographic rescue")
+          PY
+      - name: Upload aggregate-only source SHA/time/source-disagreement audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores2020-dated-SaoJorge-S1-case-audit-v1-269
+          path: azores2020_SaoJorge_S1_field_detection_crosscheck_v1_269.json
+          if-no-files-found: warn

@@ -1,0 +1,52 @@
+name: Macaronesia plant extirpation public-source header gate v1.263
+
+on:
+  push:
+    paths:
+      - ".github/workflows/macaronesia-extirpation-source-v1_263.yml"
+      - "scripts/macaronesia_extirpation_source_profile_v1_263.py"
+      - "tests/test_macaronesia_extirpation_source_profile_v1_263.py"
+      - "development/macaronesia_extirpation_source_protocol_v1_263.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  author-published-schema-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-blind regression runner
+        run: python -m pip install pytest
+      - name: Require synthetic workbook metadata and secret response firewall tests first
+        run: python -m pytest -q tests/test_macaronesia_extirpation_source_profile_v1_263.py
+      - name: Fetch official publisher workbook and README; print only sheet/header metadata
+        run: |
+          python scripts/macaronesia_extirpation_source_profile_v1_263.py \
+            --protocol development/macaronesia_extirpation_source_protocol_v1_263.json \
+            --out macaronesia_source_sheet_inventory_v1_263.json
+      - name: Verify no biological outcomes and exact original data source
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("macaronesia_source_sheet_inventory_v1_263.json").read_text())
+          assert j["schema"]=="structural.macaronesia_source_header_inventory.v1_263"
+          assert j["status"]=="EXACT_PUBLISHER_FILES_VERIFIED_HEADERS_ONLY"
+          assert j["workbook"]["sheet_count"]>=3
+          assert j["workbook"]["species_or_island_extirpation_observation_rows_read"]==0
+          assert j["eBird_off"] and j["GEB_scientific_HOLD"]
+          print("SOURCE SHEETS ONLY:",[(x["sheet_name"],x["nominal_max_row"]) for x in j["workbook"]["sheets"]])
+          PY
+      - name: Preserve small source-only receipt; do NOT upload original biological workbook
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macaronesia-extirpation-source-metadata-only-v1-263
+          path: macaronesia_source_sheet_inventory_v1_263.json
+          if-no-files-found: warn

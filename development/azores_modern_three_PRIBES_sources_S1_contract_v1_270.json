@@ -1,0 +1,94 @@
+{
+  "schema": "structural.azores_modern_field_observation_cross_island_S1_protocol.v1_270",
+  "frozen": "2026-10-20",
+  "status": "PREDECLARED_BEFORE_PICO_AND_GRACIOSA_SANTA_MARIA_BIOLOGICAL_OCCURRENCES",
+  "aim": "Count how many documented historically locally extirpated Azorean taxa have actual dated independent new PRIBES field occurrences on one or more other islands, without guessing at true absence or historical source rescue.",
+  "S1": {
+    "CSIC_original_url": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+    "sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "strict_loss_taxon_island_cases": 24,
+    "strict_affected_taxa": 20
+  },
+  "field_sources": [
+    {
+      "label": "Sao Jorge PRIBES",
+      "name": "São Jorge",
+      "dataset_uuid": "9e53efa1-18a2-429f-8411-17d273bfc479",
+      "doi": "10.15468/drbja9",
+      "release_version": "1.2",
+      "original_url": "https://ipt.gbif.pt/ipt/archive.do?r=sao_jorge_plants&v=1.2",
+      "expected_bytes": 261438,
+      "sha256": "bf0934a3df0b0bd6565865348a53da5eef50af2bfb621cc0ade927e2ed908c55",
+      "already_verified_event_rows": 1655,
+      "already_verified_occurrence_rows": 4523
+    },
+    {
+      "label": "Pico PRIBES",
+      "name": "Pico",
+      "dataset_uuid": "f40f80dc-1815-4e73-9097-9d7893d87f6f",
+      "doi": "10.15468/vk4y7k",
+      "release_version": "1.7",
+      "original_url": "https://ipt.gbif.pt/ipt/archive.do?r=pico_vascular_plants&v=1.7",
+      "expected_bytes": null,
+      "sha256": null,
+      "nominal_event_rows": 2801
+    },
+    {
+      "label": "Graciosa Santa Maria PRIBES",
+      "name": [
+        "Graciosa",
+        "Santa Maria"
+      ],
+      "dataset_uuid": "e169d35d-2cb0-4e2b-b286-cdcaec0bc6d4",
+      "doi": "10.15468/hgyfh3",
+      "release_version": "1.6",
+      "original_url": "https://ipt.gbif.pt/ipt/archive.do?r=gra_smr_vascular_plants&v=1.6",
+      "expected_bytes": null,
+      "sha256": null,
+      "nominal_event_rows": 998,
+      "nominal_occurrence_rows": 2722
+    }
+  ],
+  "source_links": [
+    "https://ipt.gbif.pt/ipt/resource?r=sao_jorge_plants&v=1.2",
+    "https://ipt.gbif.pt/ipt/resource?r=pico_vascular_plants&v=1.7",
+    "https://ipt.gbif.pt/ipt/resource?r=gra_smr_vascular_plants&v=1.6"
+  ],
+  "source_access_rules": {
+    "same_original_GBIF_Portugal_IPT_only": true,
+    "max_archive_bytes_each": 10000000,
+    "max_total_occurrence_rows": 300000,
+    "Event_core_must_contain_island_and_true_day_level_eventDate": true,
+    "Occurrence_extension_must_have_scientificName": true,
+    "event_coreid_join_is_source_index0_not_field_name": true,
+    "study_eventDate_min": "2017-01-01",
+    "study_eventDate_max": "2026-10-20",
+    "predeclared_source_islands_and_no_other_geographies": true,
+    "exclude_non_species_rank_occurrences": true,
+    "exclude_explicit_absent_occurrence_status": true,
+    "observational_positive_only": true,
+    "species_match_unique_binomial_no_taxonomic_synonym_guessing": true
+  },
+  "scientific_report": {
+    "original_field_source_SHA256_and_exact_bytes": true,
+    "by_island_event_count_and_year_span": true,
+    "Azores_S1_20_taxa_found_in_each_current_field_dataset": true,
+    "number_of_historically_lost_taxa_observed_in_multiple_field_islands": true,
+    "observed_on_reportedly_extirpated_same_island_and_year_differences": true,
+    "unobserved_is_unknown": true,
+    "no_species_names_or_coordinates_or_event_ids_published": true,
+    "no_recolonization_or_demographic_rescue_inference": true
+  },
+  "limits": {
+    "four_selected_islands_out_of_nine_not_the_complete_archipelago": true,
+    "source_field_sampling_may_target_habitats_and_introduced_plants": true,
+    "matching_loss_taxa_to_field_taxa_does_not_prove_fate_of_other_island_population_before_extinction": true,
+    "event_metadata_may_include_partial_voucher_or_photo_ids": true,
+    "older_2016_checklist_all_nominal_eventDate_2010_only": true,
+    "no_S2_S3_S4_values_opened": true,
+    "no_original_mammal_BioTIME_RLS_protected_responses": true,
+    "GEB_scientific_HOLD": true,
+    "eBird_off": true,
+    "new_confirmatory_systems": 0
+  }
+}

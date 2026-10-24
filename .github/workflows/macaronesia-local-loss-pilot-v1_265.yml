@@ -1,0 +1,55 @@
+name: Macaronesia 168 local extinction events original S1 burned audit v1.265
+
+on:
+  push:
+    paths:
+      - ".github/workflows/macaronesia-local-loss-pilot-v1_265.yml"
+      - "development/macaronesia_confirmed_local_loss_protocol_v1_265.json"
+      - "scripts/macaronesia_local_loss_pilot_v1_265.py"
+      - "tests/test_macaronesia_local_loss_pilot_v1_265.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  author-s1-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install pytest
+      - name: Prove category filters, source independence and duplicate taxon/island unit on synthetic fixture
+        run: python -m pytest -q tests/test_macaronesia_local_loss_pilot_v1_265.py
+      - name: Source-lock original CSIC workbook before reading only Table S1 local loss records
+        run: |
+          python scripts/macaronesia_local_loss_pilot_v1_265.py \
+            --protocol development/macaronesia_confirmed_local_loss_protocol_v1_265.json \
+            --out macaronesia_island_level_loss_denominator_v1_265.json
+      - name: Freeze strict local loss denominator and direct source-identity quality
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('macaronesia_island_level_loss_denominator_v1_265.json')
+          j=json.loads(p.read_text())
+          assert j['schema']=='structural.macaronesia_local_loss_pilot.v1_265'
+          assert j['status']=='PUBLISHED_SOURCE_RETROSPECTIVE_ISLAND_LOSS_AUDIT'
+          assert j['source_species_records']==168
+          assert j['strict_distinct_taxon_island_loss_pairs']>=1
+          assert j['original_529_mammal_holdout_rows_accessed']==0
+          assert j['S2_S3_S4_biological_values_read']==0
+          assert j['GEB_scientific_HOLD'] and j['eBird_off']
+          print({k:j[k] for k in ('source_species_records','strict_well_supported_island_loss_raw_records','strict_distinct_taxon_island_loss_pairs','taxa_with_strict_losses_on_two_plus_islands')})
+          PY
+      - name: Retain only total/archipelago counts, never species records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macaronesia-S1-published-local-loss-denominators-v1-265
+          path: macaronesia_island_level_loss_denominator_v1_265.json
+          if-no-files-found: warn

@@ -1,0 +1,55 @@
+{
+  "schema": "structural.biomoni_shared_protocol_standardized_event_v1_299",
+  "date": "2026-10-24",
+  "status": "EXPLICITLY_EXPLORATORY_POST_EVENT_EXPOSED_FREEZE_BEFORE_ANY_BEETLE_OR_WOODY_OCCURRENCE",
+  "previous_terminal": "development/biomoni_terceira_colocated_event_gate_v1_298.json",
+  "previous_terminal_run": 40079817959,
+  "old_v1_298_primary_unchanged": "Original full-method beetle effort NOT comparable (13-27 Event rows per plot; only 3 common modes, not four); prior full-method biological transfer gate is terminal and must NEVER be declared passed.",
+  "specific_new_question": "Can a COMMON-METHOD, EQUAL-SAMPLING-OPPORTUNITY subset of co-located Terceira beetle observations, independently selected from source Event metadata, support a cross-taxon woody/beetle spatial-turnover test, without reusing the unequal-effort full beetle response?",
+  "fixed_archive_sha256": {
+    "woody": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "beetle": "e518beb6f529067cc2f38013e03c4f833e86133fddface1df6f9ba7c532885e8"
+  },
+  "fixed_source_frame": {
+    "site_bijection_count": 10,
+    "exact_site_matching_grammar": "Uppercase A-Z/0-9 of original locationID, exact one-to-one ten source sites; secondary coordinate degree difference <=0.0003",
+    "source_original_Events": {
+      "woody": 30,
+      "beetle": 308
+    },
+    "source_original_Occurrences_unopened": true
+  },
+  "method_subsample": {
+    "eligible_pool": "Original samplingProtocol mode string standardized case-fold/whitespace; only modes present in all 10 Terceira sites; NO original species or individual responses examined",
+    "prospective_shared_mode_count_exact": 3,
+    "per_mode_minimum_event_records_at_site": [
+      1,
+      4,
+      1
+    ],
+    "standardized_events_per_site": 6,
+    "total_terceira_standardized_beetle_events": 60,
+    "selection": "Within each original Terceira site and shared method, select exactly the lowest k original Event coreIDs in bytewise lexicographic order, with k the MINIMUM source Event count over 10 sites for that mode; this selects by source ID only, never taxon response. Event timestamp does not rank or select source trials.",
+    "method_count_guard": "Require EXACT three shared modes; frozen source-only minimum multiplicity multiset [1,1,4], at least 6 events/site; if source differs fail before opening original occurrence",
+    "site_count_guard": "Ten author Terceira sites and coordinate crosswalk still exact, tree one original Event per site, no year mismatch",
+    "acceptance": "Pass qualifies only a new prospective ecological metric freeze, never grants v1.298 confirmatory or full-method score. This deliberately constrains beetle detection to a narrower module subset and may miss taxa caught only by other methods."
+  },
+  "future_ecological_test_if_eligible": {
+    "target": "Within the identical ten Terceira 50x50m plots, compare source-measured woody-plant and equal-mode-effort beetle assemblage spatial turnover beyond pairwise physical geographic distance.",
+    "candidate_response": "Jaccard plot-pair species dissimilarity in trees and beetles under the locked 60 beetle subevent sample; coreID response seal remains closed until another scientific scoring protocol and tests are frozen.",
+    "plot_grain": 10,
+    "pair_n": 45,
+    "independent_sample_n": 10,
+    "metric_caution": "No pseudo-independent 45-pair p-values, no native persistence/rescue or causal plant-to-beetle effect, no other-island replication",
+    "quality_floor_future": "At least 8 source sites with two or more beetle taxa and two or more tree taxa, diverse nonzero Jaccard values and full original source ID/code join. On failure STOP one-shot without data-selected alternative modes."
+  },
+  "firewall": {
+    "woody_Occurrence_rows_opened": 0,
+    "beetle_Occurrence_rows_opened": 0,
+    "earlier_v1_298_terminal": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "original_Pico_GEB_mammal_BioTIME_RLS_S2S3S4_data_reopened": 0
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "structural.azores_trail_event_only_hierarchy_gate.v1_292",
+  "date": "2026-10-24",
+  "status": "FROZEN_BEFORE_OPENING_ORIGINAL_V1_4_EVENT_ROWS",
+  "source": {
+    "archive_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants_trails_azores&v=1.4",
+    "dataset_uuid": "7c190e4a-6987-4042-97aa-534590b45ce5",
+    "expected_zip_sha256": "c6c6ad82e268759aade344528c3649459ed323053969c1ef8053f3f518298da7",
+    "schema_run_id": 40072919362
+  },
+  "role_separation": "OPEN ONLY Event core member and its value fields after SHA verification; DO NOT open Occurrence extension, plant status, species or target ecological outcomes.",
+  "published_design": {
+    "islands": [
+      "Terceira",
+      "São Miguel"
+    ],
+    "trails_one_island_three_other": {
+      "Terceira": 3,
+      "São Miguel": 1
+    },
+    "Event_identifier": "year.trail_name.area.plot.line with trail name possibly containing '.'; split first and three rightmost pieces, leaving all middle pieces as trail ID",
+    "year_domain": [
+      "2017",
+      "2018",
+      "2019"
+    ],
+    "area_domain": [
+      "0",
+      "50",
+      "250",
+      "max",
+      "control_50"
+    ],
+    "plot_domain": [
+      "1",
+      "2",
+      "3"
+    ],
+    "line_cm": [
+      "25",
+      "50",
+      "100",
+      "150"
+    ],
+    "edge_plot": "1",
+    "inside_forest_plots": [
+      "2",
+      "3"
+    ],
+    "line25_only_plot1": "This line exists only for edge plot 1 and must never be counted as equal effort relative to interior plots"
+  },
+  "exact_source_only_gate": [
+    "Original Event id and source Event eventID must be globally one-to-one; fail on any repeat",
+    "island field must resolve exactly Terceira or São Miguel, never infer from coordinates or use area selection",
+    "year in eventID must match original Event year/eventDate",
+    "parse every source eventID, source area, plot and line from its published grammar; do not silently exclude unknown code",
+    "Event source value count is documented, no forced 260 from old v1.0 or 210 from v1.2",
+    "At least one complete matched triplet 50,100,150 for plot1 and for >=1 plot2/3 within each island; at least two source trails across archipelago. If not, STOP, no biology.",
+    "Do not force the published four-trail design to 4 if actual Event IDs show an incomplete field frame; report observed counts before decision",
+    "Summarize only group-level counts and number of eligible trail×year×area matched units; never include raw trail names or source EventIDs in released receipt"
+  ],
+  "qualified_minimum": {
+    "independent_islands": 2,
+    "independent_trails_total": 2,
+    "independent_trails_per_island": 1,
+    "matched_area_year_trail_groups_total": 4,
+    "matched_area_year_trail_groups_each_island": 1,
+    "matched_common_lines_for_each_plot": [
+      "50",
+      "100",
+      "150"
+    ]
+  },
+  "future_score_design_boundary": {
+    "comparison": "Within each trail×year×area group with fully matched common 50,100,150 cm lines, compare grouped per-line native and alien taxon detections for edge (plot1) versus interior (plots2,3).",
+    "aggregation": "Line-level observations must first aggregate to physical plot; then to trail; never use 210 Event rows as independent replicates.",
+    "nested_risk": "One Malhadas trail on São Miguel; no statistically independent island effect replication or uniform two-island transport claim.",
+    "unknown_nativeness": "Stop if original Occurrence lacks unambiguous establishmentMeans class vocabulary; no postresponse relabeling.",
+    "not_causal": "Trail exposure and stand condition observational; source metadata mentions separate trampling experiment but not linked or randomized within this archive."
+  },
+  "firewall": {
+    "original_Occurrence_rows_opened": 0,
+    "previous_Pico_MOVECLIM_ForestEco2_responses_reopened": false,
+    "protected_mammal_BioTIME_RLS_S2_S3_S4_reopened": false,
+    "GEB_scientific_HOLD": true,
+    "confirmatory_admissions": 0,
+    "eBird": false
+  }
+}

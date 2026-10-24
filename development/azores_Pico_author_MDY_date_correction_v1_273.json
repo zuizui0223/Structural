@@ -1,0 +1,36 @@
+{
+  "schema": "structural.azores_Pico_eventDate_author_MDY_correction.v1_273",
+  "verified_date": "2026-10-20",
+  "status": "SOURCE_DATE_SEMANTICS_FIXED_FROM_AUTHOR_EVENT_FIELDS_NOT_SPECIES_OUTCOMES",
+  "original_source": {
+    "doi": "10.15468/vk4y7k",
+    "sha256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+    "bytes": 568461,
+    "event_rows": 2801
+  },
+  "official_date_audit": {
+    "run_id": 39417181778,
+    "url": "https://github.com/zuizui0223/Structural/actions/runs/39417181778",
+    "artifact_id": 12261828388,
+    "artifact_sha256": "d822ff2f6c097cb3839725a69ed1b0aa7dc1cc66367e8d79a77f7bf05c93972e",
+    "eventDate_format": "M/D/YYYY",
+    "year_month_day_components_valid": 2801,
+    "MDY_component_matches": 2801,
+    "DMY_component_matches": 0,
+    "date_format_conflicts": 0,
+    "distinct_date_values": 29,
+    "source_year_histogram": {
+      "2020": 171,
+      "2021": 1603,
+      "2022": 898,
+      "2024": 129
+    }
+  },
+  "accepted_parser_patch": "Use native author year,month,day for a Pico Event only when the original slash M/D/YYYY eventDate matches all three components exactly; never parse a slash-separated date range as a day or guess the orientation.",
+  "other_study_rule": "Keep SãoJorge and Graciosa/Santa Maria exact ISO YYYY-MM-DD original processing unchanged.",
+  "rejection": "Missing, inconsistent, nonvalid month/day/year or new URL/SHA causes strict STOP; do not impute date and do not convert unsurveyed taxa into negative observations.",
+  "confound": "Field occurrences over 2019–2024 are a cross-sectional pooled observation window, not repeated standardized surveyed absences, not a current living source at an older local-loss date.",
+  "S2_S3_S4_values_opened": 0,
+  "eBird_off": true,
+  "GEB_scientific_HOLD": true
+}

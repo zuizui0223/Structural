@@ -1,0 +1,78 @@
+{
+  "schema": "structural.azores_PRIBES_real_field_crosscheck_result_freeze.v1_271",
+  "date": "2026-10-20",
+  "provenance": {
+    "workflow_run_id": 39416140086,
+    "run_url": "https://github.com/zuizui0223/Structural/actions/runs/39416140086",
+    "artifact_id": 12261637138,
+    "artifact_sha256": "4a4282d2b8c05987909932d8acd7ba30987ac335e522c93254d6e5ff3c7420f4",
+    "source_contract": "development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json",
+    "source_SHA_manifest": "development/azores_PRIBES_original_source_manifest_v1_270.json",
+    "output_archive": "azores-four-island-real-field-positive-cases-v1-271",
+    "S1_SHA256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "GBIF_Pico_SHA256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+    "GBIF_Graciosa_SantaMaria_SHA256": "e1903e0e8b91ee59a10453fddcc2dd74e99000d4ee2f50d3b5fe8731555fd77b",
+    "GBIF_SaoJorge_SHA256": "bf0934a3df0b0bd6565865348a53da5eef50af2bfb621cc0ade927e2ed908c55"
+  },
+  "actual_field_program": {
+    "SaoJorge": {
+      "year": 2020,
+      "valid_dated_events": 1655,
+      "raw_occurrence_rows": 4523,
+      "distinct_detected_species": 227,
+      "historical_loss_affected_taxa_detected": 8
+    },
+    "Graciosa": {
+      "year": 2019,
+      "valid_dated_events": 492,
+      "distinct_detected_species": 116,
+      "historical_loss_affected_taxa_detected": 3
+    },
+    "SantaMaria": {
+      "year": 2019,
+      "valid_dated_events": 506,
+      "distinct_detected_species": 113,
+      "historical_loss_affected_taxa_detected": 2
+    },
+    "Pico": {
+      "valid_dated_events": 0,
+      "original_event_rows": 2801,
+      "original_occurrence_rows": 11023,
+      "original_date_format_gate_exclusions": 2801,
+      "biological_interpretation": "NOT_ASSESSED; original source has 2801 events whose eventDate failed strict YYYY-MM-DD parser; not a zero detection site; separate date-only diagnosis v272"
+    }
+  },
+  "historical_S1_cases": {
+    "strict_Azores_island_loss_pairs": 24,
+    "affected_taxa": 20
+  },
+  "modern_field_comparison": {
+    "distinct_taxon_island_year_positive_pairs_from_3_eligible_islands": 456,
+    "historical_loss_affected_taxa_with_day_level_field_positives": 8,
+    "historical_loss_affected_taxa_with_day_level_field_positives_elsewhere": 8,
+    "native_flagged_taxa_with_other_island_field_positive": 8,
+    "historically_lost_island_with_later_positive": 0,
+    "affected_taxa_positive_in_two_or_more_eligible_field_islands": 3,
+    "two_island_loss_taxa_found_at_other_nonloss_island": 2,
+    "historical_loss_taxa_no_record_in_eligible_PRIBES_surveys": 12,
+    "three_island_positive_coverage_only": true,
+    "no_verified_absences_from_missing_records": true,
+    "no_source_sink_migration_measured": true,
+    "no_demographic_rescue_measured": true,
+    "no_breeding_verified": true
+  },
+  "limits": [
+    "Single year per island 2019 or 2020, not repeated occupancy time-series",
+    "Pico 0 eligible records reflect temporal parsing, not ecological absence",
+    "Modern occurrence is stronger than checklist nominal 2010 present flag but is not evidence of viable historic donor population",
+    "PRIBES sampled selected habitats and included introduced/native taxa; species detection reflects study protocol",
+    "Under frozen strict date parsing, only 3/4 candidate islands contributed true dated observations"
+  ],
+  "protected": {
+    "S2_S3_S4_values_opened": 0,
+    "earlier_mammal_BioTIME_RLS_holdouts_opened": 0,
+    "eBird_used": false,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}

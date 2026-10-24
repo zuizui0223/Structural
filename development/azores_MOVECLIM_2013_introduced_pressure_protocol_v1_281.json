@@ -1,0 +1,58 @@
+{
+  "schema": "structural.azores_moveclim_introduced_pressure_protocol.v1_281",
+  "date": "2026-10-23",
+  "status": "RETROSPECTIVE_PRE_REACCESS_PROTOCOL_FROZEN",
+  "source_exposure": "The MOVECLIM 2013 and S1 sources were already read under v1.278. This is retrospective exploratory follow-up, NOT fresh confirmation.",
+  "question": "Does the greater number of historically local-loss-affected Azorean native plants sampled on Pico reflect association with low introduced-plant richness within original relatively intact native vegetation, rather than an elevation-only concentration?",
+  "frozen_sources": {
+    "MOVECLIM": {
+      "url": "https://ipt.gbif.pt/ipt/archive.do?r=plants_plots_moveclim&v=1.6",
+      "sha256": "612dad4edc1a5fb8e9fd057167320144d8a7791a02d1245513d58fd6c8cdabc4",
+      "events": 232,
+      "occurrences": 2539,
+      "plots": 58
+    },
+    "S1": {
+      "url": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+      "sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+      "historically_lost_taxa": 20,
+      "loss_pairs": 24
+    }
+  },
+  "unit": "author-defined 10x10m plot (4 subplots), not 232 independent subplots; taxon-weighted comparisons treat taxa as the descriptive unit",
+  "population": "All four source-surveyed Azores islands Pico, Flores, São Miguel, Terceira, all 58 identified plots; no island or species response-selected filtering",
+  "native_definition": "Exact native/endemic statuses; species-rank canonical binomial; valid source OTV 1..9; exclude mixed establishment statuses",
+  "introduced_definition": "Exact establishmentMeans introduced, species-rank canonical binomial, valid OTV 1..9; unknown and non-species must NOT be counted as introduced or native",
+  "introduced_pressure": "Number of distinct strictly introduced taxa observed within author 10x10m plot, across 4 valid subplots, count once per species; sum of max ordinal OTV by species is reported ONLY as sensitivity, not interpreted as percentage cover",
+  "groups": "Native S1-loss-affected taxon (one of fixed 20) versus all other native plot-detected reference taxa within same island",
+  "primary": "Pico equal-taxon-weight mean introduced-taxon pressure across focal occupied plots minus same metric averaged across Pico other-native species; negative sign favors relative low-introduced exposure; report difference regardless of sign",
+  "secondary": [
+    "Relative elevation-conditional contrast: split Pico's 24 plots into low/high 12 by frozen plot-elevation ordering with deterministic source locationID tie break, center introduced richness within half, then average occupied-plot residual within each taxon and compare focal-reference",
+    "All 4 islands report original source plot counts, introduced richness range, strict focal/reference taxon counts, focal-present plots, and group exposure means, suppress group comparison when fewer than 2 focal taxa",
+    "Within Pico report introduced-positive plot count, native/focal/reference plot-incidences, and plot-level focal-positive versus focal-negative pressure where groups exist",
+    "Use OTV ordinal intensity only for a sensitivity proxy, not for percent alien cover"
+  ],
+  "eligibility_guards": "Recompute original v1.278 58/232/2539 and 20/24 and all four island 5/1/1/1 focal, 26/7/3/9 focal-positive plot taxon totals and 746 eligible native plot taxon positives; STOP if mismatch",
+  "output": "Aggregate counts and descriptive differences only. No species names, source site IDs, coordinates or plot-by-species table in committed outputs or logs; no uncorrected causal p-values",
+  "biological_limitations": [
+    "Plots purposefully sampled relatively intact native vegetation; no comparison with disturbed/island-wide habitat",
+    "Introduced species co-occurrence and cover ranks are not exogenous invasion treatment or direct competitive impact",
+    "Historical extinction status does not date demographic viability or establish that Pico supplied immigrants",
+    "Single census cannot identify persistence, survival, rescue, or movement",
+    "Small fixed focal group five taxa on Pico; associations could reflect taxon traits and historic range breadth rather than invasion",
+    "Recorded non-native incidence depends on plot sampling/detection and altitude"
+  ],
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "do_not_open": [
+      "Macaronesia S2 S3 S4",
+      "original heldout 529 mammal response",
+      "BioTIME reserved 33 study responses",
+      "RLS fish responses",
+      "old Pico depleted GPS5 endpoint"
+    ],
+    "no_refits": true
+  }
+}

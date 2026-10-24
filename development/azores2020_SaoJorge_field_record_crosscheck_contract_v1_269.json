@@ -1,0 +1,59 @@
+{
+  "schema": "structural.azores2020_SaoJorge_field_observations_vs_S1_cases.v1_269",
+  "frozen": "2026-10-20",
+  "status": "FROZEN_BEFORE_FIELD_EVENT_OCCURRENCE_RECORD_VALUES_OPENED",
+  "question": "Among strict historical Azores S1 taxa, does a named island have independently recorded vascular plant occurrences in a 2020 field survey, including any formerly extirpated island report? Not a historical resettlement or demographic rescue estimate.",
+  "source": {
+    "original_publisher": "Universidade dos Açores (GBIF Portugal IPT)",
+    "title": "Mapping Vascular Plant Diversity on São Jorge Island under the PRIBES project",
+    "dataset_uuid": "9e53efa1-18a2-429f-8411-17d273bfc479",
+    "source_doi": "10.15468/drbja9",
+    "version": "1.2",
+    "publication_date": "2025-11-21",
+    "exact_original_DwCA": "https://ipt.gbif.pt/ipt/archive.do?r=sao_jorge_plants&v=1.2",
+    "publisher_page": "https://ipt.gbif.pt/ipt/resource?r=sao_jorge_plants&v=1.2",
+    "stated_field_dates": [
+      "2020-07-13",
+      "2020-07-19"
+    ],
+    "nominal_event_core_records": 1655,
+    "nominal_occurrence_records": 4523,
+    "license": "CC BY 4.0",
+    "target_island": "São Jorge"
+  },
+  "loss_source": {
+    "original_doi": "10.20350/digitalCSIC/17024",
+    "sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "strict_Azores_taxa": 20,
+    "strict_azores_loss_pairs": 24,
+    "source_model": "Author original Table S1, well-supported island-level only"
+  },
+  "predeclared_read_rules": [
+    "Require publisher source archive signature and sane size <=10MB, compute immutable original source SHA256",
+    "Parse meta.xml and require Event core with unique ID and Occurrence extension with matching coreid link",
+    "Read only Event eventDate, island, location and Occurrence scientificName, taxonRank/basisOfRecord/status when present",
+    "Require calendar date >=2017-01-01 and <=2026-10-20; reject nominal year-only 2010 eventDate as field observation",
+    "Match strict Azores historical cases only by unambiguous literal/unique binomial name; do not fuzzy-synonym merge",
+    "Unique taxon×named island with at least one valid post-2017 field-event occurrence is observational re-detection only",
+    "Published historical local extirpation plus 2020 observation on same island is discrepancy or documented rediscovery candidate, never proof of colonization or previous loss mistake",
+    "No inferred zeros for taxa absent from a particular 2020 PRIBES survey: site/habitat effort differ"
+  ],
+  "report_only": [
+    "publisher dataset size/SHA",
+    "original core and extension row count",
+    "field event year histogram",
+    "valid observed species names matched to strict S1 Azores taxa (aggregate counts only)",
+    "taxa observed on São Jorge in 2020 and historically extinct on same island, if any",
+    "distinct paired events and research provenance"
+  ],
+  "safety": {
+    "S2_S3_S4_values_read": 0,
+    "original_mammal_BioTIME_RLS_protected_data_reopened": false,
+    "independent_current_population_demographic_census": false,
+    "measured_recolonization": false,
+    "confirmed_population_survival_2020_without_repeated_breeding": false,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}

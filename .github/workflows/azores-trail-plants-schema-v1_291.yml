@@ -1,0 +1,47 @@
+name: Azores trail plants latest fixed v1.4 schema-only source gate v1.291
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-trail-plants-schema-v1_291.yml"
+      - "development/azores_trail_plants_source_opaque_design_v1_291.json"
+      - "scripts/azores_trail_plants_opaque_source_v1_291.py"
+      - "tests/test_azores_trail_plants_opaque_source_v1_291.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher-archive-response-sealed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Prove original Event and Occurrence contents stay unseen
+        run: python -m pytest -q tests/test_azores_trail_plants_opaque_source_v1_291.py
+      - name: Inspect exact published v1.4 original ZIP central directory and Darwin Core meta.xml ONLY
+        run: |
+          python scripts/azores_trail_plants_opaque_source_v1_291.py \
+            --contract development/azores_trail_plants_source_opaque_design_v1_291.json \
+            --out azores_trail_plants_opaque_meta_result_v1_291.json
+      - name: Forbid any biological labels and scoring
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('azores_trail_plants_opaque_meta_result_v1_291.json').read_text())
+          assert r['original_Event_rows_opened']==0 and r['original_Occurrence_rows_opened']==0
+          assert r['source_site_ids_and_taxon_names_read']==0
+          assert r['confirmatory_systems_admitted']==0 and r['GEB_scientific_HOLD'] and not r['eBird_used']
+          assert r['status'] in {'SCHEMA_POSSIBLE_EVENT_UNOPENED','SCHEMA_HOLD_REQUIRED_TERMS_OR_LINK_MISSING'}
+          print('Source response unopened, schema-only:',r['status'])
+          PY
+      - name: Retain metadata-only evidence receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-trail-plant-v1-4-response-opaque-schema-v1-291
+          path: azores_trail_plants_opaque_meta_result_v1_291.json
+          if-no-files-found: warn

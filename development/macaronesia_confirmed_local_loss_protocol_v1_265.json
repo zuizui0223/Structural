@@ -1,0 +1,71 @@
+{
+  "schema": "structural.macaronesia_published_extirpation_event_pilot.v1_265",
+  "frozen_date": "2026-10-19",
+  "status": "S1_ONLY_RETROSPECTIVE_EVENT_DESIGN_LOCKED_BEFORE_EXTINCTION_RESPONSE_ACCESS",
+  "source": {
+    "DOI": "http://hdl.handle.net/10261/377677",
+    "source_workbook_url": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+    "exact_original_workbook_bytes": 332776,
+    "sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "sheet": "Table S1",
+    "nominal_worksheet_last_row": 169,
+    "source_author_methods_run": "https://github.com/zuizui0223/Structural/actions/runs/39237947161",
+    "original_public_paper_DOI": "10.1111/gcb.70072"
+  },
+  "ecology_question": "Among historically documented Macaronesian vascular-plant losses, how much independent island-level replication actually exists for the same species after excluding global, archipelago-wide and taxonomically uncertain records?",
+  "read_boundary": {
+    "only_worksheet_values": "Table S1",
+    "columns": [
+      "Species",
+      "Extinction category",
+      "Category",
+      "Island",
+      "Archipelago",
+      "Date",
+      "Pollination mechanism",
+      "Seed dispersal mechanism",
+      "Habit",
+      "Endemicity"
+    ],
+    "no_S2_S3_S4_values": true,
+    "no_Taxon_island_presence_absence_imputation": true,
+    "no_predicted_risk_fitting": true,
+    "no_species_names_in_GitHub_artefact": true,
+    "no_individual_event_export": true
+  },
+  "strict_response": {
+    "island_level_category_exact": "Extirpation (Island level)",
+    "certainty_exact": "Well-supported",
+    "category_vocabulary_report_all_unfiltered": true,
+    "count": "number of unique species x named island well-supported island-level loss records, with raw record count separately",
+    "archived_author_total": "Original paper abstract records 168 records, 126 taxa, 13 global and 155 local records (known prior art, not a new Structural result).",
+    "allow_source_missing_last_record_date": true,
+    "disallow_status_derived_island_or_archipelago_source_variables": true
+  },
+  "outcomes_to_freeze": {
+    "per_category_counts": "all four author declared category labels and other labels if present; no post-outcome recoding",
+    "certainty_counts": "all category evidence labels and missingness",
+    "well_supported_island_level_events": "actual count of author well-supported island-level extirpations",
+    "repeated_distinct_islands_per_species": "number species with 2+ different island-level confirmed loss island names",
+    "cross_archipelago_replication_per_species": "number species with 2+ different archipelagos with well-supported island-level losses",
+    "per_archipelago_and_island_counts": "summary only where number of identified events; no direct observed dispersal",
+    "last_observation_dates": "counts of parseable year; not known true time of extinction",
+    "pollination_and_dispersal": "descriptive source categories only, not new trait cause"
+  },
+  "necessary_go_conditions_for_future_test": [
+    "At least 2 archipelagos with >0 well-supported island-level loss events",
+    "Historically present species × island risk-set denominator independently available for both loss and persistence; S1 only has observed losses",
+    "True species-specific remaining island population identity observed at time before each loss if testing source/rescue",
+    "Extinct globally and locally cannot be conflated or time-leaked into baseline",
+    "Study-level evidence not duplicated through taxonomic synonyms or repeated source records",
+    "No use of S2 'N local and global extinction events' as predictor (outcome leakage)"
+  ],
+  "decision": "If S1 cannot supply a valid complete species × island at-risk denominator, classify positive count patterns as audit/descriptive, not extinction risk or source rescue effect; do not open S3/S4 to rescue a favorable result without separate prior contract.",
+  "constraints": {
+    "no_eBird": true,
+    "no_previous_mammal_heldout_reuse": true,
+    "no_BioTIME_76_fish_RLS_responses": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}

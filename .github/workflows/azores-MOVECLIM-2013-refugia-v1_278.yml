@@ -1,0 +1,50 @@
+name: Azores MOVECLIM 2013 native vegetation refugia v1.278
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-MOVECLIM-2013-refugia-v1_278.yml"
+      - "development/azores_MOVECLIM_2013_refugia_design_v1_278.json"
+      - "scripts/azores_MOVECLIM_2013_refugia_v1_278.py"
+      - "tests/test_azores_MOVECLIM_2013_refugia_v1_278.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-locked-2013-vegetation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Prove independent plot and 2013 habitat refugia contrast in synthetic four-subplot plot design
+        run: python -m pytest -q tests/test_azores_MOVECLIM_2013_refugia_v1_278.py
+      - name: Count author 2013 plot×species data using SHA-locked MOVECLIM, with S1 well-supported losses
+        run: |
+          python scripts/azores_MOVECLIM_2013_refugia_v1_278.py \
+            --contract development/azores_MOVECLIM_2013_refugia_design_v1_278.json \
+            --out azores_MOVECLIM_2013_S1_native_refugia_v1_278.json
+      - name: Confirm original 232/2539 records and NO source/rescue claim
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('azores_MOVECLIM_2013_S1_native_refugia_v1_278.json').read_text())
+          assert r['status']=='AUTHOR_2013_NATIVE_FOREST_PLOT_DESCRIPTIVE_RESULT'
+          assert r['original_2013_occurrences']==2539
+          assert r['original_2013_events']==232
+          assert r['audit']['physical']['distinct_permanent_plots']==58
+          assert r['sampling_warning']['not_historical_extinction_risk']
+          assert r['original_S2_S3_S4_values_opened']==0
+          assert r['GEB_scientific_HOLD'] and r['eBird_used'] is False
+          print('2013 sampled native vegetation; historic extinction mechanism not inferred.')
+          PY
+      - name: Retain aggregates; NO species identifiers, site codes or biological raw rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-MOVECLIM-2013-S1-native-refugia-v1-278
+          path: azores_MOVECLIM_2013_S1_native_refugia_v1_278.json
+          if-no-files-found: warn

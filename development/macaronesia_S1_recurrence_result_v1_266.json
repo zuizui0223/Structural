@@ -1,0 +1,94 @@
+{
+  "schema": "structural.macaronesia_S1_case_recurrence_result_freeze.v1_266",
+  "verified_on": "2026-10-20",
+  "evidence_class": "RETROSPECTIVE_REANALYSIS_OF_PUBLISHED_CASES_NOT_NEW_INDEPENDENT_BIOLOGY",
+  "source": {
+    "doi": "10.20350/digitalCSIC/17024",
+    "handle": "http://hdl.handle.net/10261/377677",
+    "paper_doi": "10.1111/gcb.70072",
+    "workbook_bytes": 332776,
+    "workbook_sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "read_worksheet": "Table S1",
+    "retained_response_definition": "Extirpation (Island level) AND Well-supported; unique literal source taxon x archipelago x named island"
+  },
+  "execution": {
+    "first_S1_run_id": 39239022711,
+    "first_S1_successful_rerun_artifact": 12240427699,
+    "first_S1_artifact_sha256": "e97f74fa33de1e11c91ffd5372d50098e91c615b6678e3c88f944fcda615e74d",
+    "recurrence_run_id": 39370340660,
+    "recurrence_run_url": "https://github.com/zuizui0223/Structural/actions/runs/39370340660",
+    "tested_code_commit": "94a5ffd97523812928a9f0cad9f582c14f1a74ce",
+    "recurrence_artifact_id": 12241222259,
+    "recurrence_artifact_sha256": "5e85058f154d3c28a9f63e7779c3332ef322b801221914b5063f3f0671c06cf5",
+    "full_repository_tests_passed": 1553,
+    "full_repository_tests_skipped": 13,
+    "full_repository_failures_or_errors": 0,
+    "full_repository_warnings": 1,
+    "warning_detail": "Existing malformed ZIP provenance test emits Duplicate name: outcome/execution_provenance.json"
+  },
+  "source_filter_accounting": {
+    "all_S1_rows": 168,
+    "Well-supported_all_spatial_scales": 79,
+    "Doubtful": 52,
+    "Taxonomic problems": 17,
+    "Pre-Linnean": 20,
+    "well_supported_island_level_pairs": 62,
+    "well_supported_archipelago_level_records": 8,
+    "well_supported_globally_extinct_records": 8,
+    "well_supported_extinct_in_wild_records": 1
+  },
+  "primary_result": {
+    "unique_literal_taxon_island_pairs": 62,
+    "duplicate_strict_pair_records": 0,
+    "distinct_taxa": 48,
+    "named_islands": 18,
+    "archipelagos": 4,
+    "taxa_with_one_recorded_island_loss": 34,
+    "taxa_with_exactly_two_recorded_island_losses": 14,
+    "taxa_with_three_or_more_recorded_island_losses": 0,
+    "loss_pairs_among_the_14_repeated_taxa": 28,
+    "taxa_with_strict_losses_across_archipelagos": 0,
+    "conflicting_duplicate_last_record_dates": 0
+  },
+  "by_archipelago": {
+    "Azores": {"taxon_island_pairs": 24, "distinct_taxa": 20, "named_islands": 7, "two_island_loss_taxa": 4, "single_island_loss_taxa": 16, "case_counts_by_island_descending": [8, 6, 5, 2, 1, 1, 1]},
+    "Canary Islands": {"taxon_island_pairs": 24, "distinct_taxa": 16, "named_islands": 4, "two_island_loss_taxa": 8, "single_island_loss_taxa": 8, "case_counts_by_island_descending": [8, 8, 7, 1]},
+    "Cabo Verde": {"taxon_island_pairs": 13, "distinct_taxa": 11, "named_islands": 6, "two_island_loss_taxa": 2, "single_island_loss_taxa": 9, "case_counts_by_island_descending": [8, 1, 1, 1, 1, 1]},
+    "Madeira": {"taxon_island_pairs": 1, "distinct_taxa": 1, "named_islands": 1, "two_island_loss_taxa": 0, "single_island_loss_taxa": 1, "case_counts_by_island_descending": [1]}
+  },
+  "last_record_year_gaps_for_14_two_island_taxa": {
+    "sorted_gaps_years": [0, 0, 0, 0, 0, 5, 13, 23, 27, 32, 38, 53, 120, 168],
+    "median_years": 18,
+    "same_last_record_year_taxa": 5,
+    "within_10_years_taxa": 6,
+    "more_than_50_years_taxa": 3,
+    "known_extinction_dates": false,
+    "not_an_estimate_of_extinction_spread_speed_or_synchrony": true
+  },
+  "taxon_identity_sensitivity": {
+    "paper_reports_all_S1_taxa": 126,
+    "raw_distinct_source_name_strings": 127,
+    "distinct_name_strings_after_numeric_annotation_removal": 127,
+    "name_strings_modified_by_numeric_annotation_removal": 6,
+    "annotation_normalization_name_collisions": 0,
+    "all_primary_recurrence_results_unchanged": true,
+    "full_taxonomic_127_vs_126_difference_resolved": false,
+    "numeric_annotation_removal_not_synonym_validation": true
+  },
+  "limitations": [
+    "A case-only list lacks historically occupied species-island combinations that persisted; there is no denominator for extinction risk.",
+    "The Canary 8/16 versus Azores 4/20 repeat proportion is conditional on already having at least one qualifying loss, not the probability of losing an island population.",
+    "Historical range breadth, observation effort, taxonomic treatment and archipelago-specific pressure can account for recurrence differences.",
+    "Last-observation dates are not observed extinction dates; equal dates do not establish simultaneous extinctions.",
+    "No species-level source survival at t0, demographic rescue, inter-island dispersal or causal configuration effect was estimated.",
+    "Source 127 raw names versus article 126 taxa remains a taxonomic identity discrepancy; suffix stripping does not fix it."
+  ],
+  "preserved_boundaries": {
+    "S2_S3_S4_values_opened": 0,
+    "previous_mammal_BioTIME_RLS_holdouts_reopened": false,
+    "species_names_or_individual_event_rows_exported": false,
+    "eBird_used": false,
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true
+  }
+}

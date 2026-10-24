@@ -1,0 +1,115 @@
+{
+  "schema": "structural.azores_MOVECLIM_equal_plot_bounds_freeze.v1_279",
+  "date": "2026-10-23",
+  "evidence_class": "EXACT_ANALYTICAL_BOUND_CONDITIONAL_ON_PUBLISHED_OBSERVATIONAL_NATIVE_VEGETATION_PLOT_FRAME",
+  "sources": {
+    "source_2013": "development/azores_MOVECLIM_2013_native_plot_field_result_freeze_v1_278.json",
+    "MOVECLIM_original_SHA256": "612dad4edc1a5fb8e9fd057167320144d8a7791a02d1245513d58fd6c8cdabc4",
+    "MOVECLIM_original_source_run": 39890938835,
+    "math_run_id": 39891800548,
+    "math_run_url": "https://github.com/zuizui0223/Structural/actions/runs/39891800548",
+    "math_artifact_id": 12475136151,
+    "math_artifact_sha256": "4dbf4273ee6ae6cf7f61af500605999f6dd2d34c7a4ce566093f9b34252af44c",
+    "used_any_new_raw_species_or_sample_data": false
+  },
+  "sampling": {
+    "independent_plots": 58,
+    "sampled_subplots": 232,
+    "occurrence_records": 2539,
+    "focal_strict_source_taxa_total": 20,
+    "strict_taxa_documented_in_2013_native_vegetation": 5
+  },
+  "primary_same_effort_design": {
+    "sample_size_plots_per_island": 10,
+    "method": "Equal probability simple random sample of 10 plot IDs without replacement FROM ALREADY SAMPLED vegetation, using exact hypergeometric species-detection probability",
+    "min_max_over_unknown_species_occupancy": "Constrained by N original plots, T positively detected focal taxa and P species×plot positive records, 1<=each k<=N; exact discrete concave extrema",
+    "actual_plot_species_IDs_accessed_again": false,
+    "output_is_expected_species_richness_bounds_not_every_realized_sample": true
+  },
+  "by_island": {
+    "Pico": {
+      "source_N": 24,
+      "focal_T": 5,
+      "focal_P": 26,
+      "reference_T": 49,
+      "reference_P": 266,
+      "expected_focal_richness_lower_fraction": "8/3",
+      "expected_focal_richness_lower": 2.6666666666666665,
+      "expected_focal_richness_upper_fraction": "25115/5244",
+      "expected_focal_richness_upper": 4.789282990083906,
+      "expected_reference_richness_lower": 26.249854175079644,
+      "expected_reference_richness_upper": 47.2126239511823,
+      "ratio_of_expected_focal_to_all_native_lower": 0.05346240160264865,
+      "ratio_of_expected_focal_to_all_native_upper": 0.15429819986939286
+    },
+    "Flores": {
+      "source_N": 10,
+      "focal_T": 1,
+      "focal_P": 7,
+      "reference_T": 40,
+      "reference_P": 142,
+      "expected_focal_richness_lower": 1,
+      "expected_focal_richness_upper": 1,
+      "ratio_lower": 0.024390243902439025,
+      "ratio_upper": 0.024390243902439025
+    },
+    "São Miguel": {
+      "source_N": 12,
+      "focal_T": 1,
+      "focal_P": 3,
+      "reference_T": 44,
+      "reference_P": 160,
+      "expected_focal_richness_lower": 1,
+      "expected_focal_richness_upper": 1,
+      "ratio_lower": 0.022222222222222223,
+      "ratio_upper": 0.02531645569620253
+    },
+    "Terceira": {
+      "source_N": 12,
+      "focal_T": 1,
+      "focal_P": 9,
+      "reference_T": 38,
+      "reference_P": 133,
+      "expected_focal_richness_lower": 1,
+      "expected_focal_richness_upper": 1,
+      "ratio_lower": 0.02564102564102564,
+      "ratio_upper": 0.02926829268292683
+    }
+  },
+  "sensitivity_eight_equal_plots": {
+    "Pico_focal_richness_lower": 2.3333333333333335,
+    "Pico_focal_richness_upper": 4.5294362388183895,
+    "Flores_focal_richness": 1,
+    "Sao_Miguel_focal_richness": 0.9818181818181818,
+    "Terceira_focal_richness": 1,
+    "Pico_ratio_lower": 0.04942828939250607,
+    "largest_other_ratio_upper": 0.03409090909090909
+  },
+  "mathematical_result": {
+    "m10_pico_min_focal_expected_richness_greater_than_each_other_island_max": true,
+    "m10_pico_min_ratio_of_expected_richness_greater_than_all_three_other_island_max": true,
+    "minimum_pico_expected_extra_focal_taxa_per_10_plots_over_other": 1.6666666666666665,
+    "m10_differences_are_not_significance_tests": true,
+    "m10_bounds_require_no_per_taxon_plot_occupancy_details": true
+  },
+  "ecological_interpretation": {
+    "supported": "Among already chosen native/better-preserved 2013 vegetation plots, the documented history-of-loss flora is more richly represented on Pico even after exact equal-plot-effort and broad native flora composition bounds.",
+    "not_supported": [
+      "Pico is the causal source of other islands' remnant populations",
+      "Population viability of these taxa in 2013, demographic rescue, dispersal or recolonization",
+      "A higher-elevation refuge mechanism; within-Pico elevation percentile difference +0.03361 was small",
+      "Island-wide extinction risk or complete historic species×island at-risk denominator",
+      "An actual realized 10-plot field survey would always yield at least 3 focal taxa",
+      "Strict comparability of elevation/habitat/invasives across nonrandom island native-plot gradient samples",
+      "Statistical independence of all plant subplot observations; 58 plots are the physical sampling frame"
+    ],
+    "future_test": "Compare matched elevation/vegetation and human invasion gradients, or independent repeat-plot monitoring. No additional heldout biological response reopened until separately frozen design."
+  },
+  "guards": {
+    "S2_S3_S4_unopened": true,
+    "original_mammal_BioTIME_RLS_heldouts_unopened": true,
+    "eBird": false,
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true
+  }
+}

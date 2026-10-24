@@ -1,0 +1,53 @@
+name: ForestEco2 90 Azores native/exotic forest response-opaque v1.285
+on:
+  push:
+    paths:
+      - ".github/workflows/foresteco2-original-schema-v1_285.yml"
+      - "development/foresteco2_focal_native_forest_replication_protocol_v1_285.json"
+      - "scripts/foresteco2_opaque_original_schema_v1_285.py"
+      - "tests/test_foresteco2_opaque_original_schema_v1_285.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-90-forest-opaque-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Prove original-archive XML-only biological firewall
+        run: |
+          python -m pytest -q tests/test_biomoni_three_island_opaque_schema_intake_v1_283.py \
+            tests/test_foresteco2_opaque_original_schema_v1_285.py
+      - name: Inspect exactly fixed ForestEco2 v1.2 ZIP and meta.xml only
+        run: |
+          python scripts/foresteco2_opaque_original_schema_v1_285.py \
+            --protocol development/foresteco2_focal_native_forest_replication_protocol_v1_285.json \
+            --out foresteco2_original_schema_receipt_v1_285.json
+      - name: Check no sample/plant occurrence values were read
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("foresteco2_original_schema_receipt_v1_285.json").read_text())
+          assert r["Event_rows_opened"]==0 and r["Occurrence_rows_opened"]==0
+          assert r["biological_outcome_opened"] is False
+          assert r["GEB_scientific_HOLD"]
+          assert not r["eBird_used"]
+          assert r["new_confirmatory_systems"]==0
+          if r["status"]!="TRANSPORT_STOP_NO_BIOLOGICAL_READ":
+              assert r["data_files_opened"]==0
+              assert r["source_dataset_uuid"]=="158e0f0d-26e3-4883-bf5e-6040c1bb1ff4"
+          print("PASS: source metadata only; original plant outcome remains sealed.")
+          PY
+      - name: Retain metadata-only source eligibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: foresteco2-90-plots-opaque-schema-v1-285
+          path: foresteco2_original_schema_receipt_v1_285.json
+          if-no-files-found: warn

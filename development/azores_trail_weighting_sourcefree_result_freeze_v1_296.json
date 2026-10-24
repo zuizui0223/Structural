@@ -1,0 +1,51 @@
+{
+  "schema": "structural.azores_trail_weighting_result_freeze.v1_296",
+  "date": "2026-10-24",
+  "evidence_class": "SOURCE_FREE_POSTHOC_ARITHMETIC_ON_FROZEN_ORIGINAL_4_TRAIL_OBSERVATIONAL_AGGREGATES",
+  "status": "PASS_ORIGINAL_SOURCE_FREE_REPLAY_AND_ALL_REGRESSION_TESTS",
+  "original_source": "development/azores_trail_native_alien_field_aggregate_freeze_v1_295.json",
+  "original_independent_source_run": 40074317603,
+  "original_independent_source_sha256": "c6c6ad82e268759aade344528c3649459ed323053969c1ef8053f3f518298da7",
+  "source_free_run": 40078222645,
+  "source_free_artifact_id": 12554480698,
+  "source_free_artifact_zip_sha256": "7c08f0e097bed6a3e570195fe091e76f91973f2a5f4e552fd1f830fb4cb178d5",
+  "source_free_json_sha256": "c65f9edd7162e8cefa0b012ff7ec3e83d229ec73e9a88e1868be2af61c80f738",
+  "regression_tests_passed": 5,
+  "independent_trails": 4,
+  "islands": 2,
+  "nested_matched_area_year_groups": 17,
+  "frozen_original_primary_equal_trails": -0.034415487924049845,
+  "sensitivity_equal_islands": -0.1250427704287148,
+  "sensitivity_nonindependent_repeated_group_count_weight": 0.09785153573826866,
+  "nonindependent_sensitivity_sign_reversal": true,
+  "three_original_trails_terceira_groups": [
+    1,
+    7,
+    6
+  ],
+  "one_original_sao_miguel_trail_groups": [
+    3
+  ],
+  "native_vs_native_alien_ratio_direction_disagreement_trails": 2,
+  "discordant_cases": {
+    "Terceira T1": "absolute native richness +0.5, introduced richness +1.0, relative native/alien log ratio −0.2554",
+    "Terceira T3": "absolute native richness −1.25, introduced richness −0.3333, relative native/alien log ratio +0.1306"
+  },
+  "scientific_interpretation": "The four independently sampled forest trails differ in direction of native/alien relative edge-interior gradients. Two of four trails show opposite signs for indigenous richness and native/alien composition. Aggregate gradient direction can reverse if nested area-year group counts are mistaken for independent replicates.",
+  "not_supported": [
+    "Universal native forest interior enrichment across islands",
+    "causal tourist trampling or forest-edge intervention effect",
+    "absolute native biodiversity improvement from native/alien ratio alone",
+    "independent oceanic-archipelago replication",
+    "demographic source rescue, persistence or colonization"
+  ],
+  "guards": {
+    "biological_Event_Occurrence_rows_reopened": 0,
+    "original_2013_Pico_data_reopened": 0,
+    "original_529_mammal_BioTIME_RLS_S2_S3_S4_heldouts_reopened": 0,
+    "old_v1_292_terminal": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
