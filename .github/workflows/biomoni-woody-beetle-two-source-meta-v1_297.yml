@@ -1,0 +1,51 @@
+name: BioMonI same-site woody and beetle two-source metadata-only gate v1.297
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-woody-beetle-two-source-meta-v1_297.yml"
+      - "development/biomoni_colocated_cross_taxon_protocol_v1_297.json"
+      - "scripts/biomoni_colocated_two_source_schema_v1_297.py"
+      - "tests/test_biomoni_colocated_two_source_schema_v1_297.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  both-original-biology-responses-sealed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install source-blind test runner
+        run: python -m pip install pytest
+      - name: Check two archive source identity and no beetle or woody taxon opened
+        run: python -m pytest -q tests/test_biomoni_colocated_two_source_schema_v1_297.py
+      - name: Read ONLY two pinned original ZIP directories and meta.xml declarations
+        run: |
+          python scripts/biomoni_colocated_two_source_schema_v1_297.py \
+            --protocol development/biomoni_colocated_cross_taxon_protocol_v1_297.json \
+            --out biomoni_woody_beetle_two_source_meta_result_v1_297.json
+      - name: Confirm that all Event and Occurrence row bodies remain closed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_woody_beetle_two_source_meta_result_v1_297.json").read_text())
+          assert r["status"] in {"TWO_SOURCE_META_QUALIFIED_SITE_VALUES_UNOPENED",
+                                 "TERMINAL_MISSING_SAME_SITE_SOURCE_SCHEMA_BEFORE_RESPONSES"}
+          assert r["original_biological_Event_rows_opened"]==0
+          assert r["original_plant_Occurrence_rows_opened"]==0
+          assert r["original_beetle_Occurrence_rows_opened"]==0
+          assert not r["actual_original_site_match_scored"]
+          assert r["new_confirmatory_systems"]==0 and r["GEB_scientific_HOLD"]
+          assert r["eBird_used"] is False
+          print("SUCCESS: original source metadata only, no cross-taxon biological values exposed")
+          PY
+      - name: Retain two-source meta-only receipt without species or forest sites
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-paired-woody-beetle-two-source-opaque-v1-297
+          path: biomoni_woody_beetle_two_source_meta_result_v1_297.json
+          if-no-files-found: warn
