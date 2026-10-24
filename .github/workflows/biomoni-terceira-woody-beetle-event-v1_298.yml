@@ -1,0 +1,52 @@
+name: BioMonI Terceira ten plot woody beetle Event-only crosswalk v1.298
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-terceira-woody-beetle-event-v1_298.yml"
+      - "development/biomoni_terceira_colocated_event_gate_v1_298.json"
+      - "scripts/biomoni_terceira_event_colocation_v1_298.py"
+      - "tests/test_biomoni_terceira_event_colocation_v1_298.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-sites-and-effort-before-any-plant-or-beetle-taxonomy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-only tests
+        run: python -m pip install pytest
+      - name: Test exact original author ten-plot joins and response firewall
+        run: python -m pytest -q tests/test_biomoni_terceira_event_colocation_v1_298.py
+      - name: Open ONLY original 30 woody and 308 beetle Event rows, not either Occurrence body
+        run: |
+          python scripts/biomoni_terceira_event_colocation_v1_298.py \
+            --contract development/biomoni_terceira_colocated_event_gate_v1_298.json \
+            --out biomoni_terceira_paired_event_source_v1_298.json
+      - name: Preserve biological response seal even if physical crosswalk stops
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_terceira_paired_event_source_v1_298.json").read_text())
+          assert r["status"] in {
+            "EXACT_TEN_COLOCATED_PLOTS_METHODS_COMPARABLE_RESPONSES_SEALED",
+            "TERMINAL_COORDINATES_DATES_OR_METHOD_EFFORT_NOT_COMPARABLE"}
+          assert r["Original_tree_Occurrence_rows_opened"]==0
+          assert r["Original_beetle_Occurrence_rows_opened"]==0
+          assert r["exact_author_plot_bijection"]
+          assert r["GEB_scientific_HOLD"] and r["confirmatory_systems_admitted"]==0
+          assert not r["eBird_used"]
+          print("Response sealed original co-location and effort:",r["status"])
+          PY
+      - name: Retain anonymous original survey design receipt and exact join SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-terceira-woody-beetle-ten-plot-crosswalk-v1-298
+          path: biomoni_terceira_paired_event_source_v1_298.json
+          if-no-files-found: warn
