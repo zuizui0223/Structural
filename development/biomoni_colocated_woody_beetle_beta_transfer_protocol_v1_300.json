@@ -1,0 +1,80 @@
+{
+  "schema": "structural.biomoni_terceira_woody_beetle_beta_transfer.v1_300",
+  "date": "2026-10-24",
+  "status": "FROZEN_BEFORE_FIRST_WOODY_AND_BEETLE_OCCURRENCE_BODY_ACCESS",
+  "research_question": "Across the same ten native-forest plots on Terceira, does beetle compositional turnover measured with strictly equal source Event sample methods add leave-one-plot-out predictive information about woody-plant turnover beyond pairwise geographic distance?",
+  "evidence_class": "EXPLORATORY_CROSS_TAXON_SAME_ISLAND_OBSERVATIONAL; design of beetle common-mode subset follows response-free Event diagnostics; not a pristine independent geographic replication; previous v1.298 full-effort STOP remains terminal",
+  "source": {
+    "wood_zip": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+    "wood_sha256": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "wood_Event_rows": 30,
+    "wood_Occurrence_rows": 402,
+    "beetle_zip": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_beetles&v=1.3",
+    "beetle_sha256": "e518beb6f529067cc2f38013e03c4f833e86133fddface1df6f9ba7c532885e8",
+    "beetle_Event_rows": 308,
+    "beetle_Occurrence_rows": 539,
+    "v1_297_meta_run": 40079532147,
+    "v1_298_exact_crosswalk_run": 40079817959,
+    "v1_299_response_opaque_equal_effort_run": 40080296741
+  },
+  "frozen_event_receipt": {
+    "original_site_exact_bijection_count": 10,
+    "old_v1_298_full_method_gate_terminal": true,
+    "selected_subevents_each_plot": 6,
+    "selected_subevents_total": 60,
+    "original_shared_sampling_modes_count": 3,
+    "shared_sampling_mode_minimum_event_counts_sorted": [
+      1,
+      1,
+      4
+    ],
+    "original_full_site_woody_beetle_crosswalk_sha256": "7282890ecbbee81d9759f80107bdc6115a8c6cda1a61195f8a1e44",
+    "selected_beetle_Event_coreids_sha256": "e17b77f160740eb580893399f41344bfaecb8c9156299185fa0449cce4bd0960",
+    "selected_tree_beetle_method_site_fingerprint": "85ab34df618cce249d31c73b77ecb252fa6b136ddb5ac66cda1a61195f8a1e44",
+    "note": "The full original beetle Event set is NOT comparable (13–27 Events per plot); the new mode-limited 6/plot subset is fixed BEFORE biological responses, is not a rescue of the full-method hypothesis."
+  },
+  "data_units": {
+    "spatial": "10 independently keyed 50×50m forest plots on Terceira, original woody tree Event one/plot, beetle 60 Event sub-samples 6/plot",
+    "woody_taxon": "Original author scientificName as stable operational source name, species/subspecies only; multiple shoots/occurrences of same source taxon within forest plot collapse to one incidence. DBH >=1cm. Never treat 402 woody Occurrence records as 402 independent plots.",
+    "beetle_taxon": "Original author scientificName including explicitly source-recognized morphospecies; multiple detected specimens/records within selected beetle Event cores collapse to one per forest plot. Original Event methods equal; no abundance or organismQuantity as primary.",
+    "cross_source_taxon_matching": "NEVER join plant names to beetle names. Only physically exact plot IDs are joined; response identity remains separate between taxa.",
+    "species_rank_fallback": "Woody species/subspecies allowed only; beetle scientificName nonempty + its author taxonRank (species/subspecies/morphospecies, if present). If more than 5% of source beetle organism records are unresolvable taxon names, STOP before score.",
+    "original_occurrence_to_event_join_fraction_min": 0.98,
+    "no_ambiguous_new_plot_mapping": true
+  },
+  "quality_before_model": {
+    "all_ten_original_woody_and_beetle_plots_min_unique_taxa": 1,
+    "at_least_eight_plots_each_with_two_or_more_taxa_per_group": true,
+    "woody_Jaccard_pair_range_above_zero_min_pairs": 5,
+    "beetle_Jaccard_pair_range_above_zero_min_pairs": 5,
+    "no_postresponse_relaxing_taxa_or_events": true,
+    "on_failure": "STOP_FROZEN_BIOLOGICAL_ESTIMABILITY_NO_CROSS_TAXON_SCORE; do not rerun source under altered taxa/effort grouping"
+  },
+  "scoring": {
+    "jaccard": "For each pair of physical plots i<j, 1-|taxa_i∩taxa_j|/|taxa_i∪taxa_j| independently in woody and beetle. Any empty original plot causes STOP rather than equating two nondetections.",
+    "geographic_predictor": "log(1+haversine_km) between original paired tree plot coordinates; never use beetle occurrences to construct geography.",
+    "evaluation": "Ten leave-one-plot-out folds: for each held-out forest plot, train over 36 pairs wholly among nine remaining plots, test on nine pairs involving the held-out plot; each plot receives equal weight in the final mean of nine test squared errors.",
+    "baseline": "Ridge linear predictor of woody Jaccard: intercept + geographically standardized pair distance; fixed slope L2 penalty lambda=0.1",
+    "augmented": "Same distance plus beetle pair Jaccard; standardize training covariates per fold; intercept unpenalized; same fixed slope lambda=0.1",
+    "primary": "mean_LOPO_MSE_baseline − mean_LOPO_MSE_with_beetle; positive means site-observed beetle turnover adds predictive information beyond distance under the declared ridge/reference.",
+    "permutation": "999 fixed-seed=20261024 permutations of the TEN BEETLE PLOT IDENTITIES (not 45 pseudoindependent pairs), recompute augmented LOPO; baseline unchanged. One-sided empirical exceedance rank (1+number null gains>=observed)/(999+1). This is exploratory sensitivity under plot-label exchangeability, not definitive spatially-corrected causal inference.",
+    "positive_statement": "Report descriptive added out-of-plot information only if primary gain>0 and exceeds 95th percentile of 999 plot-label permutations. Otherwise label non-support/indeterminate, never choose alternate model after outcomes.",
+    "no_significance_claim_beyond": "Only ten colocated plots in one island; LOPO pairs share sites, permutation exchangeability may be violated by forest-fragment spatial autocorrelation. Do not advertise a general cross-island biodiversity surrogate."
+  },
+  "scientific_nonclaims": [
+    "woody vegetation determines beetle communities causally",
+    "native forest restoration causally improves beetle diversity",
+    "beetle diversity necessarily predicts endangered plant persistence",
+    "dispersal, colonization, genetic exchange, demographic rescue or connectivity mechanisms",
+    "Original global mammal GEB cross-geography hypothesis replication",
+    "Whole-beetle-assemblage representation under the failed v1.298 original full-method gate"
+  ],
+  "firewall": {
+    "source_rows_opened_before_v300": 0,
+    "prior_original_v1_298_terminal": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "prior_Pico_MOVECLIM_ForestEco2_trails_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}
