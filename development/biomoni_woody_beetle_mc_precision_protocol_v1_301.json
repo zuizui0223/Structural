@@ -1,0 +1,20 @@
+{
+  "schema": "structural.biomoni_beta_permutation_mc_precision.v1_301",
+  "date": "2026-10-28",
+  "status": "SOURCE_FREE_PRECALCULATION_FROZEN",
+  "input": "development/biomoni_woody_beetle_v1_300_observed_aggregate_freeze.json",
+  "question": "How close is the descriptive 999-permutation plot-label exceedance fraction to its 0.05 threshold, and how stable is its Monte Carlo numerical value conditional on the observed permutation design?",
+  "method": "Recover K=999*original p rank minus one, calculate binomial Wilson 95% interval for empirical exceedance proportion K/999, compare observed gain to original 95% null threshold, report relative LOPO gain.",
+  "scope": "Numerical uncertainty from finite random plot-label draws only. NOT ecological confidence interval, NOT validation of exchangeability or autocorrelation correction.",
+  "guardrails": [
+    "No rereading the original woody or beetle species responses or site labels",
+    "No new permutations or tuning random seed after seeing original response",
+    "Wilson CI for simulation p does not become a confirmatory corrected ecological p-value",
+    "Do not alter full-method gate and frozen positive-exploratory label",
+    "Do not claim other islands or plant-beetle causality"
+  ],
+  "old_v1_298_full_method_gate_terminal": true,
+  "GEB_scientific_HOLD": true,
+  "confirmatory_systems_admitted": 0,
+  "eBird": false
+}
