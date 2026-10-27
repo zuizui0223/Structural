@@ -1,0 +1,33 @@
+{
+  "schema": "structural.biomoni_beta_permutation_mc_precision_result.v1_301",
+  "date": "2026-10-28",
+  "status": "SOURCE_FREE_FINITE_PERMUTATION_PRECISION_COMPLETE",
+  "source_run_id": 40081020518,
+  "original_source_aggregate_inner_JSON_sha256": "df577a6cf44c70defcd5c675ab1ff8dc6bab810d2f11434bcadd2ed2eadb4954",
+  "original_geo_LOPO_MSE": 0.011303282061084477,
+  "original_geo_plus_beetle_LOPO_MSE": 0.010745961397063816,
+  "original_MSE_gain": 0.0005573206640206614,
+  "original_relative_MSE_gain": 0.04930609189515262,
+  "original_label_permutation_n": 999,
+  "original_seed": 20261024,
+  "original_plus_one_null_exceedance_rank": 0.04,
+  "number_null_gains_at_least_observed": 39,
+  "raw_null_exceedance_frequency": 0.03903903903903904,
+  "finite_MC_wilson_95_interval": [
+    0.02868777863741773,
+    0.052921789954747146
+  ],
+  "null_gain_original_95th_percentile": 0.0004365420983437882,
+  "gain_minus_original_null_95th_percentile": 0.00012077856567687322,
+  "MC_interval_crosses_0_05": true,
+  "numerical_MC_interval_not_ecological_CI": true,
+  "uncontrolled_fragment_membership_and_spatial_autocorrelation": true,
+  "geographic_replication_count": 1,
+  "independent_site_n": 10,
+  "old_v1_298_full_beetle_method_not_estimable": true,
+  "ecological_conclusion": "Small observed site-LOPO extra predictive information for original equal-mode beetle incidence relative to geo-distance alone (4.93% MSE reduction), provisional because plot-label exchangeability and fragment-level habitat confounding not assessed and finite Monte Carlo uncertainty covers 0.05.",
+  "no_new_permutation_or_original_woody_beetle_rows_opened": true,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0,
+  "eBird": false
+}
