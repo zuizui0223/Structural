@@ -24,8 +24,8 @@ def evaluate(t_events,s_events,contract):
         return {"status":"STOP_ORIGINAL_TEN_PHYSICAL_SITE_BIJECTION_MISSING",
                 "tree_site_count":len(tree),"spider_site_count":len(spider),
                 "exact_shared_site_count":len(set(tree)&set(spider)),
-                "spider_Event_rows_opened":len(s_events),"spider_Occurrence_rows_opened":0,
-                "woody_Occurrence_rows_reopened":0,"GEB_scientific_HOLD":True,
+                "spider_Event_rows_opened":len(s_events),"original_spider_Occurrence_rows_opened":0,
+                "original_woody_Occurrence_rows_reopened":0,"GEB_scientific_HOLD":True,
                 "new_confirmatory_systems":0,"eBird_used":False}
     if any(len(v)!=1 for v in tree.values()):
         raise ValueError("Original woody plot Event was not one per physical site")
