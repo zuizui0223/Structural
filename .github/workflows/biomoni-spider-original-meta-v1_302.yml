@@ -6,6 +6,12 @@ on:
       - "development/biomoni_spider_original_source_opaque_protocol_v1_302.json"
       - "scripts/biomoni_spider_original_meta_v1_302.py"
       - "tests/test_biomoni_spider_original_meta_v1_302.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biomoni-spider-original-meta-v1_302.yml"
+      - "development/biomoni_spider_original_source_opaque_protocol_v1_302.json"
+      - "scripts/biomoni_spider_original_meta_v1_302.py"
+      - "tests/test_biomoni_spider_original_meta_v1_302.py"
   workflow_dispatch:
 permissions:
   contents: read
