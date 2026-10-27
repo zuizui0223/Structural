@@ -11,7 +11,7 @@ def wilson(successes,attempts,z=1.959963984540054):
     p=successes/attempts
     center=p+z*z/(2*attempts)
     half=z*math.sqrt(p*(1-p)/attempts+z*z/(4*attempts*attempts))
-    return ((center-half)/(1+z*z/attempts),(center+half)/(1+z*z/attempts))
+    return (max(0.0,(center-half)/(1+z*z/attempts)),min(1.0,(center+half)/(1+z*z/attempts)))
 
 def audit(source,proto):
     if (source.get("schema")!="structural.biomoni_colocated_source_observed_aggregate.v1_300"
