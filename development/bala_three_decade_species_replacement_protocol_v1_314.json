@@ -1,0 +1,125 @@
+{
+  "schema": "structural.bala_longitudinal_community_replacement_scoring.v1_314",
+  "date": "2026-10-28",
+  "status": "FROZEN_BEFORE_FIRST_2024_BALA_OCCURRENCE_SOURCE_READ",
+  "science": {
+    "question": "Across 29 source-matched native-forest transects on seven Azorean islands, do observed arthropod assemblages undergo substantial within-transect species replacement between B1 and B3, even when net species richness changes little? Does the pattern vary between original Spiders (Araneae) and Beetles (Coleoptera), pitfall vs beating, and endemic/native versus introduced taxa?",
+    "prior_art": "Pozsgai et al (2026) Scientific Reports doi:10.1038/s41598-026-57146-5 already reported overall abundance, biomass and species-richness stability and species-specific increases/declines over BALA periods. These are baseline prior findings, not new Structural conclusions.",
+    "source_lineage": "Independent original BALA 2024 published 7-island forest-transect observations, not the prior Terceira BioMonI 10-plot original data, and not newly withheld confirmatory response across geographies."
+  },
+  "original_source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "Event_core_exact": 10379,
+    "Occurrence_extension_exact": 63904,
+    "meta_only_run": 40614266603,
+    "repeated_seven_island_event_run": 40615134355,
+    "equal_sample_event_run": 40615429426,
+    "same_three_phase_source_site_SHA256": "31a323a378f29e60ff656699081ccbbb47b546568f13f43e6472391adc8b7c72",
+    "selected_equal_Event_source_primaryID_SHA256": "39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac",
+    "selected_original_Event_total": 4620,
+    "per_campaign": 1540,
+    "selected_same_source_sites": 29,
+    "seven_source_island_codes": [
+      "fai",
+      "flo",
+      "pic",
+      "sjg",
+      "smg",
+      "smr",
+      "ter"
+    ],
+    "source_methods": [
+      "Pitfall solution",
+      "Open beating tray (with bag)"
+    ],
+    "source_Graciosa_198_outside_campaign_excluded": true,
+    "no_fuzzy_site_matching": true,
+    "no_specimen_record_independent_pseudoreplication": true
+  },
+  "taxon_reader": {
+    "original_Occurrence_foreign_coreid_source": "meta.xml Occurrence coreid index0 -> source Event core primary id",
+    "original_guild_order_exact_casefold": [
+      "araneae",
+      "coleoptera"
+    ],
+    "source_scientificName": "stable original exact whitespace-normalized scientificName per taxon, collapse duplicate source Occurrence records within site×phase×method×guild",
+    "allowed_source_taxonRank_exact": [
+      "species",
+      "subspecies",
+      "morphospecies"
+    ],
+    "other_taxon_ranks": "source higher-rank/bulk records excluded from species/morphospecies target; report count, no posthoc new species-level heuristic",
+    "canonicalization": "Case-fold scientificName and normalize whitespace only, no opportunistic fuzzy synonyms",
+    "qualifying_source_event_sample": "Reconstruct ORIGINAL 29 site×2 method×3-phase min Event counts, select source primary event IDs lexicographically; must exactly match v1.313 source primaryID sha before reading first original species value",
+    "biogeographic_origin": {
+      "source_term": "establishmentMeans",
+      "endemic_exact_normalized": [
+        "endemic",
+        "native endemic",
+        "nativeendemic",
+        "azorean endemic",
+        "endemic azores"
+      ],
+      "native_exact_normalized": [
+        "native",
+        "native non endemic",
+        "native non-endemic",
+        "indigenous",
+        "native nonendemic"
+      ],
+      "introduced_exact_normalized": [
+        "introduced",
+        "exotic",
+        "non-native",
+        "non native",
+        "naturalized",
+        "naturalised"
+      ],
+      "other_source_values": "unknown, ambiguous or blank. Do not impute, never relabel after biological outcome.",
+      "secondary_if_classified_rows_fraction_min": 0.8
+    }
+  },
+  "estimability": {
+    "original_Event_to_Occurrence_join_fraction_min": 0.99,
+    "original_scientific_name_and_species_rank_supported_fraction_reported": true,
+    "pitfall_primary_guild_source_site_min_count_each": 20,
+    "pitfall_primary_island_min_count_each": 5,
+    "site_guild_qualified_if": "At least one detected species-level operational taxon in B1 and B3 within same original transect and original source method; no outcome-selected exclusion for dissimilarity sign",
+    "original_29_site_required": true,
+    "source_method_and_island_quantities_immutable": true,
+    "if_guild_not_estimable": "Report STOP for that guild/method independently without pursuing lower arbitrary minimum or different campaign."
+  },
+  "fixed_scientific_stats": {
+    "source_periods": [
+      "B1",
+      "B3"
+    ],
+    "B2_use": "secondary two intervals B1→B2 and B2→B3, unchanged source sites and methods, do not rechoose taxon filters or sample counts.",
+    "core_site_guild_method_species_sets": "S1, S3. Let a=|S1∩S3|, b=|S1\\S3|, c=|S3\\S1|. Species nondetection not treated as true local extinction/immigration.",
+    "Sørensen_total_beta": "(b+c)/(2a+b+c) for any nonempty pair of source site phase community species sets",
+    "Simpson_replacement_beta": "min(b,c)/(a+min(b,c)) (if a+min>0) as replacement component; richness/ nestedness Sorensen_total minus Simpson replacement",
+    "balanced_species_replacement_incidence_share": "2*min(b,c)/(b+c) when changes; defined 0 when b=c=0; expresses how much of observed species entry+exit is balanced replacement, not net richness change",
+    "net_richness_change": "abs(|S3|-|S1|), and signed |S3|-|S1| reported separately from compositional dissimilarity",
+    "primary": "Ground PITFALL original method, Araneae and Coleoptera separately, average transect-level Simpson replacement / Sorensen total / balanced replacement share within each of seven islands, then island-equal-weight mean; report all seven islands, site n, and sign of guild differences without significance claim.",
+    "secondary": "Canopy beating method and B1→B2/B2→B3 interval, plus fixed endemic/native/introduced origin stratification only if original source ontology covers >=80% of eligible guild records.",
+    "no_threshold_sign_chasing": "Report raw effect direction and evidence counts regardless of whether replacement share exceeds 0.5; no model/period tuning after data access",
+    "no_p_values": "n=7 islands and 29 physical transects; no artificial 63,904 occurrence or 4,620 Event independent samples, source selection retrospective."
+  },
+  "scientific_limits": [
+    "Changes in source species detections are NOT actual confirmed local species extinctions or invasions",
+    "26-year discontinuous campaigns and effort standardization do not remove climate/seasonal/phenology/detection biases",
+    "Pitfall samples and canopy beating cannot be pooled as equal ecological methods",
+    "Some original taxa morphospecies and specimen code names may have identification drift",
+    "Same original BALA data underlies 2026 paper on aggregate abundance/ richness; species-replacement decomposition is separate estimand but not independent dataset for confirmation of authors' richness claims",
+    "Not causal environmental filter, predation interaction, island source rescue or colonization"
+  ],
+  "firewall": {
+    "old_v1_311_source_full_name_gate": "TERMINAL",
+    "source_outcome_opening": "One fixed 2024 original Occurrence read after all physical Event hashes reconcile",
+    "original_previous_BioMonI_Pico_mammal_BioTIME_RLS_S2S3S4_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
