@@ -1,0 +1,56 @@
+{
+  "schema": "structural.pico_alien_cooccurrence_partial_id_protocol.v1_290",
+  "date": "2026-10-24",
+  "status": "SOURCE_FREE_AGGREGATE_ONLY_SENSITIVITY_FROZEN",
+  "provenance": {
+    "v281_original_GitHub_Actions": "https://github.com/zuizui0223/Structural/actions/runs/39904415725",
+    "v281_GitHub_artifact_id": 12480152663,
+    "v281_extracted_aggregate_sha256": "135a4c5f598f686ce3691d79aa0a59b427036128d8e99760321dbc3d4f208a27",
+    "v282_original_GitHub_Actions": "https://github.com/zuizui0223/Structural/actions/runs/39905350435",
+    "v282_extracted_aggregate_sha256": "3ea87c240c663c9c60383c49492b03240268f8b91da313a36821264a388d476f",
+    "input_path": "development/azores_pico_source_aggregates_v1_290.json",
+    "unopened_sources": [
+      "original MOVECLIM Event/Occurrence rows",
+      "original S1 workbook",
+      "Macaronesia S2-S4",
+      "original mammal 529 response",
+      "BioTIME/RLS heldout"
+    ]
+  },
+  "question": "With the v1.281 already-frozen plot counts and upper bound on distinct alien species within any plot, is LOWER binary alien-plant co-detection at historically-local-loss-affected native-species-positive plots mathematically forced, rather than merely a lower mean number of alien species?",
+  "grouping": "Pico 2013 original 10x10m sampled indigenous vegetation plots. Focal-positive means >=1 of 20 strict S1 historical local-loss taxa sampled as a native species (5 actually observed in Pico); negative means none detected in sampled plots, not island absence.",
+  "constraints": {
+    "distinct_original_plots": 24,
+    "focal_positive_plots": 19,
+    "focal_negative_plots": 5,
+    "all_alien_bearing_plots": 11,
+    "alien_species_plot_incidence_focal_positive": 15,
+    "alien_species_plot_incidence_focal_negative": 12,
+    "global_max_distinct_alien_species_per_plot": 5,
+    "recorded_alien_species_total": 12,
+    "all_alien_species_plot_incidence": 27
+  },
+  "calculation": {
+    "unknown_x": "integer number of alien-bearing plots in focal-positive group",
+    "unknown_y": "integer number of alien-bearing plots in focal-negative group",
+    "identity": "x+y = all alien-bearing plots; 0<=x<=focal positive n and 0<=y<=focal negative n; x<=alien cell positive<=max_per_plot*x and y<=alien cell negative<=max_per_plot*y",
+    "comparison": "evaluate all feasible (x,y) integer pairs; report exact Fractions of co-detection frequencies x/19 and y/5 and bounded difference p_focal - p_nonfocal; NOT probabilities of biological invasion, abundance, temporal survival or causal effects",
+    "native_composition_check": "Subtract frozen 26 focal native species×plot incidences from 19×v282 total native mean to show non-focal native incidence in focal-positive plots. Verify totals sum to the original 266 reference native incidences and five focal-negative plots' total native incidence.",
+    "precision": "Use Python fractions.Fraction and integer accounting; no model fitting, effect selection or bootstrap.",
+    "sharpness": "Supply one full feasible set of per-plot alien species richness values for every feasible alien-positive (x,y) pair obeying group totals and global maximum, with 12 global alien taxa compatible; these witnesses are synthetic constraint examples only, not reconstructions of actual site values."
+  },
+  "evidence_status": "Deterministic partial-identification of already released aggregate only. If lower alien co-detection is forced, interpret within already preferentially sampled native vegetation only; plot-local nondetections are not true island absences.",
+  "forbid": [
+    "Opening biological species/plot labels anew",
+    "Inventing plot-specific true values",
+    "Naming one source population viable",
+    "Claiming invader exclusion or competition as causal",
+    "Claiming source island conservation rank, dispersal or demographic rescue",
+    "Treating bounds as CI, p-values or independent replication"
+  ],
+  "firewall": {
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}

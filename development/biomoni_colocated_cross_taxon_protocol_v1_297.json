@@ -1,0 +1,75 @@
+{
+  "schema": "structural.biomoni_colocated_cross_taxon_source_gate.v1_297",
+  "date": "2026-10-24",
+  "status": "PRE_BIOLOGICAL_RESPONSE_TWO_SOURCE_FREEZE",
+  "central_ecological_question": "On the SAME physical Terceira native-forest plots, do woody plant and endemic beetle assemblages show congruent spatial turnover beyond shared geographic distance, or do the taxonomic assemblages respond differently to spatial habitat structure?",
+  "biogeographic_unit": "10 Terceira 50x50m native forest plots; separate Pico beetle, Tenerife/Réunion tree plots are NOT matched and cannot be pooled",
+  "sources": {
+    "woody": {
+      "original_archive": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+      "GBIF_UUID": "eab982cf-81df-4d08-b9f4-c2f5c56b8ad3",
+      "sha256_expected": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+      "published_years": "2012-2013",
+      "published_Event_rows": 30,
+      "published_Occurrence_rows": 402,
+      "declared_islands": [
+        "Terceira",
+        "Tenerife",
+        "Réunion"
+      ],
+      "eligible_terceira_plots": 10,
+      "sampling_semantics": "Tree/shrub shoots DBH>=1cm; sampling methods and sampling grain not directly comparable to beetle COBRA"
+    },
+    "beetles": {
+      "original_archive": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_beetles&v=1.3",
+      "GBIF_UUID": "bd42f57d-c7c2-4b59-a12c-550e01b2ebcc",
+      "sha256_expected": null,
+      "published_years": "Pico July 2016, Terceira June-Sept 2012",
+      "published_Event_rows": 308,
+      "published_Occurrence_rows": 539,
+      "declared_islands": [
+        "Pico",
+        "Terceira"
+      ],
+      "eligible_terceira_plots": 10,
+      "sampling_semantics": "COBRA standardized multiple sampling methods; 308 Events are nested within 16 permanent plots, not independently replicated forest patches"
+    }
+  },
+  "metadata_protocol": [
+    "Download exact original v1.7 tree archive (sha fixed from old v1.283 original response-opaque receipt) and exact v1.3 beetle archive, each <=500KB.",
+    "Inspect only ZIP directory and original meta.xml XML field names / Darwin Core core and extension roles, no Event data, no Occurrence rows, taxon names or beetle counts",
+    "Emit beetle original SHA256 so a later Event-only crosswalk can pin both source bytes",
+    "Require both Event core id index, Occurrence extension coreid index, and Event locationID plus island, samplingProtocol or eventID, elevation and coordinates where present",
+    "DO NOT infer plot equivalence from shared project title alone; next v1.298 must establish exact bijection on ten source site identities without plant/beetle response access"
+  ],
+  "crosswalk_grammar_frozen_before_event_values": {
+    "primary": "Normalize original Event locationID by retaining only A-Z, 0-9 and uppercasing, e.g. TER_NFBF_T01 / TER-NFBF-T-01 map to TERNFBFT01",
+    "secondary": "Original eventID and locality may be reported as raw field presence only in first metadata pass. Do not use as fallback without a NEW response-sealed contract if locationID fails.",
+    "no_coordinates_as_only_join": true,
+    "coordinates_secondary_audit": "If present, require latitude and longitude differences <=0.0003 degrees (~30m) between matched original author sites; 2012 and 2013 may have plot-coordinate rounding",
+    "no_fuzzy_names_or_outcome_selected_join": true
+  },
+  "candidate_analysis_if_and_only_if_event_bijection_passes": {
+    "plot_population": "Exactly 10 matched Terceira plots, each one natural forest 50x50m, excluding all unmatched plots without viewing species labels",
+    "response_plan": "Test cross-taxon similarity of woody assemblage and endemic beetle assemblage turnover on the original 45 unordered plot pairs. Compare distance-based community dissimilarities controlling geographic distances and fixed effort, using permutation of 10 plot labels as genuine unit, never treating 45 edges as independent trials.",
+    "novel_potential": "Same-site cross-kingdom concordance or decoupling can connect habitat filtering and beetle communities on islands; expected concordance not assumed.",
+    "inferential_limit": "At most one island/10 plots, source published ecological prior art, not proof of causal plant-to-beetle interaction, dispersal routes or cross-archipelago generality. Original tree data across Tenerife/Reunion cannot be used to fabricate beetle replication."
+  },
+  "admission_stop": [
+    "Exact author plot-ID overlap fewer than 10/10",
+    "Unverifiable non-overlapping Terceira coordinate units",
+    "Materially unequal beetle survey methods/effort across ten plots without a feasible response-independent subset",
+    "Unexpected archive/version schema or any original ID reused across different sites",
+    "Taxon statuses or woody/beetle species endpoints unobserved or not physically meaningful"
+  ],
+  "firewall": {
+    "response_Event_values_opened_in_v297": 0,
+    "woody_Occurrence_rows_opened": 0,
+    "beetle_Occurrence_rows_opened": 0,
+    "GEB_scientific_HOLD": true,
+    "confirmatory_systems_admitted": 0,
+    "eBird": false,
+    "old_Pico_MOVECLIM_ForestEco2_trail_biology_reopened": 0,
+    "original_mammal_BioTIME_RLS_S2S3S4_responses_reopened": 0
+  }
+}

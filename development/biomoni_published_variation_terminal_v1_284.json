@@ -1,0 +1,28 @@
+{
+  "schema": "structural.biomoni_published_variation_terminal.v1_284",
+  "date": "2026-10-23",
+  "status": "TERMINAL_PUBLISHED_SOURCE_NO_ALIEN_PRESSURE_VARIATION",
+  "source": {
+    "dataset_uuid": "eab982cf-81df-4d08-b9f4-c2f5c56b8ad3",
+    "data_doi": "10.15468/hwm3mt",
+    "published_study_doi": "10.3897/BDJ.13.e158423",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12287716/",
+    "original_2012_2013_plot_frame": "30 50x50m plot Event, 402 tree Occurrence, three islands 10 each",
+    "tree_units": "DBH>=1cm woody shoots, Réunion 20 subplots versus four corner subplots in other islands"
+  },
+  "published_nonresponse_scientific_screen": {
+    "all_93_taxa_across_three_islands": 93,
+    "published_introduced_woody_taxa_total": 1,
+    "introduced_taxon_island": "Tenerife only",
+    "terceira_and_reunion_introduced_woody_taxa_in_published_universe": 0,
+    "source": "Morgado et al 2025 Biodiversity Data Journal section Additional Information paragraph and Table 2; no independent current outcome read",
+    "interpretation": "The absence of meaningful alien-woody taxa variation makes the proposed within-island low-alien-vs-native-community-filtering test unestimable for Terceira and Réunion, and weak with only one possible alien woody taxon on Tenerife."
+  },
+  "scientific_decision": "Do not open BioMonI Event/Occurrence data to estimate any native-alien richness gradient; the published taxon summary already fails the predeclared source variation requirement. Do not silently switch the endpoint to woody abundance or island richness. Use a genuinely independent and comparably sampled forest gradient with both natural and altered stands.",
+  "metadata_schema_runner": "v1.283 source ZIP+meta.xml only, may finish for technical audit but must not override this terminal ecological eligibility stop",
+  "response_biology_opened_in_biomoni_archive": 0,
+  "new_predictive_scores": 0,
+  "fresh_confirmatory_admissions": 0,
+  "GEB_scientific_HOLD": true,
+  "eBird": false
+}

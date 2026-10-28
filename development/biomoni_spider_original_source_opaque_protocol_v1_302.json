@@ -1,0 +1,44 @@
+{
+  "schema": "structural.biomoni_spider_third_taxon_source_opaque.v1_302",
+  "date": "2026-10-28",
+  "status": "PRE_ORIGINAL_SPIDER_BIOLOGICAL_RESPONSE_SOURCE_FREEZE",
+  "ecological_question": "Can independently identified spider assemblages observed within the 10 Terceira BioMonI woody/beetle forest plots discriminate whether v1.300 beetle-to-woody spatial turnover information is a broader community structure signal or taxon-specific? No cross-island replication is asserted.",
+  "prior_positive_exposure": "The v1.300 beetle→woody spatial beta predictability was already observed (gain 0.0005573, 999 plot-label p=0.040), so all follow-up designs are conditional exploratory not pristine confirmatory.",
+  "published_source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_macaronesia_azores&v=1.8",
+    "source_uuid": "6aa5ac09-2b55-4078-bd2d-ec94fb91850a",
+    "doi": "10.15468/kcgjfr",
+    "original_publication": "Malumbres-Olarte et al 2019 Biodiversity Data Journal 7 e32625, DOI 10.3897/BDJ.7.e32625",
+    "publisher": "Universidade dos Açores",
+    "reported_release": "2022-11-05 v1.8",
+    "reported_original_Event_core_rows": 423,
+    "reported_original_Occurrence_extension_rows": 1639,
+    "reported_2019_article_Event_rows": 121,
+    "version_discrepancy": "2019 article and current version differ in Event counts; do not coerce 423 to 121",
+    "study_years": [
+      "2012",
+      "2016"
+    ],
+    "claimed_Terceira_forest_plots": 10,
+    "claimed_Pico_forest_plots": 6,
+    "published_taxa": "39 original spider species/morphospecies in 16 original forest plots"
+  },
+  "admission_order": [
+    "Download exactly original version v1.8 under 500 KB cap, SHA256 original bytes.",
+    "Inspect ONLY original ZIP central directory and meta.xml; never open Event or Occurrence data members at v1.302.",
+    "Require one Event core and one Occurrence extension with id/coreid linking schema and original Event locationID/island/decimalLatitude/decimalLongitude/eventDate and samplingProtocol fields; Occurrence scientificName/taxonRank.",
+    "Report source SHA and declared terms, not source biological values. If required declared term absent STOP.",
+    "Next new response-blind v1.303 Event-only protocol must require exact physical author 10-site Terceira bijection with old fixed v1.300 woody/beetle sites and method effort, with no flexible coordinate nearest-match or response-selected joins."
+  ],
+  "scientific_ceiling": "Even 3 taxa within one island are not independent archipelago replicates. Spider and beetle protocols share the COBRA framework and possibly collection opportunity, so independent taxon identity does not imply independent detection processes.",
+  "biological_response_access_permitted": 0,
+  "protected_data_policy": {
+    "v1_298_full_method_gate_terminal": true,
+    "old_v1_300_result_unmodified": true,
+    "woody_beetle_spider_Occurrence_rows_opened_at_v302": 0,
+    "original_mammal_BioTIME_RLS_S2S3S4_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "structural.azores_moveclim_native_richness_adjusted_falsification.v1_282",
+  "date": "2026-10-23",
+  "status": "RETROSPECTIVE_SENSITIVITY_PROTOCOL_FROZEN_BEFORE_REOPENING_2013_ROWS",
+  "context": "This is a declared falsification of the observed v1.281 negative association, not a pristine preoutcome hypothesis. Do not reclassify output as independent confirmation or pursue alternate tuning on failure.",
+  "question": "Does Pico's v1.281 focal-native lower introduced-taxon exposure persist after deterministic projection of introduced richness onto overall native plot taxon richness and continuously ranked elevation?",
+  "sources": {
+    "MOVECLIM_SHA256": "612dad4edc1a5fb8e9fd057167320144d8a7791a02d1245513d58fd6c8cdabc4",
+    "S1_SHA256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "original_2013_plots": 58,
+    "subplots": 232,
+    "occurrences": 2539,
+    "strict_loss_taxa": 20,
+    "loss_pairs": 24,
+    "old_v281_run": 39904415725,
+    "old_v281_primary_focal_minus_ref": -0.44816750143280726,
+    "old_v281_elevation_split_focal_minus_ref": -0.5034699795669182
+  },
+  "scope": "Pico 24 independently keyed 10x10m original author plots; other three islands are not pooled into a new primary",
+  "variables": {
+    "Y": "Count distinct species-rank introduced plants per plot across four subplots; collapse same taxon within plot",
+    "X1": "Continuous within-island fractional midrank of frozen median author plot elevation (24 plots); tied values midrank",
+    "X2": "Count distinct species-rank native/endemic taxa per plot including historical-loss focal taxa; species counted once per plot",
+    "focal": "One of fixed 20 S1 strict Azores island-level local-loss taxa, when in 2013 native-source records",
+    "reference": "Every other original 2013 native/endemic species in Pico plots (49 taxa); same validation as v1.281"
+  },
+  "analysis": {
+    "standardization": "For the 24 Pico sites, center each X column and divide by root-mean-square deviation, default z=0 for a constant input; no response-dependent bins or thresholds",
+    "ridge": "Fixed slope L2 penalty lambda=1.0 on the two standardized predictors; intercept unpenalized. Solve normal 2x2 equations using full 24 plot Y and X without focal labels; no cross-validation or tuning.",
+    "target": "For each focal/reference taxon average plot residual Y-predicted(Y|X1,X2) across occupied plots, then mean across taxa equally; report focal-minus-reference in introduced species per plot; negative supports descriptive robustness, regardless of strength.",
+    "secondary": "Plot group residual mean focal-any-positive minus focal-negative; report raw native richness plot means by group, beta coefficients and fitted-signal spread as sensitivity only",
+    "self_inclusion": "Total native richness includes the focal or reference species symmetrically when present; this is a habitat proxy not an exogenous covariate. No causal interpretation.",
+    "no_p_values": true,
+    "no_effect_selected_subgroups": true,
+    "no_retroactive_revision_v281": true
+  },
+  "validation": "Source-locked v1.281 aggregate recomputation must match exactly; 58/232/2539, 20/24, Pico focal 5/reference 49, introduced plot×taxon 27, native plot×taxon 292; stop on discrepancy",
+  "firewall": "Retrospective source re-read only the already exposed 2013 MOVECLIM and S1; original 529 mammal, BioTIME reserved, RLS, Macaronesia S2/S3/S4, and old Pico GPS5 remain untouched; no eBird, GEB HOLD, zero confirmatory",
+  "interpretation_ceiling": "A negative adjusted residual difference remains a within-2013 sampled-vegetation association, not an alien introduction treatment effect or proof of biological island refugium, colonization, survival, donor viability or rescue."
+}

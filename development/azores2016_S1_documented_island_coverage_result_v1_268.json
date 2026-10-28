@@ -1,0 +1,101 @@
+{
+  "schema": "structural.azores2016_S1_case_documentation_coverage_freeze.v1_268",
+  "execution_date": "2026-10-20",
+  "status": "SOURCE_AUTHENTICATED_CROSS_SOURCE_DESCRIPTIVE_MATCH_ONLY",
+  "provenance": {
+    "CSIC_workbook_sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "University_of_Azores_2016_DwCA_sha256": "07be180d52f08e5051d63c5364dc856d8b0e811a83a9c26c920780138bb3fc79",
+    "University_of_Azores_2016_archive_bytes": 1603288,
+    "source_url": "https://ipt.gbif.pt/ipt/archive.do?r=uac_checklist_acores&v=1.2",
+    "GBIF_dataset_uuid": "ec1a0bfb-7d8e-4c6b-bc4d-dfd68a1e844f",
+    "source_schema_run": "https://github.com/zuizui0223/Structural/actions/runs/39385161108",
+    "source_genomic_biology_no_values_before_frozen_contract": true,
+    "crosswalk_run": "https://github.com/zuizui0223/Structural/actions/runs/39387757586",
+    "crosswalk_artifact_id": 12247869037,
+    "crosswalk_artifact_sha256": "a18fd8e5d803854eaaa140a08897b9443b6740b9b8f96be9100b6c4c40771f90",
+    "read_contract": "development/azores2016_S1_distribution_crosswalk_contract_v1_268.json"
+  },
+  "source_census": {
+    "taxon_core_records": 15256,
+    "distribution_extension_records": 22629,
+    "accepted_vascular_species_taxon_ids": 1110,
+    "published_checklist_island_specific_present_vascular_species_pairs": 3940,
+    "published_checklist_island_specific_present_native_vascular_species_pairs": 1174,
+    "occurenceStatus_all_rows": {
+      "[MISSING]": 11776,
+      "absent": 72,
+      "doubtful": 109,
+      "irregular": 56,
+      "present": 9791,
+      "rare": 825
+    },
+    "all_distribution_eventDate_values": {
+      "2010": 22629
+    },
+    "GBIF_taxonID_field_vs_DwCA_core_ID_mismatch_rows": 0,
+    "all_2016_distribution_rows_have_same_nominal_2010_event_year": true
+  },
+  "strict_S1_Azores": {
+    "well_supported_island_level_loss_cases": 24,
+    "affected_taxa": 20,
+    "taxa_with_2_island_losses": 4,
+    "S1_taxa_uniquely_matched_to_2010_2016_DwCA": 20,
+    "unique_exact_full_name_matches": 2,
+    "unique_binomial_matches": 18,
+    "ambiguous_or_unmatched": 0,
+    "S1_losses_with_same_island_DwCA_present_status": 13,
+    "same_island_present_with_S1_last_record_before_2010": 12,
+    "same_island_present_with_S1_last_record_2010_or_later": 1,
+    "other_island_DwCA_present_loss_taxa": 18,
+    "other_island_DwCA_present_and_native_loss_taxa": 18,
+    "twice_lost_taxa_with_other_island_DwCA_present_status": 4,
+    "other_island_documented_presence_breadth_of_one_island_loss_taxa": {
+      "n_taxa": 16,
+      "mean": 3.625,
+      "sorted_counts": [
+        0,
+        0,
+        1,
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "other_island_documented_presence_breadth_of_two_island_loss_taxa": {
+      "n_taxa": 4,
+      "mean": 3.75,
+      "sorted_counts": [
+        1,
+        3,
+        4,
+        7
+      ]
+    }
+  },
+  "interpretation": {
+    "main_finding": "A nominally 2016-published checklist inherits a 2010 eventDate across all distribution records; 13/24 reliably extirpated taxon-island pairs are nevertheless flagged present, including twelve with last record before 2010. 'present' cannot be interpreted as a contemporary living population or a pre-loss t0 donor without source-level historical verification.",
+    "source_complementarity": "The 2010-era list can reveal a documented island-level historical geographic footprint: 18/20 loss-affected taxa have other islands listed present, but contemporary persistence, viability, source status, colonization and rescue are NOT observed.",
+    "single_vs_repeat": "Other-island documented footprint mean is similar between one-loss (3.625) and two-loss (3.75) taxa; no clear positive range-breadth gradient on this tiny, historical, case-only sample. Do not infer no ecological effect from n4 repeated.",
+    "missings": "Unlisted or irregular/rare status is not an observed absence; primary present-only status was frozen before biological rows.",
+    "risk_set": "Historic at-risk species×island complete loss+persist denominator still NOT identified. Published checklist includes past statuses with a nominal 2010 year and varying effort.",
+    "data_dependencies": "2016 checklist based on Borges 2010 and potentially overlapping source literature with S1; not independent prospective population monitoring."
+  },
+  "data_firewalls": {
+    "S2_S3_S4_values_opened": 0,
+    "original_mammal_BioTIME_RLS_heldouts_opened": 0,
+    "species_names_or_taxon_ISLAND_rows_publicly_exported": false,
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}

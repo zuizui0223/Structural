@@ -1,0 +1,33 @@
+{
+  "schema": "structural.biomoni_spider_terceira_event_diagnostic.v1_305",
+  "date": "2026-10-28",
+  "status": "FROZEN_EVENT_ONLY_DIAGNOSIS_AFTER_TERMINAL_303_BEFORE_ORIGINAL_EVENT_REACCESS",
+  "source": {
+    "woody_archive": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+    "woody_sha256": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "spider_archive": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_macaronesia_azores&v=1.8",
+    "spider_sha256": "17f65284214ae35a302fee2fa42747e2ecfabb8d04bf9ec8394b6d33c5c4f7b5",
+    "woody_expected_events": 30,
+    "spider_expected_events": 423
+  },
+  "old_strict_gate": "v1.303 original workflow runs 40542133918 and 40542584983 failed because at least one Terceira spider Event original date was outside 2012/2013. This terminal remains fixed.",
+  "purpose": "Classify original Terceira Spider and Tree Event year/date/code mismatch and exact site-key/coordinate/method overlap using Event values only before any spider or tree species-response read.",
+  "permitted": "ONLY original Event core values for source-authored island, locationID, decimalLatitude, decimalLongitude, eventDate, year and samplingProtocol. Original 2019 paper and latest GBIF versions are not assumed to have identical sampling dates.",
+  "frozen_diagnostic": [
+    "Count spider and tree original Event rows by original island and reported year (YYYY from eventDate) including all original source rows; omit original site names.",
+    "Count Terceira source unique site keys with unchanged punctuation-only author locationID key and exact site-key intersection, no coordinate-nearest remapping.",
+    "Check original Tree–Spider max absolute coordinate difference in exact matches, year gap distribution, and within-island samplingProtocol common-mode counts and effort ratio without any species/abundance values.",
+    "Report original Event source year-column versus eventDate mismatch counts, unknown dates or coordinates, and per-year numbers of distinct sites, no original coordinates or source IDs.",
+    "Scientific decision defaults STOP for original v1.303 regardless of results; any exploratory alternative requires new separate protocol frozen before original spider Occurrence.",
+    "No taxon outcomes, no source-specific biological species names, no age of plant or beetle occurrence records, no old v1.300 rerun or new forest causal inference."
+  ],
+  "firewall": {
+    "original_spider_Occurrence_rows_opened": 0,
+    "original_tree_Occurrence_rows_reopened": 0,
+    "old_v1_303_GATE_TERMINAL": true,
+    "old_v1_298_GATE_TERMINAL": true,
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}

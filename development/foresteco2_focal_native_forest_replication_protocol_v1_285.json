@@ -1,0 +1,63 @@
+{
+  "schema": "structural.foresteco2_island_forest_type_independent_response_gate.v1_285",
+  "date": "2026-10-23",
+  "status": "PRE_RESPONSE_FREEZE_INDEPENDENT_SOURCE_AND_FOCAL_TEST",
+  "context": "Separate original field observations from 2013 MOVECLIM. Published 2023 source already in literature (retrospective, non-pristine); response of this new source is not yet accessed by this Structural analysis. Do not call dataset independence a pristine confirmatory design.",
+  "source": {
+    "official_IPT_dataset": "https://ipt.gbif.pt/ipt/resource?r=plants-azo-foresteco2&v=1.2",
+    "official_archive": "https://ipt.gbif.pt/ipt/archive.do?r=plants-azo-foresteco2&v=1.2",
+    "GBIF_uuid": "158e0f0d-26e3-4883-bf5e-6040c1bb1ff4",
+    "doi": "10.15468/3hmqfs",
+    "paper": "10.3897/BDJ.11.e109082",
+    "survey_years": [
+      2017,
+      2018
+    ],
+    "published_expected_event_rows": 90,
+    "published_expected_occurrence_rows": 1150,
+    "source_event_count_conflict": "Publisher Data Records says 90 Event, but a Method Step paragraph says 105 Event. Require EXACT 90 independently keyed plots and 1150 Occurrence rows in original archive; never silently rescue by 105."
+  },
+  "geography": [
+    "Pico",
+    "São Miguel",
+    "Terceira"
+  ],
+  "island_units": {
+    "plots_per_island": 30,
+    "forest_types": [
+      "NF",
+      "EW",
+      "PF"
+    ],
+    "plot_count_per_island_and_forest_type": 10,
+    "each_plot": "100 m2 (10 x 10m), 2017/2018 woody + herbs vascular plant census, 2013 MOVECLIM source not reused as new outcome"
+  },
+  "eligibility_pre_response": [
+    "Read only exact zip central directory and meta.xml; verify Event core with eventID, island, original author locationID, forest type field e.g. habitat or samplingProtocol, Occurrence extension with scientificName, establishmentMeans, taxonRank or canonical species join and coreid, and Event↔Occurrence declared join.",
+    "Do not open any Event/Occurrence body until field roles, original SHA256, required ontology and all stop rules are frozen.",
+    "During one-shot response access require 90 distinct author-defined plots/Events, 10 for each of nine island×forest-type cells, 1150 original Occurrence rows, and fixed 2017/18 year semantics. If mismatch STOP without changing thresholds.",
+    "Forest label only source-declared exact strings NF / Natural forest; EW / Exotic woodland; PF / Production forest. Unknown label STOP; never infer forest type from observed taxon composition.",
+    "Native includes exactly status endemic, native, indigenous, Azorean endemic and Macaronesian endemic labels if documented; introduced includes exactly introduced, invasive, naturalized and casual if original source ontology; unknown, mixed, subspecies and ambiguous excluded from focal/reference primary and counted.",
+    "S1 identity from original frozen 20 Azorean strict Well-supported island-level loss taxa, no species selected by favorable new outcome, species name match unique canonical binomial (no fuzzy synonyms)."
+  ],
+  "focal_analysis": {
+    "primary_endpoint": "Within each of three islands separately, fraction of 10x10m plot×taxon native incidence belonging to fixed history-of-local-loss 20-taxon S1 group, compared NF versus average of EW/PF (forest type supplied independently of plant outcome).",
+    "primary_statistic": "For island i and forest type h, f_i,h = focal native taxon-by-plot positives and r_i,h=other native taxon-by-plot positives; logodds_i,h = log[(f_i,h+0.5)/(r_i,h+0.5)]. d_i=logodds_i,NF - (logodds_i,EW+logodds_i,PF)/2. Main D=mean_i d_i across all 3 islands, equal island weights. Fixed smoothing 0.5; positive D indicates compositional enrichment in native forests; do NOT interpret as causal survival/refugia.",
+    "supported_direction": "D positive only descriptive if 95% plot-cluster bootstrap lower bound >0 using fixed 2000 stratified plot resamples island×forest; no p-value posthoc sign flip. Bootstrap not three-independent-archipelago support.",
+    "minimum_eligibility": "Each of 9 island×type groups has 10 verified independent plots; focal taxon positive in at least 2 islands; at least 2 distinct S1 focal native taxa overall and >=6 native focal plot×taxon positives total; remaining reference native positives in all 9 cells. If not met primary UNSCORED, not evidence of no effect.",
+    "sensitivity": "Report per-island d_i, raw focal and other native incidence, total native and alien plot×species richness by type, without raw taxon identities or site IDs; no alternative q-threshold, no retuning.",
+    "competing_explanation": "Native forests already known in prior paper to host more indigenous plants; finding a large total-native-richness gradient is PRIOR ART. New nonobvious target is conditional compositional enrichment of historical-loss taxa rather than simply indigenous diversity of forest type."
+  },
+  "authorship_ethics": "Cite published authors, avoid interpreting forest type as randomized intervention or historical at-risk loss risk; independent 90 plots are ecological frame, not proof of source population persistence/rescue.",
+  "do_not_score": [
+    "Dispersal, source viability, colonization, demographic rescue or native-forest intervention effect",
+    "Pico same 2013 v1.281 values as new independent endpoint",
+    "Biomoni ineligible tree-only dataset from v1.284",
+    "Other S1 supplements S2-S4, 529 mammal holdout, BioTIME reserved, RLS fish"
+  ],
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_admissions": 0,
+    "eBird": false
+  }
+}

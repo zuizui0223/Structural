@@ -1,0 +1,34 @@
+{
+  "schema": "structural.azores_trail_qualified_event_frame_freeze.v1_294",
+  "status": "RETROSPECTIVE_MATCHED_FRAME_PASS_ONLY_OCCURRENCE_STILL_SEALED",
+  "original_event_only_run_id": 40073734413,
+  "original_event_only_artifact_id": 12551897896,
+  "original_event_only_artifact_zip_sha256": "3b055e8c646e0af93b5b4bbad0895fdd9bf5ac3fb6ff349d2f2624bc9185f3ad",
+  "original_archive_sha256": "c6c6ad82e268759aade344528c3649459ed323053969c1ef8053f3f518298da7",
+  "source_original_Event_rows": 210,
+  "source_event_structurally_parsed": 193,
+  "excluded_Event_rows": 17,
+  "excluded_reason_counts": {
+    "unrecognized_sampling_area": 10,
+    "year_source_field_disagreement": 7
+  },
+  "matched_year_area_groups_by_island": {
+    "São Miguel": 3,
+    "Terceira": 14
+  },
+  "matched_trails_by_island": {
+    "São Miguel": 1,
+    "Terceira": 3
+  },
+  "matched_interior_plots_per_group": {
+    "1": 2,
+    "2": 15
+  },
+  "future_scoring_event_coreids_sha256": "21f681ad97ecb08d25d21bd147cb9650f0924ab3e74ccb51145f93a2ac65fce8",
+  "number_original_Event_rows_eligible_for_score": 147,
+  "original_Occurrence_rows_opened": 0,
+  "confirmatory_admissions": 0,
+  "GEB_scientific_HOLD": true,
+  "eBird": false,
+  "old_v1_292_failure_preserved": true
+}

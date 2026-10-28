@@ -1,0 +1,50 @@
+{
+  "schema": "structural.biomoni_terceira_spider_eight_site_metadata_sample.v1_307",
+  "date": "2026-10-28",
+  "status": "EXPLORATORY_AFTER_EVENT_DIAGNOSTIC_BEFORE_SPIDER_SPECIES_RESPONSES",
+  "source": {
+    "spider_zip": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_macaronesia_azores&v=1.8",
+    "spider_sha256": "17f65284214ae35a302fee2fa42747e2ecfabb8d04bf9ec8394b6d33c5c4f7b5",
+    "tree_zip": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+    "tree_sha256": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "source_spider_events": 423,
+    "source_tree_events": 30,
+    "independent_tree_spider_terceira_nominal_sites": 10,
+    "v305_original_run": 40610110696,
+    "v306_original_run": 40610499954
+  },
+  "fixed_response_blind_criteria": {
+    "original_Terceira_site_join": "Same uppercase A-Z 0-9 normalized author locationID as v1.303; require EXACT original 10/10 forest nominal site bijection before subset",
+    "coordinate_fully_matched_site": "For EACH original spider Event at the source site, maximum absolute coordinate axis delta from tree Event latitude/longitude <=0.0003 degrees; no source event within-site deletion, centroid replacement, site nearest matching or fuzzy names",
+    "require_eligible_site_count": 8,
+    "require_excluded_site_count": 2,
+    "original_source_mismatch_events_expected": 27,
+    "event_dates": "Recognize exactly source YYYY[-...] or day/month/year formats; original Event year column MUST be 2012 or 2013 on Terceira and match parsed Event date; no missing/recovered year from taxonomic data",
+    "paired_woody_spider_calendar_year_difference_max": 2,
+    "original_Terceira_spider_events": 260,
+    "original_spider_modes_shared_across_all_ten_nominal_sites": 5,
+    "minimum_events_per_common_spider_mode_across_all_ten_sorted": [
+      2,
+      3,
+      3,
+      4,
+      11
+    ],
+    "selected_event_criterion": "For each of 8 spatially qualified sites, keep the lowest k source Event coreIDs lexicographically within EVERY protocol present in all 10 original sites; k is source-wide minimum original Event count across 10 sites; never use species occurrence or count to choose sites/methods",
+    "original_event_count_per_selected_plot": 23,
+    "selected_spider_event_total_expected": 184,
+    "all_source_event_hashes_immutable": true
+  },
+  "ecological_question_if_and_only_if_passes": "Among the eight physically position-consistent same-source plots, can source-selected equal-Event-effort spider taxon turnover add an independent measured-arachnid predictor of woody Jaccard turnover beyond geographic distance?",
+  "evidence_class": "SEPARATE_POST-EVENT-QUALITY-SELECTED EXPLORATORY SUBSET. It cannot count as validation of v1.303 ten-site or v1.304 ten-site originally frozen endpoints, and is not an independent island or cross-archipelago replication.",
+  "admission": "This v1.307 only outputs original Event sampling subset SHA-256 and anonymous QA; spider/woody original Occurrence rows must NOT open. A separate scored v1.308 protocol frozen after v1.307 but before spider species access is mandatory.",
+  "firewall": {
+    "old_v1_303_and_v1_304_full_ten_site_primary": "TERMINAL",
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "spider_Occurrence_opened": 0,
+    "wood_occurrence_reopened": 0,
+    "beetle_occurrence_reopened": 0
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schema": "structural.azores2016_macaronesia_s1_current_checklist_crosswalk_contract.v1_268",
+  "frozen_date": "2026-10-20",
+  "status": "FROZEN_BEFORE_AZORES2016_BIOLOGICAL_CHECKLIST_VALUES_OPENED",
+  "study_question": "For 20 S1 taxa with reliable island-level historical loss reports in the Azores, how many can be identified in a separately compiled 2010/2016 island checklist, and on which other islands are they documented as present? Only coverage/current residual distribution, not past source rescue.",
+  "sources": {
+    "S1": {
+      "doi": "10.20350/digitalCSIC/17024",
+      "exact_url": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+      "expected_bytes": 332776,
+      "sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+      "sheet": "Table S1",
+      "strict_local_status": "Extirpation (Island level)",
+      "strict_confidence": "Well-supported",
+      "original_azores_strict_pairs": 24,
+      "original_azores_strict_taxa": 20
+    },
+    "azores2016": {
+      "url": "https://ipt.gbif.pt/ipt/archive.do?r=uac_checklist_acores&v=1.2",
+      "sha256": "07be180d52f08e5051d63c5364dc856d8b0e811a83a9c26c920780138bb3fc79",
+      "size_bytes": 1603288,
+      "license": "CC BY 4.0",
+      "source_publisher": "Universidade dos Açores",
+      "published": "2016-03-03",
+      "source_origin_bibliography": "Borges et al. 2010 terrestrial and marine biota",
+      "schema_audit_run": 39385161108,
+      "gbif_dataset_uuid": "ec1a0bfb-7d8e-4c6b-bc4d-dfd68a1e844f",
+      "core_file": "taxon.txt",
+      "extension_file": "distribution.txt",
+      "core_rowtype": "http://rs.tdwg.org/dwc/terms/Taxon",
+      "extension_rowtype": "http://rs.gbif.org/terms/1.0/Distribution"
+    }
+  },
+  "independent_data_limitation": "Azores 2016 checklist partly draws on literature overlapping with historical S1 cases, so it is a separate source file but not fully independent field replication.",
+  "permitted_columns": {
+    "taxa": [
+      "taxonID",
+      "scientificName",
+      "kingdom",
+      "phylum",
+      "taxonRank",
+      "acceptedNameUsageID",
+      "parentNameUsageID"
+    ],
+    "distribution": [
+      "taxonID",
+      "locality",
+      "countryCode",
+      "occurrenceStatus",
+      "establishmentMeans",
+      "eventDate"
+    ],
+    "losses": [
+      "Species",
+      "Extinction category",
+      "Category",
+      "Island",
+      "Archipelago",
+      "Date"
+    ]
+  },
+  "normalisation": {
+    "name_primary": "Unicode NFKC casefold trim collapse spaces; exact source scientificName matching only if unique source taxon key",
+    "name_secondary": "Latin binomial Genus epithet, only if unique SOURCE taxon rank species and unambiguous; never join variety/subspecies to species or interpret identical epithet as same genus",
+    "name_sensitivity": "Remove trailing numeric citation annotations only as a predeclared sensitivity. Do not call taxonomy synonym resolution.",
+    "island_names": [
+      "Corvo",
+      "Flores",
+      "Faial",
+      "Pico",
+      "Graciosa",
+      "São Jorge",
+      "Terceira",
+      "São Miguel",
+      "Santa Maria"
+    ],
+    "island_aliases": {
+      "Sao Jorge": "São Jorge",
+      "S. Jorge": "São Jorge",
+      "Sao Miguel": "São Miguel",
+      "S. Miguel": "São Miguel"
+    },
+    "locality_rules": "Only unique exactly matched canonical island after diacritic/space normalization, optional leading Azores/Açores and suffix Island, no expansion of 'Azores' or multiple island lists",
+    "accepted_occurrence_status": [
+      "present"
+    ],
+    "uncertain_occurrence_status": "Missing/unknown/unrecognized and absent must not be treated as confirmed presence.",
+    "known_native_establishment_means": [
+      "native",
+      "indigenous",
+      "endemic"
+    ],
+    "missing_native_status": "separately report unknown; do not imply native when empty",
+    "exclude_non_species_rank": true
+  },
+  "outputs": {
+    "overall_core_taxa_count": true,
+    "total_distribution_row_count": true,
+    "count_island_present_and_native_status": true,
+    "per_island_confirmed_present_taxa": true,
+    "strict_S1_loss_taxa_with_exact_name_match": true,
+    "strict_S1_loss_taxa_with_unique_binomial_match": true,
+    "strict_S1_loss_pairs_with_same_island_present_in_2016": true,
+    "strict_S1_loss_taxa_with_confirmed_other_island_current_checklist_presence": true,
+    "strict_S1_loss_taxa_with_no_2016_match": true,
+    "strict_S1_loss_taxa_with_historic_loss_on_2islands_and_survivor_elsewhere": true,
+    "zero_imputation_for_missing_nonobservations": false,
+    "no_individual_species_names_in_public_artifacts": true,
+    "no_individual_species_island_matrix_export": true
+  },
+  "provenance_warning": [
+    "2016 checklist distribution often derives from circa 2010 book, and S1 last-record dates vary; it cannot be called pre-loss population structure for all cases.",
+    "2016 checklist present on a reported lost island is a data conflict requiring taxonomy/temporal audit, not proof of recolonization.",
+    "The checklist is not a complete 2016 survey with uniform effort; missing taxa/islands remain unknown, not verified absent.",
+    "Only one archipelago in this crosswalk; do not generalize same-species loss concentration across 4 archipelagos.",
+    "Do not condition any risk model on extirpations counted as predictors or use S2 historical loss outcomes as environmental covariates."
+  ],
+  "stop_conditions": [
+    "Either original provider original-file SHA or byte count mismatch",
+    "Unexpected field terms/core and distribution tables",
+    "2016 source lacks unique locality-island coding",
+    "Missing or ambiguous taxon keys without unambiguous joins",
+    "Impossible exact raw 24/20 S1 Azores counts",
+    "Do not open S3/S4 Macaronesian native flora response sheets or any Structural 529-mammal/BioTIME/RLS protected responses"
+  ],
+  "protections": {
+    "historical_risk_set_fully_measured": false,
+    "demographic_source_viability_measured": false,
+    "measured_dispersal": false,
+    "biological_predictive_confirmation_admitted": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird_off": true
+  }
+}

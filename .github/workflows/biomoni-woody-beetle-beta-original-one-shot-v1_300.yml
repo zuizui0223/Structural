@@ -1,0 +1,62 @@
+name: BioMonI colocated Terceira woody beetle original source one-shot v1.300
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-woody-beetle-beta-original-one-shot-v1_300.yml"
+permissions:
+  contents: read
+jobs:
+  independently-collected-woody-beetle-plot-turnover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free regression dependency
+        run: python -m pip install pytest
+      - name: Validate all plot-level known-truth and source reader guardrails BEFORE response access
+        run: python -m pytest -q tests/test_biomoni_colocated_woody_beetle_beta_v1_300.py
+      - name: Open original woody and beetle biological responses ONCE after source-only frozen 60 events
+        run: |
+          python scripts/biomoni_colocated_woody_beetle_beta_v1_300.py \
+            --contract development/biomoni_colocated_woody_beetle_beta_transfer_protocol_v1_300.json \
+            --event-contract development/biomoni_terceira_colocated_event_gate_v1_298.json \
+            --method-contract development/biomoni_common_method_study_design_v1_299.json \
+            --out biomoni_cross_taxon_terceira_original_beta_result_v1_300.json
+      - name: Honest one-shot science STOP or valid source-observed descriptive score
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_cross_taxon_terceira_original_beta_result_v1_300.json").read_text())
+          assert r["status"] in {
+              "STOP_FROZEN_ORIGINAL_TAXON_DATA_QUALITY",
+              "STOP_FROZEN_BIOLOGICAL_ESTIMABILITY_NO_CROSS_TAXON_SCORE",
+              "SOURCE_OBSERVED_COLOCATED_BETA_PREDICTIVE_CONGRUENCE_SCORED"}
+          assert r["original_woody_occurrence_rows_opened"]==402
+          assert r["original_beetle_occurrence_rows_opened"]==539
+          assert r["old_v1_298_original_full_method_gate_remains_TERMINAL"]
+          assert r["original_matched_plot_n"]==10
+          assert r["source_selected_equal_effort_beetle_Events"]==60
+          assert r["no_plot_IDs_coordinates_taxon_names_or_original_raw_records_exported"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0
+          assert not r["eBird_used"]
+          if r["status"]=="SOURCE_OBSERVED_COLOCATED_BETA_PREDICTIVE_CONGRUENCE_SCORED":
+              assert r["plot_pair_n"]==45 and r["physically_independent_plot_n"]==10
+              assert r["fixed_permutation_label_shuffle_n"]==999
+              assert r["permutation_fixed_seed"]==20261024
+              assert r["not_plot_pair_independent_significance"]
+              print("ORIGINAL CROSS TAXON OBSERVATION SCORE:",r["primary_beetle_incremental_LOPO_MSE_gain"])
+          else:
+              assert "primary_beetle_incremental_LOPO_MSE_gain" not in r
+              print("ORIGINAL CROSS TAXON SCIENTIFIC STOP:",r["status"])
+          PY
+      - name: Save only anonymous original source ecological aggregates or terminal receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-original-terceira-paired-woody-beetle-beta-v1-300
+          path: biomoni_cross_taxon_terceira_original_beta_result_v1_300.json
+          if-no-files-found: warn

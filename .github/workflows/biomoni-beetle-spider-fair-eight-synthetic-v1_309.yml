@@ -1,0 +1,30 @@
+name: BioMonI equal eight-site Beetle vs Spider source-blind comparator v1.309
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-beetle-spider-fair-eight-synthetic-v1_309.yml"
+      - "development/biomoni_fair_eight_beetle_spider_comparator_protocol_v1_309.json"
+      - "scripts/biomoni_fair_eight_beetle_spider_v1_309.py"
+      - "tests/test_biomoni_fair_eight_beetle_spider_v1_309.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biomoni-beetle-spider-fair-eight-synthetic-v1_309.yml"
+      - "development/biomoni_fair_eight_beetle_spider_comparator_protocol_v1_309.json"
+      - "scripts/biomoni_fair_eight_beetle_spider_v1_309.py"
+      - "tests/test_biomoni_fair_eight_beetle_spider_v1_309.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  same-eight-plot-source-free-known-truth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Exact original source geography baseline and eight-site guild contrast in synthetic controls
+        run: python -m pytest -q tests/test_biomoni_fair_eight_beetle_spider_v1_309.py
+      - name: Original Beetle, Tree and Spider taxon response not reopened
+        run: echo "SYNTHETIC ONLY. No original Beetle/Tree/Spider Occurrence read."

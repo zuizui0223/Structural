@@ -1,0 +1,49 @@
+name: BioMonI spiders same-site third-guild metadata-only v1.302
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-spider-original-meta-v1_302.yml"
+      - "development/biomoni_spider_original_source_opaque_protocol_v1_302.json"
+      - "scripts/biomoni_spider_original_meta_v1_302.py"
+      - "tests/test_biomoni_spider_original_meta_v1_302.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biomoni-spider-original-meta-v1_302.yml"
+      - "development/biomoni_spider_original_source_opaque_protocol_v1_302.json"
+      - "scripts/biomoni_spider_original_meta_v1_302.py"
+      - "tests/test_biomoni_spider_original_meta_v1_302.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-published-spider-taxonomic-response-opaque:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_biomoni_spider_original_meta_v1_302.py
+      - name: Check ORIGINAL 2022 v1.8 spider ZIP directory and meta.xml ONLY
+        run: |
+          python scripts/biomoni_spider_original_meta_v1_302.py \
+            --protocol development/biomoni_spider_original_source_opaque_protocol_v1_302.json \
+            --out biomoni_spider_source_meta_receipt_v1_302.json
+      - name: Guarantee zero arthropod biology opened
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_spider_source_meta_receipt_v1_302.json").read_text())
+          assert r["status"] in ("SPIDER_ORIGINAL_SCHEMA_ELIGIBLE_EVENT_AND_OCCURRENCE_STILL_SEALED","SPIDER_SOURCE_SCHEMA_TERMINAL")
+          assert r["original_Event_rows_opened"]==r["original_Occurrence_rows_opened"]==0
+          assert r["bio_values_or_site_names_read"]==0
+          assert r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-spider-original-source-opaque-v1-302
+          path: biomoni_spider_source_meta_receipt_v1_302.json
+          if-no-files-found: warn

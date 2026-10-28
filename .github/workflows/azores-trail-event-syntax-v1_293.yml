@@ -1,0 +1,50 @@
+name: Azores trail original Event syntax diagnosis after STOP v1.293
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-trail-event-syntax-v1_293.yml"
+      - "development/azores_trail_event_format_diagnostic_v1_293.json"
+      - "scripts/azores_trail_event_original_format_diagnostic_v1_293.py"
+      - "tests/test_azores_trail_event_original_format_diagnostic_v1_293.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  event-only-terminal-postmortem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Test response-free Event metadata grammar redaction
+        run: python -m pytest -q tests/test_azores_trail_event_original_format_diagnostic_v1_293.py
+      - name: Diagnose original 210 Event IDs but NOT biological occurrence records
+        run: |
+          python scripts/azores_trail_event_original_format_diagnostic_v1_293.py \
+            --contract development/azores_trail_event_format_diagnostic_v1_293.json \
+            --out azores_trail_event_only_grammar_receipt_v1_293.json
+      - name: Enforce original STOP and zero plant outcomes
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("azores_trail_event_only_grammar_receipt_v1_293.json").read_text())
+          assert r["status"]=="RESPONSE_UNOPENED_EVENT_FORMAT_DIAGNOSED_OLD_V1_292_TERMINAL"
+          assert r["original_Event_rows_examined"]==210
+          assert r["original_Occurrence_data_rows_opened"]==0
+          assert r["species_or_nativeness_values_opened"]==0
+          assert r["source_Event_or_site_full_identifier_exported"] is False
+          assert r["old_v1_292_remains_terminal"] and r["GEB_scientific_HOLD"]
+          assert not r["eBird_used"] and r["new_confirmatory_systems"]==0
+          print("PASS: no biological-value read, original v1.292 permanently remains STOP")
+          PY
+      - name: Retain only anonymised sample-ID code frequencies
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-trail-event-only-v1-293-code-frequencies
+          path: azores_trail_event_only_grammar_receipt_v1_293.json
+          if-no-files-found: warn

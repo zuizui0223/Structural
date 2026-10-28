@@ -1,0 +1,75 @@
+{
+  "schema": "structural.azores_Pico_event_site_revisit.v1_275",
+  "frozen_date": "2026-10-22",
+  "status": "SOURCE_EVENT_ONLY_275_FROZEN_BEFORE_SITE_YEAR_INSPECTION",
+  "purpose": "Test whether Pico 2020/2021/2022/2024 dated field observations revisit the same source-defined physical sites, independently of taxon observations. Not an occupancy or local persistence endpoint.",
+  "authority": {
+    "source_doi": "10.15468/vk4y7k",
+    "source_zip_url": "https://ipt.gbif.pt/ipt/archive.do?r=pico_vascular_plants&v=1.7",
+    "original_zip_bytes": 568461,
+    "original_zip_sha256": "82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02",
+    "source_version": "1.7",
+    "original_event_core_row_count": 2801,
+    "author_dates": "M/D/YYYY, validated against year+month+day all 2801 records",
+    "year_counts": {
+      "2020": 171,
+      "2021": 1603,
+      "2022": 898,
+      "2024": 129
+    },
+    "source_check_files": [
+      "development/azores_Pico_author_MDY_date_correction_v1_273.json",
+      "development/azores_PRIBES_original_source_manifest_v1_270.json"
+    ]
+  },
+  "allowed_event_fields": [
+    "locationID",
+    "locality",
+    "decimalLatitude",
+    "decimalLongitude",
+    "coordinateUncertaintyInMeters",
+    "samplingProtocol",
+    "eventDate",
+    "year",
+    "month",
+    "day",
+    "island"
+  ],
+  "event_only_archive_table": "Event core index=0; NEVER open any Occurrence distribution table or taxon identifiers",
+  "site_primary": "Exact non-empty original locationID, if available, with all its original georeferences varying by at most 0.01 degree in latitude and longitude. Do NOT use eventID or locality as a site ID.",
+  "site_secondary_sensitivity": {
+    "exact_gps_5_decimals": "Only finite WGS84 lat/lon records, both to 5 decimals (~1 meter precision); distinct years",
+    "rounded_gps_4_decimals": "Independent sensitivity (~11 m latitude), NOT a validated permanent plot",
+    "rounded_gps_3_decimals": "Coarse independent sensitivity (~111 m latitude), no original fixed-site inference"
+  },
+  "temporal_rules": {
+    "primary_repeated_site": "Same author locationID / exact source site, 2 or more distinct calendar years with at least one dated event in each",
+    "strict_repeated_sampling": "Same site, each of at least two distinct years contains at least 2 distinct calendar dates (not merely two eventID values from a day)",
+    "minimum_years": 2,
+    "future_event_years_not_in_source": "Fail closed",
+    "method_comparability": "Sampling protocol missing or varying at site/year: report uncertainty; never claim standardized zero-detection denominator",
+    "coordinate_unavailable": "UNKNOWN spatial site identity, not zero truly repeated physical sites"
+  },
+  "outputs": {
+    "event_field_terms": true,
+    "source_nonempty_field_counts": true,
+    "source_original_2801_event_reconciliation": true,
+    "candidate_author_locationIDs": true,
+    "author_siteIDs_revisited_2plus_years": true,
+    "author_siteIDs_with_2plus_distinct_dates_in_2plus_years": true,
+    "GPS_sensitivity_site_clusters_by_5_4_3_decimals": true,
+    "repeated_author_site_sampling_protocol_stability": true,
+    "only_aggregate_counts": true,
+    "no_geo_coordinates_or_eventID_in_artifact": true,
+    "no_species_names_or_plant_occurrence_rows": true
+  },
+  "stop_decision": "If author source lacks a reliable site key, repeated calendar-year detected plant taxa remain island-year positives only; do not substitute coarse GPS neighborhoods as standardized repeat-survey/true absence.",
+  "firewalls": {
+    "occurrence_extension_rows_opened": 0,
+    "Macaronesia_S2_S3_S4_rows_opened": 0,
+    "original_mammal_BioTIME_RLS_holdouts_opened": 0,
+    "new_confirmatory_systems": 0,
+    "eBird_off": true,
+    "GEB_scientific_HOLD": true
+  }
+}

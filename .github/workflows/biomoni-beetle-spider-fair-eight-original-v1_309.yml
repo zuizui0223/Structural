@@ -1,0 +1,67 @@
+name: BioMonI fair same-eight-site Beetle vs Spider original observational v1.309
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/biomoni-beetle-spider-fair-eight-original-v1_309.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-existing-guild-fair-subset-retrospective:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install synthetic-only test runner
+        run: python -m pip install pytest
+      - name: Verify same-eight geography and immutable target on synthetic sources
+        run: python -m pytest -q tests/test_biomoni_fair_eight_beetle_spider_v1_309.py
+      - name: Reuse already exposed Tree and Beetle response under fixed same-eight source-only Spider site IDs
+        run: |
+          python scripts/biomoni_fair_eight_beetle_spider_v1_309.py \
+            --contract development/biomoni_fair_eight_beetle_spider_comparator_protocol_v1_309.json \
+            --spider-event-contract development/biomoni_spider_eight_site_source_gate_v1_307.json \
+            --spider-event-receipt development/biomoni_spider_eight_site_event_receipt_freeze_v1_307.json \
+            --beetle-method-contract development/biomoni_common_method_study_design_v1_299.json \
+            --beetle-older-crosswalk development/biomoni_terceira_colocated_event_gate_v1_298.json \
+            --old-beetle-score-contract development/biomoni_colocated_woody_beetle_beta_transfer_protocol_v1_300.json \
+            --original-spider-observation development/biomoni_spider_eight_site_observation_freeze_v1_308.json \
+            --out biomoni_fair_eight_beetle_vs_spider_original_v1_309.json
+      - name: Preserve baseline and honest biological STOP without reopening Spider taxonomy
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          r=json.loads(Path("biomoni_fair_eight_beetle_vs_spider_original_v1_309.json").read_text())
+          assert r["status"] in {
+            "OBSERVED_FAIR_EIGHT_SITE_BEETLE_SPATIAL_SUBSET_COMPARATOR",
+            "STOP_FROZEN_FAIR_BEETLE_EIGHT_SITE_TAXON_SUPPORT",
+            "STOP_BASELINE_WOODY_RESPONSE_NOT_REPRODUCED",
+            "STOP_ORIGINAL_BEETLE_SOURCE_QUALITY"}
+          assert r["original_spider_Occurrence_rows_reopened"]==0
+          assert r["original_woody_Occurrence_rows_reopened"]==402
+          assert r["original_beetle_Occurrence_rows_reopened"]==539
+          assert r["source_original_beetle_selected_8_events"]==48
+          assert r["source_exact_8_coordinate_qualified_tree_plots"]==8
+          assert r["old_beetle_full_method_v1_298"]=="TERMINAL"
+          assert r["old_spider_ten_site_v1_303_v1_304"]=="TERMINAL"
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          if r["status"]=="OBSERVED_FAIR_EIGHT_SITE_BEETLE_SPATIAL_SUBSET_COMPARATOR":
+            assert math.isclose(r["original_geography_only_LOPO_MSE"],0.013543688405545892,abs_tol=1e-10)
+            assert r["source_dependent_plot_pairs"]==28
+            assert r["beetle_plot_label_null_permutations"]==999
+            print("OBSERVED FAIREST EIGHT-SITE GUILD CONTRAST:",r["beetle_eight_incremental_LOPO_MSE_gain"],
+              "vs Spider",r["already_observed_spider_same_eight_gain"])
+          else:
+            assert "beetle_eight_incremental_LOPO_MSE_gain" not in r
+            print("FROZEN FAIR GUILD COMPARISON SCIENTIFIC STOP:",r["status"])
+          PY
+      - name: Preserve aggregate-only source result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-fair-eight-site-beetle-versus-spider-source-v1-309
+          path: biomoni_fair_eight_beetle_vs_spider_original_v1_309.json
+          if-no-files-found: warn

@@ -1,0 +1,53 @@
+name: BioMonI three-island opaque archive schema admission v1.283
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-three-island-opaque-schema-v1_283.yml"
+      - "development/biomoni_three_island_metadata_intake_protocol_v1_283.json"
+      - "scripts/biomoni_three_island_opaque_schema_intake_v1_283.py"
+      - "tests/test_biomoni_three_island_opaque_schema_intake_v1_283.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  response-opaque-schema-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Test source schema firewall with 0 opened biology records
+        run: python -m pytest -q tests/test_biomoni_three_island_opaque_schema_intake_v1_283.py
+      - name: Fetch only exact publisher ZIP central directory plus meta.xml metadata
+        run: |
+          python scripts/biomoni_three_island_opaque_schema_intake_v1_283.py \
+            --protocol development/biomoni_three_island_metadata_intake_protocol_v1_283.json \
+            --out biomoni_three_island_metadata_receipt_v1_283.json
+      - name: Audit fixed scientific HOLD regardless of source metadata eligibility
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_three_island_metadata_receipt_v1_283.json").read_text())
+          assert r["Event_rows_opened"]==0
+          assert r["Occurrence_rows_opened"]==0
+          assert r["predictive_effects_scored"]==0
+          assert r["new_confirmatory_systems"]==0
+          assert r["GEB_scientific_HOLD"] and r["eBird_used"] is False
+          if r["status"]!="TRANSPORT_STOP_NO_SOURCE_META":
+              assert r["data_files_opened"]==0
+              assert r["meta_xml_bytes_only"]<=256000
+              assert r["source_dataset_uuid"]=="eab982cf-81df-4d08-b9f4-c2f5c56b8ad3"
+          print("PASS: original biological plant data unopened; evidence status:",r["status"])
+          PY
+      - name: Retain metadata receipt only, no biological labels
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-three-island-opaque-original-metadata-v1-283
+          path: biomoni_three_island_metadata_receipt_v1_283.json
+          if-no-files-found: warn

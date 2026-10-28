@@ -1,0 +1,46 @@
+name: Terceira woody-beetle beta finite MC precision source-free v1.301
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-woody-beetle-precision-sourcefree-v1_301.yml"
+      - "development/biomoni_woody_beetle_mc_precision_protocol_v1_301.json"
+      - "development/biomoni_woody_beetle_v1_300_observed_aggregate_freeze.json"
+      - "scripts/biomoni_woody_beetle_mc_precision_v1_301.py"
+      - "tests/test_biomoni_woody_beetle_mc_precision_v1_301.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-result-frozen-no-new-biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest only
+        run: python -m pip install pytest
+      - name: Test finite permutation uncertainty and strict old STOP
+        run: python -m pytest -q tests/test_biomoni_woody_beetle_mc_precision_v1_301.py
+      - name: Analyze previously frozen 10-plot observational score ONLY
+        run: |
+          python scripts/biomoni_woody_beetle_mc_precision_v1_301.py \
+            --out biomoni_beta_mc_precision_v1_301.json
+      - name: Enforce finite MC interval not biological CI
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_beta_mc_precision_v1_301.json").read_text())
+          assert r["status"]=="SOURCE_FREE_FINITE_PERMUTATION_PRECISION_COMPLETE"
+          assert r["null_gain_ge_observed_count"]==39
+          assert r["conditional_mc_wilson_upper_crosses_0_05"]
+          assert r["no_site_or_taxon_data_reopened"]
+          assert r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-beta-original-sourcefree-mc-precision-v1-301
+          path: biomoni_beta_mc_precision_v1_301.json
+          if-no-files-found: warn

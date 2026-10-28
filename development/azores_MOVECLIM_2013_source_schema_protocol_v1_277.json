@@ -1,0 +1,60 @@
+{
+  "schema": "structural.moveclim2013_azores_original_source_preflight.v1_277",
+  "frozen_date": "2026-10-23",
+  "status": "PUBLISHED_SOURCE_SCHEMA_ONLY_BEFORE_MOVECLIM_SPECIES_OBSERVATIONS",
+  "biological_question": "Within identically sampled indigenous vegetation plots across four Azorean islands, are plants with verified historical extirpation elsewhere in the archipelago more geographically/elevationally restricted in the sampled native vegetation than other recorded indigenous plants? This is a habitat/refugium association, not island-extinction risk or resettlement/rescue.",
+  "source": {
+    "provider": "Universidade dos Açores via GBIF Portugal IPT",
+    "GBIF_dataset_uuid": "f92047fa-f2cb-445d-9a93-546d637b2820",
+    "resource": "plants_plots_moveclim",
+    "version": "1.6",
+    "published": "2026-01-15",
+    "survey_year": "2013",
+    "original_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants_plots_moveclim&v=1.6",
+    "landing_page": "https://ipt.gbif.pt/ipt/resource?r=plants_plots_moveclim&v=1.6",
+    "publication_doi": "10.3897/BDJ.14.e178119",
+    "license": "CC BY 4.0",
+    "declared_event_core_rows": 232,
+    "declared_occurrence_extension_rows": 2539,
+    "declared_independent_plots": 58,
+    "declared_subplots_per_plot": 4,
+    "declared_four_islands": [
+      "São Miguel",
+      "Terceira",
+      "Pico",
+      "Flores"
+    ],
+    "declared_vegetation_scope": "Native or better-preserved vegetation; explicitly nonrandom; ca. 200-m altitudinal sampling levels and 10×10-m plots subdivided into 5×5-m subplots"
+  },
+  "source_data_firewall": {
+    "permitted_at_stage": "one exact tagged original ZIP, file SHA256, ZIP directory, DwCA meta.xml and EML metadata titles, core and extension field URI schema; no Event or Occurrence biological data lines",
+    "forbidden_at_stage": [
+      "Event sampling coordinate and elevation per source record",
+      "Occurrence species, cover or origin values",
+      "New re-opening of Pico PRIBES source previously twice timed-out",
+      "S2/S3/S4 Macaronesia responses or 529 mammal heldout"
+    ],
+    "max_download_bytes": 15000000,
+    "max_uncompressed_bytes": 90000000,
+    "required_core_type_suffix": "/Event",
+    "required_extension_type_suffix": "/Occurrence",
+    "required_full_counts_in_publisher_text": [
+      232,
+      2539
+    ]
+  },
+  "potential_future_go": [
+    "Event core must carry islandID and eventID join to plot/site, elevation and event date",
+    "Occurrence extension must carry species name and species status and cover/individual measurement",
+    "Open 2013 data only after freezing elevation percentiles per island, independent plot clusters, S1 20 affected taxa label, and strong native vegetation species reference",
+    "Statistics must cluster by physical plot (58), not treat 232 subplots as independent",
+    "At most 4 islands in one archipelago; cannot independently validate multiple-archipelago rescue",
+    "New data collected 2013 do not measure 2000 or earlier source population viability or historical at-risk denominator"
+  ],
+  "guards": {
+    "new_confirmatory_admissions": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird_used": false,
+    "previous_protected_outcomes_unopened": true
+  }
+}

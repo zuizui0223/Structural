@@ -1,0 +1,61 @@
+name: Azores trail source-free weighting and richness sign v1.296
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-trail-weighting-sourcefree-v1_296.yml"
+      - "development/azores_trail_weighting_sensitivity_protocol_v1_296.json"
+      - "development/azores_trail_native_alien_field_aggregate_freeze_v1_295.json"
+      - "scripts/azores_trail_weighting_sensitivity_v1_296.py"
+      - "tests/test_azores_trail_weighting_sensitivity_v1_296.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  locked-source-free-ecological-sensitivity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only synthetic test dependency
+        run: python -m pip install pytest
+      - name: Verify immutable four-trail observations and sign-reversal accounting
+        run: python -m pytest -q tests/test_azores_trail_weighting_sensitivity_v1_296.py
+      - name: Compute aggregate-only results without original botanical source access
+        run: |
+          python scripts/azores_trail_weighting_sensitivity_v1_296.py \
+            --aggregate development/azores_trail_native_alien_field_aggregate_freeze_v1_295.json \
+            --protocol development/azores_trail_weighting_sensitivity_protocol_v1_296.json \
+            --out azores_trail_weighting_sourcefree_result_v1_296.json
+      - name: Preserve original primary and prevent pseudo-replicated positive rescue
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("azores_trail_weighting_sourcefree_result_v1_296.json").read_text())
+          assert r["status"]=="SOURCE_FREE_EXACT_AGGREGATION_SENSITIVITY_COMPLETE"
+          assert r["three_weighting_directions"]=={
+            "original_equal_independent_trails":"negative",
+            "descriptive_equal_two_islands":"negative",
+            "nonindependent_repeated_area_group_weight":"positive"}
+          assert r["repeated_groups_reverses_original_equal_trail_sign"]
+          assert r["positive_relative_ratio_but_declining_absolute_native_trails"]==1
+          assert r["negative_relative_ratio_but_increasing_absolute_native_trails"]==1
+          assert r["source_repeated_area_groups"]==17
+          assert r["group_weighted_contrast_is_nonindependent_sensitivity_NOT_primary"]
+          assert r["no_original_2017_2019_Event_or_Occurrence_rows_reopened"]
+          assert r["no_old_Pico_GEB_mammal_BioTIME_RLS_S2_S3_S4_responses_reopened"]
+          assert r["not_causal_trail_intervention_or_movement_rescue"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_admissions"]==0
+          assert not r["eBird_used"]
+          print("SUCCESS original primary remains near zero; no rescue by nonindependent area weighting")
+          PY
+      - name: Upload aggregate-only reproducible sensitivity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-trail-aggregate-only-weighting-v1-296
+          path: azores_trail_weighting_sourcefree_result_v1_296.json
+          if-no-files-found: warn

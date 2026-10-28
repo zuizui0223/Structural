@@ -1,0 +1,98 @@
+{
+  "schema": "structural.azores_MOVECLIM_2013_native_refugia_field_freeze.v1_278",
+  "source": {
+    "original_2013_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants_plots_moveclim&v=1.6",
+    "original_2013_SHA256": "612dad4edc1a5fb8e9fd057167320144d8a7791a02d1245513d58fd6c8cdabc4",
+    "original_2013_bytes": 111299,
+    "CSIC_S1_SHA256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "original_exact_published_S1_local_loss_cohort": {
+      "taxa": 20,
+      "taxon_island_pairs": 24
+    },
+    "run": 39890938835,
+    "run_url": "https://github.com/zuizui0223/Structural/actions/runs/39890938835",
+    "artifact": 12474287889,
+    "artifact_sha256": "06865157d918b86ef0645bafee3cde9d9857d3ba28c222a56412af7651244ba9"
+  },
+  "sampling": {
+    "plots": 58,
+    "subplots": 232,
+    "occurrences": 2539,
+    "author_establishment_means": {
+      "endemic": 1392,
+      "native": 884,
+      "introduced": 263
+    },
+    "source_cover_type": {
+      "Braun Blanquet scale modified by Van der Maarel (1979)": 2539
+    },
+    "unique_sampled_native_plot_taxon_positives": 746,
+    "non_native_or_unknown_occurrence_rows": 306,
+    "non_species_rank_rows_excluded": 43
+  },
+  "by_island": {
+    "Flores": {
+      "plots": 10,
+      "source_native_taxa_total": 41,
+      "S1_affected_native_taxa": 1,
+      "reference_native_taxa": 40,
+      "S1_affected_plot_taxon_positives": 7,
+      "total_native_plot_taxon_positives": 149,
+      "source_elevation_min": 55,
+      "source_elevation_max": 829
+    },
+    "Pico": {
+      "plots": 24,
+      "source_native_taxa_total": 54,
+      "S1_affected_native_taxa": 5,
+      "reference_native_taxa": 49,
+      "S1_affected_plot_taxon_positives": 26,
+      "total_native_plot_taxon_positives": 292,
+      "source_elevation_min": 16,
+      "source_elevation_max": 2248,
+      "affected_mean_2013_plot_elevation_rank": 0.413816425120773,
+      "native_reference_mean_plot_elevation_rank": 0.3802052354625558,
+      "difference_mean_elevation_rank": 0.03361118965821719
+    },
+    "São Miguel": {
+      "plots": 12,
+      "source_native_taxa_total": 45,
+      "S1_affected_native_taxa": 1,
+      "reference_native_taxa": 44,
+      "S1_affected_plot_taxon_positives": 3,
+      "total_native_plot_taxon_positives": 163,
+      "source_elevation_min": 62,
+      "source_elevation_max": 1023
+    },
+    "Terceira": {
+      "plots": 12,
+      "source_native_taxa_total": 39,
+      "S1_affected_native_taxa": 1,
+      "reference_native_taxa": 38,
+      "S1_affected_plot_taxon_positives": 9,
+      "total_native_plot_taxon_positives": 142,
+      "source_elevation_min": 37,
+      "source_elevation_max": 994
+    }
+  },
+  "historical": {
+    "strict_S1_taxa_documented_in_standardized_2013_native_vegetation": 5,
+    "strict_S1_taxa_absent_from_standardized_plot_taxon_list": 15,
+    "strict_loss_pair_with_dated_2013_same_island_vegetation_positive": 0,
+    "source_no_migration_or_historical_survival_inference": true
+  },
+  "limits": [
+    "Five affected taxa in 2013 are all sampled in Pico; one affected taxon is documented each in Flores, São Miguel and Terceira (overlapping taxa possible).",
+    "More Pico sampling plots (24 vs 10/12/12), habitat/elevation coverage and species richness can explain descriptive richness concentration.",
+    "Only five affected taxa in Pico support elevation comparison; mean rank contrast +0.033611 is weak and only descriptive.",
+    "2013 MOVECLIM targeted relatively intact native vegetation; no inference about anthropogenic lowlands or whole-island absence.",
+    "2013 records do not establish viability before historical extirpations, natal dispersal, recolonization or demographic rescue."
+  ],
+  "firewall": {
+    "no_S2_S3_S4_values": true,
+    "no_mammal_BioTIME_RLS_holdout_reopen": true,
+    "eBird_off": true,
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "structural.azores_trail_event_original_format_diagnostic.v1_293",
+  "date": "2026-10-24",
+  "status": "RESPONSE_SEALED_SOURCE_EVENT_METADATA_AFTER_V1_292_TERMINAL",
+  "source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=plants_trails_azores&v=1.4",
+    "sha256": "c6c6ad82e268759aade344528c3649459ed323053969c1ef8053f3f518298da7",
+    "v1_292_failed_run_id": 40073159920,
+    "original_Event_rows_already_examined": 210
+  },
+  "permitted_opening": "Original Event core only (no Occurrence extension, zero biological response), inspect eventID grammar and structural fields, aggregate abstract token-pattern frequencies and code vocab not site IDs.",
+  "intent": "Determine whether v1.292 failed because of a published Event identifier grammar discrepancy, year mismatch or truly unsupported sampling areas, not rescue by viewing plant outcomes.",
+  "predeclared_diagnostic": [
+    "Count year prefix vs Event year match",
+    "Aggregate last three dot tokens (area,plot,line) and whether in published allowed sets",
+    "Classify unexpected year/plot/line/area tokens, token-length frequency",
+    "Inspect generic author fieldNumber/samplingProtocol/habitat columns only by non-identifying code-vocabulary counts if needed; never export original trail/site IDs",
+    "Do not change v1.292 status, thresholds, or scoring scope."
+  ],
+  "next": "If failure is merely source-ID notation and physical matched lines are available, a *new* response-sealed, post-Event-design-exposed protocol may be prepared, still exploratory and with old v1.292 permanently STOP. Else source terminates without plant reads.",
+  "firewall": {
+    "original_Event_rows_opened_already_210": true,
+    "Occurrence_rows_opened": 0,
+    "S1_original_Pico_mammal_BioTIME_RLS_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_admissions": 0,
+    "eBird": false
+  }
+}

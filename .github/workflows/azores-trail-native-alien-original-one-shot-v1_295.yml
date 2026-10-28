@@ -1,0 +1,53 @@
+name: Azores 2026 trail native alien original one-shot field score v1.295
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-trail-native-alien-original-one-shot-v1_295.yml"
+permissions:
+  contents: read
+jobs:
+  one-time-independent-island-plant-survey:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install synthetic regression test dependency only
+        run: python -m pip install pytest
+      - name: All v1.295 source-free guards first; no original plant rows
+        run: python -m pytest -q tests/test_azores_trail_native_alien_v1_295.py
+      - name: One-shot original published 2026 v1.4 trail native-alien comparison
+        run: |
+          python scripts/azores_trail_native_alien_v1_295.py \
+            --contract development/azores_trail_native_alien_response_contract_v1_295.json \
+            --event-contract development/azores_trail_new_event_frame_v1_294.json \
+            --event-receipt development/azores_trail_qualified_event_frame_freeze_v1_294.json \
+            --out azores_trail_native_alien_field_result_v1_295.json
+      - name: Honest ecological score versus biological STOP audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("azores_trail_native_alien_field_result_v1_295.json").read_text(encoding="utf-8"))
+          assert r["status"] in ("SOURCE_OBSERVATIONAL_TRAIL_COMPOSITION_DESCRIPTIVE_SCORE",
+                                  "STOP_ORIGINAL_BIOLOGICAL_QUALITY_OR_SUPPORT")
+          assert r["original_occurrence_rows_opened"]>0
+          assert r["original_v1_292_terminal"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0
+          assert r["eBird_used"] is False
+          assert r["no_original_Pico_mammal_BioTIME_RLS_response_reopened"]
+          if r["status"].startswith("STOP"):
+              assert r["score"] is None and r["per_trail"] is None
+          else:
+              assert len(r["per_trail"])>=2
+              assert r["score"]["independent_trails"]==len(r["per_trail"])
+          print("Frozen original observation result:",r["status"])
+          PY
+      - name: Archive original aggregate ecological result or truthful terminal stop
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-2026-trail-native-alien-one-shot-v1-295
+          path: azores_trail_native_alien_field_result_v1_295.json
+          if-no-files-found: warn

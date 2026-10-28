@@ -1,0 +1,83 @@
+{
+  "schema": "structural.biomoni_fair_eight_site_cross_guild_final_v1_309",
+  "date": "2026-10-28",
+  "status": "SOURCE_OBSERVED_BOTH_GUILDS_NO_POSITIVE_8_SITE_INCREMENT",
+  "source_runs": {
+    "v300_beetle10": 40081020518,
+    "v305_event_year_diagnostic": 40610110696,
+    "v306_event_coordinate_quality": 40610499954,
+    "v307_event_only_eight": 40611215086,
+    "v308_spider8_original": 40611772269,
+    "v308_readonly_result": 40612171049,
+    "v309_fair_beetle8_original": 40612940936
+  },
+  "v309_artifact": {
+    "id": 12782549849,
+    "zip_sha256": "4dc86493c6baa4a235fefa2b3bae9638ef0622d980b0db48fc156416b9dd67a6",
+    "json_sha256": "84c828861cc8a8e35f94a97a18d7a86e0d25a46164cffb279c6b7102a45d61b4"
+  },
+  "original_woody_beetle_spider_sha256": {
+    "woody": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "beetle": "e518beb6f529067cc2f38013e03c4f833e86133fddface1df6f9ba7c532885e8",
+    "spider": "17f65284214ae35a302fee2fa42747e2ecfabb8d04bf9ec8394b6d33c5c4f7b5"
+  },
+  "science": {
+    "site_frame": "8 exact shared Terceira 50x50m forest plots passing event-only spider/tree coordinate quality from ten nominal author plot IDs; 2 sites fail all-events strict 0.0003deg coordinate tolerance",
+    "original_independent_site_n": 8,
+    "dependent_site_pair_n": 28,
+    "baseline_woody_jaccard_geography_only_LOPO_MSE": 0.013543688405545892,
+    "beetle_same_eight": {
+      "selected_beetle_Event_n": 48,
+      "original_beetle_selected_occurrence_n": 88,
+      "operational_beetle_taxa_n": 18,
+      "woody_operational_taxa_n": 11,
+      "augmented_LOPO_MSE": 0.013721557592204406,
+      "incremental_LOPO_MSE_gain": -0.00017786918665851394,
+      "relative_MSE_improvement": -0.013132994597371257,
+      "permutation_n": 999,
+      "seed": 20261028,
+      "plot_label_null_gain_95pct": 0.0012125355896654385,
+      "plot_label_exceedance_rank": 0.249,
+      "positive_predictive_increment_supported": false
+    },
+    "spider_same_eight": {
+      "selected_spider_Event_n": 184,
+      "original_spider_selected_occurrence_n": 717,
+      "spider_taxa_n": 28,
+      "augmented_LOPO_MSE": 0.015515498977463262,
+      "incremental_LOPO_MSE_gain": -0.0019718105719173703,
+      "relative_MSE_improvement": -0.14558889077143491,
+      "permutation_n": 999,
+      "seed": 20261028,
+      "plot_label_exceedance_rank": 0.867,
+      "positive_predictive_increment_supported": false
+    },
+    "prior_beetle_ten": {
+      "plots": 10,
+      "incremental_LOPO_MSE_gain": 0.0005573206640206614,
+      "relative_MSE_improvement": 0.04930609189515262,
+      "plot_label_exceedance_rank": 0.04
+    },
+    "scientific_interpretation": "Original ten-site weak Beetle extra information is not reproduced when only the eight independently source-coordinate-qualified original forest plots are used. Spider also does not add predictive information on exactly those eight plots. Small sample/geographic-support/observation-mode sensitivity prevents general cross-guild spatial structural signature claim.",
+    "cannot_infer": [
+      "the excluded two plots causally generated the ten-plot signal",
+      "stable Beetle-specific guild effect",
+      "no coupling in all Terceira forests",
+      "island-to-island transfer",
+      "biological plant-arthropod causation",
+      "source-to-recipient demographic rescue",
+      "restoration intervention benefit"
+    ]
+  },
+  "controls": {
+    "source_Event_join_fraction_tree": 1,
+    "source_Event_join_fraction_beetle": 1,
+    "spider_taxon_rows_reopened_in_v309": 0,
+    "same_woody_geographic_baseline_reproduced_within_1e_minus_10": true,
+    "prior_full_beetle_methods_v1_298": "TERMINAL",
+    "prior_all_ten_spider_sites_v1_303_v1_304": "TERMINAL",
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}

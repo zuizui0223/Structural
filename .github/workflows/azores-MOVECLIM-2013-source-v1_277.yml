@@ -1,0 +1,49 @@
+name: Azores MOVECLIM original 2013 plot archive schema v1.277
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-MOVECLIM-2013-source-v1_277.yml"
+      - "development/azores_MOVECLIM_2013_source_schema_protocol_v1_277.json"
+      - "scripts/azores_MOVECLIM_2013_source_preflight_v1_277.py"
+      - "tests/test_azores_MOVECLIM_2013_source_preflight_v1_277.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install source-free tests
+        run: python -m pip install pytest
+      - name: Check no biological record values read in synthetic 2013 plots
+        run: python -m pytest -q tests/test_azores_MOVECLIM_2013_source_preflight_v1_277.py
+      - name: Verify official MOVECLIM 2013 source schema and archive SHA
+        run: |
+          python scripts/azores_MOVECLIM_2013_source_preflight_v1_277.py \
+            --contract development/azores_MOVECLIM_2013_source_schema_protocol_v1_277.json \
+            --out azores_MOVECLIM_2013_original_source_schema_v1_277.json
+      - name: Enforce 232 Event/2539 Occurrence source schema with zero biological reads
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('azores_MOVECLIM_2013_original_source_schema_v1_277.json').read_text())
+          assert j['status']=='AUTHOR_2013_PLOT_SOURCE_SCHEMAS_VERIFIED'
+          assert j['source_biological_record_bytes_read']==0
+          assert j['source_event_or_occurrence_records_scored']==0
+          assert j['schema']['core']['rowtype'].endswith('/Event')
+          assert any(e['rowtype'].endswith('/Occurrence') for e in j['schema']['extensions'])
+          assert j['GEB_scientific_HOLD']
+          print('MOVECLIM source schema verified; no taxa decoded.')
+          PY
+      - name: Save original schema and STOP receipt without Event/Occurrence rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-MOVECLIM-2013-source-schema-v1-277
+          path: azores_MOVECLIM_2013_original_source_schema_v1_277.json
+          if-no-files-found: warn

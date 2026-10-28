@@ -1,0 +1,35 @@
+{
+  "schema": "structural.azores_pico_source_free_aggregate_replay.v1_290",
+  "origin_2013": "MOVECLIM original 58 author plots, Pico 24 plot subset, previously audited in v1.278–v1.282",
+  "source_sha256": {
+    "v281_extracted": "135a4c5f598f686ce3691d79aa0a59b427036128d8e99760321dbc3d4f208a27",
+    "v282_extracted": "3ea87c240c663c9c60383c49492b03240268f8b91da313a36821264a388d476f"
+  },
+  "pico": {
+    "plots": 24,
+    "plots_focal_affected_native_positive": 19,
+    "plots_no_focal_affected_native_detected": 5,
+    "plots_with_any_introduced_taxon": 11,
+    "recorded_distinct_introduced_taxa": 12,
+    "maximum_distinct_introduced_taxa_per_original_plot": 5,
+    "introduced_taxon_plot_positives_all": 27,
+    "introduced_taxon_plot_positives_focal_positive": 15,
+    "introduced_taxon_plot_positives_focal_negative": 12,
+    "v281_mean_alien_taxa_per_focal_positive_plot": 0.7894736842105263,
+    "v281_mean_alien_taxa_per_focal_negative_plot": 2.4,
+    "v281_native_focal_taxa_detected": 5,
+    "v281_native_reference_taxa_detected": 49,
+    "v281_native_focal_taxon_plot_positive": 26,
+    "v281_native_reference_taxon_plot_positive": 266,
+    "v282_total_native_mean_focal_positive_plot": 14.31578947368421,
+    "v282_total_native_mean_focal_negative_plot": 4
+  },
+  "guards": {
+    "original_M0_plant_and_S1_rows_opened_again": false,
+    "data_type": "already published aggregated counts, no per-plot records",
+    "no_site_taxon_names_or_IDs": true,
+    "GEB_scientific_HOLD": true,
+    "confirmatory_admissions": 0,
+    "eBird": false
+  }
+}

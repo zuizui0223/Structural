@@ -1,0 +1,57 @@
+{
+  "schema": "structural.azores_trail_independent_native_alien_v1_295",
+  "date": "2026-10-24",
+  "status": "PROSPECTIVE_TO_PLANT_RESPONSE_RETROSPECTIVE_TO_EVENT_DESIGN_FROZEN",
+  "parent_eligibility": "development/azores_trail_new_event_frame_v1_294.json",
+  "source": {
+    "doi": "10.15468/ysbzk7",
+    "archive_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants_trails_azores&v=1.4",
+    "sha256": "c6c6ad82e268759aade344528c3649459ed323053969c1ef8053f3f518298da7",
+    "source_event_rows": 210,
+    "source_Occurrence_claim_v1_4": "not independently verified; v1.0/v1.2 stated 2733",
+    "one_shot_only": true
+  },
+  "question": "Does the independently sampled 2017-2019 Azores native forest trail system show different native-vs-introduced plant composition at trail edges versus comparable interior samples, when the nested trail-area-plot-line sampling design and effort are respected?",
+  "physical_sample_fixed": {
+    "islands": [
+      "Terceira",
+      "São Miguel"
+    ],
+    "units": "3 shared 50/100/150cm line Event observations per original 2x10m physical plot, aggregated before analysis",
+    "line_match_rule": "Use only source-only v1.294 eligible matched trail×year×area groups; edge physical plot1 contrasted with interior physical plots2/3 if they each have full common 50/100/150 lines",
+    "line25": "Never include, because no corresponding interior 25cm line",
+    "unknown_event_codes": "Retain source-only v1.294 structural exclusions unchanged; NEVER change group after seeing plant outcomes",
+    "study_block": "trail (4 published, three Terceira, one São Miguel); trail×area repeated sampling is not independent island replication",
+    "origin_status": "Normalize exact DarwinCore establishmentMeans values native/indigenous/endemic/azorean endemic/native nonendemic as native; introduced/invasive/naturalized/naturalised as introduced. Other/uncertain/mixed -> unknown/exclude. No posthoc status reclassification",
+    "eligible_taxon": "scientificName non-empty and exact taxonRank species; allow original species-level author name unchanged as identity; same physical plot×species counts once even if on multiple lines; count species across all three identical line positions, not 10 subpoint records as independent"
+  },
+  "estimability": {
+    "source_coreid_fingerprint_must_equal_v1_294": true,
+    "min_matched_area_groups": 4,
+    "min_biologically_eligible_trails_by_island": 1,
+    "min_intro_species_by_island": 1,
+    "min_native_species_by_island": 3,
+    "max_ambiguous_status_fraction_of_original_species_rank_Records": 0.2,
+    "min_original_Occurrence_join_fraction": 0.95,
+    "no_fallback_new_taxa_or_relaxed_sample_if_fails": true
+  },
+  "primary": {
+    "plot_log_native_intro_ratio": "log((number native taxa + 0.5)/(number introduced taxa + 0.5)) using source's 3 shared line-position detections in physical plots",
+    "within_group_effect": "interior plot average log ratio minus edge plot log ratio for each matched trail×year×area group",
+    "independent_trail_summary": "Average group effects within each trail; report four or fewer trail results and per-island mean with original number of physically observed trails",
+    "direction": "positive interior-minus-edge indicates relative native-plant enrichment within native forest along trail edge compared with matched interior",
+    "inference": "Descriptive only; with one trail on São Miguel, a significance claim across islands is invalid; report how many independent trails show positive direction, no p-values, CI or pseudo-independent line-level testing",
+    "secondary": "Report separate per-trail native-richness and introduced-richness interior/edge differences plus original authors' source sampling coverage, status ambiguity rates; no historical-loss case selection after seeing response",
+    "not_estimate": "Recolonization, demographic rescue, invasive-plant causal suppression, vegetation recovery, disturbance intervention, randomization or independent archipelago replication"
+  },
+  "effect_emission_gate": "Do not compute numeric primary contrast unless all v1.294 physical and v1.295 biological status/join/effort gates pass. On any STOP emit null score and preserve independent original source lineage.",
+  "prior_art": "Trail authors explicitly designed this survey for tourism-associated vegetation disturbance, and general native-vs-invasive contrasts are not guaranteed novel. The new question is quantitative edge-versus-interior native/alien composition under matched original plot and line sampling, and comparison of potentially distinct island contexts.",
+  "firewall": {
+    "old_v1_292_terminal": true,
+    "old_Pico_v1_290_unchanged": true,
+    "original_GEB_scientific_HOLD": true,
+    "new_pristine_confirmatory_systems": 0,
+    "eBird": false,
+    "original_mammal_BioTIME_RLS_S2_S3_S4_unopened": true
+  }
+}

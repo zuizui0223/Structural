@@ -1,0 +1,46 @@
+{
+  "schema": "structural.azores_trail_post_event_diagnostic_physical_gate.v1_294",
+  "date": "2026-10-24",
+  "status": "NEW_RETROSPECTIVE_EVENT_EXPOSED_RESPONSE_SEALED_PROTOCOL_FROZEN",
+  "source": {
+    "archive_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants_trails_azores&v=1.4",
+    "sha256": "c6c6ad82e268759aade344528c3649459ed323053969c1ef8053f3f518298da7",
+    "original_event_rows": 210,
+    "original_Occurrence_values_opened": 0,
+    "first_design_failed": "v1.292 run 40073159920",
+    "event_diagnostic": "v1.293 run 40073337648",
+    "published_DOI": "10.15468/ysbzk7"
+  },
+  "new_evidence_class": "EXPLORATORY_NEW_EVENT_DESIGN_AFTER_PHYSICAL_EVENT_EXPOSURE; NOT PRISTINE, NOT THE OLD V1.292 GATE",
+  "scientific_goal": "Check in independent two-island 2017-2019 plant survey whether enough physically matched trail-edge and interior samples exist, *before* any native/alien species values, to support an observational composition contrast. Do not rescue original v1.292 as confirmed.",
+  "fixed_event_grammar": {
+    "year": "first dot token, must match numeric Event year (if supplied) and eventDate year",
+    "trail": "all dot tokens between year and rightmost 3 tokens; any nonempty trail name accepted, no source-selected trail exclusion",
+    "area": "rightmost third token must be 0,50,250,max or Control_50 (exact normalized control50 alias becomes control_50); all other area tokens excluded from available matched frame",
+    "plot": "rightmost second token must be 1,2,3; otherwise exclude",
+    "line": "rightmost token must be 25,50,100,150; plot2/3 line25 invalid; otherwise exclude",
+    "source_identity": "Exclude malformed Event-level records deterministically before opening any Occurrence; never impute or fuzzy-reassign individual missing plots",
+    "full_event_population": "Require 210 unique original core IDs and eventIDs, exact fixed original source archive. Report all exclusion reasons and fraction; stop if more than 20 percent cannot be structurally categorized."
+  },
+  "fixed_sampling_eligibility": {
+    "islands": [
+      "Terceira",
+      "São Miguel"
+    ],
+    "minimum_independent_trails_per_island": 1,
+    "minimum_matched_area_year_groups_total": 4,
+    "matched_unit": "same island×trail×year×area with complete lines 50/100/150 for plot1 and at least one of plot2 or plot3; fixed control of shared line efforts",
+    "independent_blocks": "trail, not 210 line events; 3 trails on Terceira and one on São Miguel published; do not pretend island-level independence beyond two islands",
+    "min_source_event_retention_fraction": 0.8,
+    "line_25_policy": "Report but exclude edge-only 25-cm lines from future matched score",
+    "no_outcome_access_at_this_gate": true
+  },
+  "future_score_rules": "Only if qualified: separately freeze native/alien taxonomy vocabulary, plot-level detection-based primary difference, ambiguity threshold, and original source-replay rules in a new protocol before reading Occurrence values. No species value used to decide which site groups to include.",
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_admissions": 0,
+    "eBird": false,
+    "old_v1_292_terminal_immutable": true,
+    "old_Pico_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "structural.biomoni_terceira_spider_to_woody_beta.v1_304",
+  "date": "2026-10-28",
+  "status": "CONDITIONAL_SPIDER_RESPONSE_SCORING_FROZEN_BEFORE_ANY_SPIDER_OCCURRENCE_ACCESS",
+  "previous_observation": {
+    "v300_run": 40081020518,
+    "v300_tree_beetle_LOPO_geography_only_MSE": 0.011303282061084477,
+    "v300_tree_beetle_LOPO_added_beetle_MSE": 0.010745961397063816,
+    "v300_beetle_incremental_gain": 0.0005573206640206614,
+    "v300_beetle_relative_LOPO_gain": 0.04930609189515262,
+    "v301_MC_numeric_precision_interval": [
+      0.02868777863741773,
+      0.052921789954747146
+    ],
+    "independence_warning": "Original woody response and spatial plots already opened in v300; therefore a spider test using the same woody target is conditional exploration, not fresh pristine confirmation."
+  },
+  "source": {
+    "spider_original_sha": "17f65284214ae35a302fee2fa42747e2ecfabb8d04bf9ec8394b6d33c5c4f7b5",
+    "spider_original_archive": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_macaronesia_azores&v=1.8",
+    "spider_original_Event_rows": 423,
+    "spider_original_Occurrence_rows": 1639,
+    "tree_original_sha": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "tree_original_archive": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+    "tree_original_Event_rows": 30,
+    "tree_original_Occurrence_rows": 402,
+    "v303_eligible_receipt_required": "TEN_SITE_SPIDER_TREE_EVENT_FRAME_QUALIFIED_RESPONSES_SEALED with locked original ten plot and spider-Event subset SHA before reading any spider Occurrence"
+  },
+  "ecological_question": "Is incremental predictive information about native woody plant compositional turnover beyond geographic distance also observed in SPIDER assemblages, or was the v300 result specific to beetles in these same fragmented Terceira forests?",
+  "analysis": {
+    "unit": "Original ten matched Terceira 50x50m forest plots. Forty-five dyads are dependent observations, not independent replicates.",
+    "spider_effort": "Use only the original, response-blind equal-method spider Event coreIDs frozen by v1.303, each method selected at minimum occurrence-independent multiplicity across all ten plots.",
+    "woody_target": "Original author scientificName at species/subspecies rank, de-duplicated to physical plot. Original Woody v1.7 replay must give exact prior geographic-only LOPO MSE within 1e-10 else STOP.",
+    "spider_taxa": "Original author species/morphospecies source scientificName with taxonRank; source records with unresolved names >5% of selected-subevent rows STOP.",
+    "distance": "Haversine km between source-verified Woody original plot coordinates, transformed log(1+km).",
+    "response": "Woody Jaccard plot-pair dissimilarity of site taxa, 45 unique pairs.",
+    "predictor": "Spider Jaccard plot-pair dissimilarity of site taxa, 45 unique pairs.",
+    "LOPO": "Ten folds, nine heldout plot test pairs per fold, 36 fully nonheldout plot training pairs. Train ridge λ=0.1 with fold-training-only x standardization and intercept unpenalized; baseline distance only, augmented distance+spider.",
+    "primary": "Mean LOPO MSE(distance-only) − mean LOPO MSE(distance+spider), positive if spider turnover adds source-observed predictive information.",
+    "null": "999 fixed seed 20261028 shuffled SPIDER plot identities, no shuffling independent 45 pairs, baseline unchanged, upper exceedance rank with +1 correction.",
+    "supported_descriptive_if": "Spider LOPO gain positive AND exceeds 95th percentile of plot-label randomization null; otherwise retain score but no positive claim.",
+    "contrast_to_beetles": "Compare spider vs v300 beetle gain *descriptively* under same original baseline, but do not infer independent comparison p, since same plots and woody outcome.",
+    "no_refits_or_search": "No new methods, taxa thresholds, spatial-scale parameters or seed chosen after spider response exposure"
+  },
+  "estimability": {
+    "all_10_source_sites_exact_bijection": true,
+    "min_tree_and_spider_detected_taxa_each_plot": 1,
+    "min_sites_with_at_least_two_woody_taxa": 8,
+    "min_sites_with_at_least_two_spider_taxa": 8,
+    "min_nonzero_jaccard_pairs_each_taxon": 5,
+    "original_Event_Occurrence_coreid_join_fraction_min": 0.98,
+    "unresolved_spider_taxon_max_fraction": 0.05,
+    "woody_original_geo_LOPO_baseline_abs_tolerance": 1e-10
+  },
+  "nonclaims": [
+    "No causal tree→spider or tree→beetle mechanism",
+    "Spider and beetle sampling methods share COBRA collection opportunity and are not necessarily independent detections",
+    "No new island, no independent archipelago replication",
+    "No evidence of source–sink rescue, immigration, survival or forest restoration benefit",
+    "No spatially restricted null or forest fragment adjustment; plot-label exchangeability remains a limitation"
+  ],
+  "firewall": {
+    "v1_298_full_method_terminal": true,
+    "v1_303_source_event_status_must_pass": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "original_GEB_mammal_BioTIME_RLS_S2_S3_S4_heldouts_unopened": true
+  }
+}

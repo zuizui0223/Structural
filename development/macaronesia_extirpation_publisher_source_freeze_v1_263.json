@@ -1,0 +1,101 @@
+{
+  "schema": "structural.macaronesia_extirpation_publisher_source_result_freeze.v1_263",
+  "date": "2026-10-19",
+  "status": "ORIGINAL_CSIC_WORKBOOK_AND_METHODS_SHA_VERIFIED_HEADERS_ONLY",
+  "source": {
+    "handle": "http://hdl.handle.net/10261/377677",
+    "workbook_bytes": 332776,
+    "workbook_sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "readme_bytes": 23793,
+    "readme_sha256": "e0b200a6c05fa10f0f98bf7b827fa389d4d3e3150c10b0cac591eeb40494af36",
+    "original_paper": "Global Change Biology (2025), DOI 10.1111/gcb.70072",
+    "authored_2025_and_distributed_2026": true
+  },
+  "provenance": {
+    "run_id": 39237276516,
+    "run_url": "https://github.com/zuizui0223/Structural/actions/runs/39237276516",
+    "artifact_id": 12180031865,
+    "artifact_digest": "sha256:ac511f4bfbd5df752fd8e3d947afac8b832b52468b69e43d3aea804606a0f85a",
+    "contract": "development/macaronesia_extirpation_source_protocol_v1_263.json"
+  },
+  "sheet_schema": [
+    {
+      "sheet": "Table S1",
+      "nominal_nonheader_rows": 168,
+      "headers": [
+        "Species",
+        "Family",
+        "Endemicity",
+        "Extinction category",
+        "Category",
+        "Island",
+        "Archipelago",
+        "Date",
+        "Pollination mechanism",
+        "Seed dispersal mechanism"
+      ],
+      "candidate_endpoint": "individual extinct/extirpated records; outcome not yet opened"
+    },
+    {
+      "sheet": "Table S2",
+      "nominal_nonheader_rows": 22,
+      "headers": [
+        "Islands",
+        "Archipelago",
+        "Human population size",
+        "Distance to the nearest continent (km)",
+        "Area (km2)",
+        "Nº Introduced plants",
+        "Nº Introduced herbivorous mammals",
+        "Nº local and global extinctions events"
+      ],
+      "candidate_endpoint": "island environment/human controls; values not yet opened"
+    },
+    {
+      "sheet": "Table S3",
+      "nominal_nonheader_rows": 388,
+      "headers": [
+        "Species",
+        "Endemicity",
+        "IUCN",
+        "Extinct",
+        "Extirpated",
+        "GE-LE-CR",
+        "Life form",
+        "Pollination mechanism",
+        "Seed dispersal mechanism"
+      ],
+      "candidate_endpoint": "native flora of one archipelago with possible island incidence columns; response unverified"
+    },
+    {
+      "sheet": "Table S4",
+      "nominal_nonheader_rows": 995,
+      "headers": [
+        "Species",
+        "Endemicity",
+        "IUCN",
+        "Extinct",
+        "Extirpated",
+        "GE-LE-CR",
+        "Life form",
+        "Pollination mechanism",
+        "Seed dispersal mechanism"
+      ],
+      "candidate_endpoint": "native flora of other archipelago with possible island incidence columns; response unverified"
+    }
+  ],
+  "reader_boundary": {
+    "worksheets_total": 8,
+    "source_spreadsheet_rows_semantically_decoded_beyond_first_header": 0,
+    "unique_extirpated_species_not_yet_counted": true,
+    "island_by_species_status_matrix_not_yet_verified": true,
+    "README_source_methods_semantically_decoded": false
+  },
+  "next_scientific_gate": "Inspect author-published README explanatory keys only; predeclare target, handling of local-vs-global extinction, island species denominator and strong environment/human reference before decoding native/flora or extirpation records. Because extant source populations may be post-loss, these are not lagged sources.",
+  "guards": {
+    "eBird_off": true,
+    "original_mammal_holdout_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_fresh_confirmatory_systems": 0
+  }
+}

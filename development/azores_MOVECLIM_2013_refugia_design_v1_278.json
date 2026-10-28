@@ -1,0 +1,106 @@
+{
+  "schema": "structural.moveclim2013_S1_native_forest_refugia_design.v1_278",
+  "freeze_date": "2026-10-23",
+  "status": "FROZEN_BEFORE_2013_MOVECLIM_EVENT_AND_OCCURRENCE_VALUE_ACCESS",
+  "main_biological_hypothesis": "Within 2013 native or better-preserved sampled vegetation plots on four Azorean islands, taxa with documented Well-supported island-level extirpation somewhere in the archipelago may be disproportionately represented in higher-elevation native vegetation relative to the other indigenous taxa present in the same island plots.",
+  "sources": {
+    "MOVECLIM": {
+      "doi": "10.3897/BDJ.14.e178119",
+      "GBIF_uuid": "f92047fa-f2cb-445d-9a93-546d637b2820",
+      "version": "1.6",
+      "original_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants_plots_moveclim&v=1.6",
+      "sha256": "612dad4edc1a5fb8e9fd057167320144d8a7791a02d1245513d58fd6c8cdabc4",
+      "exact_bytes": 111299,
+      "event_core": "event.txt",
+      "occurrence_extension": "occurrence.txt",
+      "declared_events": 232,
+      "declared_occurrences": 2539,
+      "declared_independent_10x10m_plots": 58
+    },
+    "S1": {
+      "doi": "10.20350/digitalCSIC/17024",
+      "url": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+      "sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+      "exact_bytes": 332776,
+      "strict_event_definition": "Extirpation (Island level) and Well-supported",
+      "Azores_loss_cases": 24,
+      "Azores_loss_taxa": 20
+    }
+  },
+  "allowed_2013_Event_fields": [
+    "eventID",
+    "eventDate",
+    "year",
+    "island",
+    "islandGroup",
+    "locationID",
+    "minimumElevationInMeters",
+    "maximumElevationInMeters",
+    "samplingProtocol",
+    "sampleSizeValue",
+    "sampleSizeUnit"
+  ],
+  "allowed_2013_Occurrence_fields": [
+    "scientificName",
+    "genus",
+    "specificEpithet",
+    "taxonRank",
+    "establishmentMeans",
+    "organismQuantity",
+    "organismQuantityType",
+    "occurrenceID"
+  ],
+  "rules": {
+    "source_join": "Darwin Core Event core <id index=0> matches Occurrence extension <coreid index=0>; NEVER occurrenceID/taxonID as event join key",
+    "survey_year": "all 232 Events expected in 2013; no posthoc addition or year imputation",
+    "islands": [
+      "São Miguel",
+      "Terceira",
+      "Pico",
+      "Flores"
+    ],
+    "same_plot": "source Event locationID; must yield 58 independently keyed plots with exactly 4 distinct sampled subplots each, otherwise STOP, do not use coordinate clustering to achieve 58",
+    "surveyed_zero": "species not listed in a valid completely surveyed 5×5 m subplot means sample-local not-detected; never whole-island biological absence",
+    "species_unit": "unique canonical Latin genus+species binomial of source species-rank (exclude subspecies and vague identifications); an occurrence positive must have a valid taxon and OTV quantity in 1..9, or report unknown",
+    "establishment_native": "accept only exact normalized native/NAT, endemic/END, indigenous, Azorean endemic strings; all other labels unknown or nonnative until author label confirmed in actual source vocabulary",
+    "loss_affected_group": "20 uniquely canonical-binomial S1 Azores loss taxa; group assignment is independent of MOVECLIM source observations, no taxonomic synonyms/fuzzy match",
+    "same_island_historic_loss": "Only flag when canonical taxon and island both match S1 historic loss pair; not interpreted as 2013 recolonization",
+    "plot_elevation": "median minimumElevationInMeters of 4 subplots when exactly 4 same-plot entries; require max within-plot elevation spread <=30m else mark site uncertain and STOP primary if any",
+    "relative_elevation": "rank the 2013 plot median elevation in [0,1] within each island, midrank ties; plot not subplot is the primary sampling unit",
+    "species_detection": "collapse 2013 occurrence rows to plot×species positive, recording number of subplots and maximum OTV; species not detected at other sampled plots is a plot-local negative only",
+    "reference_native": "other source-identified native/endemic plant taxa with valid species rank and with >=1 sampled plot detection in that island, excluding the 20 S1 affected taxa",
+    "comparison_metric": "within each island, average elevation percentile of detected plots for each S1-affected native taxon versus each reference native taxon; report taxon counts, means and median, differences; no species as independent plots",
+    "replication": "four islands, 58 10×10m plots; do not treat 232 subplots as 232 independent locations",
+    "minimum_affected_taxa_for_any_comparison_per_island": 2,
+    "minimum_reference_native_taxa_per_island": 5,
+    "main_statistical_endpoint": "descriptive island-stratified elevation percentile difference; no causal p-value and no extinction risk odds ratio"
+  },
+  "report": {
+    "actual_2013_event_and_occurrence_count": true,
+    "plot_and_subplot_count_by_island": true,
+    "raw_establishmentMeans_and_OTV_type_vocabulary": true,
+    "S1_20_taxa_matched_by_unique_binomial": true,
+    "S1_loss_affected_taxa_positive_any_2013_field_site": true,
+    "S1_2013_positive_on_historically_lost_same_island": true,
+    "S1_affected_native_taxa_vs_reference_elevation_percentile_per_island": true,
+    "max_plot_cover_and_occupied_plot_count_for_affected_reference": true,
+    "no_individual_species_plot_ids_or_coordinates": true,
+    "cross_tab_no_surveyed_zero_island_absence": true
+  },
+  "evidence_status": "PUBLISHED_OUTCOME_EXPOSED_EXPLORATORY_INDEPENDENT_2013_FIELD_PLOT_AUDIT_NOT_CONFIRMATORY",
+  "limitations": [
+    "2013 plot forest transect explicitly selected relatively intact indigenous vegetation along elevation, so high-elevation 'refugium' contrast is within sampled habitat only.",
+    "2013 is not pre-extirpation for many S1 cases, and S1 record last observation is not extinction date.",
+    "The paper authors already studied plot community and invasion; avoid treating known native-altitude habitat patterns as new.",
+    "Sampling once in 2013 does not verify persistent plot occupancy or inter-island propagule movement.",
+    "Plot-level non-detection is not a true population absence and does not supply historic at-risk island universe.",
+    "Only 4 islands within a single archipelago; no new GEB confirmatory system admitted."
+  ],
+  "firewall": {
+    "no_S2_S3_S4_values": true,
+    "no_mammal_BioTIME_RLS_heldout_reopening": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "confirmatory_admissions": 0
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "structural.azores_trail_native_alien_field_aggregate_freeze.v1_295",
+  "status": "ORIGINAL_PUBLISHED_FIELD_SOURCE_DESCRIPTIVE_SCORE_FROZEN",
+  "original_source_run_id": 40074317603,
+  "original_source_artifact_id": 12552592439,
+  "original_artifact_zip_sha256": "61e9cc24615bec1f1e79af6a4b04ac773dca90739a883c39c0ddd478569bfa31",
+  "original_extracted_result_JSON_sha256": "7c7953ecdd012a9946006673b79a04bdd83bf5f953c084f19a451b4fa13d5bad",
+  "source_dataset_uuid": "7c190e4a-6987-4042-97aa-534590b45ce5",
+  "source_original_zip_sha256": "c6c6ad82e268759aade344528c3649459ed323053969c1ef8053f3f518298da7",
+  "source_event_2017_2019_original_records": 210,
+  "source_occurrence_original_records": 2733,
+  "source_join_fraction": 1,
+  "frozen_matching_line_Events": 147,
+  "source_eligible_fingerprint": "21f681ad97ecb08d25d21bd147cb9650f0924ab3e74ccb51145f93a2ac65fce8",
+  "native_alien_status_unknown_fraction": 0,
+  "species_rank_records": 1930,
+  "species_and_event_positive_pairs_in_frozen_frame": 602,
+  "per_island": {
+    "Terceira": {
+      "trails": 3,
+      "matched_area_year_groups": 14,
+      "detected_native_taxa": 18,
+      "detected_alien_taxa": 3,
+      "mean_equal_trails_interior_minus_edge_logratio": 0.05621179458061513
+    },
+    "São Miguel": {
+      "trails": 1,
+      "matched_area_year_groups": 3,
+      "detected_native_taxa": 21,
+      "detected_alien_taxa": 4,
+      "mean_equal_trails_interior_minus_edge_logratio": -0.30629733543804477
+    }
+  },
+  "per_trail": [
+    {
+      "island": "Terceira",
+      "anonymized_trail": "T1",
+      "matched_area_year_groups": 1,
+      "logratio_interior_minus_edge": -0.25541281188299536,
+      "native_richness_interior_minus_edge": 0.5,
+      "alien_richness_interior_minus_edge": 1
+    },
+    {
+      "island": "Terceira",
+      "anonymized_trail": "T2",
+      "matched_area_year_groups": 7,
+      "logratio_interior_minus_edge": 0.29349175199865246,
+      "native_richness_interior_minus_edge": 0.7857142857142857,
+      "alien_richness_interior_minus_edge": 0.14285714285714285
+    },
+    {
+      "island": "Terceira",
+      "anonymized_trail": "T3",
+      "matched_area_year_groups": 6,
+      "logratio_interior_minus_edge": 0.1305564436261883,
+      "native_richness_interior_minus_edge": -1.25,
+      "alien_richness_interior_minus_edge": -0.3333333333333333
+    },
+    {
+      "island": "São Miguel",
+      "anonymized_trail": "T1",
+      "matched_area_year_groups": 3,
+      "logratio_interior_minus_edge": -0.30629733543804477,
+      "native_richness_interior_minus_edge": -6,
+      "alien_richness_interior_minus_edge": -0.8333333333333334
+    }
+  ],
+  "original_primary_equal_trails_effect": -0.034415487924049845,
+  "original_primary_positive_trail_count": 2,
+  "evidence_class": "Retrospective observational source independent of original 2013 Pico, not independent regional/cross-archipelago confirmatory demonstration",
+  "protected_original_Pico_mammal_BioTIME_RLS_unopened": true,
+  "old_v1_292_failure_remains_terminal": true,
+  "GEB_scientific_HOLD": true,
+  "confirmatory_admissions": 0,
+  "eBird": false
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "structural.foresteco2_post_event_failure_diagnostic.v1_287",
+  "date": "2026-10-23",
+  "status": "RESPONSE_SEALED_EVENT_ONLY_DIAGNOSTIC_AFTER_V1_286_TERMINAL",
+  "authority": "v1.286 pre-response forest balance 90/9x10 gate failed at original Event values; we will NEVER retroactively consider v1.286 to have passed",
+  "archive_sha256": "11d87393d716672f9765ed479341f39605c732def3333caaae16095b5008636a",
+  "source_url": "https://ipt.gbif.pt/ipt/archive.do?r=plants-azo-foresteco2&v=1.2",
+  "original_run": 39918019552,
+  "original_failure": "Incomplete source 10-per-island-and-forest 3x3 grid",
+  "allowed_new_read": "Only already-unsealed original 90 Event site metadata: habitat code, island, eventID, locationID, year; Occurrence and S1 zero",
+  "diagnostic": "Compute raw counts for each of 9 source-island × fixed type categories, without plotting species or site locations; check whether actual published 90/30-per-island is indeed unbalanced; no observed response read",
+  "immutable_scientific_decision": "Regardless of exact imbalance, v1.286 stays STOP. Any alternative observational reanalysis requires a separate nonconfirmatory protocol frozen before opening plant species values.",
+  "forbid": [
+    "Reading taxon labels or status",
+    "Repurposing v1.286 score after Event mismatch",
+    "Inventing missing sampling plots or reallocating forest types",
+    "Posthoc dropping one forest type",
+    "Calling changed design pristine confirmation"
+  ],
+  "firewall": {
+    "original_mammal_BioTIME_RLS_protected_rows_unopened": true,
+    "macaronesia_S2_S3_S4_unopened": true,
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}

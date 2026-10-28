@@ -1,0 +1,98 @@
+{
+  "schema": "structural.foresteco2_unequal_design_focal_composition.v1_288",
+  "date": "2026-10-23",
+  "status": "FROZEN_AFTER_SOURCE_EVENT_ONLY_BEFORE_ANY_FORESTECO2_PLANT_OCCURRENCE_VALUES",
+  "evidence_class": "RETROSPECTIVE_EVENT_DESIGN_EXPOSED_OBSERVATIONAL_STUDY_NOT_CONFIRMATORY",
+  "scientific_question": "In independently sampled 2017–2018 Azorean forests, do native taxa with a prior documented island-level local extirpation somewhere in the archipelago comprise a greater share of the native flora's plot occurrences in natural forest than in exotic or production forest, beyond the trivial result that native forests contain more native taxa?",
+  "original_frozen_parent": "development/foresteco2_focal_native_forest_replication_protocol_v1_285.json",
+  "legacy_gate_status": "v1.286 exact 10-per-type gate TERMINAL and cannot be reauthorized or scored; v1.287 Event-only diagnostic is not an ecology result",
+  "source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=plants-azo-foresteco2&v=1.2",
+    "archive_sha256": "11d87393d716672f9765ed479341f39605c732def3333caaae16095b5008636a",
+    "GBIF_uuid": "158e0f0d-26e3-4883-bf5e-6040c1bb1ff4",
+    "original_Event_rows": 90,
+    "original_Occurrence_rows_published": 1150,
+    "historical_S1_workbook_sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "historical_S1_URL": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+    "historical_S1_strict_taxa": 20,
+    "historical_S1_strict_island_loss_cases": 24
+  },
+  "verified_response_independent_design": {
+    "islands": [
+      "Pico",
+      "São Miguel",
+      "Terceira"
+    ],
+    "forest_type_counts_per_island": {
+      "NF": 9,
+      "EW": 11,
+      "PF": 10
+    },
+    "source_habitat_labels": {
+      "NF": "Natural Forest",
+      "EW": "Exotic Woodland",
+      "PF": "Production Forest"
+    },
+    "plot_area_m2": 100,
+    "all_90_original_events_included": true,
+    "original_forest_model_cohort_changed_after_response": false
+  },
+  "primary_statistic": "For each island×forest cell f=total native plot×taxon positives belonging to the PRE-FROZEN 20 S1 Azores historically loss-affected taxa; r=all other strictly native plot×taxon positives. l_i,h=log[(f+0.5)/(r+0.5)]. d_i=l_i,NF−0.5(l_i,EW+l_i,PF). D=(d_Pico+d_SaoMiguel+d_Terceira)/3, all island groups retained. Positive D indicates relative compositional enrichment of the history-of-loss subset in natural forest over alternative stand types, not plant survival, extirpation risk or intervention effects.",
+  "focal_taxonomy": "S1 Well-supported Extirpation (Island level) rows for Azores, exact 20 canonical binomials, original S1 fixed SHA; no fuzzy synonyms or dropping taxa after ForestEco2 outcome",
+  "classification": {
+    "native_exact_normalized": [
+      "native",
+      "indigenous",
+      "endemic",
+      "azorean endemic",
+      "macaronesian endemic",
+      "azores endemic",
+      "native non-endemic",
+      "native non endemic"
+    ],
+    "introduced_exact_normalized": [
+      "introduced",
+      "invasive",
+      "naturalized",
+      "naturalised",
+      "casual",
+      "introduced naturalized",
+      "introduced naturalised",
+      "introduced casual",
+      "introduced invasive"
+    ],
+    "unknown_policy": "unknown or mixed establishment classes, non-species taxonRank, non-canonical binomial: exclude from primary and count as exclusions, no posthoc reclassification",
+    "unit": "100m2 independent plot (one Event id), one positive for each unique island/site×taxon, ignore duplicate sub-records; no whole-island absence inference"
+  },
+  "pilot_estimability_before_score": {
+    "min_distinct_focal_native_taxa_all": 2,
+    "min_islands_with_any_focal_native_taxon": 2,
+    "min_total_focal_native_plot_taxon_positive_cells": 6,
+    "all_nine_cells_min_reference_native_plot_taxon_positives": 1,
+    "source_original_rows_must_equal": 1150,
+    "no_adjustment_of_thresholds_after_response": true,
+    "max_fraction_unclassified_original_Occurrence_rows": 0.2,
+    "non_species_rank_excluded_from_this_fraction": true,
+    "unknown_class_non_species_exclusion_note": "Non-species ranks are excluded from target but contribute to reporting; among eligible species-rank records with clean binomial, >20% unknown/mixed establishment status is a terminal scoring STOP."
+  },
+  "uncertainty": {
+    "resample": "2000 independent with-replacement samples of source plots within each original island×forest cell; calculate D on 9 sampled cells with same frozen 0.5 continuity; fixed seed 1729",
+    "ci": "Percentile 2.5 and 97.5 via simple sorted interpolation, report descriptive plot-sampling bootstrap and not independent archipelago replication",
+    "supported_description": "Call positive within-source exploratory compositional contrast only when D>0 and 95% lower bound>0, not causal or pristine confirmatory"
+  },
+  "secondary": "Report nine cells' f and r counts, strictly native and introduced unique plot×taxon incidence, 3 island-specific d_i, taxon-match count and excluded statuses. Do not export names, site IDs, occurrence IDs or coordinates. No alternative threshold subgroup if primary fails.",
+  "exclusions": [
+    "Do not infer habitat assignment from species composition",
+    "Do not read prior MOVECLIM biological responses again",
+    "Do not mine supplementary S2/S3/S4 or other protected endpoints",
+    "No observed immigration, rescue, source-sink or extinction rate",
+    "No second scoring pass on negative effect"
+  ],
+  "prior_work_boundary": "ForestEco2 authors already establish native-forest indigenous richness hotspots and exotic woodland invasive taxa; those are prior-art baseline, not a new Structural discovery. The cross-source S1 historic-loss-taxonomy composition contrast is the narrowly new question.",
+  "firewall": {
+    "original_mammal_BioTIME_RLS_protected_data_unopened": true,
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_admissions": 0
+  }
+}

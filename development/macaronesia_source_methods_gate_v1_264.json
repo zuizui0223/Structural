@@ -1,0 +1,35 @@
+{
+  "schema": "structural.macaronesia_source_methods_gate.v1_264",
+  "date": "2026-10-19",
+  "status": "AUTHOR_METHOD_NOT_RESPONSE_ANNOTATION_FROZEN_BEFORE_CELL_ACCESS",
+  "source": {
+    "workbook_exact_url": "https://digital.csic.es/bitstream/10261/377677/5/Extinct_species_biogeographical_variables_%26_biological_traits_Macaronesian_flora.xlsx",
+    "workbook_sha256": "767f9ea095660d77babb8eb74b2eb714e8cdc38cb0c6861051416a7c0039b0e1",
+    "readme_exact_url": "https://digital.csic.es/bitstream/10261/377677/4/README.docx",
+    "readme_sha256": "e0b200a6c05fa10f0f98bf7b827fa389d4d3e3150c10b0cac591eeb40494af36",
+    "source_freeze": "development/macaronesia_extirpation_publisher_source_freeze_v1_263.json"
+  },
+  "authorized_excel_tab": "Read me",
+  "forbidden_value_tabs": [
+    "Table S1",
+    "Table S2",
+    "Table S3",
+    "Table S4",
+    "Reference Table S1",
+    "Reference Table S3",
+    "Reference Table S4"
+  ],
+  "purpose": "Check the published schema semantics: local versus global extinction, indigenous/native island incidence, temporal status, native taxa, original species/island identifiers, and nine pollination/reproduction/dispersal traits, before biological rows are read.",
+  "author_docs_only": true,
+  "output_limit": {
+    "max_readme_tab_rows": 60,
+    "max_author_method_paragraphs": 130,
+    "max_display_chars_per_excel_row": 550,
+    "max_display_chars_per_document_paragraph": 450,
+    "include_only_table_or_status_relevant_docx_paragraphs": true
+  },
+  "inference_boundary": "Published method descriptions are not a newly observed extinction result. Historic species distribution is not measured pre-extirpation source viability; same-date other-island extant populations cannot be assumed pre-loss sources.",
+  "eBird_off": true,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0
+}

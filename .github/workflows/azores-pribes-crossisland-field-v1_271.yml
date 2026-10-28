@@ -1,0 +1,54 @@
+name: Azores dated PRIBES 4-island S1 field observations v1.271
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-pribes-crossisland-field-v1_271.yml"
+      - "scripts/azores_PRIBES_crossisland_field_v1_271.py"
+      - "tests/test_azores_PRIBES_crossisland_field_v1_271.py"
+      - "development/azores_PRIBES_original_source_manifest_v1_270.json"
+      - "development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  field-island-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install original source test runner
+        run: python -m pip install pytest
+      - name: Test field event-date island and occurrence key rules with synthetic data
+        run: python -m pytest -q tests/test_azores_PRIBES_crossisland_field_v1_271.py
+      - name: Fetch strictly identical GBIF Portugal original Pico, Graciosa+SantaMaria and SãoJorge released archives
+        run: |
+          python scripts/azores_PRIBES_crossisland_field_v1_271.py \
+            --contract development/azores_modern_three_PRIBES_sources_S1_contract_v1_270.json \
+            --manifest development/azores_PRIBES_original_source_manifest_v1_270.json \
+            --out azores_PRIBES_four_islands_field_S1_cases_v1_271.json
+      - name: Require original publisher SHA, 20 historical taxa and no inferred source rescue
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("azores_PRIBES_four_islands_field_S1_cases_v1_271.json").read_text())
+          assert j["status"]=="VERIFIED_DATED_PRIBES_FIELD_S1_CROSSCHECK"
+          assert j["source_island_count"]==4
+          assert j["S1_strict_Azores_taxa"]==20
+          assert j["S1_strict_Azores_loss_pairs"]==24
+          assert j["GEB_scientific_HOLD"]
+          assert j["S2_S3_S4_values_accessed"]==0
+          assert j["comparison"]["unrecorded_taxa_are_never_negative_labels"]
+          assert j["comparison"]["confirmed_demographic_recolonization_events"]==0
+          print("DATED LOCAL FIELD POSITIVES ONLY",j["comparison"])
+          PY
+      - name: Save only 4-island aggregated source evidence; no species or sample ID lists
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-four-island-real-field-positive-cases-v1-271
+          path: azores_PRIBES_four_islands_field_S1_cases_v1_271.json
+          if-no-files-found: warn

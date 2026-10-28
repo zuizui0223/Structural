@@ -1,0 +1,49 @@
+name: Pico PRIBES original Event date format diagnostic v1.272
+on:
+  push:
+    paths:
+      - ".github/workflows/azores-pico-date-diagnostic-v1_272.yml"
+      - "scripts/azores_Pico_date_diagnostic_v1_272.py"
+      - "tests/test_azores_Pico_date_diagnostic_v1_272.py"
+      - "development/azores_Pico_PRIBES_field_date_diagnostic_v1_272.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-dates-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test framework
+        run: python -m pip install pytest
+      - name: Test original author date-format and component conflict logic first
+        run: python -m pytest -q tests/test_azores_Pico_date_diagnostic_v1_272.py
+      - name: Read only Event core published dates from fixed original Pico archive
+        run: |
+          python scripts/azores_Pico_date_diagnostic_v1_272.py \
+            --contract development/azores_Pico_PRIBES_field_date_diagnostic_v1_272.json \
+            --out azores_Pico_original_event_date_diagnostic_v1_272.json
+      - name: Confirm exact 2801 event denominator and no species data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("azores_Pico_original_event_date_diagnostic_v1_272.json").read_text())
+          assert j["status"]=="OFFICIAL_PICO_AUTHOR_EVENT_DATE_ONLY"
+          assert j["source"]["sha256"]=="82406dbcb48e188cca6bca116437b951a80f613faadf44a173ddd5d9b92e4a02"
+          assert j["events"]["event_rows"]==2801
+          assert j["source_occurrence_values_read"]==0
+          assert j["GEB_scientific_HOLD"] and j["eBird_off"]
+          print("Published Event date patterns:",j["events"]["event_date_classes"])
+          PY
+      - name: Retain only bounded date vocabulary and original publisher SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: azores-Pico-original-event-date-only-v1-272
+          path: azores_Pico_original_event_date_diagnostic_v1_272.json
+          if-no-files-found: warn
