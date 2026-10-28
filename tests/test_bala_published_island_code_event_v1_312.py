@@ -48,4 +48,4 @@ def test_wrong_source_island_codes_do_not_make_new_species_result():
             record["island"]="unknown_source"
     import pytest
     with pytest.raises(ValueError,match="Graciosa"):
-        recode_and_audit(rows,protocol())]
+        recode_and_audit(rows,protocol())
