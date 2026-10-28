@@ -46,7 +46,6 @@ def test_wrong_source_island_codes_do_not_make_new_species_result():
     for record in rows:
         if record["island"]=="flo":
             record["island"]="unknown_source"
-    r=recode_and_audit(rows,protocol())
-    assert r["status"]=="AUTHOR_CODE_CORRECTED_SITE_OVERLAP_INSUFFICIENT_STOP"
-    assert r["original_Occurrence_rows_opened"]==0
-    assert r["original_v1_311_source_code_GATE_remains_TERMINAL"]
+    import pytest
+    with pytest.raises(ValueError,match="Graciosa"):
+        recode_and_audit(rows,protocol())]
