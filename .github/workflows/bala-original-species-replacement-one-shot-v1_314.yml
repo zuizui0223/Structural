@@ -1,57 +1,20 @@
-name: BALA 29 transects seven-island three-decade species replacement ORIGINAL v1.314
+name: BALA original v1.314 SEALED - no biological replay
+# The original field source was scored at EXACT run 40615946292.
+# Original aggregate artifact 12784808941, inner JSON SHA:
+# b30eca5283d6984ee056ca8e74dd46fa2192c83558b175fbb84ff6546170f7a1
+# Re-running the original taxonomic source would destroy the one-shot design.
+# Do not add push/pull_request triggers or invoke the taxon scorer here.
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/bala-original-species-replacement-one-shot-v1_314.yml"
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  original-BALA-community-composition-one-shot:
+  read-only-original-evidence-seal:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 3
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install synthetic unit tests
-        run: python -m pip install pytest
-      - name: Validate turnover versus richness decomposition and original source join first
-        run: python -m pytest -q tests/test_bala_original_species_replacement_v1_314.py
-      - name: One-shot source-locked original 2024 BALA 63,904 arthropod Occurrences
-        run: |
-          python scripts/bala_original_species_replacement_v1_314.py \
-            --protocol development/bala_three_decade_species_replacement_protocol_v1_314.json \
-            --source-event-receipt development/bala_equal_event_source_original_receipt_v1_313.json \
-            --out bala_original_29_transect_species_replacement_v1_314.json
-      - name: Audit ecological sampling unit and exact honest positive or scientific STOP
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          r=json.loads(Path("bala_original_29_transect_species_replacement_v1_314.json").read_text())
-          assert r["status"] in ("OBSERVED_SEVEN_ISLAND_TEMPORAL_COMMUNITY_REPLACEMENT_SCORED",
-             "STOP_FROZEN_PITFALL_TWO_GUILD_ESTIMABILITY_INSUFFICIENT",
-             "STOP_ORIGINAL_EVENT_OCCURRENCE_JOIN_QUALITY")
-          assert r["original_Occurrence_rows_opened"]==63904
-          if r["status"]!="STOP_ORIGINAL_EVENT_OCCURRENCE_JOIN_QUALITY":
-              assert r["original_Event_rows_examined"]==10379
-              assert r["exact_source_29_longitudinal_site_count"]==29
-              assert r["original_equal_Event_selected_total"]==4620
-              assert r["original_equal_Event_selected_sha256"]=="39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac"
-              assert r["old_v1_311_English_island_code_gate_TERMINAL"]
-              assert r["no_source_site_IDs_taxon_names_coordinates_or_original_rows_exported"]
-              assert r["not_true_local_extinction_colonization_or_demographic_rescue"]
-              assert r["not_independent_validation_of_2026_prior_richness_stability_paper"]
-              assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
-              print("ORIGINAL 7-ISLAND SITE TURNOVER:",r["status"])
-          else:
-              print("SOURCE Event-Occurrence taxonomy integrity STOP; no ecological claim")
-          PY
-      - name: Retain ORIGINAL fixed ecological scoring aggregates and scientifically terminal conditions
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bala-original-29-transect-temporal-community-beta-v1-314
-          path: bala_original_29_transect_species_replacement_v1_314.json
-          if-no-files-found: warn
+      - run: |
+          echo "SEALED ORIGINAL SOURCE. Original BALA taxon v1.314 run: 40615946292"
+          echo "Original artifact: 12784808941"
+          echo "All subsequent ecological validation is aggregate-only (v1.315)."
+          echo "Original taxon Event/Occurrence rows opened by this workflow: ZERO."
