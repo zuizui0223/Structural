@@ -1,0 +1,45 @@
+{
+  "schema": "structural.bala_source_island_abbreviation_corrected_event_gate.v1_312",
+  "date": "2026-10-28",
+  "status": "NEW_RESPONSE_OPAQUE_EVENT_CODE_GATE_AFTER_V1_311_TERMINAL",
+  "original_source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "source_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_Event_rows": 10379,
+    "original_Occurrence_rows": 63904
+  },
+  "discrepancy": "v1.311 strict original site overlap was unestimable because the source Event island field uses publisher-defined three-letter abbreviations, but v1.311 gate listed full island names. Of 10,379 original events, 10,181 exact seven-native-island Events were incorrectly excluded as OTHER_ISLAND_OR_SOURCE; 198 Graciosa events are genuinely outside original native-forest seven-island core. DO NOT promote old v1.311 to success.",
+  "source_codebook": {
+    "flo": "Flores",
+    "fai": "Faial",
+    "pic": "Pico",
+    "sjg": "São Jorge",
+    "ter": "Terceira",
+    "smg": "São Miguel",
+    "smr": "Santa Maria"
+  },
+  "separate_gra_secondary_forest": "gra; exclude from seven-island pristine native repeated-core comparison",
+  "author_evidence": "Pozsgai et al 2024 Scientific Data doi 10.1038/s41597-024-03174-7 fig 1 and methods have exactly these abbreviations; source Event coded values checked before taxon responses",
+  "unchanged_gates": {
+    "original_Event_count": 10379,
+    "original_locationID_exact_strip_no_fuzzy": true,
+    "sampling_phases_original": {
+      "B1": "1997-2004",
+      "B2": "2010-2012",
+      "B3": "2019-2022"
+    },
+    "required_same_source_B1_B3_transects": 20,
+    "required_same_source_all_three_transects": 15,
+    "minimum_islands_with_B1_B3": 5,
+    "no_species_or_origin_data_read": true
+  },
+  "outcome": "Inspect source survey Event data only, report count of exact repeated author locationIDs by same island across survey periods, method and effort availability. If repeated sites absent even after corrected island-codebook, STOP and diagnose source locationID separately before species values.",
+  "firewall": {
+    "old_v1_311_original_gate": "TERMINAL_CODE_MISMATCH",
+    "original_Occurrence_rows_opened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}
