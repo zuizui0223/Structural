@@ -1,0 +1,31 @@
+name: BioMonI eight-site spider woody beta known truth v1.308
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-spider-eight-beta-synthetic-v1_308.yml"
+      - "development/biomoni_spider_eight_site_beta_contract_v1_308.json"
+      - "scripts/biomoni_spider_eight_site_beta_v1_308.py"
+      - "tests/test_biomoni_spider_eight_site_beta_v1_308.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biomoni-spider-eight-beta-synthetic-v1_308.yml"
+      - "development/biomoni_spider_eight_site_beta_contract_v1_308.json"
+      - "scripts/biomoni_spider_eight_site_beta_v1_308.py"
+      - "tests/test_biomoni_spider_eight_site_beta_v1_308.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-original-species-response-known-truth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Test source-independent known-truth 8 site/28 pairs and response gates
+        run: python -m pytest -q tests/test_biomoni_spider_eight_site_beta_v1_308.py
+      - name: Confirm original Spider taxon rows still untouched
+        run: echo "SOURCE BLIND synthetic only; fixed 8-site Spider taxon responses not yet opened."
