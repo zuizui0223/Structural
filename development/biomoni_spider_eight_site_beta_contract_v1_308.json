@@ -41,7 +41,8 @@
     "at_least_six_eight_plots_each_taxon_two_or_more": 6,
     "at_least_five_nonzero_Jaccard_pairs_each_taxon": 5,
     "no_equating_two_zero_plots": true,
-    "if_any_failure": "STOP_QUALIFICATION_NO_BETA_SCORE, do not widen to two spatially failed plots, select favorable taxa or replace sample methods"
+    "if_any_failure": "STOP_QUALIFICATION_NO_BETA_SCORE, do not widen to two spatially failed plots, select favorable taxa or replace sample methods",
+    "unresolved_spider_taxon_max_fraction": 0.05
   },
   "statistical_model": {
     "woody_response": "28 original unordered plot pairs, Jaccard dissimilarity 1-|A∩B|/|A∪B|; dependent pair observations",
