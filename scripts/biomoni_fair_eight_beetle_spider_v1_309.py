@@ -75,7 +75,7 @@ def reconstruct_event_cohort(t,b,s,event_contract,spider_receipt,v299,v298,v300,
     return tree_map,beetle_map,coords,old
 
 def score_sets(woody,beetle,coords,proto,spider_freeze):
-    if len(woody)!=len(beetle)!=8:
+    if len(woody)!=8 or len(beetle)!=8 or len(coords)!=8:
         raise ValueError("Exactly eight paired source sites required")
     wcount=[len(x) for x in woody];bcount=[len(x) for x in beetle]
     minimum=proto["analysis"]
