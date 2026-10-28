@@ -1,0 +1,94 @@
+name: Verify EXISTING original Spider eight-site beta result without source replay v1.308
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/biomoni-spider-v1_308-existing-result-relay.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-push-result-READONLY:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Read original completed push artifact only, never original taxa
+        env:
+          GH_READ_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import io,json,os,urllib.request,zipfile
+          from pathlib import Path
+          repo=os.environ["GITHUB_REPOSITORY"]
+          original_sha="3b648e95a1c230703f45633748bca37b095f077a"
+          workflow="biomoni-spider-eight-beta-one-shot-v1_308.yml"
+          base=f"https://api.github.com/repos/{repo}"
+          def fetch(url,raw=False):
+              req=urllib.request.Request(url,headers={
+                  "Authorization":"Bearer "+os.environ["GH_READ_TOKEN"],
+                  "Accept":"application/vnd.github+json",
+                  "X-GitHub-Api-Version":"2022-11-28",
+                  "User-Agent":"Structural-Original-ReadOnly-v1.308"})
+              with urllib.request.urlopen(req,timeout=40) as response:
+                  buf=response.read(100000)
+              return buf if raw else json.loads(buf)
+          rows=fetch(base+"/actions/workflows/"+workflow+"/runs?per_page=50").get("workflow_runs",[])
+          matching=[x for x in rows if x.get("head_sha")==original_sha and x.get("event")=="push"]
+          if len(matching)!=1:
+              raise SystemExit("Must locate EXACT one original push run; no new scorer allowed")
+          run=matching[0]
+          if run.get("status")!="completed":
+              raise SystemExit("Original push run not completed; never rescore original species")
+          artifacts=fetch(base+f"/actions/runs/{run['id']}/artifacts").get("artifacts",[])
+          found=[a for a in artifacts if a.get("name")=="biomoni-spider-eight-site-original-beta-v1-308"
+                 and not a.get("expired")]
+          if len(found)!=1:
+              raise SystemExit("Original aggregate result artifact not found; no biological replay")
+          data=fetch(base+f"/actions/artifacts/{found[0]['id']}/zip",raw=True)
+          with zipfile.ZipFile(io.BytesIO(data)) as z:
+              entries=z.namelist()
+              if len(entries)!=1 or entries[0]!="biomoni_spider_eight_plot_original_beta_result_v1_308.json":
+                  raise SystemExit("Original science artifact layout unexpected")
+              result=json.loads(z.read(entries[0]))
+          accepted={
+             "OBSERVED_EIGHT_PLOT_EXPLORATORY_SPIDER_BETA_SCORE",
+             "STOP_FROZEN_SPIDER_TAXA_EIGHT_SITE_ESTIMABILITY",
+             "STOP_ORIGINAL_RESPONSE_JOIN_OR_RANK_QUALITY",
+             "SOURCE_OR_ORIGINAL_RESPONSE_READER_STOP"}
+          if result.get("status") not in accepted:
+              raise SystemExit("Unexpected original source scientific result")
+          for k,v in (("v1_303_and_v1_304_all_ten_site_GATE","TERMINAL"),
+                      ("GEB_scientific_HOLD",True),
+                      ("new_confirmatory_systems",0),("eBird_used",False)):
+              if result.get(k)!=v:
+                  raise SystemExit("Original result failed strict scientific evidence firewall: "+k)
+          receipt={
+            "schema":"structural.biomoni_spider_v1_308_original_readonly_relay",
+            "original_existing_run_id":run["id"],
+            "original_existing_run_conclusion":run["conclusion"],
+            "original_existing_commit_sha":original_sha,
+            "original_existing_artifact_id":found[0]["id"],
+            "original_biological_rows_reopened_by_relay":0,
+            "new_scorer_runs_launched":0,
+            "original_aggregate":result}
+          Path("biomoni_spider_v308_original_readonly_receipt.json").write_text(
+              json.dumps(receipt,sort_keys=True,indent=2,ensure_ascii=False)+"\n")
+          print(json.dumps({
+            "original_run_id":run["id"],"original_conclusion":run["conclusion"],
+            "status":result.get("status"),
+            "selected_spider_original_event_n":result.get("selected_original_spider_Event_subset_n"),
+            "primary_MSE_gain":result.get("original_spider_incremental_eight_LOPO_MSE_gain"),
+            "permutation_rank":result.get("original_plot_label_permutation_exceedance_rank"),
+            "stop_reason":result.get("stop_reason"),
+            "biological_rows_reopened_by_relay":0},sort_keys=True))
+          PY
+      - name: Upload aggregate of already completed original run only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-spider-v1-308-existing-original-result-read-only
+          path: biomoni_spider_v308_original_readonly_receipt.json
+          if-no-files-found: warn
