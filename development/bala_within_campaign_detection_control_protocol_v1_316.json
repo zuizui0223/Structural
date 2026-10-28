@@ -1,0 +1,74 @@
+{
+  "schema": "structural.bala_within_campaign_detection_control.v1_316",
+  "date": "2026-10-28",
+  "status": "SEPARATE_RETROSPECTIVE_TEST_FROZEN_BEFORE_WITHIN_PHASE_SPECIES_SPLIT_RECALCULATION",
+  "context": "Original BALA v1.314 taxon response has already been exposed. Original one-shot v1.314 score remains SEALED and must not be rerun. v1.316 is a separately declared falsification/sensitivity, NOT new independent source or pristine confirmatory test.",
+  "ecological_question": "Does the observed same-transect B1→B3 species-composition dissimilarity exceed the spurious apparent turnover obtained from two disjoint matched-effort sub-samples WITHIN each original campaign, where the underlying site/period was nominally the same?",
+  "source": {
+    "original_DwCA": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "Event_rows": 10379,
+    "Occurrence_rows": 63904,
+    "separate_old_original_score_run": 40615946292,
+    "old_source_result_sha": "b30eca5283d6984ee056ca8e74dd46fa2192c83558b175fbb84ff6546170f7a1",
+    "immutable_source_frame": "development/bala_equal_event_source_original_receipt_v1_313.json",
+    "selected_source_Event_coreids_SHA": "39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac",
+    "source_original_three_campaign_sites": 29,
+    "protected_heldout": false
+  },
+  "sampling": {
+    "main_method_exact": "Pitfall solution",
+    "main_guilds_exact": [
+      "araneae",
+      "coleoptera"
+    ],
+    "main_early_phase": "B1",
+    "main_late_phase": "B3",
+    "source_site_unit": "original BALA 29 physically identical native-forest transects on seven islands, never individual traps or Event rows",
+    "equal_EVent_rule": "Reconstruct previously fixed 29 source site×2 method×3 phase ORIGINAL 4620 selected Event IDs and their source sha, NEVER select new sites or change method/phase",
+    "site_phase_halving": "For each original site×method×phase, original chosen k Event IDs sorted by SHA256(salt+source-original-coreid), split first floor(k/2) and second floor(k/2) into two disjoint half-effort samples; if odd k one last Event omitted in that split. No species content used for partitioning.",
+    "predefined_salts": [
+      "split-0",
+      "split-1",
+      "split-2",
+      "split-3",
+      "split-4",
+      "split-5",
+      "split-6",
+      "split-7",
+      "split-8"
+    ],
+    "equal_effort_2halves_across_B1_B3": true,
+    "minimum_Events_per_half": 5,
+    "zero_detected_half_policy": "A pair with either empty detected guild taxon set is not estimated; a site×guild participates only if all four halves B1A/B1B/B3A/B3B are nonempty for at least five of nine predefined splits. Report all missing splits and sites, do not convert zero detections to dissimilarity zero.",
+    "allowed_source_name": "Original strict source taxonRank species, subspecies or morphospecies, scientificName casefold/whitespace normalized, guild source order exactly spiders or beetles; no synonyms or alternative morphology selected after outcomes"
+  },
+  "metrics": {
+    "within_campaign_control": "Per split/site/guild, Sørensen (and Simpson replacement) between B1A and B1B and between B3A and B3B, then average both; this is a same-period apparent-composition-difference benchmark under matched source trap count.",
+    "across_campaign": "Per split/site/guild, calculate the four dissimilarities B1A–B3A, B1A–B3B, B1B–B3A, B1B–B3B; average four. Every compared half contains exactly floor(k/2) source Events.",
+    "delta": "Across-campaign Sørensen mean minus within-campaign Sørensen mean, per site/guild and split; also Simpson replacement analogue. Positive indicates taxon-detection composition differs across distant periods more than the source's own within-period sampling heterogeneity.",
+    "aggregation": "Average valid split deltas within each original physical transect, average across sites within each original seven islands, then equal island weighting. Report island sample n, 9-split variation envelope, number of positive source islands, source site fraction passing all predetermined gates; no independent-replicate statistics from split seeds.",
+    "secondary": "Beating method source-only same criterion; run only as prespecified separate descriptive quality context. No origin-class thresholds or post hoc taxon subgroups.",
+    "inferential_threshold": "Scientific direction positive when mean delta >0; no p-value or claim of ecological confidence interval; if qualifying islands less than 5 OR qualifying physical site comparisons <20 per guild, STOP that guild with no main ecological score. Never adjust thresholds after original response."
+  },
+  "falsification": {
+    "null_hypothesis": "Species composition apparent change B1→B3 can be explained by within-phase sampling/detection variability under equivalent capture opportunities; delta approximately zero or negative.",
+    "alternative": "Between-campaign dissimilarity exceeds within-campaign sampling-only pseudo-turnover, delta positive consistently across original islands. Still not true extinction/colonization: taxonomic drift, phenology, different years or environmental conditions remain confounds.",
+    "caveat": "Within-phase split trap records are neither independent species occupancy replicates nor an explicit occupancy-detection model. They measure within-campaign sample heterogeneity and can have spatial microstructure; nine salts are pseudoreplicated sensitivity resamples, not 9 biological experiments."
+  },
+  "nonclaims": [
+    "No genuinely new independent data; same original BALA response was read in v1.314",
+    "No true species extinction/colonization or inter-island rescue",
+    "No causal homogenization, climate driver or invasion mechanism",
+    "No detection-corrected multi-season occupancy probability inference",
+    "No new source GEB confirmation"
+  ],
+  "firewall": {
+    "v1_314_original_scoring_workflow_remains_SEALED": true,
+    "original_new_scoring_workflow_one_time_then_SEAL": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "original_mammal_BioTIME_RLS_S2_S3_S4_unopened": true
+  }
+}
