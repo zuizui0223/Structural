@@ -3,6 +3,9 @@ on:
   push:
     paths:
       - ".github/workflows/bala-within-campaign-original-one-shot-v1_316.yml"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-within-campaign-original-one-shot-v1_316.yml"
 permissions:
   contents: read
 jobs:
