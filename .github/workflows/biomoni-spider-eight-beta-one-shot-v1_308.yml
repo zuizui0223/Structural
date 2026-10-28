@@ -1,0 +1,61 @@
+name: BioMonI eight-site Spider woody observed beta original one-shot v1.308
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-spider-eight-beta-one-shot-v1_308.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-spider-taxon-response-after-source-only-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install synthetic test runner
+        run: python -m pip install pytest
+      - name: Validate eight-site fixed method and original-response score on known truth
+        run: python -m pytest -q tests/test_biomoni_spider_eight_site_beta_v1_308.py
+      - name: Run original 423 Spider Event source and 1,639 Spider Occurrences only after exact Event receipt
+        run: |
+          python scripts/biomoni_spider_eight_site_beta_v1_308.py \
+            --contract development/biomoni_spider_eight_site_beta_contract_v1_308.json \
+            --event-contract development/biomoni_spider_eight_site_source_gate_v1_307.json \
+            --event-receipt development/biomoni_spider_eight_site_event_receipt_freeze_v1_307.json \
+            --out biomoni_spider_eight_plot_original_beta_result_v1_308.json
+      - name: Validate exploratory or predeclared biological STOP and preserve full-ten-gate failure
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_spider_eight_plot_original_beta_result_v1_308.json").read_text())
+          assert r["status"] in {
+              "OBSERVED_EIGHT_PLOT_EXPLORATORY_SPIDER_BETA_SCORE",
+              "STOP_FROZEN_SPIDER_TAXA_EIGHT_SITE_ESTIMABILITY",
+              "STOP_ORIGINAL_RESPONSE_JOIN_OR_RANK_QUALITY"}
+          assert r["original_tree_Occurrence_rows_reopened"]==402
+          assert r["original_spider_Occurrence_rows_opened"]==1639
+          assert r["selected_original_spider_Event_subset_n"]==184
+          assert r["selected_original_tree_plots"]==8
+          assert r["v1_303_and_v1_304_all_ten_site_GATE"]=="TERMINAL"
+          assert r["no_original_species_site_identifiers_or_coordinates_exported"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0
+          assert not r["eBird_used"]
+          if r["status"]=="OBSERVED_EIGHT_PLOT_EXPLORATORY_SPIDER_BETA_SCORE":
+              assert r["dependent_plot_pairs"]==28 and r["source_original_independent_plots"]==8
+              assert r["fixed_plot_label_permutations"]==999
+              assert r["permutation_seed"]==20261028
+              print("OBSERVED eight-site exploratory spider beta:",r["original_spider_incremental_eight_LOPO_MSE_gain"])
+          else:
+              assert "original_spider_incremental_eight_LOPO_MSE_gain" not in r
+              print("ORIGINAL spider biological sample scientifically not estimable:",r["status"])
+          PY
+      - name: Retain aggregate only and honest original-source STOP if reached
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-spider-eight-site-original-beta-v1-308
+          path: biomoni_spider_eight_plot_original_beta_result_v1_308.json
+          if-no-files-found: warn
