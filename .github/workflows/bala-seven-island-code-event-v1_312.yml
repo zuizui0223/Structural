@@ -1,0 +1,56 @@
+name: BALA actual published seven island codes source Event-only v1.312
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-seven-island-code-event-v1_312.yml"
+      - "development/bala_published_island_code_event_protocol_v1_312.json"
+      - "scripts/bala_published_island_code_event_v1_312.py"
+      - "tests/test_bala_published_island_code_event_v1_312.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-seven-island-code-event-v1_312.yml"
+      - "development/bala_published_island_code_event_protocol_v1_312.json"
+      - "scripts/bala_published_island_code_event_v1_312.py"
+      - "tests/test_bala_published_island_code_event_v1_312.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author-island-code-no-biological-response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Prove published island-code correction retains source frame and original gate STOP
+        run: python -m pytest -q tests/test_bala_published_island_code_event_v1_312.py
+      - name: Read original BALA 2024 10,379 Event rows with published island abbreviations ONLY
+        run: |
+          python scripts/bala_published_island_code_event_v1_312.py \
+            --protocol development/bala_published_island_code_event_protocol_v1_312.json \
+            --out bala_author_island_code_original_event_v1_312.json
+      - name: Confirm unchanged native forest and response-opaque scientific eligibility
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_author_island_code_original_event_v1_312.json").read_text())
+          assert r["status"] in ("AUTHOR_CODE_CORRECTED_EVENT_REPEATS_QUALIFIED_OCCURRENCE_UNOPENED",
+                                  "AUTHOR_CODE_CORRECTED_SITE_OVERLAP_INSUFFICIENT_STOP")
+          assert r["original_published_source_Event_rows"]==10379
+          assert r["source_graciosa_secondary_forest_Events_excluded"]==198
+          assert r["original_v1_311_source_code_GATE_remains_TERMINAL"]
+          assert r["all_matched_site_and_campaign_cutoffs_inherited_unchanged"]
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("SOURCE ONLY:",r["status"])
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-seven-island-correct-author-site-event-v1-312
+          path: bala_author_island_code_original_event_v1_312.json
+          if-no-files-found: warn
