@@ -142,8 +142,8 @@ def main():
     c=json.loads(args.contract.read_text())
     if (c.get("schema")!="structural.biomoni_terceira_spider_eight_site_metadata_sample.v1_307"
         or c.get("status")!="EXPLORATORY_AFTER_EVENT_DIAGNOSTIC_BEFORE_SPIDER_SPECIES_RESPONSES"
-        or any(c["source"][x+"_sha256"]!=SOURCE[x][1] for x in SOURCE)
-        or any(c["source"][x+"_zip"]!=SOURCE[x][0] for x in SOURCE)):
+        or any(c["source"][("tree" if x=="woody" else x)+"_sha256"]!=SOURCE[x][1] for x in SOURCE)
+        or any(c["source"][("tree" if x=="woody" else x)+"_zip"]!=SOURCE[x][0] for x in SOURCE)):
         raise ValueError("Unfrozen original source-only eight-site sampling rule")
     res={
       "schema":"structural.biomoni_spider_eight_plot_source_result.v1_307",
