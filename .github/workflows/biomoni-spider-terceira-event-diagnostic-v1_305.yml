@@ -1,0 +1,57 @@
+name: BioMonI spider Terceira original Event years diagnostic v1.305
+on:
+  push:
+    paths:
+      - ".github/workflows/biomoni-spider-terceira-event-diagnostic-v1_305.yml"
+      - "development/biomoni_spider_terceira_postgate_event_diagnostic_v1_305.json"
+      - "scripts/biomoni_spider_terceira_event_postmortem_v1_305.py"
+      - "tests/test_biomoni_spider_terceira_event_postmortem_v1_305.py"
+  pull_request:
+    paths:
+      - ".github/workflows/biomoni-spider-terceira-event-diagnostic-v1_305.yml"
+      - "development/biomoni_spider_terceira_postgate_event_diagnostic_v1_305.json"
+      - "scripts/biomoni_spider_terceira_event_postmortem_v1_305.py"
+      - "tests/test_biomoni_spider_terceira_event_postmortem_v1_305.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnose-source-event-design-no-spider-biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Synthetic exact site/date/effort mismatch test
+        run: python -m pytest -q tests/test_biomoni_spider_terceira_event_postmortem_v1_305.py
+      - name: Fixed archived original Spider and Tree Event-only diagnostic
+        run: |
+          python scripts/biomoni_spider_terceira_event_postmortem_v1_305.py \
+            --protocol development/biomoni_spider_terceira_postgate_event_diagnostic_v1_305.json \
+            --out biomoni_spider_terceira_event_only_diagnostic_v1_305.json
+      - name: Verify source biology still sealed and original v1.303 permanently STOPPED
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("biomoni_spider_terceira_event_only_diagnostic_v1_305.json").read_text())
+          assert r["status"]=="ORIGINAL_EVENT_ONLY_POSTGATE_DIAGNOSTIC_303_REMAINS_TERMINAL"
+          assert r["source_meta"]["woody"]["original_Event_row_count"]==30
+          assert r["source_meta"]["spider"]["original_Event_row_count"]==423
+          assert r["original_spider_Occurrence_rows_opened"]==0
+          assert r["original_woody_Occurrence_rows_reopened"]==0
+          assert r["old_v1_303_year_gate_status"]=="TERMINAL"
+          assert r["new_confirmatory_systems"]==0 and r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          assert r["no_taxon_names_original_site_names_or_raw_coordinates_emitted"]
+          print("PASS: original Event-only source error diagnosis; no taxon outcome opened")
+          PY
+      - name: Publish aggregated anonymous event-year diagnosis and plot-match counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: biomoni-original-spider-terceira-year-diagnostic-v1-305
+          path: biomoni_spider_terceira_event_only_diagnostic_v1_305.json
+          if-no-files-found: warn
