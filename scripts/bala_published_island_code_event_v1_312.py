@@ -24,8 +24,9 @@ def recode_and_audit(events,contract):
     old["field_role"]["island_exact_expected"]=sorted(codebook)
     r=summarize(events,old)
     n_other=r["original_Event_counts_by_phase"].get("OTHER_ISLAND_OR_SOURCE",0)
-    if n_other!=198 or r["raw_source_Event_counts_by_island"].get("gra",0)!=198:
-        raise ValueError("Unexpected Graciosa non-native reference period source counts; no scope change allowed")
+    if (n_other!=0 or r["raw_source_Event_counts_by_island"].get("gra",0)!=198
+        or r["original_Event_counts_by_phase"].get("OUTSIDE_FROZEN_PHASES",0)!=198):
+        raise ValueError("Unexpected Graciosa year-outside-campaign source counts; no scope change allowed")
     r["schema"]="structural.bala_original_island_code_physical_event_result.v1_312"
     r["original_v1_311_source_code_GATE_remains_TERMINAL"]=True
     r["original_source_7_island_abbreviations_to_island_names"]=codebook
