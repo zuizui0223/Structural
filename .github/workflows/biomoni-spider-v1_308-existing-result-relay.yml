@@ -47,12 +47,21 @@ jobs:
                  and not a.get("expired")]
           if len(found)!=1:
               raise SystemExit("Original aggregate result artifact not found; no biological replay")
-          data=fetch(base+f"/actions/artifacts/{found[0]['id']}/zip",raw=True)
-          with zipfile.ZipFile(io.BytesIO(data)) as z:
-              entries=z.namelist()
-              if len(entries)!=1 or entries[0]!="biomoni_spider_eight_plot_original_beta_result_v1_308.json":
-                  raise SystemExit("Original science artifact layout unexpected")
-              result=json.loads(z.read(entries[0]))
+          # GitHub's artifact redirect serves bytes from a different host.
+          # Use the official gh downloader so the GitHub token is not forwarded
+          # to that storage host as an Authorization header.
+          import subprocess
+          env=dict(os.environ)
+          env["GH_TOKEN"]=env["GH_READ_TOKEN"]
+          target=Path("_v308_readonly")
+          target.mkdir(exist_ok=True)
+          subprocess.run(["gh","run","download",str(run["id"]),
+              "--repo",repo,"--name",found[0]["name"],"--dir",str(target)],
+              check=True,env=env)
+          path=target/"biomoni_spider_eight_plot_original_beta_result_v1_308.json"
+          if not path.is_file():
+              raise SystemExit("Read-only original GH artifact content unavailable")
+          result=json.loads(path.read_text(encoding="utf-8"))
           accepted={
              "OBSERVED_EIGHT_PLOT_EXPLORATORY_SPIDER_BETA_SCORE",
              "STOP_FROZEN_SPIDER_TAXA_EIGHT_SITE_ESTIMABILITY",
