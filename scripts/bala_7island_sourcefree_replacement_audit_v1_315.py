@@ -19,7 +19,7 @@ def audit(d):
       or d["original_source"]["source_artifact_original_inner_json_sha256"]!=SOURCE_ORIGINAL_INNER_SHA
       or d["original_source"]["original_archive_sha256"]!="4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2"
       or d["source_original_event_design"]["selected_original_Event_coreids_sha256"]!="39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac"
-      or d["source_original_event_design"]["selected_same_source_sites"]!=29
+      or d["source_original_event_design"]["exact_three_phase_forest_transects"]!=29
       or d["source_original_event_design"]["original_native_forest_islands"]!=7
       or not d["firewall"]["GEB_scientific_HOLD"] or d["firewall"]["new_confirmatory_systems"]!=0
       or d["firewall"]["eBird"]):
