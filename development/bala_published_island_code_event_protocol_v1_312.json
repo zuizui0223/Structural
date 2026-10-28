@@ -18,7 +18,7 @@
     "smg": "São Miguel",
     "smr": "Santa Maria"
   },
-  "separate_gra_secondary_forest": "gra; exclude from seven-island pristine native repeated-core comparison",
+  "separate_gra_secondary_forest": "gra: 198 original Event records, all outside the frozen B1/B2/B3 campaign year ranges (source-exposed v1.311 receipt). Therefore out-of-phase, not eligible-phase OTHER_ISLAND; do not classify as native seven-island core.",
   "author_evidence": "Pozsgai et al 2024 Scientific Data doi 10.1038/s41597-024-03174-7 fig 1 and methods have exactly these abbreviations; source Event coded values checked before taxon responses",
   "unchanged_gates": {
     "original_Event_count": 10379,
@@ -41,5 +41,11 @@
     "new_confirmatory_systems": 0,
     "eBird": false,
     "mammal_BioTIME_RLS_S2S3S4_unopened": true
+  },
+  "original_source_only_phase_validation": {
+    "other_island_events_after_published_codebook": 0,
+    "outside_frozen_phase_Events": 198,
+    "source_Graciosa_all_original_Event_rows": 198,
+    "source_known_seven_island_B1B2B3_Events": 10181
   }
 }
