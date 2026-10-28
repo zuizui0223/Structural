@@ -19,8 +19,8 @@ def fixture():
                         "samplingProtocol":mode,"fieldNumber":f"{site}"})
     for j in range(198):
         code=f"secondary-gra-{j}"
-        rows.append({"__original_coreid":code,"eventID":code,"year":"2000",
-            "eventDate":"2000-08-01","island":"gra","locationID":f"gra-site-{j}",
+        rows.append({"__original_coreid":code,"eventID":code,"year":"2007",
+            "eventDate":"2007-08-01","island":"gra","locationID":f"gra-site-{j}",
             "samplingProtocol":"Pitfall solution","fieldNumber":str(j)})
     while len(rows)<10379:
         j=len(rows)
