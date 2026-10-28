@@ -1,0 +1,64 @@
+{
+  "schema": "structural.bala_longitudinal_core_source_design.v1_310",
+  "date": "2026-10-28",
+  "status": "FROZEN_BEFORE_ORIGINAL_BALA_ARCHIVE_EVENT_OR_OCCURRENCE_READ",
+  "source": {
+    "doi": "10.15468/rpdkx9",
+    "publisher": "Universidade dos Açores",
+    "GBIF_uuid": "8a4be36d-18cd-484c-b8ce-f67194cf4bac",
+    "official_resource": "https://ipt.gbif.pt/ipt/resource?r=bala_arthropods&v=1.0",
+    "official_archive": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "original_published_Event_core_rows": 10379,
+    "original_published_Occurrence_extension_rows": 63904,
+    "published_archive_size": "approximately 3 MB",
+    "license": "CC BY 4.0",
+    "literature_2024": "Pozsgai et al. (2024) Scientific Data 11:368 doi:10.1038/s41597-024-03174-7",
+    "literature_2026": "Pozsgai et al. (2026) Scientific Reports 16:27703 doi:10.1038/s41598-026-57146-5"
+  },
+  "original_published_design": {
+    "islands_claimed_main": [
+      "Flores",
+      "Faial",
+      "Pico",
+      "São Jorge",
+      "Terceira",
+      "São Miguel",
+      "Santa Maria"
+    ],
+    "extra_or_nonpristine_island": "Graciosa may appear among broader source records but is NOT in original seven-island repeatedly sampled native core, never silently assimilate",
+    "fragments_main": 15,
+    "core_repeated_transects_discrepancy": "Authors report 30 repeated sites in one section, 31 transects in published source paper; determine exact author site/period supports BEFORE any Occurrence read",
+    "sampling_phases": {
+      "B1": "1997-2004",
+      "B2": "2010-2012",
+      "B3": "2019-2022"
+    },
+    "original_nesting": "island > native forest fragment > 150m transect > 3 temporal BALA phases > ground pitfall or native-tree beating > individual Event traps/samples. Never treat 10379 Event rows or 63904 Occurrences as independent physical sites",
+    "guilds": [
+      "Araneae spiders",
+      "Coleoptera beetles"
+    ],
+    "prior_art_ceiling": "2026 original authors already found aggregate abundance/biomass/richness largely stable and species-specific increases/declines; these are prior work, not a new Structural discovery. Independent target must be community-composition turnover/replacement within same sites and guilds, compared across multiple islands."
+  },
+  "new_scientific_question": "Does taxonomic community composition undergo different degrees of within-site species replacement among spiders vs beetles and endemic vs introduced arthropods over the three BALA survey campaigns, even where richness/abundance appears stable? Is the direction of compositional reorganization consistent across multiple Azorean islands and source forest fragments?",
+  "data_gate_sequence": [
+    "v1.310 original exact archive zip central directory and meta.xml ONLY; no Event/Occurrence data values. Freeze original zip SHA and identify necessary field terms.",
+    "v1.311 source-Event-only physical transect/year/method design check, using original SHA. Freeze site-year campaign joins and effort before reading taxon names.",
+    "v1.312 one-shot original species occurrence read only AFTER the original Event physical gate qualifies and the prespecified primary statistic, origin ontology, pairing, denominators and quality floors are frozen."
+  ],
+  "candidate_primary": {
+    "unit": "Source-matched forest transect, not each trap or beating Event. Each transect×campaign observed taxon set by same method class (ground vs canopy) and taxonomic guild.",
+    "effect": "For each source-matched transect and guild, compare B1 and B3 species sets using Jaccard or Sørensen decomposition into replacement vs richness-difference components. Report whether high turnover can coexist with modest net richness change. Native/endemic/introduced origin status only when exact source metadata proves status field and values are reliable.",
+    "comparison": "Spiders versus beetles paired within exact same original transect, source method, phases; summarize per original island and fragment with actual author site n. Do not interpret 45 pairwise observations as independent and do not infer local extinction/colonization from nondetection.",
+    "zero_data_policy": "If core transect ID is missing, sampling methods are noncomparable or source origin fields undocumented, STOP or report a restricted, separately frozen design BEFORE taxon access, not an artificially positive result."
+  },
+  "firewall": {
+    "BALA_original_Event_rows_read_at_v310": 0,
+    "BALA_original_Occurrence_rows_read_at_v310": 0,
+    "previous_BioMonI_Pico_arthropod_plant_response_reopened": 0,
+    "original_mammal_BioTIME_RLS_S2_S3_S4_response_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
