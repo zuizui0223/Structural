@@ -1,0 +1,72 @@
+{
+  "schema": "structural.biomoni_spider_woody_eight_site_beta.v1_308",
+  "date": "2026-10-28",
+  "status": "FROZEN_CONDITIONAL_TO_V1_307_EVENT_QUALIFICATION_BEFORE_FIRST_SPIDER_OCCURRENCE_READ",
+  "science_question": "In the EIGHT strictly source-coordinate-compatible original Terceira forest plots, does equally sampled spider community turnover contain additional out-of-plot predictive information about original woody plant turnover beyond physical geography?",
+  "provenance": {
+    "original_woody_archive": "https://ipt.gbif.pt/ipt/archive.do?r=biomoni_trees&v=1.7",
+    "original_woody_SHA256": "4574d02727654ec5a319f6d1218ff9243080b0128c517d01c905065cbefd6f82",
+    "original_woody_Event_rows": 30,
+    "original_woody_Occurrence_rows": 402,
+    "original_spider_archive": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_macaronesia_azores&v=1.8",
+    "original_spider_SHA256": "17f65284214ae35a302fee2fa42747e2ecfabb8d04bf9ec8394b6d33c5c4f7b5",
+    "original_spider_Event_rows": 423,
+    "original_spider_Occurrence_rows": 1639,
+    "v1_307_Event_receipt_required": "NEW_EXPLORATORY_EIGHT_PHYSICAL_PLOTS_EQUAL_SPIDER_METHODS_RESPONSE_SEALED with committed cryptographic selected-original-Event and tree-site join hashes BEFORE first original species access",
+    "original_v1_300_beetle_prediction_reference": {
+      "forest_plots": 10,
+      "delta_LOPO_MSE": 0.0005573206640206614,
+      "relative_MSE_reduction": 0.04930609189515262,
+      "note": "Different 10-plot vs 8-plot targets NOT directly statistically comparable; already outcome-exposed."
+    }
+  },
+  "sampling": {
+    "independent_original_terceira_plots": 8,
+    "nominal_original_source_tree_spider_plot_keys": 10,
+    "excluded_plots_for_original_coordinate_failure": 2,
+    "strict_coordinate_max_abs_difference_degrees": 0.0003,
+    "eligible_EVent_ids": "Only v1.307 recorded 184 source-selected spider Events: 23 per each eligible original plot from 5 common original samplingProtocol categories, min counts over original ten author plot keys [2,3,3,4,11]. No source outcome-selected site/record substitution.",
+    "use_original_tree": "Original Woody Event core for exactly same eight source plot keys; one tree Event per matched physical plot. No use of other unpaired tree plots.",
+    "taxa": {
+      "trees": "Original scientificName with source taxonRank species/subspecies, unique per source plot, never shoot count as independent observations",
+      "spiders": "Original scientificName, source taxonRank exactly species/subspecies/morphospecies; unique species/morphospecies per original physical plot across 23 selected spider Events; no organismQuantity/abundance as primary",
+      "missing_or_ambiguous_names": "If >5% of Spider occurrences belonging to selected original Events have empty or nonpermitted taxonRank/name, STOP, do not reinterpret them after inspecting outcomes"
+    }
+  },
+  "quality": {
+    "source_woody_Occurrences_exact": 402,
+    "source_spider_Occurrences_exact": 1639,
+    "all_Event_Occurrence_coreid_join_fraction_each_at_least": 0.98,
+    "all_eight_plots_both_taxa_min_one": 1,
+    "at_least_six_eight_plots_each_taxon_two_or_more": 6,
+    "at_least_five_nonzero_Jaccard_pairs_each_taxon": 5,
+    "no_equating_two_zero_plots": true,
+    "if_any_failure": "STOP_QUALIFICATION_NO_BETA_SCORE, do not widen to two spatially failed plots, select favorable taxa or replace sample methods"
+  },
+  "statistical_model": {
+    "woody_response": "28 original unordered plot pairs, Jaccard dissimilarity 1-|A∩B|/|A∪B|; dependent pair observations",
+    "geographic_predictor": "log(1+haversine_km) between original Tree Event coordinates",
+    "spider_predictor": "Jaccard dissimilarity of spiders on exact same 28 plot pairs",
+    "base_reference": "LOPO ridge intercept + training-fold standardized geography, fixed L2 slope lambda=0.1; train 21 pairs among seven other plots and test seven pairs of held plot, average across eight held-out original plots",
+    "candidate": "Same base + standardized Spider Jaccard predictor, fixed L2 lambda=0.1",
+    "primary": "Baseline mean heldout pair MSE minus Spider-augmented mean heldout pair MSE; higher is predictive improvement",
+    "null": "999 full plot-label permutations of spider community assignments among 8 author sites, fixed seed 20261028; never shuffle 28 dyad values independently, compute one-sided (1 + count(null_gain >= observed_gain))/1000",
+    "conditional_positive_label": "Observed gain > 0 and > 95th percentile of plot-label permutation gains, else report non-support without an alternative model",
+    "comparator": "Report qualitative sign only against earlier ten-plot beetle result; do NOT call same woody response plus 8 subset a new independent geography or an incremental ecological mechanism confirmation"
+  },
+  "critical_evidence_limit": "Entire eight-plot cohort is selected AFTER response-opaque site-geography errors were observed; Woody responses have already been exposed under prior ten-plot beetle test, Spider remains unopened until this protocol and synthetic tests are frozen. This is a weaker exploratory follow-up, not independent confirmation. Fragment membership/autocorrelation and shared COBRA sampling context remain unmeasured.",
+  "nonclaims": [
+    "No original ten-plot v1.303/v1.304 rescue",
+    "No causal tree→spider effect",
+    "No restoration or invasion effect",
+    "No new oceanic island replication",
+    "No donor/rescue or colonization inference"
+  ],
+  "firewall": {
+    "old_v1_303_and_v1_304_GATE_TERMINAL": true,
+    "original_mammal_BioTIME_RLS_S2_S3_S4_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_admissions": 0,
+    "eBird": false
+  }
+}
