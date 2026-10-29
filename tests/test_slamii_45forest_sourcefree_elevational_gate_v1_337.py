@@ -21,7 +21,7 @@ def test_source_original_three_islands_are_elevationally_segregated_but_not_caus
 def test_prior_paper_v18_habitat_discrepancy_cannot_be_retconned():
     s=source()
     s["source"]["source_2023_native_mixed_exotic_classes"]["native"]=8
-    with pytest.raises(ValueError,match="original source full"):
+    with pytest.raises(ValueError,match="Original source full"):
         audit(s)
 def test_sampling_matched_terceira_stop_not_backfilled():
     s=source()
