@@ -83,20 +83,22 @@ def category(raw,contract):
 
 def reconstruct_event_sample(events,event_contract,receipt):
     previous=event_audit(events,event_contract)
-    if (
-      previous["status"]!="ORIGINAL_SLAM_FOREST_HABITAT_STRATA_ELIGIBLE_TAXON_RESPONSES_SEALED"
-      or previous["source_selected_original_Event_coreids_SHA256"]!=SOURCE_SELECT_SHA
-      or previous["source_selected_original_physical_plot_key_SHA256"]!=SOURCE_SITE_SHA
-      or previous["source_selected_original_Event_rows_in_matched_habitat_strata"]!=664
-      or previous["source_selected_physical_plots_with_matched_habitat_period_method"]!=33
-      or previous["source_original_SHA256"]!=SHA
-      or receipt.get("selected_source_Event_coreid_SHA256")!=SOURCE_SELECT_SHA
-      or receipt.get("selected_original_physical_plot_key_SHA256")!=SOURCE_SITE_SHA
-      or receipt.get("original_source_Event_n")!=893
-      or receipt.get("original_selected_islands")!=list(ISLANDS)
-      or receipt.get("matched_source_island_year_quarter_stratum_counts")!=EXPECTED_QUARTERS
-    ):
-        raise ValueError("Original response-independent 664 source Event/33 site fingerprint changed")
+    checks={
+      "original_v326_source_gate":previous["status"]=="ORIGINAL_SLAM_FOREST_HABITAT_STRATA_ELIGIBLE_TAXON_RESPONSES_SEALED",
+      "source_Event_coreid_SHA":previous["source_selected_original_Event_coreids_SHA256"]==SOURCE_SELECT_SHA,
+      "source_physical_plot_key_SHA":previous["source_selected_original_physical_plot_key_SHA256"]==SOURCE_SITE_SHA,
+      "source_matched_Event_count":previous["source_selected_original_Event_rows_in_matched_habitat_strata"]==664,
+      "source_matched_plot_count":previous["source_selected_physical_plots_with_matched_habitat_period_method"]==33,
+      "source_original_archive_SHA":previous["source_original_SHA256"]==SHA,
+      "receipt_Event_coreid_SHA":receipt.get("selected_source_Event_coreid_SHA256")==SOURCE_SELECT_SHA,
+      "receipt_physical_plot_SHA":receipt.get("selected_original_physical_plot_key_SHA256")==SOURCE_SITE_SHA,
+      "receipt_total_original_Event_rows":receipt.get("source_original_Event_n")==893,
+      "receipt_exact_three_islands":receipt.get("original_selected_islands")==list(ISLANDS),
+      "receipt_exact_quarter_strata":receipt.get("matched_source_island_year_quarter_stratum_counts")==EXPECTED_QUARTERS
+    }
+    for label,passed in checks.items():
+        if not passed:
+            raise ValueError("Original response-independent 664 source Event/33 site fingerprint changed: "+label)
     aliases=event_contract["fixed_island_aliases"]
     ontology=event_contract["habitat_ontology_frozen"]
     method_count=Counter(mode(row.get("samplingProtocol")) for row in events)
