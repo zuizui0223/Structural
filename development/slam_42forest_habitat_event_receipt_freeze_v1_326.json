@@ -1,0 +1,85 @@
+{
+  "schema": "structural.slam_42forest_habitat_source_event_receipt.v1_326",
+  "status": "ORIGINAL_SLAM_FOREST_HABITAT_STRATA_ELIGIBLE_TAXON_RESPONSES_SEALED",
+  "original_source_event_run": 40828340085,
+  "original_source_event_artifact_id": 12876529705,
+  "original_source_event_artifact_zip_SHA256": "a106ac9fd24f4a059e63b2e930499a4f70529a14dd45cc2cf4c44c403428e078",
+  "source_original_v17_archive_SHA256": "b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0",
+  "source_original_Event_n": 893,
+  "source_original_Occurrence_rows_still_unopened": 14922,
+  "original_physical_plot_site_keys_n": 42,
+  "original_repeated_plot_sites_in_selected_habitat_strata": 33,
+  "original_selected_islands": [
+    "FLO",
+    "PIC",
+    "TER"
+  ],
+  "matched_source_island_year_quarter_stratum_counts": {
+    "FLO": 6,
+    "PIC": 30,
+    "TER": 34
+  },
+  "matched_source_original_Event_n": 664,
+  "selected_source_Event_coreid_SHA256": "105842bd22226d88810d8d816e629a5e8829a2971f58a45b1ed69d2594712686",
+  "selected_original_physical_plot_key_SHA256": "703cfb63183b7c46095f6349f24a7a84114cec18b744b6d38332de717bb3cf50",
+  "original_sampling_protocol_sha256": "feacce93b49f05b3ecd97c0e09e92938b9a33a1dbbf5f5d1071f4bb8d7663545",
+  "all_forest_types_original_sites": {
+    "FAI": {
+      "native": 3,
+      "mixed": 0,
+      "exotic": 0
+    },
+    "FLO": {
+      "native": 4,
+      "mixed": 2,
+      "exotic": 1
+    },
+    "GRA": {
+      "native": 1,
+      "mixed": 1,
+      "exotic": 0
+    },
+    "PIC": {
+      "native": 6,
+      "mixed": 4,
+      "exotic": 0
+    },
+    "SMG": {
+      "native": 2,
+      "mixed": 0,
+      "exotic": 1
+    },
+    "SMR": {
+      "native": 1,
+      "mixed": 0,
+      "exotic": 0
+    },
+    "TER": {
+      "native": 14,
+      "mixed": 2,
+      "exotic": 0
+    }
+  },
+  "source_EVent_strata_original_year_ranges": {
+    "FLO": [
+      2020,
+      2021
+    ],
+    "PIC": [
+      2014,
+      2022
+    ],
+    "TER": [
+      2013,
+      2022
+    ]
+  },
+  "source_unknown_habitat_site_n": 0,
+  "source_habitat_conflicted_site_n": 0,
+  "source_geographic_coordinate_outlier_n": 0,
+  "original_occurrence_rows_opened": 0,
+  "old_BALA_PRIBES_source_taxonomy_reopened": 0,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0,
+  "eBird": false
+}
