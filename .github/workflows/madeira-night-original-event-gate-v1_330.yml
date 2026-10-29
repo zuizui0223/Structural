@@ -1,0 +1,64 @@
+name: Madeira original 134 Event physical forest site and UV sampling gate v1.330
+on:
+  push:
+    paths:
+      - ".github/workflows/madeira-night-original-event-gate-v1_330.yml"
+      - "development/madeira_night_forest_original_event_gate_v1_330.json"
+      - "scripts/madeira_night_original_event_forest_gate_v1_330.py"
+      - "tests/test_madeira_night_original_event_forest_gate_v1_330.py"
+  pull_request:
+    paths:
+      - ".github/workflows/madeira-night-original-event-gate-v1_330.yml"
+      - "development/madeira_night_forest_original_event_gate_v1_330.json"
+      - "scripts/madeira_night_original_event_forest_gate_v1_330.py"
+      - "tests/test_madeira_night_original_event_forest_gate_v1_330.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-Event-only-no-endemic-moth-records:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-blind test framework
+        run: python -m pip install pytest
+      - name: Verify 134 mock original Event rows, forest source periods and method separation
+        run: python -m pytest -q tests/test_madeira_night_original_event_forest_gate_v1_330.py
+      - name: Original v1.1 source archived Event rows only, never moth Occurrence
+        run: |
+          python scripts/madeira_night_original_event_forest_gate_v1_330.py \
+            --contract development/madeira_night_forest_original_event_gate_v1_330.json \
+            --out madeira_original_forest_event_only_v1_330.json
+      - name: Check source physical forest frame or irreversible scientific STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("madeira_original_forest_event_only_v1_330.json").read_text(encoding="utf-8"))
+          assert r["status"] in (
+            "MADEIRA_UV_NATIVE_VS_ALTERED_FOREST_EVENT_FRAME_QUALIFIED_TAXA_SEALED",
+            "TERMINAL_MADEIRA_NO_EXACT_SAME_SEASON_UV_FOREST_PLOT_FRAME")
+          assert r["original_source_archive_SHA256"]=="54c2e4dc10989a15a0d78a988b496d2e5ae917a4315bc032b28292c083aa10ba"
+          assert r["original_Events_opened"]==134
+          assert r["original_Occurrences_opened"]==0
+          assert r["original_Azores_species_sources_reopened"]==0
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("Madeira original forest plot source availability:",r["status"])
+          print("Author physical sites 47/48?:",r["actual_unique_physical_source_locationIDs"])
+          print("Original habitat sites:",r["original_source_habitat_physical_plot_counts"])
+          print("Original light/bait trap Events:",r["source_method_Event_counts"])
+          print("Exact year-quarter eligible forest habitat strata:",
+                r["source_year_quarter_method_LIGHT_plot_support"])
+          print("Original source taxonomic rows opened:",r["original_Occurrences_opened"])
+          PY
+      - name: Store original Event-only physical forest source denominator
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: madeira-original-native-altered-forest-Event-only-v1-330
+          path: madeira_original_forest_event_only_v1_330.json
+          if-no-files-found: warn
