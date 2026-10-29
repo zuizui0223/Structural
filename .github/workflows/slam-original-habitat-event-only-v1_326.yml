@@ -1,0 +1,64 @@
+name: SLAM original 42 forest plot Event habitat and season feasibility v1.326
+on:
+  push:
+    paths:
+      - ".github/workflows/slam-original-habitat-event-only-v1_326.yml"
+      - "development/slam_forest_explicit_habitat_original_event_gate_v1_326.json"
+      - "scripts/slam_forest_original_event_habitat_gate_v1_326.py"
+      - "tests/test_slam_forest_original_event_habitat_gate_v1_326.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slam-original-habitat-event-only-v1_326.yml"
+      - "development/slam_forest_explicit_habitat_original_event_gate_v1_326.json"
+      - "scripts/slam_forest_original_event_habitat_gate_v1_326.py"
+      - "tests/test_slam_forest_original_event_habitat_gate_v1_326.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-original-source-habitat-and-season-no-taxonomy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Validate 42 physical site identity, habitat ontology, two-island replication and hard stop
+        run: python -m pytest -q tests/test_slam_forest_original_event_habitat_gate_v1_326.py
+      - name: Examine ONLY original 893 forest Event rows, never source taxon identity or biogeographic status
+        run: |
+          python scripts/slam_forest_original_event_habitat_gate_v1_326.py \
+            --contract development/slam_forest_explicit_habitat_original_event_gate_v1_326.json \
+            --out slam_original_forest_event_habitat_design_v1_326.json
+      - name: Validate truly eligible source design or original-source scientific STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("slam_original_forest_event_habitat_design_v1_326.json").read_text())
+          assert r["status"] in (
+              "ORIGINAL_SLAM_FOREST_HABITAT_STRATA_ELIGIBLE_TAXON_RESPONSES_SEALED",
+              "TERMINAL_NO_TWO_ISLAND_NATIVE_VS_ALTERED_SAME_WINDOW_REPLICATION")
+          assert r["original_Event_rows_opened"]==893
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["source_original_SHA256"]=="b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0"
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          assert not r["old_BALA_PRIBES_biology_source_reopened"]
+          if r["status"].startswith("ORIGINAL_SLAM"):
+              assert r["original_distinct_author_island_site_keys"]==42
+              assert len(r["islands_with_at_least_one_same_yearquarter_two_native_two_altered_forest_plot_stratum"])>=2
+          print("Source-only original forest habitat hypothesis estimability:",r["status"])
+          print("Original 7 island native/mixed/exotic physical site counts:",
+                r["source_recognized_native_mixed_exotic_independent_site_counts"])
+          print("Original matched island×year-quarter forest strata:",
+                r["source_original_island_year_quarter_eligible_strata"])
+          print("Original biological taxon values opened:",r["original_Occurrence_rows_opened"])
+          PY
+      - name: Retain original forest Event-only physical and habitat evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slam-original-42-forest-habitat-event-only-v1-326
+          path: slam_original_forest_event_habitat_design_v1_326.json
+          if-no-files-found: warn
