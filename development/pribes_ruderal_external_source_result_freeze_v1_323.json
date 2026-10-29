@@ -1,0 +1,143 @@
+{
+  "schema": "structural.pribes_six_island_external_source_forest_response_original_freeze.v1_323",
+  "date": "2026-10-29",
+  "status": "SOURCE_OBSERVED_SIX_ISLAND_ASSOCIATION_SCORED_NOT_CAUSAL",
+  "original": {
+    "source_DOI": "10.15468/xch3zq",
+    "source_original_zip_SHA256": "9b4eb77c15de7a900c391a17e781a99521f00d9b2fe433807607ebe462235b6e",
+    "original_source_meta_run": 40814509433,
+    "original_v321_mixed_effort_terminal_run": 40814895699,
+    "original_v322_onehour_site_run": 40815472790,
+    "original_v323_taxon_one_shot_run": 40816387637,
+    "original_v323_artifact_id": 12872113954,
+    "original_v323_artifact_zip_SHA256": "c078230ab06ccb9c75caaddcecf8fa8af64147a508e6f22320fda9d01e53d2be",
+    "original_v323_result_JSON_SHA256": "d4ef1bbc23a2f44560a42e1e66a3041697e43f6077a4e0d233e2757a2261765e",
+    "source_original_Event_rows": 80,
+    "source_original_Occurrence_rows": 2836,
+    "source_original_foreign_key_join_fraction": 1,
+    "source_onehour_physical_survey_sites_six_island": 72,
+    "source_onehour_site_Event_coreids_SHA256": "4258962fe50796bde5a11a60f9f98736d6c8a8e59db8cca3b3ddcc0d6276b14c",
+    "source_original_identified_guild_records": 1226,
+    "source_original_unclassified_status_records": 37,
+    "source_status_unclassified_fraction": 0.030179445350734094,
+    "source_original_named_guild_records_before_rank_filter": 1294,
+    "source_original_rank_excluded_rows": 68,
+    "source_origin_class_record_counts": {
+      "endemic": 157,
+      "introduced": 701,
+      "native": 331
+    }
+  },
+  "forest": {
+    "BALA_original_result_JSON_SHA256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "original_BALA_7island_result_run": 40806865705,
+    "original_BALA_field_source_already_SEALED": true,
+    "original_BALA_Event_or_Occurrence_rows_reopened": 0,
+    "BALA_six_island_forest_spatial_Simpson_B3_minus_B1": {
+      "FAI": 0.17777777777777776,
+      "FLO": -0.5603174603174603,
+      "PIC": 0.09722222222222221,
+      "TER": -0.12857142857142856,
+      "SMG": 0.004960317460317443,
+      "SMR": -0.40151515151515155
+    }
+  },
+  "original_independent_PRIBES_onehour_source_islands": {
+    "FAI": {
+      "survey_year": 2021,
+      "sites": 9,
+      "sites_with_introduced_beetles": 9,
+      "introduced_beetle_taxa": 15,
+      "introduced_beetle_site_jaccard": 0.25052910052910055,
+      "native_endemic_beetle_site_jaccard": 0.3101851851851852,
+      "introduced_spider_site_jaccard": 0.2322310791060791
+    },
+    "FLO": {
+      "survey_year": 2020,
+      "sites": 6,
+      "sites_with_introduced_beetles": 5,
+      "introduced_beetle_taxa": 10,
+      "introduced_beetle_site_jaccard": 0.1600793650793651,
+      "native_endemic_beetle_site_jaccard": 0.3377777777777778,
+      "introduced_spider_site_jaccard": 0.31182280682280683
+    },
+    "PIC": {
+      "survey_year": 2020,
+      "sites": 11,
+      "sites_with_introduced_beetles": 10,
+      "introduced_beetle_taxa": 13,
+      "introduced_beetle_site_jaccard": 0.1320899470899471,
+      "native_endemic_beetle_site_jaccard": 0.21428571428571427,
+      "introduced_spider_site_jaccard": 0.2597744679562861
+    },
+    "TER": {
+      "survey_year": 2025,
+      "sites": 15,
+      "sites_with_introduced_beetles": 15,
+      "introduced_beetle_taxa": 17,
+      "introduced_beetle_site_jaccard": 0.17976946334089192,
+      "native_endemic_beetle_site_jaccard": 0.3811111111111111,
+      "introduced_spider_site_jaccard": 0.19176191066947368
+    },
+    "SMG": {
+      "survey_year": 2025,
+      "sites": 24,
+      "sites_with_introduced_beetles": 21,
+      "introduced_beetle_taxa": 20,
+      "introduced_beetle_site_jaccard": 0.10601095993953136,
+      "native_endemic_beetle_site_jaccard": 0.23020975056689344,
+      "introduced_spider_site_jaccard": 0.20062192710949428
+    },
+    "SMR": {
+      "survey_year": 2019,
+      "sites": 7,
+      "sites_with_introduced_beetles": 7,
+      "introduced_beetle_taxa": 8,
+      "introduced_beetle_site_jaccard": 0.35555555555555557,
+      "native_endemic_beetle_site_jaccard": 0.16666666666666666,
+      "introduced_spider_site_jaccard": 0.20786435786435786
+    }
+  },
+  "hypothesis": {
+    "intro_Coleoptera_source_similarity_vs_BALA_homogenization": {
+      "spearman_rho": 0.14285714285714285,
+      "permutation_n": 720,
+      "one_sided_positive_association_p": 0.4013888888888889,
+      "two_sided_p": 0.8027777777777778
+    },
+    "native_endemic_Coleoptera_negative_control": {
+      "spearman_rho": 0.14285714285714285,
+      "permutation_n": 720,
+      "one_sided_positive_association_p": 0.4013888888888889,
+      "two_sided_p": 0.8027777777777778
+    },
+    "introduced_Araneae_secondary": {
+      "spearman_rho": 0.08571428571428572,
+      "permutation_n": 720,
+      "one_sided_positive_association_p": 0.4597222222222222,
+      "two_sided_p": 0.9194444444444444
+    },
+    "survey_year_confounds": {
+      "PRIBES_intro_beetle_site_similarity_vs_source_year_rho": -0.44136741475237473,
+      "BALA_beetle_forest_homogenization_vs_PRIBES_source_year_rho": -0.3530939318018998
+    },
+    "specific_introduced_source_mechanism_supported": false,
+    "interpretation": "No supported monotonic six-island association between observed source-side introduced beetle community sharing in ruderal vegetation and independently measured historic BALA native forest beetle spatial homogenization. Negative-control native/endemic source sharing has identical rho, so the introduced-specific mechanism is not singled out."
+  },
+  "evidence_ceiling": {
+    "one_archipelago_six_islands_only": true,
+    "PRIBES_vegetation_beating_vs_BALA_Pitfall_methods_not_comparable": true,
+    "PRIBES_year_and_island_confound": true,
+    "PRIBES_2019_to_2025_vs_BALA_B1_1997_2004_B3_2019_2022_asynchronous": true,
+    "source_vs_forest_distinct_physical_sites": true,
+    "no_actual_source_to_forest_migration_or_colonization_observed": true,
+    "original_BALA_v314_v316_v318_scorers_SEALED": true,
+    "original_PRIBES_v323_scorer_SEALED": true,
+    "original_all_PRIBES_v321_mixed_effort_GATE_TERMINAL": true,
+    "onehour_subsurvey_post_Event_QA_exploratory": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "protected_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}
