@@ -60,9 +60,11 @@ def test_source_unit_changed_no_posthoc_back_conversion():
     r=next(v for v in x if v["island"]=="Flores")
     r["sampleSizeValue"]="60"
     r["sampleSizeUnit"]="minutes"
-    out=original_onehour_cohort(x,p,old)
-    assert out["status"]=="TERMINAL_NO_EXACT_PUBLISHED_ONEHOUR_SIX_ISLAND_FRAME"
-    assert out["source_origin_and_species_values_OPENED"]==0
+    # Tampering the fixed all-event v1.321 source-effort fingerprint is a
+    # HARD error, not eligible to be relabelled as the separate one-hour study.
+    import pytest
+    with pytest.raises(ValueError,match="TERMINAL diagnosis not fixed"):
+        original_onehour_cohort(x,p,old)
 
 def test_prior_all_event_source_gate_never_qualified_in_restricted_cohort():
     p,old=contracts()
