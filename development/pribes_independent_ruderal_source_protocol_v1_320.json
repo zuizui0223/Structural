@@ -1,0 +1,92 @@
+{
+  "schema": "structural.pribes_ruderal_external_source.v1_320",
+  "date": "2026-10-29",
+  "status": "FROZEN_BEFORE_OPENING_PRIBES_ORIGINAL_EVENT_OR_OCCURRENCE",
+  "ecological_question": "Does independently surveyed island-level ubiquity of introduced arthropod taxa in disturbed/coastal ruderal habitats provide source-independent information about historical BALA native-forest beetle spatial homogenization across the six overlapping Azorean islands?",
+  "publication": {
+    "dataset": "The PRIBES Project: A survey of exotic arthropods in Azorean disturbed coastal ruderal habitats",
+    "doi": "10.15468/xch3zq",
+    "author_data_paper": "10.3897/BDJ.14.e188056",
+    "GBIF_uuid": "0e2398ac-2430-42dd-918a-6a2eb8533ffa",
+    "publisher": "Universidade dos Açores",
+    "official_source_archive": "https://ipt.gbif.pt/ipt/archive.do?r=pribes_arthropods&v=1.3",
+    "publication_date": "2026-04-27",
+    "license": "CC BY 4.0",
+    "published_design": {
+      "survey_years": "2019-2025",
+      "physical_site_count_claim": 79,
+      "original_Event_count_claim": 80,
+      "original_Occurrence_count_claim": 2836,
+      "observed_individuals_claim": 23547,
+      "original_islands": [
+        "Corvo",
+        "Flores",
+        "Faial",
+        "Pico",
+        "Terceira",
+        "São Miguel",
+        "Santa Maria"
+      ],
+      "method": "1 hour time-standardized vegetation beating in ruderal coastal/edge vegetation",
+      "species": "247 identified taxa, plus 119 morphospecies, per published article; only identified taxa have source-assigned colonization status"
+    }
+  },
+  "original_BALA_independent_response": {
+    "dataset": "BALA original 1997-2022 native-forest pitfall study, different survey/sampling sites",
+    "repo_branch": "science/bala-multi-island-composition-v1-310",
+    "original_result": "development/bala_spatial_original_result_freeze_v1_318.json",
+    "result_sha256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "original_guild_beetle_7_island_simpson_delta": {
+      "Faial": 0.17777777777777776,
+      "Flores": -0.5603174603174603,
+      "Pico": 0.09722222222222221,
+      "São Jorge": -0.4166666666666667,
+      "São Miguel": 0.004960317460317443,
+      "Santa Maria": -0.40151515151515155,
+      "Terceira": -0.12857142857142856
+    },
+    "source_original_BALA_scorers_SEALED": true,
+    "no_BALA_Event_or_Occurrence_reopen": true
+  },
+  "predeclared_cross_source_scope": {
+    "overlap_exact_six_islands": [
+      "Faial",
+      "Flores",
+      "Pico",
+      "Terceira",
+      "São Miguel",
+      "Santa Maria"
+    ],
+    "BALA_only_no_PRIBES": "São Jorge",
+    "PRIBES_only_no_BALA": "Corvo",
+    "physical_unit_in_new_source": "independent survey site locationID, NOT 80 original Event records if repeated at site, not original individual specimens",
+    "source_survey_years_differ_from_BALA_B1_B3": true,
+    "sample_method_mismatch": "PRIBES plant beating vs BALA pitfall, so source-side beetles do not represent BALA ground beetle detection in matched sampling; compare only island-level environmental context with explicit caveat.",
+    "primary_external_predictor": "Mean within-island site-pair Jaccard similarity of IDENTIFIED INTRODUCED Coleoptera taxon detections in PRIBES ruderal sites, retaining only sites with at least one source-recognized introduced species; defined 0 when a nonempty pair shares none; pair count dependent; first require >=4 eligible independent sites per island and >=2 distinct identified introduced beetle taxa per island. An island failing predeclared support gives primary STOP, not a smaller handpicked positive subset.",
+    "comparison": "Spearman rank correlation of six source-side introduced beetle similarity scores against negative of fixed BALA spatial Simpson delta (larger is stronger forest homogenization), with exact 6!=720 island-label permutations and both positive/negative directions reported. Do not infer mechanism causally. No p-value if six-island support fails.",
+    "negative_control": "Source-side NATIVE+ENDEMIC Coleoptera site Jaccard similarity under same methods. If source native association is at least as strong as introduced, a specific exotic-source mechanism is not supported.",
+    "secondary": "PRIBES Araeneae introduced-source site similarity exploratory, do not use to rescue primary.",
+    "source_origin_ontology": "Require original Occurrence establishmentMeans contains explicitly introduced/endemic/native statuses. Restrict original taxonRank species/subspecies only; unresolved morphospecies and blank statuses never used for named source pool. No after-value relabel."
+  },
+  "gates": [
+    "v1.320 download original fixed v1.3 archive ONLY ZIP central directory and meta.xml, source sha and taxon/island/sampling schema; no Event/Occurrence data rows",
+    "v1.321 Event-only original source check: reconcile 80 Event rows vs published 79 actual sites, six overlap island n>=4, date/source method equal-effort, source locationID disjoint from BALA forest site identities (not direct site join). No taxon rows open.",
+    "v1.322 freeze exact original-source outcome scorer and 720-permutation island-level comparison after v1.321 source-only eligibility, before any original PRIBES taxon response open",
+    "Only one source response execution, archive result and seal original runner. No repeated analysis after outcome or threshold retuning."
+  ],
+  "scientific_ceiling": [
+    "This is a contemporaneous independently sampled disturbed-habitat exposure proxy, NOT observed arthropod transfer or movement into native forests.",
+    "N=6 original island contexts, not 79 independent forest change outcomes or six independent archipelagos.",
+    "Original BALA pitfall and PRIBES beating have fundamentally different taxonomic and detectability responses.",
+    "Anthropogenic disturbance, island area, forest cover, geography and urbanization remain confounders.",
+    "No assertion of forest invasive decline, actual colonization/extinction, metapopulation rescue, causal source–sink mechanism."
+  ],
+  "firewall": {
+    "BALA_original_10k_Event_and_64k_Occurrence_reopened": 0,
+    "PRIBES_original_Event_and_Occurrence_rows_opened_at_v320": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "protected_original_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}

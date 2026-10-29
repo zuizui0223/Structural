@@ -1,0 +1,84 @@
+{
+  "schema": "structural.pribes_ruderal_original_event_site_design.v1_321",
+  "date": "2026-10-29",
+  "status": "FROZEN_BEFORE_OPENING_PRIBES_V1_3_ORIGINAL_EVENT_VALUE_ROWS",
+  "source": {
+    "url": "https://ipt.gbif.pt/ipt/archive.do?r=pribes_arthropods&v=1.3",
+    "sha256": "9b4eb77c15de7a900c391a17e781a99521f00d9b2fe433807607ebe462235b6e",
+    "GBIF_uuid": "0e2398ac-2430-42dd-918a-6a2eb8533ffa",
+    "published_event_n": 80,
+    "published_physical_sites_claim": 79,
+    "published_2019_2025_field_years": true,
+    "metadata_schema_run": 40814509433
+  },
+  "field_contract": {
+    "source_core": "Event id index from original PRIBES meta.xml",
+    "fields_required_nonempty": [
+      "eventID",
+      "island",
+      "eventDate",
+      "locationID",
+      "samplingProtocol",
+      "sampleSizeValue",
+      "sampleSizeUnit"
+    ],
+    "site_identity_rule": "Normalize original source locationID by Unicode NFKD, ascii fold then retain only uppercase A-Z 0-9; never use coordinates as fallback. Any site ID reused across different islands is not a single physical site.",
+    "island_mapping_predeclared": {
+      "COR": [
+        "corvo"
+      ],
+      "FLO": [
+        "flores"
+      ],
+      "FAI": [
+        "faial"
+      ],
+      "PIC": [
+        "pico"
+      ],
+      "TER": [
+        "terceira"
+      ],
+      "SMG": [
+        "são miguel",
+        "sao miguel",
+        "s miguel"
+      ],
+      "SMR": [
+        "santa maria",
+        "s maria"
+      ]
+    },
+    "island_overlap_source": [
+      "FAI",
+      "FLO",
+      "PIC",
+      "TER",
+      "SMG",
+      "SMR"
+    ],
+    "not_overlap": {
+      "PRIBES_only": "COR",
+      "BALA_only": "SJG"
+    },
+    "source_event_rows_expected": 80,
+    "survey_date_year_range": [
+      2019,
+      2025
+    ],
+    "source_equal_effort_rule": "Every selected original site Event must have positive numeric sampleSizeValue identical across all six BALA-overlap islands, and a single normalized nonempty sampleSizeUnit; source protocol nonempty, with at most 1 distinct normalized samplingProtocol in original six island selected source sites. If violated terminal before any PRIBES species read.",
+    "duplicate_site_rule": "If source 80 Event records identify only 79 physical locationID keys, select lexicographically smallest ORIGINAL Event CORE ID within each exact normalized island+locationID key and ignore any secondary original Event on that site; this is fixed before Event values, never based on taxon count. If any same site Event has differing method or coordinate >0.0003 degrees, terminal, not imputed.",
+    "physical_site_count_gate": "Original unique independent site count 79 OR 80 both accepted with published discrepancy reported. At least 4 independent selected sites per EACH six overlap island (minimum >=24 physical source sites total), and all seven published original islands represented. No after-exposure selective island dropout.",
+    "original_location_quality": "decimalLatitude and decimalLongitude finite for all selected source sites; report only max repeated-site discrepancy, not actual coordinate.",
+    "site_years_not_equal": "Report selected site survey year ranges per island; original BALA forest trends end 2019–2022 and PRIBES field sites span 2019–2025, so ecological temporal response and source predictor are asynchronous.",
+    "site_records_output": "Only country/island n, year distribution, method/effort vocabulary counts, original Event-source SHA256, selected original source-coreID SHA256; do not emit original source localityID, raw date, coordinates, or taxa."
+  },
+  "next_science_if_event_pass": "Freeze separate v1.322 original Occurrence response and rank+origin vocabulary gate then one-shot forest homogenization against introduced ruderal Coleoptera ubiquity, fixed negative control native Beetle site similarity. Parent BALA raw biology must remain sealed.",
+  "firewall": {
+    "BALA_original_Event_and_Occurrence_reopened": 0,
+    "PRIBES_original_Occurrence_opened": 0,
+    "original_BALA_GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

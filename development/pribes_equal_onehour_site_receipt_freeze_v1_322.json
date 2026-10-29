@@ -1,0 +1,49 @@
+{
+  "schema": "structural.pribes_equal_onehour_original_event_receipt_freeze.v1_322",
+  "status": "NEW_SEPARATE_72_RUDERAL_SITES_ONEHOUR_EACH_TAXON_RESPONSES_SEALED",
+  "source_v320_original_meta_run": 40814509433,
+  "source_v321_full_mixed_effort_terminal_run": 40814895699,
+  "source_v322_exact_onehour_event_run": 40815472790,
+  "source_v322_artifact_id": 12871898201,
+  "source_v322_artifact_zip_sha256": "e0979bb6ea6a5cd9b4fedaf94b105550d94495e04acb817e014e9ed729b33eed",
+  "source_v322_artifact_inner_JSON_sha256": "ce4fb208cd02960c60e612e34a79d06c35dd08f06b181f5e687581549ede6178",
+  "original_source_zip_sha256": "9b4eb77c15de7a900c391a17e781a99521f00d9b2fe433807607ebe462235b6e",
+  "source_original_event_rows_inspected": 80,
+  "source_original_islands_seen": 7,
+  "source_fullhour_physical_sites_six_overlap": 72,
+  "source_fullhour_sites_by_island": {
+    "FAI": 9,
+    "FLO": 6,
+    "PIC": 11,
+    "TER": 15,
+    "SMG": 24,
+    "SMR": 7
+  },
+  "source_fullhour_survey_year_by_island": {
+    "FAI": 2021,
+    "FLO": 2020,
+    "PIC": 2020,
+    "TER": 2025,
+    "SMG": 2025,
+    "SMR": 2019
+  },
+  "excluded_events": {
+    "unknown_effort": 1,
+    "not_published_1hour": 2
+  },
+  "excluded_events_by_original_island": {
+    "FAI": {
+      "unknown_source_effort": 1
+    },
+    "TER": {
+      "not_original_published_one_hour": 2
+    }
+  },
+  "original_v321_all_event_equal_effort_gate": "TERMINAL",
+  "original_pribes_Occurrence_rows_opened": 0,
+  "original_BALA_Event_or_Occurrence_rows_reopened": 0,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0,
+  "eBird": false,
+  "source_onehour_selected_original_Event_coreids_sha256": "4258962fe50796bde5a11a60f9f98736d6c8a8e59db8cca3b3ddcc0d6276b14c"
+}

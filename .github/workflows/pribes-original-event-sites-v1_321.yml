@@ -1,0 +1,59 @@
+name: PRIBES original 7 island Event-only physical site and equal effort v1.321
+on:
+  push:
+    paths:
+      - ".github/workflows/pribes-original-event-sites-v1_321.yml"
+      - "development/pribes_original_event_site_contract_v1_321.json"
+      - "scripts/pribes_original_event_sites_v1_321.py"
+      - "tests/test_pribes_original_event_sites_v1_321.py"
+  pull_request:
+    paths:
+      - ".github/workflows/pribes-original-event-sites-v1_321.yml"
+      - "development/pribes_original_event_site_contract_v1_321.json"
+      - "scripts/pribes_original_event_sites_v1_321.py"
+      - "tests/test_pribes_original_event_sites_v1_321.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-ruderal-physical-site-effort-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Validate source-site normalization, duplicate event and 1-hour effort gates
+        run: python -m pytest -q tests/test_pribes_original_event_sites_v1_321.py
+      - name: Read ONLY 80 original source Event rows; no species, origin or specimen data
+        run: |
+          python scripts/pribes_original_event_sites_v1_321.py \
+            --contract development/pribes_original_event_site_contract_v1_321.json \
+            --out pribes_original_seven_island_physical_site_v1_321.json
+      - name: Hard stop or admit source-site sampling only
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("pribes_original_seven_island_physical_site_v1_321.json").read_text())
+          assert r["status"] in (
+              "PRIBES_6_ISLAND_SOURCE_PHYSICAL_EFFORT_ELIGIBLE_TAXA_SEALED",
+              "PRIBES_EVENT_SOURCE_SITE_OR_EFFORT_TERMINAL_NO_SPECIES_OPEN")
+          assert r["original_Event_rows_examined"]==80
+          assert r["PRIBES_Original_Occurrence_rows_opened"]==0
+          assert r["BALA_original_species_response_reopened"] is False
+          assert r["original_GEB_mammal_scientific_HOLD"] and r["new_confirmatory_systems"]==0
+          assert r["eBird_used"] is False
+          if r["status"].startswith("PRIBES_EVENT"):
+              assert not (r["has_exactly_six_BALA_overlap_islands"] and r["source_method_and_effort_identical_across_six_islands"] and r["source_duplicate_site_conflicts"]==0 and not r["source_rows_missing_source_site_coordinate_effort"])
+          print("PRIBES original only source Event field gate:",r["status"])
+          print("Original independent source sites by island:",r["observed_island_physical_site_counts"])
+          PY
+      - name: Retain only site counts, method/effort metadata and selected Event SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pribes-original-seven-island-physical-site-event-only-v1-321
+          path: pribes_original_seven_island_physical_site_v1_321.json
+          if-no-files-found: warn

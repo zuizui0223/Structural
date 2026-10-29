@@ -1,0 +1,53 @@
+{
+  "schema": "structural.pribes_ruderal_equal_1h_source_sites.v1_322",
+  "date": "2026-10-29",
+  "status": "EXPLICIT_SEPARATE_POST_EVENT_QA_SOURCE_FRAME_FROZEN_BEFORE_ANY_PRIBES_TAXON_RESPONSE",
+  "prior_terminal": "v1.321 ORIGINAL all-site equal-effort gate STOP: 80 Event records, 78 source site keys after one unparseable effort source row, 73 source-overlap sites of which 72 have exactly 1 hour + 1 has 30 minutes. The original v1.321 hypothesis must stay TERMINAL, no retrospectively relabeled pass.",
+  "rationale": "The PRIBES authors' published method specifies exactly one hour per physical site. A source-uniform 1-hour subsurvey, selected before seeing ANY PRIBES species or establishmentMeans values, is an observational study of the published standard protocol rather than a mix of unequal exposure. This is a NEW lower-evidence, explicitly post-source-Event-quality design; not a confirmed original 80-row equal-effort cohort.",
+  "source": {
+    "official_archive": "https://ipt.gbif.pt/ipt/archive.do?r=pribes_arthropods&v=1.3",
+    "original_sha256": "9b4eb77c15de7a900c391a17e781a99521f00d9b2fe433807607ebe462235b6e",
+    "original_expected_Event_rows": 80,
+    "original_2026_data_Doi": "10.15468/xch3zq",
+    "prior_meta_success_run": 40814509433,
+    "prior_original_event_terminal_run": 40814895699
+  },
+  "event_only_site_selection": {
+    "source_island_map": "Same pre-frozen exact island normalization of v1.321",
+    "source_physical_locationID": "Same source original Unicode-folded uppercase alphanumeric locationID of v1.321. No coordinate nearest neighbor matching or token shortening.",
+    "one_hour_only": "Require original sampleSizeValue exactly numeric 1.0 and normalized sampleSizeUnit exactly 'hour', original samplingProtocol exactly casefold/whitespace 'vegetation beating'. Any original Event with unknown effort or 30 minutes is not eligible.",
+    "duplicate_site_rule": "From eligible identical one-hour Events of the same exact island+locationID, choose lexicographically smallest original source coreID; if >1 original rows at site differ coordinates >0.0003 degrees or methods, fail; discarded source Events are identified by source only, never taxon.",
+    "original_expected_island_overlap": [
+      "FAI",
+      "FLO",
+      "PIC",
+      "TER",
+      "SMG",
+      "SMR"
+    ],
+    "BALA_only": "SJG",
+    "PRIBES_only": "COR",
+    "original_expected_full_hour_overlap_sites": 72,
+    "original_qualifying_sites_per_overlap_island_min": 4,
+    "original_expected_7_published_islands_from_raw_Events": 7,
+    "source_survey_years": "2019 to 2025, verified from original eventDate and year fields",
+    "site_spatial_coordinates": "Original decimalLat/Lon finite and source duplicate key consistent; do not export actual locations.",
+    "preserve_declared_sample_effort": "Do not infer one hour from published prose for records where original source hours field is missing. No imputation or rescaling 30-minute record to one hour.",
+    "output": "Only original full-hour selected source Event coreid SHA256, counts by original island, year, number excluded by exact source issue; no author site identifiers or original biological taxon values."
+  },
+  "subsequent_steps": [
+    "If 72 exact six-island site opportunities are verified, freeze taxon response origin and island-level introduced Beetle ubiquity compare to unchanged BALA source-free six island forest beta (v1.323).",
+    "Before any original PRIBES species read, test this study's source data ontology and habitat source-pool metric as fixed in v1.320. If primary non-estimable, STOP not choose new geographic threshold.",
+    "No PRIBES species, taxonRank, establishmentMeans, organismQuantity, environmental or BALA outcome rows can influence site or method selection."
+  ],
+  "scientific_boundary": "1-hour cross-sectional ruderal beetle distribution is a proxy for potential source pressure, not measured forest dispersal. Different PRIBES plant beating/BALA Pitfall detectability, N=6 overlapping island contexts, and temporal asynchrony prevent causal/mechanistic inference.",
+  "firewall": {
+    "original_PRIBES_Occurrence_rows_opened": 0,
+    "previous_BALA_source_rows_reopened": 0,
+    "original_v1_321_TERMINAL": true,
+    "original_v1_314_v1_316_v1_318_SEALED": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

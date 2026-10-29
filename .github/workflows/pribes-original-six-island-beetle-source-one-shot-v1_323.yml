@@ -1,0 +1,24 @@
+name: PRIBES v1.323 original species scorer SEALED - evidence only
+# Original PRIBES v1.3 Event and 2,836 Occurrence rows were scored ONCE in
+# GitHub Actions #40816387637, result artifact #12872113954.
+# Old mixed-method v1.321 remains scientifically TERMINAL; separate
+# one-hour v1.322 subset consists of 72 original physical source sites.
+# The original BALA v1.314/v1.316/v1.318 taxon workflows remain sealed.
+# Never replay source taxa here to chase a positive hypothesis result.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-original-biological-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Report fixed one-shot scientific adjudication only
+        run: |
+          echo "Original independent PRIBES source run: 40816387637"
+          echo "Original aggregate artifact: 12872113954"
+          echo "Primary six-island source→forest association rho = 0.142857142857"
+          echo "Exact 720 island permutation one-sided p = 0.401388888889"
+          echo "Original species Event/Occurrence rows opened in THIS job: ZERO"
+          echo "v1.321 all-Event source gate TERMINAL; BALA protected and sealed"
