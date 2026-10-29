@@ -1,0 +1,60 @@
+name: PRIBES independent six-island source-free native control audit v1.324
+on:
+  push:
+    paths:
+      - ".github/workflows/pribes-sourcefree-island-negative-control-v1_324.yml"
+      - "development/pribes_ruderal_external_source_result_freeze_v1_323.json"
+      - "development/pribes_external_source_sourcefree_audit_protocol_v1_324.json"
+      - "scripts/pribes_six_island_sourcefree_audit_v1_324.py"
+      - "tests/test_pribes_six_island_sourcefree_audit_v1_324.py"
+  pull_request:
+    paths:
+      - ".github/workflows/pribes-sourcefree-island-negative-control-v1_324.yml"
+      - "development/pribes_ruderal_external_source_result_freeze_v1_323.json"
+      - "development/pribes_external_source_sourcefree_audit_protocol_v1_324.json"
+      - "scripts/pribes_six_island_sourcefree_audit_v1_324.py"
+      - "tests/test_pribes_six_island_sourcefree_audit_v1_324.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-bala-pribes-biological-data-both-sealed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Exact 720 original source island permutations and native beetle negative control
+        run: python -m pytest -q tests/test_pribes_six_island_sourcefree_audit_v1_324.py
+      - name: Recalculate 6 original island numerical aggregates ONLY, no taxon source
+        run: |
+          python scripts/pribes_six_island_sourcefree_audit_v1_324.py \
+            --input development/pribes_ruderal_external_source_result_freeze_v1_323.json \
+            --contract development/pribes_external_source_sourcefree_audit_protocol_v1_324.json \
+            --out pribes_six_island_original_sourcefree_result_v1_324.json
+      - name: Enforce no invasive source causality or origin-specific claims
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          r=json.loads(Path("pribes_six_island_original_sourcefree_result_v1_324.json").read_text())
+          assert r["status"]=="SOURCE_FREE_INDEPENDENT_PRIBES_SOURCE_POOL_NON_SUPPORT_RECONFIRMED"
+          p=r["cross_source_exact_rank_correlation"]
+          assert math.isclose(p["introduced_beetle"]["spearman_rho"],1/7,abs_tol=1e-12)
+          assert p["introduced_beetle"]["one_sided_positive_association_permutation_p"]>0.4
+          assert p["native_endemic_beetle"]["spearman_rho"]==p["introduced_beetle"]["spearman_rho"]
+          assert not r["introduced_specific_vs_native_control_stronger"]
+          assert r["no_original_BALA_or_PRIBES_Event_Occurrence_rows_reopened"]
+          assert r["old_PRIBES_v321_scientific_STOP_and_v323_source_seal_preserved"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("Original six-island source-pool transfer non-support remains:",p["introduced_beetle"])
+          PY
+      - name: Archive original aggregate-only negative-control result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pribes-sourcefree-six-island-native-negative-control-v1-324
+          path: pribes_six_island_original_sourcefree_result_v1_324.json
+          if-no-files-found: warn
