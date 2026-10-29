@@ -1,0 +1,31 @@
+name: SLAM 3-island 664-event forest-origin known truth synthetic v1.327
+on:
+  push:
+    paths:
+      - ".github/workflows/slam-forest-habitat-origin-synthetic-v1_327.yml"
+      - "development/slam_forest_origin_habitat_response_protocol_v1_327.json"
+      - "scripts/slam_forest_habitat_original_origin_score_v1_327.py"
+      - "tests/test_slam_forest_habitat_original_origin_score_v1_327.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slam-forest-habitat-origin-synthetic-v1_327.yml"
+      - "development/slam_forest_origin_habitat_response_protocol_v1_327.json"
+      - "scripts/slam_forest_habitat_original_origin_score_v1_327.py"
+      - "tests/test_slam_forest_habitat_original_origin_score_v1_327.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-SLAM-source-taxonomy-still-unopened:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Know-truth 42 sites and 664 Events, forest origin interaction and failure gates
+        run: python -m pytest -q tests/test_slam_forest_habitat_original_origin_score_v1_327.py
+      - name: Guarantee no original SLAM taxon source access at v1.327 estimator validation
+        run: |
+          echo "SYNTHETIC ONLY: 0 original SLAM Occurrence rows, BALA/PRIBES scorers sealed"
