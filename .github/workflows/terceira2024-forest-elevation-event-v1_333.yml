@@ -1,0 +1,64 @@
+name: Terceira 2024 original native/exotic source elevation common-support v1.333
+on:
+  push:
+    paths:
+      - ".github/workflows/terceira2024-forest-elevation-event-v1_333.yml"
+      - "development/terceira2024_forest_elevation_overlap_event_gate_v1_333.json"
+      - "scripts/terceira2024_original_forest_elevation_event_v1_333.py"
+      - "tests/test_terceira2024_original_forest_elevation_event_v1_333.py"
+  pull_request:
+    paths:
+      - ".github/workflows/terceira2024-forest-elevation-event-v1_333.yml"
+      - "development/terceira2024_forest_elevation_overlap_event_gate_v1_333.json"
+      - "scripts/terceira2024_original_forest_elevation_event_v1_333.py"
+      - "tests/test_terceira2024_original_forest_elevation_event_v1_333.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-exotic-without-common-elevation-source-Event-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install synthetic test runner
+        run: python -m pip install pytest
+      - name: Test 10 native and 10 exotic forest plots and original elevation overlap gating
+        run: python -m pytest -q tests/test_terceira2024_original_forest_elevation_event_v1_333.py
+      - name: Original published v1.6 Event only, never original taxonomic response
+        run: |
+          python scripts/terceira2024_original_forest_elevation_event_v1_333.py \
+            --protocol development/terceira2024_forest_elevation_overlap_event_gate_v1_333.json \
+            --out terceira2024_original_forest_elevation_event_result_v1_333.json
+      - name: Require correct ecological site/elevation STOP or response-sealed qualified cohort
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("terceira2024_original_forest_elevation_event_result_v1_333.json").read_text())
+          assert r["status"] in (
+              "TERMINAL_2024_ORIGINAL_PHYSICAL_SITE_HABITAT_ELEVATION_QUALITY",
+              "TERMINAL_2024_FOREST_ELEVATION_NO_COMMON_SUPPORT",
+              "TERMINAL_2024_SLAM_GROUND_EFFORT_NOT_ESTIMABLE",
+              "ORIGINAL_2024_NATIVE_EXOTIC_SAME_STRATUM_ELEVATION_SUPPORT_ADMITTED_SPECIES_SEALED")
+          assert r["original_source_zip_SHA256"]=="c4dcf060bc2554be7fe49fb569f2fd7a8514ba3a888db673b40cb65aad60ef21"
+          assert r["original_Event_rows_examined"]==326
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["BALA_PRIBES_older_SLAM_Madeira_species_rows_reopened"]==0
+          assert r["new_confirmatory_systems"]==0 and r["GEB_scientific_HOLD"]
+          assert not r["eBird_used"]
+          print("Source native plots, original altitude range:",r["native_plot_elevation_range_m"])
+          print("Source exotic plots, original altitude range:",r["exotic_plot_elevation_range_m"])
+          print("Original forest-elevation common support:",r["original_native_exotic_common_elevation_interval_m"])
+          print("Environmental causal identifiability:",r["status"])
+          PY
+      - name: Save original author site/EVENT elevation support diagnostics and science STOP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terceira2024-original-habitat-elevation-EVENT-only-v1-333
+          path: terceira2024_original_forest_elevation_event_result_v1_333.json
+          if-no-files-found: warn
