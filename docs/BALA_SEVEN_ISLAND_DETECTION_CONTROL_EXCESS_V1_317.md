@@ -1,5 +1,8 @@
 # BALA v1.316–v1.317: Long-term community replacement exceeds same-period sampling heterogeneity across seven islands
 
+**Follow-up field result (v1.318–v1.319, 29 October 2026):** The question of spatial homogenization versus differentiation is now scored separately and **does not have the same answer as long-term species replacement at individual forest transects**. [Original 7-island field score and source-free ecology synthesis](BALA_SEVEN_ISLAND_SPATIAL_HOMOGENIZATION_RICHNESS_DECOUPLING_V1_319.md): under Pitfall, island-equal spatial Simpson β changed **−0.1753 in Beetles** (4/7 island means homogenizing; 18/18 source-half partition directions negative) and **+0.0224 in Spiders** (4/7 differentiating; only 13/18 source-half directions positive). Importantly, **Flores, São Jorge, Santa Maria show Beetle spatial homogenization despite increasing mean local species richness**. This derived exploratory source result does not imply universal 7/7 island homogenization or causal species expansion. Original v1.314, v1.316 and v1.318 taxon scorers remain SEALED; v1.319 used only pinned original numeric aggregates.
+
+
 **Original source executed 28 October 2026; source-free numerical audit 29 October 2026. Observational taxon-detection contrasts, NOT verified biological colonization/extirpation or independently replicated across archipelagos.**
 
 ## Central ecological answer
