@@ -38,7 +38,7 @@ def calculate(d,c):
         or d["original_evidence"]["original_2024_DwCA_SHA256"]!="4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2"):
         raise ValueError("Original v1.318 source-observed site numeric evidence identity mismatch")
     guards=d["limitations"]
-    if not all(guards[k] for k in (
+    if (not all(guards[k] for k in (
             "original_v314_and_v316_scorers_sealed",
             "original_v318_scorer_sealed_after_success",
             "GEB_scientific_HOLD",
