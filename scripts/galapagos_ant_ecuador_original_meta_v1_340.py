@@ -62,7 +62,7 @@ def inventory(blob,contract):
                 "GEB_scientific_HOLD":True,"new_confirmatory_systems":0,"eBird_used":False}
         e=desc(cores[0]);o=desc(extensions[0])
         event=set(e["field_names"]);occ=set(o["field_names"])
-        src=contract["source_only_v338"]
+        src=contract["source_only_v340"]
         candidates={
           "site":[f for f in src["Event_plot_identifiers"] if f in event],
           "habitat":[f for f in src["Event_habitat_candidates"] if f in event],
