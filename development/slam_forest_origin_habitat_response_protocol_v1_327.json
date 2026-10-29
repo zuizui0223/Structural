@@ -77,7 +77,8 @@
       "PIC": 20,
       "TER": 20
     },
-    "on_failure": "STOP_original_source_community_origin_or_detection_QUALITY_NO_HABITAT_SCORE, never add unqualified forest plots or reinterpret source origin classes."
+    "on_failure": "STOP_original_source_community_origin_or_detection_QUALITY_NO_HABITAT_SCORE, never add unqualified forest plots or reinterpret source origin classes.",
+    "conflicting_source_taxon_biogeographic_origin_in_same_island": "If original scientificName has more than one of endemic/native/introduced classifications in same source island, hard STOP rather than assigning whichever supports a hypothesis."
   },
   "primary_frozen_community_statistic": {
     "absolute_native_origin_richness": "Per selected SLAM Event, number of distinct source named native+endemic taxon identities, including zero when original Event has no records but only if <=20% missing overall; compare mean per native-forest plot minus mean per altered-forest plot INSIDE each matched original island×year×quarter.",
