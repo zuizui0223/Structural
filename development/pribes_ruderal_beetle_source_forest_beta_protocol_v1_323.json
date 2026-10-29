@@ -1,0 +1,124 @@
+{
+  "schema": "structural.pribes_ruderal_source_vs_forest_homogenization.v1_323",
+  "date": "2026-10-29",
+  "status": "FROZEN_AFTER_SOURCE_EVENT_ONLY_72_SITES_BEFORE_FIRST_PRIBES_TAXON_ROW_ACCESS",
+  "ecological_primary_question": "Across six overlapping Azorean islands, does higher same-island Jaccard similarity of IDENTIFIED introduced Coleoptera in independently sampled 1-hour ruderal sites accompany stronger (more negative) decades-long native-forest beetle spatial Simpson beta change in the SEPARATE BALA observations?",
+  "previous_original_source_event_conditions": {
+    "PRIBES_v1_3_archive_SHA256": "9b4eb77c15de7a900c391a17e781a99521f00d9b2fe433807607ebe462235b6e",
+    "PRIBES_original_Event_n": 80,
+    "PRIBES_Occurrence_original_expected_n": 2836,
+    "site_receipt": "development/pribes_equal_onehour_site_receipt_freeze_v1_322.json",
+    "source_event_SHA256": "4258962fe50796bde5a11a60f9f98736d6c8a8e59db8cca3b3ddcc0d6276b14c",
+    "source_six_island_site_n": 72,
+    "site_distribution": {
+      "FAI": 9,
+      "FLO": 6,
+      "PIC": 11,
+      "TER": 15,
+      "SMG": 24,
+      "SMR": 7
+    },
+    "source_site_survey_years": {
+      "FAI": 2021,
+      "FLO": 2020,
+      "PIC": 2020,
+      "TER": 2025,
+      "SMG": 2025,
+      "SMR": 2019
+    },
+    "original_v1_321_all_event_gate": "TERMINAL",
+    "current_v1_322_separate_one_hour_original_source_status": "NEW_SEPARATE_72_RUDERAL_SITES_ONEHOUR_EACH_TAXON_RESPONSES_SEALED"
+  },
+  "frozen_BALA_island_forest_response": {
+    "source": "development/bala_spatial_original_result_freeze_v1_318.json",
+    "original_v318_source_JSON_sha256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "BALA_original_Event_and_Occurrence_rows_MUST_STAY_UNOPENED": true,
+    "forest_beetle_spatial_simpson_B3_minus_B1_by_overlap_island": {
+      "FAI": 0.17777777777777776,
+      "FLO": -0.5603174603174603,
+      "PIC": 0.09722222222222221,
+      "TER": -0.12857142857142856,
+      "SMG": 0.004960317460317443,
+      "SMR": -0.40151515151515155
+    },
+    "response_direction": "forest homogenization stronger as original BALA Simpson B3−B1 becomes more negative; for Spearman calculate positive habitat-pressure relation against y=−BALA forest delta",
+    "site_overlap": "Six island contexts matched ONLY by island code, not by physical site, habitat or sampling method."
+  },
+  "taxon_guild_and_origin": {
+    "primary_order_exact_normalized": "coleoptera",
+    "secondary_order_exact_normalized": "araneae",
+    "eligible_source_taxonRank_exact_normalized": [
+      "species",
+      "subspecies"
+    ],
+    "species_identity": "Normalize original PRIBES scientificName by Unicode NFKD and whitespace/casefold only, retain operational original taxon identity; no synonym repair or geographic reclassification based on BALA outcomes",
+    "introduced_status_exact_normalized": [
+      "introduced",
+      "exotic",
+      "non native",
+      "nonnative",
+      "alien",
+      "naturalized",
+      "naturalised",
+      "invasive"
+    ],
+    "native_nonendemic_exact_normalized": [
+      "native",
+      "indigenous",
+      "native non endemic",
+      "native nonendemic",
+      "azorean native",
+      "native not endemic"
+    ],
+    "endemic_exact_normalized": [
+      "endemic",
+      "azorean endemic",
+      "native endemic",
+      "endemic azores"
+    ],
+    "status_normalization": "casefold, underscore/hyphen to spaces, collapse whitespace; statuses not matching above classes become UNKNOWN not source-side introduced, no postvalue relabel",
+    "negative_control_pool": "native and endemic identified Beetle taxa combined, under same site/effort/rank rules",
+    "unclassified_status_max_fraction_among_all_original_selected_species_rank_colopepera_plus_araneae_records": 0.2,
+    "conflicting_origin_per_island_same_scientificName": "Scientific STOP of whole cross-source association; never resolve to the favorable one",
+    "morphospecies_not_identified": "Drop taxonRank non-species/subspecies, even if source named and common; summarize coverage rather than treating newly arrived unknown morphospecies as introduced."
+  },
+  "source_site_index": {
+    "one_hour_sample_source_identity": "Same v1.322 original source Event and site selection with lexicographic original core ID per unique normalized island+locationID",
+    "independent_source_site": "Original PRIBES standardized one-hour vegetation-beating site; not trap event, individual specimen, native forest site or species",
+    "source_sites_zero_introduced": "Retain site in original survey denominator and report n. For introduced site-pair Jaccard, require BOTH sampled sites have ≥1 recognized introduced taxon, rather than defining two empty sites as 100% similar.",
+    "Jaccard": "For any two nonempty site-specific introduced Beetle source species sets A and B, Jaccard similarity = |A∩B|/|A∪B|, with zero when union nonempty and intersection empty.",
+    "island_predictor": "Unweighted mean Jaccard similarity across all source within-island pairs of nonempty introduced beetle sites. This is a pairwise descriptive source pool measure, not a count of independently replicated site-pairs.",
+    "source_island_admission": "For each of FAI/FLO/PIC/TER/SMG/SMR require at least four independent 1-hour PRIBES sites with ≥1 IDENTIFIED introduced Beetle taxon and ≥2 different introduced taxa pooled across all original sites. If ANY one island fails, no six-island association is scored. Island source counts reported as scientific STOP, no subset rescue.",
+    "site_effort_equal_onehour": true
+  },
+  "cross_source_test": {
+    "sample_n_original_islands_exact": 6,
+    "primary_predictor": "introduced Coleoptera within-island source-site Jaccard similarity",
+    "primary_response": "negative of BALA original source-locked within-island Beetle Simpson spatial delta B3−B1",
+    "correlation": "Spearman with average ranks on ties, no fitted slopes or estimated p from 72 site pseudo-replicates",
+    "null_exact": "All 6! = 720 complete permutations of the six immutable BALA island outcome labels, no bootstrap of PRIBES source sites, two-tailed r shown and one-sided nonnegative association p>=observed counted over 720 as predeclared",
+    "direction_if_positive": "More introduced source-site similarity accompanies stronger BALA forest beetle homogenization. Exploratory source-pool compatibility, NOT proven dispersal or driver.",
+    "native_negative_control": "Using same PRIBES original identified native/endemic Coleoptera site Jaccard (identical >=4 nonempty site support), calculate exact 6-island Spearman against same BALA y. If native correlation >= introduced, NOT specific introduced pressure. If control source fails do not claim specificity.",
+    "secondary_spider": "Source introduced Araneae same Jaccard and island controls, report only if six-island source min support; not substitute for primary failure.",
+    "temporal_survey_year_confound": "Report Spearman of source island survey calendar year versus source introduced site-Jaccard and versus BALA forest homogenization. Each island was PRIBES sampled in one different calendar year, so this is a major unresolved competing explanation. Do not fit 3-variable model on n=6.",
+    "threshold_for_strong_claim": "No causal strong claim under any result; report positive exploratory descriptive support only if r>0, exact one-sided permutation p<0.05, and source native negative-control r is weaker; otherwise correlation is non-support/ambiguous. No post-outcome threshold recalibration.",
+    "zero_data_policy": "If any required source field, status, taxon or island-level n gate fails, primary rho=null/p=null; commit STOP and original source is closed, do not switch to all arthropods or lower minimum."
+  },
+  "limitations": [
+    "BALA forest transects were Pitfall-sampled (1997–2022) and PRIBES ruderal sites vegetation-beaten (2019–2025): different guild capture processes and asynchronous periods.",
+    "One PRIBES calendar year per island; geographic island and sampling year not separable observationally.",
+    "Separate PRIBES/BALA survey efforts and different species identification histories; source distribution is not measured immigrant flux into forest.",
+    "Only six island contexts and one archipelago; cannot establish general conservation priority ranking or causal source-sink rescue.",
+    "PRIBES 2026 authors already documented introduced species distributions and 61 new island records; that is prior art, not a new Structural result."
+  ],
+  "firewall": {
+    "v321_full_mixed_effort_scientific_GATE": "TERMINAL",
+    "v322_onehour_lower_evidence_exploratory": true,
+    "v314_v316_v318_original_BALA_scorers_SEALED": true,
+    "new_PRIBES_original_taxon_source_read_one_shot": true,
+    "protected_mammal_BioTIME_RLS_S2S3S4_reopened": false,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
