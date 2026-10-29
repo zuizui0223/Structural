@@ -27,7 +27,6 @@
     "SMG": 2025,
     "SMR": 2019
   },
-  "source_original_EvenT_selected_coreid_SHA256": "4258962fe50796bde5a11a60f9f98736d6c8a8e59db8cca3b3ddcc0d6276b14c",
   "excluded_events": {
     "unknown_effort": 1,
     "not_published_1hour": 2
@@ -45,5 +44,6 @@
   "original_BALA_Event_or_Occurrence_rows_reopened": 0,
   "GEB_scientific_HOLD": true,
   "new_confirmatory_systems": 0,
-  "eBird": false
+  "eBird": false,
+  "source_onehour_selected_original_Event_coreids_sha256": "4258962fe50796bde5a11a60f9f98736d6c8a8e59db8cca3b3ddcc0d6276b14c"
 }
