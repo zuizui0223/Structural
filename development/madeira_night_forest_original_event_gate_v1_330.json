@@ -1,0 +1,123 @@
+{
+  "schema": "structural.madeira_night_source_forest_event_gate.v1_330",
+  "date": "2026-10-29",
+  "status": "ORIGINAL_EVENT_ONLY_DESIGN_FROZEN_AFTER_V329_META_BEFORE_FIRST_EVENT_VALUE",
+  "source": {
+    "original_v1_1": "https://ipt.gbif.pt/ipt/archive.do?r=arthropod_madeira_life_naturaatnight&v=1.1",
+    "original_v1_1_SHA256": "54c2e4dc10989a15a0d78a988b496d2e5ae917a4315bc032b28292c083aa10ba",
+    "original_Event_rows_expected": 134,
+    "original_Occurrence_rows_published": 1939,
+    "source_meta_success_run": 40840629632,
+    "original_site_claims": [
+      47,
+      48
+    ],
+    "original_dates": [
+      2022,
+      2023
+    ]
+  },
+  "physical_site_rule": {
+    "source_site": "Original Event locationID normalized NFKD→uppercase ASCII alphanumeric. Key identical across visits only when same original author identity, not nearest coordinates or name.",
+    "original_sites_min_max": [
+      47,
+      48
+    ],
+    "source_missing_original_siteID_at_any_Event": "TERMINAL",
+    "within_plot_max_coordinate_abs_degree_difference": 0.0003,
+    "require_all_source_Events_coordinates_finite": true,
+    "original_source_same_site_method_variation_allowed": "UV and bait are independent methods in same plot, counted as sampling opportunities, never as separate sites.",
+    "duplicate_original_Event_coreid": "TERMINAL",
+    "date_source_years": [
+      2022,
+      2023
+    ],
+    "source_event_Date": "Original Event date YYYY-MM-DD only; year and source explicit year if present must agree, quarter from calendar months",
+    "source_site_habitat_immutable": "All original Event source habitat categories for one physical site must agree or unknown; contradictory native vs mixed/exotic requires scientific STOP."
+  },
+  "habitat_ontology_locked_before_first_original_Event": {
+    "primary_reference": "Native Laurissilva / laurel forest versus altered forest (mixed or exotic); do not use agricultural, coastal or other Natura 2000 types as altered forests.",
+    "native_keywords_any": [
+      "native forest",
+      "laurissilva",
+      "laurisilva",
+      "laurel forest",
+      "indigenous forest"
+    ],
+    "altered_mixed_keywords_any": [
+      "mixed forest",
+      "mixed woodland",
+      "mixed native",
+      "mixed exotic",
+      "mixed vegetation"
+    ],
+    "altered_exotic_keywords_any": [
+      "exotic forest",
+      "exotic woodland",
+      "exotic trees",
+      "planted forest",
+      "plantation",
+      "alien forest",
+      "introduced forest"
+    ],
+    "excluded_nonforest_keywords_any": [
+      "agricultur",
+      "coastal",
+      "shore",
+      "scrub",
+      "grassland",
+      "urban",
+      "roadside",
+      "crop",
+      "vineyard",
+      "pasture"
+    ],
+    "classification": "casefold NFKD ASCII, collapse whitespace and punctuation. If excluded nonforest appears, exclude even when native word appears; altered mixed/exotic overrides native. If both mixed and exotic words exist, altered; if native-only, native. Unknown habitat never inferred from species, ALAN, location or Natura 2000 protected status.",
+    "no_post_Event_ontology_expansion": true
+  },
+  "capture_method_rule": {
+    "primary": "UV HEATH LIGHT trap only, never combine with wine-rope bait within any source richness estimator.",
+    "light_source_token_any": [
+      "light trap",
+      "light-trap",
+      "heath",
+      "uv trap",
+      "uv light",
+      "uv-light",
+      "ultraviolet",
+      "fluorescent light"
+    ],
+    "bait_source_token_any": [
+      "wine",
+      "rope",
+      "bait",
+      "sugar-bait"
+    ],
+    "method_unknown": "Any original method not classifiable as LIGHT or BAIT is excluded from candidate but counted; if >10% of source Events are UNKNOWN, TERMINAL.",
+    "method_conflict": "If one original Event source method string maps to both LIGHT and BAIT, ambiguous and TERMINAL.",
+    "no_after_species_method_selection": true
+  },
+  "predeclared_eligibility": {
+    "site_contrast": "Among LIGHT trap Events in the same calendar year×quarter, at least two independent native Laurissilva physical sites and two altered mixed/exotic forest sites with one original LIGHT Event at each.",
+    "required_different_original_year_quarter_strata": 2,
+    "required_distinct_source_forest_sites_across_qualified_strata_min": 8,
+    "qualified_site_occurrence_mode": "For each eligible year×quarter×author original physical site, take lexicographically earliest original Event core ID, so duplicate site visits cannot weight a site twice within one time stratum.",
+    "source_temporal_strata_frozen": "2022 Q3 or Q4 and 2023 Q1 or Q2 as observed from dataset; year-quarter groups computed from original source dates. Do NOT select only seasons where native origin later appears more distinct.",
+    "source_site_nonforest_exclusion": "Exclude original agricultural/coastal sources from native vs altered forest comparison, but preserve counts of excluded sites.",
+    "source_nonforest_source_Events_and_sites_reported": true,
+    "original_47_vs_48_site_discrepancy": "If original unique ID count is neither 47 nor 48, STOP; no coordinate-nearest merge.",
+    "if_gate_fails": "TERMINAL independent Madeira source habitat test without source species/Occurrence read; do not rescue via moth taxon-specific origin, all methods pooling, original sampling season or a weaker two-site threshold."
+  },
+  "future_if_eligible": {
+    "v331": "Freeze exact author taxon-origin ontology (endemic vs non-endemic native vs introduced; migratory distinct/unknown), identified species/subspecies ranks, exclusion of absence records, source Event to Occurrence join, within-year/quarter native vs altered forest absolute richness comparison in Madeira LIGHT trap Events. Only once these are code-frozen can occurrence original be opened one time.",
+    "comparator_Azores": "Separate pinned SLAM native−altered richness directions, NOT cross-method pooled effect or meta-analytic significance. Madeira n=1 island, not independent three-island landscape replication.",
+    "cause_limits": "ALAN/night trapping attracts animals from distance; canopy/environmental and temporal confound, no true species persistence or forest manipulation."
+  },
+  "firewall": {
+    "original_Madeira_Occurrence_rows_opened_v330": 0,
+    "original_Azores_SLAM_BALA_PRIBES_species_rows_reopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
