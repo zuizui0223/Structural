@@ -1,0 +1,93 @@
+{
+  "schema": "structural.slamII_45forest_original_event_elevation_gate.v1_335",
+  "date": "2026-10-29",
+  "status": "PRE_FROZEN_BEFORE_45_ORIGINAL_EVENT_VALUES",
+  "source": {
+    "v18_url": "https://ipt.gbif.pt/ipt/archive.do?r=pribes_exotic_arthropods&v=1.8",
+    "v18_sha256": "a0af4661f202d221ea8706dcf8a936d093dec335ce30306f3f0a2e0f474eb734",
+    "metadata_run": 40848562445,
+    "original_event_rows_expected": 45,
+    "original_occurrence_rows_SEALED": 2097
+  },
+  "scientific_question": "Are original native forest fragments geographically and elevationally segregated from mixed/exotic stands across Azores islands, making native versus modified forest ecological richness contrasts non-identifiable independently of altitude?",
+  "grain": "45 physical SLAM plots (Corvo 1, Flores 5, Santa Maria 16, Terceira 23), one original Event per physical locationID; never count arthropod individuals or site pairs as independent physical replicates.",
+  "island_map": {
+    "COR": [
+      "corvo"
+    ],
+    "FLO": [
+      "flores"
+    ],
+    "TER": [
+      "terceira"
+    ],
+    "SMR": [
+      "santa maria",
+      "santa-maria"
+    ]
+  },
+  "original_habitat_rule": {
+    "from": "original Event habitat only",
+    "native_prefixes": [
+      "native forest",
+      "native woodland",
+      "natural forest"
+    ],
+    "mixed_prefixes": [
+      "mixed forest",
+      "mixed woodland"
+    ],
+    "exotic_prefixes": [
+      "exotic forest",
+      "exotic woodland",
+      "introduced forest"
+    ],
+    "casefold_unicode_normalization": true,
+    "no_fallback_to_species_locality_or_elevation": true,
+    "if_unknown": "STOP entire environmental source audit, no invented label"
+  },
+  "expected_source_counts": {
+    "source_islands": 4,
+    "physical_plots": 45,
+    "source_island_site_n": {
+      "COR": 1,
+      "FLO": 5,
+      "SMR": 16,
+      "TER": 23
+    },
+    "habitat_source_total": {
+      "native": 8,
+      "mixed": 18,
+      "exotic": 19
+    },
+    "source_calendar_year_range": [
+      2019,
+      2020
+    ]
+  },
+  "elevation_rule": {
+    "column": "minimumElevationInMeters",
+    "require_finite_for_all_45": true,
+    "native_group": "source habitat native",
+    "altered_group": "source habitat mixed+exotic",
+    "within_island_effect": "median elevation native minus median altered among independent source sites, no parametric or pair-wise significance claimed.",
+    "common_elevation_interval": "closed interval of intersection between native and altered original observed plot elevation min-max, report null if disjoint",
+    "per_island_biological_estimability_floor": "Need >=2 native and >=2 modified plot elevations WITHIN common interval",
+    "between_island_biological_estimability_floor": "Need >=2 ISLANDS independently satisfying per-island common support before any species response can be opened in v1.336",
+    "source_site_sampling_method": "All source original samplingProtocol strings must represent SLAM interception and remain enumerated, but sampling duration differences mean no original taxon values read before independent equal-effort rule.",
+    "source_calendar": "EventDate must start with YYYY and original source year field if present must agree, only source 2019-2020."
+  },
+  "fallback_on_failure": "If fewer than 2 original islands meet strict common elevation support, commit site-only positive landscape sorting result and scientific TERMINAL for habitat-induced endemic/introduced species response. Do not loosen plot count, add 2024 sites, combine authors' existing samples or fit across zero-support via extrapolation.",
+  "interpretation": {
+    "positive_landscape_observation": "Document original per-island native vs modified site count, native and modified median/range elevations, direction and common-support. This is an ecological distribution of available forest habitats, although association itself is already alluded to in Borges 2022 and Tsafack 2021 prior art.",
+    "do_not_claim": "Landscape sorting alone cannot establish forest richness impact, origin-specific species loss, historical refuge function or habitat rescue. BALA temporal and SLAM source biodiversity outputs are not paired in this audit."
+  },
+  "firewall": {
+    "source_original_Event_rows_opened_only_v335": 45,
+    "source_original_Occurrence_rows_opened": 0,
+    "older_SLAM_BALA_PRIBES_Madeira_Terceira2024_species_scorers_SEALED": true,
+    "original_GEB_mammal_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
