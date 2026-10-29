@@ -1,0 +1,56 @@
+name: SLAM II 45 original forest source-only scientific closure v1.337
+on:
+  push:
+    paths:
+      - ".github/workflows/slamii-original-elevation-sourcefree-v1_337.yml"
+      - "development/slamii_habitat_elevation_site_only_conclusion_v1_337.json"
+      - "scripts/slamii_45forest_sourcefree_elevational_gate_v1_337.py"
+      - "tests/test_slamii_45forest_sourcefree_elevational_gate_v1_337.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slamii-original-elevation-sourcefree-v1_337.yml"
+      - "development/slamii_habitat_elevation_site_only_conclusion_v1_337.json"
+      - "scripts/slamii_45forest_sourcefree_elevational_gate_v1_337.py"
+      - "tests/test_slamii_45forest_sourcefree_elevational_gate_v1_337.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-45sites-ecological-and-study-design-sourcefree:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Regress original 45-forest source geography and preserve terminal design constraints
+        run: python -m pytest -q tests/test_slamii_45forest_sourcefree_elevational_gate_v1_337.py
+      - name: Confirm forest native habitats occupy higher original source elevations across islands, source-free
+        run: |
+          python scripts/slamii_45forest_sourcefree_elevational_gate_v1_337.py \
+            --input development/slamii_habitat_elevation_site_only_conclusion_v1_337.json \
+            --out slamii_original_45forest_site_elevation_sourcefree_v1_337.json
+      - name: Verify original source biological firewall and no causality inflation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("slamii_original_45forest_site_elevation_sourcefree_v1_337.json").read_text())
+          assert r["status"]=="THREE_ISLAND_NATIVE_FOREST_HIGHER_ELEVATION_MATCHED_CAUSAL_GATE_TERMINAL"
+          assert r["native_higher_original_island_n"]==3
+          assert r["source_in_100m_equal_year_effort_matched_original_plot_pair_total_2islands"]==1
+          assert r["old_v335_published_vs_archive_habitat_count_stop_preserved"]
+          assert r["new_v336_source_year_effort_pairing_stop_preserved"]
+          assert r["original_Source_Event_and_Occurrence_rows_reopened"]==0
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("PASS source original forest elevational site context not causal, no source biology opened")
+          PY
+      - name: Retain source-free ecological evidence and no-causes caveat
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slamii-45site-three-island-sourcefree-ecological-elevation-v1-337
+          path: slamii_original_45forest_site_elevation_sourcefree_v1_337.json
+          if-no-files-found: warn
