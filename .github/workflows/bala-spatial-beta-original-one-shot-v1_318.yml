@@ -1,0 +1,75 @@
+name: BALA original seven-island SPATIAL beta direction one-shot v1.318
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-spatial-beta-original-one-shot-v1_318.yml"
+permissions:
+  contents: read
+jobs:
+  published-source-original-site-pair-beta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only regression-test framework
+        run: python -m pip install pytest
+      - name: Verify positive and negative known-truth island spatial beta scenarios before source access
+        run: python -m pytest -q tests/test_bala_original_island_spatial_beta_v1_318.py
+      - name: Score EXACT original published BALA seven-island paired spatial beta once
+        run: |
+          python scripts/bala_original_island_spatial_beta_v1_318.py \
+            --protocol development/bala_spatial_homogenization_pre_response_protocol_v1_318.json \
+            --old-protocol development/bala_three_decade_species_replacement_protocol_v1_314.json \
+            --old-aggregate development/bala_seven_island_species_replacement_original_result_v1_314.json \
+            --source-event-receipt development/bala_equal_event_source_original_receipt_v1_313.json \
+            --out bala_spatial_beta_original_result_v1_318.json
+      - name: Validate source and report spatial beta direction or a frozen scientific STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_spatial_beta_original_result_v1_318.json").read_text(encoding="utf-8"))
+          assert r["status"] in (
+            "OBSERVED_WITHIN_ISLAND_SPATIAL_HOMOGENIZATION_DIFFERENTIATION_ADJUDICATED",
+            "STOP_FROZEN_PITFALL_SPATIAL_PAIR_SUPPORT")
+          assert r["original_source_Event_rows_reexamined"]==10379
+          assert r["original_source_Occurrence_rows_reexamined"]==63904
+          assert r["original_matched_repeated_physical_transects"]==29
+          assert r["original_equal_sampled_source_Event_total"]==4620
+          assert r["original_equal_source_Event_SHA256"]=="39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac"
+          assert r["source_original_selected_guild_rows"]==12699
+          assert r["source_original_accepted_operational_taxa_rows"]==12649
+          assert r["source_original_distinct_taxa_by_guild"]=={"araneae":64,"coleoptera":110}
+          assert r["previous_v314_and_v316_oneshot_scorers_remain_SEALED"]
+          assert r["status_is_post_outcome_exploratory_not_confirmatory"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and r["no_eBird_used"]
+          for g in ("araneae","coleoptera"):
+            q=r["main_pitfall"][g]
+            assert q["status"] in ("OBSERVED_WITHIN_ISLAND_SPATIAL_BETA_CHANGE",
+                                   "STOP_FROZEN_GUILD_SPATIAL_PAIR_ESTIMABILITY")
+            if q["status"].startswith("STOP"):
+              assert q["primary_island_equal_spatial_simpson_delta"] is None
+            else:
+              assert q["physical_sites_with_two_phase_detected_guild"]>=24
+              assert q["dependent_source_island_site_pairs"]>=40
+              assert q["eligible_islands"]==7
+          print("Original BALA spatial beta conditional result:",r["status"])
+          for g,q in r["main_pitfall"].items():
+            print(g,"physical sites",q["physical_sites_with_two_phase_detected_guild"],
+              "matched dependent pairs",q["dependent_source_island_site_pairs"],
+              "spatial Simpson B3-minus-B1",q["primary_island_equal_spatial_simpson_delta"],
+              "spatial Sorensen B3-minus-B1",q["secondary_island_equal_spatial_sorensen_delta"],
+              "islands differentiating",q["islands_differentiating_simpson"],
+              "islands homogenizing",q["islands_homogenizing_simpson"],
+              "half-split sensitivity",q["source_9_partition_sensitivity"])
+          PY
+      - name: Preserve original ecological result or true pre-frozen scientific STOP, no source raw export
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-original-seven-island-spatial-beta-v1-318
+          path: bala_spatial_beta_original_result_v1_318.json
+          if-no-files-found: warn
