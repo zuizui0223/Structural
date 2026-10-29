@@ -137,7 +137,7 @@ def audit(d,protocol):
         raise ValueError("Pre-frozen original ecological sign contrasts or spatial similarity changed")
     return {
       "schema":"structural.slam_original_habitat_origin_sourcefree_result.v1_328",
-      "status":"SLAM_SEVEN_FOREST_HABITAT_ORIGIN_ASSOCIATION_SOURCEFREE_AUDITED",
+      "status":"SLAM_THREE_ISLAND_FOREST_HABITAT_ORIGIN_SOURCEFREE_AUDITED",
       "original_response_run_id":40829500865,
       "original_response_inner_JSON_SHA256":ORIGINAL_RESULT_SHA,
       "source_island_contexts":["FLO","PIC","TER"],
