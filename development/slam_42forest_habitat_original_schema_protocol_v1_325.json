@@ -1,0 +1,96 @@
+{
+  "schema": "structural.slam_habitat_original_source_protocol.v1_325",
+  "created_on": "2026-10-29",
+  "status": "PREORIGINAL_EVENT_AND_OCCURRENCE_META_ONLY_SCHEMA_FREEZE",
+  "central_ecological_question": "Does an independently sampled seven-island 42-trap SLAM native/mixed/exotic forest network support a forest-habitat community filtering test with balanced island and repeated temporal sampling, capable of evaluating whether native and introduced arthropod assemblages respond differently to forest vegetation context? Primary evidence would be SAME-method source site matched, not BALA or PRIBES raw reuse.",
+  "intended_new_target": "Among within-island SLAM forest plot pairs, is introduced beetle compositional similarity systematically greater across contrasting forest vegetation habitats than endemic/native beetle similarity? Does mixed vegetation resemble native forests in endemic assemblages or exotic forests in introduced assemblages under comparable sampling periods?",
+  "source": {
+    "source_doi": "10.15468/3r5xw6",
+    "GBIF_uuid": "079c8358-0b4f-479b-97dd-1f2f775256f9",
+    "publisher": "Universidade dos Açores",
+    "source_archive_exact": "https://ipt.gbif.pt/ipt/archive.do?r=arthropods_slam_azores&v=1.7",
+    "published_version": "v1.7 (2024-07-04)",
+    "published_Event_core_rows": 893,
+    "published_Occurrence_extension_rows": 14922,
+    "published_original_trap_sites": 42,
+    "published_islands": [
+      "Flores",
+      "Faial",
+      "Pico",
+      "Graciosa",
+      "Terceira",
+      "São Miguel",
+      "Santa Maria"
+    ],
+    "original_date_range": "2012-06-13/2022-06-16",
+    "author_published_caution": "Borges & Lhoumeau source paper described 2012–2021 samples, SLAM trap sites mostly preserved wet forests, some mixed with exotic trees. One former resource text reported 14924 instead of official v1.7 14922 Occurrence rows; use original exact archive checks rather than assumption.",
+    "source_paper": "10.3897/BDJ.10.e97952"
+  },
+  "prior_evidence_and_independence": {
+    "BALA_original_v1_318_forest_beta": "development/bala_spatial_original_result_freeze_v1_318.json on separate sealed branch; never fetch its original Event/Occurrence",
+    "BALA_forest_beta_observed": "Beetle mean within-island Simpson spatial β change B3−B1 −0.1753; 4/7 islands homogenizing; local richness rose in 3 homogenizing islands",
+    "PRIBES_original_v1_323_ruderal_source": "Development original site habitat source pressure weakly correlated across six islands (rho 0.142857, p 0.401, native source control identical) and original biology sealed",
+    "SLAM_reuse_warning": "SLAM is independent of the BALA Pitfall survey source for the present purpose but could share collectors or forest plots with other SLAM datasets. Do not claim fully independent site-level ecological replication until original Event site identities compared.",
+    "no_raw_BALA_or_PRIBES_reaccess": true
+  },
+  "frozen_v325_archive_metadata_only": {
+    "max_archive_bytes": 1600000,
+    "source_bytes_proof": "SHA256 of original v1.7 ZIP before any Event body access",
+    "read_authorized_at_v325": "Only ZIP central directory and meta.xml field term roles and source member paths, never source Event or Occurrence body; never species or plot labels",
+    "required_roles": {
+      "Event": [
+        "eventID",
+        "eventDate",
+        "island",
+        "samplingProtocol"
+      ],
+      "Occurrence": [
+        "scientificName",
+        "taxonRank",
+        "order"
+      ]
+    },
+    "original_Event_site_field_candidates": [
+      "locationID",
+      "parentEventID",
+      "locality",
+      "fieldNumber",
+      "eventRemarks"
+    ],
+    "original_Event_habitat_field_candidates": [
+      "habitat",
+      "dynamicProperties",
+      "eventRemarks",
+      "locationRemarks",
+      "locality"
+    ],
+    "original_Occurrence_origin_field_candidates": [
+      "establishmentMeans",
+      "degreeOfEstablishment",
+      "occurrenceRemarks"
+    ],
+    "strict_admission_if_absent": "If native vs introduced source status OR habitat covariate is missing from metadata schema, don't guess from location names or external checklists: terminal for THIS habitat filtering mechanism; no biology opened."
+  },
+  "later_sealed_plan_if_metadata_qualifies": {
+    "v326": "Before source Event values, freeze exact site identity and habitat ontology from published field methods. Inspect only original Event rows to determine 42 original plot IDs, island × explicit native/mixed/exotic habitat × season × repeat-year support; min two original ISLANDS each with ≥2 sites per at least two habitat types, plus within-source repeated original same-period effort.",
+    "v327": "Only after v326 passes, freeze taxonomic guild + native vs introduced origin response, stable original source/site counts and conservative within-island habitat composition contrasts; then one-shot original Occurrence and seal. On scientific failure STOP without cohort rescue.",
+    "scientific_floor": "Do not treat 893 repeated Events as independent forest landscapes; report plot and original island n and season/year. Do not compare unrelated SLAM and BALA taxon abundances as same capture method."
+  },
+  "limitations": [
+    "SLAM traps are flight/crawl interception, BALA native-forest Pitfall and PRIBES ruderal vegetation-beating are distinct detection channels.",
+    "Forest vegetation composition may be observationally confounded with altitude, forest age, island climate, management and isolation.",
+    "The published SLAM original can overlap previous SLAM/PRIBES forest sites; absence of proven disjoint site identifiers prevents a formal replication claim.",
+    "Source paper's 2022 endemic/native/exotic records and habitat associations are already prior art, not newly discovered facts.",
+    "Single Azores archipelago; no direct habitat-to-forest species colonization, extinction or source-sink rescue observations."
+  ],
+  "firewall": {
+    "previous_BALA_v314_v316_v318_original_taxon_scorers": "SEALED",
+    "previous_PRIBES_v323_original_taxon_scorer": "SEALED",
+    "protected_mammal_BioTIME_RLS_S2S3S4_response_unopened": true,
+    "v325_original_Event_rows_opened": 0,
+    "v325_original_Occurrence_rows_opened": 0,
+    "eBird": false,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0
+  }
+}
