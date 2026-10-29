@@ -27,6 +27,7 @@ def original_onehour_cohort(rows,contract,old_contract):
     aliases=old_contract["field_contract"]["island_mapping_predeclared"]
     groups=defaultdict(list)
     reasons=Counter()
+    reasons_by_island=defaultdict(Counter)
     original_islands=set()
     seen=set()
     for r in rows:
@@ -42,14 +43,22 @@ def original_onehour_cohort(rows,contract,old_contract):
         try:value=float(sample)
         except (TypeError,ValueError):value=float("nan")
         if not math.isfinite(value) or not unit:
-            reasons["unknown_source_effort"]+=1;continue
+            reasons["unknown_source_effort"]+=1
+            reasons_by_island[island]["unknown_source_effort"]+=1
+            continue
         if not (value==1.0 and unit=="hour"):
-            reasons["not_original_published_one_hour"]+=1;continue
+            reasons["not_original_published_one_hour"]+=1
+            reasons_by_island[island]["not_original_published_one_hour"]+=1
+            continue
         if method!="vegetation beating":
-            reasons["not_original_one_hour_vegetation_beating_method"]+=1;continue
+            reasons["not_original_one_hour_vegetation_beating_method"]+=1
+            reasons_by_island[island]["not_original_one_hour_vegetation_beating_method"]+=1
+            continue
         loc=alphabetize(r.get("locationID"))
         if not loc:
-            reasons["blank_original_locationID"]+=1;continue
+            reasons["blank_original_locationID"]+=1
+            reasons_by_island[island]["blank_original_locationID"]+=1
+            continue
         date=str(r.get("eventDate","")).strip()
         yr=date[:4]
         if not yr.isdigit() or not 2019<=int(yr)<=2025:
@@ -79,8 +88,11 @@ def original_onehour_cohort(rows,contract,old_contract):
     eligible=(set(original_islands)==set(ISLAND_LABELS)
            and len(selected)==contract["event_only_site_selection"]["original_expected_full_hour_overlap_sites"]
            and all(out_counts[i]>=min_sites for i in OVERLAP)
-           and not geocollision
-           and reasons=={"unknown_source_effort":1,"not_original_published_one_hour":1})
+           and not geocollision)
+    # Inclusion is scoped to the six overlapping island cohorts, not to
+    # heterogeneous/non-one-hour Events on PRIBES-only Corvo. The original
+    # all-site v1.321 effort gate remains TERMINAL and the fixed 72 selected
+    # original full-hour sites and original source SHA are unchanged.
     return {
       "schema":"structural.pribes_equal_onehour_original_event_result.v1_322",
       "status":"NEW_SEPARATE_72_RUDERAL_SITES_ONEHOUR_EACH_TAXON_RESPONSES_SEALED"
@@ -89,6 +101,8 @@ def original_onehour_cohort(rows,contract,old_contract):
       "previous_v1_321_full_source_equal_effort_gate":"TERMINAL",
       "published_original_islands_seen":len(original_islands),
       "source_event_exclusions_by_exact_effort_metadata":dict(sorted(reasons.items())),
+      "source_event_exclusions_by_original_island":{
+          i:dict(sorted(reasons_by_island[i].items())) for i in sorted(original_islands)},
       "source_additional_duplicate_onehour_Events_per_site":duplicates,
       "source_duplicate_original_site_coordinate_conflicts":geocollision,
       "onehour_source_sites_overlapping_BALA_n":len(selected),
