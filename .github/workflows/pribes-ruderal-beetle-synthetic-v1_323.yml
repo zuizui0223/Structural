@@ -1,0 +1,31 @@
+name: PRIBES source-pool six-island exact test synthetic only v1.323
+on:
+  push:
+    paths:
+      - ".github/workflows/pribes-ruderal-beetle-synthetic-v1_323.yml"
+      - "development/pribes_ruderal_beetle_source_forest_beta_protocol_v1_323.json"
+      - "scripts/pribes_original_ruderal_beetle_source_v1_323.py"
+      - "tests/test_pribes_original_ruderal_beetle_source_v1_323.py"
+  pull_request:
+    paths:
+      - ".github/workflows/pribes-ruderal-beetle-synthetic-v1_323.yml"
+      - "development/pribes_ruderal_beetle_source_forest_beta_protocol_v1_323.json"
+      - "scripts/pribes_original_ruderal_beetle_source_v1_323.py"
+      - "tests/test_pribes_original_ruderal_beetle_source_v1_323.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-taxonomy-sealed-known-truth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Verify original site and taxon ontology, exact 720 island-label null and scientific STOP without source reads
+        run: python -m pytest -q tests/test_pribes_original_ruderal_beetle_source_v1_323.py
+      - name: Confirm original PRIBES and BALA species response remains unopened
+        run: |
+          echo "SYNTHETIC source-independent PRIBES only; no original PRIBES 2836 Occurrence or BALA biological data"
