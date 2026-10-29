@@ -223,7 +223,7 @@ def score_original(events,occ,study,onehour_contract,older,receipt):
     secondary={}
     for island in OVERLAP:
         sites=source_sites[island]
-        p[int(0) if False else island]=island_site_similarity({
+        p[island]=island_site_similarity({
             s:by_site.get((s[0],s[1],MAIN,"introduced"),set()) for s in sites
         },sites)
         control[island]=island_site_similarity({
