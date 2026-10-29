@@ -1,0 +1,130 @@
+{
+  "schema": "structural.slamII_forest_elevation_source_terminal_evidence.v1_337",
+  "date": "2026-10-29",
+  "science_status": "ELEVATIONAL_HABITAT_SORTING_REPEATED_BUT_MATCHED_FOREST_CAUSAL_CONTRAST_NOT_ESTIMABLE",
+  "source": {
+    "dataset_DOI": "10.15468/ucfehv",
+    "source_version": "v1.8",
+    "source_zip_sha256": "a0af4661f202d221ea8706dcf8a936d093dec335ce30306f3f0a2e0f474eb734",
+    "paper_2022_DOI": "10.3897/BDJ.10.e81410",
+    "paper_2022_native_mixed_exotic_claim": {
+      "native": 8,
+      "mixed": 18,
+      "exotic": 19
+    },
+    "source_2023_native_mixed_exotic_classes": {
+      "native": 9,
+      "mixed": 14,
+      "exotic": 22
+    },
+    "original_meta_CI": 40848562445,
+    "original_site_CI": 40848975833,
+    "original_source_paired_CI": 40849627442,
+    "source_paired_artifact_id": 12885833854,
+    "source_paired_artifact_zip_sha256": "a981bdf527034d667c3a69ad67a1e23b7580a72a8dca6c205a2d5f238d77cd5d",
+    "original_source_paired_result_inner_JSON_SHA256": "0e09b16dd6b957a96878960cdf2f94e9745dae036873a2a7d2a2cb34d7e46f10",
+    "independent_physical_sites": 45,
+    "Event_rows_read": 45,
+    "Occurrence_rows_read": 0
+  },
+  "island_observations": {
+    "COR": {
+      "site_n": 1,
+      "native_n": 0,
+      "altered_n": 1,
+      "native_minus_altered_median_elevation_m": null,
+      "overlap_m": null
+    },
+    "FLO": {
+      "site_n": 5,
+      "native_n": 2,
+      "altered_n": 3,
+      "native_minus_altered_median_elevation_m": 260,
+      "overlap_m": [
+        381,
+        607
+      ],
+      "source_native_in_overlap": 1,
+      "source_altered_in_overlap": 1
+    },
+    "SMR": {
+      "site_n": 16,
+      "native_n": 3,
+      "altered_n": 13,
+      "native_minus_altered_median_elevation_m": 113,
+      "overlap_m": [
+        192,
+        377
+      ],
+      "source_native_in_overlap": 3,
+      "source_altered_in_overlap": 3,
+      "source_year_effort_100m_pairs": 1,
+      "pair_max_elevation_gap_m": 3,
+      "pair_year": 2019,
+      "pair_effort": "90 days"
+    },
+    "TER": {
+      "site_n": 23,
+      "native_n": 4,
+      "altered_n": 19,
+      "native_minus_altered_median_elevation_m": 193.5,
+      "overlap_m": [
+        392,
+        584
+      ],
+      "source_native_in_overlap": 3,
+      "source_altered_in_overlap": 6,
+      "source_year_effort_100m_pairs": 0
+    }
+  },
+  "science_gates": {
+    "old_v335_status": "STOP_ORIGINAL_SOURCE_SITE_HABITAT_ELEVATION_UNVERIFIED",
+    "old_v335_cause": "Pre-fixed original data-paper habitat counts 8/18/19 differ from source v1.8 9/14/22.",
+    "post_Event_v336_status": "TERMINAL_NO_TWO_ISLANDS_ELEVATION_YEAR_EFFORT_PAIRED_FOREST_PLOTS",
+    "post_Event_v336_cause": "100m max altitude gap + source-equal year, sampling duration, method: only one source original native/altered plot pair in Santa Maria and none in Terceira, below two pairs per island in two islands.",
+    "matched_original_site_coreid_SHA256": "21f0195febd7605507553ce4460bbc51a86356d2d3fbbff24b9d48dfe61bb57c",
+    "no_original_taxonomic_score_executed": true
+  },
+  "ecology": {
+    "native_forest_higher_median_elevation_on_three_original_islands": true,
+    "elevation_and_forest_land_cover_association_real_but_prior_published": true,
+    "causal_vegetation_effect_non_identifiable_under_observation_matching": true,
+    "no_actual_species_survival_or_island_donor_rescue_evidenced": true
+  },
+  "field_study_design_for_mechanism": {
+    "candidate_original_islands": [
+      "SMR",
+      "TER"
+    ],
+    "original_elevation_overlap_site_inventory": {
+      "SMR": {
+        "native": 3,
+        "altered": 3
+      },
+      "TER": {
+        "native": 3,
+        "altered": 6
+      }
+    },
+    "target_matched_plot_pairs_per_island": 3,
+    "target_independent_physical_plots_total": 12,
+    "plot_pair_elevation_tolerance_m": 100,
+    "same_collection_method": "SLAM",
+    "identical_field_window": "90 days within same source calendar season/year",
+    "add_environmental_covariates": [
+      "canopy structure",
+      "microclimate",
+      "forest history",
+      "fragment membership",
+      "distance to intact native source"
+    ],
+    "warn": "This is field feasibility, not power proof or cross-archipelago confirmation."
+  },
+  "firewall": {
+    "all_old_species_scorers_SEALED": true,
+    "original_2097_occurrence_rows_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

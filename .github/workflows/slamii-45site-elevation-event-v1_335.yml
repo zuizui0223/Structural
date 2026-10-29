@@ -1,0 +1,60 @@
+name: SLAM II original 4 island forest habitat/elevation common support EVENT ONLY v1.335
+on:
+  push:
+    paths:
+      - ".github/workflows/slamii-45site-elevation-event-v1_335.yml"
+      - "development/slamii_original_45forest_event_elevation_contract_v1_335.json"
+      - "scripts/slamii_original_forest_elevation_event_v1_335.py"
+      - "tests/test_slamii_original_forest_elevation_event_v1_335.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slamii-45site-elevation-event-v1_335.yml"
+      - "development/slamii_original_45forest_event_elevation_contract_v1_335.json"
+      - "scripts/slamii_original_forest_elevation_event_v1_335.py"
+      - "tests/test_slamii_original_forest_elevation_event_v1_335.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-elevation-sorting-with-species-sealed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Test two-island strict common-support against original 45 mock plots
+        run: python -m pytest -q tests/test_slamii_original_forest_elevation_event_v1_335.py
+      - name: Read exact official SLAM II 45 source Event rows only
+        run: |
+          python scripts/slamii_original_forest_elevation_event_v1_335.py \
+            --contract development/slamii_original_45forest_event_elevation_contract_v1_335.json \
+            --out slamii_original_45forest_elevation_event_v1_335.json
+      - name: Validate original species response sealed and habitat support or scientific STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("slamii_original_45forest_elevation_event_v1_335.json").read_text())
+          assert r["status"] in (
+              "ORIGINAL_FOREST_ELEVATION_2ISLAND_COMMON_SUPPORT_TAXA_SEALED",
+              "TERMINAL_NATIVE_VS_ALTERED_ELEVATION_COMMON_SUPPORT_LT_TWO_ISLANDS",
+              "STOP_ORIGINAL_SOURCE_SITE_HABITAT_ELEVATION_UNVERIFIED")
+          assert r["original_source_sha256"]=="a0af4661f202d221ea8706dcf8a936d093dec335ce30306f3f0a2e0f474eb734"
+          assert r["original_Event_values_read"]==45
+          assert r["original_Occurrence_values_read"]==0
+          assert r["old_taxonomic_scorers_reopened"]==0
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0
+          assert not r["eBird_used"]
+          print("Original four-island landscape habitat counts:",r["original_habitat_site_totals"])
+          print("Original per-island forest elevations and common support:",r["original_per_island_habitat_elevation"])
+          print("Strict two-island elevation matched habitat estimability:",r["status"])
+          PY
+      - name: Archive source Event-only ecological landscape result without taxon or coordinate values
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slamii-original-fortyfive-forest-elevation-source-only-v1-335
+          path: slamii_original_45forest_elevation_event_v1_335.json
+          if-no-files-found: warn

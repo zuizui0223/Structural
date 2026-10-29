@@ -1,0 +1,101 @@
+{
+  "schema": "structural.slamII_physical_elevation_paired_habitat.v1_336",
+  "date": "2026-10-29",
+  "status": "SEPARATE_POST_SOURCE_METADATA_RECLASSIFICATION_BEFORE_TAXON_VALUES",
+  "source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=pribes_exotic_arthropods&v=1.8",
+    "original_zip_SHA256": "a0af4661f202d221ea8706dcf8a936d093dec335ce30306f3f0a2e0f474eb734",
+    "old_original_v335_run": 40848975833,
+    "old_v335_status": "STOP_ORIGINAL_SOURCE_SITE_HABITAT_ELEVATION_UNVERIFIED",
+    "original_event_n": 45,
+    "original_occurrence_n_still_sealed": 2097,
+    "observed_actual_source_habitat_n": {
+      "native": 9,
+      "mixed": 14,
+      "exotic": 22
+    },
+    "original_2022_paper_habitat_n": {
+      "native": 8,
+      "mixed": 18,
+      "exotic": 19
+    },
+    "why_new_exploratory_protocol": "Official 2023 original v1.8 author source class frequencies differ from 2022 data paper claims. The preregistered v1.335 full-source count integrity gate remains STOP and cannot be called successful. This separately fixed follow-up uses the already seen v1.8 source habitat ontology without taxon response, explicitly lower-evidence."
+  },
+  "source_eligible_islands": {
+    "SMR": {
+      "observed_author_native_plots": 3,
+      "altered_plots": 13,
+      "source_range_overlap": [
+        192,
+        377
+      ],
+      "native_in_overlap": 3,
+      "altered_in_overlap": 3
+    },
+    "TER": {
+      "observed_author_native_plots": 4,
+      "altered_plots": 19,
+      "source_range_overlap": [
+        392,
+        584
+      ],
+      "native_in_overlap": 3,
+      "altered_in_overlap": 6
+    },
+    "FLO": {
+      "observed_author_native_plots": 2,
+      "altered_plots": 3,
+      "source_range_overlap": [
+        381,
+        607
+      ],
+      "native_in_overlap": 1,
+      "altered_in_overlap": 1
+    },
+    "COR": {
+      "observed_author_native_plots": 0,
+      "altered_plots": 1,
+      "source_range_overlap": null,
+      "native_in_overlap": 0,
+      "altered_in_overlap": 0
+    }
+  },
+  "ecological_question": "Do two source islands with physical overlap of native and modified forest elevations also contain >=2 *close-altitude, equal-effort and same-year* native/altered plot pairs before we interpret named endemic/native/introduced arthropod habitat associations?",
+  "pairing_frozen_before_source_reaccess": {
+    "islands_exact": [
+      "SMR",
+      "TER"
+    ],
+    "source_original_plot_identifiers": "Exact 45 original author island+locationID normalization from v1.335; site and source Event unique. No nearest plots based on taxon data.",
+    "habitat": "Use only original Event habitat string prefix classification native/mixed/exotic from unchanged v1.335. Mixed+exotic combined as altered; report breakdown.",
+    "elevation_common_support": "Restrict candidate sites to original inclusive [max(min native,min altered),min(max native,max altered)] for that island. All original source plot altitudes read from minimumElevationInMeters, no interpolation.",
+    "maximum_native_altered_elevation_distance_m": 100,
+    "sampling_method": "Same normalized SLAM interception protocol across native and altered sites; exact source sampleSizeValue and sampleSizeUnit (if both populated), do not scale/duration-correct.",
+    "time": "Same source explicit `year` and same first 4-character year from eventDate, and both 2019–2020. No extrapolation across collections from different years.",
+    "matching": "For each island, enumerate source-Event-ID-sorted one-to-one original native vs altered candidate pairs satisfying altitude <=100m and equal effort/year. Choose cardinality MAX then sum of elevation differences MIN then stable sorted (native original coreid, altered original coreid) lexicographically; no taxon used.",
+    "site_pairs_min_per_island": 2,
+    "original_islands_with_2plus_pairs_required": 2,
+    "if_not_estimable": "Strict new paired-original-source habitat question STOP before taxon values; retain v1.335 STOP and reported native-vs-altered median elevation shifts."
+  },
+  "biological_endpoint_if_only_if_event_passes": {
+    "next_v337": "Freeze source-status exact ontology, named species/subspecies, source ID join, absolute named endemic/native/introduced richness per plot, native-minus-altered within these original matched source plot pairs, per-island equal means for SMR and TER; no p-values with two original islands.",
+    "source_original_event_coreids_SHA_required": true,
+    "no_after_taxa_narrowing_of_pairs": true,
+    "source_site_and_fragment_independence_not_proven": true
+  },
+  "scientific_limits": [
+    "Field sites from 2019–20 may overlap published Tsafack 2021/Terceira, this is not a newly independent original landscape replication.",
+    "Within 100m altitudes still differ in climate, vegetation ages and land use; no randomized forest-type exposure or causal identification.",
+    "Source author native vs modified categories partly overlap elevation in only 2 of 3 comparable islands; Flores strict overlap too small.",
+    "One SLAM trap per plot with potentially different 3–6 month collection durations; equal sample-size source metadata and year are necessary, not sufficient for species detection correction.",
+    "Published 2022 native/mixed/exotic counts and original archived v1.8 author labels differ: never silently rewrite original 2022 values or overclaim author scope."
+  ],
+  "firewall": {
+    "v335_original_45_source_integrity_GATE": "STOP_PRESERVED",
+    "original_2097_taxon_rows_opened_at_v336": 0,
+    "other_BALA_SLAM_PRIBES_Madeira_2024_taxonomy_source_reopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

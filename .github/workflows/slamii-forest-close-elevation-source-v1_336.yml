@@ -1,0 +1,58 @@
+name: SLAM II 45 source forest equal-elevation one-to-one Event-only match v1.336
+on:
+  push:
+    paths:
+      - ".github/workflows/slamii-forest-close-elevation-source-v1_336.yml"
+      - "development/slamii_close_elevation_source_only_protocol_v1_336.json"
+      - "scripts/slamii_original_close_elevation_pairs_v1_336.py"
+      - "tests/test_slamii_original_close_elevation_pairs_v1_336.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slamii-forest-close-elevation-source-v1_336.yml"
+      - "development/slamii_close_elevation_source_only_protocol_v1_336.json"
+      - "scripts/slamii_original_close_elevation_pairs_v1_336.py"
+      - "tests/test_slamii_original_close_elevation_pairs_v1_336.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-paired-plots-no-taxonomy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Test exact original author elevated native and modified forests matched one-to-one
+        run: python -m pytest -q tests/test_slamii_original_close_elevation_pairs_v1_336.py
+      - name: Recheck original 45 source Event-only archive and fixed two island equal-effort landscape pairs
+        run: |
+          python scripts/slamii_original_close_elevation_pairs_v1_336.py \
+            --contract development/slamii_close_elevation_source_only_protocol_v1_336.json \
+            --old-contract development/slamii_original_45forest_event_elevation_contract_v1_335.json \
+            --out slamii_original_two_island_paired_forest_source_v1_336.json
+      - name: Strict original source posterior design OR explicit no-data STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("slamii_original_two_island_paired_forest_source_v1_336.json").read_text())
+          assert r["status"] in (
+              "NEW_SEPARATE_SMRT_TER_FOREST_ELEVATION_PAIR_FRAME_TAXON_SEALED",
+              "TERMINAL_NO_TWO_ISLANDS_ELEVATION_YEAR_EFFORT_PAIRED_FOREST_PLOTS")
+          assert r["original_Source_Event_rows_reexamined"]==45
+          assert r["original_Source_Occurrence_rows_opened"]==0
+          assert r["previous_v1_335_original_author_class_gate"]=="STOP_ORIGINAL_SOURCE_SITE_HABITAT_ELEVATION_UNVERIFIED"
+          assert r["source_original_habitat_counts_v18"]=={"native":9,"mixed":14,"exotic":22}
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("New source-only SMR/TER matched-pair design:",r["status"])
+          print("Original physical matched source plots:",r["source_matched_plot_pairs_by_island"])
+          PY
+      - name: Upload anonymous original source Event-only matched elevation pair SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slamii-original-two-island-source-elevation-pair-v1-336
+          path: slamii_original_two_island_paired_forest_source_v1_336.json
+          if-no-files-found: warn
