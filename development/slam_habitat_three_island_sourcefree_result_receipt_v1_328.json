@@ -1,0 +1,75 @@
+{
+  "schema": "structural.slam_42forest_endemic_habitat_sourcefree_result_freeze.v1_328",
+  "date": "2026-10-29",
+  "status": "SLAM_THREE_ISLAND_FOREST_HABITAT_ORIGIN_SOURCEFREE_AUDITED",
+  "original_field_run": 40829500865,
+  "sourcefree_audit_run": 40830469674,
+  "sourcefree_regression_tests_passed": 5,
+  "sourcefree_artifact_id": 12879020127,
+  "sourcefree_artifact_zip_sha256": "d71a4d8941ac8981212b8997a74c509aecae94656a2a8e4376c037e62f71cd96",
+  "sourcefree_result_json_sha256": "d9288b6bbd8b073242085d6607a8491be0c6863e185730cab2536e532de7f333",
+  "original_field_result_json_sha256": "cea311a9a3b88715837603e0f794a34b8fb7fd62e8221bbe57eb2e6917874761",
+  "original_field_archive_sha256": "b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0",
+  "original_forest_site_n": 33,
+  "original_matched_event_n": 664,
+  "islands": [
+    "FLO",
+    "PIC",
+    "TER"
+  ],
+  "island_time_period_blocks": {
+    "FLO": 6,
+    "PIC": 30,
+    "TER": 34
+  },
+  "results": {
+    "original_three_island_equal_source_endemic_richness_native_minus_altered": 2.3350620675620672,
+    "original_three_island_equal_source_native_nonendemic_richness_native_minus_altered": -0.8516143877908583,
+    "original_three_island_equal_source_indigenous_richness_native_minus_altered": 1.483447679771209,
+    "original_three_island_equal_source_introduced_richness_native_minus_altered": -2.514627273597862,
+    "original_three_island_equal_origin_habitat_double_contrast": 3.9980749533690703,
+    "all_arthropods_double_by_island": {
+      "FLO": 9.013888888888888,
+      "PIC": 1.9483333333333335,
+      "TER": 1.0320026378849907
+    },
+    "source_blocks_double_positive_n": 54,
+    "source_blocks_total": 70,
+    "original_Coleoptera_double_by_island": {
+      "FLO": 0.8194444444444445,
+      "PIC": 0.9794444444444445,
+      "TER": 1.7390100095982448
+    },
+    "original_Coleoptera_equal_three_island_double": 1.1792996328290446,
+    "Coleoptera_endemic_native_minus_altered_FLO": -0.27777777777777773,
+    "source_altered_habitat_more_intro_species_spatial_sharing_only": [
+      "TER"
+    ],
+    "endemic_all_taxa_positive_native_forest_islands": [
+      "FLO",
+      "PIC",
+      "TER"
+    ],
+    "introduced_all_taxa_positive_altered_forest_islands": [
+      "FLO",
+      "PIC",
+      "TER"
+    ],
+    "nonendemic_native_positive_altered_forest_islands": [
+      "PIC",
+      "TER"
+    ]
+  },
+  "scientific_limits": {
+    "original_SLAM_v327_taxon_scorer_sealed": true,
+    "original_BALA_and_PRIBES_scorers_sealed": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "original_species_rows_reopened_sourcefree": 0,
+    "eBird": false,
+    "no_causal_forest_effect_or_demographic_rescue": true,
+    "not_independent_archipelago_replication": true,
+    "Flores_majority_of_original_island_equal_double": true,
+    "pure_exotic_woodland_unreplicated_in_PIC_TER": true
+  }
+}
