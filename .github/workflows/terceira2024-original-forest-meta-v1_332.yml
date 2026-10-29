@@ -1,0 +1,61 @@
+name: Terceira 2024 original balanced forest source ZIP meta ONLY v1.332
+on:
+  push:
+    paths:
+      - ".github/workflows/terceira2024-original-forest-meta-v1_332.yml"
+      - "development/terceira_2024_stratified_original_source_protocol_v1_332.json"
+      - "scripts/terceira_2024_forest_original_meta_v1_332.py"
+      - "tests/test_terceira_2024_forest_original_meta_v1_332.py"
+  pull_request:
+    paths:
+      - ".github/workflows/terceira2024-original-forest-meta-v1_332.yml"
+      - "development/terceira_2024_stratified_original_source_protocol_v1_332.json"
+      - "scripts/terceira_2024_forest_original_meta_v1_332.py"
+      - "tests/test_terceira_2024_forest_original_meta_v1_332.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-new-2024-source-metadata-no-taxa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-blind tests
+        run: python -m pip install pytest
+      - name: Synthetic original plot/habitat/vertical/guild origin schema and source firewall
+        run: python -m pytest -q tests/test_terceira_2024_forest_original_meta_v1_332.py
+      - name: Read ONLY original 2024 v1.6 ZIP directory and source meta.xml
+        run: |
+          python scripts/terceira_2024_forest_original_meta_v1_332.py \
+            --protocol development/terceira_2024_stratified_original_source_protocol_v1_332.json \
+            --out terceira2024_original_source_meta_v1_332.json
+      - name: Preserve zero biological source access and precise scientific STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("terceira2024_original_source_meta_v1_332.json").read_text())
+          assert r["status"] in (
+            "TERCEIRA_2024_NATIVE_EXOTIC_SOURCE_META_ELIGIBLE_ALL_VALUES_CLOSED",
+            "TERMINAL_2024_ORIGINAL_VERTICAL_HABITAT_OR_ORIGIN_SCHEMA")
+          assert r["original_Event_rows_opened"]==0
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["older_source_biological_rows_reopened"]==0
+          assert r["original_dataset_UUID"]=="d3580ac2-a504-44e0-8e59-de89c430924c"
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("Original source v1.6 SHA:",r["original_DwCA_archive_SHA256"])
+          print("Original 2024 Forest source meta eligibility:",r["status"])
+          print("Forest physical site/height and origin columns:",r["author_site_meta_field_candidates"],
+              r["author_vertical_stratum_meta_field_candidates"],r["author_origin_meta_field_candidates"])
+          PY
+      - name: Preserve source-only original v1.6 study admission metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terceira2024-forest-source-original-meta-only-v1-332
+          path: terceira2024_original_source_meta_v1_332.json
+          if-no-files-found: warn
