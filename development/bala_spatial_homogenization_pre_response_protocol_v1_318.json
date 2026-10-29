@@ -1,0 +1,113 @@
+{
+  "schema": "structural.bala_island_spatial_beta_change.v1_318",
+  "date": "2026-10-29",
+  "status": "SEPARATE_POST_OUTCOME_EXPLORATORY_SPATIAL_BETA_STUDY_FROZEN_BEFORE_THIS_SOURCE_READ",
+  "central_question": "Has among-transect within-island arthropod community composition become MORE SIMILAR (biotic homogenization) or MORE DIFFERENT (differentiation) across the B1 (1997–2004) to B3 (2019–2022) BALA campaigns, even when species identities turn over at each site?",
+  "key_ecological_distinction": "Observed within-site temporal beta and contemporaneous within-island between-site beta are separate estimands. Positive temporal replacement does not determine the SIGN of spatial between-site beta change.",
+  "source": {
+    "original_archive": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "original_zip_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_Event_core_rows": 10379,
+    "original_Occurrence_extension_rows": 63904,
+    "v313_equal_event_receipt": "development/bala_equal_event_source_original_receipt_v1_313.json",
+    "v313_original_selected_events_sha256": "39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac",
+    "v314_original_frozen_protocol": "development/bala_three_decade_species_replacement_protocol_v1_314.json",
+    "v314_original_aggregate": "development/bala_seven_island_species_replacement_original_result_v1_314.json",
+    "v314_original_inner_sha256": "b30eca5283d6984ee056ca8e74dd46fa2192c83558b175fbb84ff6546170f7a1",
+    "original_species_bodies_previously_opened": true,
+    "new_source_disjoint": false,
+    "old_v314_and_v316_original_scorers_do_not_rerun": true
+  },
+  "sampling": {
+    "islands_exact": [
+      "fai",
+      "flo",
+      "pic",
+      "sjg",
+      "smg",
+      "smr",
+      "ter"
+    ],
+    "original_repeated_source_transects": 29,
+    "source_sites_by_island": {
+      "fai": 3,
+      "flo": 4,
+      "pic": 4,
+      "sjg": 4,
+      "smg": 4,
+      "smr": 2,
+      "ter": 8
+    },
+    "original_source_selected_Events_all_periods": 4620,
+    "temporal_periods": [
+      "B1",
+      "B3"
+    ],
+    "main_sampling_method": "Pitfall solution",
+    "secondary_sampling_method": "Open beating tray (with bag)",
+    "guilds": [
+      "araneae",
+      "coleoptera"
+    ],
+    "eligible_species": "Original scientificName casefold and normalized whitespace, source taxonRank EXACT species/subspecies/morphospecies; no synonym imputation or species identity selection after source values",
+    "source_site_grain": "Each original physical forest transect within an island; independent units are source island and forest transect, NOT 10,379 Event rows or 63,904 Occurrence rows nor within-island 56 dependent site pairs.",
+    "method_effort": "Use ONLY the exact response-independent v1.313 29 sites × 2 methods × 3 campaign source Event selection, 4620 total original event keys. No new random selection of source site/method.",
+    "pair_eligible_if": "Both source sites have >=1 detected taxon of same guild in BOTH B1 and B3. The identical fixed physical site pair must be measured at both periods.",
+    "island_eligibility": "At least 2 eligible original physical sites and >=1 common physical site pair in each island, for each guild. Across seven islands require >=24 eligible physical sites per guild and >=40 eligible source within-island pairs total. If not, score STOP for that guild; no silent island dropout or changed threshold."
+  },
+  "statistics": {
+    "sorensen": "Across ORIGINAL physical sites i,j within same island and source period, 1−2*|Si∩Sj|/(|Si|+|Sj|).",
+    "simpson": "Across source sites i,j within same island and period, min(|Si\\Sj|,|Sj\\Si|)/(|Si∩Sj|+min(|Si\\Sj|,|Sj\\Si|)); zero if denominator zero but BOTH sites nonempty.",
+    "primary": "Within each guild and island, mean spatial Simpson replacement β among eligible distinct physical transect pairs in B3 MINUS B1; equal weight to original seven islands. Positive means differentiation, negative homogenization, zero spatial replacement stability.",
+    "secondary": "Same island-equal within-island spatial Sørensen Δ; report original matched pair counts per island, site richness mean B1/B3, phase-specific island gamma richness, and site-level temporal replacement for context; no causal drivers.",
+    "nonindependent_pairs": "Same forest sites appear in multiple pairwise comparisons, so pair count is not inferential n. Do NOT compute pairwise p-values or SE.",
+    "direction_sign": "Report all 7 island signs independently per guild and both metrics, including zero; no after-response threshold or taxon selection.",
+    "sample_split_sensitivity": {
+      "salts": [
+        "split-0",
+        "split-1",
+        "split-2",
+        "split-3",
+        "split-4",
+        "split-5",
+        "split-6",
+        "split-7",
+        "split-8"
+      ],
+      "split_rule": "Exact prior v1.316 source-only SHA256(salt + '|' + source original Event coreID) ranking, split floor(k/2) first and floor(k/2) next, omit last record if odd; all sample species names hidden from split selection",
+      "sensitivity_each": "For each of 9 predefined salts, calculate change in spatial β for the first-half B1A vs B3A and independently the complementary second-half B1B vs B3B, using SAME original eligible site pair universe as full-data primary where both-half taxa detected. Across 18 half-estimates, report number valid and fraction sharing full-sample sign. Never use sensitivity to change primary.",
+      "minimum_valid_halves_to_label_sign_stability": 6,
+      "limitation": "Nine salts×two halves are NONINDEPENDENT sensitivity realizations on the same source Events, not 18 biological experiments or a detection-corrected analysis."
+    }
+  },
+  "quality": {
+    "expected_original_Event_rows": 10379,
+    "expected_original_Occurrence_rows": 63904,
+    "minimum_Event_to_Occurrence_source_join": 0.99,
+    "previously_verified_original_selected_guild_Records_before_species_rank": 12699,
+    "previously_verified_accepted_species_rank_guild_Records": 12649,
+    "previously_verified_original_taxa_by_guild": {
+      "araneae": 64,
+      "coleoptera": 110
+    },
+    "must_reconcile_v313_29_site_4620_Event_SHA": true,
+    "all_7_islands_required": true,
+    "no_score_if_necessary_cohort_absent": true
+  },
+  "scientific_ceiling": [
+    "Original source taxonomic responses have been previously exposed, so this is an exploratory new estimand, not an independent confirmation",
+    "Changes in spatial species detection composition are NOT true island biotic invasion, extirpation, donor viability, metapopulation connectivity or causal anthropogenic homogenization",
+    "A changed island gamma pool or variable detection can shift Sorensen and Simpson spatial beta even with matched Event count; report alpha/gamma without interpreting as correction",
+    "Seven islands are within one archipelago and sampling frame, not seven independent archipelago experiments",
+    "Source fragment boundaries not explicitly modelled and the 8 Terceira sites may share habitat spatial autocorrelation",
+    "No use of eBird, protected mammal/BioTIME/RLS/Macaronesia S2-S4 responses"
+  ],
+  "firewall": {
+    "old_v314_original_oneshot": "SEALED",
+    "old_v316_original_oneshot": "SEALED",
+    "new_v318_source_runner_one_time_then_seal": true,
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  }
+}
