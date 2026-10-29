@@ -1,0 +1,33 @@
+{
+  "schema": "structural.pribes_ruderal_source_forest_homogenization_sourcefree.v1_324",
+  "date": "2026-10-29",
+  "status": "SEALED_ORIGINAL_PRIBES_AND_BALA_AGGREGATES_ONLY",
+  "source": "development/pribes_ruderal_external_source_result_freeze_v1_323.json",
+  "original_PRIBES_source_result_inner_SHA256": "d4ef1bbc23a2f44560a42e1e66a3041697e43f6077a4e0d233e2757a2261765e",
+  "original_PRIBES_v1_323_run": 40816387637,
+  "independent_BALA_original_v1_318_result_SHA256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+  "six_source_islands_in_fixed_order": [
+    "FAI",
+    "FLO",
+    "PIC",
+    "TER",
+    "SMG",
+    "SMR"
+  ],
+  "analysis": {
+    "only": "Recompute already frozen PRIBES introduced Beetle similarity versus negative of BALA forest Simpson delta Spearman and exact all 720 island-label permutations from committed numeric six-island aggregates; independently recompute native Beetle and introduced Spider source controls and source-sample-year confound.",
+    "never": "Do not download original PRIBES Event or Occurrence or previously sealed BALA source. No new source-site or taxon ranking, no new model, no species-level join, no alternate predictor selection.",
+    "checks": "Verify exact original 72 PRIBES source one-hour site counts and 80/2836 source rows, unknown status count 37/1226, full source 80-Event method v1.321 terminal, original PRIBES scorer sealed, exact six-island sample lengths, original BALA 7-island result SHA.",
+    "scientific": "With n6 islands, rho +0.142857 and one-sided exact p0.4014 is non-support for stated introduced community ubiquity predictor. Native/endemic rho is identical; no exotic specificity. Spider rho +0.0857 is secondary non-support. Island sampling year correlated with exposure, so no causal inference.",
+    "practical_conclusion": "BALA native forest beetle spatial homogenization is not simply explained by similarity of contemporary introduced beetle species among PRIBES ruderal habitats. This narrows only a coarse island-level source-pool proxy; external flux into forests and fragment environmental drivers remain unmeasured."
+  },
+  "no_new_original_source_reads": true,
+  "firewall": {
+    "original_all_PRIBES_v321_terminal": true,
+    "original_v323_pribes_taxon_scorer_sealed": true,
+    "BALA_original_v314_v316_v318_scorers_SEALED": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
