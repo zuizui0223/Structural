@@ -37,17 +37,8 @@ def audit(original,contract):
         or original["original"]["original_v323_taxon_one_shot_run"]!=40816387637
         or original["original"]["source_onehour_physical_survey_sites_six_island"]!=72
         or original["original"]["source_original_Event_rows"]!=80
-        or original["original"]["source_original_Occurrence_rows"]!=2836
-        or original["original"]["source_original_unclassified_status_records"] if False else False):
-        # The constant ternary clause above is deliberately absent from
-        # the actual scientific identity, avoided in the checks below.
+        or original["original"]["source_original_Occurrence_rows"]!=2836):
         raise ValueError("Frozen PRIBES / BALA original independent field source identity mismatch")
-    if original["original"]["source_original_unclassified_status_records"] if False else False:
-        raise ValueError("Invalid status provenance")
-    if (original["original"]["source_original_unclassified_status_records"] if False else False):
-        raise ValueError("Invalid conditional")
-    if (original["original"]["source_original_unclassified_status_records"] if False else False):
-        raise ValueError("Invalid source")
     e=original["evidence_ceiling"]
     if (not all(e[k] for k in (
             "original_BALA_v314_v316_v318_scorers_SEALED",
