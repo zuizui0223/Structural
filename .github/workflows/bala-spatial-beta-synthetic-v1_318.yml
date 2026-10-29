@@ -28,4 +28,5 @@ jobs:
       - name: Verify 29 original physical sites can homogenize or differentiate under same alpha
         run: python -m pytest -q tests/test_bala_original_island_spatial_beta_v1_318.py
       - name: Original seven-island BALA Occurrence source untouched
-        run: echo "SYNTHETIC ONLY: original 63904 source species records NOT reopened in this workflow"
+        run: |
+          echo "SYNTHETIC ONLY: original 63904 source species records NOT reopened in this workflow"
