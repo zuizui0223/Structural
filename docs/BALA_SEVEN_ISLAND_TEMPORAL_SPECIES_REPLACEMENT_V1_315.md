@@ -1,6 +1,10 @@
 # Structural BALA v1.314–v1.315 — Richness stability does not imply persistence of island forest assemblage composition
 
-**2026-10-28 · Executed, source-locked seven-island multi-decade taxonomic community survey.** All inference here is **observational species detection turnover**, not documented actual biological immigration/extinction. The original authors' aggregate richness/abundance stability is prior art; the independent *estimand* here is beta-diversity replacement at the exact revisited same physical forest transects.
+**2026-10-28 · Executed, source-locked seven-island multi-decade taxonomic community survey.**
+
+**Evidence update (29 October 2026):** [v1.316–v1.317 original same-period half-sample detection benchmark and source-free audit](BALA_SEVEN_ISLAND_DETECTION_CONTROL_EXCESS_V1_317.md) now provide a stricter, source-observed ecological claim: both major guilds show more B1→B3 compositional non-similarity than within-campaign disjoint half-sample comparisons on all seven islands (Sørensen excess **+0.1908 Spiders / +0.2212 Beetles**, source site signs 26/29 and 25/26). The same-period heterogeneity is sizeable, so this is NOT an occupancy-detection corrected effect or biological extinction/colonization inference. Original v1.314 and v1.316 taxon source scorers are SEALED; further audit must be aggregate-only.
+
+ All inference here is **observational species detection turnover**, not documented actual biological immigration/extinction. The original authors' aggregate richness/abundance stability is prior art; the independent *estimand* here is beta-diversity replacement at the exact revisited same physical forest transects.
 
 ## Research question and main new observed result
 
