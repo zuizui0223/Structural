@@ -62,7 +62,7 @@ def test_original_SHA_six_island_membership_and_72_site_count_fail_closed():
         audit(bad,c)
     bad=copy.deepcopy(d)
     del bad["original_independent_PRIBES_onehour_source_islands"]["FLO"]
-    with pytest.raises(ValueError,match="six overlapping islands"):
+    with pytest.raises(ValueError,match="6 overlapping islands"):
         audit(bad,c)
     bad=copy.deepcopy(d)
     bad["evidence_ceiling"]["original_PRIBES_v323_scorer_SEALED"]=False
