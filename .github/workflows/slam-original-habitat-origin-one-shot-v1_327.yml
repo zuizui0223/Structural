@@ -1,65 +1,22 @@
-name: SLAM three-island native-vs-altered forest original taxon ONE SHOT v1.327
+name: SLAM v1.327 original arthropod response one-shot SEALED (receipt only)
+# Original 2024 v1.7 forest source evaluated ONCE on GitHub Actions 40829500865.
+# 893 source Event rows, 14,922 Occurrence values; fixed 664 original
+# source Event IDs in three island habitat-season strata. Original result
+# artifact 12878445499. Original BALA/PRIBES original taxon scorers sealed.
+# NO push/pull_request triggers or new source-scoring work is allowed here.
 on:
-  push:
-    paths:
-      - ".github/workflows/slam-original-habitat-origin-one-shot-v1_327.yml"
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  original-source-one-time-habitat-community:
+  source-original-habitat-receipt-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 2
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: "3.11"}
-      - name: Install source-free test framework
-        run: python -m pip install pytest
-      - name: Known truth 893 Event/664 fixed seasonal source frames and biodiversity-quality guards
-        run: python -m pytest -q tests/test_slam_forest_habitat_original_origin_score_v1_327.py
-      - name: One-time original SLAM 1.7 14922 occurrence records after original source-Event SHA gate
+      - name: Original SLAM v1.327 scientific outcome and source replay prohibition
         run: |
-          python scripts/slam_forest_habitat_original_origin_score_v1_327.py \
-            --protocol development/slam_forest_origin_habitat_response_protocol_v1_327.json \
-            --event-contract development/slam_forest_explicit_habitat_original_event_gate_v1_326.json \
-            --event-receipt development/slam_42forest_habitat_event_receipt_freeze_v1_326.json \
-            --out slam_three_island_habitat_original_response_v1_327.json
-      - name: Explicit honest original quality STOP or score
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          r=json.loads(Path("slam_three_island_habitat_original_response_v1_327.json").read_text(encoding="utf-8"))
-          assert r["status"] in (
-              "SOURCE_OBSERVED_THREE_ISLAND_NATIVE_ALTERED_HABITAT_ORIGIN_CONTRAST_COMPLETE",
-              "STOP_ORIGINAL_SPECIES_STATUS_OR_CAPTURE_QUALITY")
-          assert r["original_source_archive_sha256"]=="b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0"
-          assert r["source_original_Event_rows_reexamined"]==893
-          assert r["source_original_Occurrence_rows_opened_once"]==14922
-          assert r["original_selected_matched_source_Event_rows"]==664
-          assert r["original_source_islands_with_matched_native_altered_periods"]==["FLO","PIC","TER"]
-          assert r["old_BALA_PRIBES_original_species_rows_reopened"]==0
-          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
-          if r["status"]=="SOURCE_OBSERVED_THREE_ISLAND_NATIVE_ALTERED_HABITAT_ORIGIN_CONTRAST_COMPLETE":
-              m=r["main_all_arthropods"]
-              assert m["status"]=="OBSERVED_ORIGIN_SPECIFIC_HABITAT_RICHNESS_CONTRAST"
-              assert m["source_original_selected_Event_n"]==664
-              assert m["original_islands"]==["FLO","PIC","TER"]
-              print("Observed original 3-island native-origin habitat contrast:",m["original_island_equal_season_mean"])
-              print("Original independent islands:",{
-                  i:q["original_season_mean_community_statistics"] for i,q in
-                  m["original_per_island_source_quarter_mean"].items()
-              })
-              print("Original Beetle guild status:",r["secondary_coleoptera"]["status"])
-              print("Original Beetle guild contrast:",r["secondary_coleoptera"]["original_island_equal_season_mean"])
-          else:
-              assert r["main_all_arthropods"] is None
-              print("Science STOP native-vs-altered source forest:",r.get("stop_reason"))
-          PY
-      - name: Keep original-source aggregate only, including scientific STOP
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: slam-original-forest-habitat-origin-field-result-v1-327
-          path: slam_three_island_habitat_original_response_v1_327.json
-          if-no-files-found: warn
+          echo "SLAM original three-island forest source run: 40829500865"
+          echo "SLAM original field result artifact: 12878445499"
+          echo "Original source ZIP SHA256: b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0"
+          echo "SLAM Event/Occurrence source data opened by this job: ZERO"
+          echo "Future SLAM conclusions must use pinned original numeric aggregates ONLY"
