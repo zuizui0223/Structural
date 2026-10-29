@@ -1,0 +1,94 @@
+{
+  "schema": "structural.terceira2024_habitat_elevation_event_identifiability.v1_333",
+  "date": "2026-10-29",
+  "status": "SOURCE_EVENT_ONLY_IDENTIFIABILITY_PREDECLARED_BEFORE_ANY_2024_ORIGINAL_EVENT_VALUES",
+  "source": {
+    "official_original_v1_6_archive": "https://ipt.gbif.pt/ipt/archive.do?r=azores_forest_arthropods&v=1.6",
+    "source_original_SHA256": "c4dcf060bc2554be7fe49fb569f2fd7a8514ba3a888db673b40cb65aad60ef21",
+    "source_publication_DOI": "10.15468/7aue4t",
+    "original_published_event_n": 326,
+    "original_published_occurrence_n": 2399,
+    "preoriginal_meta_run": 40841670131,
+    "original_year": 2024
+  },
+  "primary_ecological_estimability_question": "Can the effect of native versus exotic forest on endemic, nonendemic native and introduced arthropod richness be distinguished from forest-elevation covariation within balanced original 2024 Terceira plots? Do NOT open original species/taxon values unless the source conditions have overlapping sampling environmental support.",
+  "prior_published_nonbiological_source_information": {
+    "native_sites_n": 10,
+    "exotic_sites_n": 10,
+    "reported_native_elevation_range_m": [
+      590,
+      927
+    ],
+    "reported_exotic_elevation_range_m": [
+      256,
+      461
+    ],
+    "reported_no_elevation_overlap": true,
+    "publication": "Lhoumeau & Borges 2025 Forest Ecology and Management 596:123059 DOI 10.1016/j.foreco.2025.123059, sections 2.1-2.2. This is already published prior art, not an original Structural measurement."
+  },
+  "only_allowed_original_values": {
+    "core": "Original Event 326 source rows, original source primary Event core ID, island, eventDate, locationID, habitat, samplingProtocol, minimumElevationInMeters, eventRemarks, locationRemarks, geocoordinates, sampleSizeValue/Unit",
+    "source_file_members_read": "Event text and meta.xml ONLY; original 2399 Occurrence rows NEVER read at v1.333",
+    "publish": "Only exact author plot count, source habitat class count, elev ranges, overlap and source method/height counts, no original site IDs or coordinates, no species or origin status",
+    "no_source_values_from_taxon_records": true
+  },
+  "author_site_design": {
+    "site_identity": "Exact source original locationID normalized NFKD ASCII uppercase and retain A-Z0-9; no nearest coordinate reconstruction, no drop/change author plot tokens after original Event look.",
+    "source_habitat_native_exact": [
+      "Native forest",
+      "Native wet forest",
+      "Native pristine forest",
+      "Native"
+    ],
+    "source_habitat_exotic_exact": [
+      "Exotic forest",
+      "Secondary exotic forest",
+      "Exotic",
+      "Secondary forest"
+    ],
+    "site_habitat_read_only": "Use original Event habitat source column. Strip whitespace, casefold and spaces; no inferred native/exotic from original locality or taxon.",
+    "source_site_n_expected": 20,
+    "source_native_plot_n_expected": 10,
+    "source_exotic_plot_n_expected": 10,
+    "other_habitats_not_admitted": true,
+    "all_events_date_year_exact": 2024,
+    "repeated_original_site_elevation_tolerance_m": 5,
+    "within_original_plot_source_coordinate_consistency_tolerance_degrees": 0.0003,
+    "original_source_event_incomplete_or_invalid_elevation": "STOP rather than impute plot elevation from nearest mountain DEM or source paper elevation range",
+    "method_gate": "Original exact samplingProtocol must be classifiable as SLAM vs Pitfall from Event-only field. SLAM source events by height GRD (0%), UND (50%), CAN (75%) from author original eventRemarks/locationRemarks, no taxon-guided method parsing. EPI ground Pitfall separate, not comparable to SLAM.",
+    "original_method_types": [
+      "SLAM",
+      "Pitfall"
+    ],
+    "vertical_strata": [
+      "GRD",
+      "UND",
+      "CAN",
+      "EPI"
+    ],
+    "fixed_comparable_sampling_channel": "SLAM ground GRD only for mandatory source habitat comparison; if original source authors' GRD not present at ≥8 plots of each habitat, no physical-plot habitat endpoint. Other heights are descriptive source design only.",
+    "source_date": "Require source 2024 sampling, early summer–early autumn; if dates are intervals, accept YYYY-MM-DD prefix but not an inferred season from species."
+  },
+  "environmental_overlap_gate": {
+    "primary_causal_estimability": "STRICT. Need elevation range overlap of source native and exotic physical plot locations PLUS at least 2 independent native and 2 exotic original plot elevations inside the intersection AND ≥8 sites per type with source-matched SLAM ground stratum.",
+    "common_elevation_interval_m": "intersection(max(min native, min exotic), min(max native, max exotic)); empty intersection => FOREST_ELEVATION_STRUCTURAL_NONOVERLAP_TERMINAL",
+    "elevation_margin_m": 0,
+    "minimum_both_habitat_plots_in_common_elevation_support": 2,
+    "no_regression_extrapolation_allowed": true,
+    "assay_when_causal_gate_fails": "No 2024 source species/origin read under forest habitat mechanism endpoint; mark forest type vs elevation not separately identifiable. No alternative extrapolating regression, propensity weighting with 0 overlap, or source-outcome-selected subsets.",
+    "scientific_association_vs_causal": "One can describe source forest richness by type without isolating elevation, but this task targets *mechanism*, so do not reopen taxa to imply an independent habitat effect when no support."
+  },
+  "null_and_possible_next": {
+    "if_pass": "Freeze v1.334 origin/capture model on matched ground-SLAM site source effort and original elevation-common-support sites before first taxon record.",
+    "if_fail": "Close 2024 source forest mechanism with zero original Occurrence read. Use prior published 2025 native/exotic vertical β as context only. Recommend future elevation-matched forest pairs or transects where both native and altered stands occur within shared elevation range.",
+    "published_prior_art": "Lhoumeau & Borges 2025 vertical decay did not differ between forest types, nonindigenous arthropods had narrower vertical ranges; do not claim that as new Structural."
+  },
+  "firewall": {
+    "older_SLAM_BALA_PRIBES_taxon_scorers_SEALED": true,
+    "Madeira_original_species_rows_unopened": true,
+    "Terceira2024_original_Occurrence_rows_opened_at_v333": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
