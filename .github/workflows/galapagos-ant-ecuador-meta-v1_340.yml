@@ -1,0 +1,56 @@
+name: Galapagos Ecuador original ant version 1.8 source META only v1.340
+on:
+  push:
+    paths:
+      - ".github/workflows/galapagos-ant-ecuador-meta-v1_340.yml"
+      - "development/galapagos_ant_ecuador_original_meta_contract_v1_340.json"
+      - "scripts/galapagos_ant_ecuador_original_meta_v1_340.py"
+      - "tests/test_galapagos_ant_ecuador_original_meta_v1_340.py"
+  pull_request:
+    paths:
+      - ".github/workflows/galapagos-ant-ecuador-meta-v1_340.yml"
+      - "development/galapagos_ant_ecuador_original_meta_contract_v1_340.json"
+      - "scripts/galapagos_ant_ecuador_original_meta_v1_340.py"
+      - "tests/test_galapagos_ant_ecuador_original_meta_v1_340.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-Ecuador-ant-v1_8-original-meta-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Validate source-free original Ecuador metadata shape
+        run: python -m pytest -q tests/test_galapagos_ant_ecuador_original_meta_v1_340.py
+      - name: Read exact Ecuador v1.8 ZIP directory and meta.xml only
+        run: |
+          python scripts/galapagos_ant_ecuador_original_meta_v1_340.py \
+            --contract development/galapagos_ant_ecuador_original_meta_contract_v1_340.json \
+            --out galapagos_Ecuador_original_meta_v1_340.json
+      - name: Preserve independent source version and zero Event/Occurrence source reads
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("galapagos_Ecuador_original_meta_v1_340.json").read_text())
+          assert x["status"] in (
+            "GALAPAGOS_ANT_SITE_HABITAT_ELEVATION_AND_ORIGIN_SCHEMA_PRESENT_RESPONSES_SEALED",
+            "TERMINAL_SOURCE_MISSING_ANT_HABITAT_ORIGIN_FIELD",
+            "TERMINAL_NOT_SINGLE_EVENT_CORE_AND_OCCURRENCE_EXTENSION")
+          assert x["original_Event_rows_opened"]==0 and x["original_Occurrence_rows_opened"]==0
+          assert x["GEB_scientific_HOLD"] and x["new_confirmatory_systems"]==0 and not x["eBird_used"]
+          print("Galapagos Ecuador v1.8 original metadata status:",x["status"])
+          print("Original distinct Ecuador 2026 zip SHA:",x["original_zip_sha256"])
+          print("Source attributes:",x.get("original_schema_candidates"))
+          PY
+      - name: Archive source ZIP SHA and original field schema, not biological rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: galapagos-Ecuador-original-v1-8-meta-only-v1-340
+          path: galapagos_Ecuador_original_meta_v1_340.json
+          if-no-files-found: warn
