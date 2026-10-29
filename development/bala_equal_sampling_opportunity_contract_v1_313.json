@@ -1,0 +1,73 @@
+{
+  "schema": "structural.bala_equal_event_physical_transect_source_gate.v1_313",
+  "date": "2026-10-28",
+  "status": "SOURCE_ONLY_SAMPLING_OPPORTUNITY_FROZEN_BEFORE_TAXON_VALUES",
+  "source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "published_Event": 10379,
+    "published_Occurrence": 63904,
+    "v1_312_original_run_id": 40615134355,
+    "source_29_three_phase_matched_site_SHA256": "31a323a378f29e60ff656699081ccbbb47b546568f13f43e6472391adc8b7c72"
+  },
+  "physical_scope": {
+    "seven_exact_island_codes": [
+      "flo",
+      "fai",
+      "pic",
+      "sjg",
+      "ter",
+      "smg",
+      "smr"
+    ],
+    "source_graciosa_code": "gra",
+    "source_graciosa_198_events_outside_original_three_periods": true,
+    "original_three_periods": {
+      "B1": [
+        1997,
+        2004
+      ],
+      "B2": [
+        2010,
+        2012
+      ],
+      "B3": [
+        2019,
+        2022
+      ]
+    },
+    "original_same_source_3wave_sites": 29,
+    "source_methods_exact": [
+      "Pitfall solution",
+      "Open beating tray (with bag)"
+    ],
+    "source_event_core_join": "exact original source core ID, no coordinate or pseudo-matched site aliases"
+  },
+  "fixed_sampling_rule": [
+    "For each of 29 exact author (island, locationID) sites present in B1,B2,B3 and separately for each of two exact original samplingProtocol methods, count original source Event rows in each period.",
+    "Let k be MINIMUM of the three period Event sample counts within that exact same site and protocol; require k>=1 for each original site/method. Use k source original Event primary IDs in each period chosen by original core ID lexicographic sort (not species/abundance, no outcome access).",
+    "Author source Event ID values, including trap positions, may not correspond perfectly between periods; equal original Event counts approximate rather than guarantee equal biological detectability. Never infer temporal species arrivals/extinctions from mere absence.",
+    "All 29 sites × 2 methods × 3 periods are retained. 10379 original Event rows remain publisher denominator; only selected matched sample subset goes to biological v1.314.",
+    "Use source 7 original island abbreviations to match, with 198 Graciosa out-of-phase Event rows excluded. No new unverified islands."
+  ],
+  "frozen_eligibility": {
+    "required_sites": 29,
+    "required_islands": 7,
+    "required_method_site_phase_groups": 174,
+    "require_each_min_event_count_at_least": 1,
+    "no_source_selected_event_ids_exported": true,
+    "original_record_source_members_unopened": [
+      "Occurrence.txt"
+    ],
+    "exact_selected_Event_SHA256_required_for_next_biology": true
+  },
+  "future_species_question": "At exactly matched 29 seven-island native-forest transects and equal Event counts per phase/method, quantify 20-year site-level taxonomic replacement versus stable richness separately for Araneae and Coleoptera and endemic/native versus introduced source origin where taxonomy supports.",
+  "firewall": {
+    "old_v1_311_full_English_island_name_gate_TERMINAL": true,
+    "original_BALA_Occurrence_rows_opened": 0,
+    "original_BioMonI_Pico_and_mammal_BioTIME_RLS_S2_S3_S4_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

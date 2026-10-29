@@ -1,0 +1,60 @@
+name: BALA 7-island detection-control original source-free audit v1.317
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-between-within-sourcefree-v1_317.yml"
+      - "development/bala_within_campaign_detection_original_result_freeze_v1_316.json"
+      - "development/bala_within_period_excess_sourcefree_protocol_v1_317.json"
+      - "scripts/bala_between_within_sourcefree_audit_v1_317.py"
+      - "tests/test_bala_between_within_sourcefree_audit_v1_317.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-between-within-sourcefree-v1_317.yml"
+      - "development/bala_within_campaign_detection_original_result_freeze_v1_316.json"
+      - "development/bala_within_period_excess_sourcefree_protocol_v1_317.json"
+      - "scripts/bala_between_within_sourcefree_audit_v1_317.py"
+      - "tests/test_bala_between_within_sourcefree_audit_v1_317.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  aggregate-original-only-never-read-published-biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Check exact seven-source-island temporal excess against split sampling
+        run: python -m pytest -q tests/test_bala_between_within_sourcefree_audit_v1_317.py
+      - name: Recalculate only committed original aggregate and immutable source SHA
+        run: |
+          python scripts/bala_between_within_sourcefree_audit_v1_317.py \
+            --input development/bala_within_campaign_detection_original_result_freeze_v1_316.json \
+            --contract development/bala_within_period_excess_sourcefree_protocol_v1_317.json \
+            --out bala_between_within_seven_island_sourcefree_v1_317.json
+      - name: Ensure interpretation never claims actual rescue or corrected detection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_between_within_seven_island_sourcefree_v1_317.json").read_text())
+          assert r["status"]=="ORIGINAL_SOURCE_FREE_SEVEN_ISLAND_TEMPORAL_EXCESS_VALIDATED"
+          assert r["source_original_independent_transects"]==29 and r["source_original_island_contexts"]==7
+          assert r["main_pitfall"]["araneae"]["physical_sites_positive_across_minus_within_sorensen"]==26
+          assert r["main_pitfall"]["coleoptera"]["physical_sites_positive_across_minus_within_sorensen"]==25
+          assert r["secondary_canopy_beetle_scientifically_stopped"]
+          assert r["original_source_has_not_been_reopened_by_this_audit"]
+          assert r["v1_314_original_biological_workflow_SEALED"]
+          assert r["v1_316_original_biological_workflow_SEALED"]
+          assert r["new_confirmatory_systems"]==0 and r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          print("PASS: both guilds exceed within-phase sampling on seven original islands; no BALA raw biological source accessed.")
+          PY
+      - name: Archive source-free ecological result for independent verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-sevens-islands-sourcefree-detection-excess-v1-317
+          path: bala_between_within_seven_island_sourcefree_v1_317.json
+          if-no-files-found: warn

@@ -1,0 +1,58 @@
+name: BALA seven-island 29-transect matched Event effort v1.313
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-equal-source-events-v1_313.yml"
+      - "development/bala_equal_sampling_opportunity_contract_v1_313.json"
+      - "scripts/bala_equal_original_event_samples_v1_313.py"
+      - "tests/test_bala_equal_original_event_samples_v1_313.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-equal-source-events-v1_313.yml"
+      - "development/bala_equal_sampling_opportunity_contract_v1_313.json"
+      - "scripts/bala_equal_original_event_samples_v1_313.py"
+      - "tests/test_bala_equal_original_event_samples_v1_313.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-original-transect-method-event-equalization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Verify repeated-site per-method equal sampling without any species labels
+        run: python -m pytest -q tests/test_bala_equal_original_event_samples_v1_313.py
+      - name: Exact archived BALA source, Event-only 29 sites x 3 campaigns x 2 methods
+        run: |
+          python scripts/bala_equal_original_event_samples_v1_313.py \
+            --protocol development/bala_equal_sampling_opportunity_contract_v1_313.json \
+            --out bala_original_equal_source_sampling_v1_313.json
+      - name: Scientific sample source eligibility and no original arthropod values opened
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_original_equal_source_sampling_v1_313.json").read_text())
+          assert r["status"] in ("SOURCE_EQUAL_EFFORT_FROZEN_EVENT_ONLY_OCCURRENCE_SEALED",
+                                  "STOP_SAMPLING_METHOD_OR_SITE_SUPPORT_UNESTIMABLE")
+          assert r["all_three_period_original_sites"]==29
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          if r["status"]=="SOURCE_EQUAL_EFFORT_FROZEN_EVENT_ONLY_OCCURRENCE_SEALED":
+              assert r["site_method_comparable_counts"]==58
+              assert r["missing_any_period_source_site_method_cells"]==0
+              assert len(set(r["selected_original_Event_per_campaign"].values()))==1
+          print("ORIGINAL PHYSICAL EFFORT:",r["status"])
+          PY
+      - name: Store only aggregate source sample effort and original selected Event fingerprint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-seven-island-equal-event-sampling-source-v1-313
+          path: bala_original_equal_source_sampling_v1_313.json
+          if-no-files-found: warn

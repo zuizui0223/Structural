@@ -1,0 +1,64 @@
+name: BALA seven-island original community replacement ecological audit v1.315
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-sourcefree-ecology-conclusions-v1_315.yml"
+      - "development/bala_seven_island_species_replacement_original_result_v1_314.json"
+      - "scripts/bala_7island_sourcefree_replacement_audit_v1_315.py"
+      - "tests/test_bala_sourcefree_replacement_audit_v1_315.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-sourcefree-ecology-conclusions-v1_315.yml"
+      - "development/bala_seven_island_species_replacement_original_result_v1_314.json"
+      - "scripts/bala_7island_sourcefree_replacement_audit_v1_315.py"
+      - "tests/test_bala_sourcefree_replacement_audit_v1_315.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-free-seven-island-composition-reconciliation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-free regression runner
+        run: python -m pip install pytest
+      - name: Reconcile seven-island original field outcome and source identity without original data access
+        run: python -m pytest -q tests/test_bala_sourcefree_replacement_audit_v1_315.py
+      - name: Compute original aggregate-only ecological evidence counts
+        run: |
+          python scripts/bala_7island_sourcefree_replacement_audit_v1_315.py \
+            --input development/bala_seven_island_species_replacement_original_result_v1_314.json \
+            --out bala_7island_sourcefree_ecological_synthesis_v1_315.json
+      - name: Enforce zero original biological rereads, valid plot units and strict mechanism ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_7island_sourcefree_ecological_synthesis_v1_315.json").read_text())
+          assert r["status"]=="SOURCE_FREE_ORIGINAL_SEVEN_ISLAND_REPLACEMENT_RECONCILED"
+          assert r["source_longitudinal_island_count"]==7
+          assert r["source_original_independent_transects"]==29
+          assert r["pitfall_observable_transect_guild_B1_B3_comparisons"]==57
+          assert r["pitfall_guild_comparisons_with_balanced_replacement_and_at_most_one_species_net_difference"]==23
+          assert r["islands_with_positive_spider_replacement"]==7
+          assert r["islands_with_positive_beetle_replacement"]==7
+          assert r["islands_with_beetle_mean_simpson_replacement_greater_than_spider_mean"]==6
+          assert r["no_original_Event_or_Occurrence_rows_reopened"]
+          assert r["no_new_models_or_biological_scores"]
+          assert r["no_true_species_extinction_or_recolonization_inferred"]
+          assert r["this_is_not_a_new_source_or_confirmatory_replication"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0
+          assert not r["eBird_used"]
+          print("PASS: observed taxonomic reshuffling on repeated plots despite small richness deltas; no biological source replay")
+          PY
+      - name: Retain only auditable scientific aggregate and original run hash
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-original-seven-island-sourcefree-replacement-v1-315
+          path: bala_7island_sourcefree_ecological_synthesis_v1_315.json
+          if-no-files-found: warn

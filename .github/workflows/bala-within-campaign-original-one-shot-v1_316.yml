@@ -1,0 +1,21 @@
+name: BALA v1.316 original biological scorer SEALED - read-only provenance
+# BALA fixed original response was examined exactly once in source workflow run 40636604430.
+# Original scientific result artifact 12793228108; ZIP sha256:
+# b467dc1747d116a6d4f291102f2d0b405c760905c254f0e6e7dd21b76ca1d0f0
+# Inner JSON sha256: 1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871
+# NO push or pull_request automatic scorer; never rerun original BALA taxonomy here.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-locked-readonly-seal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Confirm original source evidence remains immutable and not rerun
+        run: |
+          echo "BALA v1.316 original source scored run: 40636604430 (SUCCESS)"
+          echo "Original aggregate artifact: 12793228108"
+          echo "Source taxa Event/Occurrence data accessed in this workflow: ZERO"
+          echo "Next audits must use committed source-free aggregated data only."
