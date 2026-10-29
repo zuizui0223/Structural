@@ -1,0 +1,106 @@
+{
+  "schema": "structural.slamII_original_forest_elevation_meta.v1_334",
+  "date": "2026-10-29",
+  "status": "FROZEN_BEFORE_SOURCE_EVENT_OR_OCCURRENCE_VALUES",
+  "ecological_question": "Does the vertical separation of native versus modified forests observed in Terceira 2024 arise recurrently across native, mixed and exotic forest sampling sites in multiple Azores islands, limiting the identifiable elevation-adjusted effect of habitat for island arthropods?",
+  "source": {
+    "original_DwCA_archive": "https://ipt.gbif.pt/ipt/archive.do?r=pribes_exotic_arthropods&v=1.8",
+    "original_dataset_DOI": "10.15468/ucfehv",
+    "GBIF_UUID": "020231d8-39b6-478f-ac24-715bf97c8ef4",
+    "data_paper_DOI": "10.3897/BDJ.10.e81410",
+    "published_2023_v1_8_Event_rows": 45,
+    "published_2023_v1_8_Occurrence_rows": 2097,
+    "reported_island_site_n": {
+      "COR": 1,
+      "FLO": 5,
+      "SMR": 16,
+      "TER": 23
+    },
+    "reported_habitat_site_n": {
+      "native": 8,
+      "mixed": 18,
+      "exotic": 19
+    },
+    "survey_years": [
+      2019,
+      2020
+    ],
+    "original_same_sampling_channel": "One passive flight interception SLAM trap per physical plot; sampled three-to-six months. Do not combine unequal sampling duration without source metadata.",
+    "preexisting_authors_prior_art": "Borges et al 2022 BDJ published full habitat, elevation and status inventory. Tsafack et al 2021 already compared Terceira native/exotic arthropod occurrences. No source taxon response is a fresh pristine confirmation; never claim established endemic refuge as a newly discovered Structural mechanism."
+  },
+  "previous_terminal_context": {
+    "original_2024_Terceira_source": "10 native sites 590–927m vs 10 exotic 256–461m, no elevation common support; v1.333 TERMINAL, original 2399 species rows sealed.",
+    "original_2024_source_science_gate": "TERMINAL_2024_FOREST_ELEVATION_NO_COMMON_SUPPORT",
+    "original_Azores_SLAM_v327_species_scorer": "SEALED",
+    "original_BALA_v318_species_scorer": "SEALED",
+    "original_PRIBES_v323_different_2026_ruderal_dataset": "SEALED",
+    "original_Madeira_species": "UNOPENED"
+  },
+  "strict_sequence": [
+    "v1.334 ZIP directory and meta.xml only, original source SHA256, verify original Event locationID/island/habitat/elevation/method/date, Occurrence rank/scientificName/order/origin; no Event/Occurrence source rows opened.",
+    "v1.335 Event-only original 45 author physical sites source island+locationID, original habitat and original elevation. Quantify habitat elevation sorting and exact common-support plot counts by island. Strictly require >=2 native and >=2 altered physical sites within the SAME overlapping elevation interval on at least TWO islands before any subsequent taxon-level forest mechanism score.",
+    "Only if v1.335 passes may freeze new original species-origin score and one-time read. If it fails, stop: the positive observational outcome is habitat's elevational segregation, not a fitted native-exotic causal contrast.",
+    "Cross-check original site source names with older SLAM source prior to claiming geographic independence; any site overlap is not disjoint validation."
+  ],
+  "pre_frozen_event_habitat_ontology": {
+    "source_field": "habitat only",
+    "native_prefixes": [
+      "native forest",
+      "native woodland",
+      "natural forest"
+    ],
+    "mixed_prefixes": [
+      "mixed forest",
+      "mixed woodland"
+    ],
+    "exotic_prefixes": [
+      "exotic forest",
+      "exotic woodland",
+      "introduced forest"
+    ],
+    "site_key": "island code plus original locationID normalized to ASCII uppercase alphanumeric, no nearest coordinate merge",
+    "elevation_field_candidates": [
+      "minimumElevationInMetres",
+      "minimumElevationInMeters",
+      "minimumElevationInMeter",
+      "verbatimElevation"
+    ],
+    "elevation_require_numeric_for_all_45": true,
+    "author_island_map": {
+      "COR": [
+        "Corvo"
+      ],
+      "FLO": [
+        "Flores"
+      ],
+      "TER": [
+        "Terceira"
+      ],
+      "SMR": [
+        "Santa Maria",
+        "Santa-Maria"
+      ]
+    },
+    "strict_exact_original_survey_years": [
+      2019,
+      2020
+    ],
+    "minimum_native_altered_plot_n_per_comparison_island": 2,
+    "common_elevation_support_m": "[max(native_min, altered_min), min(native_max, altered_max)] inclusive, then count ORIGINAL native and altered physical sites INSIDE; do not invent interpolation.",
+    "other_covariate_limits": "Same field trap type across plots does not imply identical months, microclimate, canopy or forest history. Event records are physical plot-level surveys not temporal replicates."
+  },
+  "source_only_endpoints": {
+    "island_habitat_plot_n": "Original independent physical forest sites native/mixed/exotic, not 45 origin status observations.",
+    "island_elevation_range": "Per island and native vs altered sample minimum/maximum elevation; label no-overlap when intersection empty.",
+    "delta_island_median_elevation": "Original median native plot altitude MINUS original median mixed/exotic plot altitude; descriptive positive/negative direction, not causal effect or formal p-value.",
+    "frozen_common_support_criterion": "2 native and 2 altered in same source elevation overlap in at least 2 islands; if one or zero, terminal for cross-island habitat mechanism. Report all 4 island counts including Corvo n=1.",
+    "source_taxon_rows_reopened_at_v334": 0,
+    "no_after_data_threshold_adjustment": true
+  },
+  "firewall": {
+    "original_BALA_SLAM_PRIBES_2024_Madeira_source_species_unopened_in_this_branch": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
