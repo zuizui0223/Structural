@@ -317,7 +317,7 @@ def main():
         or study["previous_original_source_event_conditions"]["PRIBES_v1_3_archive_SHA256"]!=SHA
         or receipt["source_v322_artifact_inner_JSON_sha256"]!=ORIGINAL_RECEIPT_SHA
         or study["frozen_BALA_island_forest_response"]["original_v318_source_JSON_sha256"]!=OLD_BALA_V318_SHA
-        or receipt["source_original_Event_rows_inspected"]!=80):
+        or receipt["source_original_event_rows_inspected"]!=80):
         raise ValueError("BALA and PRIBES six-island cross-source source-locked protocol not frozen")
     result={
        "schema":"structural.pribes_ruderal_external_beetle_source_result.v1_323",
