@@ -1,4 +1,6 @@
 name: PRIBES independent 6-island ruderal Beetle source original ONE SHOT v1.323
+# Earlier attempt 40816245128 terminated at receipt-key validation BEFORE any original PRIBES taxon rows were read.
+# Corrected original-only 72-site source coreid SHA receipt, BALA raw source remains sealed.
 on:
   push:
     paths:
