@@ -1,0 +1,22 @@
+name: SLAM v1.327 original arthropod response one-shot SEALED (receipt only)
+# Original 2024 v1.7 forest source evaluated ONCE on GitHub Actions 40829500865.
+# 893 source Event rows, 14,922 Occurrence values; fixed 664 original
+# source Event IDs in three island habitat-season strata. Original result
+# artifact 12878445499. Original BALA/PRIBES original taxon scorers sealed.
+# NO push/pull_request triggers or new source-scoring work is allowed here.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-original-habitat-receipt-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Original SLAM v1.327 scientific outcome and source replay prohibition
+        run: |
+          echo "SLAM original three-island forest source run: 40829500865"
+          echo "SLAM original field result artifact: 12878445499"
+          echo "Original source ZIP SHA256: b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0"
+          echo "SLAM Event/Occurrence source data opened by this job: ZERO"
+          echo "Future SLAM conclusions must use pinned original numeric aggregates ONLY"

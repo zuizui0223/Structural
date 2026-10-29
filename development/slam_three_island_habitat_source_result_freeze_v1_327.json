@@ -1,0 +1,154 @@
+{
+  "schema": "structural.slam_three_island_habitat_original_aggregate.v1_327",
+  "date": "2026-10-29",
+  "status": "SOURCE_OBSERVED_THREE_ISLAND_NATIVE_ALTERED_HABITAT_ORIGIN_CONTRAST_COMPLETE",
+  "original_source": {
+    "data_DOI": "10.15468/3r5xw6",
+    "source_v17_zip_SHA256": "b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0",
+    "response_original_one_shot_run": 40829500865,
+    "response_original_artifact_id": 12878445499,
+    "response_original_artifact_zip_SHA256": "9e61c09bc1d82caaadbd5b83e5fbdeb086d776ae003b8e09ab6404e21f0463a8",
+    "response_original_inner_JSON_SHA256": "cea311a9a3b88715837603e0f794a34b8fb7fd62e8221bbe57eb2e6917874761",
+    "original_Event_rows": 893,
+    "original_Occurrence_rows": 14922,
+    "original_fixed_selected_Event_rows": 664,
+    "original_source_selected_Event_coreids_SHA256": "105842bd22226d88810d8d816e629a5e8829a2971f58a45b1ed69d2594712686",
+    "original_physical_forest_sites": 42,
+    "original_source_sites_in_matched_strata": 33,
+    "original_islands_in_matched_habitat": [
+      "FLO",
+      "PIC",
+      "TER"
+    ],
+    "original_matched_yearquarter_n_by_island": {
+      "FLO": 6,
+      "PIC": 30,
+      "TER": 34
+    },
+    "source_taxonomic_status_coverage": {
+      "selected_occurrence_rows": 11163,
+      "species_subspecies_named_records": 10554,
+      "higher_rank_or_unnamed_records": 609,
+      "species_rank_origin_unclassified_n": 508,
+      "species_rank_origin_unclassified_fraction": 0.04813340913397764,
+      "recognized_endemic_occurrence_records": 3543,
+      "recognized_native_occurrence_records": 4646,
+      "recognized_introduced_occurrence_records": 1857,
+      "selected_Source_Event_with_at_least_one_occurrence_fraction": 1,
+      "source_Event_to_Occurrence_join_fraction": 1
+    }
+  },
+  "main_all_arthropods": {
+    "original_island_equal": {
+      "endemic_richness_native": 6.6996045512221984,
+      "endemic_richness_altered": 4.364542483660131,
+      "endemic_native_minus_altered": 2.3350620675620672,
+      "native_nonendemic_richness_native": 7.561511973864914,
+      "native_nonendemic_richness_altered": 8.413126361655772,
+      "native_nonendemic_native_minus_altered": -0.8516143877908583,
+      "indigenous_richness_native": 14.261116525087113,
+      "indigenous_richness_altered": 12.777668845315906,
+      "indigenous_native_minus_altered": 1.483447679771209,
+      "introduced_richness_native": 3.2224097634391753,
+      "introduced_richness_altered": 5.737037037037037,
+      "introduced_native_minus_altered": -2.514627273597862,
+      "origin_habitat_double_contrast": 3.9980749533690703
+    },
+    "per_island": {
+      "FLO": {
+        "quarters": 6,
+        "season_quarters_positive_double_contrast": 6,
+        "endemic_native_minus_altered": 4.75,
+        "native_nonendemic_native_minus_altered": 0.38888888888888884,
+        "indigenous_native_minus_altered": 5.138888888888888,
+        "introduced_native_minus_altered": -3.875,
+        "double_contrast": 9.013888888888888,
+        "introduced_source_spatial_jaccard_native": 0.24794279794279794,
+        "introduced_source_spatial_jaccard_altered": 0.22424508240297714
+      },
+      "PIC": {
+        "quarters": 30,
+        "season_quarters_positive_double_contrast": 26,
+        "endemic_native_minus_altered": 1.0927777777777776,
+        "native_nonendemic_native_minus_altered": -1.0677777777777777,
+        "indigenous_native_minus_altered": 0.025000000000000147,
+        "introduced_native_minus_altered": -1.9233333333333333,
+        "double_contrast": 1.9483333333333335,
+        "introduced_source_spatial_jaccard_native": 0.2777156659765355,
+        "introduced_source_spatial_jaccard_altered": 0.27498470916838264
+      },
+      "TER": {
+        "quarters": 34,
+        "season_quarters_positive_double_contrast": 22,
+        "endemic_native_minus_altered": 1.162408424908425,
+        "native_nonendemic_native_minus_altered": -1.8759542744836861,
+        "indigenous_native_minus_altered": -0.7135458495752613,
+        "introduced_native_minus_altered": -1.7455484874602523,
+        "double_contrast": 1.0320026378849907,
+        "introduced_source_spatial_jaccard_native": 0.1621148160168124,
+        "introduced_source_spatial_jaccard_altered": 0.23546466973886326
+      }
+    }
+  },
+  "secondary_Coleoptera": {
+    "status": "OBSERVED_ORIGIN_SPECIFIC_HABITAT_RICHNESS_CONTRAST",
+    "source_event_fraction_with_any_named_coleoptera": 0.8418674698795181,
+    "original_island_equal": {
+      "endemic_native_minus_altered": 0.1843851029145147,
+      "native_nonendemic_native_minus_altered": 0.10488760150524856,
+      "indigenous_native_minus_altered": 0.2892727044197632,
+      "introduced_native_minus_altered": -0.8900269284092813,
+      "origin_habitat_double_contrast": 1.1792996328290446
+    },
+    "per_island": {
+      "FLO": {
+        "quarters": 6,
+        "season_quarters_positive_double_contrast": 5,
+        "endemic_native_minus_altered": -0.27777777777777773,
+        "native_nonendemic_native_minus_altered": 0.05555555555555556,
+        "indigenous_native_minus_altered": -0.2222222222222222,
+        "introduced_native_minus_altered": -1.0416666666666667,
+        "double_contrast": 0.8194444444444445,
+        "introduced_source_spatial_jaccard_native": 0.3380952380952381,
+        "introduced_source_spatial_jaccard_altered": 0.1875
+      },
+      "PIC": {
+        "quarters": 30,
+        "season_quarters_positive_double_contrast": 21,
+        "endemic_native_minus_altered": 0.15666666666666668,
+        "native_nonendemic_native_minus_altered": 0.23277777777777775,
+        "indigenous_native_minus_altered": 0.3894444444444444,
+        "introduced_native_minus_altered": -0.59,
+        "double_contrast": 0.9794444444444445,
+        "introduced_source_spatial_jaccard_native": 0.12626262626262627,
+        "introduced_source_spatial_jaccard_altered": 0.10636363636363635
+      },
+      "TER": {
+        "quarters": 34,
+        "season_quarters_positive_double_contrast": 33,
+        "endemic_native_minus_altered": 0.6742664198546552,
+        "native_nonendemic_native_minus_altered": 0.026329471182412363,
+        "indigenous_native_minus_altered": 0.7005958910370674,
+        "introduced_native_minus_altered": -1.0384141185611773,
+        "double_contrast": 1.7390100095982448,
+        "introduced_source_spatial_jaccard_native": 0.05416666666666667,
+        "introduced_source_spatial_jaccard_altered": 0.26870748299319724
+      }
+    }
+  },
+  "scientific_status": {
+    "source_inference": "Within 70 matched quarter×island cohorts of original three island SLAM forest plots, endemic arthropod taxa (all orders) were detected more richly in source-labelled native forests than mixed/altered forests in each of three islands; introduced taxa were detected more richly in altered forests in each island. Nonendemic native arthropods did not share this uniform direction.",
+    "introduced_spatial_similarity_uniform_in_altered": false,
+    "biological_response_not_rerun": true,
+    "old_BALA_PRIBES_original_scorers_sealed": true,
+    "SLAM_original_one_shot_scorer_sealed": true,
+    "no_randomized_forest_intervention": true,
+    "altitude_forest_history_island_time_confounding": true,
+    "no_true_local_extinction_colonization_rescue": true,
+    "one_archipelago_three_islands": true,
+    "no_independent_source_guild_abundance_comparison_to_BALA_Pitfall": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

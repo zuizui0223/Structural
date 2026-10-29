@@ -1,0 +1,65 @@
+name: SLAM original endemic habitat three-island source-FREE audit v1.328
+on:
+  push:
+    paths:
+      - ".github/workflows/slam-forest-habitat-origin-sourcefree-v1_328.yml"
+      - "development/slam_three_island_habitat_source_result_freeze_v1_327.json"
+      - "development/slam_origin_specific_habitat_sourcefree_audit_protocol_v1_328.json"
+      - "scripts/slam_forest_habitat_sourcefree_origin_audit_v1_328.py"
+      - "tests/test_slam_forest_habitat_sourcefree_origin_audit_v1_328.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slam-forest-habitat-origin-sourcefree-v1_328.yml"
+      - "development/slam_three_island_habitat_source_result_freeze_v1_327.json"
+      - "development/slam_origin_specific_habitat_sourcefree_audit_protocol_v1_328.json"
+      - "scripts/slam_forest_habitat_sourcefree_origin_audit_v1_328.py"
+      - "tests/test_slam_forest_habitat_sourcefree_origin_audit_v1_328.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-original-SLAM-species-or-BALA-PRIBES-reads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only test runner
+        run: python -m pip install pytest
+      - name: Original aggregate forensic regression and science STOP gates
+        run: python -m pytest -q tests/test_slam_forest_habitat_sourcefree_origin_audit_v1_328.py
+      - name: Reproduce locked original three-island origin-specific native/altered habitat contrasts, WITHOUT source taxon replay
+        run: |
+          python scripts/slam_forest_habitat_sourcefree_origin_audit_v1_328.py \
+            --input development/slam_three_island_habitat_source_result_freeze_v1_327.json \
+            --contract development/slam_origin_specific_habitat_sourcefree_audit_protocol_v1_328.json \
+            --out slam_three_island_habitat_sourcefree_audit_v1_328.json
+      - name: Verify ecological interpretation and one-shot original evidence seal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("slam_three_island_habitat_sourcefree_audit_v1_328.json").read_text())
+          assert r["status"]=="SLAM_THREE_ISLAND_FOREST_HABITAT_ORIGIN_SOURCEFREE_AUDITED"
+          assert r["source_island_contexts"]==["FLO","PIC","TER"]
+          assert r["actual_original_physical_forest_plots_compared"]==33
+          assert r["actual_original_source_site_yearquarter_Event_rows"]==664
+          assert r["main_arthropods"]["islands_endemic_named_taxa_richer_in_native_forest"]==["FLO","PIC","TER"]
+          assert r["main_arthropods"]["islands_native_nonendemic_named_taxa_richer_in_altered_forest"]==["PIC","TER"]
+          assert r["secondary_coleoptera"]["islands_endemic_named_taxa_richer_in_native_forest"]==["PIC","TER"]
+          assert r["main_arthropods"]["islands_with_greater_within_altered_introduced_taxa_Jaccard_sharing"]==["TER"]
+          assert r["original_SLAM_v327_Event_Occurrence_rows_reopened"]==0
+          assert r["original_BALA_PRIBES_species_rows_reopened"]==0
+          assert r["SLAM_original_scorer_SEALED"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("SOURCE-FREE verified island endemic versus introduced forest habitat response:",r["main_arthropods"]["source_island_equal_mean_original"])
+          PY
+      - name: Save only aggregate-only independent ecological science result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slam-original-three-island-forest-origin-source-free-v1-328
+          path: slam_three_island_habitat_sourcefree_audit_v1_328.json
+          if-no-files-found: warn

@@ -1,0 +1,114 @@
+{
+  "schema": "structural.slam_42forest_origin_habitat_original_response.v1_327",
+  "date": "2026-10-29",
+  "status": "FROZEN_AFTER_ORIGINAL_EVENT_664_SAMPLES_BEFORE_FIRST_SLAM_OCCURRENCE_VALUE_READ",
+  "ecological_question": "Under equal original SLAM trap sampling periods and within-island comparisons, do native-forest arthropod assemblages show an origin-specific richness advantage relative to mixed/exotic forest plots, and is the contrast mirrored by Beetles specifically?",
+  "evidence_type": "Original independent SLAM source observation, but retrospective habitat-comparison design after v1.325 meta and v1.326 Event source inspected; not pristine confirmatory and not causal native-canopy intervention.",
+  "source_frozen": {
+    "original_archive": "https://ipt.gbif.pt/ipt/archive.do?r=arthropods_slam_azores&v=1.7",
+    "original_archive_SHA256": "b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0",
+    "original_Event_rows": 893,
+    "original_Occurrence_rows": 14922,
+    "meta_gate_run": 40827771477,
+    "original_Event_gate_run": 40828340085,
+    "event_contract": "development/slam_forest_explicit_habitat_original_event_gate_v1_326.json",
+    "source_event_receipt": "development/slam_42forest_habitat_event_receipt_freeze_v1_326.json",
+    "source_selected_event_coreids_SHA256": "105842bd22226d88810d8d816e629a5e8829a2971f58a45b1ed69d2594712686",
+    "source_selected_physical_site_key_SHA256": "703cfb63183b7c46095f6349f24a7a84114cec18b744b6d38332de717bb3cf50",
+    "selected_eligible_source_Event_rows": 664,
+    "selected_original_independent_forest_sites": 33,
+    "eligible_islands": [
+      "FLO",
+      "PIC",
+      "TER"
+    ],
+    "eligible_island_year_quarter_strata_counts": {
+      "FLO": 6,
+      "PIC": 30,
+      "TER": 34
+    },
+    "original_frozen_habitat": "native versus combined mixed/exotic under exact original Event habitat ontology, no reclassification after Occurrence"
+  },
+  "taxon_ontology_frozen": {
+    "taxon_identity": "Unicode NFKC casefold original scientificName, collapse whitespace, species and subspecies ONLY. Morphospecies and higher ranks not declared introduced.",
+    "taxon_rank_exact": [
+      "species",
+      "subspecies"
+    ],
+    "introduced_exact": [
+      "introduced",
+      "exotic",
+      "alien",
+      "non native",
+      "nonnative",
+      "naturalized",
+      "naturalised",
+      "invasive"
+    ],
+    "native_exact": [
+      "native",
+      "indigenous",
+      "native non endemic",
+      "native nonendemic",
+      "native not endemic",
+      "azorean native"
+    ],
+    "endemic_exact": [
+      "endemic",
+      "azorean endemic",
+      "native endemic",
+      "endemic azores"
+    ],
+    "status_string_normalization": "casefold, replace hyphen/underscore with whitespace, collapse runs of whitespace. Unexpected statuses are UNKNOWN, not assigned.",
+    "guild_primary": "ALL identified Arthropoda taxa pooled as operational species sets per source Event (not individuals or trapping abundance)",
+    "guild_secondary": "order exactly Coleoptera, same status/period/sample selection as primary; cannot rescue failure of all-arthropods primary by changing guild",
+    "native_group": "native+endemic both count as indigenous. Preserve separate original endemic and non-endemic native richness in result for ecology.",
+    "independently_observed_taxa": "Same original scientificName may occur multiple times per Event as distinct individuals; de-duplicate species within each Event."
+  },
+  "quality_and_scientific_stop": {
+    "min_original_Event_Occurrence_join_fraction": 0.99,
+    "min_fraction_selected_Event_cores_with_at_least_one_original_occurrence": 0.8,
+    "max_fraction_unclassified_origin_among_named_species_subspecies_selected_all_arthropod_records": 0.2,
+    "original_42_physical_sites_and_664_selected_events_sha_strict": true,
+    "primary_require_per_island_quarter_at_least_two_physical_native_and_two_altered_plots": true,
+    "minimum_original_qualifying_islands": 3,
+    "minimum_valid_quarters_per_island": {
+      "FLO": 4,
+      "PIC": 20,
+      "TER": 20
+    },
+    "on_failure": "STOP_original_source_community_origin_or_detection_QUALITY_NO_HABITAT_SCORE, never add unqualified forest plots or reinterpret source origin classes.",
+    "conflicting_source_taxon_biogeographic_origin_in_same_island": "If original scientificName has more than one of endemic/native/introduced classifications in same source island, hard STOP rather than assigning whichever supports a hypothesis."
+  },
+  "primary_frozen_community_statistic": {
+    "absolute_native_origin_richness": "Per selected SLAM Event, number of distinct source named native+endemic taxon identities, including zero when original Event has no records but only if <=20% missing overall; compare mean per native-forest plot minus mean per altered-forest plot INSIDE each matched original island×year×quarter.",
+    "absolute_introduced_origin_richness": "Same per Event for introduced arthropod identities, not multiplied by abundance or divided by entire source richness.",
+    "double_contrast": "Δ_indigenous_richness(native forest−altered) − Δ_introduced_richness(native forest−altered), averaged equally over original time strata within island and then equally over FLO/PIC/TER (3 original island contexts). Positive means an indigenous-versus-introduced origin-specific difference associated with habitat types.",
+    "report": "All three original island signs, mean differences for indigenous, introduced, endemic-only and native non-endemic separately, plot/quarter counts, source status coverage. No site-pair pseudo-independent p-values.",
+    "interpretation_if_positive": "Within the sampled SLAM forest plots/periods, named indigenous taxa show stronger average habitat contrast than introduced taxa. Do not infer direct forest enhancement, absolute endemic population viability, or invasion-driven spatial homogenization.",
+    "interpretation_if_negative": "Mixed/exotic forests show equal/higher indigenous source richness contrast relative to introduced; report source observed without source habitat preference narrative.",
+    "no_p_value": "Only 3 island contexts and repeated plots, descriptive source-backed field association; no p values or confidence intervals from original 664 Event rows."
+  },
+  "secondary_frozen_metrics": {
+    "coleoptera_status": "Calculate exactly same three-island origin double contrast for identified Coleoptera with same Event units and source quarter; if <0.5 of 664 sampled original Events have at least one named Coleoptera or any island has <4 valid quarters, report Beetle-specific STOP without alternate source subset.",
+    "habitat_spatial_similarity": "On each matched original island-quarter, within native and within altered habitat source physical site pairs separately, calculate Jaccard similarity on source named indigenous and introduced arthropod taxa when BOTH source Events have nonempty identified guild sets. Report habitat-group pooled source site-pair similarity by island, with n dependent pairs and detection coverage. NO p-value and no source-forest immigration inference.",
+    "negative_control": "Report native and endemic richness separately, not only a ratio or bounded share; a relative shift can occur while absolute indigenous richness declines.",
+    "published_prior_art": "2022 SLAM observational edge studies already documented stronger endemic sensitivity to forest edges in Terceira, so native vs modified forest contrasts are context prior art; the source-executed three-island interaction contrast is a separate estimand but may corroborate existing ecological knowledge."
+  },
+  "limitations": [
+    "SLAM mostly native forest plots: 2 mixed Terceira vs 14 native, only 2 altered sites in Terceira; effect is not a replicated forest-intervention experiment.",
+    "Source Original island×quarter dates differ markedly (Flores 2020–21, Pico 2014–22, Terceira 2013–22). Equal island mean does not control year or climate.",
+    "Some modified plots are mixed, not purely exotic; combine only predefined altered pool but never describe all as exotic forests.",
+    "SLAM trap favors arthropods intercepted/crawling from vegetation; unlike BALA Pitfall or PRIBES beating; source associations cannot be transferred across capture method.",
+    "Original source may share site locations and collector network with older SLAM publications; do not claim geographic-independent replication without disjoint original plot IDs.",
+    "No causal movement, local extinction/colonization, species invasions, or fragment isolation mechanism directly observed."
+  ],
+  "firewall": {
+    "original_BALA_PRIBES_species_scorers_SEALED": true,
+    "original_v327_source_read_once_then_seal": true,
+    "protected_original_mammal_BioTIME_RLS_S2S3S4_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

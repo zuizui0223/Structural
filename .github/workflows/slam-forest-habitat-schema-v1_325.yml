@@ -1,0 +1,58 @@
+name: SLAM original 7-island 42-forest habitat source schema-only v1.325
+on:
+  push:
+    paths:
+      - ".github/workflows/slam-forest-habitat-schema-v1_325.yml"
+      - "development/slam_42forest_habitat_original_schema_protocol_v1_325.json"
+      - "scripts/slam_original_forest_habitat_schema_v1_325.py"
+      - "tests/test_slam_original_forest_habitat_schema_v1_325.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slam-forest-habitat-schema-v1_325.yml"
+      - "development/slam_42forest_habitat_original_schema_protocol_v1_325.json"
+      - "scripts/slam_original_forest_habitat_schema_v1_325.py"
+      - "tests/test_slam_original_forest_habitat_schema_v1_325.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  SLAM-original-archive-only-no-biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install synthetic test framework
+        run: python -m pip install pytest
+      - name: Synthetic Event original site and forest type / taxon origin roles
+        run: python -m pytest -q tests/test_slam_original_forest_habitat_schema_v1_325.py
+      - name: Only official v1.7 source ZIP directory and meta.xml allowed
+        run: |
+          python scripts/slam_original_forest_habitat_schema_v1_325.py \
+            --contract development/slam_42forest_habitat_original_schema_protocol_v1_325.json \
+            --out slam_forest_original_metadata_v1_325.json
+      - name: Validate scientific suitability or explicit habitat-source STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("slam_forest_original_metadata_v1_325.json").read_text())
+          assert r["status"] in (
+             "SLAM_HABITAT_AND_ORIGIN_METADATA_PRESENT_EVENT_VALUES_SEALED",
+             "TERMINAL_MISSING_ORIGINAL_EXPLICIT_HABITAT_OR_ORIGIN_SCHEMA")
+          assert r["original_Event_rows_opened"]==0
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["original_BALA_PRIBES_taxon_outcomes_reopened"]==0
+          assert r["source_identifier_GBIF_UUID"]=="079c8358-0b4f-479b-97dd-1f2f775256f9"
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("Original SLAM v1.7 source schema eligibility:",r["status"])
+          print("Original source SHA256:",r["source_original_archive_SHA256"])
+          PY
+      - name: Retain original source archive SHA and member roles without data values
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slam-forty-two-forest-original-habitat-source-schema-v1-325
+          path: slam_forest_original_metadata_v1_325.json
+          if-no-files-found: warn

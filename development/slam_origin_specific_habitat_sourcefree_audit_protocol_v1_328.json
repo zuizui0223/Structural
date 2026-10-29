@@ -1,0 +1,39 @@
+{
+  "schema": "structural.slam_three_island_sourcefree_habitat_ecology_audit.v1_328",
+  "created_on": "2026-10-29",
+  "status": "FROZEN_AFTER_SINGLE_ORIGINAL_SOURCE_EXECUTION_NO_NEW_BIOLOGICAL_READ",
+  "source": "development/slam_three_island_habitat_source_result_freeze_v1_327.json",
+  "source_original_result_JSON_SHA256": "cea311a9a3b88715837603e0f794a34b8fb7fd62e8221bbe57eb2e6917874761",
+  "original_one_shot_run": 40829500865,
+  "questions": [
+    "Do original endemic and introduced arthropod richness contrast directions differ across forest habitat in every qualified original island while non-endemic natives do not?",
+    "Does the original all-arthropod habitat-origin double contrast remain positive island by island and in source blocked equal-island analysis, and is it mostly driven by a single island?",
+    "Does the source Bettle-only guild follow same double-contrast direction but not same endemic species direction on Flores?",
+    "Does increased introduced richness in altered forest imply a *uniform* increase in within-altered-forest introduced species spatial Jaccard sharing, or does the observed source contradict this?",
+    "What source sample/unknown classification and time-blocking limits prevent interpreting the result as forest causal filtering or a persistence/recolonization mechanism?"
+  ],
+  "calculations": {
+    "all": "Recompute all three island source season mean contrasts and 3-island equal average from original SHA-locked numeric summaries. Validate indigenous=endemic+nonendemic_native and double=indigenous-introduced per island and whole.",
+    "strong_positive_only_if": "Endemic richness native−altered >0 and introduced native−altered <0 in each island; no p-value or 70-independent-time tests.",
+    "habitat_pooled_relative_stats": "Use only absolute named source taxa per Event, no pseudo-significant net ratio or relative share. State possible non-endemic native richness enrichment in altered plots explicitly.",
+    "spatial_similarity": "Source within native vs within altered original site-pair Jaccard for introduced source taxa, descriptive only. A shared-source-species homogenization claim requires altered>native in all 3 islands; if only one, report no spatial generality.",
+    "beetle_secondary": "All three Beetle origin double-contrasts positive, but endemic-specific sign per island must remain as observed; one source beetle-endemic negative island forbids 'endemic beetles universally better preserved' narrative.",
+    "quarter_sensitivity": "Count original 6+30+34 matched year-quarter blocks and fraction with positive double contrast, labelled repeated within-source years (not independent samples).",
+    "no_new_significance": "No recomputed permutations from source taxon data, no posthoc threshold calibration and no causal mediation model."
+  },
+  "stop": [
+    "Original archive/result SHA, source original Event count 893, Occurrence count 14922, selected Event 664 and original 3 islands 33 physical plots changed",
+    "One island endemic/native/nonendemic richness no longer sums to indigenous or per-island double difference",
+    "Seven-island SLAM published frame or BALA/PRIBES original source scorer seal changed",
+    "Original introduced spatial similarity values altered for direction chasing, or original beetle-endemic FLO negative omitted"
+  ],
+  "scientific_ceiling": "This is observational source-endemic habitat affinity in three islands under one source SLAM interception channel, not experimental selection, no independent causal effects, no island species immigration or extinction rates. Original SLAM site identities may overlap previous observational SLAM releases.",
+  "firewall": {
+    "original_SLAM_v327_one_shot_scorer": "SEALED",
+    "older_BALA_PRIBES_scorers": "SEALED",
+    "original_SLAM_Event_Occurrence_rows_reopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
