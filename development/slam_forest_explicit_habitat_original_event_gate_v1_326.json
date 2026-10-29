@@ -1,0 +1,119 @@
+{
+  "schema": "structural.slam_forest_explicit_habitat_event_gate.v1_326",
+  "date": "2026-10-29",
+  "status": "FROZEN_BEFORE_FIRST_ORIGINAL_SLAM_EVENT_VALUES",
+  "source": {
+    "GBIF_original_dataset_uuid": "079c8358-0b4f-479b-97dd-1f2f775256f9",
+    "official_archive": "https://ipt.gbif.pt/ipt/archive.do?r=arthropods_slam_azores&v=1.7",
+    "original_zip_SHA256": "b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0",
+    "v325_response_opaque_run": 40827771477,
+    "published_original_Event_rows": 893,
+    "published_original_Occurrence_rows": 14922,
+    "published_original_physical_trap_sites": 42
+  },
+  "question": "Can author-supplied explicit habitat labels, exact forest-plot site IDs, SLAM sampling method and overlapping year/season windows form a non-outcome-selected within-island native forest vs mixed/exotic vegetation comparison in ≥2 original Azorean islands?",
+  "only_permitted_source_values": "Original Event ID/coreID, island, date/year, locationID, habitat, method, latitude/longitude, optional habitat remarks. Do NOT open original source Occurrence table, species names, abundance, colonization status.",
+  "physical_plot_id": "Normalize source locationID NFKD ASCII, uppercase letters A-Z and digits 0-9 only, prefixed with original island; no cross-island same-label collisions. Never locate by nearest coordinate or label fuzzy match.",
+  "fixed_island_aliases": {
+    "FLO": [
+      "Flores"
+    ],
+    "FAI": [
+      "Faial"
+    ],
+    "PIC": [
+      "Pico"
+    ],
+    "GRA": [
+      "Graciosa"
+    ],
+    "TER": [
+      "Terceira"
+    ],
+    "SMG": [
+      "São Miguel",
+      "Sao Miguel"
+    ],
+    "SMR": [
+      "Santa Maria"
+    ]
+  },
+  "expected_islands": 7,
+  "original_plot_count_exact": 42,
+  "per_plot_coordinate_max_abs_degree_difference": 0.0003,
+  "original_acceptable_sampling_calendar_years": [
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "time_window": "calendar YYYY-Q quarter Q1 Jan–Mar, Q2 Apr–Jun, Q3 Jul–Sep, Q4 Oct–Dec; use original source eventDate year/month, no inference from identification names; original year field must match when populated",
+  "source_method": "Require EXACT same casefold/whitespace normalized nonempty samplingProtocol string across the compared habitat source cohort, selected globally by the most common source protocol BEFORE Occurrence. If multiple original source methods, no method mixing; none with positive support causes STOP.",
+  "habitat_source_column": "Use original Event habitat ONLY, not locality, coordinates, species or full vegetation names; locality/eventRemarks cannot provide after-values fallback.",
+  "habitat_ontology_frozen": {
+    "native": [
+      "native",
+      "native forest",
+      "natural forest",
+      "pristine forest",
+      "native woodland",
+      "laurisilva",
+      "natural vegetation",
+      "native vegetation"
+    ],
+    "mixed": [
+      "mixed",
+      "mixed forest",
+      "mixed woodland",
+      "mixed native and exotic forest",
+      "mixed forest native and exotic",
+      "native and exotic forest"
+    ],
+    "exotic": [
+      "exotic",
+      "exotic forest",
+      "exotic woodland",
+      "introduced forest",
+      "planted forest",
+      "plantation",
+      "production forest"
+    ],
+    "classification": "Casefold whitespace, normalize hyphens/underscores; match entire original habitat string to one frozen synonym above; any unknown cannot be guessed from plant species and is excluded from candidate frame with unknown count reported. Cannot relax ontology after seeing original source Event."
+  },
+  "critical_sampling_and_comparison_gate": {
+    "same_site_habitat_immutable": "For each physical plot, every original source Event habitat label must either map to the same one of native/mixed/exotic or be unknown. Conflicting non-unknown habitat labels at same site produce whole scientific STOP.",
+    "raw_site_coverage": "At least 30 of 42 original physical plots have an explicit recognized frozen habitat category. Every original plot coordinate must be finite and within 0.0003 deg among its repeated Event rows; otherwise STOP rather than re-geocoding.",
+    "paired_habitat_types": "native vs (mixed+exotic) forest. This is the ONE fixed primary environmental contrast; report raw native/mixed/exotic per island but never switch to a favorable type after response.",
+    "island_replication": "At least TWO distinct original islands each with >=2 separate native plot IDs AND >=2 mixed/exotic forest plot IDs in the SAME calendar year and quarter, using matching samplingProtocol. At least 4 forest plots per qualifying island, no trap or Event pseudo-replication.",
+    "selected_sample_rule": "Enumerate all original island × year × quarter strata meeting the same-method 2 native/2 disturbed plot requirement, then for each site within each qualifying stratum select lexicographically smallest original Event coreid. Do not choose years, seasons, sites or methods using biological outcomes. Report stratified original plot/season support and SHA256 of eligible source Event coreIDs.",
+    "stop_policy": "If no >=2 islands or plot count/habitat/coordinate gates fail, TERMINAL for this habitat filtering test. The original 42-site published dataset may still serve different questions but not this predeclared causal/forest filtering claim."
+  },
+  "preplanned_next_if_pass": {
+    "v327": "Freeze guild/status source scoring, native vs altered forest compositional contrast and island blocked source null based only on source Event design plus original v1.325 schema, before opening any SLAM species response once.",
+    "species_context": "Author taxonRank species/subspecies only. Original establishmentMeans native vs introduced status; unresolved are missing, not reclassified. No BALA/PRIBES biological read.",
+    "interpretation": "Within-island seasonal plot-association under SLAM sampling, not causal impact of canopy composition, local extinction, dispersal or independent archipelago replication."
+  },
+  "scientific_limits": {
+    "published_mostly_native_site_selection": true,
+    "forest_type_is_not_randomized": true,
+    "BALA_Pitfall_and_SLAM_trap_methods_differ": true,
+    "prior_Slam_data_published_and_potential_overlap_with_other_SLAM_studies": true,
+    "no_Macaronesia_or_GEB_heldout_opening": true
+  },
+  "firewall": {
+    "v325_original_taxa_still_unopened": true,
+    "original_BALA_v314_v316_v318_SEALED": true,
+    "original_PRIBES_v323_SEALED": true,
+    "original_Slam_v326_Occurrence_rows_opened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
