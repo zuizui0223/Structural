@@ -1,0 +1,55 @@
+name: Galapagos ant published original archive transport HEAD only v1.339
+on:
+  push:
+    paths:
+      - ".github/workflows/galapagos-ant-source-transport-v1_339.yml"
+      - "development/galapagos_ant_original_source_transport_protocol_v1_339.json"
+      - "scripts/galapagos_ant_source_transport_v1_339.py"
+      - "tests/test_galapagos_ant_source_transport_v1_339.py"
+  pull_request:
+    paths:
+      - ".github/workflows/galapagos-ant-source-transport-v1_339.yml"
+      - "development/galapagos_ant_original_source_transport_protocol_v1_339.json"
+      - "scripts/galapagos_ant_source_transport_v1_339.py"
+      - "tests/test_galapagos_ant_source_transport_v1_339.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher-URLs-only-NO-original-ZIP-body:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install tests only
+        run: python -m pip install pytest
+      - name: Check original source URL provenance and no data-body access
+        run: python -m pytest -q tests/test_galapagos_ant_source_transport_v1_339.py
+      - name: Verify pinned published original archive source endpoint HEAD only
+        run: |
+          python scripts/galapagos_ant_source_transport_v1_339.py \
+            --contract development/galapagos_ant_original_source_transport_protocol_v1_339.json \
+            --out galapagos_ant_source_HEAD_only_result_v1_339.json
+      - name: Original source data never opened even when transport fails
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          v=json.loads(Path("galapagos_ant_source_HEAD_only_result_v1_339.json").read_text())
+          assert v["status"] in (
+             "ORIGINAL_ARCHIVE_HEAD_AVAILABLE_VERSION_NOT_YET_ADMITTED",
+             "SOURCE_ACCESS_TRANSPORT_STOP_NO_ORIGINAL_BIOLOGICAL_DATA")
+          assert v["source_archive_bodies_read"]==0
+          assert v["original_Event_rows_read"]==0 and v["original_Occurrence_rows_read"]==0
+          assert v["GEB_scientific_HOLD"] and v["new_confirmatory_systems"]==0 and not v["eBird_used"]
+          print("Source-publisher archival availability:",v["status"])
+          PY
+      - name: Preserve access-only audit, no original source bytes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: galapagos-ant-archive-head-only-transport-v1-339
+          path: galapagos_ant_source_HEAD_only_result_v1_339.json
+          if-no-files-found: warn
