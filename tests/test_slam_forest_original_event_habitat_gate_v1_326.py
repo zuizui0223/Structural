@@ -86,7 +86,7 @@ def test_author_habitat_ontology_is_fixed_before_source():
     assert habitat("native-with-invasive",d) is None
     assert siteid("FLO_São_01")=="FLOSAO01"
     assert _calendar("2020-09-16")==(2020,3)
-    with pytest.raises(ValueError,match="date"):
+    with pytest.raises(ValueError,match="eventDate"):
         _calendar("not a date")
 
 def test_original_source_893_events_and_year_field_consistency_strict():
