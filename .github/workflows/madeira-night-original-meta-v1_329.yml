@@ -1,0 +1,61 @@
+name: Madeira LIFE Natura@night independent source-original metadata ONLY v1.329
+on:
+  push:
+    paths:
+      - ".github/workflows/madeira-night-original-meta-v1_329.yml"
+      - "development/madeira_naturaatnight_independent_source_protocol_v1_329.json"
+      - "scripts/madeira_night_independent_meta_v1_329.py"
+      - "tests/test_madeira_night_independent_meta_v1_329.py"
+  pull_request:
+    paths:
+      - ".github/workflows/madeira-night-original-meta-v1_329.yml"
+      - "development/madeira_naturaatnight_independent_source_protocol_v1_329.json"
+      - "scripts/madeira_night_independent_meta_v1_329.py"
+      - "tests/test_madeira_night_independent_meta_v1_329.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-no-original-moth-values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source firewall regression tests
+        run: python -m pip install pytest
+      - name: Validate synthetic Madeira forest habitat/biogeographic-origin schema
+        run: python -m pytest -q tests/test_madeira_night_independent_meta_v1_329.py
+      - name: Read ONLY official Madeira v1.1 archive ZIP directory and meta.xml
+        run: |
+          python scripts/madeira_night_independent_meta_v1_329.py \
+            --protocol development/madeira_naturaatnight_independent_source_protocol_v1_329.json \
+            --out madeira_original_source_meta_v1_329.json
+      - name: Check exact source version and hard no original species access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("madeira_original_source_meta_v1_329.json").read_text())
+          assert r["status"] in (
+              "ORIGINAL_MADEIRA_FOREST_HABITAT_ORIGIN_SCHEMA_POSSIBLE_VALUES_SEALED",
+              "TERMINAL_MADEIRA_HABITAT_OR_ORIGIN_SOURCE_SCHEMA_INSUFFICIENT")
+          assert r["original_Event_rows_opened"]==0
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["Azores_original_species_sources_reopened"]==0
+          assert r["source_original_publication_version"]=="1.1"
+          assert r["original_fixed_dataset_UUID"]=="115de336-e519-4fc8-9a60-28e601ce2876"
+          assert r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          assert r["new_confirmatory_systems"]==0
+          print("Madeira source original version SHA:",r["original_archival_sha256"])
+          print("Native/exotic source schema qualification:",r["status"])
+          PY
+      - name: Retain original ZIP SHA and metadata roles, no taxon or site values
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: madeira-night-original-independent-meta-only-v1-329
+          path: madeira_original_source_meta_v1_329.json
+          if-no-files-found: warn

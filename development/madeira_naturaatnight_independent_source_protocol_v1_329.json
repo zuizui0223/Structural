@@ -1,0 +1,97 @@
+{
+  "schema": "structural.madeira_night_independent_source_meta.v1_329",
+  "date": "2026-10-29",
+  "status": "FROZEN_PRE_ORIGINAL_MADEIRA_EVENT_OR_SPECIES_READ",
+  "central_question": "Does a source-independent nocturnal arthropod assemblage on Madeira Island, sampled across native Laurissilva, mixed and exotic forest plots, show the same endemic-native and introduced-altered forest association observed in the separate three-island Azorean SLAM forest study?",
+  "new_source": {
+    "dataset_DOI": "10.15468/kdfdga",
+    "dataset_uuid": "115de336-e519-4fc8-9a60-28e601ce2876",
+    "dataset_resource": "https://ipt.gbif.pt/ipt/resource?r=arthropod_madeira_life_naturaatnight&v=1.1",
+    "original_v1_1_archive": "https://ipt.gbif.pt/ipt/archive.do?r=arthropod_madeira_life_naturaatnight&v=1.1",
+    "publisher": "Universidade dos Açores",
+    "source_original_v1_1_publication_date": "2026-06-29",
+    "source_field_years": [
+      2022,
+      2023
+    ],
+    "source_original_Event_claim": 134,
+    "source_original_Occurrence_claim": 1939,
+    "original_site_n_conflicting_published_claims": [
+      47,
+      48
+    ],
+    "source_sampling_methods": [
+      "Heath UV light trap",
+      "wine-rope bait trap"
+    ],
+    "original_arthropod_guild_dominance": "Lepidoptera 76.2% of published occurrences; different SLAM arthropod detection channel",
+    "source_original_data_paper_DOI": "10.3897/BDJ.14.e209141",
+    "published_source_prior_art": "2026 original authors already report Madeira moths endemic/native/introduced composition, e.g. 63 endemic/68 non-endemic native/38 introduced/10 migratory among 179 moth taxa; this is prior art, not fresh Structural discovery.",
+    "version_warning": "v1.1 June 2026 is explicitly selected rather than latest Sept 2026 version to prevent silent content drift. 47-vs-48 site discrepancy must be resolved by author original Event keys, never guessed."
+  },
+  "compared_frozen_Azores": {
+    "original_source": "University of Azores SLAM 7 island source, 3 eligible habitat-comparable islands FLO/PIC/TER",
+    "SLAM_original_source_v1_7_zip_sha256": "b86f7fad6468d2fb9aa9473849effe41ba2c4405c786357b6f50d66d9ef552a0",
+    "SLAM_original_v1_327_result_sha256": "cea311a9a3b88715837603e0f794a34b8fb7fd62e8221bbe57eb2e6917874761",
+    "endemic_richness_native_minus_altered_equal_island": 2.3350620675620672,
+    "native_nonendemic_richness_native_minus_altered_equal_island": -0.8516143877908583,
+    "introduced_richness_native_minus_altered_equal_island": -2.514627273597862,
+    "original_Azores_Slam_BALA_PRIBES_scorers": "SEALED",
+    "original_comparator_warning": "Different survey year/season, climate, flora, trap methods, guild and taxon detection; compare direction of within-survey habitat association only, not raw effect sizes or a common pooled model."
+  },
+  "preregistered_gates": [
+    "v1.329 original Madeira v1.1 archive ZIP central directory and meta.xml only. Freeze source SHA and test whether original Event site ID, explicit author habitat, sampling protocol, year and original Occurrence scientificName/taxonRank/order/establishmentMeans actually exist. Never open original Event or Occurrence members at this step.",
+    "v1.330 source-Event-only verify exact 47/48 unique source site IDs and forest habitat categories. Require at least two independent native Laurissilva forest sites and two mixed/exotic forest sites per same-year and same sampling protocol, with at least two same temporal season strata from original Event. Coastal/agricultural habitats excluded by original habitat label, never taxa-based selection.",
+    "v1.331 only if source design passes, freeze identified species/subspecies and original origin ontology, presence/absence rules, original numeric validity and STOP. Single first original Occurrence read, then seal. Endemic vs native nonendemic vs introduced richness per original site×method×period and source-native-minus-altered direction.",
+    "If any required original source metadata or habitat support missing, terminal for this replicated habitat question. No retrospective replacement with dry-vs-native forests, all sites, Lepidoptera-only threshold, guessed origin codes or source phenology."
+  ],
+  "v329_source_opaque_limits": {
+    "MAX_source_archive_BYTES": 400000,
+    "MAX_original_meta_XML_BYTES": 120000,
+    "read_allowed": "ZIP central directory, meta.xml only",
+    "required_Event": [
+      "eventID",
+      "eventDate",
+      "samplingProtocol"
+    ],
+    "required_Occurrence": [
+      "scientificName",
+      "taxonRank",
+      "order"
+    ],
+    "original_Event_site_id_candidates": [
+      "locationID",
+      "parentEventID",
+      "locality",
+      "fieldNumber"
+    ],
+    "original_Event_habitat_candidates": [
+      "habitat",
+      "dynamicProperties",
+      "eventRemarks",
+      "locality"
+    ],
+    "original_Occurrence_origin_candidates": [
+      "establishmentMeans",
+      "degreeOfEstablishment",
+      "occurrenceRemarks"
+    ],
+    "strict_source_schema_habitat_and_origin": "At least one declared explicit forest-habitat candidate in source Event and an origin term in Occurrence, plus core/foreign keys, otherwise do not open source Event values"
+  },
+  "scientific_ceiling": [
+    "At most one genuinely different archipelago and island (Madeira); external field survey independent source but not independent 3-island macroecological replication.",
+    "Night light traps attract mobile moths from beyond source habitat, so trap-caught species may not inhabit exact plot. Original paper focuses artificial light at night; potential confounding with forest type.",
+    "Two source trap methods cannot be pooled by counts or capture rates, nor compared numerically to Azores SLAM interception trapping.",
+    "Forest habitat is not randomized; elevation, disturbance, ALAN, season and geography can confound differences.",
+    "200 named taxa and 1939 occurrences are not independent replicated forest units; explicit author site IDs and collection campaign frame must be checked.",
+    "Any link to SLAM native forest result is independent dataset comparison, not a species-level meta-analysis or evidence of population persistence, immigration or experimental selection."
+  ],
+  "firewall": {
+    "Madeira_original_Event_rows_opened_at_v329": 0,
+    "Madeira_original_Occurrence_rows_opened_at_v329": 0,
+    "original_Azores_SLAM_BALA_PRIBES_species_sources_REOPENED": 0,
+    "original_GEB_mammal_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

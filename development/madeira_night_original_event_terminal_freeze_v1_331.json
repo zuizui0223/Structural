@@ -1,0 +1,46 @@
+{
+  "schema": "structural.madeira_night_original_source_event_terminal.v1_331",
+  "date": "2026-10-29",
+  "status": "TERMINAL_MADEIRA_NO_EXACT_SAME_SEASON_UV_FOREST_PLOT_FRAME",
+  "original_source_v1_1_zip_SHA256": "54c2e4dc10989a15a0d78a988b496d2e5ae917a4315bc032b28292c083aa10ba",
+  "meta_success_run": 40840629632,
+  "original_Event_only_success_run": 40841080371,
+  "original_Event_rows_read": 134,
+  "original_Occurrence_rows_read": 0,
+  "original_physical_site_n": 47,
+  "source_site_habitats": {
+    "native": 5,
+    "mixed": 13,
+    "exotic": 5,
+    "nonforest": 24,
+    "unknown": 0
+  },
+  "source_event_methods": {
+    "LIGHT": 67,
+    "BAIT": 67
+  },
+  "frozen_source_periods": [
+    {
+      "year": 2022,
+      "quarter": 3,
+      "native": 5,
+      "altered": 17,
+      "qualifies": true
+    },
+    {
+      "year": 2023,
+      "quarter": 2,
+      "native": 1,
+      "altered": 6,
+      "qualifies": false
+    }
+  ],
+  "predeclared_minimum_eligible_periods": 2,
+  "actual_eligible_periods": 1,
+  "source_biogeographic_response_unopened": true,
+  "source_single_season_posthoc_rescue_prohibited": true,
+  "old_Azores_SLAM_BALA_PRIBES_taxon_scorers_SEALED": true,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0,
+  "eBird": false
+}
