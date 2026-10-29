@@ -1,68 +1,21 @@
-name: BALA original-source within-campaign detection control ONE SHOT v1.316
+name: BALA v1.316 original biological scorer SEALED - read-only provenance
+# BALA fixed original response was examined exactly once in source workflow run 40636604430.
+# Original scientific result artifact 12793228108; ZIP sha256:
+# b467dc1747d116a6d4f291102f2d0b405c760905c254f0e6e7dd21b76ca1d0f0
+# Inner JSON sha256: 1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871
+# NO push or pull_request automatic scorer; never rerun original BALA taxonomy here.
 on:
-  push:
-    paths:
-      - ".github/workflows/bala-within-campaign-original-one-shot-v1_316.yml"
-  pull_request:
-    paths:
-      - ".github/workflows/bala-within-campaign-original-one-shot-v1_316.yml"
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  one-retrospective-detection-sampling-benchmark:
+  source-locked-readonly-seal:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 3
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: "3.11"}
-      - name: Install pytest only
-        run: python -m pip install pytest
-      - name: Verify source-free synthetic controls before biological read
-        run: python -m pytest -q tests/test_bala_within_campaign_detection_control_v1_316.py
-      - name: Separate one-shot retrospective detection benchmark on EXACT original published BALA source
+      - name: Confirm original source evidence remains immutable and not rerun
         run: |
-          python scripts/bala_within_campaign_detection_control_v1_316.py \
-            --contract development/bala_within_campaign_detection_control_protocol_v1_316.json \
-            --old-protocol development/bala_three_decade_species_replacement_protocol_v1_314.json \
-            --old-aggregate development/bala_seven_island_species_replacement_original_result_v1_314.json \
-            --source-event-receipt development/bala_equal_event_source_original_receipt_v1_313.json \
-            --out bala_original_within_campaign_detection_control_v1_316.json
-      - name: Verify OLD original one-shot remains sealed and no pseudo-independent splits
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          r=json.loads(Path("bala_original_within_campaign_detection_control_v1_316.json").read_text())
-          assert r["status"]=="RETROSPECTIVE_TWO_GUILD_WITHIN_CAMPAIGN_FALSIFICATION_COMPLETE"
-          assert r["original_2024_Event_rows"]==10379
-          assert r["original_2024_Occurrence_rows_read_once"]==63904
-          assert r["original_selected_equal_Event_rows"]==4620
-          assert r["source_original_transects"]==29 and r["source_islands"]==7
-          assert r["source_original_guild_records_before_species_rank_filter"]==12699
-          assert r["source_species_rank_accepted_guild_records"]==12649
-          assert r["same_original_species_source_as_v1_314_not_independent_confirmation"]
-          assert r["old_v1_314_original_one_shot_workflow_remains_SEALED"]
-          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
-          for guild in ("araneae","coleoptera"):
-              x=r["main_pitfall"][guild]
-              assert x["status"] in (
-                  "RETROSPECTIVE_PAIRED_SAMPLING_CONTROL_SCORED",
-                  "STOP_INSUFFICIENT_HALF_SAMPLE_GUILD_DETECTION_SUPPORT")
-              assert x["source_transect_not_trap_is_independent_spatial_unit"]
-              assert x["source_original_nine_fixed_splits_are_not_nine_independent_replications"]
-              if x["status"].startswith("STOP"):
-                  assert x["island_equal_delta_sorensen"] is None
-          print("BALA source-observed detection falsification:",{
-            g:{"status":r["main_pitfall"][g]["status"],
-               "qualified_sites":r["main_pitfall"][g]["original_sites_observed_in_four_halves_at_least_five_of_nine_salts"],
-               "delta":r["main_pitfall"][g]["island_equal_delta_sorensen"]}
-               for g in ("araneae","coleoptera")})
-          PY
-      - name: Retain exactly the one-shot original source aggregate, including scientific STOP
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bala-original-between-vs-within-period-detection-v1-316
-          path: bala_original_within_campaign_detection_control_v1_316.json
-          if-no-files-found: warn
+          echo "BALA v1.316 original source scored run: 40636604430 (SUCCESS)"
+          echo "Original aggregate artifact: 12793228108"
+          echo "Source taxa Event/Occurrence data accessed in this workflow: ZERO"
+          echo "Next audits must use committed source-free aggregated data only."
