@@ -1,0 +1,98 @@
+{
+  "schema": "structural.galapagos_ant_native_modified_habitat_source.v1_338",
+  "date": "2026-10-29",
+  "status": "SOURCE_ARCHIVE_META_ONLY_BEFORE_FIRST_EVENT_OCCURRENCE_VALUE",
+  "ecology_question": "Across an independent oceanic archipelago (Galápagos, not Macaronesia), are endemic/native versus introduced ant species more or less represented at NATIVE vegetation plots than agriculture/urban modified plots, when elevation ranges overlap and capture method/year/effort are matched?",
+  "source": {
+    "official_source_archive": "https://ipt.pensoft.net/archive.do?r=antga",
+    "GBIF_dataset_uuid": "eb7e79d2-434b-42b2-a891-99686fe676ec",
+    "preferred_DOI": "10.15468/5s9jpb",
+    "paper_DOI": "10.82631/hsbwnz",
+    "publisher": "Pensoft Data Publishing Center / Galápagos ant monitoring",
+    "published_GBIF_version_date": "2026-09-29",
+    "field_years": [
+      2023,
+      2024
+    ],
+    "published_source_event_design": "16 original localities repeated 2023 January versus 2024 May-June, across native forest/shrubland, urban and agricultural land use, 0–600m. Original source methods include Pitfall and Manual; some failed or replaced traps and no-catch records.",
+    "published_approx_Occurrence_rows": 1755,
+    "published_distinct_species": 31,
+    "source_license": "Check v1.338 original metadata; GBIF presentation lists CC BY-NC; do not redistribute raw source records."
+  },
+  "source_only_v338": {
+    "max_archive_BYTES": 2500000,
+    "max_meta_xml_BYTES": 300000,
+    "authorized_reads": "ZIP file central directory and original meta.xml only; original field site, Event and Occurrence records remain UNOPENED",
+    "expect": "Original event core and occurrence extension, source fixed original ZIP SHA",
+    "Event_required": [
+      "eventID",
+      "eventDate",
+      "samplingProtocol"
+    ],
+    "Event_plot_identifiers": [
+      "locationID",
+      "locality",
+      "fieldNumber",
+      "parentEventID"
+    ],
+    "Event_habitat_candidates": [
+      "habitat",
+      "landUse",
+      "dynamicProperties",
+      "locationRemarks",
+      "eventRemarks",
+      "locality"
+    ],
+    "Event_elevation_candidates": [
+      "minimumElevationInMeters",
+      "minimumElevationInMetres",
+      "verbatimElevation",
+      "maximumElevationInMeters",
+      "decimalLatitude",
+      "decimalLongitude"
+    ],
+    "Occurrence_required": [
+      "scientificName",
+      "taxonRank"
+    ],
+    "Occurrence_origin_candidates": [
+      "establishmentMeans",
+      "degreeOfEstablishment",
+      "occurrenceRemarks",
+      "dynamicProperties"
+    ],
+    "additional_emphasis": "A source genus name or known globally invasive ant without its original establishment status MUST NOT be silently classified introduced. New independent source may include only published names and no source origin annotations, in which case this origin-target may not be estimable.",
+    "if_missing": "SCIENTIFIC META HOLD; no original biological records opened"
+  },
+  "predeclared_event_gate_if_schema_qualified": {
+    "site_unit": "exact author plot/locality code; 16 independent sites, no pooling repeated pitfall traps or methods",
+    "source_year": "Use 2024 only for cross-sectional habitat origin endpoint; 2023 January and 2024 May-June sampling months differ so cannot infer long-term temporal community change",
+    "method": "Pitfall source events ONLY. No combining manual collecting or ad hoc; use source original event IDs to identify up to 10 traps per site and effort >=1 and <=30 hours as published.",
+    "habitat": "Native evergreen/deciduous forests and shrublands vs agricultural/urban altered vegetation. No after-values reclassifying from taxon names or inferred map pixels.",
+    "elevation_overlap": "After original native and altered site elevations verified require at least 4 physical sites per group within a common numeric elevation range; no non-overlap regression extrapolation.",
+    "timing": "Same 2024 field survey window; original May-June seasonal month variation reported and optionally matched but do not infer an identical repeated date",
+    "source_controls": "Native vs modified site sample effort >=5 pitfall traps each, same capture method, no data-selected site subsets"
+  },
+  "conditional_species_endpoints_after_event_gate": {
+    "rank": "original source species (or source morphospecies) and origin statuses endemic/native/introduced separate, no genus-level unknown converted to exotic",
+    "response": "Per physical site, count distinct source identified endemic/native/introduced ant taxa among equal pitfall source traps. Average site-level native-minus-modified within source-elevation common support, no trapping units pseudoreplicated.",
+    "driver_qualification": "Even with overlapping elevation, land use isn't randomized and geography/forest structure may be confounded; describe observational association only.",
+    "known_preexisting": "Original authors published 31 taxa and invasive pest concerns; those are prior art, not new discoveries."
+  },
+  "scientific_limits": [
+    "San Cristóbal one island / Galápagos distinct archipelago is independent survey source, but not multi-island replicate.",
+    "Source may include true zero-catch events encoded as Formicidae with individualCount 0; exclude from species presence not treat as endemic/native.",
+    "2023 vs 2024 sampling season not matched, so no temporal extinction/colonization inference.",
+    "Pitfall ant detection differs from SLAM Azores flight-interception arthropods; comparison only qualitative direction, not pooled effect.",
+    "Origin statuses for endemic/native/introduced ants might need separate official catalog, not authorized without prereg and author source taxonomy. No favorable rescue."
+  ],
+  "firewall": {
+    "v338_original_Event_rows_opened": 0,
+    "v338_original_Occurrence_rows_opened": 0,
+    "original_SLAM_BALA_PRIBES_Terceira2024_Madeira_taxon_scorers_SEALED": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "protected_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}
