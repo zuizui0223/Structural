@@ -1,0 +1,54 @@
+name: SLAM II multi-island 45-site forest-elevation meta only v1.334
+on:
+  push:
+    paths:
+      - ".github/workflows/slamii-original-source-meta-v1_334.yml"
+      - "development/slamii_forest_elevation_original_protocol_v1_334.json"
+      - "scripts/slamii_original_meta_only_v1_334.py"
+      - "tests/test_slamii_original_meta_only_v1_334.py"
+  pull_request:
+    paths:
+      - ".github/workflows/slamii-original-source-meta-v1_334.yml"
+      - "development/slamii_forest_elevation_original_protocol_v1_334.json"
+      - "scripts/slamii_original_meta_only_v1_334.py"
+      - "tests/test_slamii_original_meta_only_v1_334.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-forest-elevation-schema-no-source-biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Validate source-only original 45-plot schema and zero Event/Occurrence
+        run: python -m pytest -q tests/test_slamii_original_meta_only_v1_334.py
+      - name: Inspect only official source DwCA meta.xml and ZIP member names
+        run: |
+          python scripts/slamii_original_meta_only_v1_334.py \
+            --contract development/slamii_forest_elevation_original_protocol_v1_334.json \
+            --out slamii_original_45site_meta_v1_334.json
+      - name: Confirm source-original species and plot readings are prohibited
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("slamii_original_45site_meta_v1_334.json").read_text())
+          assert r["status"] in (
+            "ORIGINAL_45SITE_FOREST_ELEVATION_SOURCE_SCHEMA_READY_EVENT_VALUES_SEALED",
+            "TERMINAL_ORIGINAL_FOREST_ELEVATION_OR_TAXON_SOURCE_SCHEMA")
+          assert r["original_Event_rows_opened"]==0 and r["original_Occurrence_rows_opened"]==0
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("Original 45 plot v1.8 archive SHA:",r["original_source_archive_SHA256"])
+          print("Source elevation Event field:",r["available_original_elevation_fields"])
+          print("SOURCE META ONLY result:",r["status"])
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slamii-45site-native-altered-elevation-source-meta-v1-334
+          path: slamii_original_45site_meta_v1_334.json
+          if-no-files-found: warn
