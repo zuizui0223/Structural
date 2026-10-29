@@ -1,66 +1,24 @@
-name: PRIBES independent 6-island ruderal Beetle source original ONE SHOT v1.323
-# Earlier attempt 40816245128 terminated at receipt-key validation BEFORE any original PRIBES taxon rows were read.
-# Corrected original-only 72-site source coreid SHA receipt, BALA raw source remains sealed.
+name: PRIBES v1.323 original species scorer SEALED - evidence only
+# Original PRIBES v1.3 Event and 2,836 Occurrence rows were scored ONCE in
+# GitHub Actions #40816387637, result artifact #12872113954.
+# Old mixed-method v1.321 remains scientifically TERMINAL; separate
+# one-hour v1.322 subset consists of 72 original physical source sites.
+# The original BALA v1.314/v1.316/v1.318 taxon workflows remain sealed.
+# Never replay source taxa here to chase a positive hypothesis result.
 on:
-  push:
-    paths:
-      - ".github/workflows/pribes-original-six-island-beetle-source-one-shot-v1_323.yml"
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  one-published-pribes-beetle-ruderal-source-outcome:
+  no-original-biological-replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 2
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: "3.11"}
-      - name: Install synthetic-only test runner
-        run: python -m pip install pytest
-      - name: Source-independent known truth and strict 720-permutation six-island test BEFORE original species access
-        run: python -m pytest -q tests/test_pribes_original_ruderal_beetle_source_v1_323.py
-      - name: Read original PRIBES version 1.3 Occurrence rows ONCE only after 72 original Event keys pass
+      - name: Report fixed one-shot scientific adjudication only
         run: |
-          python scripts/pribes_original_ruderal_beetle_source_v1_323.py \
-            --contract development/pribes_ruderal_beetle_source_forest_beta_protocol_v1_323.json \
-            --onehour-contract development/pribes_equal_onehour_original_event_protocol_v1_322.json \
-            --older-event-contract development/pribes_original_event_site_contract_v1_321.json \
-            --original-event-receipt development/pribes_equal_onehour_site_receipt_freeze_v1_322.json \
-            --out pribes_original_six_island_beetle_ruderal_source_result_v1_323.json
-      - name: Validate observed island-level evidence or scientific STOP without original BALA source reread
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          r=json.loads(Path("pribes_original_six_island_beetle_ruderal_source_result_v1_323.json").read_text(encoding="utf-8"))
-          assert r["status"] in (
-             "SOURCE_OBSERVED_SIX_ISLAND_ASSOCIATION_SCORED_NOT_CAUSAL",
-             "STOP_ORIGINAL_INTRO_BEETLE_SOURCE_SUPPORT_OR_ORIGIN")
-          assert r["source_original_archive_sha256"]=="9b4eb77c15de7a900c391a17e781a99521f00d9b2fe433807607ebe462235b6e"
-          assert r["source_original_Event_rows_opened"]==80
-          assert r["source_original_Occurrence_rows_opened_once"]==2836
-          assert r["source_onehour_physical_sites"]==72
-          assert r["source_onehour_original_coreid_sha256"]=="4258962fe50796bde5a11a60f9f98736d6c8a8e59db8cca3b3ddcc0d6276b14c"
-          assert r["source_original_BALA_independent_island_overlap_n"]==6
-          assert r["original_BALA_source_Event_and_Occurrence_rows_REOPENED"]==0
-          assert r["source_original_full_80_Event_effort_gate_v1_321_TERMINAL"]
-          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
-          if r["status"].startswith("STOP"):
-              assert r["primary_introduced_beetle_source_similarity_vs_forest_homogenization"] is None
-          else:
-              assert r["primary_introduced_beetle_source_similarity_vs_forest_homogenization"]["exact_island_label_permutations"]==720
-          print("Frozen, real PRIBES separate ecological result:",r["status"])
-          print("Original island-level introduced beetle supports:",{
-              island:q["introduced_beetle_source"]["sites_with_nonempty_recognized_source_taxon_set"]
-              for island,q in r["per_island"].items()})
-          print("Original six-island exploratory association:",r["primary_introduced_beetle_source_similarity_vs_forest_homogenization"])
-          print("Source-side origin uncertainty:",r["source_unclassified_rank_named_origin_fraction"])
-          print("Scientific STOP reason:",r.get("stop_reason"))
-          PY
-      - name: Store one-time original ecological source aggregate or strict STOP
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pribes-original-six-island-ruderal-beetle-source-one-shot-v1-323
-          path: pribes_original_six_island_beetle_ruderal_source_result_v1_323.json
-          if-no-files-found: warn
+          echo "Original independent PRIBES source run: 40816387637"
+          echo "Original aggregate artifact: 12872113954"
+          echo "Primary six-island source→forest association rho = 0.142857142857"
+          echo "Exact 720 island permutation one-sided p = 0.401388888889"
+          echo "Original species Event/Occurrence rows opened in THIS job: ZERO"
+          echo "v1.321 all-Event source gate TERMINAL; BALA protected and sealed"
