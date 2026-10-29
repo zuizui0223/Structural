@@ -64,7 +64,7 @@ def test_tampered_original_site_support_or_source_sha_fails_closed():
     d,c=fixture()
     x=copy.deepcopy(d)
     x["pitfall"]["coleoptera"]["per_island"]["fai"]["n"]+=1
-    with pytest.raises(ValueError,match="source site supports"):
+    with pytest.raises(ValueError,match="guild site supports"):
         audit(x,c)
     x=copy.deepcopy(d)
     x["original"]["v316_original_inner_JSON_SHA256"]="tampered"
