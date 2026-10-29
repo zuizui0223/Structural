@@ -1,0 +1,52 @@
+{
+  "schema": "structural.terceira2024_forest_elevation_source_terminal_freeze.v1_333",
+  "date": "2026-10-29",
+  "status": "TERMINAL_2024_FOREST_ELEVATION_NO_COMMON_SUPPORT",
+  "source": {
+    "dataset_DOI": "10.15468/7aue4t",
+    "version": "1.6",
+    "archived_original_ZIP_SHA256": "c4dcf060bc2554be7fe49fb569f2fd7a8514ba3a888db673b40cb65aad60ef21",
+    "meta_gate_run": 40841670131,
+    "original_Event_elevation_gate_run": 40842289055,
+    "original_source_Events_examined": 326,
+    "original_source_Occurrences_unopened": 2399,
+    "original_2024_Terceira_independent_plots": 20
+  },
+  "original_environmental_support": {
+    "native_forest_source_plots": 10,
+    "exotic_forest_source_plots": 10,
+    "native_forest_elevation_range_m": [
+      590,
+      927
+    ],
+    "exotic_forest_elevation_range_m": [
+      256,
+      461
+    ],
+    "difference_between_native_lower_limit_and_exotic_upper_limit_m": 129,
+    "elevation_intersection_m": null,
+    "source_ground_SLAM_plots": {
+      "native": 10,
+      "exotic": 10
+    },
+    "source_common_elevation_support_sites": {
+      "native": 0,
+      "exotic": 0
+    },
+    "source_published_sampling_period": "June–September 2024"
+  },
+  "scientific_adjudication": {
+    "falsifiable_question": "Can original habitat forest type be contrasted at matched elevation and same SLAM sampling level?",
+    "answer": "NO: exact original Event source elevation support disjoint, despite balanced numbers and methods.",
+    "cause_identified": "NO: forest vegetation is perfectly associated with nonoverlapping source elevation ranges in this cohort; without extrapolation, a separate habitat effect cannot be identified.",
+    "independent_terceira2024_species_outcome_read": false,
+    "prior_2025_original_publication": "10.1016/j.foreco.2025.123059 vertical decay/origin effects PRIOR ART",
+    "prior_2025_mid_elevation_indigenous_refuge_publication": "Beyond native habitats: Indigenous arthropods adapted to mid-elevations find refuge in exotic forests (2025), PRIOR ART",
+    "next_valid_evidence": "Prospective or open data sample requiring ≥2 independent native and ≥2 exotic/mixed forest plots within each of ≥2 jointly sampled elevation bands with similar height/method/season; confirm site geography and native/exotic overlap before taxonomic outcomes; prefer disjoint island/archipelago survey.",
+    "no_Azores_SLAM_v327_original_source_replay": true,
+    "no_original_BALA_PRIBES_mammal_protected_outcome_replay": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

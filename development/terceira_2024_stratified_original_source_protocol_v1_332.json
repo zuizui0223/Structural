@@ -1,0 +1,106 @@
+{
+  "schema": "structural.terceira2024_stratified_forest_source.v1_332",
+  "date": "2026-10-29",
+  "status": "PRE_ORIGINAL_2024_HABITAT_EVENT_AND_SPECIES_SOURCE_META_FREEZE",
+  "research_question": "In a separate, balanced 2024 Terceira survey with ten original native and ten exotic-secondary forest plots, do endemic, native nonendemic and introduced arthropods show different absolute native-vs-exotic habitat preferences at the same SLAM vertical sampling opportunity, and is this direction consistent with the older, sealed SLAM 2012–2022 island-level source observation?",
+  "original_2024_source": {
+    "dataset_DOI": "10.15468/7aue4t",
+    "source_GBIF_UUID": "d3580ac2-a504-44e0-8e59-de89c430924c",
+    "original_version": "1.6 (2025-03-28)",
+    "official_archive": "https://ipt.gbif.pt/ipt/archive.do?r=azores_forest_arthropods&v=1.6",
+    "original_published_Event_rows": 326,
+    "original_published_Occurrence_rows": 2399,
+    "original_field_year": 2024,
+    "original_field_months": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "field_design_original_paper": "20 separate 20m×20m Terceira plots; 10 native intact wet forest vs 10 secondary exotic-tree forest; 3 SLAM traps at different heights per plot and supplementary 14 Pitfall traps per plot. Reconcile original source Event identity/effort before species.",
+    "original_data_paper": "10.3897/BDJ.13.e154240",
+    "already_published_analytical_paper": "10.1016/j.foreco.2025.123059",
+    "published_prior_art": "2025 original FERM paper: vertical arthropod similarity decays with trap-height difference and vertical decay slopes did not significantly differ between native and exotic forests; non-indigenous taxa narrower vertical distributions. These original ecology findings are PRIOR ART, not independent Structural discoveries."
+  },
+  "earlier_fixed_Azores_comparator": {
+    "source": "Azores 2012–2022 42 SLAM forest traps, 33 eligible plots in Flores/Pico/Terceira and 664 Event observations",
+    "v327_source_result_SHA256": "cea311a9a3b88715837603e0f794a34b8fb7fd62e8221bbe57eb2e6917874761",
+    "native_minus_altered_endemic_richness_three_island_equal": 2.3350620675620672,
+    "native_minus_altered_native_nonendemic_richness_three_island_equal": -0.8516143877908583,
+    "native_minus_altered_introduced_richness_three_island_equal": -2.514627273597862,
+    "Terceira_only_endemic": 1.162408424908425,
+    "Terceira_only_native_nonendemic": -1.8759542744836861,
+    "Terceira_only_introduced": -1.7455484874602523,
+    "original_scorers_SEALED": true,
+    "comparator_limit": "2024 data arise in same Terceira island and potentially overlapping forest fragments/trap locations, so distinct survey year/source does NOT ensure independent ecological site-level or archipelago replication. Original 2024 capture format differs in vertical stratification and sample effort."
+  },
+  "response_blind_sequence": [
+    "v1.332 verify exact ZIP SHA and Darwin Core source Event/Occurrence field term roles from ORIGINAL meta.xml and central directory ONLY; open neither Event nor Occurrence biological bodies.",
+    "v1.333 original Event-only physical 20 site labels and author native/exotic habitat, sampling method SLAM vs Pitfall, source trap height/vertical stratum, date and equal method/height replicate count. Pre-frozen minimum 8 native and 8 exotic original plots, source same seasonal campaign, and at least one equal-effort SLAM trap height with one source Event per plot. Choose selected stratum based on source-only effort coverage, not taxa.",
+    "v1.334 freeze exact primary site-level identified endemic/non-endemic native/introduced richness for original SLAM trap stratum, analysis unit 20 physical forest plots; original event-to-occurrence join, origin ontology and ability to detect at least 8 sites per side with taxa before first Occurrence source read. Compare source-native and source-exotic absolute richness, separate status and a double-contrast, no plot/trap pseudo-independent p-values.",
+    "If original source Event site/height/habitat fields insufficient, STOP the strict 2024 forest-origin replication rather than pooling pitfall with SLAM or guessing trap height from taxon data. Nothing reopened from previous Azores SLAM, BALA or PRIBES sources."
+  ],
+  "v332_meta_roles": {
+    "source_zip_cap_BYTES": 400000,
+    "source_meta_xml_cap_BYTES": 150000,
+    "Event_min_required": [
+      "eventID",
+      "eventDate",
+      "samplingProtocol"
+    ],
+    "Event_site_candidates": [
+      "locationID",
+      "locality",
+      "parentEventID",
+      "fieldNumber"
+    ],
+    "Event_habitat_candidates": [
+      "habitat",
+      "eventRemarks",
+      "locationRemarks",
+      "locality"
+    ],
+    "Event_vertical_candidates": [
+      "minimumDepthInMeters",
+      "maximumDepthInMeters",
+      "verbatimDepth",
+      "samplingEffort",
+      "eventRemarks",
+      "dynamicProperties",
+      "locationRemarks",
+      "fieldNumber"
+    ],
+    "Occurrence_min_required": [
+      "scientificName",
+      "taxonRank",
+      "order"
+    ],
+    "Occurrence_origin_candidates": [
+      "establishmentMeans",
+      "degreeOfEstablishment",
+      "occurrenceRemarks"
+    ],
+    "author_plot_n_expected": 20,
+    "author_native_plots_expected": 10,
+    "author_exotic_plots_expected": 10,
+    "source_only_no_site_label_or_taxon_output": true
+  },
+  "scientific_ceiling": [
+    "Original 2024 data used by published 2025 vertical-decay article; current interpretation cannot claim published origin vertical range finding as a new result.",
+    "Single Terceira island, not new archipelago. Plot/fragment overlap with older SLAM not verified. Independence limited to public field source and collection year.",
+    "Site habitat native versus secondary exotic not randomized. Source sampling height, trap/effort, forest altitude and landscape conditions may confound richness differences.",
+    "A site-level richness gradient is not demographic persistence, post-introduction survival, biotic interactions, invasions into forests or island migration.",
+    "Original 2024 occurrence file includes only named taxa; unknown taxon proportion might differ by forest habitat. Report source taxonomic coverage.",
+    "No original BALA/SLAM2012-22/PRIBES biological replay, no eBird."
+  ],
+  "firewall": {
+    "v332_original_Event_rows_read": 0,
+    "v332_original_Occurrence_rows_read": 0,
+    "older_SLAM_BALA_PRIBES_biological_scorers_SEALED": true,
+    "original_Madeira_v330_terminal": true,
+    "protected_mammal_BioTIME_RLS_S2S3S4_unopened": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
