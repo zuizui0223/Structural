@@ -1,0 +1,40 @@
+{
+  "schema": "structural.galapagos_ant_original_archive_transport.v1_339",
+  "date": "2026-10-29",
+  "status": "FIXED_ALTERNATIVE_PUBLISHER_ARCHIVE_PROBE_HEAD_ONLY_NO_SOURCE_DATA_ROWS",
+  "reference": "Original Pensoft September 2026 source v1.338 returned HTTP 404 in GitHub run #40854963914, BEFORE any Event/Occurrence values were read. This must not be reported as taxon-origin negative evidence.",
+  "candidates": [
+    {
+      "source": "PENSOFT_SEPT2026",
+      "dataset_uuid": "eb7e79d2-434b-42b2-a891-99686fe676ec",
+      "url": "https://ipt.pensoft.net/archive.do?r=antga",
+      "year": 2026,
+      "version_tag": "29 Sep 2026"
+    },
+    {
+      "source": "ECUADOR_JUN2026_HTTPS",
+      "dataset_uuid": "8cff356d-d84f-42f7-93f8-dac680639943",
+      "url": "https://patrimonio.ambiente.gob.ec/iptmae/archive.do?r=a1b738c4-5dfe-4514-94a3-b5ca22af785d",
+      "year": 2026,
+      "version_tag": "17 June 2026 metadata, source original version 1.8"
+    },
+    {
+      "source": "ECUADOR_JUN2026_HTTP",
+      "dataset_uuid": "8cff356d-d84f-42f7-93f8-dac680639943",
+      "url": "http://patrimonio.ambiente.gob.ec/iptmae/archive.do?r=a1b738c4-5dfe-4514-94a3-b5ca22af785d",
+      "year": 2026,
+      "version_tag": "17 June 2026 metadata, source original version 1.8"
+    }
+  ],
+  "method": "HTTP HEAD request only, redirects recorded. Do not GET or decompress any original ZIP/Event/Occurrence, no GBIF interpreted occurrence API. No status on one source can be used to silently switch data versions.",
+  "next": "If any candidate is live, freeze its exact registration UUID, EML version and ZIP SHA in a separate original source admission BEFORE actual original data access. If all inaccessible, conclude DATA_ACCESS_TRANSPORT_STOP and do not fabricate a biological conclusion.",
+  "firewall": {
+    "original_Event_rows_read": 0,
+    "original_Occurrence_rows_read": 0,
+    "previous_v1_338_Pensoft_original_url_failed": true,
+    "original_BALA_SLAM_PRIBES_Madeira_Terceira2024_scorers_sealed": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "structural.galapagos_ant_ecuador_june_original_meta.v1_340",
+  "date": "2026-10-29",
+  "status": "ALTERNATIVE_PUBLISHER_ORIGINAL_V1_8_SOURCE_SCHEMA_FROZEN_BEFORE_FIRST_RAW_BODY",
+  "reason": "Original Pensoft September 2026 registration source archive returned HTTP404 in v1.338; v1.339 HTTP HEAD only verified Ecuador original June 2026 HTTPS source returns 200, application/zip. Different dataset UUID/version; NEVER silently treat as identical Pensoft original.",
+  "source": {
+    "official_ecuador_original_HTTPS": "https://patrimonio.ambiente.gob.ec/iptmae/archive.do?r=a1b738c4-5dfe-4514-94a3-b5ca22af785d",
+    "dataset_uuid": "8cff356d-d84f-42f7-93f8-dac680639943",
+    "source_original_reported_version": "1.8, original Ecuador institution 2026-06-17",
+    "original_paper_DOI": "10.82631/hsbwnz",
+    "original_dataset_DOI": "10.60545/cugowa",
+    "source_license": "CC BY-NC 4.0; no original records shared as a downloadable artifact",
+    "original_sites_published": 16,
+    "approx_occurrences_published": 1755,
+    "field_campaigns": [
+      2023,
+      2024
+    ],
+    "source_September_original_UUID_proven_unavailable": "eb7e79d2-434b-42b2-a891-99686fe676ec",
+    "v338_original_Pensoft_404_run": 40854963914,
+    "v339_original_source_HEAD_success_run": 40855344339
+  },
+  "source_only_v340": {
+    "max_archive_BYTES": 2500000,
+    "max_meta_xml_BYTES": 300000,
+    "authorized_reads": "Original Ecuador v1.8 ZIP central directory + meta.xml ONLY. Do not open original Event/Occurrence member data values.",
+    "expect": "Original event core and occurrence extension, source fixed original ZIP SHA",
+    "Event_required": [
+      "eventID",
+      "eventDate",
+      "samplingProtocol"
+    ],
+    "Event_plot_identifiers": [
+      "locationID",
+      "locality",
+      "fieldNumber",
+      "parentEventID"
+    ],
+    "Event_habitat_candidates": [
+      "habitat",
+      "landUse",
+      "dynamicProperties",
+      "locationRemarks",
+      "eventRemarks",
+      "locality"
+    ],
+    "Event_elevation_candidates": [
+      "minimumElevationInMeters",
+      "minimumElevationInMetres",
+      "verbatimElevation",
+      "maximumElevationInMeters",
+      "decimalLatitude",
+      "decimalLongitude"
+    ],
+    "Occurrence_required": [
+      "scientificName",
+      "taxonRank"
+    ],
+    "Occurrence_origin_candidates": [
+      "establishmentMeans",
+      "degreeOfEstablishment",
+      "occurrenceRemarks",
+      "dynamicProperties"
+    ],
+    "additional_emphasis": "A source genus name or known globally invasive ant without its original establishment status MUST NOT be silently classified introduced. New independent source may include only published names and no source origin annotations, in which case this origin-target may not be estimable.",
+    "if_missing": "SCIENTIFIC META HOLD; no original biological records opened",
+    "resource_different_original_version_novel_source_claim": false
+  },
+  "science_question": "Across an independent oceanic archipelago (Galápagos, not Macaronesia), are endemic/native versus introduced ant species more or less represented at NATIVE vegetation plots than agriculture/urban modified plots, when elevation ranges overlap and capture method/year/effort are matched?",
+  "same_predeclared_2024_Pitfall_and_elevation_overlap_gates": {
+    "site_unit": "exact author plot/locality code; 16 independent sites, no pooling repeated pitfall traps or methods",
+    "source_year": "Use 2024 only for cross-sectional habitat origin endpoint; 2023 January and 2024 May-June sampling months differ so cannot infer long-term temporal community change",
+    "method": "Pitfall source events ONLY. No combining manual collecting or ad hoc; use source original event IDs to identify up to 10 traps per site and effort >=1 and <=30 hours as published.",
+    "habitat": "Native evergreen/deciduous forests and shrublands vs agricultural/urban altered vegetation. No after-values reclassifying from taxon names or inferred map pixels.",
+    "elevation_overlap": "After original native and altered site elevations verified require at least 4 physical sites per group within a common numeric elevation range; no non-overlap regression extrapolation.",
+    "timing": "Same 2024 field survey window; original May-June seasonal month variation reported and optionally matched but do not infer an identical repeated date",
+    "source_controls": "Native vs modified site sample effort >=5 pitfall traps each, same capture method, no data-selected site subsets"
+  },
+  "source_data_mismatch_rule": "Every original v1.8 source field and archive SHA must be frozen. If original Ecuador dataset differs in format/columns or lacks native/exotic statuses, STOP, do not infer from Pensoft metadata or published narrative.",
+  "firewall": {
+    "September_Pensoft_data_original_unread": true,
+    "Ecuador_original_Event_rows_read": 0,
+    "Ecuador_original_Occurrence_rows_read": 0,
+    "older_BALA_SLAM_PRIBES_Madeira_Terceira2024_original_scorers_SEALED": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
