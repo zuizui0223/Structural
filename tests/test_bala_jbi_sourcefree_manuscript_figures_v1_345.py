@@ -95,6 +95,6 @@ def test_prior_work_artifact_and_scientific_seals_always_present():
                 "10.1111/j.1466-822X.2006.00214.x",
                 "10.1111/j.1466-8238.2009.00490.x"):
         assert doi in m
-    for guard in ("one original", "not independent", "not submitted"):
+    for guard in ("once", "not independent", "not submitted"):
         assert guard in m.lower()
     assert "v1.314" in m and "v1.316" in m and "v1.318" in m
