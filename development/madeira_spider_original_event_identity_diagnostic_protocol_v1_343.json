@@ -1,0 +1,48 @@
+{
+  "schema": "structural.madeira_cobra_source_field_identity_diagnostic.v1_343",
+  "date": "2026-11-02",
+  "status": "FROZEN_SOURCE_EVENT_ONLY_DIAGNOSIS_AFTER_V342_TERMINAL_BEFORE_ANY_SPECIES_RESPONSE",
+  "source": {
+    "original_v1_8_url": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_madeira&v=1.8",
+    "source_zip_sha256": "e6703c8e0c74bb65f93bd54993a27628a3b800d97a8a21cec19855c500db438d",
+    "original_Events": 562,
+    "original_Occurrences_sealed": 3281
+  },
+  "prior_GATE": "v1.342 strict 22 plot × day/night sweeping source gate terminal: locationID-based plot count 11, habitat unknown 239 Events and source samplingProtocol 'sweeping' has no day/night. Do not treat v1.342 as passing.",
+  "new_focused_question": "Can author original Event source NONBIOLOGICAL metadata (fieldNumber, eventID, locationRemarks, habitat, eventTime, sampleSizeUnit) unambiguously resolve original published 12 Madeiran laurel forest, 5 Madeiran naturally dry and 5 Porto Santo dry physical plots and common DAY/NIGHT sweeping 1h opportunity? Diagnose whether proposed site-level endemic complementarity is even identifiable.",
+  "allowed_source": "Read only original v1.8 Event+meta. Summarize event-level original source habitat and samplingProtocol vocabulary, EventTime, fieldNumber and eventID publication-conventional MF1–MF12, MD1–MD5, PSD1–PSD5 plot tokens. No original Occurrence/taxon names, origin classifications, or raw site coordinates.",
+  "code_conventions_before_access": {
+    "normalized_plot_source_candidates": [
+      "Original author fieldNumber contains a whole-token MF1..MF12/MD1..MD5/PSD1..PSD5",
+      "Original eventID contains a whole-token MF1..MF12/MD1..MD5/PSD1..PSD5",
+      "Original locationID contains published whole-token plot code",
+      "Original locationRemarks contains published whole-token plot code"
+    ],
+    "original_plot_code_regex": "^ or nonalphanumeric boundary followed by MF|MD|PSD, optional hyphen/underscore/space/0 padding then one or two digit plot number, followed by nonalphanumeric or end. Reject numbers out of published 12/5/5 limits.",
+    "method_time_candidates": [
+      "eventTime",
+      "samplingEffort",
+      "sampleSizeValue",
+      "sampleSizeUnit",
+      "samplingProtocol"
+    ],
+    "time_classification": "Only explicit author day/night labels or source clock time when original collection effort window documented; this diagnostic reports source vocabulary, it does NOT infer diurnality from source hour or biological insect activity.",
+    "site_identity_quality": "Count number of records with exactly one unambiguous author plot code; if >1 conflicting code in same Event mark conflict, never choose first or fallback to coordinates.",
+    "source_habitat": "Output original habitat text vocabulary/count up to 24 categories, not plot-specific species. No site names in output.",
+    "stop_policy": "No source-bound original plot+method disambiguation -> terminal biological estimator in this cohort. New separate design would need preregistered published author metadata-only crosswalk before any 3281 original taxonomic rows; previous strict v1.342 remains terminal."
+  },
+  "limits": {
+    "not_new_independent_field_source": true,
+    "source_2016_forest_2017_dry_season_confounded": true,
+    "no_source_species_or_status_reopening": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  },
+  "firewall": {
+    "v342_strict_22_plot_swEEP_GATE": "TERMINAL",
+    "original_Event_rows_read_current": 562,
+    "original_Occurrence_rows_read_current": 0,
+    "old_Azores_and_Galapagos_original_scorers_sealed": true
+  }
+}
