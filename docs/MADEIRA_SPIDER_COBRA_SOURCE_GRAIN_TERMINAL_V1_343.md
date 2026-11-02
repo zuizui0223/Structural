@@ -1,0 +1,32 @@
+# Madeira natural forest + dry habitat endemic spider complementarity — source-Event terminal v1.343
+
+**2 November 2026. A genuine independent conservation hypothesis, but NOT estimable from the original v1.8 Darwin Core Event structure under the predeclared equal-effort criterion.**
+
+## Purpose and what was frozen BEFORE checking taxonomic outcomes
+
+The original 2020 [Madeira + Porto Santo MACDIV spider study](https://doi.org/10.3897/BDJ.8.e47502) published 22 native habitat plots (12 Madeira Laurissilva forest, five Madeira natural dry, five Porto Santo natural dry) with documented endemic/non-endemic-native/introduced spider status in its tables. It was not a native-vs-exotic forest experiment. The [author DwCA v1.8](https://doi.org/10.15468/pvnmc0) has **562 Event / 3281 Occurrence** source rows, original ZIP SHA256 `e6703c8e0c74bb65f93bd54993a27628a3b800d97a8a21cec19855c500db438d`.
+
+The new ecological question was *whether including naturally dry habitats would add endemic spider taxa to an equal-size native habitat monitoring portfolio*, while treating introduced taxa as a comparison. The original 2020 paper's species records, original counts (34 endemic, 26 nonendemic-native, 22 introduced, 23 uncertain), and contrasts between forest/dry are PRIOR ART. A genuinely new derived source-level portfolio analysis would have needed author-identifiable original plots and equal observation opportunity, not an invented species-to-site allocation.
+
+Pre-frozen strict design: for the Madeira Island-only primary, from each of **all 12 source forest and 5 natural dry physical plots**, select exactly **2 day sweeping plus 2 night sweeping one-hour original Events** by original Event coreID. Analyze the 7-of-12 forest+all-five dry (12-plot) versus all-12 forest coverage question ONLY after this gate. The five Porto Santo dry plots are separate island secondary and cannot substitute for a native habitat contrast on Madeira. Importantly, forest was sampled **August 2016** while natural dry was sampled **April 2017**: any apparent habitat association would remain confounded by year/phenology, and sweeping parity would not remove this.
+
+## Executed source-only results, no taxonomic data opened
+
+- [v1.341 original ZIP/meta-only run #41409625709](https://github.com/zuizui0223/Structural/actions/runs/41409625709), **SUCCESS 3 synthetic tests**, field roles for original site ID, habitat, Event sampling method and `establishmentMeans` present, original biological source Event=0/Occurrence=0. Source ZIP SHA frozen.
+- [v1.342 original 562 Event-only strict gate #41410109208](https://github.com/zuizui0223/Structural/actions/runs/41410109208), **SUCCESS 5 synthetic tests** but **scientific status TERMINAL**. Under source original `locationID`+island normalization, only 11 distinct keys appeared instead of the published 22 plots. The original `habitat` values could not be fully resolved with the predeclared forest/dry synonyms. The `samplingProtocol` term for source sweep records was generic `sweeping`, not day/night differentiated; selected 2+2 common sweeps=0. The old 22-plot/88-Event endpoint remains TERMINAL.
+- Separately pre-frozen, after the first Event-only failure but **before any species read**, [v1.343 original author-field diagnostic #41410531342](https://github.com/zuizui0223/Structural/actions/runs/41410531342) **SUCCESS 4 synthetic tests**, original ZIP SHA unchanged. The author Event fields `fieldNumber`, `eventID`, `locationID`, and `locationRemarks` had **zero reliably parsable published MF1…MF12, MD1…MD5, PSD1…PSD5 complete plot codes** under the publication-based frozen grammar. The source `eventTime`, `samplingProtocol` and `samplingEffort` did **not** contain explicit day versus night classification for the 129 original sweeping Events. All 562 Event rows had no explicit diurnality classification. Original habitat field was **323 `forest` versus 239 `scrubland grassland`** source Event rows; these latter are **natural dry environments**, not exotic forests.
+- v1.343 original method counts: **253 pitfall, 129 generic sweeping, 64 ground, 48 active aerial searching, 46 beating trees, 22 under bark** (total 562). Source `sampleSizeUnit`: 253 `days`, 309 `hour`. A common four-Event-per-plot *equal-method* source subset cannot be reconstructed by guessing night/day from arthropod biology or conflating these method families.
+
+## Scientific adjudication
+
+**Status: `TERMINAL_NO_AUTHOR_PLOT_AND_DIURNAL_SWEEP_FIELD_CROSSWALK`.** The source data lack the event-to-physical-plot plus explicit source-method granularity necessary for the chosen portfolio comparison, even though the article contains printed plot-level species tables. A published plot table is a **different analytical source and grain** from the v1.8 Event archive. It could in principle support a new, separately frozen descriptive conservation-coverage estimator, but NOT the current source-locked equal-effort gate without a documented method/source plot crosswalk.
+
+**No biological negative result exists.** All **3,281 original spider Occurrence/taxonomic/endemism values remain unopened** in this branch. No introduced species names were relabelled and no observed conservation gain/loss, forest preference, endemism retention or dry habitat rescue was estimated.
+
+## Next defensible science route
+
+To quantify habitat complementarity without inventing effort, the author-published **per-plot species tables with explicit END/INT/NAT/MAC/UK categories** would require a new, clearly labeled **observed inventory coverage** target: predeclare exactly which printed source tables/plots are complete and each source's protocol, preserve that forest 2016 vs dry 2017 and the two COBRA protocols differ, then measure only *observed coverage of named endemic taxa* under those fixed field protocols, not equal-effort or causal habitat effects. Alternatively, acquire author-source sample-to-plot/diurnality metadata.
+
+The stronger existing Structural main result remains the BALA seven-island long-term community turnover and spatial-beta study, [PR #461](https://github.com/zuizui0223/Structural/pull/461). It should be prioritized for paper development rather than indefinite retrospective source-gate rescue.
+
+All original Azores BALA/SLAM/PRIBES, Galápagos and Madeira Natura@night protected/previous scoring tracks stay SEALED; global mammal GEB manuscript SCIENTIFIC HOLD, 0 pristine confirmatory systems, no eBird.
