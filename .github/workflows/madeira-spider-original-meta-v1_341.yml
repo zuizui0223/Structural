@@ -1,0 +1,54 @@
+name: Madeira natural dry vs forest spiders original metadata ONLY v1.341
+on:
+  push:
+    paths:
+      - ".github/workflows/madeira-spider-original-meta-v1_341.yml"
+      - "development/madeira_spider_natural_habitat_complementarity_source_protocol_v1_341.json"
+      - "scripts/madeira_spider_original_meta_v1_341.py"
+      - "tests/test_madeira_spider_original_meta_v1_341.py"
+  pull_request:
+    paths:
+      - ".github/workflows/madeira-spider-original-meta-v1_341.yml"
+      - "development/madeira_spider_natural_habitat_complementarity_source_protocol_v1_341.json"
+      - "scripts/madeira_spider_original_meta_v1_341.py"
+      - "tests/test_madeira_spider_original_meta_v1_341.py"
+permissions:
+  contents: read
+jobs:
+  official-author-source-only-no-community-observation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Ensure both original Event and Occurrence source records stay opaque
+        run: python -m pytest -q tests/test_madeira_spider_original_meta_v1_341.py
+      - name: Original Madeira spiders v1.8 ZIP directory/meta.xml only
+        run: |
+          python scripts/madeira_spider_original_meta_v1_341.py \
+            --protocol development/madeira_spider_natural_habitat_complementarity_source_protocol_v1_341.json \
+            --out madeira_spider_original_meta_v1_341.json
+      - name: Metadata gate/response firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("madeira_spider_original_meta_v1_341.json").read_text())
+          assert r["status"] in ("MADEIRA_SPIDER_NATURAL_HABITAT_ORIGIN_META_ELIGIBLE_RESPONSES_CLOSED",
+                                 "TERMINAL_MADEIRA_SPIDER_SOURCE_PLOT_OR_ORIGIN_META_MISSING")
+          assert r["original_Event_rows_opened"]==0 and r["original_Occurrence_rows_opened"]==0
+          assert r["new_confirmatory_systems"]==0 and r["GEB_scientific_HOLD"] and not r["eBird_used"]
+          print("Original 2023 Madeira archive SHA",r["original_source_zip_sha256"])
+          print("Original source metadata endemism gate",r["status"])
+          print("Author source site and capture methods",r["source_candidate_fields"])
+          PY
+      - name: Archive original version role evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: madeira-spider-v1-8-natural-habitat-meta-v1-341
+          path: madeira_spider_original_meta_v1_341.json
+          if-no-files-found: warn
