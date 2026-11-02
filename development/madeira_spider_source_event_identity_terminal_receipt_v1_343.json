@@ -1,0 +1,61 @@
+{
+  "schema": "structural.madeira_spider_native_habitat_original_event_terminal.v1_343",
+  "date": "2026-11-02",
+  "status": "TERMINAL_NO_AUTHOR_PLOT_AND_DIURNAL_SWEEP_FIELD_CROSSWALK",
+  "original": {
+    "DOI": "10.15468/pvnmc0",
+    "original_v1_8_zip_sha256": "e6703c8e0c74bb65f93bd54993a27628a3b800d97a8a21cec19855c500db438d",
+    "published_562_Event_rows_examined": 562,
+    "original_3281_Occurrence_rows_opened": 0,
+    "published_original_plot_claims": {
+      "Madeira_native_forest": 12,
+      "Madeira_dry": 5,
+      "Porto_Santo_dry": 5
+    },
+    "published_forest_year": 2016,
+    "published_dry_year": 2017,
+    "strict_22_plot_equal_sweep_original_run": 41410109208,
+    "strict_22_plot_original_result_zip_artifact_id": 13125351442,
+    "strict_original_zip_artifact_SHA256": "475ac64805f82f5a719d84cc2a95286b0154fd9775fdd034cbaf4214fe632a4b",
+    "source_only_author_field_diagnostic_run": 41410531342,
+    "source_only_diagnostic_artifact_id": 13125456664,
+    "source_only_diagnostic_artifact_SHA256": "f1644f9df16de214d8144425899080d7d902770656e5e95ecdfa1979088043ab"
+  },
+  "source_author_original_Event_metadata": {
+    "original_locationID_per_island_physical_keys_detected_by_strict_v342": 11,
+    "source_habitat_vocabulary_Event_counts": {
+      "forest": 323,
+      "scrubland grassland": 239
+    },
+    "original_samplingProtocol_Event_counts": {
+      "active aerial searching": 48,
+      "beating trees": 46,
+      "ground": 64,
+      "pitfall": 253,
+      "sweeping": 129,
+      "under bark": 22
+    },
+    "original_author_fieldNumber_or_eventID_MF_MD_PSD_plotcodes_found": 0,
+    "original_sweeping_Event_rows_with_explicit_day_or_night": 0,
+    "original_all_Event_rows_without_explicit_daynight": 562,
+    "original_COBRA_sweeping_source_unit": "129 generic sweeping samples, without original explicit diurnality",
+    "sampleSizeUnit_original_counts": {
+      "days": 253,
+      "hour": 309
+    }
+  },
+  "interpretation": "Original published article lists plot-specific spider taxa, native forest/dry habitats, and day/night sweep protocols, but official original v1.8 Event source does not provide sufficient explicit plot and sweeping time labels to reconstruct the fixed 22 physical plot × 2 day+2 night event subset. No taxonomic response is opened to repair an unresolved sample-identity mismatch.",
+  "limits": {
+    "strict_22_site_v342_TERMINAL": true,
+    "new_v343_author_source_field_diagnostic_TERMINAL": true,
+    "no_endemic_spider_coverage_result_claimed": true,
+    "not_biological_null_effect": true,
+    "original_2016_aug_forest_vs_2017_apr_dry_confounded": true,
+    "future_distinct_author_table_could_require_separately_preregistered_author_PLOT_status_crosswalk": true,
+    "do_not_assume_original_author_tables_same_method_as_DwCA_Events": true,
+    "previous_Azores_BALA_SLAM_PRIBES_scorers_SEALED": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
