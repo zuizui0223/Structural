@@ -1,0 +1,83 @@
+{
+  "schema": "structural.madeira_spider_original_event_sweeping_qualification.v1_342",
+  "date": "2026-11-02",
+  "status": "FROZEN_AFTER_SOURCE_METADATA_BEFORE_FIRST_EVENT_BODIES",
+  "source": {
+    "url": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_madeira&v=1.8",
+    "sha256": "e6703c8e0c74bb65f93bd54993a27628a3b800d97a8a21cec19855c500db438d",
+    "uuid": "2a15f6bf-c850-4a52-84cf-d127224be076",
+    "published_Event_rows": 562,
+    "published_Occurrence_rows": 3281,
+    "previous_meta_run_id": 41409625709
+  },
+  "physical_site_rule": {
+    "author_site_ID_exact": "Original event.locationID (fallback original fieldNumber ONLY if locationID absent in original source). NFKD normalize case, remove whitespace/punctuation, join to source island. No nearest-coordinate or taxon-guided join.",
+    "island_source_exact": [
+      "Madeira",
+      "Porto Santo"
+    ],
+    "forest_habitat_source_exact": [
+      "forest",
+      "native forest",
+      "laurissilva",
+      "native laurissilva forest",
+      "laurisilva",
+      "laurel forest",
+      "native laurel forest"
+    ],
+    "dry_habitat_source_exact": [
+      "dry",
+      "dry habitat",
+      "open dry habitat",
+      "native dry habitat",
+      "dry open habitat",
+      "dry open areas",
+      "grassland",
+      "dry grassland"
+    ],
+    "source_plot_frame_expected": {
+      "Madeira_forest": 12,
+      "Madeira_dry": 5,
+      "Porto_Santo_dry": 5
+    },
+    "source_plot_labels_not_source_taxa": "Use author Event habitat alone (not taxon records, elevation, locality); if habitat labels do not match frozen ontology count unclassified and stop rather than recode.",
+    "original_date_year_expected": {
+      "Madeira_forest": [
+        2016
+      ],
+      "Madeira_dry": [
+        2017
+      ],
+      "Porto_Santo_dry": [
+        2017
+      ]
+    },
+    "source_Event_date_format": "YYYY-MM-DD prefix or YYYY-MM-DD/YYYY-MM-DD interval, require original calendar year as above; this is confounded with forest habitat and NOT a causal effect.",
+    "source_unique_Event_coreid_required": true,
+    "site_coordinate_max_abs_difference_degrees": 0.0003,
+    "required_total_22_original_sites": true,
+    "no_missing_any_site_habitat_or_original_date": true
+  },
+  "sampling": {
+    "source_author_common_method": "Only DAY SWEEPING and NIGHT SWEEPING; select same effort within each of 22 original plots. Forest protocol published at 2 day+2 night one-hour samples, dry protocol published at 4 day+4 night one-hour samples.",
+    "source_method_parser": "Predefined exact normalized values and phrases 'day sweeping','sweeping day','day sweep','sweep day','DS', and night counterparts 'night sweeping','sweeping night','night sweep','sweep night','NS'. Also parse exact 'D SWEEP'/'N SWEEP'. No generic sweeping without time classification; no daytime inference from original event Date hour.",
+    "common_quota_per_plot": {
+      "DAY_SWEEP": 2,
+      "NIGHT_SWEEP": 2
+    },
+    "selection": "For every plot×method sort original source Event coreIDs lexicographically and choose 2. All plot and sample exclusions are response-blind. Source 22 plots×4 Event = 88 distinct original Event IDs SHA256 frozen before original taxon access.",
+    "if_source_methods_unrecognized": "Event-only report source samplingProtocol vocabulary counts and STOP; raw species/origin bytes remain unread, do not search favorable method after observing taxa.",
+    "source_capture_duration": "Only author Event 'samplingEffort' exactly indicating 1 hour if populated; if duration unparseable or inconsistent in a selected method stop, never invent effort from species records.",
+    "method_and_year_difference": "Day/night sweeping shared method opportunity; forest 2016 August vs dry 2017 April is a major remaining season and habitat confound. Equal source effort does not make causal or temporal inference."
+  },
+  "next_if_pass": "Pre-freeze v1.343 fixed 792 7-of-12 forest panels, add 5 Madeira dry plots vs add 5 remaining forest plots, compare source endemic coverage and introduced negative control with same four original Events/site; one-shot first original 3,281 Occurrence read and seal. Porto Santo dry remains separate supporting context not inter-island dispersal proof.",
+  "stop_condition": "Wrong 22 physical sites, missing forest/dry habitat, missing source sampling method or 2 per plot, duplicate/invalid site positions or source time -> TERMINAL_NATURAL_HABITAT_COMPLEMENTARITY_DESIGN, original Occurrence 0 read.",
+  "firewall": {
+    "previous_MadeiraNaturaNight_and_Galapagos_original_source_STOP": true,
+    "older_SLAM_BALA_PRIBES_original_taxonomy_SEALED": true,
+    "original_spider_Occurrence_rows_at_v342": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
