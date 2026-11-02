@@ -1,0 +1,58 @@
+name: Madeira spider original plot-field and sweeping daynight Event-only diagnosis v1.343
+on:
+  push:
+    paths:
+      - ".github/workflows/madeira-spider-original-site-time-diagnostic-v1_343.yml"
+      - "development/madeira_spider_original_event_identity_diagnostic_protocol_v1_343.json"
+      - "scripts/madeira_spider_original_event_code_diagnostic_v1_343.py"
+      - "tests/test_madeira_spider_original_event_code_diagnostic_v1_343.py"
+  pull_request:
+    paths:
+      - ".github/workflows/madeira-spider-original-site-time-diagnostic-v1_343.yml"
+      - "development/madeira_spider_original_event_identity_diagnostic_protocol_v1_343.json"
+      - "scripts/madeira_spider_original_event_code_diagnostic_v1_343.py"
+      - "tests/test_madeira_spider_original_event_code_diagnostic_v1_343.py"
+permissions:
+  contents: read
+jobs:
+  frozen-original-source-Event-field-forensics-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Source-independent known-truth original COBRA plot and day/night author fields
+        run: python -m pytest -q tests/test_madeira_spider_original_event_code_diagnostic_v1_343.py
+      - name: Check original Madeira Spider Event meta fields ONLY, species source unopened
+        run: |
+          python scripts/madeira_spider_original_event_code_diagnostic_v1_343.py \
+            --contract development/madeira_spider_original_event_identity_diagnostic_protocol_v1_343.json \
+            --out madeira_original_spider_plot_diurnality_diagnostic_v1_343.json
+      - name: Keep prior strict sampling study terminal and original species unseen
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("madeira_original_spider_plot_diurnality_diagnostic_v1_343.json").read_text())
+          assert r["status"] in (
+              "SOURCE_EVENT_DESIGN_POTENTIAL_ALTERNATE_CROSSWALK_DIAGNOSTIC_ONLY",
+              "TERMINAL_NO_AUTHOR_PLOT_AND_DIURNAL_SWEEP_FIELD_CROSSWALK")
+          assert r["original_Event_rows_inspected"]==562
+          assert r["original_Occurrence_rows_inspected"]==0
+          assert r["previous_v342_strict_source_gate_TERMINAL"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("Original published habitat and plot metadata source:",r["source_original_habitat_vocabulary_counts"])
+          print("Original author site source: ",r["per_source_column_author_plot_code_coverage"])
+          print("Original sweeping source time field counts:",r["source_sweeping_author_time_counts"])
+          print("Original source plot/time identifiability:",r["status"])
+          PY
+      - name: Save diagnostics only, no source species or original plot labels
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: madeira-spider-original-site-method-event-diagnostic-v1-343
+          path: madeira_original_spider_plot_diurnality_diagnostic_v1_343.json
+          if-no-files-found: warn

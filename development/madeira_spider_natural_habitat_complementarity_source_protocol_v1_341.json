@@ -1,0 +1,70 @@
+{
+  "schema": "structural.madeira_spider_natural_habitat_complementarity.v1_341",
+  "date": "2026-11-02",
+  "status": "FROZEN_BEFORE_ORIGINAL_MADEIRA_SPIDER_V18_EVENT_OR_OCCURRENCE_BODY_READ",
+  "central_scientific_question": "Within Madeira Island, do naturally dry native habitats contribute endemic spider taxa not represented in the same-size native Laurissilva-only forest monitoring portfolio, after equal source COBRA DAY and NIGHT SWEEPING effort? This tests habitat complementarity NOT alien/exotic forest effects.",
+  "source": {
+    "GBIF_DOI": "10.15468/pvnmc0",
+    "GBIF_UUID": "2a15f6bf-c850-4a52-84cf-d127224be076",
+    "original_url": "https://ipt.gbif.pt/ipt/archive.do?r=spiders_madeira&v=1.8",
+    "published_original_Event_rows": 562,
+    "published_original_Occurrence_rows": 3281,
+    "published_independent_plots": 22,
+    "published_islands": [
+      "Madeira",
+      "Porto Santo"
+    ],
+    "original_study": "Malumbres-Olarte et al. 2020 Biodiversity Data Journal 8:e47502, DOI 10.3897/BDJ.8.e47502",
+    "published_plot_frame": {
+      "Madeira_Laurissilva_forest": 12,
+      "Madeira_natural_dry": 5,
+      "Porto_Santo_natural_dry": 5
+    },
+    "source_author_origin_counts": {
+      "endemic": 34,
+      "native_nonendemic": 26,
+      "introduced": 22,
+      "unknown": 23
+    },
+    "published_survey_dates": "Madeira forest August 2016; dry on Madeira and Porto Santo April 2017",
+    "method_discrepancy": "Forest COBRA aerial+beating+pitfalls and sweeping, dry COBRA ground+day/night sweeping. Forest DAY SWEEP 2 one-hour samples, NIGHT SWEEP 2 one-hour samples; dry DAY SWEEP 4 and NIGHT SWEEP 4. These two methods are the ONLY prospectively comparable core."
+  },
+  "design": {
+    "original_physical_site_unit": "Original author plot locationID; 12 forest + 5 Madeira dry, with Porto Santo 5 dry as separate island/secondary. Do not pool Porto Santo dry as independent substitute for Madeira habitat gradient.",
+    "source_EVent_role": "Original Event core exact original site ID, island, date, protocol and effort. Do not choose plot taxa-based.",
+    "forest_vs_dry_context": "Both original habitat classes are naturally occurring vegetation, NOT native-vs-exotic/introduced land cover. No causal forest protection claim.",
+    "year_season_confound": "Native forest sampled August 2016, dry in April 2017; cannot separate habitat from season/year using this original sample; species identity comparisons are descriptive.",
+    "primary_equal_effort": "Within each original plot select exactly TWO 1-hour DAY SWEEP and TWO 1-hour NIGHT SWEEP original Events, using source method labels and lexicographic original coreIDs. Require all 17 Madeira plots pass, otherwise STOP. Dry extra method Events ignored; forest aerial/pitfall/beating/ground sampling excluded.",
+    "source_plot_habitat": "Use original author Event habitat field or author plot key's documented MF vs MD prefix as a source published site label only IF the Event has no explicit habitat term and that prefix grammar is preannounced. Never infer habitat from taxon names or coordinates.",
+    "metadata_gate": "v1.341 source ZIP central directory/meta.xml only, accept original site ID, island, habitat-or-source-plot-code, sample protocol, source taxonomy and author origin field. If origin is absent, do not guess. A separate published author table of status would require a NEW independently frozen crosswalk protocol (not source field rescue).",
+    "source_event_gate": "v1.342 verify source 562 Events, exact 12/5/5 original plots, 2016/17 source dates, each plot two common day/night 1-hour sweep Events. Freeze 68 selected original Event IDs SHA; biological values unopened.",
+    "future_response_if_gate_passes": "v1.343 pre-freeze all 792 possible source 7-of-12 forest baseline panels and 5 added dry (12 total plots) vs 12 forest-only same number of plots. For named endemic taxa, compare observed source endemics covered by each portfolio and how many are unique to dry in Madeira; introduced taxa as negative control. No reweighting by Occurrence count, only site-detected taxa under equal selected Events.",
+    "interpretation_if_positive": "A diverse portfolio of naturally different Madeira habitats captures endemic taxa missed by forest-only monitoring, under source COBRA standardization; not native/exotic forest effect or causal extinction/colonization inference.",
+    "interpretation_if_negative": "No evidence of extra Madeira endemic spider coverage under comparable sweeping; do not change original effort/method to chase positive.",
+    "methods_are_not_identical_across_all_traps": true,
+    "original_taxa_from_paper_prior_art": "Source authors already reported 34 endemic,26 native,22 introduced across the full survey; these totals and dry/native ecology are prior art, not claimed new discoveries."
+  },
+  "quality": {
+    "source_archive_max_bytes": 400000,
+    "source_meta_max_bytes": 130000,
+    "sample_count_event": 562,
+    "sample_count_occurrence": 3281,
+    "minimum_physical_Madeira_Laurissilva": 12,
+    "minimum_physical_Madeira_natural_dry": 5,
+    "minimum_physical_Porto_Santo_dry": 5,
+    "source_group_taxa": "Araneae",
+    "statuses": "Exact source establishmentMeans or other explicit authoritative original origin metadata; no taxon-name inferencing",
+    "stop_policy": "Missing original author taxon origin field, imbalanced same-mode effort, physical plot identity mismatch, or source version change -> TERMINAL with zero source taxon read. No relaxing source cohort to improve an effect."
+  },
+  "firewall": {
+    "original_Azores_SLAM_BALA_PRIBES_source_scorers_sealed": true,
+    "original_Galapagos_2026_native_origin_source_terminal": true,
+    "original_Madeira_NaturaNight_time_gate_terminal": true,
+    "original_2024_Terceira_no_elevation_overlap_terminal": true,
+    "mapped_mammal_GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "source_Event_rows_opened_at_v341": 0,
+    "source_Occurrence_rows_opened_at_v341": 0,
+    "eBird": false
+  }
+}

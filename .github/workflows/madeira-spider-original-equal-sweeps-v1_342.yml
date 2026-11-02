@@ -1,0 +1,60 @@
+name: Madeira spider 22 original plot day/night sweeping Event-only v1.342
+on:
+  push:
+    paths:
+      - ".github/workflows/madeira-spider-original-equal-sweeps-v1_342.yml"
+      - "development/madeira_spider_original_equal_sweeping_event_protocol_v1_342.json"
+      - "scripts/madeira_spider_original_equal_sweeping_v1_342.py"
+      - "tests/test_madeira_spider_original_equal_sweeping_v1_342.py"
+  pull_request:
+    paths:
+      - ".github/workflows/madeira-spider-original-equal-sweeps-v1_342.yml"
+      - "development/madeira_spider_original_equal_sweeping_event_protocol_v1_342.json"
+      - "scripts/madeira_spider_original_equal_sweeping_v1_342.py"
+      - "tests/test_madeira_spider_original_equal_sweeping_v1_342.py"
+permissions:
+  contents: read
+jobs:
+  pre-response-frozen-original-equal-Cobra-sweeps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Known-truth source-sample identity, method, effort, and physical plot test
+        run: python -m pytest -q tests/test_madeira_spider_original_equal_sweeping_v1_342.py
+      - name: Original Madeira spider Event ONLY and 3281 species rows never read
+        run: |
+          python scripts/madeira_spider_original_equal_sweeping_v1_342.py \
+            --protocol development/madeira_spider_original_equal_sweeping_event_protocol_v1_342.json \
+            --out madeira_spider_original_equal_sweep_gate_v1_342.json
+      - name: Original survey source Event design eligibility or frozen scientific STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("madeira_spider_original_equal_sweep_gate_v1_342.json").read_text())
+          assert r["status"] in (
+             "MADEIRA_22_PLOT_88_EQUAL_SWEEP_EVENTS_SOURCE_LOCKED_TAXA_SEALED",
+             "TERMINAL_MADEIRA_NATURAL_HABITAT_SWEEP_SOURCE_NOT_COMPARABLE")
+          assert r["original_Event_rows_examined"]==562
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["source_original_zip_sha256"]=="e6703c8e0c74bb65f93bd54993a27628a3b800d97a8a21cec19855c500db438d"
+          assert r["forest_2016_dry_2017_temporal_confound_unresolved"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("Original site/effort ecological gate:",r["status"])
+          print("Original physical site counts:",r["original_physical_sites_by_island_habitat"])
+          print("Original method vocabulary:",r["original_samplingProtocol_vocabulary_Event_counts"])
+          print("Sample-quality/plot-conflict counts:",r["source_Event_quality_problem_counts"],r["source_physical_site_conflict_counts"])
+          print("Original selected Event n:",r["source_selected_22_plot_sweeps_original_Event_n"])
+          PY
+      - name: Preserve site denominators and explicit stop without original species
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: madeira-spider-original-22-plot-equal-sweeping-event-v1-342
+          path: madeira_spider_original_equal_sweep_gate_v1_342.json
+          if-no-files-found: warn
