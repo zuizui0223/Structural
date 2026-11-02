@@ -170,7 +170,7 @@ Olden, J. D. & Rooney, T. P. (2006). On defining and quantifying biotic homogeni
 
 Pozsgai, G., Cardoso, P., Fattorini, S., et al. (2026). Stability in the face of global decline: A 20-year study of arthropods in an oceanic archipelago. *Scientific Reports*, 16, 27703. https://doi.org/10.1038/s41598-026-57146-5
 
-Pozsgai, G. et al. (2024). BALA original sampling-event data description. *Scientific Data*, 11, 368. https://doi.org/10.1038/s41597-024-03174-7
+Pozsgai, G., Lhoumeau, S., Amorim, I. R., et al. (2024). The BALA project: A pioneering monitoring of Azorean forest invertebrates over two decades (1999–2022). *Scientific Data*, 11, 368. https://doi.org/10.1038/s41597-024-03174-7
 
 Socolar, J. B., Gilroy, J. J., Kunin, W. E. & Edwards, D. P. (2016). How should beta-diversity inform biodiversity conservation? *Trends in Ecology & Evolution*, 31, 67–80. https://doi.org/10.1016/j.tree.2015.11.005
 
