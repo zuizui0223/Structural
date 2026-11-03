@@ -138,16 +138,24 @@ def build(inp,out):
     s1doc=Document(out/"S1_raw.docx")
     sect=s1doc.sections[0]
     sect.page_width=Inches(11.69);sect.page_height=Inches(8.27)
-    sect.left_margin=Inches(.7);sect.right_margin=Inches(.7)
-    sect.top_margin=Inches(.75);sect.bottom_margin=Inches(.7)
+    sect.left_margin=Inches(.55);sect.right_margin=Inches(.55)
+    sect.top_margin=Inches(.54);sect.bottom_margin=Inches(.54)
     set_black_headings(s1doc);add_header_footer(s1doc,"Supplementary Table S1 | Seven-island uncertainty")
+    for para in s1doc.paragraphs:
+        para.paragraph_format.space_after=Pt(2)
+        para.paragraph_format.space_before=Pt(0)
+        para.paragraph_format.line_spacing=1.0
+        for run in para.runs:run.font.size=Pt(9)
     for table in s1doc.tables:
         table.autofit=False;table.alignment=WD_TABLE_ALIGNMENT.CENTER
         for row in table.rows:
             for cell in row.cells:
                 cell.vertical_alignment=WD_CELL_VERTICAL_ALIGNMENT.CENTER
                 for para in cell.paragraphs:
-                    for r in para.runs:r.font.size=Pt(8.25)
+                    para.paragraph_format.space_before=Pt(0)
+                    para.paragraph_format.space_after=Pt(1)
+                    para.paragraph_format.line_spacing=1.0
+                    for r in para.runs:r.font.size=Pt(7.8)
         if table.rows:
             trPr=table.rows[0]._tr.get_or_add_trPr()
             repeat=OxmlElement("w:tblHeader");repeat.set(qn("w:val"),"true");trPr.append(repeat)
