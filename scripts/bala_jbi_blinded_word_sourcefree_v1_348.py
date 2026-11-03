@@ -9,7 +9,8 @@ embedded figures, a separate landscape editable S1 table, and metadata QA.
 
 Required: pandoc >= 2; python-docx. The source figures are NOT regenerated.
 """
-import argparse,hashlib,json,subprocess
+import argparse,hashlib,json,subprocess,zipfile,os
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from docx import Document
 from docx.shared import Inches,Pt,RGBColor
@@ -48,6 +49,35 @@ def add_header_footer(doc,running):
     doc.core_properties.comments=""
     doc.core_properties.keywords=""
     doc.core_properties.identifier=""
+
+def strip_custom_word_properties(path):
+    """Drop Pandoc-generated custom author metadata and its OOXML references."""
+    path=Path(path)
+    tmp=path.with_name(path.name+".clean")
+    relationships="{http://schemas.openxmlformats.org/package/2006/relationships}Relationship"
+    override="{http://schemas.openxmlformats.org/package/2006/content-types}Override"
+    with zipfile.ZipFile(path) as original, zipfile.ZipFile(tmp,"w",zipfile.ZIP_DEFLATED) as dest:
+        for member in original.infolist():
+            n=member.filename
+            if n=="docProps/custom.xml":
+                continue
+            data=original.read(n)
+            if n=="_rels/.rels":
+                root=ET.fromstring(data)
+                for item in list(root):
+                    if item.tag==relationships and item.attrib.get("Target","").endswith("docProps/custom.xml"):
+                        root.remove(item)
+                data=ET.tostring(root,encoding="utf-8",xml_declaration=True)
+            if n=="[Content_Types].xml":
+                root=ET.fromstring(data)
+                for item in list(root):
+                    if item.tag==override and item.attrib.get("PartName") == "/docProps/custom.xml":
+                        root.remove(item)
+                data=ET.tostring(root,encoding="utf-8",xml_declaration=True)
+            dest.writestr(member,data)
+    os.replace(tmp,path)
+    with zipfile.ZipFile(path) as z:
+        assert "docProps/custom.xml" not in z.namelist()
 
 def build(inp,out):
     inp=Path(inp);out=Path(out)
@@ -104,6 +134,7 @@ def build(inp,out):
         pict._inline.docPr.set("descr",("Temporal community turnover","Spatial beta diversity","Alpha richness and beta diversity")[i])
     main=out/"BALA_JBI_v1_348_anonymous_manuscript_with_figures.docx"
     d.save(main)
+    strip_custom_word_properties(main)
     s1doc=Document(out/"S1_raw.docx")
     sect=s1doc.sections[0]
     sect.page_width=Inches(11.69);sect.page_height=Inches(8.27)
@@ -121,6 +152,7 @@ def build(inp,out):
             trPr=table.rows[0]._tr.get_or_add_trPr()
             repeat=OxmlElement("w:tblHeader");repeat.set(qn("w:val"),"true");trPr.append(repeat)
     s1doc.save(out/"BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx")
+    strip_custom_word_properties(out/"BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx")
     rendered=Document(main);s1read=Document(out/"BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx")
     assert len(rendered.inline_shapes)==3 and len(s1read.tables)==1
     assert "github.com/zuizui0223" not in "\n".join(x.text for x in rendered.paragraphs)
