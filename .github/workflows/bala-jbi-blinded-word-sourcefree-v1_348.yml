@@ -59,7 +59,12 @@ jobs:
                   assert "docProps/custom.xml" not in archive.namelist()
                   assert b"<Relationships xmlns=" in archive.read("_rels/.rels")
                   assert b"<Types xmlns=" in archive.read("[Content_Types].xml")
-          assert "github.com/zuizui0223" not in "\n".join(x.text for x in m.paragraphs)
+          body_text="\n".join(x.text for x in m.paragraphs)
+          assert "github.com/zuizui0223" not in body_text
+          assert "a = |S₁ ∩ S₃|" in body_text
+          assert "b = |S₁ ∖ S₃|" in body_text
+          assert "c = |S₃ ∖ S₁|" in body_text
+          assert "||S₃| − |S₁||" in body_text
           assert any("0.187500" in c.text for t in s.tables for row in t.rows for c in row.cells)
           print("PASS: blinded, editable, source-free; 3 embedded figures; original BALA biology unopened")
           PY
