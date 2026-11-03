@@ -111,10 +111,10 @@ def render(v316,v318,contract,destination):
         y=[next(r for r in rows if r["guild"]==guild and r["island_code"]==i)["spatial_simpson_delta_B3_minus_B1"] for i in ISLANDS]
         ax.scatter([z+offsets[guild] for z in x],y,marker=markers[guild],s=70,label=GUILDS[guild])
     ax.set_xticks(x,[NAMES[i] for i in ISLANDS],rotation=18,ha="right")
-    _pretty_axes(ax,"Spatial forest-community change differs by guild",
+    _pretty_axes(ax,"Observed spatial trajectories of island forest communities",
                  "Within-island spatial Simpson β, B3 − B1")
-    ax.text(.01,.03,"Below zero: spatial homogenization   •   Above zero: differentiation",
-            transform=ax.transAxes,ha="left",va="bottom",fontsize=9)
+    ax.text(.01,.03,"Below zero: homogenization   •   Above zero: differentiation. Island n=7; uncertainty spans zero (Table S1).",
+            transform=ax.transAxes,ha="left",va="bottom",fontsize=8)
     ax.legend(frameon=False,ncol=2)
     fig.tight_layout()
     fig.savefig(destination/"figure2_spatial_beta_by_island.png",dpi=260)
