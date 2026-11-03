@@ -57,7 +57,7 @@ def test_missing_internal_notes_or_bad_uncertainty_must_stop_not_ship():
         anonymize(main.split("### Internal non-submission notes")[0],s1)
     with pytest.raises(ValueError,match="S1 missing"):
         anonymize(main,s1.replace("−0.4399","−0.5000"))
-    with pytest.raises(ValueError,match="anonymization"):
+    with pytest.raises(ValueError,match="provenance exposure"):
         anonymize(main.replace("Decadal arthropod turnover", "Decadal arthropod turnover"),s1.replace(
           "# Supplementary Table S1", "# Supplementary Table S1\nhttp://github.com/zuizui0223"))
         
