@@ -1,0 +1,68 @@
+name: BALA JBI blinded Word manuscript and editable S1 source-free v1.348
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-jbi-blinded-word-sourcefree-v1_348.yml"
+      - "scripts/bala_jbi_blinded_word_sourcefree_v1_348.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-biology-sealed-word-submission-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install only Word formatter, no biological analysis dependencies
+        run: |
+          python -m pip install python-docx
+          if ! command -v pandoc >/dev/null; then
+            sudo apt-get -qq update
+            sudo apt-get -y -qq install pandoc
+          fi
+      - name: Fetch ONLY previously verified and frozen v1.347 7-island figure CSV and anonymous Markdown
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p bala_original_sourcefree_v1347
+          gh run download 41564544223 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name bala-jbi-original-sourcefree-full-manuscript-3fig-v1-345 \
+            --dir bala_original_sourcefree_v1347
+      - name: Build editable JBI anonymized Word main text with 3 embedded figures and separate S1 table
+        run: |
+          python scripts/bala_jbi_blinded_word_sourcefree_v1_348.py \
+            --input bala_original_sourcefree_v1347 \
+            --out bala_jbi_blinded_Word_v1348
+      - name: Strict scientific evidence, anonymity and editable output gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from docx import Document
+          p=Path("bala_jbi_blinded_Word_v1348")
+          r=json.loads((p/"Word_sourcefree_manifest.json").read_text(encoding="utf-8"))
+          assert r["status"]=="BLINDED_EDITABLE_WORD_AND_S1_RECREATED_FROM_FIXED_SOURCE_FREE_CI"
+          assert r["source_original_10k_Event_or_64k_Occurrence_rows_reopened"]==0
+          assert r["island_spatial_beta_95pct_interval_crosses_zero"]
+          assert r["GEB_scientific_HOLD"] and r["not_submitted"]
+          m=Document(p/"BALA_JBI_v1_348_anonymous_manuscript_with_figures.docx")
+          s=Document(p/"BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx")
+          assert len(m.inline_shapes)==3 and len(s.tables)==1
+          assert not m.core_properties.author and not s.core_properties.author
+          assert "github.com/zuizui0223" not in "\n".join(x.text for x in m.paragraphs)
+          assert any("0.187500" in c.text for t in s.tables for row in t.rows for c in row.cells)
+          print("PASS: blinded, editable, source-free; 3 embedded figures; original BALA biology unopened")
+          PY
+      - name: Retain only editable referee-facing Word files and source SHA manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-jbi-original-sourcefree-anonymous-docx-with-3fig-and-S1-v1-348
+          path: |
+            bala_jbi_blinded_Word_v1348/*.docx
+            bala_jbi_blinded_Word_v1348/Word_sourcefree_manifest.json
+          if-no-files-found: warn
