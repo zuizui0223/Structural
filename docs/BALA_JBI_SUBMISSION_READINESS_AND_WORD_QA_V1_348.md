@@ -1,6 +1,6 @@
 # BALA JBI v1.348 — Word submission packaging and final editorial gates
 
-**Status: anonymous Word material assembled locally, visually verified; GitHub source-free reproducibility build queued/in verification. Manuscript has NOT been submitted.** This note does not permit reopening the original BALA Event/Occurrence source. The science status remains v1.347 with the v1.346 geographic-uncertainty correction.
+**Status: anonymous Word material assembled locally, visually verified; GitHub source-free reproducibility build SUCCESS. Manuscript has NOT been submitted.** This note does not permit reopening the original BALA Event/Occurrence source. The science status remains v1.347 with the v1.346 geographic-uncertainty correction.
 
 ## What is now materially ready
 
