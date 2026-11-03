@@ -57,6 +57,8 @@ jobs:
           for filename in ("BALA_JBI_v1_348_anonymous_manuscript_with_figures.docx", "BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx"):
               with zipfile.ZipFile(p/filename) as archive:
                   assert "docProps/custom.xml" not in archive.namelist()
+                  assert b"<Relationships xmlns=" in archive.read("_rels/.rels")
+                  assert b"<Types xmlns=" in archive.read("[Content_Types].xml")
           assert "github.com/zuizui0223" not in "\n".join(x.text for x in m.paragraphs)
           assert any("0.187500" in c.text for t in s.tables for row in t.rows for c in row.cells)
           print("PASS: blinded, editable, source-free; 3 embedded figures; original BALA biology unopened")
