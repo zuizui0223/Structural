@@ -6,6 +6,9 @@ on:
       - "docs/BALA_JBI_ANONYMIZED_FULL_MANUSCRIPT_DRAFT_V1_345.md"
       - "scripts/bala_jbi_sourcefree_figures_v1_345.py"
       - "tests/test_bala_jbi_sourcefree_manuscript_figures_v1_345.py"
+      - "scripts/bala_jbi_anonymous_review_bundle_v1_347.py"
+      - "tests/test_bala_jbi_anonymous_review_bundle_v1_347.py"
+      - "docs/BALA_JBI_SUPPLEMENTARY_TABLE_S1_ISLAND_UNCERTAINTY_V1_346.md"
       - "development/bala_within_campaign_detection_original_result_freeze_v1_316.json"
       - "development/bala_spatial_original_result_freeze_v1_318.json"
   pull_request:
@@ -14,6 +17,9 @@ on:
       - "docs/BALA_JBI_ANONYMIZED_FULL_MANUSCRIPT_DRAFT_V1_345.md"
       - "scripts/bala_jbi_sourcefree_figures_v1_345.py"
       - "tests/test_bala_jbi_sourcefree_manuscript_figures_v1_345.py"
+      - "scripts/bala_jbi_anonymous_review_bundle_v1_347.py"
+      - "tests/test_bala_jbi_anonymous_review_bundle_v1_347.py"
+      - "docs/BALA_JBI_SUPPLEMENTARY_TABLE_S1_ISLAND_UNCERTAINTY_V1_346.md"
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,7 +34,9 @@ jobs:
       - name: Install source-free plotting and test dependencies
         run: python -m pip install pytest matplotlib
       - name: Validate structured abstract, numeric source provenance, and figure consistency
-        run: python -m pytest -q tests/test_bala_jbi_sourcefree_manuscript_figures_v1_345.py
+        run: |
+          python -m pytest -q tests/test_bala_jbi_sourcefree_manuscript_figures_v1_345.py
+          python -m pytest -q tests/test_bala_jbi_anonymous_review_bundle_v1_347.py
       - name: Render all three research paper figures and inspectable aggregate CSV
         run: |
           python scripts/bala_jbi_sourcefree_figures_v1_345.py \
@@ -51,8 +59,12 @@ jobs:
           assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
           print("PASS: exact original source-free JBI figure evidence, sealed taxonomy")
           PY
-      - name: Include anonymized draft and figures in inspectable artifact
-        run: cp docs/BALA_JBI_ANONYMIZED_FULL_MANUSCRIPT_DRAFT_V1_345.md bala_jbi_manuscript_v1_345/
+      - name: Package reviewer-safe anonymous main text, Table S1, three figures and island CSV
+        run: |
+          python scripts/bala_jbi_anonymous_review_bundle_v1_347.py \
+            --manuscript docs/BALA_JBI_ANONYMIZED_FULL_MANUSCRIPT_DRAFT_V1_345.md \
+            --S1 docs/BALA_JBI_SUPPLEMENTARY_TABLE_S1_ISLAND_UNCERTAINTY_V1_346.md \
+            --bundle bala_jbi_manuscript_v1_345
       - if: always()
         uses: actions/upload-artifact@v4
         with:
