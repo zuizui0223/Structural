@@ -99,6 +99,21 @@ def build(inp,out):
         if line.startswith("**Keywords:**"):line=line.replace("Azores; arthropods;","arthropods; Azores;")
         body.append(line)
     main_md="\n".join(body)+"\n"
+    # Preserve the six frozen set-theory definitions in Word without
+    # Pandoc's rendering-dependent inline TeX vert/difference glyphs.
+    # The displayed beta equations remain native, editable Word math.
+    inline_fixes={
+        r"\(S_1\)":"S₁",
+        r"\(S_3\)":"S₃",
+        r"\(a=|S_1\cap S_3|\)":"a = |S₁ ∩ S₃|",
+        r"\(b=|S_1\setminus S_3|\)":"b = |S₁ ∖ S₃|",
+        r"\(c=|S_3\setminus S_1|\)":"c = |S₃ ∖ S₁|",
+        r"\(\left||S_3|-|S_1|\right|\)":"||S₃| − |S₁||",
+    }
+    for old_math,new_math in inline_fixes.items():
+        if main_md.count(old_math)!=1:
+            raise ValueError("Frozen manuscript inline ecological formula changed: "+old_math)
+        main_md=main_md.replace(old_math,new_math)
     s1_md=si.decode("utf-8").replace(
         "# Supplementary Table S1 — Original BALA seven-island uncertainty, v1.346",
         "# Supplementary Table S1. Seven-island uncertainty of temporal turnover and spatial beta diversity")
