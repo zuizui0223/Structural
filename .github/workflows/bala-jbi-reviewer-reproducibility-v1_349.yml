@@ -27,8 +27,9 @@ jobs:
             --dir original_sourcefree_v1347
       - name: Create blinded reviewer source-code and 7-island numerical archive
         run: |
+          (cd original_sourcefree_v1347 && zip -q -r ../sourcefree_evidence_v1347.zip .)
           python scripts/bala_jbi_reviewer_reproducibility_archive_v1_349.py \
-            --sourcefree-v1347 original_sourcefree_v1347 \
+            --sourcefree-v1347 sourcefree_evidence_v1347.zip \
             --out BALA_JBI_anonymous_reviewer_reproducibility_v1_349.zip
       - name: Verify actual standalone archive in clean workspace
         run: |
