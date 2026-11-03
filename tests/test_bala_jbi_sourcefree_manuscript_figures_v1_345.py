@@ -32,10 +32,13 @@ def test_manuscript_meets_current_journal_structured_abstract_and_title_limits()
     count=len(ab.replace("**","").split())
     assert 130<=count<=300, count
     for heading in ("1 | Introduction","2 | Materials and Methods",
-                    "3 | Results","4 | Discussion","5 | Conclusions",
+                    "3 | Results","4 | Discussion","4.5 | Conclusions",
                     "Data availability and reproducibility","Figure legends","References"):
         assert heading in m
     assert "source-sink" in m.lower() or "source–sink" in m.lower()
+    assert "seven-island 95% t interval" in m.lower()
+    assert "−0.440 to +0.089" in m
+    assert "Table S1" in m
     assert "not directly observed" in m.lower() or "not directly measured" in m.lower()
 
 def test_paper_claims_are_validated_only_by_original_source_free_numeric_rows():
