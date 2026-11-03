@@ -1,0 +1,86 @@
+name: BALA JBI blinded reviewer full-method code and source-free replay v1.349
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-jbi-reviewer-reproducibility-v1_349.yml"
+      - "scripts/bala_jbi_reviewer_reproducibility_archive_v1_349.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  anonymous-code-and-public-source-method:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Fetch ONLY previously successful original-source-FREE manuscript and figures
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p original_sourcefree_v1347
+          gh run download 41564544223 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name bala-jbi-original-sourcefree-full-manuscript-3fig-v1-345 \
+            --dir original_sourcefree_v1347
+      - name: Create blinded reviewer source-code and 7-island numerical archive
+        run: |
+          python scripts/bala_jbi_reviewer_reproducibility_archive_v1_349.py \
+            --sourcefree-v1347 original_sourcefree_v1347 \
+            --out BALA_JBI_anonymous_reviewer_reproducibility_v1_349.zip
+      - name: Verify actual standalone archive in clean workspace
+        run: |
+          python -m pip install pytest matplotlib
+          mkdir -p replay
+          cd replay
+          unzip -q ../BALA_JBI_anonymous_reviewer_reproducibility_v1_349.zip
+          python -m pytest -q \
+            tests/test_bala_temporal_spatial_paper_sourcefree_v1_344.py \
+            tests/test_bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py
+          python scripts/bala_temporal_spatial_paper_sourcefree_v1_344.py --out output/audit.json
+          python scripts/bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py --out output/uncertainty.json
+          python scripts/bala_jbi_sourcefree_figures_v1_345.py --out output/figures
+      - name: Strict field-source seal, anonymous safety, origin and island-inference checks
+        run: |
+          python - <<'PY'
+          import hashlib,json,zipfile
+          from pathlib import Path
+          d=Path("replay")
+          meta=json.loads((d/"MANIFEST_SHA256.json").read_text(encoding="utf-8"))
+          assert meta["status"]=="BLINDED_SOURCE_FREE_SEVEN_ISLAND_FIGURES_AND_PUBLIC_SOURCE_CODE_AVAILABLE"
+          assert meta["original_BALA_field_Event_rows_contained"]==0
+          assert meta["original_BALA_field_Occurrence_rows_contained"]==0
+          assert meta["source_original_biology_reopened_during_build"]==0
+          assert meta["sourcefree_reproduction_default_without_network"]
+          assert meta["original_islands_n"]==7 and meta["original_site_frame_n"]==29
+          assert meta["observed_beetle_island_level_t95_includes_zero"]
+          assert meta["original_published_BALA_DwCA_SHA256"]=="4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2"
+          for name,digest in meta["file_sha256"].items():
+              assert hashlib.sha256((d/name).read_bytes()).hexdigest()==digest
+          for p in d.rglob("*"):
+              if p.is_file() and p.suffix in (".py",".json",".md",".txt",".csv",".svg"):
+                  body=p.read_text(encoding="utf-8").lower()
+                  for private in ("zuizui0223","github.com/","githubusercontent.com","rachel"):
+                      assert private not in body, f"Author metadata: {p}: {private}"
+          q=json.loads((d/"output/uncertainty.json").read_text())
+          b=q["guilds"]["coleoptera"]["within_island_spatial_simpson_B3_minus_B1"]
+          assert b["island_equal_mean"]<0 and b["t95_interval_includes_zero"]
+          assert b["symmetric_sign_flip_two_sided_tail_count"]==24
+          assert q["no_new_original_event_occurrence_or_species_rows_opened"]
+          assert q["GEB_scientific_HOLD"] and q["new_confirmatory_systems"]==0 and not q["eBird_used"]
+          plot=json.loads((d/"output/figures/figure_bundle_manifest.json").read_text())
+          assert plot["original_Event_or_Occurrence_rows_opened"]==0
+          assert plot["source_BALA_v314_v316_v318_workflows_SEALED"]
+          assert all((d/"output/figures"/(stem+".png")).stat().st_size>15000 for stem in plot["figures"])
+          print("PASS: reviewer package anonymously reproduces all sourcefree island conclusions and three figures")
+          print("Included reviewer files:",meta["file_n"])
+          PY
+      - name: Archive ONLY the anonymous reviewer-code ZIP, never original ecological source
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-jbi-anonymous-reviewer-reproducibility-code-v1-349
+          path: BALA_JBI_anonymous_reviewer_reproducibility_v1_349.zip
+          if-no-files-found: warn
