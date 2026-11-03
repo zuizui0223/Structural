@@ -10,7 +10,7 @@ embedded figures, a separate landscape editable S1 table, and metadata QA.
 Required: pandoc >= 2; python-docx. The source figures are NOT regenerated.
 """
 import argparse,hashlib,json,subprocess,zipfile,os
-import xml.etree.ElementTree as ET
+from lxml import etree as ET  # preserve default OOXML namespaces required by LibreOffice
 from pathlib import Path
 from docx import Document
 from docx.shared import Inches,Pt,RGBColor
