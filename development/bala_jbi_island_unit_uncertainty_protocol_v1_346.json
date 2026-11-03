@@ -1,0 +1,61 @@
+{
+  "schema": "structural.bala_jbi_island_unit_uncertainty_audit.v1_346",
+  "date": "2026-11-03",
+  "status": "FROZEN_SOURCE_FREE_EXPLORATORY_ISLAND_LEVEL_UNCERTAINTY_AFTER_V1_345_DRAFT",
+  "scientific_motivation": "v1.344 and v1.345 demonstrated negative 7-island beetle spatial mean under every one-island deletion and 18 fixed sampling half-Event splits. That is not a CI, significance or guarantee of direction in unseen islands. Audit uncertainty at island grain before journal submission, compare separate axes and paired guild contrast.",
+  "source": {
+    "source_DwCA_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "source_v316_response_sha256": "1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871",
+    "source_v318_response_sha256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "source_v344_contract": "development/bala_temporal_spatial_cross_axis_sourcefree_protocol_v1_344.json",
+    "original_independent_islands": 7,
+    "island_code_order": [
+      "fai",
+      "flo",
+      "pic",
+      "sjg",
+      "smg",
+      "smr",
+      "ter"
+    ],
+    "original_source_selected_event_ids": 4620,
+    "physical_transects_in_unique_original_source": 29,
+    "previous_original_species_scorers": [
+      "v1.314 SEALED",
+      "v1.316 SEALED",
+      "v1.318 SEALED"
+    ]
+  },
+  "fixed_calculations": {
+    "island_value_unit": "Each original source island gets one mean temporal difference or spatial beta change per guild. Original forest-transect pairs, sampling Event split salts and cross-guild sites are NOT treated as independent draws.",
+    "group_stats": [
+      "Araneae original temporal Sørensen between-minus-within",
+      "Coleoptera original temporal Sørensen between-minus-within",
+      "Araneae original B3-minus-B1 spatial Simpson β",
+      "Coleoptera original B3-minus-B1 spatial Simpson β"
+    ],
+    "paired_guild_spatial_difference": "Coleoptera spatial Simpson B3−B1 minus Araneae spatial Simpson B3−B1 within the SAME original seven island codes; physical site sets differ (28 vs 29), so guild difference is exploratory matched-context, not a taxonomic causal interaction.",
+    "numeric_interval": "Naive descriptive seven-island mean±t(0.975, df6)×sampleSD/sqrt(7), with t-critical = 2.4469118511449692, and all seven island values reported. Island contexts share one archipelago; this interval is NOT ecological uncertainty corrected for archipelago dependence or unequal sampling.",
+    "null": "All 2^7=128 independent island-sign choices for each centered signed source-island effect, two-sided absolute mean tail; assumes exchangeability/symmetric null around zero, exploratory POST OUTCOME, no multiplicity-corrected confirmatory p-values. Report all source signs and exact denominator 128. Null says nothing about underlying species detection probabilities.",
+    "support_interpretation": "A negative LOO mean for beetle in 7/7 dependent deletions does not imply a 95% CI that excludes zero. If spatial interval includes zero or sign-flip p≥0.05, explicitly downgrade to mean observed convergence and no population-wide island-direction significance. Retain strong observed within-phase-excess 7/7 source signs without interpreting as true biological occupancy correction.",
+    "no_extrapolation": "7 islands do NOT represent independent archipelago replications; do not use 49 beetle plot pairs, 56 spider pairs, 18 half-salts or individual 4620 Event rows as uncertainty n."
+  },
+  "do_not_change": [
+    "Original source-positive empirical v1.314/v1.316/v1.318 endpoints",
+    "JBI paper candidate overall ecology",
+    "source comparison sampling, taxonomic original status, any original positive/negative point estimates",
+    "no eBird policy or protected original holdouts"
+  ],
+  "future_paper_actions": [
+    "Edit Results and Abstract to name observational and uncertain spatial direction, do not claim significant taxon interaction",
+    "Add island-unit uncertainty table and JBI Methods/Discussion limitations",
+    "Keep all original field scorers sealed, CI only read numeric source aggregates"
+  ],
+  "firewall": {
+    "original_BALA_Event_and_Occurrence_rows_reopened": 0,
+    "original_BALA_v314_v316_v318_scorers_SEALED": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
