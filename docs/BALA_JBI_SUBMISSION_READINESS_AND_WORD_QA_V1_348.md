@@ -28,7 +28,7 @@ The current anonymous abstract is 278 words, title shorter than 115 characters, 
 
 - Source-free Figure/Markdown package (v1.347): CI #41564544223 **SUCCESS**, 9 tests.
 - Seven-island source-free uncertainty (v1.346): CI #41563482126 **SUCCESS**, 5 tests.
-- New v1.348 Word conversion: local DOCX render/visual QA **PASS**, separate GitHub workflow `bala-jbi-blinded-word-sourcefree-v1_348.yml` created. Check the latest CI result before describing it as successful.
+- New v1.348 Word conversion: local 13-page DOCX and 1-page landscape editable S1 **VISUAL-QA PASS**, metadata scrubbed, accessibility high/medium/low 0. [Final GitHub source-free Word CI #41583969312](https://github.com/zuizui0223/Structural/actions/runs/41583969312) **SUCCESS**, artifact **#13207026672** contains exactly the 2 anonymous final DOCX files and 1 SHA manifest, no temporary Pandoc documents or custom author metadata. Artifact ZIP SHA256 `6a1ff59fc2567c0c24bd5a603bcbd355356d173f949a031e6e070a6f9ecf7507`. [Persistent local visual QA and reproduced CI receipt](../development/bala_jbi_blinded_word_package_SHA_CI_receipt_v1_348.json). Original BALA biological Event/Occurrence rows reopened **zero**.
 - Original biological source scorers v1.314 / v1.316 / v1.318 **SEALED**, original source values reopened **0**. GEB mammal manuscript remains SCIENTIFIC HOLD, 0 new pristine confirmatory systems, eBird not used.
 
 **Decision:** Move forward with real author contributions and blinded full-code access. Do NOT reopen original BALA source or claim that the manuscript was submitted.
