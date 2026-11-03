@@ -53,6 +53,10 @@ jobs:
           s=Document(p/"BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx")
           assert len(m.inline_shapes)==3 and len(s.tables)==1
           assert not m.core_properties.author and not s.core_properties.author
+          import zipfile
+          for filename in ("BALA_JBI_v1_348_anonymous_manuscript_with_figures.docx", "BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx"):
+              with zipfile.ZipFile(p/filename) as archive:
+                  assert "docProps/custom.xml" not in archive.namelist()
           assert "github.com/zuizui0223" not in "\n".join(x.text for x in m.paragraphs)
           assert any("0.187500" in c.text for t in s.tables for row in t.rows for c in row.cells)
           print("PASS: blinded, editable, source-free; 3 embedded figures; original BALA biology unopened")
@@ -63,6 +67,7 @@ jobs:
         with:
           name: bala-jbi-original-sourcefree-anonymous-docx-with-3fig-and-S1-v1-348
           path: |
-            bala_jbi_blinded_Word_v1348/*.docx
+            bala_jbi_blinded_Word_v1348/BALA_JBI_v1_348_anonymous_manuscript_with_figures.docx
+            bala_jbi_blinded_Word_v1348/BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx
             bala_jbi_blinded_Word_v1348/Word_sourcefree_manifest.json
           if-no-files-found: warn
