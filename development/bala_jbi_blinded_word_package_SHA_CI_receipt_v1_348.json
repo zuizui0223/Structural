@@ -1,0 +1,76 @@
+{
+  "schema": "structural.bala_jbi_blinded_word_reviewer_package.v1_348",
+  "date": "2026-11-03",
+  "status": "WORD_BUNDLE_RENDER_A11Y_ANONYMITY_AND_REPRODUCIBILITY_CI_VERIFIED",
+  "source_field_biology": {
+    "original_BALA_Event_rows_reopened": 0,
+    "original_BALA_Occurrence_rows_reopened": 0,
+    "archived_BALA_DwCA_SHA256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "sourcefree_v1_347_GitHub_artifact_id": 13197924191,
+    "sourcefree_v1_347_artifact_SHA256": "b1a491af11f884d9215d070f6baf30115a123c7dfbf53b7b354763b590662224",
+    "original_field_scorers_SEALED": [
+      "v1.314",
+      "v1.316",
+      "v1.318"
+    ]
+  },
+  "local_visually_verified_reviewer_package": {
+    "main_docx_SHA256": "2bc71b73213e66fc7df2b654c0284a883d8f789becb1dbd3a0e9aa578afa5457",
+    "editable_s1_docx_SHA256": "de4a700e846debb632bc9e5b12e28a12ab37499cc8d58f2f876f195c6606f923",
+    "reviewer_complete_zip_SHA256": "afb0fa91cabc2e48466bce87209f6eaede2934f46fd2f3c8a006625595e6dd22",
+    "main_pages": 13,
+    "s1_landscape_pages": 1,
+    "figures_embedded": 3,
+    "sourcefree_original_PNG_SVG_figures": 3,
+    "sourcefree_island_guild_numerical_CSV_rows": 14,
+    "standalone_anonymized_python_figures_uncertainty_recalculation": true,
+    "all_page_renders_visually_inspected": true,
+    "word_custom_metadata_scrubbed": true,
+    "word_a11y_audit_findings": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    }
+  },
+  "github_reproducibility": {
+    "source_free_word_builder": "scripts/bala_jbi_blinded_word_sourcefree_v1_348.py",
+    "source_free_workflow": ".github/workflows/bala-jbi-blinded-word-sourcefree-v1_348.yml",
+    "successful_final_run": 41583969312,
+    "result": "success",
+    "artifact_id": 13207026672,
+    "artifact_SHA256": "6a1ff59fc2567c0c24bd5a603bcbd355356d173f949a031e6e070a6f9ecf7507",
+    "artifact_file_count": 3,
+    "artifact_contains_only": [
+      "BALA_JBI_v1_348_anonymous_manuscript_with_figures.docx",
+      "BALA_JBI_v1_348_anonymous_supplementary_table_S1.docx",
+      "Word_sourcefree_manifest.json"
+    ],
+    "artifact_does_not_include_temporary_pandoc_docx": true,
+    "custom_word_properties_removed": true,
+    "no_identifiable_author_repo_link_in_main": true
+  },
+  "jbi_official_requirement_basis": "https://onlinelibrary.wiley.com/page/journal/13652699/homepage/forauthors.html",
+  "paper_submission_status": "DRAFT_NOT_SUBMITTED",
+  "scientific_limits": {
+    "seven_island_same_archipelago": true,
+    "temporal_sorensen_excess_observed_positive_on_all_seven_islands_for_both_guilds": true,
+    "beetle_spatial_simpson_observed_island_mean": -0.17530148423005568,
+    "beetle_spatial_exploratory_t95_interval": [
+      -0.4399429418394818,
+      0.08933997337937047
+    ],
+    "beetle_spatial_signflip_two_sided_p": 0.1875,
+    "paired_Beetle_spider_spatial_interval_crosses_zero": true,
+    "no_supported_causal_forest_homogenization": true,
+    "no_new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false
+  },
+  "remaining_user_only_approvals": [
+    "research author list and data-custodian agreement",
+    "separate author title page and ORCID/biosketch",
+    "funding, permit, conflicts, acknowledgement",
+    "fully blinded reviewer-accessible source pipeline",
+    "journal editorial novelty and final submission approval"
+  ]
+}
