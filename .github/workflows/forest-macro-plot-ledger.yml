@@ -10,19 +10,22 @@ permissions:
 jobs:
   event-metadata-ledger:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python -m pip install pytest
-      - name: Check physical plot grain and no Occurrence access
-        run: python -m pytest -q analysis/forest_macro/test_ledger.py
+      - run: python -m pip install pytest numpy rasterio
+      - name: Check physical plot grain, missing pixels and no Occurrence access
+        run: python -m pytest -q analysis/forest_macro/
       - name: Read original Event metadata and build join-ready forest plot ledger
         run: python analysis/forest_macro/forest_plot_ledger.py --out forest_macro_output
+      - name: Extract real 2021 tree and shrub map classes around every source plot
+        run: python analysis/forest_macro/extract_environment.py --ledger forest_macro_output/forest_plot_ledger.csv --out forest_macro_output/environment
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: forest-macro-plot-ledger
+          name: forest-macro-plot-environment-ledger
           path: forest_macro_output/
           if-no-files-found: error
