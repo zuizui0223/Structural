@@ -47,8 +47,8 @@ def assess(p,t,s):
     close(ground_sp["island_equal_delta_spatial_simpson"],old["spider_ground_spatial"]["delta_simpson"],"Spider pitfall spatial")
     close(leaf_sp["island_equal_delta_spatial_simpson"],old["spider_foliage_spatial"]["delta_simpson"],"Spider foliage spatial")
     for method,d in (("ground",ground),("foliage",foliage)):
-        within=d["island_equal_within_campaign_sorensen"] if method=="ground" else d["within_sorensen"]
-        across=d["island_equal_across_campaign_sorensen"] if method=="ground" else d["across_sorensen"]
+        within=d["island_equal_within_sorensen"] if method=="ground" else d["within_sorensen"]
+        across=d["island_equal_across_sorensen"] if method=="ground" else d["across_sorensen"]
         excess=d["island_equal_excess_sorensen"] if method=="ground" else d["excess_sorensen"]
         close(across-within,excess,method+" temporal subtraction")
     assert ground["eligible_original_sites"]==29 and foliage["eligible_sites"]==29
@@ -89,8 +89,8 @@ def assess(p,t,s):
         "spider":{
           "ground_pitfall":{
             "eligible_original_temporal_sites":ground["eligible_original_sites"],
-            "temporal_within_campaign_sorensen":ground["island_equal_within_campaign_sorensen"],
-            "temporal_across_campaign_sorensen":ground["island_equal_across_campaign_sorensen"],
+            "temporal_within_campaign_sorensen":ground["island_equal_within_sorensen"],
+            "temporal_across_campaign_sorensen":ground["island_equal_across_sorensen"],
             "temporal_sorensen_excess":ground["island_equal_excess_sorensen"],
             "temporal_simpson_excess":ground["island_equal_excess_simpson"],
             "eligible_original_spatial_sites":ground_sp["source_physical_sites"],
