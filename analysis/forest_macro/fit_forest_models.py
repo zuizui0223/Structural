@@ -84,7 +84,7 @@ def prepare(inputs,environment,out):
         if dataset=='BALA':
             for (plot,method),x in e.groupby(['plot_key','samplingProtocol']):
                 channel='BALA_pitfall' if method=='Pitfall solution' else 'BALA_foliage';m=23 if channel=='BALA_pitfall' else 10
-                x=x[x.record_linked];rec={'plot_key':plot,'dataset':dataset,'channel':channel,'year':int(x.year.iloc[0]),'month':int(x.month.iloc[0]),'quarter':int(x.quarter.iloc[0]),'sampling_events':len(x),'rarefaction_m':m,'host_code_n':x.fieldNumber.str.split('-').str[0].nunique() if channel=='BALA_foliage' else 0,'duration_days':14,'weight':1}
+                x=x[x.record_linked];rec={'plot_key':plot,'dataset':dataset,'channel':channel,'year':int(x.year.iloc[0]),'month':int(x.month.iloc[0]),'quarter':int(x.quarter.iloc[0]),'sampling_events':len(x),'rarefaction_m':m,'host_code_n':x.fieldNumber.str.split('-').str[0].nunique() if channel=='BALA_foliage' else 0,'duration_days':np.nan,'weight':1}
                 for g in GROUPS:
                     ss=[sets[k][g] for k in x.source_core_id];rec[g]=rarefied(ss,m);rec[g+'_raw']=len(set().union(*ss));rec[g+'_m10']=rarefied(ss,10)
                 rec['endemic_minus_introduced']=rec['endemic']-rec['introduced'];rec['endemic_minus_introduced_m10']=rec['endemic_m10']-rec['introduced_m10'];allrows.append(rec)
