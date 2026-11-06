@@ -75,5 +75,5 @@ def test_old_bala_field_source_identity_and_29_site_denominator_fail_closed():
         assess(p,bad,s)
     bad=copy.deepcopy(p)
     bad["firewall"]["new_confirmatory_systems"]=1
-    with pytest.raises(ValueError,match="scientific HOLD"):
+    with pytest.raises(ValueError,match="biological holdout|source seal"):
         assess(bad,t,s)
