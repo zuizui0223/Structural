@@ -1,0 +1,61 @@
+name: BALA spatial beta original source-FREE ecological decoupling v1.319
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-spatial-beta-richness-sourcefree-v1_319.yml"
+      - "development/bala_spatial_original_result_freeze_v1_318.json"
+      - "development/bala_spatial_beta_sourcefree_synthesis_protocol_v1_319.json"
+      - "scripts/bala_spatial_beta_sourcefree_richness_v1_319.py"
+      - "tests/test_bala_spatial_beta_sourcefree_richness_v1_319.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-spatial-beta-richness-sourcefree-v1_319.yml"
+      - "development/bala_spatial_original_result_freeze_v1_318.json"
+      - "development/bala_spatial_beta_sourcefree_synthesis_protocol_v1_319.json"
+      - "scripts/bala_spatial_beta_sourcefree_richness_v1_319.py"
+      - "tests/test_bala_spatial_beta_sourcefree_richness_v1_319.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-seven-island-aggregate-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install pytest
+      - name: Check numeric original source alpha gamma and spatial beta consistency
+        run: python -m pytest -q tests/test_bala_spatial_beta_sourcefree_richness_v1_319.py
+      - name: Strictly original source-free seven island richness and guild discordance
+        run: |
+          python scripts/bala_spatial_beta_sourcefree_richness_v1_319.py \
+            --input development/bala_spatial_original_result_freeze_v1_318.json \
+            --protocol development/bala_spatial_beta_sourcefree_synthesis_protocol_v1_319.json \
+            --out bala_spatial_beta_richness_sourcefree_v1_319.json
+      - name: Verify immutable no-causality evidence and old original scorer seals
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_spatial_beta_richness_sourcefree_v1_319.json").read_text(encoding="utf-8"))
+          assert r["status"]=="SOURCE_FREE_SPATIAL_GUILD_HETEROGENEITY_AND_ALPHA_DECOUPLING_RECONCILED"
+          assert r["main_pitfall"]["coleoptera"]["islands_homogenizing_while_mean_local_richness_increased"]==["flo","sjg","smr"]
+          assert r["main_pitfall"]["coleoptera"]["source_half_split_simpson_same_sign_n_of_18"]==18
+          assert r["main_pitfall"]["araneae"]["source_half_split_simpson_same_sign_n_of_18"]==13
+          assert r["canopy_beetle_spatial_delta_scientifically_STOPPED"]
+          assert r["original_BALA_Event_or_Occurrence_rows_reopened"]==0
+          assert r["prior_v314_v316_v318_original_scorers_SEALED"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("PASS: original BALA spatial beta and richness mismatch verified without any biological raw source")
+          PY
+      - name: Retain source-free original ecological beta/alpha comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-seven-island-spatial-beta-alpha-sourcefree-v1-319
+          path: bala_spatial_beta_richness_sourcefree_v1_319.json
+          if-no-files-found: warn

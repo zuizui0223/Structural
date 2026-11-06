@@ -1,0 +1,79 @@
+{
+  "schema": "structural.bala_original_event_repeated_site_gate.v1_311",
+  "date": "2026-10-28",
+  "status": "FROZEN_BEFORE_FIRST_ORIGINAL_BALA_EVENT_VALUES",
+  "original_source": {
+    "archive": "https://ipt.gbif.pt/ipt/archive.do?r=bala_arthropods&v=1.0",
+    "source_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "published_Event_rows": 10379,
+    "published_Occurrence_rows": 63904,
+    "v1_310_original_metadata_success_run": 40614266603
+  },
+  "field_role": {
+    "event_core_id_index": 0,
+    "eventID_index": 1,
+    "samplingProtocol_index": 2,
+    "eventDate_index": 3,
+    "year_index": 4,
+    "fieldNumber_index": 6,
+    "locationID_index": 7,
+    "island_index": 9,
+    "temporal_phases": {
+      "B1": {
+        "year_min": 1997,
+        "year_max": 2004
+      },
+      "B2": {
+        "year_min": 2010,
+        "year_max": 2012
+      },
+      "B3": {
+        "year_min": 2019,
+        "year_max": 2022
+      }
+    },
+    "site_key": "Exact source locationID stripped, together with exact normalized island. No approximate or geospatial matching; source fieldNumber only audited as an auxiliary source Event field, not used for primary site join.",
+    "island_exact_expected": [
+      "flores",
+      "faial",
+      "pico",
+      "são jorge",
+      "terceira",
+      "são miguel",
+      "santa maria"
+    ],
+    "other_islands": "Enumerate Graciosa etc but do not pool with original core seven island native forests",
+    "event_Date_year_consistency": "Prefer original numeric year; check leading year parsed from eventDate and report exact mismatch counts. Any malformed/unknown year is excluded only by source Event metadata, not species outcome.",
+    "source_sampling_method": "Report frequency of source samplingProtocol verbatim labels without source site IDs; no post-response calibration of incompatible methods."
+  },
+  "eligibility_gates": {
+    "minimum_complete_B1_B3_same_source_transects_across_islands": 20,
+    "minimum_distinct_islands_with_B1_B3_repeats": 5,
+    "minimum_complete_B1_B2_B3_same_source_transects": 15,
+    "minimum_original_Event_source_join_coverage": 0.99,
+    "all_published_original_Event_rows_exact": true,
+    "no_sampling_mode_equalization_yet": "This is an Event-only inventory; DO NOT admit a biological guild or origin score until method-specific survey opportunities are separately frozen."
+  },
+  "source_only_outputs": [
+    "Exact original island-level source Event counts and site counts per campaign",
+    "Site-level same-source locationID intersection across B1/B2/B3 (counts only) plus stable SHA256 of eligible source site labels",
+    "Published-source samplingProtocol labels and per-phase Event sample counts",
+    "Original eventDate/year agreement and source record identifier completeness rates",
+    "Sample counts by site/campaign/method min/max and period-specific unmatched sites, anonymized, no source site identities"
+  ],
+  "hard_stops": [
+    "Unknown source sourceSHA",
+    "Duplicate original core Event keys or different source Event rows with same eventID",
+    "Insufficient source-locationID repeats across phases/7 islands",
+    "Incompatible source Event roles or invalid author source identifiers"
+  ],
+  "prior_art_boundary": "2026 Pozsgai et al. BALA Sci Reports already covered stable abundance/biomass/richness, and individual/endemic species increases/decreases. v1.311 opens no species outcomes and makes no novel ecological claim.",
+  "firewall": {
+    "BALA_Occurrence_rows_opened": 0,
+    "original_Pico_BioMonI_other_response_reopened": 0,
+    "original_mammal_BioTIME_RLS_S2_S3_S4_heldouts_reopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

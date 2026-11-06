@@ -1,0 +1,45 @@
+{
+  "schema": "structural.bala_spatial_beta_sourcefree_richness_decoupling.v1_319",
+  "date": "2026-10-29",
+  "status": "FROZEN_AGGREGATE_ONLY_AFTER_ORIGINAL_SPATIAL_BETA_V1_318",
+  "source": "development/bala_spatial_original_result_freeze_v1_318.json",
+  "original_source_JSON_sha256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+  "original_source_run_id": 40806865705,
+  "questions": [
+    "Do the original island-mean and source-site levels support beetle spatial Simpson homogenization and its 18/18 source half-split sign stability, without implying seven universally homogenizing islands?",
+    "Can increased local beetle richness coexist with observed island spatial beta homogenization within some original source islands?",
+    "How often do arthropod guilds have opposite island spatial beta direction? Do Simpson replacement and Sorensen total dissimilarity ever disagree?",
+    "Is the canopy-beating Beetle score kept STOP and can sampling-method differences qualify the Spider inference?"
+  ],
+  "calculations": {
+    "primary": "Strictly source-free mean over seven original per-island B3-minus-B1 spatial Simpson and Sorensen values; assert exact identity to v1.318 frozen run.",
+    "richness_test": "For each island×guild, compare B3 vs B1 originally observed mean local richness among the identical physical site set; count homogenization (delta Simpson <0) AND richness increase (B3 mean > B1 mean), without claiming island mechanism.",
+    "gamma_test": "Report B3 minus B1 island-level detected pooled guild taxon counts only as descriptive backdrop, not as partition/cause or island-wide true gamma richness.",
+    "metric_discordance": "Count islands where sign(Simpson spatial delta) differs from sign(Sorensen spatial delta) within original guild.",
+    "guild_discordance": "Count island codes with opposite sign spatial Simpson deltas between spiders and beetles; paired island contexts, not independent taxon tests.",
+    "split_stability": "Only source v1.318 fixed 9 salts ×2 complementary half-sampling direction counts; no new Event reads, no new partitions, no new significance thresholds.",
+    "canopy": "Respect already frozen Spider canopy source direction and Beetle canopy STOP; do not interpret canopy vs pitfall as randomized forest structure experiment"
+  },
+  "evidence_class": "Retrospective descriptive site- and source-guild-aggregate arithmetic, NOT new biological data, not an independent replication, not a causal mechanism.",
+  "stop_conditions": [
+    "Original BALA source ZIP SHA, v1.318 source result JSON SHA or original 29 source physical transects differ",
+    "Seven source islands, original 29/28 guild sites or original 56/49 dependent source pairs change",
+    "Any per-island spatial beta delta fails B3-B1 original arithmetic or seven-island mean",
+    "Original 18 source half-splits, required 7/7 island output, earlier canopy Beetle STOP or GEB scientific HOLD are modified"
+  ],
+  "nonclaims": [
+    "Species-level endemic/introduced mechanism",
+    "Truly observed inter-island colonization/extirpation/rescue",
+    "Causal anthropogenic biotic homogenization",
+    "Spatial beta change due only to richness, corrected detection, or a universal guild response",
+    "Independent archipelago replication"
+  ],
+  "firewall": {
+    "original_v314_v316_v318_scorers": "SEALED",
+    "original_BALA_Event_Occurrence_rows_reopened": 0,
+    "new_confirmatory_systems": 0,
+    "GEB_scientific_HOLD": true,
+    "eBird": false,
+    "protected_original_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}

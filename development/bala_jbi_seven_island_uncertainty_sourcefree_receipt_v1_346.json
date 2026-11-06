@@ -1,0 +1,99 @@
+{
+  "schema": "structural.bala_jbi_seven_island_original_sourcefree_uncertainty_receipt.v1_346",
+  "date": "2026-11-03",
+  "status": "SOURCE_FREE_SEVEN_ISLAND_UNCERTAINTY_VERIFIED_POSTHOC_NOT_CONFIRMATORY",
+  "source": {
+    "original_BALA_DwCA_SHA256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "source_v316_original_result_inner_SHA256": "1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871",
+    "source_v318_original_result_inner_SHA256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "original_source_archive_event_rows": 10379,
+    "original_source_archive_occurrence_rows": 63904,
+    "previous_original_selected_events": 4620,
+    "original_physical_transects": 29,
+    "original_island_contexts": 7,
+    "original_species_source_rows_reopened": 0
+  },
+  "CI": {
+    "run_id": 41563482126,
+    "conclusion": "success",
+    "sourcefree_tests_passed": 5,
+    "artifact_id": 13198292408,
+    "zip_SHA256": "919850c89455b36fe23ac5441ecd2420682a1b0ef5288880efe8e7818a5d7c71",
+    "original_sourcefree_result_inner_JSON_SHA256": "f9cffffb6ed9460be9e9c0242cd58c0a4f2f7945d8f7785fab57d978993ec0bb"
+  },
+  "methods": {
+    "unit": "One original island mean per guild, seven source island contexts inside one archipelago",
+    "t_critical_df6": 2.4469118511449692,
+    "island_sign_flip_enumeration_n": 128,
+    "post_hoc_exploratory": true,
+    "no_multiple_comparison_adjustment": true,
+    "independence_of_islands_and_symmetric_null_assumptions_unverified": true
+  },
+  "temporal_sorensen_excess": {
+    "spiders": {
+      "source_island_equal_mean": 0.19077547226911137,
+      "conditional_t95_interval": [
+        0.11379055911475018,
+        0.2677603854234726
+      ],
+      "two_sided_exact_signflip_p": 0.015625,
+      "islands_positive": 7
+    },
+    "beetles": {
+      "source_island_equal_mean": 0.22120879931840728,
+      "conditional_t95_interval": [
+        0.18054610282136974,
+        0.26187149581544483
+      ],
+      "two_sided_exact_signflip_p": 0.015625,
+      "islands_positive": 7
+    }
+  },
+  "spatial_simpson_B3_minus_B1": {
+    "spiders": {
+      "source_island_equal_mean": 0.02240713745815786,
+      "conditional_t95_interval": [
+        -0.11282608128223001,
+        0.15764035619854574
+      ],
+      "two_sided_exact_signflip_p": 0.6875,
+      "islands_positive": 4,
+      "islands_negative": 3
+    },
+    "beetles": {
+      "source_island_equal_mean": -0.17530148423005568,
+      "conditional_t95_interval": [
+        -0.4399429418394818,
+        0.08933997337937047
+      ],
+      "two_sided_exact_signflip_p": 0.1875,
+      "islands_positive": 3,
+      "islands_negative": 4,
+      "nonindependent_leave_one_island_out_negative_n": 7,
+      "nonindependent_half_event_sign_negative_n": 18
+    }
+  },
+  "paired_guild_spatial_simpson_Beetle_minus_Spider": {
+    "source_island_equal_mean": -0.19770862168821354,
+    "conditional_t95_interval": [
+      -0.4969687239638093,
+      0.10155148058738225
+    ],
+    "two_sided_exact_signflip_p": 0.171875,
+    "guild_physical_plot_panels_not_identical": true
+  },
+  "prior_art_correction": {
+    "published_2026_Pozsgai_Scientific_Reports": "Limited overall net aggregate losses but explicitly significant ground-dwelling source species richness decrease B1 to B3 (d≈−0.80, source 95% CI [−1.30,−0.44]); do not claim uniform ground richness stability as original new result",
+    "DOI": "10.1038/s41598-026-57146-5",
+    "our_original_novel_observation": "Spatially coordinated source-detected community similarity among forest plots and noncausal alpha-beta mismatch; temporal turnover exceeds same-campaign sampling heterogeneity."
+  },
+  "scientific_decision": "Forest beetle sample-mean Simpson spatial convergence is an observational seven-island direction, robust to specified deletions and source half-splits but island-level t95 interval and signflip null do not establish wider-archipelago universal trend. Paired guild contrast also uncertain; temporal excess has all seven source signs positive but still not actual occupancy-corrected colonization/extinction.",
+  "firewall": {
+    "v314_v316_v318_original_scorers_SEALED": true,
+    "sourcefree_only_original_field_openings": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "protected_original_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}

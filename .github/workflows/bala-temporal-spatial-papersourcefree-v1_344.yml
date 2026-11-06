@@ -1,0 +1,56 @@
+name: BALA source-free seven-island temporal vs spatial beta paper robustness v1.344
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-temporal-spatial-papersourcefree-v1_344.yml"
+      - "development/bala_temporal_spatial_cross_axis_sourcefree_protocol_v1_344.json"
+      - "scripts/bala_temporal_spatial_paper_sourcefree_v1_344.py"
+      - "tests/test_bala_temporal_spatial_paper_sourcefree_v1_344.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-temporal-spatial-papersourcefree-v1_344.yml"
+      - "development/bala_temporal_spatial_cross_axis_sourcefree_protocol_v1_344.json"
+      - "scripts/bala_temporal_spatial_paper_sourcefree_v1_344.py"
+      - "tests/test_bala_temporal_spatial_paper_sourcefree_v1_344.py"
+permissions:
+  contents: read
+jobs:
+  aggregate-only-beetle-spider-loo-no-source-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - name: Original source-free BALA v1.316/v1.318 island-level evidence regression
+        run: python -m pytest -q tests/test_bala_temporal_spatial_paper_sourcefree_v1_344.py
+      - name: Exact original numeric evidence only, no published Event/Occurrence read
+        run: |
+          python scripts/bala_temporal_spatial_paper_sourcefree_v1_344.py \
+            --316 development/bala_within_campaign_detection_original_result_freeze_v1_316.json \
+            --318 development/bala_spatial_original_result_freeze_v1_318.json \
+            --contract development/bala_temporal_spatial_cross_axis_sourcefree_protocol_v1_344.json \
+            --out bala_seven_island_paper_sourcefree_v1_344.json
+      - name: Keep source outcome/independence limits
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_seven_island_paper_sourcefree_v1_344.json").read_text())
+          assert r["status"]=="BALA_SEVEN_ISLAND_BEETLE_HOMOGENIZATION_LOO_SOURCEFREE_VALIDATED"
+          assert r["source_pitfall_guilds"]["coleoptera"]["source_one_island_delete_negative_count"]==7
+          assert r["source_pitfall_guilds"]["araneae"]["source_one_island_delete_negative_count"]==2
+          assert r["original_arthropod_Event_or_Occurrence_rows_reopened"]==0
+          assert r["prior_v314_v316_v318_one_shot_source_scorers_SEALED"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("BALA 7-island source-free main narrative:",r["source_pitfall_guilds"])
+          PY
+      - name: Preserve aggregate-only new manuscript evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-seven-island-temporal-spatial-papersourcefree-v1-344
+          path: bala_seven_island_paper_sourcefree_v1_344.json
+          if-no-files-found: warn

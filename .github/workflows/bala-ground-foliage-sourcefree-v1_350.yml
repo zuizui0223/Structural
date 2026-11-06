@@ -1,0 +1,61 @@
+name: BALA lower foliage vs ground spider method context sourcefree v1.350
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-ground-foliage-sourcefree-v1_350.yml"
+      - "development/bala_ground_foliage_method_sourcefree_protocol_v1_350.json"
+      - "scripts/bala_sourcefree_ground_foliage_method_audit_v1_350.py"
+      - "tests/test_bala_sourcefree_ground_foliage_method_audit_v1_350.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-ground-foliage-sourcefree-v1_350.yml"
+      - "development/bala_ground_foliage_method_sourcefree_protocol_v1_350.json"
+      - "scripts/bala_sourcefree_ground_foliage_method_audit_v1_350.py"
+      - "tests/test_bala_sourcefree_ground_foliage_method_audit_v1_350.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sealed-original-method-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: python -m pip install pytest
+      - name: Test lower tree foliage vs pitfall, beetle scientific STOP, field SHA and NO source biology reads
+        run: python -m pytest -q tests/test_bala_sourcefree_ground_foliage_method_audit_v1_350.py
+      - name: Original source-free descriptive method context ONLY
+        run: |
+          python scripts/bala_sourcefree_ground_foliage_method_audit_v1_350.py \
+            --protocol development/bala_ground_foliage_method_sourcefree_protocol_v1_350.json \
+            --316 development/bala_within_campaign_detection_original_result_freeze_v1_316.json \
+            --318 development/bala_spatial_original_result_freeze_v1_318.json \
+            --out bala_ground_foliage_method_result_v1_350.json
+      - name: Prevent vertical stratification, high-canopy and beetle-positive overclaims
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          r=json.loads(Path("bala_ground_foliage_method_result_v1_350.json").read_text())
+          assert r["status"]=="SOURCE_FREE_BALA_METHOD_SPECIFIC_SPIDER_DESCRIPTIVE_CONTRAST_BEETLE_STOP"
+          assert r["field_beating_height_metres_approx"]==[1.5,2.0]
+          assert r["upper_tree_canopy_height_stratification_not_measured"]
+          assert r["foliage_per_island_uncertainty_and_method_interaction_not_estimable"]
+          assert r["beetle"]["foliage_temporal"]["effect"] is None
+          assert r["beetle"]["foliage_spatial"]["effect"] is None
+          assert math.isclose(r["spider"]["foliage_beating"]["temporal_sorensen_excess"],.11194698570877122)
+          assert math.isclose(r["spider"]["foliage_beating"]["spatial_simpson_beta_B3_minus_B1"],-.05791439369620644)
+          assert r["no_original_BALA_Event_Occurrence_or_taxon_rows_reopened"]
+          assert r["old_v314_v316_v318_biological_scorers_SEALED"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("PASS: BALA source-free tree foliage observational channel (not a canopy height gradient)")
+          PY
+      - name: Preserve original source-free method channel and STOP receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-original-sourcefree-lower-foliage-ground-method-v1-350
+          path: bala_ground_foliage_method_result_v1_350.json
+          if-no-files-found: warn

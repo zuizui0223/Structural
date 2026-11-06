@@ -1,0 +1,81 @@
+{
+  "schema": "structural.bala_jbi_anon_review_submission_bundle_v1_347",
+  "date": "2026-11-03",
+  "status": "REVIEWER_SAFE_MARKDOWN_MAIN_S1_THREE_FIGURES_SOURCE_FREE_CI_VERIFIED",
+  "source": {
+    "original_BALA_archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_BALA_Event_occurrence_rows_reopened": 0,
+    "sealed_original_biological_scorers": [
+      "v1.314",
+      "v1.316",
+      "v1.318"
+    ],
+    "v316_aggregate_inner_sha256": "1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871",
+    "v318_aggregate_inner_sha256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02"
+  },
+  "source_free_uncertainty_v1_346": {
+    "original_island_n": 7,
+    "original_sourcefree_run": 41563482126,
+    "sourcefree_regression_tests_passed": 5,
+    "original_island_effect_signflip_n": 128,
+    "sourcefree_result_inner_json_sha256": "f9cffffb6ed9460be9e9c0242cd58c0a4f2f7945d8f7785fab57d978993ec0bb",
+    "temporal_sorensen_excess_spiders_mean": 0.19077547226911137,
+    "temporal_sorensen_excess_beetles_mean": 0.22120879931840728,
+    "temporal_both_seven_island_t_intervals_above_zero": true,
+    "spatial_beetles_simpson_delta": -0.17530148423005568,
+    "spatial_beetles_island_t95_interval": [
+      -0.4399429418394818,
+      0.08933997337937047
+    ],
+    "spatial_beetles_island_signflip_two_sided_p": 0.1875,
+    "spatial_beetles_7LOO_negative": true,
+    "spatial_spiders_simpson_delta": 0.02240713745815786,
+    "paired_guild_spatial_island_uncertainty_includes_zero": true,
+    "exploratory_post_hoc_only": true
+  },
+  "CI": {
+    "run_id": 41564544223,
+    "sourcefree_figure_manuscript_regression_tests_passed": 5,
+    "anonymous_reviewer_bundle_regression_tests_passed": 4,
+    "artifact_id": 13197924191,
+    "artifact_zip_sha256": "b1a491af11f884d9215d070f6baf30115a123c7dfbf53b7b354763b590662224",
+    "anonymized_main_sha256": "076a0549d344f16c693cb50866fec1c0d6ed0f9e0cd7b5916e2d5b18db17bb9b",
+    "anonymized_supplement_s1_sha256": "775c7fa3efb5a7d5119a5e363f893cdf32eaeeab6b8f60a3b87bd7edb88df5bc",
+    "reviewer_main_abstract_words": 278,
+    "reviewer_main_approx_word_count": 4272,
+    "main_title_under_115_characters": true,
+    "s1_is_separate_blinded_document": true,
+    "reference_data_figure_section_order_JBI_compatible": true,
+    "author_identifying_direct_repo_links_in_reviewer_materials": 0,
+    "archive_files": [
+      "JBI_anonymized_main_text_v1_347.md",
+      "JBI_anonymized_Supplementary_Table_S1_v1_347.md",
+      "figure1_temporal_excess.png",
+      "figure1_temporal_excess.svg",
+      "figure2_spatial_beta_by_island.png",
+      "figure2_spatial_beta_by_island.svg",
+      "figure3_alpha_spatial_decoupling.png",
+      "figure3_alpha_spatial_decoupling.svg",
+      "sourcefree_island_figure_data.csv",
+      "figure_bundle_manifest.json",
+      "JBI_blinded_package_manifest_v1_347.json"
+    ]
+  },
+  "submission_remaining": {
+    "manuscript_status": "DRAFT_NOT_SUBMITTED",
+    "journal_candidate": "Journal of Biogeography Research Article",
+    "citations_prior_art_2026_BALA_ground_richness_decline_corrected": true,
+    "original_data_author_contributions_approval_unconfirmed": true,
+    "official_figure_format_and_embedded_document_assembly_pending": true,
+    "sourcefree_code_reviewer_access_archive_link_pending": true,
+    "biosketch_acknowledgements_funding_permits_pending": true,
+    "theoretical_novelty_vs_published_2026_source_needs_editorial_decision": true,
+    "no_independent_archipelago_causal_replication": true
+  },
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "protected_original_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}

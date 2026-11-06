@@ -1,0 +1,122 @@
+{
+  "schema": "structural.bala_seven_island_community_replacement_source_observation.v1_314",
+  "date": "2026-10-28",
+  "status": "ORIGINAL_2024_BALA_GUILD_REPLACEMENT_SCORED",
+  "original_source": {
+    "GBIF_DOI": "10.15468/rpdkx9",
+    "GBIF_UUID": "8a4be36d-18cd-484c-b8ce-f67194cf4bac",
+    "original_archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_Event_rows": 10379,
+    "original_Occurrence_rows": 63904,
+    "original_first_biological_access_run_id": 40615946292,
+    "source_artifact_id": 12784808941,
+    "source_artifact_zip_sha256": "cb351957b5eed7d282283715017dd3e5070fe497389c49c58fab5a7c7a67d802",
+    "source_artifact_original_inner_json_sha256": "b30eca5283d6984ee056ca8e74dd46fa2192c83558b175fbb84ff6546170f7a1"
+  },
+  "source_original_event_design": {
+    "exact_three_phase_forest_transects": 29,
+    "original_native_forest_islands": 7,
+    "same_source_selected_Event_rows": 4620,
+    "equal_events_each_B1_B2_B3": 1540,
+    "equal_pitfall_events_each_period": 781,
+    "equal_canopy_beating_events_each_period": 759,
+    "selected_original_Event_coreids_sha256": "39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac",
+    "original_author_source_site_SHA256": "31a323a378f29e60ff656699081ccbbb47b546568f13f43e6472391adc8b7c72",
+    "original_source_graciosa_198_events_outside_frozen_native_periods": true,
+    "strict_full_spelled_island_code_v1_311_remains_TERMINAL": true
+  },
+  "original_biological_audit": {
+    "Event_Occurrence_join_fraction": 1,
+    "original_taxonomic_guild_occurrence_records_selected": 12699,
+    "valid_species_rank_or_morphospecies_guild_records": 12649,
+    "source_taxon_origin_classified_fraction": 0.9456083484860464,
+    "source_accepted_species_labels_distinct_all_methods": {
+      "araneae": 64,
+      "coleoptera": 110
+    },
+    "source_origin_record_counts": {
+      "endemic": 6546,
+      "native": 3883,
+      "introduced": 1532,
+      "unknown": 688
+    }
+  },
+  "pitfall_primary": {
+    "araneae": {
+      "matched_site_comparisons": 29,
+      "islands_with_species_sets_both_periods": 7,
+      "island_equal_mean_sorensen_beta": 0.4697235912931402,
+      "island_equal_mean_simpson_replacement": 0.3485544217687075,
+      "island_equal_mean_balanced_replacement_share": 0.6159322820037106,
+      "island_equal_mean_B1_richness": 6.809523809523809,
+      "island_equal_mean_B3_richness": 5.017857142857143,
+      "island_equal_mean_signed_net_richness_change": -1.7916666666666665,
+      "island_equal_mean_absolute_net_richness_change": 2.0654761904761907,
+      "sites_balanced_species_replacement_with_abs_net_richness_at_most_one": 12,
+      "per_island_replacement_simpson": {
+        "fai": 0.2222222222222222,
+        "flo": 0.3506944444444444,
+        "pic": 0.3833333333333333,
+        "sjg": 0.34375,
+        "smg": 0.5208333333333334,
+        "smr": 0.3392857142857143,
+        "ter": 0.27976190476190477
+      }
+    },
+    "coleoptera": {
+      "matched_site_comparisons": 28,
+      "islands_with_species_sets_both_periods": 7,
+      "island_equal_mean_sorensen_beta": 0.6159828897774992,
+      "island_equal_mean_simpson_replacement": 0.5114678122331183,
+      "island_equal_mean_balanced_replacement_share": 0.6787372991154503,
+      "island_equal_mean_B1_richness": 6.462585034013606,
+      "island_equal_mean_B3_richness": 7.5017006802721085,
+      "island_equal_mean_signed_net_richness_change": 1.0391156462585034,
+      "island_equal_mean_absolute_net_richness_change": 2.416666666666667,
+      "sites_balanced_species_replacement_with_abs_net_richness_at_most_one": 11,
+      "per_island_replacement_simpson": {
+        "fai": 0.39999999999999997,
+        "flo": 0.503968253968254,
+        "pic": 0.5119047619047619,
+        "sjg": 0.625,
+        "smg": 0.5029761904761905,
+        "smr": 0.5303030303030303,
+        "ter": 0.5061224489795918
+      }
+    }
+  },
+  "additional_original_source_checks": {
+    "beating_araneae_sorensen": 0.31006537827935154,
+    "beating_araneae_replacement": 0.21141027700901652,
+    "beating_coleoptera_sorensen": 0.6135620048885355,
+    "beating_coleoptera_replacement": 0.4264455782312925,
+    "pitfall_araneae_B1_B2_simpson": 0.295,
+    "pitfall_araneae_B2_B3_simpson": 0.284,
+    "pitfall_coleoptera_B1_B2_simpson": 0.537,
+    "pitfall_coleoptera_B2_B3_simpson": 0.339,
+    "note": "Subperiod values above are rounded audit context only; exact values remain in original GitHub Actions result artifact."
+  },
+  "scientific_summary": {
+    "two_original_guilds_pitfall_islands_with_positive_simpson_replacement_each": 7,
+    "beetle_island_replacement_mean_greater_than_spider_island_mean_in_seven": 6,
+    "site_guild_observations_with_both_periods": 57,
+    "site_guild_observations_with_balanced_replacement_and_at_most_one_net_richness_difference": 23,
+    "primary_evidence": "Observed species composition turnover/replacement occurred in all seven sampled islands in both major source taxonomic guilds even though prior source authors report largely stable aggregate abundance/richness. Twelve Spider and eleven Beetle pitfall source site-pairs exhibit balanced replacement with at most one net richness difference.",
+    "not_supported": [
+      "true population extinction or colonization",
+      "invasion causality",
+      "new independent source confirmation of BALA authors' prior abundance/richness study",
+      "rate-normalized temporal turnover across unequal intervals",
+      "island isolation/connectivity mechanism",
+      "general across oceanic archipelagos",
+      "source-donor rescue"
+    ],
+    "sampling_and_prior_art_caveat": "Within-site minimum original Event count equalization and shared original author locationID reduce, but do not eliminate, temporal and taxonomic detectability bias; same BALA data also underlies 2026 published abundance/richness results."
+  },
+  "firewall": {
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "original_mammal_BioTIME_RLS_S2S3S4_heldouts_unopened": true
+  }
+}

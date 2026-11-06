@@ -1,0 +1,31 @@
+name: BALA same-period detection split-half known-truth ONLY v1.316
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-within-campaign-split-synthetic-v1_316.yml"
+      - "development/bala_within_campaign_detection_control_protocol_v1_316.json"
+      - "scripts/bala_within_campaign_detection_control_v1_316.py"
+      - "tests/test_bala_within_campaign_detection_control_v1_316.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-within-campaign-split-synthetic-v1_316.yml"
+      - "development/bala_within_campaign_detection_control_protocol_v1_316.json"
+      - "scripts/bala_within_campaign_detection_control_v1_316.py"
+      - "tests/test_bala_within_campaign_detection_control_v1_316.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-arthropod-source-remains-sealed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Test original-source-independent split-half temporal vs within phase contrasts
+        run: python -m pytest -q tests/test_bala_within_campaign_detection_control_v1_316.py
+      - name: Explicit no original BALA biological source access
+        run: echo "Synthetic-only. No BALA original Event/Occurrence rows opened in v1.316 test."

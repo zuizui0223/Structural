@@ -1,0 +1,39 @@
+{
+  "schema": "structural.bala_within_phase_excess_sourcefree_audit.v1_317",
+  "date": "2026-10-29",
+  "status": "EXACT_POSTHOC_AUDIT_ONLY_NO_BIOLOGICAL_REOPEN",
+  "source": "development/bala_within_campaign_detection_original_result_freeze_v1_316.json",
+  "original_v316_source_result_JSON_SHA256": "1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871",
+  "original_v316_source_run": 40636604430,
+  "questions": [
+    "Does the fixed island-equal temporal-minus-within-phase Sørensen excess remain positive in both guilds on all seven islands?",
+    "Which fraction of original island-average across-period Sørensen dissimilarity is also observed from same-campaign half-splits, without misnaming it explained detection bias?",
+    "Are island-level per-transect supports sufficient to distinguish a 7-island descriptive statement from pseudo-replicated trap and split counts?",
+    "Does the previously fixed canopy-beating Beetle secondary STOP remain respected?"
+  ],
+  "estimands": {
+    "main": "B1/B3 across-period matched-effort half-sample Sørensen dissimilarity MINUS source-period split-half Sørensen non-similarity, averaged within physical transect, then original island equally weighted.",
+    "secondary": "Same decomposition for Simpson replacement; report separate physical-site signs and per-island means, not a new significance test.",
+    "relative_context": "within_period_mean / across_period_mean, a ratio of descriptive non-similarity means, NOT fraction of real turnover explained by detection.",
+    "guild_comparison": "Original island-level excess contrast Beetle−Spider in each of 7 islands as descriptive only; both share sites/source and are not independent ecological experiments.",
+    "baseline": "Original 2024 BALA authors' broad abundance/biomass/richness stability is PRIOR ART, not newly discovered.",
+    "no_new_response_or_original_replay": true,
+    "no_p_value": true
+  },
+  "stop": [
+    "Original source SHA, source artifact JSON SHA or 29/7 physical site design mismatch",
+    "Source group counts do not add up to original admitted sites, or 7-island mean differs from original float to >1e-12",
+    "Any negative source island value is suppressed or imputed",
+    "Original source-free secondary beating beetle STOP changed to positive"
+  ],
+  "conclusion_boundary": "Temporal signal beyond within-period sampling heterogeneity is observed. It does NOT prove environmental cause, true local extinction/colonization, demographic rescue, perfect detection correction or replication beyond one archipelago.",
+  "firewall": {
+    "old_v314_original_scorer": "SEALED",
+    "old_v316_original_scorer": "SEALED",
+    "original_BALA_Event_and_Occurrence_rows_reopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false,
+    "protected_mammal_BioTIME_RLS_S2S3S4_unopened": true
+  }
+}

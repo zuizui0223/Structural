@@ -1,0 +1,183 @@
+{
+  "schema": "structural.bala_between_within_original_aggregate_freeze.v1_316",
+  "date": "2026-10-29",
+  "status": "ORIGINAL_SEVEN_ISLAND_BALA_WITHIN_CAMPAIGN_DETECTION_CONTROL_COMPLETE",
+  "original": {
+    "DOI": "10.15468/rpdkx9",
+    "source_original_zip_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_first_v314_biological_run": 40615946292,
+    "v316_original_biological_run": 40636604430,
+    "v316_artifact_id": 12793228108,
+    "v316_artifact_ZIP_SHA256": "b467dc1747d116a6d4f291102f2d0b405c760905c254f0e6e7dd21b76ca1d0f0",
+    "v316_original_inner_JSON_SHA256": "1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871",
+    "original_Event_rows": 10379,
+    "original_Occurrence_rows": 63904,
+    "source_Event_selected": 4620,
+    "source_Event_selected_SHA256": "39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac",
+    "source_transects": 29,
+    "islands": 7,
+    "guild_records_selected": 12699,
+    "accepted_species_rank_records": 12649
+  },
+  "design": {
+    "source_survey_periods": [
+      "B1 (1997-2004)",
+      "B3 (2019-2022)"
+    ],
+    "method": "Pitfall solution",
+    "source_comparable_Events_per_three_periods": 1540,
+    "split_salts": 9,
+    "each_source_site_campaign_split": "Two disjoint floor(k/2)-Event samples, selected by SHA-256(source Event ID and predefined salt), same survey opportunity, source-detected taxon sets only.",
+    "island_equal_weighting": true,
+    "no_true_extinction_or_colonization_inference": true
+  },
+  "pitfall": {
+    "araneae": {
+      "islands_with_eligible_source_site": 7,
+      "eligible_original_sites": 29,
+      "sites_with_positive_excess_sorensen": 26,
+      "valid_split_counts_histogram": {
+        "9": 29
+      },
+      "island_equal_within_sorensen": 0.29518029207279906,
+      "island_equal_across_sorensen": 0.48595576434191046,
+      "island_equal_excess_sorensen": 0.19077547226911137,
+      "island_equal_within_simpson": 0.16576593600403125,
+      "island_equal_across_simpson": 0.3334160052910053,
+      "island_equal_excess_simpson": 0.16765006928697404,
+      "per_island": {
+        "fai": {
+          "n": 3,
+          "positive": 3,
+          "excess_sorensen": 0.26363642655997316,
+          "excess_simpson": 0.21787918871252207
+        },
+        "flo": {
+          "n": 4,
+          "positive": 3,
+          "excess_sorensen": 0.16327246645874097,
+          "excess_simpson": 0.09330632716049382
+        },
+        "pic": {
+          "n": 4,
+          "positive": 4,
+          "excess_sorensen": 0.22768959435626102,
+          "excess_simpson": 0.16668320105820106
+        },
+        "sjg": {
+          "n": 4,
+          "positive": 3,
+          "excess_sorensen": 0.11183084261322136,
+          "excess_simpson": 0.11134534832451498
+        },
+        "smg": {
+          "n": 4,
+          "positive": 4,
+          "excess_sorensen": 0.31413690476190476,
+          "excess_simpson": 0.4033564814814815
+        },
+        "smr": {
+          "n": 2,
+          "positive": 1,
+          "excess_sorensen": 0.07910361243694577,
+          "excess_simpson": 0.03518518518518518
+        },
+        "ter": {
+          "n": 8,
+          "positive": 8,
+          "excess_sorensen": 0.17575845869673268,
+          "excess_simpson": 0.14579475308641976
+        }
+      }
+    },
+    "coleoptera": {
+      "islands_with_eligible_source_site": 7,
+      "eligible_original_sites": 26,
+      "sites_with_positive_excess_sorensen": 25,
+      "valid_split_counts_histogram": {
+        "0": 2,
+        "2": 1,
+        "7": 2,
+        "8": 1,
+        "9": 23
+      },
+      "island_equal_within_sorensen": 0.42324215792781134,
+      "island_equal_across_sorensen": 0.6444509572462186,
+      "island_equal_excess_sorensen": 0.22120879931840728,
+      "island_equal_within_simpson": 0.27951855033771134,
+      "island_equal_across_simpson": 0.5243620647744798,
+      "island_equal_excess_simpson": 0.2448435144367684,
+      "per_island": {
+        "fai": {
+          "n": 2,
+          "positive": 2,
+          "excess_sorensen": 0.22356701940035273,
+          "excess_simpson": 0.2761574074074074
+        },
+        "flo": {
+          "n": 3,
+          "positive": 3,
+          "excess_sorensen": 0.20520631656299312,
+          "excess_simpson": 0.18404414515525627
+        },
+        "pic": {
+          "n": 4,
+          "positive": 4,
+          "excess_sorensen": 0.2649872299398228,
+          "excess_simpson": 0.31088514109347437
+        },
+        "sjg": {
+          "n": 4,
+          "positive": 4,
+          "excess_sorensen": 0.17087112622826908,
+          "excess_simpson": 0.24875992063492064
+        },
+        "smg": {
+          "n": 4,
+          "positive": 4,
+          "excess_sorensen": 0.18774794105676457,
+          "excess_simpson": 0.17176477072310406
+        },
+        "smr": {
+          "n": 2,
+          "positive": 2,
+          "excess_sorensen": 0.20152780784211038,
+          "excess_simpson": 0.2089113818280485
+        },
+        "ter": {
+          "n": 7,
+          "positive": 6,
+          "excess_sorensen": 0.29455415419853825,
+          "excess_simpson": 0.3133818342151676
+        }
+      }
+    }
+  },
+  "secondary_beating": {
+    "araneae": {
+      "eligible_sites": 29,
+      "islands": 7,
+      "within_sorensen": 0.22595047577201127,
+      "across_sorensen": 0.3378974614807825,
+      "excess_sorensen": 0.11194698570877122,
+      "excess_simpson": 0.06421280347371618
+    },
+    "coleoptera": {
+      "status": "STOP_INSUFFICIENT_HALF_SAMPLE_GUILD_DETECTION_SUPPORT",
+      "eligible_sites": 13,
+      "islands": 7,
+      "excess_sorensen": null
+    }
+  },
+  "limits": {
+    "old_original_v314_taxon_workflow": "SEALED",
+    "v316_original_taxon_workflow": "SEALED_AFTER_SUCCESS",
+    "nine_salts_not_independent_biological_replicates": true,
+    "within_period_sample_split_not_a_detection_probability_model": true,
+    "no_true_local_extinction_or_colonization_inferred": true,
+    "no_repeat_of_original_species_dataset_in_sourcefree_audit": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

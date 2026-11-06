@@ -1,0 +1,90 @@
+{
+  "schema": "structural.bala_jbi_v1_349_blinded_reviewer_code_word_and_author_template",
+  "date": "2026-11-03",
+  "status": "SUBMISSION_PREP_TECHNICALLY_VERIFIED_AUTHOR_APPROVAL_PENDING",
+  "source_science": {
+    "published_BALA_GBIF_DOI": "10.15468/rpdkx9",
+    "original_field_archive_SHA256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_BALA_Event_or_Occurrence_rows_reopened": 0,
+    "original_source_scorers": [
+      "v1.314 SEALED",
+      "v1.316 SEALED",
+      "v1.318 SEALED"
+    ],
+    "source_seven_island_temporal_excess_positive_both_guilds": true,
+    "sample_Beetle_spatial_Simpson_mean": -0.17530148423005568,
+    "Beetle_spatial_exploratory_seven_island_t95": [
+      -0.4399429418394818,
+      0.08933997337937047
+    ],
+    "Beetle_spatial_unadjusted_signflip_p": 0.1875,
+    "spatial_result_not_confirmatory": true
+  },
+  "reviewer_code": {
+    "build_script": "scripts/bala_jbi_reviewer_reproducibility_archive_v1_349.py",
+    "ci_workflow": ".github/workflows/bala-jbi-reviewer-reproducibility-v1_349.yml",
+    "CI_run": 41590113239,
+    "CI_conclusion": "success",
+    "CI_sourcefree_regression_tests_passed": 9,
+    "CI_original_BALA_biological_rows_reopened": 0,
+    "original_3_figures_regenerated_sourcefree": true,
+    "files_inside_reviewer_sourcecode_archive": 37,
+    "CI_artifact_id": 13208994210,
+    "CI_outer_artifact_SHA256": "b7f136478b02e640a21fafe2f21f49860e8d99b63b62ee4cab3414a8a537a119",
+    "anonymous_inner_code_ZIP_SHA256": "b153f73f61b5d2cae696bca027327e4b1a7b7dc649bf7cee27e1d372d8dea20d",
+    "full_public_original_pipeline_CODE_included_but_not_executed": true,
+    "identifying_author_repository_links_in_code_zip": 0,
+    "standalone_explanatory_readme": true,
+    "publication_DOI_not_minted": true
+  },
+  "final_word": {
+    "build_script": "scripts/bala_jbi_blinded_word_sourcefree_v1_348.py",
+    "ci_workflow": ".github/workflows/bala-jbi-blinded-word-sourcefree-v1_348.yml",
+    "ci_final_run": 41592112174,
+    "CI_conclusion": "success",
+    "CI_final_artifact_id": 13210687315,
+    "CI_final_artifact_SHA256": "46111860f05a1cec58093dd1bfbb3dc030c45cd8d590c514843e794c44ea8ed2",
+    "local_independent_Word_and_LibreOffice_render_verification": true,
+    "native_OOXML_default_namespace_restored_for_LibreOffice": true,
+    "six_inline_set_theory_species_definitions_repaired_in_Word": true,
+    "raw_tex_beta_equations_preserved_as_editable_Word_math": true,
+    "anonymous_main_rendered_pages": 14,
+    "supplement_S1_A4_landscape_rendered_pages": 1,
+    "author_only_template_rendered_pages": 1,
+    "main_embed_original_figures": 3,
+    "reviewer_main_Word_a11y_findings": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "reviewer_S1_Word_a11y_findings": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "author_template_a11y_findings": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    }
+  },
+  "user_deliverable": {
+    "combined_local_reviewer_plus_author_only_ZIP_SHA256": "c473f32b189eb9dc8099a5c27c5b9d715c8891efab61c0310d31e8e51347e147",
+    "author_only_titlepage_docx_SHA256": "f2b77cf91cab9815456010188350a842337093535acced7838905da590f76e4c",
+    "file_separation": "reviewer_submission vs reviewer_reproducibility vs AUTHOR_ONLY_NOT_FOR_REVIEWERS",
+    "author_only_document_approval_fields_blank": true,
+    "combined_zip_DO_NOT_UPLOAD_AS_ANON_MAIN": true
+  },
+  "unresolved_user_or_authors_input": [
+    "approved author list and order with affiliations, ORCID and corresponding author",
+    "original BALA data custodian acknowledgement and authorship overlap confirmation",
+    "funding, conflicts, fieldwork permits and research ethics declarations",
+    "approval of short author biosketch and full manuscript wording",
+    "actual anonymous reviewer code publication link/access if journal requires",
+    "explicit final manuscript submission authorization"
+  ],
+  "paper_submitted": false,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0,
+  "eBird": false
+}

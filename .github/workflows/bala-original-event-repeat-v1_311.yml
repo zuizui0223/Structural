@@ -1,0 +1,56 @@
+name: BALA original 2024 seven-island physical repeated sites Event-only v1.311
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-original-event-repeat-v1_311.yml"
+      - "development/bala_original_event_repeat_gate_v1_311.json"
+      - "scripts/bala_repeated_transect_event_only_v1_311.py"
+      - "tests/test_bala_repeated_transect_event_only_v1_311.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-original-event-repeat-v1_311.yml"
+      - "development/bala_original_event_repeat_gate_v1_311.json"
+      - "scripts/bala_repeated_transect_event_only_v1_311.py"
+      - "tests/test_bala_repeated_transect_event_only_v1_311.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  physical-site-and-method-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install synthetic test tool only
+        run: python -m pip install pytest
+      - name: Prove 7-island 3-phase site identity and no taxon rows from synthetic
+        run: python -m pytest -q tests/test_bala_repeated_transect_event_only_v1_311.py
+      - name: Read original 10,379 physical BALA Event records ONLY
+        run: |
+          python scripts/bala_repeated_transect_event_only_v1_311.py \
+            --protocol development/bala_original_event_repeat_gate_v1_311.json \
+            --out bala_original_repeated_transects_v1_311.json
+      - name: Scientific gate decision with no Occurrence values exposed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("bala_original_repeated_transects_v1_311.json").read_text())
+          assert r["status"] in ("EVENT_SAME_TRANSECT_THREE_PHASE_DESIGN_QUALIFIED_OCCURRENCE_SEALED",
+            "EVENT_REPEATED_SITE_SUPPORT_INSUFFICIENT_TERMINAL_NO_BIOLOGICAL_SCORE")
+          assert r["original_published_source_Event_rows"]==10379
+          assert r["original_Occurrence_rows_opened"]==0
+          assert r["core_id_to_Occurrence_join_not_yet_checked"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("BALA EVENT SOURCE ONLY:",r["status"])
+          PY
+      - name: Save 7-island physical sample frame not individual plot identifiers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-original-seven-island-repeated-site-v1-311
+          path: bala_original_repeated_transects_v1_311.json
+          if-no-files-found: warn

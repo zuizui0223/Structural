@@ -1,0 +1,20 @@
+name: BALA original v1.314 SEALED - no biological replay
+# The original field source was scored at EXACT run 40615946292.
+# Original aggregate artifact 12784808941, inner JSON SHA:
+# b30eca5283d6984ee056ca8e74dd46fa2192c83558b175fbb84ff6546170f7a1
+# Re-running the original taxonomic source would destroy the one-shot design.
+# Do not add push/pull_request triggers or invoke the taxon scorer here.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  read-only-original-evidence-seal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - run: |
+          echo "SEALED ORIGINAL SOURCE. Original BALA taxon v1.314 run: 40615946292"
+          echo "Original artifact: 12784808941"
+          echo "All subsequent ecological validation is aggregate-only (v1.315)."
+          echo "Original taxon Event/Occurrence rows opened by this workflow: ZERO."

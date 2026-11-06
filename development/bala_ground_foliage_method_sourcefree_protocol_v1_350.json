@@ -1,0 +1,88 @@
+{
+  "schema": "structural.bala_observation_method_ground_foliage_sourcefree.v1_350",
+  "date": "2026-11-06",
+  "status": "FROZEN_EXISTING_AGGREGATE_ONLY_METHOD_CONTEXT_NOT_NEW_ORIGINAL_RESPONSE",
+  "question": "Does comparison of original BALA ground pitfall and sampled tree foliage beating give a source-backed methodological context for seven-island spiders' temporal species replacement and spatial beta changes?",
+  "source_archives": {
+    "published_2024_BALA_description_DOI": "10.1038/s41597-024-03174-7",
+    "published_original_data_DOI": "10.15468/rpdkx9",
+    "published_original_DwCA_SHA256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_v316_numeric_sha256": "1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871",
+    "original_v318_numeric_sha256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "source_v316_aggregate": "development/bala_within_campaign_detection_original_result_freeze_v1_316.json",
+    "source_v318_aggregate": "development/bala_spatial_original_result_freeze_v1_318.json"
+  },
+  "published_field_method": {
+    "ground": "Pitfall traps: 30 traps per 150 m transect, 5 m spacing, 14 nights, different preservative types",
+    "foliage": "Branch beating: 10 samples for each of 3 prevalent native tree species, 5 beats per tree, at approximately 1.5–2 m above ground within 5 m of pitfall line; designed to sample canopy-dwelling arthropods but not high forest crowns",
+    "critical_wording": "Use 'sampled tree foliage / beating' or 'lower-canopy/foliage interception' for this actual microhabitat. Never infer entire canopy or vertical height stratification from ground and beating method alone.",
+    "tree_species_original_paper": [
+      "Juniperus brevifolia",
+      "Erica azorica",
+      "Ilex azorica",
+      "Laurus azorica",
+      "Vaccinium cylindraceum"
+    ],
+    "tree_species_effect_untested": true
+  },
+  "fixed_previously_observed_data": {
+    "original_three_wave_selected_physical_transects": 29,
+    "source_equal_pitfall_Events_per_campaign": 781,
+    "source_equal_foliage_beating_Events_per_campaign": 759,
+    "source_original_selected_all_methods_Events_all_3_campaigns": 4620,
+    "spider_ground_temporal": {
+      "eligible_sites": 29,
+      "within_sorensen": 0.29518029207279906,
+      "across_sorensen": 0.48595576434191046,
+      "excess_sorensen": 0.19077547226911137,
+      "excess_simpson": 0.16765006928697404
+    },
+    "spider_foliage_temporal": {
+      "eligible_sites": 29,
+      "within_sorensen": 0.22595047577201127,
+      "across_sorensen": 0.3378974614807825,
+      "excess_sorensen": 0.11194698570877122,
+      "excess_simpson": 0.06421280347371618
+    },
+    "spider_ground_spatial": {
+      "eligible_sites": 29,
+      "delta_simpson": 0.02240713745815786
+    },
+    "spider_foliage_spatial": {
+      "eligible_sites": 29,
+      "delta_simpson": -0.05791439369620644
+    },
+    "beetle_ground_temporal": {
+      "eligible_sites": 26,
+      "excess_sorensen": 0.22120879931840728
+    },
+    "beetle_foliage_temporal": {
+      "original_gate": "STOP_INSUFFICIENT_HALF_SAMPLE_GUILD_DETECTION_SUPPORT",
+      "eligible_sites": 13
+    },
+    "beetle_ground_spatial": {
+      "eligible_sites": 28,
+      "delta_simpson": -0.17530148423005568
+    },
+    "beetle_foliage_spatial": {
+      "original_gate": "STOP_FROZEN_GUILD_SPATIAL_PAIR_ESTIMABILITY",
+      "eligible_sites": 22
+    }
+  },
+  "allowed_comparisons": [
+    "Report spider method-specific temporal dissimilarity excess as two distinct source collection channels, without inferring a significant channel interaction.",
+    "Report spider method-specific observed signed island-equal spatial Simpson beta as two distinct source channels, without claiming genuine vertical guild turnover, high canopy vertical stratification or formal significance.",
+    "Maintain original beetle secondary FOLIAGE temporal and spatial methods as scientific STOP. No new original Event/Occurrence/reclassification/rank or source-level species-access permitted.",
+    "Keep original 7-island n and 29 physical plots separate from 49/56 dependent plot-pair and 18 synthetic partition counts. Original foliage results have no frozen per-island island-level uncertainty, so do not fabricate signed island consistency or a new 95% CI.",
+    "Explicitly distinguish changes in sampling stratum, host-tree species, microclimate and sampling methods as unresolved confounding in any cross-method inference."
+  ],
+  "scientific_decision": "The sampling-method contrast is an instructive descriptive context, not a new independently replicated vertical ecological mechanism and not sufficient to change the JBI paper's primary ground-pitfall endpoints.",
+  "firewall": {
+    "prior_v314_v316_v318_original_scorers_SEALED": true,
+    "original_BALA_Event_and_Occurrence_rows_reopened": 0,
+    "source_taxa_by_host_tree_reopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

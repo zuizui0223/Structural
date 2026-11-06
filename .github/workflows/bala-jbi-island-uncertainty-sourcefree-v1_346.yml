@@ -1,0 +1,68 @@
+name: BALA JBI seven-island source-free uncertainty and claims v1.346
+on:
+  push:
+    paths:
+      - ".github/workflows/bala-jbi-island-uncertainty-sourcefree-v1_346.yml"
+      - "development/bala_jbi_island_unit_uncertainty_protocol_v1_346.json"
+      - "scripts/bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py"
+      - "tests/test_bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py"
+  pull_request:
+    paths:
+      - ".github/workflows/bala-jbi-island-uncertainty-sourcefree-v1_346.yml"
+      - "development/bala_jbi_island_unit_uncertainty_protocol_v1_346.json"
+      - "scripts/bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py"
+      - "tests/test_bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  seven-original-island-units-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install synthetic tests
+        run: python -m pip install pytest
+      - name: Verify exact 128 sign flips, 7-island t95 CI and source SHA
+        run: python -m pytest -q tests/test_bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py
+      - name: Analyze ONLY original immutable island aggregate numerical responses
+        run: |
+          python scripts/bala_jbi_island_unit_uncertainty_sourcefree_v1_346.py \
+            --316 development/bala_within_campaign_detection_original_result_freeze_v1_316.json \
+            --318 development/bala_spatial_original_result_freeze_v1_318.json \
+            --344 development/bala_temporal_spatial_cross_axis_sourcefree_protocol_v1_344.json \
+            --contract development/bala_jbi_island_unit_uncertainty_protocol_v1_346.json \
+            --out bala_jbi_seven_island_uncertainty_v1_346.json
+      - name: Prevent false significant or causal beetle homogenization claims
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          r=json.loads(Path("bala_jbi_seven_island_uncertainty_v1_346.json").read_text())
+          assert r["status"]=="SOURCE_FREE_ISLAND_UNIT_UNCERTAINTY_RECONCILED_NOT_CONFIRMATORY"
+          b=r["guilds"]["coleoptera"]["within_island_spatial_simpson_B3_minus_B1"]
+          a=r["guilds"]["araneae"]["within_island_spatial_simpson_B3_minus_B1"]
+          assert b["source_islands_negative"]==4
+          assert b["t95_interval_includes_zero"] and a["t95_interval_includes_zero"]
+          assert math.isclose(b["symmetric_sign_flip_two_sided_p_exploratory"],0.1875)
+          assert r["paired_guild_island_level_interval_includes_zero"]
+          assert r["beetle_original_mean_still_negative_under_all_seven_LOO"]
+          assert r["beetle_original_18_half_salts_still_negative"]
+          for g in ("araneae","coleoptera"):
+              q=r["guilds"][g]["temporal_species_identity_excess_sorensen"]
+              assert q["source_islands_positive"]==7
+              assert math.isclose(q["symmetric_sign_flip_two_sided_p_exploratory"],0.015625)
+          assert r["original_v314_v316_v318_scorers_SEALED"]
+          assert r["no_new_original_event_occurrence_or_species_rows_opened"]
+          assert r["GEB_scientific_HOLD"] and r["new_confirmatory_systems"]==0 and not r["eBird_used"]
+          print("PASS: observed Beetle spatial convergence remains only descriptive at n=7, temporal excess remains recurrent")
+          PY
+      - name: Preserve island-only science audit and original cohort identity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bala-jbi-7-island-uncertainty-sourcefree-v1-346
+          path: bala_jbi_seven_island_uncertainty_v1_346.json
+          if-no-files-found: warn

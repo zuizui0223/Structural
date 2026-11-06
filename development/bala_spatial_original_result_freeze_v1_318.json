@@ -1,0 +1,260 @@
+{
+  "schema": "structural.bala_original_spatial_beta_numeric_freeze.v1_318",
+  "date": "2026-10-29",
+  "status": "ORIGINAL_SOURCE_SCORED_SEVEN_ISLAND_SPATIAL_BETA_FROZEN",
+  "original_evidence": {
+    "original_run_id": 40806865705,
+    "original_artifact_id": 12867999807,
+    "original_artifact_ZIP_SHA256": "8baad51d7d9162f915c9040e54dc622dc30ae55933b69c11fc187fd5474f6138",
+    "original_result_JSON_SHA256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "original_2024_DwCA_SHA256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "source_Event_rows": 10379,
+    "source_Occurrence_rows": 63904,
+    "source_equal_Event_coreid_count": 4620,
+    "source_equal_Event_SHA256": "39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac",
+    "original_repeated_transects": 29,
+    "original_source_islands": 7,
+    "original_guild_accepted_rows": 12649,
+    "source_operational_taxa": {
+      "araneae": 64,
+      "coleoptera": 110
+    }
+  },
+  "main_pitfall": {
+    "araneae": {
+      "source_physical_sites": 29,
+      "dependent_site_pairs": 56,
+      "island_equal_delta_spatial_simpson": 0.02240713745815786,
+      "island_equal_delta_spatial_sorensen": 0.04871232695717752,
+      "islands_differentiating_simpson": 4,
+      "islands_homogenizing_simpson": 3,
+      "source_nine_salts_complementary_halves": 18,
+      "source_half_simpson_same_sign": 13,
+      "source_half_sorensen_same_sign": 17,
+      "source_half_simpson_delta_range": [
+        -0.03755668934240365,
+        0.1685374149659864
+      ],
+      "source_half_sorensen_delta_range": [
+        -0.0027573050532234294,
+        0.15939667353232778
+      ],
+      "per_island": {
+        "fai": {
+          "matched_physical_sites": 3,
+          "dependent_pairs": 3,
+          "B1_spatial_simpson": 0.30952380952380953,
+          "B3_spatial_simpson": 0.3833333333333333,
+          "delta_spatial_simpson": 0.07380952380952377,
+          "delta_spatial_sorensen": -0.06385787701577172,
+          "mean_B1_site_richness": 7.666666666666667,
+          "mean_B3_site_richness": 5,
+          "source_B1_island_taxa": 15,
+          "source_B3_island_taxa": 9
+        },
+        "flo": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.375,
+          "B3_spatial_simpson": 0.5347222222222222,
+          "delta_spatial_simpson": 0.1597222222222222,
+          "delta_spatial_sorensen": 0.24116833602127719,
+          "mean_B1_site_richness": 8.5,
+          "mean_B3_site_richness": 6.5,
+          "source_B1_island_taxa": 16,
+          "source_B3_island_taxa": 14
+        },
+        "pic": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.35185185185185186,
+          "B3_spatial_simpson": 0.3055555555555555,
+          "delta_spatial_simpson": -0.046296296296296335,
+          "delta_spatial_sorensen": -0.008393458393458397,
+          "mean_B1_site_richness": 7.5,
+          "mean_B3_site_richness": 4.5,
+          "source_B1_island_taxa": 15,
+          "source_B3_island_taxa": 8
+        },
+        "sjg": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.44166666666666665,
+          "B3_spatial_simpson": 0.3,
+          "delta_spatial_simpson": -0.14166666666666666,
+          "delta_spatial_sorensen": -0.1364756158873806,
+          "mean_B1_site_richness": 7.5,
+          "mean_B3_site_richness": 5.75,
+          "source_B1_island_taxa": 15,
+          "source_B3_island_taxa": 10
+        },
+        "smg": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.20833333333333334,
+          "B3_spatial_simpson": 0.41111111111111115,
+          "delta_spatial_simpson": 0.2027777777777778,
+          "delta_spatial_sorensen": 0.2154761904761905,
+          "mean_B1_site_richness": 3.5,
+          "mean_B3_site_richness": 3.75,
+          "source_B1_island_taxa": 7,
+          "source_B3_island_taxa": 9
+        },
+        "smr": {
+          "matched_physical_sites": 2,
+          "dependent_pairs": 1,
+          "B1_spatial_simpson": 0.16666666666666666,
+          "B3_spatial_simpson": 0.25,
+          "delta_spatial_simpson": 0.08333333333333334,
+          "delta_spatial_sorensen": 0.22377622377622375,
+          "mean_B1_site_richness": 6.5,
+          "mean_B3_site_richness": 5.5,
+          "source_B1_island_taxa": 8,
+          "source_B3_island_taxa": 8
+        },
+        "ter": {
+          "matched_physical_sites": 8,
+          "dependent_pairs": 28,
+          "B1_spatial_simpson": 0.4486394557823129,
+          "B3_spatial_simpson": 0.2738095238095238,
+          "delta_spatial_simpson": -0.17482993197278912,
+          "delta_spatial_sorensen": -0.13070751027683808,
+          "mean_B1_site_richness": 6.5,
+          "mean_B3_site_richness": 4.125,
+          "source_B1_island_taxa": 19,
+          "source_B3_island_taxa": 12
+        }
+      }
+    },
+    "coleoptera": {
+      "source_physical_sites": 28,
+      "dependent_site_pairs": 49,
+      "island_equal_delta_spatial_simpson": -0.17530148423005568,
+      "island_equal_delta_spatial_sorensen": -0.12375995060963788,
+      "islands_differentiating_simpson": 3,
+      "islands_homogenizing_simpson": 4,
+      "source_nine_salts_complementary_halves": 18,
+      "source_half_simpson_same_sign": 18,
+      "source_half_sorensen_same_sign": 18,
+      "source_half_simpson_delta_range": [
+        -0.3242063492063492,
+        -0.06713637836086814
+      ],
+      "source_half_sorensen_delta_range": [
+        -0.23039638554944677,
+        -0.04028361261254421
+      ],
+      "per_island": {
+        "fai": {
+          "matched_physical_sites": 3,
+          "dependent_pairs": 3,
+          "B1_spatial_simpson": 0.26666666666666666,
+          "B3_spatial_simpson": 0.4444444444444444,
+          "delta_spatial_simpson": 0.17777777777777776,
+          "delta_spatial_sorensen": -0.12364672364672369,
+          "mean_B1_site_richness": 3.6666666666666665,
+          "mean_B3_site_richness": 5.333333333333333,
+          "source_B1_island_taxa": 9,
+          "source_B3_island_taxa": 10
+        },
+        "flo": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.6547619047619048,
+          "B3_spatial_simpson": 0.09444444444444444,
+          "delta_spatial_simpson": -0.5603174603174603,
+          "delta_spatial_sorensen": -0.3590290156466628,
+          "mean_B1_site_richness": 5,
+          "mean_B3_site_richness": 8.25,
+          "source_B1_island_taxa": 14,
+          "source_B3_island_taxa": 16
+        },
+        "pic": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.3630952380952381,
+          "B3_spatial_simpson": 0.4603174603174603,
+          "delta_spatial_simpson": 0.09722222222222221,
+          "delta_spatial_sorensen": 0.1495936811726284,
+          "mean_B1_site_richness": 5.25,
+          "mean_B3_site_richness": 6.25,
+          "source_B1_island_taxa": 11,
+          "source_B3_island_taxa": 17
+        },
+        "sjg": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.7083333333333334,
+          "B3_spatial_simpson": 0.2916666666666667,
+          "delta_spatial_simpson": -0.4166666666666667,
+          "delta_spatial_sorensen": -0.28227513227513223,
+          "mean_B1_site_richness": 3,
+          "mean_B3_site_richness": 3.75,
+          "source_B1_island_taxa": 9,
+          "source_B3_island_taxa": 8
+        },
+        "smg": {
+          "matched_physical_sites": 4,
+          "dependent_pairs": 6,
+          "B1_spatial_simpson": 0.5069444444444444,
+          "B3_spatial_simpson": 0.5119047619047619,
+          "delta_spatial_simpson": 0.004960317460317443,
+          "delta_spatial_sorensen": 0.011429859843172574,
+          "mean_B1_site_richness": 9.25,
+          "mean_B3_site_richness": 7,
+          "source_B1_island_taxa": 20,
+          "source_B3_island_taxa": 17
+        },
+        "smr": {
+          "matched_physical_sites": 2,
+          "dependent_pairs": 1,
+          "B1_spatial_simpson": 0.5833333333333334,
+          "B3_spatial_simpson": 0.18181818181818182,
+          "delta_spatial_simpson": -0.40151515151515155,
+          "delta_spatial_sorensen": -0.17508417508417512,
+          "mean_B1_site_richness": 13.5,
+          "mean_B3_site_richness": 16.5,
+          "source_B1_island_taxa": 22,
+          "source_B3_island_taxa": 24
+        },
+        "ter": {
+          "matched_physical_sites": 7,
+          "dependent_pairs": 21,
+          "B1_spatial_simpson": 0.6285714285714286,
+          "B3_spatial_simpson": 0.5,
+          "delta_spatial_simpson": -0.12857142857142856,
+          "delta_spatial_sorensen": -0.08730814863057224,
+          "mean_B1_site_richness": 5.571428571428571,
+          "mean_B3_site_richness": 5.428571428571429,
+          "source_B1_island_taxa": 21,
+          "source_B3_island_taxa": 21
+        }
+      }
+    }
+  },
+  "secondary_canopy": {
+    "araneae": {
+      "status": "OBSERVED_WITHIN_ISLAND_SPATIAL_BETA_CHANGE",
+      "island_equal_delta_spatial_simpson": -0.05791439369620644,
+      "physical_sites": 29
+    },
+    "coleoptera": {
+      "status": "STOP_FROZEN_GUILD_SPATIAL_PAIR_ESTIMABILITY",
+      "eligible_sites": 22,
+      "spatial_beta_delta": null
+    }
+  },
+  "limitations": {
+    "original_source_biological_reuse_is_exploratory": true,
+    "original_v314_and_v316_scorers_sealed": true,
+    "original_v318_scorer_sealed_after_success": true,
+    "nine_salts_not_independent_biological_replicates": true,
+    "species_detection_not_local_extinction_or_colonization": true,
+    "site_pair_dependence_not_independent": true,
+    "one_archipelago_not_independent_archipelago_replication": true,
+    "no_island_fragment_or_climate_causal_driver_identified": true,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}

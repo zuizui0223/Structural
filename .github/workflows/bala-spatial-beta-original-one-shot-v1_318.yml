@@ -1,0 +1,21 @@
+name: BALA v1.318 original spatial-beta scorer SEALED - no source replay
+# Original 2024 BALA Event/Occurrence source was used ONCE in
+# GitHub Actions 40806865705. Original 29-site / 7-island matched cohort.
+# Original result artifact 12867999807. Never rerun original scorer here.
+# New validations must use only the original aggregate artifact and
+# committed source-free numerical freeze.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-spatial-beta-source-readonly-seal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: State original BALA source run immutability
+        run: |
+          echo "Original 7-island BALA spatial beta run: 40806865705"
+          echo "Original aggregate artifact: 12867999807"
+          echo "No original Event/Occurrence species data accessed by this workflow"
+          echo "v1.314 and v1.316 prior original taxon scorers remain SEALED"

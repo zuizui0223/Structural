@@ -1,0 +1,50 @@
+{
+  "schema": "structural.bala_equal_event_sampling_result.v1_313",
+  "date": "2026-10-28",
+  "status": "SOURCE_EQUAL_EFFORT_FROZEN_EVENT_ONLY_OCCURRENCE_SEALED",
+  "original_source_run": 40615429426,
+  "original_source_artifact_id": 12783904004,
+  "original_source_artifact_ZIP_sha256": "291cbfd32f67a3417f2f2cd1a42a26c46348ba2373461e5991b2c24ad5a308cf",
+  "original_archive_sha256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+  "all_three_period_original_sites": 29,
+  "seven_island_source_sites": {
+    "fai": 3,
+    "flo": 4,
+    "pic": 4,
+    "sjg": 4,
+    "smg": 4,
+    "smr": 2,
+    "ter": 8
+  },
+  "original_all_three_site_key_SHA256": "31a323a378f29e60ff656699081ccbbb47b546568f13f43e6472391adc8b7c72",
+  "site_method_comparable_counts": 58,
+  "missing_any_period_source_site_method_cells": 0,
+  "per_site_method_common_min_sample_Event_count_range": [
+    10,
+    30
+  ],
+  "selected_original_Event_row_count_all_3_campaigns": 4620,
+  "selected_original_Event_per_campaign": {
+    "B1": 1540,
+    "B2": 1540,
+    "B3": 1540
+  },
+  "selected_original_Event_by_sampling_method": {
+    "Open beating tray (with bag)": {
+      "B1": 759,
+      "B2": 759,
+      "B3": 759
+    },
+    "Pitfall solution": {
+      "B1": 781,
+      "B2": 781,
+      "B3": 781
+    }
+  },
+  "selected_original_Event_coreids_SHA256": "39db7c6db04e022b495e233506e9c9774d8e1cf9e2e1c35830bbe6aadce9d6ac",
+  "selected_original_author_eventIDs_exported": false,
+  "original_Occurrence_rows_opened": 0,
+  "GEB_scientific_HOLD": true,
+  "new_confirmatory_systems": 0,
+  "eBird_used": false
+}

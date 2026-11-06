@@ -1,0 +1,51 @@
+{
+  "schema": "structural.bala_temporal_spatial_cross_axis_manuscript_audit.v1_344",
+  "date": "2026-11-02",
+  "status": "SOURCE_FREE_POST_HOC_ISLAND_DELETION_SENSITIVITY_AND_MANUSCRIPT_POSITIONING",
+  "scientific_primary": "Do seven-island BALA arthropod forests show within-transect temporal replacement beyond same-campaign split variation while between-transect spatial beta diversity takes contrasting trajectories for beetles vs spiders? Check robustness of island-equal spatial directions to one-island deletion WITHOUT any original species replay.",
+  "evidence_sources": {
+    "v316_original_numeric": "development/bala_within_campaign_detection_original_result_freeze_v1_316.json",
+    "v316_original_response_inner_SHA256": "1a65cb237271560b56484e992eca76ee6bf082048c55a6f3f68eb0f5a2436871",
+    "v318_original_numeric": "development/bala_spatial_original_result_freeze_v1_318.json",
+    "v318_original_response_inner_SHA256": "f4e61ddbbd255d3a35a46fb0254273889516984b82479b3949e5edd79853af02",
+    "original_DwCA_SHA256": "4b83fda7df412dc278d709d974bcda4c2fc1d423dfdea2e36f89656f27acc8a2",
+    "original_matched_physical_transects_n": 29,
+    "seven_islands": [
+      "fai",
+      "flo",
+      "pic",
+      "sjg",
+      "smg",
+      "smr",
+      "ter"
+    ],
+    "original_event_sampling_opportunities_n": 4620,
+    "original_Spider_pitfall_sites": 29,
+    "original_Beetle_pitfall_sites": 28
+  },
+  "calculations_frozen_source_free": {
+    "step_1": "Verify 7 source island temporal Sørensen excess is positive in both guilds and source all-island mean agrees with original v1.316 stored numeric aggregate.",
+    "step_2": "For each guild compute fixed source island-equal mean B3−B1 spatial Simpson and Sørensen beta from v1.318 frozen per-island values, compare exact stored means. Source pair n dependent, site n independent.",
+    "step_3": "For all seven leave-one-island-out subsets, recompute source mean spatial Simpson beta independently for beetles and spiders. Report sign count and min/max LOO, NOT seven independent bootstrap replicates, no p-value.",
+    "step_4": "Enumerate source island codes with Beetle spatial Simpson delta negative while mean source site-level Beetle alpha B3 exceeds B1. Report existing alpha and beta identities; no causal attribution to particular taxa.",
+    "step_5": "Retain source v1.318 exact 9 pre-selected Event-ID salts ×2 complementary halves sign count (18/18 Beetles, 13/18 Spiders). These are NOT 18 independent biological replicates.",
+    "step_6": "Report beta direction disagreement between guilds on same original island contexts; beware 29 vs 28 physical plots as not perfectly matched taxonomic full panel."
+  },
+  "strongest_supported_claim": "Beetle spatial Simpson beta island-equal trend remains negative after removing any one original island (descriptive source-free sensitivity), and both guilds show within-site temporal species replacement beyond within-campaign heterogeneity on all seven islands. Spider island-average spatial differentiation is not comparably robust.",
+  "no_inference": [
+    "Do not infer a species-level identity or external-pool mechanism from source aggregate alone",
+    "Not a new independent field system, not experimental habitat forcing, not extinction/colonization or demographic rescue",
+    "No new significance claims from seven leave-one-out highly dependent subsets or 18 pseudo-independent half samples",
+    "Published 2026 BALA authors already report overall abundance/biomass/richness stability and species-specific trends; clearly cite as prior art"
+  ],
+  "proposed_manuscript_scope": "One original seven-island BALA long-term arthropod community study, focusing temporal species replacement and within-island spatial convergence, with source-independent SLAM/PRIBES context kept OUT of the main quantitative causal claim. Candidate Journal of Biogeography research paper, journal fit not a prediction of acceptance.",
+  "firewall": {
+    "v314_source_original_scorer_SEALED": true,
+    "v316_source_original_scorer_SEALED": true,
+    "v318_source_original_scorer_SEALED": true,
+    "original_event_occurrence_rows_reopened": 0,
+    "GEB_scientific_HOLD": true,
+    "new_confirmatory_systems": 0,
+    "eBird": false
+  }
+}
