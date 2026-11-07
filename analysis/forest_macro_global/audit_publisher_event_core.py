@@ -263,6 +263,13 @@ def run(source, out, get_json=fetch_json, download=download_small_archive):
     if any("ebird" in (r.get("title") or "").lower() for r in selected):
         raise ValueError("eBird forbidden")
     summaries = [audit_one(r, get_json, download) for r in selected]
+    # Print only coarse, publisher-backed aggregate diagnostics to the CI log.
+    for row in summaries:
+        print(json.dumps({k: row.get(k) for k in (
+            "dataset_uuid", "status", "original_event_core_rows",
+            "original_distinct_locationID_candidates_NOT_independent_plots",
+            "missing_locationID_rows", "rows_with_eventDate_in_2019_2026",
+            "stop_reason")}, ensure_ascii=False))
     dest = Path(out)
     dest.mkdir(parents=True, exist_ok=True)
     cols = list(dict.fromkeys(k for d in summaries for k in d))
