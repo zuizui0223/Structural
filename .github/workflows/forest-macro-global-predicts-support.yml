@@ -17,8 +17,11 @@ jobs:
         with:
           r-version: "release"
           use-public-rspm: true
-      - name: Install only official PREDICTS database access dependencies
-        run: Rscript -e 'install.packages(c("jsonlite","predictsr"), repos="https://cloud.r-project.org", Ncpus=2)'
+      - name: Install required R curl system headers and official PREDICTS package
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
       - name: Known truth - local forest vs biome, source study, date and methods
         env:
           FOREST_MACRO_SYNTHETIC_ONLY: "1"
