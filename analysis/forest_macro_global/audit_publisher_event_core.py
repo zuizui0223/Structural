@@ -135,7 +135,7 @@ def event_schema(z):
     return loc, names, delim, quote, int(core.attrib.get("ignoreHeaderLines", "0")), core.attrib.get("encoding", "UTF-8")
 
 
-def summarize_event_core(data):
+def summarize_event_core(data, include_internal_coordinate_pairs=False):
     archive_sha256 = hashlib.sha256(data).hexdigest()
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         loc, col, delim, quote, skip, encoding = event_schema(z)
@@ -207,7 +207,7 @@ def summarize_event_core(data):
                     pass
     if not event_count:
         raise ValueError("empty_original_event_core")
-    return {
+    result = {
         "original_event_core_rows": event_count,
         "core_locationID_column_present": "locationID" in col,
         "distinct_original_eventID_values": len(event_ids),
@@ -231,6 +231,9 @@ def summarize_event_core(data):
         "verified_independent_forest_plots": 0,
         "forest_plot_protocol_review_still_required": True,
     }
+    if include_internal_coordinate_pairs:
+        result["_internal_coordinate_pairs"] = unique_coordinate_pairs
+    return result
 
 
 def audit_one(src, get_json=fetch_json, download=download_small_archive):
@@ -250,7 +253,7 @@ def audit_one(src, get_json=fetch_json, download=download_small_archive):
         row["dataset_title"] = safe_string(meta.get("title"))
         row["license"] = safe_string(meta.get("license"))
         row["publisher_source_url"] = get_archive_endpoint(meta)
-        row.update(summarize_event_core(download(row["publisher_source_url"])))
+        row.update(summarize_event_core(download(row["publisher_source_url"]), include_internal_coordinate_pairs=True))
         row["status"] = "PUBLISHER_ORIGINAL_EVENT_CORE_VERIFIED_NOT_PLOT_VERIFIED"
     except Exception as e:
         row["status"] = "ORIGINAL_SOURCE_GATE_STOP"
@@ -268,6 +271,15 @@ def run(source, out, get_json=fetch_json, download=download_small_archive):
     if any("ebird" in (r.get("title") or "").lower() for r in selected):
         raise ValueError("eBird forbidden")
     summaries = [audit_one(r, get_json, download) for r in selected]
+    # Test whether the two Thai taxonomic slices share the same sampled geometry.
+    # Keep original coordinate sets in process memory only; export overlap count.
+    by_role = {r["source_network_role"]: r for r in summaries}
+    beetles = by_role.get("southeast_asian_canopy_understory_beetles", {})
+    hymenoptera = by_role.get("southeast_asian_canopy_understory_hymenoptera", {})
+    a, b = beetles.get("_internal_coordinate_pairs"), hymenoptera.get("_internal_coordinate_pairs")
+    thai_shared_5dp_coordinate_pairs = len(a & b) if a is not None and b is not None else None
+    for row in summaries:
+        row.pop("_internal_coordinate_pairs", None)
     # Print only coarse, publisher-backed aggregate diagnostics to the CI log.
     for row in summaries:
         print(json.dumps({k: row.get(k) for k in (
@@ -289,6 +301,7 @@ def run(source, out, get_json=fetch_json, download=download_small_archive):
         "schema": "structural.forest_macro_publisher_original_event_core_audit.v1",
         "fixed_networks": len(summaries),
         "original_event_core_verified_networks": counts.get("PUBLISHER_ORIGINAL_EVENT_CORE_VERIFIED_NOT_PLOT_VERIFIED", 0),
+        "thai_taxonomic_slices_shared_5dp_coordinate_pairs_NOT_unique_plots": thai_shared_5dp_coordinate_pairs,
         "original_event_cores_without_locationID": sum(
             r.get("status") == "PUBLISHER_ORIGINAL_EVENT_CORE_VERIFIED_NOT_PLOT_VERIFIED"
             and not r.get("core_locationID_column_present", False) for r in summaries),
