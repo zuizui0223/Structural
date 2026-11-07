@@ -61,6 +61,7 @@ def plot_row(row):
         "growth_form_forest_diagnostic":flora_growth,
         "primary_source_forest":eligible,
         "all_vascular_plants":allvascular,
+        "plant_recorded_scope":plant,
         "tree_height_valid":height is not None and height>0,
         "tree_cover_valid":cover is not None and cover>=0,
         "area_valid":area is not None and area>0,
@@ -71,7 +72,7 @@ def plot_row(row):
                 number(row.get("latitude")),number(row.get("longitude")))),
         "coord_uncertainty_known":number(row.get("location_uncertainty")) is not None and number(row.get("location_uncertainty"))>=0,
         "survey_year_recorded":is_nonempty(row.get("date")) and str(row.get("date")).strip()!="-1",
-        "naturalness_present":number(row.get("naturalness")) is not None,
+        "naturalness_present":is_nonempty(row.get("naturalness")),
     }
 
 def audit(zipfile_path,out):
@@ -87,6 +88,7 @@ def audit(zipfile_path,out):
     reference_mismatch=0
     field_coverage=Counter()
     groups=defaultdict(Counter)
+    scope_counts=defaultdict(Counter)
     combos=defaultdict(Counter)
     all_biomes=defaultdict(Counter)
     site_ids=set()
@@ -112,6 +114,18 @@ def audit(zipfile_path,out):
                 if p["contributor_forest"] is True and p["growth_form_forest_diagnostic"] is False:reference_mismatch+=1
                 if p["contributor_forest"] is not True:continue
                 forest_plots+=1
+                sc=scope_counts[p["plant_recorded_scope"]]
+                sc["forest_plots"]+=1
+                sc["with_height"]+=int(p["tree_height_valid"])
+                sc["with_cover"]+=int(p["tree_cover_valid"])
+                sc["with_both"]+=int(p["tree_height_valid"] and p["tree_cover_valid"])
+                sc["with_area"]+=int(p["area_valid"])
+                sc["height_area_climate_richness_complete"]+=int(
+                    p["tree_height_valid"] and p["area_valid"] and p["climate_pc_both_valid"]
+                    and p["richness_valid"])
+                sc["cover_area_climate_richness_complete"]+=int(
+                    p["tree_cover_valid"] and p["area_valid"] and p["climate_pc_both_valid"]
+                    and p["richness_valid"])
                 for key in ("all_vascular_plants","tree_height_valid","tree_cover_valid","area_valid",
                             "richness_valid","climate_pc_both_valid","coordinate_valid",
                             "coord_uncertainty_known","survey_year_recorded","naturalness_present"):
@@ -163,6 +177,7 @@ def audit(zipfile_path,out):
         "species_derived_growth_form_forest_plot_count_NOT_eligibility":growth_positive,
         "contributor_forest_vs_species_growth_form_false_mismatch":reference_mismatch,
         "forest_field_valid_counts":dict(field_coverage),
+        "forest_sampling_scope_families":len(scope_counts),
         "forest_source_datasets":len({d for d,c,b in groups}),
         "forest_source_dataset_country_biome_strata":len(groups),
         "forest_biome_label_count":len([b for b in all_biomes if b]),
@@ -182,9 +197,19 @@ def audit(zipfile_path,out):
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
     with (out/"splotopen_forest_biome_metadata_support.csv").open("w",newline="",encoding="utf-8") as fd:
         w=csv.DictWriter(fd,fieldnames=list(per_biome[0]));w.writeheader();w.writerows(per_biome)
+    scope_rows=[{"source_declared_survey_scope":scope, **dict(v)}
+                for scope,v in sorted(scope_counts.items())]
+    scope_fields=["source_declared_survey_scope", "forest_plots", "with_height","with_cover","with_both",
+                  "with_area","height_area_climate_richness_complete",
+                  "cover_area_climate_richness_complete"]
+    with (out/"splotopen_forest_sampling_scope_audit.csv").open("w",newline="",encoding="utf-8") as fd:
+        w=csv.DictWriter(fd,fieldnames=scope_fields)
+        w.writeheader()
+        w.writerows(scope_rows)
     (out/"splotopen_forest_source_meta_manifest.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     print(json.dumps(report,indent=2,ensure_ascii=False))
     print("biome aggregate:",json.dumps(per_biome,ensure_ascii=False))
+    print("survey scope aggregate:",json.dumps(scope_rows,ensure_ascii=False))
     return report,per_biome
 
 if __name__=="__main__":
