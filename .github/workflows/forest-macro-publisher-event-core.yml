@@ -54,7 +54,9 @@ jobs:
           for r in rows:
               if r["status"]=="PUBLISHER_ORIGINAL_EVENT_CORE_VERIFIED_NOT_PLOT_VERIFIED":
                   assert int(r["original_event_core_rows"])>=1
-                  assert int(r["original_distinct_locationID_candidates_NOT_independent_plots"])>=1
+                  assert int(r["distinct_original_eventID_values"])>=1
+                  assert int(r["original_distinct_locationID_candidates_NOT_independent_plots"])>=0
+                  assert int(r["original_independent_plot_count_verified"])==0
                   assert r["publisher_archive_sha256"]
           print("Original publisher Event cores verified:",manifest["original_event_core_verified_networks"])
           assert manifest["original_event_core_verified_networks"]>=1, "All source archives failed; inspect source-gate stops"
