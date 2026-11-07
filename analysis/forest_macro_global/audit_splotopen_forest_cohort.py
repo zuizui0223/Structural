@@ -96,6 +96,8 @@ def audit(zipfile_path,out):
         with z.open(names[0]) as raw:
             txt=io.TextIOWrapper(raw,encoding="utf-8-sig",newline="",errors="replace")
             rd=csv.DictReader(txt)
+            if rd.fieldnames:
+                rd.fieldnames=[str(x).strip().lstrip("#").strip() for x in rd.fieldnames]
             if not rd.fieldnames or not {"is_plot","name","forest","is_forest","givd_id","biome","species_richness"}.issubset(rd.fieldnames):
                 raise ValueError("sPlotOpen_v76_node_columns_incompatible:" + str((rd.fieldnames or [])[:18]))
             for original in rd:
