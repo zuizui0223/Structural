@@ -249,6 +249,12 @@ def audit(zipfile_path,out):
     print("biome aggregate:",json.dumps(per_biome,ensure_ascii=False))
     print("survey scope aggregate:",json.dumps(scope_rows,ensure_ascii=False))
     print("source eligibility statuses:",json.dumps(dict(Counter(q["community_canopy_evaluation_status"] for q in source_rows))))
+    priorities=sorted((q for q in source_rows if q["community_canopy_evaluation_status"] !=
+                       "INSUFFICIENT_MATCHED_CANOPY_WITH_KNOWN_SPECIES_SCOPE"),
+                      key=lambda q:(q["community_canopy_evaluation_status"]!="DECLARED_WOODY_SCOPE_CANOPY_REVIEW",
+                                    -q["contemporaneous_height_and_cover_plots"], q["source_givd_dataset"]))
+    # Study source IDs and counts only: neither plot IDs nor coordinates/traits.
+    print("original GIVD source method-review priorities:", json.dumps(priorities[:20]))
     return report,per_biome
 
 if __name__=="__main__":
