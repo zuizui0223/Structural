@@ -70,12 +70,14 @@ def test_repeated_events_are_not_three_independent_plots():
     assert output["source_original_occurrence_extension_rows_read"] == 0
 
 
-def test_missing_location_column_fails_closed():
-    try:
-        m.summarize_event_core(make_zip(sample_events(), include_location=False))
-        assert False
-    except ValueError as e:
-        assert "location_id" in str(e).lower()
+def test_missing_location_column_preserves_event_count_but_not_plot_count():
+    q = m.summarize_event_core(make_zip(sample_events(), include_location=False))
+    assert q["original_event_core_rows"] == 3
+    assert q["core_locationID_column_present"] is False
+    assert q["original_distinct_locationID_candidates_NOT_independent_plots"] == 0
+    assert q["missing_locationID_rows"] == 3
+    assert q["distinct_rounded_5dp_coordinate_pairs_NOT_independent_plots"] == 2
+    assert q["verified_independent_forest_plots"] == 0
 
 
 def test_wrong_core_type_fails_closed():
