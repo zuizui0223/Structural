@@ -139,8 +139,8 @@ def summarize_event_core(data):
     archive_sha256 = hashlib.sha256(data).hexdigest()
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         loc, col, delim, quote, skip, encoding = event_schema(z)
-        if not {"eventID", "locationID"}.issubset(col):
-            raise ValueError("event_or_location_id_missing_in_original_core")
+        if "eventID" not in col:
+            raise ValueError("eventID_missing_in_original_core")
         event_ids, location_ids = set(), set()
         event_count = 0
         missing_event_id = missing_location_id = 0
@@ -152,6 +152,7 @@ def summarize_event_core(data):
         uncertainty_rows = 0
         dates_2019_2026 = 0
         all_coord_keys = defaultdict(set)
+        unique_coordinate_pairs = set()
         with z.open(loc) as raw:
             txt = io.TextIOWrapper(raw, encoding=encoding, errors="strict", newline="")
             reader = csv.reader(txt, delimiter=delim, quotechar=quote or None,
@@ -192,8 +193,10 @@ def summarize_event_core(data):
                     latf, lonf = float(lat), float(lon)
                     if math.isfinite(latf) and math.isfinite(lonf) and abs(latf) <= 90 and abs(lonf) <= 180:
                         coord_complete += 1
+                        pair = (round(latf, 5), round(lonf, 5))
+                        unique_coordinate_pairs.add(pair)
                         if lid:
-                            all_coord_keys[lid].add((round(latf, 5), round(lonf, 5)))
+                            all_coord_keys[lid].add(pair)
                 except ValueError:
                     pass
                 try:
@@ -206,6 +209,7 @@ def summarize_event_core(data):
         raise ValueError("empty_original_event_core")
     return {
         "original_event_core_rows": event_count,
+        "core_locationID_column_present": "locationID" in col,
         "distinct_original_eventID_values": len(event_ids),
         "duplicate_eventID_rows": repeated_event_ids,
         "missing_eventID_rows": missing_event_id,
@@ -217,6 +221,7 @@ def summarize_event_core(data):
         "rows_with_samplingProtocol": method_rows,
         "rows_with_habitat": forest_label_rows,
         "rows_with_valid_coordinates": coord_complete,
+        "distinct_rounded_5dp_coordinate_pairs_NOT_independent_plots": len(unique_coordinate_pairs),
         "rows_with_coordinateUncertaintyInMeters": uncertainty_rows,
         "rows_with_eventDate_in_2019_2026": dates_2019_2026,
         "publisher_archive_sha256": archive_sha256,
@@ -268,7 +273,9 @@ def run(source, out, get_json=fetch_json, download=download_small_archive):
         print(json.dumps({k: row.get(k) for k in (
             "dataset_uuid", "status", "original_event_core_rows",
             "original_distinct_locationID_candidates_NOT_independent_plots",
-            "missing_locationID_rows", "rows_with_eventDate_in_2019_2026",
+            "missing_locationID_rows", "core_locationID_column_present",
+            "distinct_rounded_5dp_coordinate_pairs_NOT_independent_plots",
+            "rows_with_eventDate_in_2019_2026",
             "stop_reason")}, ensure_ascii=False))
     dest = Path(out)
     dest.mkdir(parents=True, exist_ok=True)
@@ -282,6 +289,9 @@ def run(source, out, get_json=fetch_json, download=download_small_archive):
         "schema": "structural.forest_macro_publisher_original_event_core_audit.v1",
         "fixed_networks": len(summaries),
         "original_event_core_verified_networks": counts.get("PUBLISHER_ORIGINAL_EVENT_CORE_VERIFIED_NOT_PLOT_VERIFIED", 0),
+        "original_event_cores_without_locationID": sum(
+            r.get("status") == "PUBLISHER_ORIGINAL_EVENT_CORE_VERIFIED_NOT_PLOT_VERIFIED"
+            and not r.get("core_locationID_column_present", False) for r in summaries),
         "original_source_gate_stops": counts.get("ORIGINAL_SOURCE_GATE_STOP", 0),
         "verbatim_original_occurrence_extensions_opened": 0,
         "species_names_or_abundances_exported": 0,
