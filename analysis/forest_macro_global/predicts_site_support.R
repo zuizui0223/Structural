@@ -120,7 +120,11 @@ make_report <- function(d) {
       data.frame(group=n,original_study_sites=nuniq(z$skey),
         independent_studies=nuniq(z$study),countries=nuniq(z$country),
         have_valid_coordinates=sum(z$coord),
-        study_method_taxon_reference_contrasts=nuniq(z$stratum[z$paired_study_taxon_method]),
+        study_method_taxon_reference_contrasts=sum(vapply(
+          split(z,z$stratum),
+          function(q) sum(q$reference)>=2L &&
+            sum(q$landuse %in% c("secondary","plantation"))>=2L,
+          logical(1))),
         year_2019_or_later=sum(!is.na(z$year)&z$year>=2019),
         stringsAsFactors=FALSE)
     }))
