@@ -136,6 +136,14 @@ def audit(zipfile_path,out):
                 key=(p["source_dataset"],p["country"],p["biome"])
                 g=groups[key]
                 g["forest_plots"]+=1
+                scope=p["plant_recorded_scope"]
+                if scope=="not specified":
+                    g["scope_not_specified"]+=1
+                    g["scope_not_specified_both"]+=int(p["tree_height_valid"] and p["tree_cover_valid"])
+                elif scope=="all vascular plants":
+                    g["scope_complete_vascular_both"]+=int(p["tree_height_valid"] and p["tree_cover_valid"])
+                elif scope.startswith("woody plants >="):
+                    g["scope_declared_woody_both"]+=int(p["tree_height_valid"] and p["tree_cover_valid"])
                 g["forest_all_vascular"]+=int(p["all_vascular_plants"])
                 g["forest_with_height"]+=int(p["tree_height_valid"])
                 g["forest_with_cover"]+=int(p["tree_cover_valid"])
@@ -166,6 +174,29 @@ def audit(zipfile_path,out):
             "forest_cover_available":sum(v["forest_with_cover"] for v in slices),
             "forest_height_and_cover":sum(v["forest_with_both"] for v in slices)
         })
+    source_totals=defaultdict(Counter)
+    for (d,c,b),counts in groups.items():
+        source_totals[d].update(counts)
+    source_rows=[]
+    for d,t in sorted(source_totals.items()):
+        row={
+            "source_givd_dataset":d,
+            "forest_plots":t["forest_plots"],
+            "all_vascular_forest_plots":t["forest_all_vascular"],
+            "contemporaneous_tree_height_plots":t["forest_with_height"],
+            "contemporaneous_tree_cover_plots":t["forest_with_cover"],
+            "contemporaneous_height_and_cover_plots":t["forest_with_both"],
+            "complete_vascular_height_and_cover_plots":t["scope_complete_vascular_both"],
+            "declared_woody_height_and_cover_plots":t["scope_declared_woody_both"],
+            "UNSPECIFIED_survey_scope_height_and_cover_plots":t["scope_not_specified_both"],
+            "country_biome_strata_NOT_independent_regions":sum(x[0]==d for x in groups),
+            "community_canopy_evaluation_status":(
+                "COMPLETE_VASCULAR_SCOPE_CANOPY_REVIEW" if t["scope_complete_vascular_both"]>=20 else
+                "DECLARED_WOODY_SCOPE_CANOPY_REVIEW" if t["scope_declared_woody_both"]>=20 else
+                "SAMPLING_SCOPE_UNSPECIFIED_REQUIRES_SOURCE_METHODS" if t["scope_not_specified_both"]>=20 else
+                "INSUFFICIENT_MATCHED_CANOPY_WITH_KNOWN_SPECIES_SCOPE")
+        }
+        source_rows.append(row)
     report={
         "schema":"structural.global_forest_splotopen_v76_metadata_audit.v1",
         "source":"iDiv sPlotOpen v76 (2023-03-07), via public Netzschleuder CSV transform",
@@ -178,6 +209,9 @@ def audit(zipfile_path,out):
         "contributor_forest_vs_species_growth_form_false_mismatch":reference_mismatch,
         "forest_field_valid_counts":dict(field_coverage),
         "forest_sampling_scope_families":len(scope_counts),
+        "source_datasets_with_complete_vascular_scope_at_least20_both_structure":sum(q["complete_vascular_height_and_cover_plots"]>=20 for q in source_rows),
+        "source_datasets_with_declared_woody_scope_at_least20_both_structure":sum(q["declared_woody_height_and_cover_plots"]>=20 for q in source_rows),
+        "source_datasets_with_unspecified_scope_at_least20_both_structure":sum(q["UNSPECIFIED_survey_scope_height_and_cover_plots"]>=20 for q in source_rows),
         "forest_source_datasets":len({d for d,c,b in groups}),
         "forest_source_dataset_country_biome_strata":len(groups),
         "forest_biome_label_count":len([b for b in all_biomes if b]),
@@ -206,10 +240,15 @@ def audit(zipfile_path,out):
         w=csv.DictWriter(fd,fieldnames=scope_fields)
         w.writeheader()
         w.writerows(scope_rows)
+    with (out/"splotopen_GIVD_source_scope_followup_queue.csv").open("w",newline="",encoding="utf-8") as fd:
+        w=csv.DictWriter(fd,fieldnames=list(source_rows[0]))
+        w.writeheader()
+        w.writerows(source_rows)
     (out/"splotopen_forest_source_meta_manifest.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     print(json.dumps(report,indent=2,ensure_ascii=False))
     print("biome aggregate:",json.dumps(per_biome,ensure_ascii=False))
     print("survey scope aggregate:",json.dumps(scope_rows,ensure_ascii=False))
+    print("source eligibility statuses:",json.dumps(dict(Counter(q["community_canopy_evaluation_status"] for q in source_rows))))
     return report,per_biome
 
 if __name__=="__main__":
