@@ -1,0 +1,63 @@
+name: Forest island macro original source methods crosswalk
+on:
+  push:
+    paths:
+      - "analysis/forest_macro_global/qualify_splotopen_original_methods.py"
+      - "analysis/forest_macro_global/original_method_crosswalk_v1.json"
+      - "analysis/forest_macro_global/test_qualify_splotopen_original_methods.py"
+      - ".github/workflows/forest-macro-source-method-crosswalk.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original_methods_and_source_grain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test source ontology and no plot site inflation
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_qualify_splotopen_original_methods.py
+      - name: Restore actual 84-study source-only forest cohort manifest from prior successful audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p splot_original_forest_support
+          gh run download 42372577077 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name forest-macro-splotopen-global-original-field-structure-support \
+            --dir splot_original_forest_support
+      - name: Verify original GIVD field protocols against actual 4-source sPlotOpen cohort
+        run: |
+          python analysis/forest_macro_global/qualify_splotopen_original_methods.py \
+            --source splot_original_forest_support/splotopen_GIVD_source_scope_followup_queue.csv \
+            --crosswalk analysis/forest_macro_global/original_method_crosswalk_v1.json \
+            --out global_forest_original_source_methods
+      - name: Assert independent forest networks still require site hierarchy checks
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,csv
+          p=Path("global_forest_original_source_methods")
+          q=json.loads((p/"four_source_original_field_method_manifest.json").read_text())
+          d=list(csv.DictReader((p/"four_source_original_field_method_crosswalk.csv").open()))
+          assert q["schema"]=="structural.forest_macro_splotopen_source_field_method_qualification.v1"
+          assert q["source_original_givd_identity_verified"]==4
+          assert {x["GIVD_ID"] for x in d}=={"AS-BD-001","AS-CN-003","SA-BR-002","EU-CH-005"}
+          assert q["forest_source_networks_certified_for_island_biogeographic_occurrence_test"]==0
+          assert q["new_species_data_opened"]==0
+          assert not q["new_biodiversity_results_calculated"]
+          assert not q["eBird_used"]
+          PY
+      - name: Export only original source and method aggregate eligibility
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-four-GIVD-method-grain-eligibility
+          path: global_forest_original_source_methods/
+          if-no-files-found: warn

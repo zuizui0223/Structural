@@ -1,0 +1,70 @@
+name: Forest macro publisher-original seven DwC-A Event cores (no species)
+on:
+  push:
+    paths:
+      - "analysis/forest_macro_global/audit_publisher_event_core.py"
+      - "analysis/forest_macro_global/test_audit_publisher_event_core.py"
+      - ".github/workflows/forest-macro-publisher-event-core.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original_event_core_site_hierarchy_audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Confirm event-vs-location hierarchy and no occurrence species exposure
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_publisher_event_core.py
+      - name: Restore source-frozen seven forest datasets from previous source metadata screen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p global_forest_screen
+          gh run download 42320818293 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name forest-macro-original-multiregion-temporal-source-screen \
+            --dir global_forest_screen
+      - name: Retrieve bounded original published DwC-A, read Event core only
+        run: |
+          python analysis/forest_macro_global/audit_publisher_event_core.py \
+            --source global_forest_screen/GBIF_multiregion_original_forest_monitoring_screen.csv \
+            --out original_publisher_event_core_qc
+      - name: Validate source-backed counts without treating events as independent forests
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv,json
+          d=Path("original_publisher_event_core_qc")
+          manifest=json.loads((d/"original_event_core_manifest.json").read_text())
+          rows=list(csv.DictReader((d/"original_event_core_network_counts_NOT_plot_counts.csv").open()))
+          assert manifest["schema"]=="structural.forest_macro_publisher_original_event_core_audit.v1"
+          assert manifest["fixed_networks"]==7 and len(rows)==7
+          assert manifest["original_event_core_verified_networks"]+manifest["original_source_gate_stops"]==7
+          assert manifest["verified_independent_forest_plots"]==0
+          assert manifest["verbatim_original_occurrence_extensions_opened"]==0
+          assert manifest["species_names_or_abundances_exported"]==0
+          assert not manifest["eBird_used"]
+          for r in rows:
+              if r["status"]=="PUBLISHER_ORIGINAL_EVENT_CORE_VERIFIED_NOT_PLOT_VERIFIED":
+                  assert int(r["original_event_core_rows"])>=1
+                  assert int(r["distinct_original_eventID_values"])>=1
+                  assert int(r["original_distinct_locationID_candidates_NOT_independent_plots"])>=0
+                  assert int(r["original_independent_plot_count_verified"])==0
+                  assert r["publisher_archive_sha256"]
+          print("Original publisher Event cores verified:",manifest["original_event_core_verified_networks"])
+          assert manifest["original_event_core_verified_networks"]>=1, "All source archives failed; inspect source-gate stops"
+          PY
+      - name: Store only original publisher Event-core count summaries; never original site IDs or raw species
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-publisher-event-core-seven-source-counts
+          path: original_publisher_event_core_qc/
+          if-no-files-found: warn
