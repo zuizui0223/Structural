@@ -31,7 +31,7 @@ def make_zip(records, *, row_type=m.EVENT_ROW_TYPE, include_location=True):
     with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as z:
         z.writestr("meta.xml", "".join(core))
         output = io.StringIO()
-        writer = csv.DictWriter(output, fieldnames=fields, delimiter="\t")
+        writer = csv.DictWriter(output, fieldnames=fields, delimiter="\t", extrasaction="ignore")
         writer.writeheader()
         for row in records:
             writer.writerow(row)
