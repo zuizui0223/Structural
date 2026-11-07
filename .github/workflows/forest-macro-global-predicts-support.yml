@@ -1,0 +1,49 @@
+name: Forest macro global original PREDICTS site-support audit
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-global-predicts-support.yml"
+      - "analysis/forest_macro_global/predicts_site_support.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  global-forest-observation-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install only official PREDICTS database access dependencies
+        run: Rscript -e 'install.packages(c("jsonlite","predictsr"), repos="https://cloud.r-project.org", Ncpus=2)'
+      - name: Known truth - local forest vs biome, source study, date and methods
+        env:
+          FOREST_MACRO_SYNTHETIC_ONLY: "1"
+        run: Rscript analysis/forest_macro_global/predicts_site_support.R /tmp/forest-global-synthetic
+      - name: Download actual original 2016+2022 PREDICTS SITE summaries from NHM and audit forest support
+        run: Rscript analysis/forest_macro_global/predicts_site_support.R forest_global_support
+      - name: Fail closed on missing original forest counts and absent provenance
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          x <- fromJSON("forest_global_support/quality_manifest.json")
+          stopifnot(x$schema=="structural.forest_macro_PREDICTS_public_site_support.v1",
+                    x$n_original_source_site_summary_rows>10000,
+                    x$original_site_distinct_n>10000,
+                    x$n_original_source_site_summary_rows>=x$original_site_distinct_n,
+                    x$original_source_biological_4million_records_read==FALSE,
+                    x$no_global_ecological_effect_or_validation_claim==TRUE,
+                    x$spatial_precision_gates_NOT_PASSED==TRUE,
+                    x$original_source_site_records_are_not_all_independent_forest_studies==TRUE)
+          print(x$global_report)
+          RS
+      - name: Archive ONLY aggregate original forest biome/realm and source audit, NOT underlying CC NC locations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-global-predicts-forest-biome-support-audit
+          path: forest_global_support/
+          if-no-files-found: warn
