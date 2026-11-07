@@ -112,15 +112,20 @@ def test_fixed_cohort_and_no_biology_export(tmp_path):
     with source.open("w",encoding="utf-8",newline="") as fd:
         w=csv.DictWriter(fd,fieldnames=names); w.writeheader()
         for i in range(7):
-            w.writerow({"dataset_uuid":f"uuid-{i}", "predefined_source_role_NOT_geography_proven":"forest",
+            w.writerow({"dataset_uuid":f"uuid-{i}", "predefined_source_role_NOT_geography_proven":(
+                ["southeast_asian_canopy_understory_beetles", "southeast_asian_canopy_understory_hymenoptera"][i]
+                if i < 2 else "forest"),
                         "source_2020_canopy_alignment_status":"RECENT_OCCURRENCE_CANDIDATE_NOT_SITE_VERIFIED"})
     def fake_meta(url):
         return {"key":url.rsplit("/",1)[-1],"type":"SAMPLING_EVENT","title":"forest","license":"CC0_1_0",
                 "endpoints":[{"type":"DWC_ARCHIVE","url":"https://test.example/archive.zip"}]}
     manifest=m.run(source,tmp_path/"out",get_json=fake_meta,download=lambda _:make_zip(sample_events()))
     assert manifest["original_event_core_verified_networks"] == 7
+    assert manifest["thai_taxonomic_slices_shared_5dp_coordinate_pairs_NOT_unique_plots"] == 2
     assert manifest["verified_independent_forest_plots"] == 0
     assert manifest["verbatim_original_occurrence_extensions_opened"] == 0
     exported=(tmp_path/"out"/"original_event_core_network_counts_NOT_plot_counts.csv").read_text()
     assert "SECRET SPECIES" not in exported
     assert "forest-A-2019" not in exported
+    assert "_internal_coordinate_pairs" not in exported
+    assert "139.2" not in exported
