@@ -23,7 +23,7 @@ from thai_beetle_pairing_diagnostic import haversine_m, campaigns
 EXPECTED_SHA="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
 
 
-def compare(original_events, occurrences):
+def compare(original_events, occurrences, *, return_internal=False):
     sampling=[r for r in original_events if protocol_category(r["samplingProtocol"])[0]=="SLAM"]
     if len(sampling)!=144:
         raise ValueError("expected_144_source_SLAM_jar_events")
@@ -172,6 +172,15 @@ def compare(original_events, occurrences):
        "forest_site_n_not_36_or_288":2,
        "raw_ids_coordinates_and_family_labels_not_exported":True
     }
+    # Optional in-memory geometry used by the distance-support diagnostic only.
+    # NEVER serialize these publisher identifiers or original taxon labels.
+    if return_internal:
+        return out, {
+            "forest_names": forests,
+            "horizontal_coords": horiz_coords,
+            "station_family_counts": by_station,
+            "paired_horizontal_offsets": pair_offsets,
+        }
     return out
 
 def run(out,request=fetch_json,download=download_small_archive):
