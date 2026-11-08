@@ -1,0 +1,55 @@
+name: "Forest beetle resource amount versus barrier-free access observational support"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-resource-access-support.yml"
+      - "analysis/forest_macro_global/audit_nardi_resource_access_identifiability.py"
+      - "analysis/forest_macro_global/test_audit_nardi_resource_access_identifiability.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_13_landscape_tree_cover_barrier_contrast_source_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test independent resource access contrasts versus collinearity
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_nardi_resource_access_identifiability.py
+      - name: Get original Zenodo v3 local 250m tree cover and barrier-free angles
+        run: |
+          mkdir -p original_zenodo_beetle_predictors
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            "https://zenodo.org/records/17044394/files/env_data_trapscale.txt?download=1" \
+            -o original_zenodo_beetle_predictors/env_data_trapscale.txt
+      - name: Audit within-landscape separable tree resources and barrier angle variation before opening beetle responses
+        run: |
+          python analysis/forest_macro_global/audit_nardi_resource_access_identifiability.py \
+            --source original_zenodo_beetle_predictors/env_data_trapscale.txt \
+            --out original_forest_resource_access_predictor_gate
+      - name: Verify no response fishing and honest source design gate outcome
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("original_forest_resource_access_predictor_gate/nardi_composition_configuration_design_support.json").read_text())
+          assert j["schema"]=="structural.forest_Nardi_2026_resource_vs_access_design_support.v1"
+          assert j["original_study_trap_cell_count"]==207
+          assert j["original_landscape_context_count"]==13
+          assert j["sources_sampling_effort_and_beetle_incidence_NOT_READ"]
+          assert not j["new_arthropod_effect_calculated"]
+          assert j["no_raw_site_ID_cell_ID_species_or_coords_exported"]
+          print("SOURCE-ONLY separability decision:",j["two_covar_separable_in_original_observed_feature_support"])
+          PY
+      - name: Save nonbiological source independent-variation eligibility only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-resource-vs-access-source-independent-support
+          path: original_forest_resource_access_predictor_gate/
+          if-no-files-found: warn
