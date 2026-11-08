@@ -97,6 +97,30 @@ def audit(path):
     def numeric_n(row,idx):
         try:return float(row.get(idx,""))
         except (ValueError,TypeError):return None
+    # Inspect the publisher's Obs code for an actual site key instead of
+    # inferring site identity by spreadsheet row order. Data are sorted partly
+    # by height, so adjacent sets of eight are NOT necessarily one forest site.
+    sitegroups={}
+    structural_codes=Counter()
+    obs_parse_count=0
+    for row in beetles[1:]:
+        original_code=row.get(0,"")
+        match=re.fullmatch(r"([A-Za-z]+)([0-9]+)([A-Za-z]+)([0-9]+)([A-Za-z]+)",original_code)
+        if match is None:continue
+        prefix,site_number,layer_token,edge_num,suffix=match.groups()
+        source_site=(prefix,site_number)
+        obs_parse_count+=1
+        lvl=layer_name(row.get(height_col,""))
+        try:distance=int(float(row.get(edge_cols[0],"")))
+        except (ValueError,TypeError):distance=None
+        if distance is None or distance!=int(edge_num):
+            structural_codes["edge_distance_disagreement"]+=1
+        structural_codes[f"encoded_layer_{layer_token}_source_height_{lvl}"]+=1
+        sitegroups.setdefault(source_site,Counter())[(lvl,distance)]+=1
+    valid_site_motif=Counter({(x.split("|")[0],int(x.split("|")[1])):1 for x in expected})
+    source_site_count=len(sitegroups)
+    sites_with_complete_5ground_3canopy=sum(
+        v==valid_site_motif for v in sitegroups.values())
     def original_meta(colnames,data):
         head=data[0]
         idx=[i for i,x in head.items() if x in colnames]
@@ -125,6 +149,17 @@ def audit(path):
         "ten_sites_eight_traps_each_original_column_height_and_edge_design":
             dict(layer_edges)==expected,
         "eight_record_repeating_site_order_motif_verified_count":sum(block8),
+        "original_Obs_site_layer_edge_pattern_parse_rows":obs_parse_count,
+        "original_Obs_code_distinct_site_labels_count":source_site_count,
+        "original_Obs_site_codes_with_complete_8trap_5ground3canopy_design":
+            sites_with_complete_5ground_3canopy,
+        "original_Obs_embedded_edge_distance_label_mismatch":structural_codes["edge_distance_disagreement"],
+        "original_Obs_embedded_stratum_token_vs_source_height_diagnostics":{
+            k:v for k,v in structural_codes.items() if k!="edge_distance_disagreement"},
+        "exact_thirty_ground_canopy_site_by_edge_pair_opportunities_verified":
+            sites_with_complete_5ground_3canopy==10 and source_site_count==10
+            and obs_parse_count==80
+            and structural_codes["edge_distance_disagreement"]==0,
         "original_Obs_first_20_ID_shape_only":first20,
         "ground_environment_Dist_CBD_field_numeric_support":
             original_meta({"Dist.CBD"},ground),
