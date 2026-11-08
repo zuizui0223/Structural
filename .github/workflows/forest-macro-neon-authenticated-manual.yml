@@ -1,0 +1,45 @@
+name: "Manual NEON 2026 forest beetle original file access with GitHub secret"
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_NEON_2026_BART_metadata_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test token privacy, absent-token and denied-token behavior
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_neon_authenticated_beetle_catalog_gate.py
+      - name: Request NEON original file catalog with header-only token secret, not file bytes
+        env:
+          NEON_API_TOKEN: ${{ secrets.NEON_API_TOKEN }}
+        run: |
+          python analysis/forest_macro_global/neon_authenticated_beetle_catalog_gate.py \
+            --out original_neon_secret_backed_catalog
+      - name: Scientific boundary verification: do not fit any ecological effects
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("original_neon_secret_backed_catalog/NEON_original_secret_backed_access_manifest.json").read_text())
+          assert q["schema"]=="structural.NEON_2026_authenticated_file_catalog_source_gate.v1"
+          assert q["original_NEON_release"]=="RELEASE-2026"
+          assert q["original_beetle_data_files_downloaded"]==0
+          assert not q["forest_beetle_temperature_or_movement_effect_scored"]
+          assert not q["original_forest_plot_level_membership_verified"]
+          assert q["raw_token_or_signed_URL_or_taxa_never_saved"]
+          print("Safe NEON original source access state:",q["access_status"])
+          PY
+      - name: Archive secret-free, signed-URL-free source access status only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-neon-secret-backend-original-catalog-status-only
+          path: original_neon_secret_backed_catalog/
+          if-no-files-found: warn
