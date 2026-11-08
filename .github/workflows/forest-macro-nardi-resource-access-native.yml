@@ -1,0 +1,78 @@
+name: "Forest Native beetles - tree amount versus unobstructed access unique effect"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-nardi-resource-access-native.yml"
+      - "analysis/forest_macro_global/score_nardi_resource_access_native_richness.py"
+      - "analysis/forest_macro_global/test_score_nardi_resource_access_native_richness.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_prespec_13_landscape_native_richness_conditional_access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Preserve outcome prespec before any source biological effects are opened
+        run: |
+          test -s docs/FOREST_BEETLE_RESOURCE_VS_ACCESS_PRESPEC_20261108.md
+          grep -q 'Exactly one planned test' docs/FOREST_BEETLE_RESOURCE_VS_ACCESS_PRESPEC_20261108.md
+      - name: Known-truth positive/negative/zero/collinear partial-effect and source-grain tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_score_nardi_resource_access_native_richness.py
+      - name: Fetch only original Zenodo v3 source cohort by prior MD5-verified file IDs
+        run: |
+          mkdir -p original_zenodo_Nardi_13_landscapes
+          for file in bio_cast.txt bio_data_trapscale.txt env_data_sitescale.txt env_data_trapscale.txt; do
+            curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 130 \
+              "https://zenodo.org/records/17044394/files/${file}?download=1" \
+              -o "original_zenodo_Nardi_13_landscapes/${file}"
+          done
+      - name: Score unique Native beetle richness association with barrier-free directions beyond tree cover
+        run: |
+          python analysis/forest_macro_global/score_nardi_resource_access_native_richness.py \
+            --bio_wide original_zenodo_Nardi_13_landscapes/bio_cast.txt \
+            --bio_long original_zenodo_Nardi_13_landscapes/bio_data_trapscale.txt \
+            --site_env original_zenodo_Nardi_13_landscapes/env_data_sitescale.txt \
+            --trap_env original_zenodo_Nardi_13_landscapes/env_data_trapscale.txt \
+            --out forest_native_beetle_resource_access_single_test
+      - name: Verify exact original biological denominator, one tested effect and no movement claims
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("forest_native_beetle_resource_access_single_test/nardi_beetle_native_richness_resource_vs_access.json").read_text())
+          assert r["schema"]=="structural.forest_nardi_native_beetle_resource_access_partial_effect.v1"
+          assert r["source_Zenodo_DOI"]=="10.5281/zenodo.17044394"
+          assert r["source_original_13_landscapes"]==13
+          assert r["source_original_207_trap_cells"]==207
+          assert r["source_original_301_taxon_labels"]==301
+          assert r["source_original_total_positive_incidence"]==3215
+          assert r["source_original_native_positive_incidence"]==2915
+          assert r["source_predictor_only_13_landscape_gate_passed_before_outcome"]
+          assert r["source_configuration_independent_fraction_residual_variance"]>=0.2
+          assert r["original_species_specific_source_network_not_observed"]
+          assert r["canopy_upper_lower_and_thermal_escape_not_tested"]
+          assert r["no_species_names_site_ids_raw_samples_or_coord_exported"]
+          assert not r["eBird_used"]
+          x=r["main_result"]
+          assert x["status"]=="EXPLORATORY_OBSERVATIONAL_ASSOCIATION_COMPUTED"
+          assert x["bootstrap_effective_landscape_samples"]>=4750
+          assert x["permutation_replicates"]==9999
+          print("PREDECLARED MAIN: native richness conditional access association:",
+                x["conditional_access_coefficient_native_detected_labels_per_10pct_unblocked_angle"],
+                "p=",x["within_landscape_reduced_model_residual_permutation_two_sided_p"],
+                "support=",x["predeclared_access_positive_support"])
+          PY
+      - name: Archive only anonymous source-scored partial effect and 13 landscape diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-native-beetle-resource-access-unique-conditional-test
+          path: forest_native_beetle_resource_access_single_test/
+          if-no-files-found: warn
