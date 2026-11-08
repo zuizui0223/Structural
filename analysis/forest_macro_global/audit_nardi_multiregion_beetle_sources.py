@@ -73,6 +73,8 @@ def parse_text_source(path, name):
         "source_row_count":n,
         "source_column_count":len(header),
         "source_fieldnames_suppressed_if_taxon_wide_format":True,
+        "source_schema_column_names_ONLY_IF_NARROW":header if len(header)<=30 else None,
+        "source_first_two_column_names_IF_WIDE":header[:2] if len(header)>30 else None,
         "source_candidate_ID_field_unique_counts_NOT_independent_sampling_units":{
             header[i]:len(vals) for i,vals in ids.items()
         },
