@@ -1,0 +1,70 @@
+name: "Forest beetle pairwise community turnover versus local urbanization differences"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-beetle-turnover-urban-difference.yml"
+      - "analysis/forest_macro_global/score_eight_country_beetle_turnover_urban_difference.py"
+      - "analysis/forest_macro_global/test_score_eight_country_beetle_turnover_urban_difference.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  landscape_original_trap_community_turnover_one_exploratory_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Require analysis-specific protocol fixed before running actual source response
+        run: |
+          test -s docs/FOREST_BEETLE_WITHIN_LANDSCAPE_TURNOVER_URBAN_DIFF_PROTOCOL_20261108.md
+          grep -q 'Exactly one new primary test' docs/FOREST_BEETLE_WITHIN_LANDSCAPE_TURNOVER_URBAN_DIFF_PROTOCOL_20261108.md
+      - name: Run pure-turnover vs nestedness known-truth and pair-dependence tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_score_eight_country_beetle_turnover_urban_difference.py
+      - name: Acquire original four 2026 Zenodo v3 beetle and forest landscape TSVs
+        run: |
+          mkdir -p original_zenodo_beetles
+          for file in bio_cast.txt bio_data_trapscale.txt env_data_sitescale.txt env_data_trapscale.txt; do
+            curl --fail --location --retry 2 --retry-delay 3 --connect-timeout 15 --max-time 130 \
+              "https://zenodo.org/records/17044394/files/${file}?download=1" \
+              -o "original_zenodo_beetles/${file}"
+          done
+      - name: Run one frozen explanatory turnover-vs-urbanization-distance contrast
+        run: |
+          python analysis/forest_macro_global/score_eight_country_beetle_turnover_urban_difference.py \
+            --wide original_zenodo_beetles/bio_cast.txt \
+            --long original_zenodo_beetles/bio_data_trapscale.txt \
+            --site original_zenodo_beetles/env_data_sitescale.txt \
+            --trap original_zenodo_beetles/env_data_trapscale.txt \
+            --out original_landscape_pairwise_beta_test
+      - name: Verify source and independent landscape denominator and non-confirmatory interpretation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("original_landscape_pairwise_beta_test/forest_beetles_pairwise_turnover_urban_difference.json").read_text())
+          assert x["schema"]=="structural.forest_beetle_turnover_absolute_urbanization_difference.v1"
+          assert x["source_Zenodo_v3_DOI"]=="10.5281/zenodo.17044394"
+          assert x["original_sampling_landscape_n"]==13
+          assert x["original_species_by_trap_incidence_matrix_traps"]==207
+          assert x["original_taxa_columns"]==301
+          assert x["source_original_positive_incidence_counts"]==3215
+          assert x["main_result"]["estimable_landscapes"]==13
+          assert x["main_result"]["all_trap_pairwise_dependence_preserved_within_label_permutation"]
+          assert x["target_predeclared_in_analysis_specific_protocol_after_previous_source_analysis"]
+          assert x["previous_negative_exotic_share_urban_test_not_relabelled"]
+          assert x["no_environmental_causal_claim"]
+          assert x["no_original_site_taxa_trap_IDs_individuals_or_coordinates_exported"]
+          assert not x["eBird_used"]
+          PY
+      - name: Save taxon-free 13-landscape Simpson turnover result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-beetle-thirteen-landscape-pairwise-urban-difference
+          path: original_landscape_pairwise_beta_test/
+          if-no-files-found: warn
