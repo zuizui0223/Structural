@@ -1,0 +1,56 @@
+name: "NEON 2026 original beetles, forest vegetation and tower temperature site-year overlap"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-neon-beetle-veg-tower-meta.yml"
+      - "analysis/forest_macro_global/audit_neon_beetle_canopy_temp_product_support.py"
+      - "analysis/forest_macro_global/test_audit_neon_beetle_canopy_temp_product_support.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  three_source_public_metadata_no_token:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test 2026 release matching and source site/month forest-grain firewall
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_neon_beetle_canopy_temp_product_support.py
+      - name: Query only official NEON public data product metadata, without token
+        run: |
+          python analysis/forest_macro_global/audit_neon_beetle_canopy_temp_product_support.py \
+            --out neon_original_beetle_veg_tower_support
+      - name: Prevent raw data-file access or forest/temperature height claims
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("neon_original_beetle_veg_tower_support/NEON_2026_three_product_site_years_NOT_forest_plots.json").read_text())
+          assert x["schema"]=="structural.neon_2026_forest_beetle_vegetation_tower_public_metadata_gate.v1"
+          assert x["NEON_release"]=="RELEASE-2026"
+          assert x["source_products"]=={
+              "beetles":"DP1.10022.001",
+              "vegetation":"DP1.10098.001",
+              "tower_temp":"DP1.00002.001"}
+          assert x["source_original_2018_ground_beetle_protocol_changed_from_four_to_three_traps_per_plot"]
+          assert x["NEON_data_files_or_species_values_read"]==0
+          assert not x["forest_habitat_confirmed_at_any_candidate_site"]
+          assert not x["plot_level_and_sampling_effort_join_verified"]
+          assert not x["canopy_ground_beetle_vertical_stratum_test_eligible"]
+          assert not x["thermal_refuge_or_temperature_effect_scored"]
+          assert not x["NEON_data_endpoint_access_token_used"]
+          assert not x["eBird_used"]
+          print("Candidate metadata-only site-year overlaps:",x["same_site_year_beetle_month_and_tower_temp_month_overlap_site_years"])
+          PY
+      - name: Archive only public site-year product availability and original-identity gates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-NEON-release2026-beetle-veg-tower-siteyear-availability
+          path: neon_original_beetle_veg_tower_support/
+          if-no-files-found: warn
