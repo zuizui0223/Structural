@@ -77,7 +77,7 @@ def test_constant_urbanization_is_methodological_STOP_not_zero_ecological_effect
 
 def test_same_species_status_conflict_within_landscape_fails():
     wide,long,site,env=source_fixture()
-    long[12]["STATUS"]="Exotic" if long[12]["STATUS"]=="Native" else "Native"
+    long[0][12]["STATUS"]="Exotic" if long[0][12]["STATUS"]=="Native" else "Native"
     # The same species occurs repeatedly within this site's cells.
     try:
         m.calculate(wide,long,site,env,p_reps=19,b_reps=100)
