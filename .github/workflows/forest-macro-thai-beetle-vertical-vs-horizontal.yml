@@ -1,4 +1,4 @@
-name: Forest three-dimensional niche: beetle vertical vs horizontal beta distance
+name: "Forest three-dimensional niche - beetle vertical vs horizontal beta distance"
 on:
   push:
     paths:
