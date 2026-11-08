@@ -138,6 +138,14 @@ def run(site_csv,month_manifest,out):
         json.dumps(res,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     for k,v in res.items():
         if k!="original_site_source_crosswalk":print(k,":",json.dumps(v,ensure_ascii=False))
+    print("public strict forest site codes and temporal support:",json.dumps([
+        {"siteCode":v["NEON_siteCode_public"],
+         "same_months":v["three_product_site_month_overlap"],
+         "common_years":v["three_product_sample_year_overlap"],
+         "ecoclimatic_domain":v["source_ecoclimatic_domain"]}
+         for v in res["original_site_source_crosswalk"]
+         if v["strict_forest_with_temporal_match_candidate"]
+    ],ensure_ascii=False))
     return res
 
 if __name__=="__main__":
