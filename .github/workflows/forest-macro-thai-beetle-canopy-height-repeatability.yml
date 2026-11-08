@@ -1,0 +1,52 @@
+name: "Forest beetle source Event canopy height repeatability gate"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-canopy-height-repeatability.yml"
+      - "analysis/forest_macro_global/thai_beetle_canopy_height_repeatability.py"
+      - "analysis/forest_macro_global/test_thai_beetle_canopy_height_repeatability.py"
+      - "analysis/forest_macro_global/thai_beetle_thermal_height_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_canopy_height_stability_without_species:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Synthetic test stable vs changed canopy trap heights
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_thai_beetle_canopy_height_repeatability.py
+      - name: Audit source-only 2 seasons at 18 stations with no original occurrence reads
+        run: |
+          python analysis/forest_macro_global/thai_beetle_canopy_height_repeatability.py \
+            --out source_event_only_height_stability
+      - name: Accept justified model eligibility or scientific STOP as two distinct outcomes
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("source_event_only_height_stability/thai_canopy_height_repeatability_Event_only.json").read_text())
+          assert x["schema"]=="structural.thai_canopy_beetle_original_trap_height_repeatability.v1"
+          assert x["original_source_archive_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          assert x["original_Event_rows"]==288 and x["SLAM_jar_Event_rows"]==144
+          assert x["original_forest_n"]==2 and x["physical_canopy_station_n"]==18
+          assert x["original_beetle_Occurrence_extension_rows_read"]==0
+          assert x["no_source_coordinates_or_plotIDs_exported"]
+          assert x["temporal_height_variation_not_assumed_station_constant"]
+          assert x["no_thermal_movement_or_causal_effect_scored"]
+          if not x["constant_canopy_height_per_station_site_level_model_eligible"]:
+              print("SCIENTIFIC STOP: forest station-level constant canopy height assumption not supported")
+          PY
+      - name: Archive canopy height stability aggregates, never Event identifiers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-canopy-height-repeatability-Event-only
+          path: source_event_only_height_stability/
+          if-no-files-found: warn
