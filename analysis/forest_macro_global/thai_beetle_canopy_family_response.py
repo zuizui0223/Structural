@@ -49,7 +49,8 @@ def original_tables(data):
         return (
             [{**{q:col(row,es["fields"],q) for q in ("eventID","locationID","samplingProtocol",
               "sampleSizeUnit","sampleSizeValue","samplingEffort","eventDate",
-              "parentEventID","decimalLatitude","decimalLongitude","dynamicProperties")},
+              "parentEventID","decimalLatitude","decimalLongitude","dynamicProperties",
+              "eventRemarks","locationRemarks","minimumElevationInMeters")},
               "_core_id":row[es["keyidx"]].strip()} for row in rows(z,es)],
             [{**{q:col(row,os["fields"],q) for q in ("family","scientificName",
                "individualCount","taxonRank")},
