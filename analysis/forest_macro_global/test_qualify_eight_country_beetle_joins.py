@@ -25,8 +25,8 @@ def build_fake(tmp,unmatched_site_env=False):
                      "STATUS":"known","N":str(n)})
         individuals[sid,cell,species]+=n
     w=[{"SITE":sid,"CELL_ID":cell,
-        "SECRET_SPECIES_ALPHA":str(individuals[sid,cell,"SECRET_SPECIES_ALPHA"]),
-        "SECRET_SPECIES_BETA":str(individuals[sid,cell,"SECRET_SPECIES_BETA"])}
+        "SECRET_SPECIES_ALPHA":str(int(individuals[sid,cell,"SECRET_SPECIES_ALPHA"]>0)),
+        "SECRET_SPECIES_BETA":str(int(individuals[sid,cell,"SECRET_SPECIES_BETA"]>0))}
        for sid,cell in cells]
     site=[{"plot_id":("UNMATCHED_"+sid if unmatched_site_env else sid),
             "forest_2000":str((i+1)*4),"forest_3000":str((i+1)*3),
@@ -65,7 +65,11 @@ def test_all_207_bio_cells_match_environment_and_site_rows_by_values(tmp_path):
     assert r["site_environment_join_status"]=="DIRECT_13_LANDSCAPE_ID_EQUIVALENCE"
     assert r["source_beetle_long_unique_species_LABELS_not_verified_species_richness"]==2
     assert r["source_long_species_field_matches_wide_headers_all"]
-    assert r["unmatched_n_cell_species_counts_between_wide_long_IF_EXACT_KEY"]==0
+    assert r["source_bio_wide_0_1_incidence_matrix_semantics_confirmed"] is True
+    assert r["source_0_1_and_long_positive_species_incidence_disagreements"]==0
+    assert r["source_wide_nonzero_cell_species_incidence_count"]==414
+    assert r["original_long_N_sum_NOT_VERIFIED_SAMPLING_EFFORT"]==3215
+    assert r["original_wide_raw_numeric_sum_NOT_ASSUMED_INDIVIDUALS"]==414
     assert r["original_independent_forest_patches_count_verified"]==0
     assert r["species_source_occupancy_or_connectivity_model_fit"] is False
     report=(tmp_path/"out"/"zenodo_beetle_original_site_and_trap_join.json").read_text()
