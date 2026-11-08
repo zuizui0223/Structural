@@ -1,0 +1,50 @@
+name: "Forest Thai beetle original morphospecies identity support"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-morphospecies.yml"
+      - "analysis/forest_macro_global/audit_thai_beetle_morphospecies_semantics.py"
+      - "analysis/forest_macro_global/test_audit_thai_beetle_morphospecies_semantics.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact_original_437_beetle_morphospecies_semantics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test explicit morphospecies codes versus unspecified genus and family labels
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_thai_beetle_morphospecies_semantics.py
+      - name: Read frozen original Thai Coleoptera scientificName format only
+        run: |
+          python analysis/forest_macro_global/audit_thai_beetle_morphospecies_semantics.py \
+            --out thai_beetle_original_identity_support
+      - name: Prevent source names from becoming invented species counts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("thai_beetle_original_identity_support/thai_beetle_morphospecies_label_quality.json").read_text())
+          assert r["schema"]=="structural.thai_beetle_original_morphospecies_semantics_audit.v1"
+          assert r["source_original_archive_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          assert r["publisher_event_rows"]==288 and r["publisher_occurrence_rows"]==1073
+          assert r["source_original_beetle_individuals"]==1622
+          assert r["published_species_and_morphospecies_count_REFERENCE_ONLY"]==437
+          assert r["source_species_identity_admission_not_proven"] is True
+          assert r["raw_taxon_labels_coreIDs_and_locations_not_exported"] is True
+          assert r["new_vertical_niche_or_thermal_effect_estimated"] is False
+          assert not r["eBird_used"]
+          PY
+      - name: Export only source label-pattern aggregates, not taxa or coordinates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-morphospecies-source-semantics
+          path: thai_beetle_original_identity_support/
+          if-no-files-found: warn
