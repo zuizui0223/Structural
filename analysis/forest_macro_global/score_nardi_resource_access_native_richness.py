@@ -169,7 +169,7 @@ def analyze(original_wide, original_long, original_site, original_trap, *, perm=
         sample_rows.append({
             "site":sid,"cover":tree,"access":access,"native":len(native[sid,cid])
         })
-    if len(sample_rows)!=207 or {(r["site"],r["cover"],r["access"]) for r in sample_rows} is None:
+    if len(sample_rows)!=207:
         raise ValueError("source_cell_count_changed")
     if sum(r["native"] for r in sample_rows)!=2915:
         raise ValueError("original_native_incidence_2915_not_reproduced")
