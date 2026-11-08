@@ -162,7 +162,11 @@ def analyze_rows(rows, *, expect_species_246=True, boot_reps=10000):
             vals[edge]=beta
             if beta is not None:distances[edge].append(beta)
         # No replacement of missing trap species by ecological true zeros.
-        # The single prespecified primary contrast uses only edge 1 and 256 m.\n        # Missing 16m secondary/descriptive species data CANNOT exclude a\n        # site with valid primary endpoints (prevents posthoc denominator drift).\n        if vals[1] is not None and vals[256] is not None:\n            eligible.append(vals[1]-vals[256])
+        # The single prespecified primary contrast uses only edge 1 and 256 m.
+        # Missing 16m secondary/descriptive species data CANNOT exclude a
+        # site with valid primary endpoints (prevents posthoc denominator drift).
+        if vals[1] is not None and vals[256] is not None:
+            eligible.append(vals[1]-vals[256])
         site_out.append({
             "anonymous_original_site":i+1,
             "edge1_relative_species_BrayCurtis":vals[1],
