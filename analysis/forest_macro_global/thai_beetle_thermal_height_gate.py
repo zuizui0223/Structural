@@ -83,7 +83,7 @@ def extract_named_numeric(text):
     return out
 
 
-def source_event_rows(data):
+def source_event_rows(data, *, include_internal_geometry=False):
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         ml=[n for n in z.namelist() if n.rsplit("/",1)[-1]=="meta.xml"]
         if len(ml)!=1:raise ValueError("archive_meta_not_unique")
@@ -92,8 +92,9 @@ def source_event_rows(data):
         if len(cores)!=1 or cores[0].attrib.get("rowType")!=EVENT_TYPE:
             raise ValueError("original_core_not_Event")
         spec=definition(z,cores[0])
+        extras=("locationID","eventDate","decimalLatitude","decimalLongitude") if include_internal_geometry else ()
         return [
-            {name:col(r,spec["fields"],name) for name in KNOWN_FIELDS}
+            {name:col(r,spec["fields"],name) for name in (*KNOWN_FIELDS,*extras)}
             for r in rows(z,spec)
         ]
 
