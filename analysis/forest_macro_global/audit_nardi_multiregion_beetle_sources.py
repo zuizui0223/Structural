@@ -109,7 +109,6 @@ def audit(bio_cast,bio_data_trapscale,env_data_sitescale,env_data_trapscale):
        "candidate_shared_field_names_bio_vs_trap_env":sorted(bio & trap),
        "candidate_shared_field_names_bio_vs_site_env":sorted(bio & site),
        "original_study_reports_13_landscapes_eight_countries":True,
-       "original_study_reports_616?":False,
        "published_beetle_counts_by_target_group_REFERENCE_ONLY":{
            "Cerambycidae":15072,"bark_beetles":8416,"ambrosia_beetles":38267
        },
