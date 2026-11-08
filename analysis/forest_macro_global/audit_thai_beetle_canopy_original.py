@@ -202,7 +202,7 @@ def run(out, *,request=fetch_json, download=download_small_archive):
         raise ValueError("gbif_dataset_identity_mismatch")
     license=str(d.get("license") or "")
     if license.upper() not in ("CC_BY_4_0", "CC0_1_0"):
-        raise ValueError("requires_cc_by_original_license")
+        raise ValueError("requires_cc_by_original_license: "+repr(license))
     url=get_archive_endpoint(d)
     manifest=inspect_bytes(download(url))
     manifest["source_publisher_license"]=license
