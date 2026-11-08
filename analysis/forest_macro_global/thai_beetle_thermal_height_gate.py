@@ -74,7 +74,7 @@ def extract_named_numeric(text):
     for match in re.finditer(
         r"(?i)\b(trap(?:\s+height)?|height\s+of\s+(?:the\s+)?trap|"
         r"air\s+temperature|ambient\s+temperature|light\s+intensity|lux)\b"
-        r"\s*(?:\(\s*(?:m|meters?|°?C|lux)\s*\))?\s*[:=]\s*"
+        r"\s*(?:(?:\(\s*(?:m|meters?|metres?|°?C|lux)\s*\))|(?:in\s+(?:m|meters?|metres?|°?C|lux)))?\s*[:=]\s*"
         r"([-+]?\d+(?:\.\d+)?)\s*(m|°?C|lux)?",text):
         key=normal_key(match.group(1))
         v=parse_numeric(match.group(2))
