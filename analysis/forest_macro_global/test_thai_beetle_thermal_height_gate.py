@@ -19,6 +19,7 @@ def test_named_numeric_fields_require_unambiguous_keys():
     assert ("lightintensitylux",4520.0) in q
     assert m.extract_named_numeric("the forest canopy is 25 m tall") == []
     assert ("trapheight",15.0) in m.extract_named_numeric("trap height = 15 m")
+    assert ("trapheight",21.0) in m.extract_named_numeric("trap height in meters:21")
     assert m.parse_numeric("28.5°C")==28.5
     assert m.parse_numeric("danger:25")==None
 
