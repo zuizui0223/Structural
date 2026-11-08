@@ -1,0 +1,75 @@
+name: "Forest canopy microclimate beetles: Belgium original Dryad source audit"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-belgium-dryad-source-audit.yml"
+      - "analysis/forest_macro_global/audit_belgium_canopy_microclimate_beetles.py"
+      - "analysis/forest_macro_global/test_audit_belgium_canopy_microclimate_beetles.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  belgium_original_forest_canopy_temperature_carabid_linkage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test locale CSV, plot and trap join and no species plot identity publication
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_belgium_canopy_microclimate_beetles.py
+      - name: Download original CC0 Dryad 2025 Belgium source files with exact file IDs
+        run: |
+          mkdir -p original_belgium_dryad
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
+            "https://datadryad.org/downloads/file_stream/4194844" \
+            -o original_belgium_dryad/Plot-characteristics.csv
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
+            "https://datadryad.org/downloads/file_stream/4194845" \
+            -o original_belgium_dryad/Micro-and-Macroclimate-data.csv
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
+            "https://datadryad.org/downloads/file_stream/4194846" \
+            -o original_belgium_dryad/Macroarthropod-data.csv
+          python - <<'PY'
+          from pathlib import Path
+          d=Path("original_belgium_dryad")
+          for name in ("Plot-characteristics.csv","Micro-and-Macroclimate-data.csv","Macroarthropod-data.csv"):
+              p=d/name
+              assert p.stat().st_size>300, "Source file size too small or blocked"
+              assert not p.read_bytes()[:100].lower().startswith(b"<html")
+              print(name,p.stat().st_size)
+          PY
+      - name: Audit fixed original plot/microclimate/ground-beetle source cohort without model fitting
+        run: |
+          python analysis/forest_macro_global/audit_belgium_canopy_microclimate_beetles.py \
+            --plot original_belgium_dryad/Plot-characteristics.csv \
+            --micro original_belgium_dryad/Micro-and-Macroclimate-data.csv \
+            --arth original_belgium_dryad/Macroarthropod-data.csv \
+            --out belgium_forest_original_source_quality
+      - name: Verify exact 36 plots, source DOI and no false globally independent forest denominator
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("belgium_forest_original_source_quality/belgium_original_climate_beetle_source_quality.json").read_text())
+          assert q["schema"]=="structural.belgium_forest_microclimate_beetles_dryad_source_audit.v1"
+          assert q["source_dryad_DOI"]=="10.5061/dryad.tmpg4f5b0"
+          assert q["original_unique_plot_IDs_not_independent_forests"]==36
+          assert q["original_canopy_cover_nonmissing_n"]>=25
+          assert q["site_overlap_2022_microclimate_vs_arthropod_2022_n"]>=25
+          assert q["all_36_field_plots_from_one_forest"]
+          assert q["original_paper_has_already_published_canopy_buffering_and_beetle_response"]
+          assert q["new_thermal_effect_or_vertical_escape_scored"] is False
+          assert q["original_raw_plot_IDs_species_names_or_coordinates_exported"] is False
+          assert not q["eBird_used"]
+          PY
+      - name: Publish aggregate field-grain and temporal-overlap audit only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-belgium-dryad-original-cohort-metadata
+          path: belgium_forest_original_source_quality/
+          if-no-files-found: warn
