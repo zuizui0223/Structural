@@ -25,13 +25,13 @@ jobs:
         run: |
           mkdir -p original_belgium_dryad
           curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
-            "https://datadryad.org/downloads/file_stream/4194844" \
+            "https://datadryad.org/api/v2/files/4194844/download" \
             -o original_belgium_dryad/Plot-characteristics.csv
           curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
-            "https://datadryad.org/downloads/file_stream/4194845" \
+            "https://datadryad.org/api/v2/files/4194845/download" \
             -o original_belgium_dryad/Micro-and-Macroclimate-data.csv
           curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
-            "https://datadryad.org/downloads/file_stream/4194846" \
+            "https://datadryad.org/api/v2/files/4194846/download" \
             -o original_belgium_dryad/Macroarthropod-data.csv
           python - <<'PY'
           from pathlib import Path
