@@ -108,6 +108,7 @@ def audit_rows(events):
     season_strata=Counter()
     field_keyword_counts=defaultdict(Counter)
     dynamic_json_count=0
+    source_height_shape_examples={}
     for e in events:
         method,layer=protocol_category(e["samplingProtocol"])
         if method not in ("SLAM","LIGHT","YELLOW_FIT") or layer not in ("canopy","understorey"):
@@ -121,6 +122,13 @@ def audit_rows(events):
         for field in ("dynamicProperties","eventRemarks","locationRemarks"):
             value=str(e.get(field) or "")
             lowered=value.lower()
+            if field=="dynamicProperties" and "height" in lowered and tag not in source_height_shape_examples:
+                idx=lowered.index("height")
+                # One short syntax example only, numeric tokens redacted.
+                fragment=lowered[max(0,idx-18):idx+78]
+                fragment=re.sub(r"[-+]?\d+(?:\.\d+)?", "NUMBER", fragment)
+                fragment=re.sub(r"[^a-zA-Z _=:;,.(){}\[\]-]", " ", fragment)
+                source_height_shape_examples[tag]=fragment[:96]
             for term in ("height","trap","above ground","meter","metre",
                          "temperature","temp","thermal","light","lux","sensor","logger"):
                 if term in lowered:
@@ -157,6 +165,7 @@ def audit_rows(events):
         "source_event_metadata_field_coverage":{t:dict(coverage[t]) for t in tags},
         "event_metadata_allowlisted_keyword_counts_by_source_field":{k:dict(v) for k,v in field_keyword_counts.items()},
         "dynamicProperties_JSON_object_or_array_rows":dynamic_json_count,
+        "numeric_redacted_height_field_format_examples":source_height_shape_examples,
         "explicit_numeric_trap_height_by_event_method_layer":{
             t:stats(height_values[t]) for t in tags},
         "explicit_numeric_event_air_temperature_by_method_layer":{
