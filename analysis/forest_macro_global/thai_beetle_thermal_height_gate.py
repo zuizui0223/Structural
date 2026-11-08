@@ -106,6 +106,8 @@ def audit_rows(events):
     light_values=defaultdict(list)
     key_presence=defaultdict(Counter)
     season_strata=Counter()
+    field_keyword_counts=defaultdict(Counter)
+    dynamic_json_count=0
     for e in events:
         method,layer=protocol_category(e["samplingProtocol"])
         if method not in ("SLAM","LIGHT","YELLOW_FIT") or layer not in ("canopy","understorey"):
@@ -117,7 +119,19 @@ def audit_rows(events):
         # Only metadata linked to the specific Event. No inferred hourly loggers.
         named=[]
         for field in ("dynamicProperties","eventRemarks","locationRemarks"):
-            named.extend(extract_named_numeric(e.get(field)))
+            value=str(e.get(field) or "")
+            lowered=value.lower()
+            for term in ("height","trap","above ground","meter","metre",
+                         "temperature","temp","thermal","light","lux","sensor","logger"):
+                if term in lowered:
+                    field_keyword_counts[field][term]+=1
+            if field=="dynamicProperties" and value:
+                try:
+                    if isinstance(json.loads(value),(dict,list)):
+                        dynamic_json_count+=1
+                except (ValueError,TypeError):
+                    pass
+            named.extend(extract_named_numeric(value))
         for key,val in named:
             if key in CANOPY_HEIGHT_NAMES:
                 if 1<=val<=75:
@@ -141,6 +155,8 @@ def audit_rows(events):
         "original_event_rows":len(events),
         "independent_original_forests_from_methods":2,
         "source_event_metadata_field_coverage":{t:dict(coverage[t]) for t in tags},
+        "event_metadata_allowlisted_keyword_counts_by_source_field":{k:dict(v) for k,v in field_keyword_counts.items()},
+        "dynamicProperties_JSON_object_or_array_rows":dynamic_json_count,
         "explicit_numeric_trap_height_by_event_method_layer":{
             t:stats(height_values[t]) for t in tags},
         "explicit_numeric_event_air_temperature_by_method_layer":{
