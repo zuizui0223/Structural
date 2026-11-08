@@ -26,7 +26,7 @@ def test_simpson_turnover_ignores_pure_nestedness_but_not_replacement():
     assert m.simpson_turnover({"A","B"},{"B","C"})==.5
     assert m.simpson_turnover({"A"},{"C"})==1
     assert m.jaccard({"A","B"},{"A"})==.5
-    assert m.jaccard({"A","B"},{"B","C"})==2/3
+    assert abs(m.jaccard({"A","B"},{"B","C"})-2/3)<1e-12
 
 
 def test_pure_turnover_positive_relationship_in_16_and_15_trap_landscapes():
