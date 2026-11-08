@@ -94,4 +94,4 @@ def test_secondary_16m_zero_capture_does_not_drop_primary_edge1_vs256_site():
     assert r["descriptive_vertical_brays_by_edge_m"]["256"]["valid_pairs"]==10
     assert r["within_source_site_primary_effect"]["source_sites_used"]==10
     assert r["within_source_site_primary_effect"]["sites_edge_amplification_positive"]==10
-    assert r["site_specific_pair_diagnostics_NO_SOURCE_ID"][1]["complete_3dist_ground_canopy_site"] is False
+    assert sum(not x["complete_3dist_ground_canopy_site"] for x in r["site_specific_pair_diagnostics_NO_SOURCE_ID"])==1
