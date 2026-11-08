@@ -155,6 +155,43 @@ def build(bio_wide, bio_long, site_env, trap_env):
                 match_per_species_records+=1
             else:
                 mismatch_per_species_records+=1
+    # A wide biodiversity file can be an incidence (0/1) matrix, not N.
+    # Reconcile positive cells to the long counts, never require wide 1 == N.
+    wide_presence=set()
+    wide_binary=True
+    wide_nonzero=0
+    for row in w:
+        cell=(key(row["SITE"]),key(row["CELL_ID"]))
+        for sp in species_cols:
+            value=row.get(sp,"").strip()
+            if not value or value.upper()=="NA":
+                wide_binary=False
+                continue
+            try:
+                n=float(value)
+            except ValueError:
+                wide_binary=False
+                continue
+            if n not in (0.0,1.0):
+                wide_binary=False
+            if n>0:
+                wide_nonzero+=1
+                wide_presence.add((cell[0],cell[1],sp))
+    long_positive={k for k,v in grouped.items() if v>0}
+    matched_incidence=(len(wide_presence&long_positive) if all_names_match else 0)
+    mismatch_incidence=(len(wide_presence^long_positive) if all_names_match else None)
+    status_by_species=defaultdict(set)
+    status_by_site_species=defaultdict(set)
+    site_status_species=defaultdict(set)
+    for row in b:
+        label=row["SPECIES"]
+        stage=row["STATUS"].strip()
+        sid=key(row["SITE"])
+        if label:
+            status_by_species[label].add(stage)
+            status_by_site_species[sid,label].add(stage)
+            site_status_species[sid,stage].add(label)
+    publication_total_individuals_reference=61755
     report={
         "schema":"structural.zenodo_13_landscape_beetles_original_cell_join.v1",
         "source_dataset_DOI":SOURCE_DOI,
@@ -187,6 +224,25 @@ def build(bio_wide, bio_long, site_env, trap_env):
         "original_wide_numeric_entry_count":wide_numeric_nonmissing,
         "original_wide_nonnumeric_entry_count":wide_nonnumeric,
         "original_wide_raw_numeric_sum_NOT_ASSUMED_INDIVIDUALS":wide_numeric_sum,
+        "source_bio_wide_0_1_incidence_matrix_semantics_confirmed":(
+            wide_binary and all_names_match and mismatch_incidence==0
+            and len(long_positive)==wide_nonzero),
+        "source_wide_all_species_matrix_values_binary":wide_binary,
+        "source_wide_nonzero_cell_species_incidence_count":wide_nonzero,
+        "source_long_unique_cell_species_incidence_count":len(long_positive),
+        "source_0_1_and_long_positive_species_incidence_agreements":matched_incidence,
+        "source_0_1_and_long_positive_species_incidence_disagreements":mismatch_incidence,
+        "source_beetle_label_native_and_exotic_unique_counts":{
+            group:len({label for (sid,status_),names in site_status_species.items()
+                       if status_==group for label in names})
+            for group in ("Native","Exotic")},
+        "source_label_with_conflicting_native_exotic_status_across_landscapes":sum(
+            len(statuses)>1 for statuses in status_by_species.values()),
+        "source_label_with_conflicting_status_within_landscape":sum(
+            len(statuses)>1 for statuses in status_by_site_species.values()),
+        "paper_published_61755_individual_total_REFERENCE_ONLY":publication_total_individuals_reference,
+        "source_version3_N_minus_published_summary_count":raw_count-publication_total_individuals_reference,
+        "published_vs_source_abundance_denominator_not_reconciled":raw_count!=publication_total_individuals_reference,
         "matched_n_cell_species_counts_between_wide_long_IF_EXACT_KEY":match_per_species_records,
         "unmatched_n_cell_species_counts_between_wide_long_IF_EXACT_KEY":mismatch_per_species_records,
         "original_landscape_country_or_region_identity_verified":False,
