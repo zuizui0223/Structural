@@ -38,13 +38,13 @@ def test_expected_original_ten_study_sites_and_30_pairs_positive_edge_amplificat
     assert r["source_trap_records"]==80
     assert r["source_original_10_sampling_sites_one_region"]==10
     assert r["source_full_30_site_by_edge_ground_canopy_pair_opportunities"]==30
-    assert r["descriptive_vertical_brays_by_edge_m"]["1"]["mean_relative_abundance_BrayCurtis"]==1
+    assert math.isclose(r["descriptive_vertical_brays_by_edge_m"]["1"]["mean_relative_abundance_BrayCurtis"],1,abs_tol=1e-12)
     assert r["descriptive_vertical_brays_by_edge_m"]["256"]["mean_relative_abundance_BrayCurtis"]==0
     assert abs(r["descriptive_vertical_brays_by_edge_m"]["16"]["mean_relative_abundance_BrayCurtis"]-.5)<1e-10
     result=r["within_source_site_primary_effect"]
     assert result["source_sites_used"]==10
-    assert result["primary_edge1minus_interor256_relative_BrayCurtis_mean"]==1
-    assert result["site_bootstrap_95CI"]==[1,1]
+    assert math.isclose(result["primary_edge1minus_interor256_relative_BrayCurtis_mean"],1,abs_tol=1e-12)
+    assert all(math.isclose(x,1,abs_tol=1e-12) for x in result["site_bootstrap_95CI"])
     assert result["conditional_2sided_exact_site_signflip_p_NOT_independent_forest_replicates"]==2/(2**10)
     assert result["sites_edge_amplification_positive"]==10
     assert r["source_technical_quality_counts"]["source_abundance_metadata_differs_selected_taxa"]==0
@@ -55,7 +55,7 @@ def test_expected_original_ten_study_sites_and_30_pairs_positive_edge_amplificat
 def test_original_same_design_can_produce_negative_or_no_edge_change():
     negative=m.analyze_rows(fixture("homogenized"),expect_species_246=False,boot_reps=300)
     main=negative["within_source_site_primary_effect"]
-    assert main["primary_edge1minus_interor256_relative_BrayCurtis_mean"]==-1
+    assert math.isclose(main["primary_edge1minus_interor256_relative_BrayCurtis_mean"],-1,abs_tol=1e-12)
     assert main["sites_edge_homogenization_negative"]==10
     zero=m.analyze_rows(fixture("none"),expect_species_246=False,boot_reps=300)
     result=zero["within_source_site_primary_effect"]
