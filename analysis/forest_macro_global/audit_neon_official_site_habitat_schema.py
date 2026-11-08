@@ -50,6 +50,7 @@ def identify(raw_bytes):
         "original_record_rows":len(data),
         "original_field_names":fields,
         "source_fields_relevant_to_habitat_eligibility":columns,
+        "published_dominant_NLCD_class_vocabulary_counts":dict(Counter(str(row.get("dominant_nlcd_classes") or "").strip() for row in data)),
         "original_row_values_siteIDs_coordinates_not_exported":True,
         "forest_habitat_sites_verified":0,
         "species_plot_or_temperature_effect_not_scored":True,
