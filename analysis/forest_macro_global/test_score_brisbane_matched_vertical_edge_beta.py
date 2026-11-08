@@ -77,3 +77,21 @@ def test_source_edge_and_layer_must_match_original_obs_code():
     rows[1][4]="Canopy"
     with pytest.raises(ValueError,match="Obs_layer_conflicts"):
         m.analyze_rows(rows,expect_species_246=False,boot_reps=50)
+
+
+def test_secondary_16m_zero_capture_does_not_drop_primary_edge1_vs256_site():
+    rows=fixture("amplified")
+    # Simulate the one actual original zero-selected-taxa canopy trap at
+    # middle distance: all 246 taxa had been filtered upstream (<2 traps).
+    target=next(row for row in rows[1:] if row[0]=="T2C16A")
+    for c in range(5,29):
+        target[c]="0"
+    target[1]="0"
+    target[2]="0"
+    r=m.analyze_rows(rows,expect_species_246=False,boot_reps=300)
+    assert r["descriptive_vertical_brays_by_edge_m"]["16"]["valid_pairs"]==9
+    assert r["descriptive_vertical_brays_by_edge_m"]["1"]["valid_pairs"]==10
+    assert r["descriptive_vertical_brays_by_edge_m"]["256"]["valid_pairs"]==10
+    assert r["within_source_site_primary_effect"]["source_sites_used"]==10
+    assert r["within_source_site_primary_effect"]["sites_edge_amplification_positive"]==10
+    assert r["site_specific_pair_diagnostics_NO_SOURCE_ID"][1]["complete_3dist_ground_canopy_site"] is False
