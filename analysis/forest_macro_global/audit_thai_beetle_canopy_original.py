@@ -201,7 +201,7 @@ def run(out, *,request=fetch_json, download=download_small_archive):
     if str(d.get("key"))!=UID or str(d.get("type"))!="SAMPLING_EVENT":
         raise ValueError("gbif_dataset_identity_mismatch")
     license=str(d.get("license") or "")
-    if license.upper() not in ("CC_BY_4_0", "CC0_1_0"):
+    if license.lower() not in ("cc_by_4_0", "cc0_1_0", "http://creativecommons.org/licenses/by/4.0/legalcode", "https://creativecommons.org/licenses/by/4.0/legalcode"):
         raise ValueError("requires_cc_by_original_license: "+repr(license))
     url=get_archive_endpoint(d)
     manifest=inspect_bytes(download(url))
