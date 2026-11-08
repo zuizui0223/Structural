@@ -250,7 +250,28 @@ def run(out,request=fetch_json,download=download_small_archive):
     if hashlib.sha256(data).hexdigest()!=EXPECTED_SHA:
         raise ValueError("original_Thai_archive_hash_changed")
     event,occ=original_tables(data)
-    result=study(event,occ)
+    try:
+        result=study(event,occ)
+        result["original_fixed_height_model_status"]="ESTIMATED_WITHIN_STUDY_EXPLORATORY"
+    except ValueError as exc:
+        if str(exc)!="same_station_canopy_trap_height_changed_gt4m_across_seasons":
+            raise
+        # Scientific STOP rather than posthoc deleting sites or changing a
+        # predeclared fixed-station predictor after reading the outcome.
+        result={
+            "schema":"structural.thai_beetle_trap_height_vs_capture_vertical_asymmetry.v1",
+            "original_fixed_height_model_status":"SCIENTIFIC_STOP_TRAP_HEIGHT_CHANGED_BETWEEN_CAMPAIGNS",
+            "source_archive_sha256":EXPECTED_SHA,
+            "original_forest_n":2,
+            "physical_stations_n":18,
+            "source_original_SLAM_jar_events":144,
+            "source_original_beetle_individuals":1622,
+            "association_estimate":None,
+            "source_height_stability_QC":"See thai_beetle_canopy_height_repeatability.py Event-only audit",
+            "not_evidence_of_thermal_escape_behavior_or_warming_response":True,
+            "not_causal_effect_of_canopy_height":True,
+            "raw_station_forest_identifiers_and_coordinates_not_exported":True
+        }
     dst=Path(out);dst.mkdir(parents=True,exist_ok=True)
     (dst/"thai_beetle_height_vs_vertical_capture_ratio.json").write_text(
         json.dumps(result,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
