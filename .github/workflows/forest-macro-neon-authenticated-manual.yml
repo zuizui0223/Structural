@@ -44,8 +44,7 @@ jobs:
           print("Safe NEON original source access state:",q["access_status"])
           PY
       - name: Archive secret-free, signed-URL-free source access status only
-        if: github.event_name == 'workflow_dispatch'
-        if: always()
+        if: github.event_name == 'workflow_dispatch' && always()
         uses: actions/upload-artifact@v4
         with:
           name: forest-macro-neon-secret-backend-original-catalog-status-only
