@@ -24,7 +24,7 @@ EXPECTED_MD5={
 
 def parse_text_source(path, name):
     p=Path(path)
-    if not p.is_file() or p.stat().st_size<500:
+    if not p.is_file() or p.stat().st_size<100:
         raise ValueError("not_a_valid_original_zenodo_text_table:"+name)
     data=p.read_bytes()
     checksum=hashlib.md5(data).hexdigest()
@@ -37,12 +37,9 @@ def parse_text_source(path, name):
     # by arbitrary whitespace or manually reinterpret a summary as original
     # row-level data.
     head=raw.splitlines()[0]
-    try:
-        dialect=csv.Sniffer().sniff(first,delimiters="\t,;")
-        delim=dialect.delimiter
-    except csv.Error:
-        counts={sep:head.count(sep) for sep in ("\t",",",";")}
-        delim=max(counts,key=counts.get)
+    counts={sep:head.count(sep) for sep in ("\t",",",";")}
+    delim=max(counts,key=counts.get)
+    if counts[delim]<1:raise ValueError("cannot_determine_original_table_delimiter:"+name)
     if head.count(delim)<1:raise ValueError("cannot_determine_original_table_delimiter:"+name)
     rdr=csv.reader(io.StringIO(raw),delimiter=delim)
     headers=next(rdr,None)
@@ -75,8 +72,7 @@ def parse_text_source(path, name):
         "source_delimiter":"TAB" if delim=="\t" else "COMMA" if delim=="," else "SEMICOLON",
         "source_row_count":n,
         "source_column_count":len(header),
-        "source_first_30_fields":header[:30],
-        "source_all_fields_exposed":len(header)<=30,
+        "source_fieldnames_suppressed_if_taxon_wide_format":True,
         "source_candidate_ID_field_unique_counts_NOT_independent_sampling_units":{
             header[i]:len(vals) for i,vals in ids.items()
         },
@@ -97,6 +93,9 @@ def audit(bio_cast,bio_data_trapscale,env_data_sitescale,env_data_trapscale):
     bio=set(x.lower() for x in sources["bio_data_trapscale"]["_private_full_source_header"])
     trap=set(x.lower() for x in sources["env_data_trapscale"]["_private_full_source_header"])
     site=set(x.lower() for x in sources["env_data_sitescale"]["_private_full_source_header"])
+    allowed_names=re.compile(r"(?i)^(?:site|site.?id|trap|trap.?id|location|plot|plot.?id|landscape|landscape.?id|country|year|date|sampling.?year|forest|region)$")
+    shared_bio_trap=sorted(x for x in bio & trap if allowed_names.fullmatch(x))
+    shared_bio_site=sorted(x for x in bio & site if allowed_names.fullmatch(x))
     for x in sources.values():x.pop("_private_full_source_header")
     report={
        "schema":"structural.multiregion_beetle_zenodo_original_13_landscapes_audit.v1",
@@ -106,8 +105,8 @@ def audit(bio_cast,bio_data_trapscale,env_data_sitescale,env_data_trapscale):
        "source_license":"CC-BY-4.0",
        "source_original_version":"v3",
        "source_tables":sources,
-       "candidate_shared_field_names_bio_vs_trap_env":sorted(bio & trap),
-       "candidate_shared_field_names_bio_vs_site_env":sorted(bio & site),
+       "candidate_shared_field_names_bio_vs_trap_env":shared_bio_trap,
+       "candidate_shared_field_names_bio_vs_site_env":shared_bio_site,
        "original_study_reports_13_landscapes_eight_countries":True,
        "published_beetle_counts_by_target_group_REFERENCE_ONLY":{
            "Cerambycidae":15072,"bark_beetles":8416,"ambrosia_beetles":38267
