@@ -69,6 +69,46 @@ def audit(path):
     # so first-field equality is a DIAGNOSTIC only, not a valid ecological join.
     matches_g=len(primary_ids&g_ids)
     matches_c=len(primary_ids&c_ids)
+    def layer_name(v):
+        x=str(v or "").strip().lower()
+        if x=="ground":return "Ground"
+        if x=="canopy":return "Canopy"
+        return "UNKNOWN"
+    layer_edges=Counter()
+    for row in beetles[1:]:
+        kind=layer_name(row.get(height_col,""))
+        ed=row.get(edge_cols[0],"") if edge_cols else ""
+        layer_edges[f"{kind}|{ed}"]+=1
+    expected={"Ground|1":10,"Ground|4":10,"Ground|16":10,
+              "Ground|64":10,"Ground|256":10,
+              "Canopy|1":10,"Canopy|16":10,"Canopy|256":10}
+    def anonymous_id_shape(x):
+        return "".join("#" if c.isdigit() else "A" if c.isalpha()
+                       else c for c in str(x or ""))[:20]
+    first20=[anonymous_id_shape(row.get(0,"")) for row in beetles[1:21]]
+    block8=[]
+    motif_template=Counter({(x.split("|")[0],x.split("|")[1]):1 for x in expected})
+    for i in range(10):
+        rows=beetles[1+i*8:1+(i+1)*8]
+        motif=Counter((layer_name(row.get(height_col,"")),
+                      row.get(edge_cols[0],"") if edge_cols else "")
+                      for row in rows)
+        block8.append(motif==motif_template)
+    def numeric_n(row,idx):
+        try:return float(row.get(idx,""))
+        except (ValueError,TypeError):return None
+    def original_meta(colnames,data):
+        head=data[0]
+        idx=[i for i,x in head.items() if x in colnames]
+        if not idx:return {"field_present":False}
+        vals=[numeric_n(row,idx[0]) for row in data[1:]]
+        valid=[x for x in vals if x is not None and math.isfinite(x)]
+        return {
+            "field_present":True,"original_numeric_rows":len(valid),
+            "original_distinct_numeric_values":len(set(valid)),
+            "source_min":min(valid) if valid else None,
+            "source_max":max(valid) if valid else None
+        }
     return {
         "schema":"structural.brisbane_canopy_ground_original_80trap_metadata_grain.v1",
         "original_source_MD5":SOURCE_MD5,
@@ -81,6 +121,21 @@ def audit(path):
         "ground_source_early_metadata_field_names":[v for i,v in sorted(headers["Ground level enviros"].items()) if v],
         "canopy_source_early_metadata_field_names":[v for i,v in sorted(headers["Canopy level enviros"].items()) if v],
         "source_original_Height_stratum_or_value_counts":string_distinct(hvals),
+        "original_height_x_edge_stratum_counts":dict(layer_edges),
+        "ten_sites_eight_traps_each_original_column_height_and_edge_design":
+            dict(layer_edges)==expected,
+        "eight_record_repeating_site_order_motif_verified_count":sum(block8),
+        "original_Obs_first_20_ID_shape_only":first20,
+        "ground_environment_Dist_CBD_field_numeric_support":
+            original_meta({"Dist.CBD"},ground),
+        "canopy_environment_Dist_CBD_field_numeric_support":
+            original_meta({"Dist.CBD"},canopy),
+        "ground_environment_Canopy_cover_numeric_support":
+            original_meta({"Can.cov"},ground),
+        "canopy_environment_Canopy_cover_numeric_support":
+            original_meta({"Can.cov"},canopy),
+        "canopy_environment_Trap_height_numeric_support":
+            original_meta({"Trap.height"},canopy),
         "beetle_source_Edge_dist_nonempty_record_count":edgenonempty,
         "original_first_column_nonempty_source_record_counts":{
             "beetle":len(primary_ids),"ground_env":len(g_ids),"canopy_env":len(c_ids)},
