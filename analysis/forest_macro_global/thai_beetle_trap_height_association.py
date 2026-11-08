@@ -111,7 +111,7 @@ def inference(stations, seed=20261108, permutations=9999, bootstraps=5000):
     }
 
 
-def study(events,occ):
+def study(events,occ, *, return_season_level=False):
     _,intern=compare(events,occ,return_internal=True)
     forests=intern["forest_names"]
     coords=intern["horizontal_coords"]
@@ -166,6 +166,7 @@ def study(events,occ):
             raise ValueError("invalid_source_beetle_count")
         counts[k]+=int(n)
     out=[]
+    season_rows=[]
     for f in forests:
         for site in range(9):
             cs=[];us=[];hs=[]
@@ -176,8 +177,14 @@ def study(events,occ):
                 c,u=counts[ck],counts[uk]
                 cs.append(c);us.append(u)
                 hs.append(per_layer_height[ck])
+                season_rows.append({
+                    "forest":f,"station":site,"campaign":phase,
+                    "height_m":per_layer_height[ck],
+                    "log_canopy_over_understorey":math.log((c+.5)/(u+.5)),
+                    "canopy_individuals":c,"understorey_individuals":u
+                })
             h=statistics.mean(hs)
-            if max(hs)-min(hs)>4:
+            if max(hs)-min(hs)>4 and not return_season_level:
                 raise ValueError("same_station_canopy_trap_height_changed_gt4m_across_seasons")
             out.append({
                 "forest":f,
@@ -190,6 +197,8 @@ def study(events,occ):
             })
     if sum(r["canopy_total_two_seasons"]+r["lower_total_two_seasons"] for r in out)!=1622:
         raise ValueError("exact_original_beetle_count_not_reproduced")
+    if return_season_level:
+        return season_rows  # In-memory original station IDs only; never exported directly.
     calculated=inference(out)
     byf=defaultdict(list)
     for q in out:byf[q["forest"]].append(q)
