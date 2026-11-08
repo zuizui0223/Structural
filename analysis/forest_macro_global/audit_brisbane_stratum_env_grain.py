@@ -12,7 +12,7 @@ from collections import Counter
 from pathlib import Path
 
 from audit_brisbane_canopy_ground_original_xlsx import (
-    SOURCE_MD5,SOURCE_DOI,OOXML,content_types,shared_text,celltext,colindex,
+    SOURCE_MD5,SOURCE_DOI,OOXML,REL,PKGREL,content_types,shared_text,celltext,colindex,
 )
 
 
