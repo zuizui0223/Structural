@@ -53,16 +53,11 @@ def test_synthetic_exact_original_207_cells_3215_incidence_plus_301_taxa():
         r["configuration"]=str(100-j*5)
         r["urbanization_index"]=str(math.sqrt((100-float(r["composition"]))**2
                                                +(100-float(r["configuration"]))**2)/math.sqrt(2))
-    q=m.analyze(wide,long,site,env,perm=99,boots=150)
-    assert q["source_original_13_landscapes"]==13
-    assert q["source_original_207_trap_cells"]==207
-    assert q["source_original_301_taxon_labels"]==301
-    assert q["source_original_native_positive_incidence"]==2915
-    assert q["source_predictor_only_13_landscape_gate_passed_before_outcome"]
-    assert q["no_species_names_site_ids_raw_samples_or_coord_exported"]
-    assert "PRIVATE_SITE" not in str(q)
-    assert "NATIVE_TAXON" not in str(q)
-    assert q["original_species_specific_source_network_not_observed"]
+    # Synthetic shape has 3215 incidences but a different Native fraction
+    # than the actual original 2915 Native incidences. This must fail closed,
+    # rather than silently be treated as verified source observations.
+    with pytest.raises(ValueError,match="original_native_incidence_2915_not_reproduced"):
+        m.analyze(wide,long,site,env,perm=99,boots=150)
 
 def test_collinear_access_and_tree_amount_cannot_generate_a_unique_effect():
     rows=known_truth("positive")
