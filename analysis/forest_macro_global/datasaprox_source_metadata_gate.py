@@ -72,6 +72,42 @@ def duration(raw,unit):
     except (ValueError,TypeError):return None
     return d if math.isfinite(d) and d>0 and str(unit).casefold().strip() in ("day","days","jour","jours") else None
 
+def conservative_consistent_event_subset(events, conflicted):
+    """Post-schema response-unopened diagnostic only; never replaces strict STOP.
+
+    Entire conflicting original event keys are excluded. Other original keys
+    remain untouched. This is not an independent-site certification.
+    """
+    assert conflicted <= set(events)
+    remaining={k:v for k,v in events.items() if k not in conflicted}
+    grouped=defaultdict(lambda:defaultdict(list))
+    for (producer,project,eventid),desc in remaining.items():
+        stratum,plot,model,traptype,condition,bait,colour,ym,days=desc
+        if stratum=="unclassified" or not (plot and model and ym and days is not None):
+            continue
+        g=(producer,project,plot,ym,model,traptype,condition,bait,colour)
+        grouped[g][stratum].append(days)
+    candidates=[]
+    for g,st in grouped.items():
+        if any(7<=hi<=35 and 7<=lo<=35 and abs(hi-lo)<=7
+               for hi in st["upper"] for lo in st["lower"]):
+            candidates.append(g)
+    physical={(g[0],g[1],g[2]) for g in candidates}
+    projects={(g[0],g[1]) for g in physical}
+    return {
+        "post_qa_diagnostic_status":"EXPLORATORY_CONSISTENT_EVENT_KEYS_ONLY_NOT_PRIMARY_ADMISSION",
+        "post_qa_conservatively_retained_consistent_source_event_keys":len(remaining),
+        "post_qa_excluded_entire_conflicting_source_event_keys":len(conflicted),
+        "post_qa_paired_project_plot_month_method_treatment_strata":len(candidates),
+        "post_qa_distinct_project_plot_keys_candidate_only":len(physical),
+        "post_qa_distinct_source_project_keys_candidate_only":len(projects),
+        "post_qa_meets_numerical_30_plot_3_project_threshold_only":len(physical)>=30 and len(projects)>=3,
+        "post_qa_original_independent_physical_forest_verification":False,
+        "post_qa_species_response_scored":False,
+        "post_qa_never_relabels_strict_source_stop":True,
+    }
+
+
 def inspect_rows(reader,fields,maxrows=MAX_ROWS):
     if "dynamicProperties" not in fields:return {"status":"STOP_NO_STRATUM_FIELD","rows":0}
     identity=next((k for k in ("eventID","fieldNumber","materialSampleID") if k in fields),None)
@@ -117,7 +153,8 @@ def inspect_rows(reader,fields,maxrows=MAX_ROWS):
             conflicting_original_occurrence_rows=conflicts,
             conflicts_by_field_metadata_only=dict(sorted(conflict_fields.items())),
             original_independent_layer_matched_plots_yet_counted=0,
-            no_species_response_or_inferred_independence=True)
+            no_species_response_or_inferred_independence=True,
+            **conservative_consistent_event_subset(events,conflicting_event_keys))
     status=Counter(v[0] for v in events.values())
     by_plot=defaultdict(lambda:defaultdict(list))
     candidate_events=0
