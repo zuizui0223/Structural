@@ -9,6 +9,8 @@ on:
       - "analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py"
       - "analysis/forest_macro_global/datasaprox_project_method_table7_gate.py"
       - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
+      - "analysis/forest_macro_global/datasaprox_thera_subplots_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_thera_subplots_gate.py"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -17,6 +19,8 @@ on:
       - "analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py"
       - "analysis/forest_macro_global/datasaprox_project_method_table7_gate.py"
       - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
+      - "analysis/forest_macro_global/datasaprox_thera_subplots_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_thera_subplots_gate.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -165,6 +169,14 @@ jobs:
           python analysis/forest_macro_global/datasaprox_project_method_table7_gate.py \
             --archive source_original/datasaprox_v1_6.zip \
             --paper-xml publisher_paper/PMC12993481.xml \
+            --out schema_only
+      - name: Test THERA source-only subplot and paired-trap contract
+        run: |
+          python -m pytest -q analysis/forest_macro_global/test_datasaprox_thera_subplots_gate.py
+      - name: Audit exact THERA source subplots and traps without taxon access
+        run: |
+          python analysis/forest_macro_global/datasaprox_thera_subplots_gate.py \
+            --archive source_original/datasaprox_v1_6.zip \
             --out schema_only
       - name: Do not promote any treatment-discordant project to a biology test
         run: |
