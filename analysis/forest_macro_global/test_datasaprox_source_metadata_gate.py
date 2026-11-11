@@ -138,3 +138,13 @@ def test_progressive_design_gate_locates_model_mismatch_without_specimen_rows(tm
     assert q["post_qa_metadata_availability_by_field_source_event_keys"]["original_plot"]==2
     assert q["post_qa_source_event_canonical_stratum_counts"]=={"lower":1,"upper":1}
     assert not q["post_qa_species_response_scored"]
+
+def test_exact_original_nine_stratum_codes_without_species_access():
+    observed={
+        "upper":"upper","lower":"lower","canopy":"upper",
+        "supra canopy":"upper","infra canopy":"lower",
+        "upper canopy":"upper","lower canopy":"lower",
+        "understorey":"lower","intermediate":"unclassified"
+    }
+    assert all(m.layer(k)==v for k,v in observed.items())
+    assert m.layer("NA")=="unclassified"
