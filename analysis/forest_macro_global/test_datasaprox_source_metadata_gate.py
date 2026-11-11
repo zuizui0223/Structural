@@ -121,3 +121,20 @@ def test_conflicting_original_events_all_excluded_without_erasing_original_stop(
     assert not q["post_qa_original_independent_physical_forest_verification"]
     assert not q["post_qa_species_response_scored"]
     assert not q["original_species_response_test_performed"]
+
+def test_progressive_design_gate_locates_model_mismatch_without_specimen_rows(tmp_path):
+    rows=[
+        sample(1,"upper",plot="A",layer="canopy",model="Polytrap"),
+        sample(2,"lower",plot="A",layer="ground",model="Lindgren"),
+        sample(3,"bad",plot="B",layer="canopy"),
+        sample(4,"bad",plot="B",layer="ground")
+    ]
+    q=m.run(make_archive(tmp_path/"in.zip",rows),tmp_path/"out")
+    assert q["status"]=="STOP_CONFLICTING_AUTHOR_EVENT_METADATA"
+    stages=q["post_qa_unpaired_progressive_design_support_groups_nonindependent"]
+    assert stages["01_shared_original_project_plot"]==1
+    assert stages["02_plus_same_year_month"]==1
+    assert stages["03_plus_same_trap_model"]==0
+    assert q["post_qa_metadata_availability_by_field_source_event_keys"]["original_plot"]==2
+    assert q["post_qa_source_event_canonical_stratum_counts"]=={"lower":1,"upper":1}
+    assert not q["post_qa_species_response_scored"]
