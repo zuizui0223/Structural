@@ -83,3 +83,16 @@ def test_missing_table7_match_is_not_assumed_complete():
     assert res["candidate_projects_matched_to_published_Table7"]==2
     assert res["candidate_project_metadata"][1]["journal_published_Table7_scope"]=="NOT_VERIFIED"
     assert not res["candidate_project_metadata"][1]["journal_published_Table7_exact_source_project_match"]
+
+def test_published_jats_producer_rowspan_and_blank_cell_inherit_author_code():
+    raw=sample_jats()
+    insert=b'<tr><td></td><td>Second project A</td><td>Elateridae 12%</td><td>21</td><td>10</td><td>complete</td></tr>'
+    target=b'<tr><td>P2</td><td>Project B</td>'
+    assert target in raw
+    amended=raw.replace(target,insert+target)
+    table=d.paper_table7(amended)
+    assert table[("p1","second project a")]["published_project_community_scope"]=="complete"
+    # Source table with physical rowspan may omit first <td> entirely.
+    five=b'<tr><td>Third project A</td><td>Elateridae 15%</td><td>22</td><td>11</td><td>complete</td></tr>'
+    table2=d.paper_table7(amended.replace(target,five+target))
+    assert table2[("p1","third project a")]["published_project_family_count"]==22
