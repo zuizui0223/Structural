@@ -165,4 +165,10 @@ def test_source_only_treatment_mismatch_not_relabelled_as_vertical_effect(tmp_pa
     assert q["post_qa_stage03_source_treatment_code_alignment_diagnostic"]["both_layers_have_disjoint_nonempty_treatment_codes"]==1
     assert q["post_qa_progressive_stage_original_project_plot_key_counts"]["03_plus_same_trap_model"]==1
     assert q["post_qa_progressive_stage_original_project_key_counts"]["03_plus_same_trap_model"]==1
+    sens=q["post_qa_candidate_without_ID_condition_independent_of_species_response"]
+    assert sens["matched_plot_month_method_bait_colour_effort_units_nonindependent"]==1
+    assert sens["distinct_project_plot_keys"]==1
+    assert sens["distinct_source_project_keys"]==1
+    assert not sens["ID_condition_role_verified_as_redundant_stratum_code"]
+    assert sens["not_admitted_to_original_frozen_same_treatment_design"]
     assert not q["post_qa_species_response_scored"]
