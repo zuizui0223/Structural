@@ -58,6 +58,9 @@ def test_event_id_inconsistency_stops_before_pairing(tmp_path):
     rows=[sample(1,"e1",layer="canopy"),sample(2,"e1",layer="ground")]
     r=m.run(make_archive(tmp_path/"in.zip",rows),tmp_path/"out")
     assert r["status"]=="STOP_CONFLICTING_AUTHOR_EVENT_METADATA"
+    assert r["conflicting_source_event_key_count"]==1
+    assert r["conflicts_by_field_metadata_only"]=={"stratum":1}
+    assert r["original_species_response_test_performed"] is False
     assert "distinct_matched_original_project_plot_keys" not in r
 
 def test_missing_plot_never_inferred_from_lat_long(tmp_path):
