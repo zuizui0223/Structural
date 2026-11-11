@@ -21,7 +21,7 @@ MAX_XML_BYTES=18_000_000
 def norm(s):
     return " ".join(unicodedata.normalize("NFKC",str(s or "")).split()).casefold()
 
-def paper_table7(xml_bytes):
+def paper_table7(xml_bytes, *, return_audit=False):
     if len(xml_bytes)>MAX_XML_BYTES:raise ValueError("STOP_PAPER_XML_TOO_LARGE")
     root=ET.fromstring(xml_bytes)
     dois={
@@ -40,6 +40,8 @@ def paper_table7(xml_bytes):
     results={}
     n_data_rows=0
     previous_provider=""
+    identical_duplicate_rows=0
+    ambiguous_duplicate_keys=set()
     for tr in tables[0].iter():
         if localname(tr.tag)!="tr":continue
         cells=[
@@ -64,16 +66,30 @@ def paper_table7(xml_bytes):
         if nfamilies<0 or ntaxa<0:raise ValueError("STOP_PAPER_TABLE7_INVALID_VALUES")
         k=norm(provider),norm(title)
         if not all(k):raise ValueError("STOP_PAPER_TABLE7_KEY_MISSING")
-        if k in results:raise ValueError("STOP_PAPER_TABLE7_DUPLICATE_AUTHOR_PROJECT")
-        results[k]={
+        if k in ambiguous_duplicate_keys:continue
+        row_value={
             "published_project_community_scope":norm(community),
             "published_project_family_count":nfamilies,
             "published_project_median_taxa_per_sample":ntaxa,
             "published_project_dominant_family_record_share_source":dominant,
         }
         n_data_rows+=1
+        if k in results:
+            if results[k]==row_value:
+                identical_duplicate_rows+=1
+            else:
+                ambiguous_duplicate_keys.add(k)
+                results.pop(k)
+            continue
+        results[k]=row_value
     if not n_data_rows:raise ValueError("STOP_PAPER_TABLE7_NO_PROJECT_ROWS")
-    return results
+    audit={
+        "source_article_table7_data_row_count":n_data_rows,
+        "source_article_table7_identical_duplicate_rows":identical_duplicate_rows,
+        "source_article_table7_conflicting_project_keys_excluded":len(ambiguous_duplicate_keys),
+        "source_article_table7_unique_project_keys_unambiguous":len(results),
+    }
+    return (results,audit) if return_audit else results
 
 def source_sample_events(archive):
     path=Path(archive)
@@ -188,9 +204,10 @@ def crosswalk(events,bad,published):
     }
 
 def run(archive,paper,out):
-    pub=paper_table7(Path(paper).read_bytes())
+    pub,article_audit=paper_table7(Path(paper).read_bytes(),return_audit=True)
     events,bad,n=source_sample_events(archive)
     result=crosswalk(events,bad,pub)
+    result["source_article_Table7_collision_audit"]=article_audit
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
     (out/"datasaprox_published_table7_project_scope_crosswalk.json").write_text(
         json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
