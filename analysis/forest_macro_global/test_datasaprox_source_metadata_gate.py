@@ -41,7 +41,7 @@ def test_real_metadata_pairs_collapsed_by_event_and_response_opaque(tmp_path):
     assert "SECRET" not in json.dumps(r)
     assert "PRIVATE_X" not in json.dumps(r)
     assert "Polytrap" not in json.dumps(r)
-    assert "e1" not in json.dumps(r)
+    assert '\"e1\"' not in json.dumps(r)  # quoted whole ID, not a SHA256 hex substring
     assert "P1" not in json.dumps(r)
 
 def test_not_pooled_across_months_models_or_baits(tmp_path):
