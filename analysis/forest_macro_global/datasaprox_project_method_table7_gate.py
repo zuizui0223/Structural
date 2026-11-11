@@ -39,6 +39,7 @@ def paper_table7(xml_bytes):
     if len(tables)!=1:raise ValueError("STOP_PUBLISHED_TABLE7_NOT_UNIQUE")
     results={}
     n_data_rows=0
+    previous_provider=""
     for tr in tables[0].iter():
         if localname(tr.tag)!="tr":continue
         cells=[
@@ -46,9 +47,16 @@ def paper_table7(xml_bytes):
             for e in tr
             if localname(e.tag) in ("td","th")
         ]
+        # Source JATS uses row-spanned or blank producer cells; the author
+        # code must inherit the preceding data row, never the table header.
+        if len(cells)==5 and previous_provider:
+            cells=[previous_provider]+cells
         if len(cells)<6:continue
         provider,title,dominant,families,median,community=cells[:6]
         if norm(community) not in ("complete","partial"):continue
+        if not provider:provider=previous_provider
+        if provider:previous_provider=provider
+        if not title:continue
         try:
             nfamilies=int(families)
             ntaxa=float(median.replace(",","."))
