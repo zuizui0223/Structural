@@ -78,6 +78,8 @@ def inspect_rows(reader,fields,maxrows=MAX_ROWS):
     if identity is None:return {"status":"STOP_NO_AUTHOR_EVENT_ID","rows":0}
     if "datasetName" not in fields:return {"status":"STOP_NO_ORIGINAL_PROJECT_FIELD","rows":0}
     events={};rows=0;conflicts=0;empty=0;strata_raw=0;duration_n=0
+    conflict_fields=Counter(); conflicting_event_keys=set()
+    descriptor_fields=("stratum","original_plot","trap_model","trap_type","treatment","bait","colour","year_month","duration")
     for row in reader:
         if not row:continue
         rows+=1
@@ -101,10 +103,21 @@ def inspect_rows(reader,fields,maxrows=MAX_ROWS):
         desc=(layer(rawlayer),p.get("id_plot",""),p.get("trap_model",""),
               p.get("trap_type",""),p.get("id_condition",""),
               p.get("trap_bait",""),p.get("trap_colour",""),ym,d)
-        if k in events and events[k]!=desc:conflicts+=1
+        if k in events and events[k]!=desc:
+            conflicts+=1
+            conflicting_event_keys.add(k)
+            for field,was,now in zip(descriptor_fields,events[k],desc):
+                if was!=now: conflict_fields[field]+=1
         else:events[k]=desc
-    if conflicts:return dict(status="STOP_CONFLICTING_AUTHOR_EVENT_METADATA",
-                             rows=rows,event_conflicts=conflicts)
+    if conflicts:
+        return dict(status="STOP_CONFLICTING_AUTHOR_EVENT_METADATA",
+            source_original_occurrence_rows_metadata_streamed=rows,
+            original_unique_source_event_key_count=len(events),
+            conflicting_source_event_key_count=len(conflicting_event_keys),
+            conflicting_original_occurrence_rows=conflicts,
+            conflicts_by_field_metadata_only=dict(sorted(conflict_fields.items())),
+            original_independent_layer_matched_plots_yet_counted=0,
+            no_species_response_or_inferred_independence=True)
     status=Counter(v[0] for v in events.values())
     by_plot=defaultdict(lambda:defaultdict(list))
     candidate_events=0
@@ -167,6 +180,10 @@ def run(archive,out):
       "source_uuid":UUID,"source_release":"DATASAPROX_v1.6",
       "original_archive_sha256":hashlib.sha256(src.read_bytes()).hexdigest(),
       "original_occurrence_core_metadata_fields":sorted(META_COLS & set(meta["fields"])),
+      "original_occurrence_species_values_read":False,
+      "original_species_response_test_performed":False,
+      "raw_sample_plot_project_taxon_or_coordinate_identifiers_exported":False,
+      "original_plot_independence_field_hierarchy_verified":False,
       **result}
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
     (out/"datasaprox_vertical_metadata_gate.json").write_text(
