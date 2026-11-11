@@ -62,3 +62,38 @@ def test_inconsistent_source_event_optional_subplot_metadata_excluded():
     r=t.audit_subplots(events,set(),extra)
     assert r["status"]=="STOP_THERA_PROJECT_PAIR_DESIGN_DRIFT"
     assert r["original_species_values_read"] is False
+
+
+def test_balanced_two_plus_two_trap_design_distinguishes_plot_from_period():
+    events,extra=make()
+    # Preserve all original 62 plot×month cohorts. Independently duplicate
+    # trap events to recover a 55×(2+2) and 7×(2+1/1+2) known truth.
+    for i in range(62):
+        for lev in (("upper","lower") if i<55 else (("upper",) if i<59 else ("lower",))):
+            key=(*t.TARGET,"PrivateReplicate"+str(i)+lev)
+            src=events[(*t.TARGET,"PrivateEvent"+str(i)+lev)]
+            events[key]=src
+            extra[key]={("SUBPLOT"+str(i),"TrapNum2"+lev,"TrapName"+lev+"2")}
+    r=t.audit_subplots(events,set(),extra)
+    assert r["status"]=="THERA_SOURCE_METHOD_METADATA_EVALUATED_AUTHOR_PROTOCOL_NOT_CONFIRMED"
+    assert r["source_original_event_counts_per_paired_stratum"]=={
+        "1upper_2lower":3,"2upper_1lower":4,"2upper_2lower":55}
+    assert r["source_two_upper_two_lower_all_four_unique_trap_name_plot_month_units"]==55
+    assert r["source_distinct_THERA_original_plot_keys_with_at_least_one_balanced_four_trap_period"]==20
+    assert r["source_original_plot_keys_with_two_or_more_balanced_four_trap_periods"]==20
+    assert not r["source_species_effect_has_not_been_scored"] is False
+    assert r["source_Thera_taxon_scoring_authorized"] is False
+    assert "PrivatePlot" not in str(r)
+
+def test_duplicated_upper_trap_name_excludes_balanced_four_trap_period():
+    events,extra=make()
+    for i in range(62):
+        for lev in ("upper","lower"):
+            key=(*t.TARGET,"Replica"+str(i)+lev)
+            events[key]=events[(*t.TARGET,"PrivateEvent"+str(i)+lev)]
+            extra[key]={("sub","rep","TrapName"+lev+"2")}
+    badkey=(*t.TARGET,"Replica0upper")
+    extra[badkey]={("sub","rep","TrapNameupper")}
+    r=t.audit_subplots(events,set(),extra)
+    assert r["source_two_upper_two_lower_all_four_unique_trap_name_plot_month_units"]==61
+    assert r["source_Thera_taxon_scoring_authorized"] is False
