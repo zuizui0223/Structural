@@ -72,8 +72,11 @@ def test_source_project_ladder_matches_article_not_a_biological_height_effect():
     assert result["original_same_treatment_design_scientific_STOP_preserved"]
     assert result["no_taxon_species_abundance_geo_or_raw_field_ID_access"]
     assert result["no_biological_community_composition_result"]
-    assert "Project B" not in str(result)
+    assert result["candidate_project_metadata"][1]["journal_published_project_title_publication_only"]=="Project B"
+    assert result["candidate_project_metadata"][1]["journal_published_provider_code_publication_only"]=="P2"
+    assert result["published_only_author_provided_public_project_titles_not_site_event_ids"]
     assert "plot_0" not in str(result)
+    assert "evt1" not in str(result)
 
 def test_missing_table7_match_is_not_assumed_complete():
     src=make_source_candidates()
