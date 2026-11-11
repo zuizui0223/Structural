@@ -1,0 +1,87 @@
+name: "Forest macro DATASAPROX original vertical source schema gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-original-schema.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_schema_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Retrieve one exact publisher original DATASAPROX v1.6 DwC-A
+        run: |
+          set -euo pipefail
+          mkdir -p source_original schema_only
+          curl --fail --location --retry 1 --connect-timeout 20 --max-time 240 --max-filesize 80000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://ipt.gbif.fr/archive.do?r=datasaprox&v=1.6' \
+            --output source_original/datasaprox_v1_6.zip
+      - name: Inspect ZIP names and DwC-A meta.xml only, never occurrence values
+        run: |
+          python - <<'PY'
+          import json,hashlib,zipfile,xml.etree.ElementTree as ET
+          from pathlib import Path
+          src=Path("source_original/datasaprox_v1_6.zip")
+          if not src.is_file() or src.stat().st_size>80_000_000:
+              raise RuntimeError("SCIENTIFIC_STOP_ARCHIVE_SIZE_OR_ACCESS")
+          with zipfile.ZipFile(src) as z:
+              infos=z.infolist()
+              if sum(i.file_size for i in infos)>550_000_000:
+                  raise RuntimeError("SCIENTIFIC_STOP_UNCOMPRESSED_SOURCE_CAP")
+              names=[i.filename for i in infos]
+              if "meta.xml" not in names:
+                  raise RuntimeError("SCIENTIFIC_STOP_ORIGINAL_DWCA_META_NOT_FOUND")
+              root=ET.fromstring(z.read("meta.xml"))
+              core=next((x for x in root.iter() if x.tag.rsplit('}',1)[-1]=="core"),None)
+              if core is None:
+                  raise RuntimeError("SCIENTIFIC_STOP_OCCURRENCE_CORE_NOT_DECLARED")
+              core_type=core.attrib.get("rowType","").rsplit("/",1)[-1]
+              fields={}
+              for child in core:
+                  if child.tag.rsplit('}',1)[-1]=="field":
+                      term=child.attrib.get("term","").rsplit("/",1)[-1]
+                      fields[term]=int(child.attrib["index"])
+              expected=["dynamicProperties","datasetName","eventDate","year","month",
+                        "sampleSizeValue","sampleSizeUnit","ownerInstitutionCode","samplingProtocol"]
+              IDs=["eventID","fieldNumber","materialSampleID"]
+              field_support={k:k in fields for k in expected+IDs}
+              report={
+                  "schema":"structural.datasaprox_original_DwCA_schema_v1",
+                  "source_dataset_uuid":"d050a143-2e62-4908-9d9e-a7f541eab94d",
+                  "source_version_requested":"v1.6",
+                  "source_archive_sha256":hashlib.sha256(src.read_bytes()).hexdigest(),
+                  "source_archive_byte_count":src.stat().st_size,
+                  "original_archive_entry_count":len(infos),
+                  "original_core_rowtype":core_type,
+                  "original_core_field_count":len(fields),
+                  "required_source_sample_fields_present":field_support,
+                  "metadata_original_sample_schema_gate_passed":(
+                      core_type=="Occurrence" and
+                      field_support["dynamicProperties"] and
+                      field_support["datasetName"] and
+                      any(field_support[k] for k in IDs)),
+                  "original_occurrence_taxon_or_individual_values_read":False,
+                  "original_independent_layer_matched_plots_yet_counted":0,
+                  "original_species_or_community_effect_yet_estimated":False,
+                  "no_original_sampling_identifiers_species_or_coordinates_exported":True,
+              }
+          dest=Path("schema_only/datasaprox_original_schema.json")
+          dest.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+      - name: Upload response-unopened original source schema only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-datasaprox-original-schema-only
+          path: schema_only/
+          if-no-files-found: warn
