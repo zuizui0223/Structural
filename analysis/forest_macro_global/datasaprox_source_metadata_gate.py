@@ -142,6 +142,39 @@ def conservative_consistent_event_subset(events, conflicted):
             condition_diagnostic["both_layers_have_disjoint_nonempty_treatment_codes"]+=1
         if "" in up or "" in low:
             condition_diagnostic["at_least_one_layer_has_empty_treatment_code"]+=1
+    # Independent metadata-only sensitivity: hold plot/month/method/type/bait/
+    # colour/effort fixed while exposing ID_condition discordance (NOT assuming
+    # that ID_condition is redundant with stratum). No biological scoring.
+    without_condition=defaultdict(lambda:{"upper":[],"lower":[]})
+    for (producer,project,eventid),v in remaining.items():
+        layer_,plot,model,typ,condition,bait,colour,ym,days=v
+        if layer_ not in ("upper","lower") or not (plot and model and ym and days is not None):
+            continue
+        g=(producer,project,plot,ym,model,typ,bait,colour)
+        without_condition[g][layer_].append((days,condition))
+    source_design_candidates=[]
+    for g,q in without_condition.items():
+        if any(7<=du<=35 and 7<=dl<=35 and abs(du-dl)<=7
+               for du,_ in q["upper"] for dl,_ in q["lower"]):
+            source_design_candidates.append(g)
+    sources=defaultdict(list)
+    for g in source_design_candidates:
+        sources[(g[0],g[1])].append(g)
+    per_source=[]
+    for i,(project,pairs) in enumerate(sorted(sources.items())):
+        up_codes=set();lo_codes=set()
+        for k in pairs:
+            up_codes.update(code for _,code in without_condition[k]["upper"])
+            lo_codes.update(code for _,code in without_condition[k]["lower"])
+        per_source.append({
+            "anonymous_source_project_index":i+1,
+            "matched_plot_month_method_bait_colour_units":len(pairs),
+            "distinct_original_field_plot_keys":len({g[2] for g in pairs}),
+            "upper_declared_treatment_code_n":len(up_codes-{""}),
+            "lower_declared_treatment_code_n":len(lo_codes-{""}),
+            "treatment_codes_shared_between_upper_and_lower_n":len((up_codes & lo_codes)-{""}),
+            "project_sampling_protocol_semantics_independently_verified":False,
+        })
     grouped=defaultdict(lambda:defaultdict(list))
     for (producer,project,eventid),desc in remaining.items():
         stratum,plot,model,traptype,condition,bait,colour,ym,days=desc
@@ -166,6 +199,15 @@ def conservative_consistent_event_subset(events, conflicted):
         "post_qa_progressive_stage_original_project_plot_key_counts":stage_distinct_plots,
         "post_qa_progressive_stage_original_project_key_counts":stage_distinct_projects,
         "post_qa_stage03_source_treatment_code_alignment_diagnostic":dict(sorted(condition_diagnostic.items())),
+        "post_qa_candidate_without_ID_condition_independent_of_species_response":{
+            "matched_plot_month_method_bait_colour_effort_units_nonindependent":len(source_design_candidates),
+            "distinct_project_plot_keys":len({g[:3] for g in source_design_candidates}),
+            "distinct_source_project_keys":len(sources),
+            "metadata_only_source_project_anonymized_support":per_source,
+            "ID_condition_role_verified_as_redundant_stratum_code":False,
+            "species_or_vertical_niche_result_not_scored":True,
+            "not_admitted_to_original_frozen_same_treatment_design":True,
+        },
         "post_qa_paired_project_plot_month_method_treatment_strata":len(candidates),
         "post_qa_distinct_project_plot_keys_candidate_only":len(physical),
         "post_qa_distinct_source_project_keys_candidate_only":len(projects),
