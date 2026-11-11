@@ -83,6 +83,13 @@ def audit_subplots(events,bad,extra):
             extra_labels["both_subplots_missing"]+=1
         else:
             extra_labels["one_layer_subplots_missing"]+=1
+    balanced=[(key,q) for key,q in eligible
+              if len(q["upper"])==2 and len(q["lower"])==2
+              and all(item["trapname"] for item in q["upper"]+q["lower"])
+              and len({item["trapname"] for item in q["upper"]+q["lower"]})==4]
+    balanced_plot_names={key[0] for key,q in balanced}
+    balanced_by_plot=defaultdict(list)
+    for key,q in balanced:balanced_by_plot[key[0]].append(key[1])
     return {
         "status":"THERA_SOURCE_METHOD_METADATA_EVALUATED_AUTHOR_PROTOCOL_NOT_CONFIRMED",
         "source_project_publication_verified_name":"EFNO THERA",
@@ -93,6 +100,11 @@ def audit_subplots(events,bad,extra):
         "distinct_original_THERA_plot_keys":len({k[0] for k,v in eligible}),
         "source_subplots_comparability_of_62_paired_strata":dict(sorted(extra_labels.items())),
         "source_original_event_counts_per_paired_stratum":dict(sorted(exact_trap_replication.items())),
+        "source_two_upper_two_lower_all_four_unique_trap_name_plot_month_units":len(balanced),
+        "source_distinct_THERA_original_plot_keys_with_at_least_one_balanced_four_trap_period":len(balanced_plot_names),
+        "source_original_plot_keys_with_two_or_more_balanced_four_trap_periods":sum(len(v)>=2 for v in balanced_by_plot.values()),
+        "source_earliest_balanced_month_selection_is_metadata_only":True,
+        "source_species_effect_has_not_been_scored":True,
         "source_paired_strata_with_complete_unique_trap_names":eligible_strata_with_complete_unique_trapnames,
         "source_paired_strata_with_cross_level_trap_name_collisions":eligible_strata_with_cross_level_trapname_collision,
         "source_paired_original_event_count_with_nonempty_trap_name":valid_trap_names_in_all_original_paired_events,
