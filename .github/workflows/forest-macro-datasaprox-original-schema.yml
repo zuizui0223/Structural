@@ -78,6 +78,19 @@ jobs:
           dest.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
           print(json.dumps(report,ensure_ascii=False,indent=2))
           PY
+      - name: Enforce original sample-ID plus stratum schema before any future biological response
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("schema_only/datasaprox_original_schema.json").read_text())
+          if not r["metadata_original_sample_schema_gate_passed"]:
+              raise SystemExit("SCIENTIFIC_STOP_SOURCE_SAMPLE_OR_STRATUM_SCHEMA_NOT_VERIFIED")
+          assert r["original_occurrence_taxon_or_individual_values_read"] is False
+          assert r["original_independent_layer_matched_plots_yet_counted"] == 0
+          assert r["original_species_or_community_effect_yet_estimated"] is False
+          print("SOURCE-SCHEMA GATE PASSED; paired physical plots and species responses remain unopened")
+          PY
       - name: Upload response-unopened original source schema only
         if: always()
         uses: actions/upload-artifact@v4
