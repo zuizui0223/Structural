@@ -148,6 +148,7 @@ def inspect_rows(reader,fields,maxrows=MAX_ROWS):
     if "datasetName" not in fields:return {"status":"STOP_NO_ORIGINAL_PROJECT_FIELD","rows":0}
     events={};rows=0;conflicts=0;empty=0;strata_raw=0;duration_n=0
     conflict_fields=Counter(); conflicting_event_keys=set()
+    source_event_raw_stratum_labels=Counter()
     descriptor_fields=("stratum","original_plot","trap_model","trap_type","treatment","bait","colour","year_month","duration")
     for row in reader:
         if not row:continue
@@ -172,6 +173,8 @@ def inspect_rows(reader,fields,maxrows=MAX_ROWS):
         desc=(layer(rawlayer),p.get("id_plot",""),p.get("trap_model",""),
               p.get("trap_type",""),p.get("id_condition",""),
               p.get("trap_bait",""),p.get("trap_colour",""),ym,d)
+        if k not in events:
+            source_event_raw_stratum_labels[rawlayer.strip().casefold()]+=1
         if k in events and events[k]!=desc:
             conflicts+=1
             conflicting_event_keys.add(k)
@@ -185,6 +188,14 @@ def inspect_rows(reader,fields,maxrows=MAX_ROWS):
             conflicting_source_event_key_count=len(conflicting_event_keys),
             conflicting_original_occurrence_rows=conflicts,
             conflicts_by_field_metadata_only=dict(sorted(conflict_fields.items())),
+            original_source_event_stratum_declared_nonempty=sum(v for k,v in source_event_raw_stratum_labels.items() if k),
+            original_source_event_stratum_empty=source_event_raw_stratum_labels.get("",0),
+            original_source_stratum_distinct_nonempty_labels=sum(bool(k) for k in source_event_raw_stratum_labels),
+            original_source_stratum_top_public_category_labels=[
+                {"source_original_category":k if re.fullmatch(r"[a-zà-ÿ0-9 .+_()/\\-]{1,48}",k) else "[masked_metadata_category]",
+                 "source_event_key_count":v}
+                for k,v in source_event_raw_stratum_labels.most_common(20)
+                if k and v>=3],
             original_independent_layer_matched_plots_yet_counted=0,
             no_species_response_or_inferred_independence=True,
             **conservative_consistent_event_subset(events,conflicting_event_keys))
