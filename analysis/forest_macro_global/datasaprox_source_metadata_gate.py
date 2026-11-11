@@ -59,12 +59,25 @@ def properties(raw):
     return out
 
 def layer(raw):
+    """Source-declared DATASAPROX stratum labels, NOT inferred trap height.
+
+    Codebook amended after response-unopened original source vocabulary audit:
+    'upper' and 'lower' are direct source categories; infra-/lower-canopy
+    are lower relative to supra-/upper-canopy. Intermediate stays unknown.
+    """
     s=str(raw).casefold().strip()
-    if not s or s in ("none","na","nan","unknown","non renseigné"):return "unclassified"
-    if any(x in s for x in ("understorey","understory","sous-bois","sous bois")):return "lower"
-    if any(x in s for x in ("ground","forest floor","terrestre","au sol")):return "lower"
-    if s in ("sol","bas"):return "lower"
-    if any(x in s for x in ("canopy","canopée","canop","houppier","cime","couronne")):return "upper"
+    if not s or s in ("none","na","nan","unknown","non renseigné","intermediate"):
+        return "unclassified"
+    if s in ("lower","infra canopy","lower canopy","understorey","understory","sol","bas"):
+        return "lower"
+    if s in ("upper","supra canopy","upper canopy","canopy"):
+        return "upper"
+    if any(x in s for x in ("understorey","understory","sous-bois","sous bois","ground","forest floor","terrestre","au sol")):
+        return "lower"
+    if any(x in s for x in ("lower canopy","infra canopy")):
+        return "lower"
+    if any(x in s for x in ("upper canopy","supra canopy","canopy","canopée","houppier","cime","couronne")):
+        return "upper"
     return "unclassified"
 
 def duration(raw,unit):
