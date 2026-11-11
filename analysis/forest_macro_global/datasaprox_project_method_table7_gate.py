@@ -177,10 +177,10 @@ def crosswalk(events,bad,published):
             "lower_ID_condition_distinct_nonempty_code_count":len(lower_conditions),
             "upper_lower_shared_ID_condition_nonempty_code_count":len(upper_conditions&lower_conditions),
             "source_declared_upper_treatment_codes_public_metadata_only":[
-                v if re.fullmatch(r"[\\w .:+/()\\-]{1,64}",v,re.UNICODE) else "[masked_original_treatment_code]"
+                v if re.fullmatch(r"[\w .:+/()\-]{1,64}",v,re.UNICODE) else "[masked_original_treatment_code]"
                 for v in sorted(upper_conditions)[:6]],
             "source_declared_lower_treatment_codes_public_metadata_only":[
-                v if re.fullmatch(r"[\\w .:+/()\\-]{1,64}",v,re.UNICODE) else "[masked_original_treatment_code]"
+                v if re.fullmatch(r"[\w .:+/()\-]{1,64}",v,re.UNICODE) else "[masked_original_treatment_code]"
                 for v in sorted(lower_conditions)[:6]],
             "journal_published_Table7_exact_source_project_match":pub is not None,
             "journal_published_provider_code_publication_only":pub["source_published_provider_code"] if pub else None,
