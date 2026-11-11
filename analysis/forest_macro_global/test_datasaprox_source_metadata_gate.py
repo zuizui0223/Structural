@@ -98,3 +98,26 @@ def test_author_event_identity_missing_is_not_fabricated():
     fields={"datasetName":0,"dynamicProperties":1}
     r=m.inspect_rows(iter([]),fields)
     assert r["status"]=="STOP_NO_AUTHOR_EVENT_ID"
+
+def test_conflicting_original_events_all_excluded_without_erasing_original_stop(tmp_path):
+    rows=[];x=0
+    for project in ("S1","S2","S3"):
+        for i in range(10):
+            for layer in ("canopy","understorey"):
+                x+=1;rows.append(sample(x,"evt"+str(x),project=project,
+                                       plot="plot"+str(i),layer=layer))
+    # A separate source-defined event key is internally contradictory.
+    # It must be removed entirely, not relabeled by its taxon rows.
+    rows.append(sample(61,"collision",project="S1",plot="bad",layer="canopy"))
+    rows.append(sample(62,"collision",project="S1",plot="bad",layer="ground"))
+    q=m.run(make_archive(tmp_path/"in.zip",rows),tmp_path/"out")
+    assert q["status"]=="STOP_CONFLICTING_AUTHOR_EVENT_METADATA"
+    assert q["conflicting_source_event_key_count"]==1
+    assert q["post_qa_conservatively_retained_consistent_source_event_keys"]==60
+    assert q["post_qa_excluded_entire_conflicting_source_event_keys"]==1
+    assert q["post_qa_distinct_project_plot_keys_candidate_only"]==30
+    assert q["post_qa_distinct_source_project_keys_candidate_only"]==3
+    assert q["post_qa_meets_numerical_30_plot_3_project_threshold_only"]
+    assert not q["post_qa_original_independent_physical_forest_verification"]
+    assert not q["post_qa_species_response_scored"]
+    assert not q["original_species_response_test_performed"]
