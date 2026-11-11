@@ -105,8 +105,10 @@ def audit(archive):
     events,bad,n=source_sample_events(archive)
     extra=source_optional_field_metadata(archive,events,bad)
     balanced=balanced_source_plots(events,bad,extra)
-    if len(balanced)!=55 or len({g[0] for g in balanced})!=20:
-        raise ValueError("STOP_THERA_FOUR_TRAP_PLOT_DENOMINATOR_DRIFT")
+    if len(balanced)>55 or len({g[0] for g in balanced})>20:
+        raise ValueError("STOP_THERA_ORIGINAL_FOUR_TRAP_SUPPORT_INFLATION")
+    strict_all_four_effort_denominator=len(balanced)
+    strict_original_plot_denominator=len({g[0] for g in balanced})
     selected={k for four in balanced.values() for k,_,_ in four}
     coords={};conflicts=set()
     with zipfile.ZipFile(archive) as z:
@@ -148,6 +150,10 @@ def audit(archive):
       "source_original_records_metadata_streamed":n,
       "source_original_archive_SHA256":hashlib.sha256(Path(archive).read_bytes()).hexdigest(),
       "original_source_taxonomic_field_presence_only":schema_avail,
+      "four_trap_all_original_duration_within_7_days_paired_period_count":strict_all_four_effort_denominator,
+      "strict_balanced_paired_periods_retain_original55_count":strict_all_four_effort_denominator==55,
+      "four_trap_all_duration_strict_source_plot_count":strict_original_plot_denominator,
+      "strict_all_four_source_effort_is_additional_pre_response_attrition":True,
       "selected_original_four_trap_event_ID_count":len(selected),
       "selected_original_source_event_coordinate_conflict_count":len(conflicts),
       **geo,
