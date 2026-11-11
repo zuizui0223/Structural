@@ -134,9 +134,11 @@ def conservative_consistent_event_subset(events, conflicted):
         if not (levels["upper"] and levels["lower"]):
             continue
         up,low=levels["upper"],levels["lower"]
-        if up & low:
-            condition_diagnostic["same_declared_treatment_code_in_both_layers"]+=1
-        if up - {""} and low - {""} and not(up & low):
+        if (up & low) - {""}:
+            condition_diagnostic["same_nonempty_declared_treatment_code_in_both_layers"]+=1
+        if up=={""} and low=={""}:
+            condition_diagnostic["both_layers_have_no_declared_treatment_code"]+=1
+        if up - {""} and low - {""} and not((up & low) - {""}):
             condition_diagnostic["both_layers_have_disjoint_nonempty_treatment_codes"]+=1
         if "" in up or "" in low:
             condition_diagnostic["at_least_one_layer_has_empty_treatment_code"]+=1
