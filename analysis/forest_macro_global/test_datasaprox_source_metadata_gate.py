@@ -148,3 +148,21 @@ def test_exact_original_nine_stratum_codes_without_species_access():
     }
     assert all(m.layer(k)==v for k,v in observed.items())
     assert m.layer("NA")=="unclassified"
+
+def test_source_only_treatment_mismatch_not_relabelled_as_vertical_effect(tmp_path):
+    rows=[
+        sample(1,"upper",project="P",plot="plot",layer="upper"),
+        sample(2,"lower",project="P",plot="plot",layer="lower"),
+        sample(3,"broken",project="P",plot="another",layer="upper"),
+        sample(4,"broken",project="P",plot="another",layer="lower")
+    ]
+    rows[1][8]=rows[1][8].replace('"ID_condition": "control"',
+                                   '"ID_condition": "treated"')
+    q=m.run(make_archive(tmp_path/"src.zip",rows),tmp_path/"result")
+    assert q["status"]=="STOP_CONFLICTING_AUTHOR_EVENT_METADATA"
+    assert q["post_qa_unpaired_progressive_design_support_groups_nonindependent"]["03_plus_same_trap_model"]==1
+    assert q["post_qa_unpaired_progressive_design_support_groups_nonindependent"]["05_plus_same_treatment"]==0
+    assert q["post_qa_stage03_source_treatment_code_alignment_diagnostic"]["both_layers_have_disjoint_nonempty_treatment_codes"]==1
+    assert q["post_qa_progressive_stage_original_project_plot_key_counts"]["03_plus_same_trap_model"]==1
+    assert q["post_qa_progressive_stage_original_project_key_counts"]["03_plus_same_trap_model"]==1
+    assert not q["post_qa_species_response_scored"]
