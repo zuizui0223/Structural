@@ -69,6 +69,11 @@ def test_source_project_ladder_matches_article_not_a_biological_height_effect():
     assert [v["paired_plot_period_method_units_nonindependent"] for v in result["candidate_project_metadata"]]==[24,62,1]
     assert all(v["upper_lower_shared_ID_condition_nonempty_code_count"]==0
                for v in result["candidate_project_metadata"])
+    assert all(v["source_declared_upper_treatment_codes_public_metadata_only"]==["treatment_high"]
+               for v in result["candidate_project_metadata"])
+    assert all(v["source_declared_lower_treatment_codes_public_metadata_only"]==["treatment_low"]
+               for v in result["candidate_project_metadata"])
+    assert result["public_source_treatment_codes_never_suffice_to_infer_causal_height_effect"]
     assert result["original_same_treatment_design_scientific_STOP_preserved"]
     assert result["no_taxon_species_abundance_geo_or_raw_field_ID_access"]
     assert result["no_biological_community_composition_result"]
