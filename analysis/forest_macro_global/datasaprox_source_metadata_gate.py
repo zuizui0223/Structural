@@ -80,6 +80,36 @@ def conservative_consistent_event_subset(events, conflicted):
     """
     assert conflicted <= set(events)
     remaining={k:v for k,v in events.items() if k not in conflicted}
+    # Progressive source-only estimability ledger. It is NOT a series
+    # of biological tests or an invitation to choose a favorable threshold.
+    counts=Counter(v[0] for v in remaining.values())
+    fields_available={
+        "original_plot":sum(bool(v[1]) for v in remaining.values()),
+        "trap_model":sum(bool(v[2]) for v in remaining.values()),
+        "trap_type":sum(bool(v[3]) for v in remaining.values()),
+        "year_month":sum(bool(v[7]) for v in remaining.values()),
+        "duration_in_days":sum(v[8] is not None for v in remaining.values()),
+        "duration_between_7_and_35_days":sum(v[8] is not None and 7<=v[8]<=35 for v in remaining.values()),
+    }
+    stage_defs=[
+        ("01_shared_original_project_plot",(1,)),
+        ("02_plus_same_year_month",(1,7)),
+        ("03_plus_same_trap_model",(1,7,2)),
+        ("04_plus_same_trap_type",(1,7,2,3)),
+        ("05_plus_same_treatment",(1,7,2,3,4)),
+        ("06_plus_same_bait_and_colour",(1,7,2,3,4,5,6))
+    ]
+    stages={}
+    for label,ixs in stage_defs:
+        blocks=defaultdict(set)
+        for (producer,project,eid),v in remaining.items():
+            if v[0] not in ("upper","lower"):
+                continue
+            if any(not v[i] for i in ixs if i in (1,2,7)):
+                continue
+            k=(producer,project)+tuple(v[i] for i in ixs)
+            blocks[k].add(v[0])
+        stages[label]=sum(len(z)==2 for z in blocks.values())
     grouped=defaultdict(lambda:defaultdict(list))
     for (producer,project,eventid),desc in remaining.items():
         stratum,plot,model,traptype,condition,bait,colour,ym,days=desc
@@ -98,6 +128,9 @@ def conservative_consistent_event_subset(events, conflicted):
         "post_qa_diagnostic_status":"EXPLORATORY_CONSISTENT_EVENT_KEYS_ONLY_NOT_PRIMARY_ADMISSION",
         "post_qa_conservatively_retained_consistent_source_event_keys":len(remaining),
         "post_qa_excluded_entire_conflicting_source_event_keys":len(conflicted),
+        "post_qa_source_event_canonical_stratum_counts":dict(sorted(counts.items())),
+        "post_qa_metadata_availability_by_field_source_event_keys":fields_available,
+        "post_qa_unpaired_progressive_design_support_groups_nonindependent":stages,
         "post_qa_paired_project_plot_month_method_treatment_strata":len(candidates),
         "post_qa_distinct_project_plot_keys_candidate_only":len(physical),
         "post_qa_distinct_source_project_keys_candidate_only":len(projects),
