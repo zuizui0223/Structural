@@ -29,6 +29,10 @@ def test_original_thera_height_codes_and_same_subplots_are_only_design():
     assert r["source_author_condition_labels_outside_exact_four_canopy_Lindgren_labels"]==0
     assert r["source_subplots_comparability_of_62_paired_strata"]["upper_lower_share_nonempty_author_subplots"]==62
     assert r["source_events_with_subplot_metadata"]==124
+    assert r["source_original_event_counts_per_paired_stratum"]=={"1upper_1lower":62}
+    assert r["source_paired_strata_with_complete_unique_trap_names"]==62
+    assert r["source_paired_strata_with_cross_level_trap_name_collisions"]==0
+    assert r["source_paired_original_event_count_with_nonempty_trap_name"]==124
     assert r["publisher_original_THERA_independent_field_hierarchy_confirmed"] is False
     assert r["source_Thera_taxon_scoring_authorized"] is False
     assert "PrivatePlot" not in str(r)
