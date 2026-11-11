@@ -96,3 +96,18 @@ def test_published_jats_producer_rowspan_and_blank_cell_inherit_author_code():
     five=b'<tr><td>Third project A</td><td>Elateridae 15%</td><td>22</td><td>11</td><td>complete</td></tr>'
     table2=d.paper_table7(amended.replace(target,five+target))
     assert table2[("p1","third project a")]["published_project_family_count"]==22
+
+def test_identical_duplicate_and_conflicting_author_table7_project_quarantine():
+    base=sample_jats()
+    target=b'<tr><td>P2</td><td>Project B</td>'
+    assert target in base
+    same=b'<tr><td>P1</td><td>Project \xc3\x81</td><td>Elateridae 28%</td><td>18</td><td>8</td><td>complete</td></tr>'
+    doubled=base.replace(target,same+target)
+    table,audit=d.paper_table7(doubled,return_audit=True)
+    assert audit["source_article_table7_identical_duplicate_rows"]==1
+    assert table[("p1",d.norm("Project Á"))]["published_project_family_count"]==18
+    conflict=b'<tr><td>P1</td><td>Project \xc3\x81</td><td>Elateridae 28%</td><td>18</td><td>8</td><td>partial</td></tr>'
+    conflicted=base.replace(target,conflict+target)
+    table2,audit2=d.paper_table7(conflicted,return_audit=True)
+    assert audit2["source_article_table7_conflicting_project_keys_excluded"]==1
+    assert ("p1",d.norm("Project Á")) not in table2
