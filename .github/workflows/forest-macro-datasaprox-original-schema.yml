@@ -7,12 +7,16 @@ on:
       - ".github/workflows/forest-macro-datasaprox-original-schema.yml"
       - "analysis/forest_macro_global/datasaprox_source_metadata_gate.py"
       - "analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py"
+      - "analysis/forest_macro_global/datasaprox_project_method_table7_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - ".github/workflows/forest-macro-datasaprox-original-schema.yml"
       - "analysis/forest_macro_global/datasaprox_source_metadata_gate.py"
       - "analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py"
+      - "analysis/forest_macro_global/datasaprox_project_method_table7_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,6 +33,9 @@ jobs:
         run: |
           python -m pip install --quiet pytest
           python -m pytest -q analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py
+      - name: Verify independent published Table 7 parser and no response access
+        run: |
+          python -m pytest -q analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py
       - name: Retrieve one exact publisher original DATASAPROX v1.6 DwC-A
         run: |
           set -euo pipefail
@@ -144,6 +151,34 @@ jobs:
                     report["distinct_matched_original_project_plot_keys"])
               print("distinct source-project keys:",
                     report["distinct_matched_original_project_keys"])
+          PY
+      - name: Fetch published Bosc 2026 Table 7 as source-authored XML
+        run: |
+          set -euo pipefail
+          mkdir -p publisher_paper
+          curl --fail --location --retry 1 --connect-timeout 15 --max-time 120 --max-filesize 18000000 \
+            --proto '=https' --proto-redir '=https' \
+            "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12993481/fullTextXML" \
+            --output publisher_paper/PMC12993481.xml
+      - name: Match only original metadata project names against published Table 7
+        run: |
+          python analysis/forest_macro_global/datasaprox_project_method_table7_gate.py \
+            --archive source_original/datasaprox_v1_6.zip \
+            --paper-xml publisher_paper/PMC12993481.xml \
+            --out schema_only
+      - name: Do not promote any treatment-discordant project to a biology test
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("schema_only/datasaprox_published_table7_project_scope_crosswalk.json").read_text())
+          assert j["candidate_without_ID_condition_paired_units"]==87
+          assert j["candidate_without_ID_condition_distinct_plot_keys"]==45
+          assert j["candidate_without_ID_condition_distinct_source_projects"]==3
+          assert j["original_same_treatment_design_scientific_STOP_preserved"]
+          assert j["no_taxon_species_abundance_geo_or_raw_field_ID_access"]
+          assert j["no_biological_community_composition_result"]
+          print("PUB_TABLE7_SOURCE_SCOPE_VERIFIED",j["candidate_projects_matched_to_published_Table7"])
           PY
       - name: Upload response-unopened original source schema only
         if: always()
