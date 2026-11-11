@@ -54,7 +54,25 @@ def audit_subplots(events,bad,extra):
                 "eligible_plot_month_units_observed":len(eligible),
                 "original_species_values_read":False}
     extra_labels=Counter()
-    for _,q in eligible:
+    exact_trap_replication=Counter()
+    subplot_scope=defaultdict(dict)
+    valid_trap_names_in_all_original_paired_events=0
+    eligible_strata_with_complete_unique_trapnames=0
+    eligible_strata_with_cross_level_trapname_collision=0
+    for key,q in eligible:
+        plot,yearmonth=key[:2]
+        nu=len(q["upper"]);nl=len(q["lower"])
+        exact_trap_replication[f"{nu}upper_{nl}lower"]+=1
+        names_upper=[v["trapname"] for v in q["upper"]]
+        names_lower=[v["trapname"] for v in q["lower"]]
+        if (all(names_upper+names_lower) and
+            len(set(names_upper))==nu and len(set(names_lower))==nl):
+            eligible_strata_with_complete_unique_trapnames+=1
+        if set(names_upper)&set(names_lower)-{""}:
+            eligible_strata_with_cross_level_trapname_collision+=1
+        for level,names in (("upper",names_upper),("lower",names_lower)):
+            subplot_scope[(plot,level)][yearmonth]=frozenset(names)
+        valid_trap_names_in_all_original_paired_events+=sum(bool(x) for x in names_upper+names_lower)
         upper={z for item in q["upper"] for z in item["subplots"] if z}
         lower={z for item in q["lower"] for z in item["subplots"] if z}
         if upper and lower and upper & lower:
@@ -74,6 +92,13 @@ def audit_subplots(events,bad,extra):
         "original_plot_month_method_bait_colour_effort_matched_strata":len(eligible),
         "distinct_original_THERA_plot_keys":len({k[0] for k,v in eligible}),
         "source_subplots_comparability_of_62_paired_strata":dict(sorted(extra_labels.items())),
+        "source_original_event_counts_per_paired_stratum":dict(sorted(exact_trap_replication.items())),
+        "source_paired_strata_with_complete_unique_trap_names":eligible_strata_with_complete_unique_trapnames,
+        "source_paired_strata_with_cross_level_trap_name_collisions":eligible_strata_with_cross_level_trapname_collision,
+        "source_paired_original_event_count_with_nonempty_trap_name":valid_trap_names_in_all_original_paired_events,
+        "source_plot_stratum_groups_with_repeated_months":sum(len(months)>=2 for months in subplot_scope.values()),
+        "source_plot_stratum_groups_with_exact_stable_trapname_set_across_months":sum(
+            len(months)>=2 and len(set(months.values()))==1 for months in subplot_scope.values()),
         "source_events_with_subplot_metadata":sum(bool(next(iter(v))[0]) for k,v in extra.items() if k in target and len(v)==1),
         "source_events_with_trapname_metadata":sum(bool(next(iter(v))[2]) for k,v in extra.items() if k in target and len(v)==1),
         "ID_condition_label_clarifies_trap_model_colour_and_stratum_but_not_independent_causal_height":True,
