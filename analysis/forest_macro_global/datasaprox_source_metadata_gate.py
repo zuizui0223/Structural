@@ -112,7 +112,8 @@ def conservative_consistent_event_subset(events, conflicted):
         ("05_plus_same_treatment",(1,7,2,3,4)),
         ("06_plus_same_bait_and_colour",(1,7,2,3,4,5,6))
     ]
-    stages={}
+    stages={};stage_distinct_plots={};stage_distinct_projects={}
+    stage_three_conditions=defaultdict(lambda:{"upper":set(),"lower":set()})
     for label,ixs in stage_defs:
         blocks=defaultdict(set)
         for (producer,project,eid),v in remaining.items():
@@ -122,7 +123,23 @@ def conservative_consistent_event_subset(events, conflicted):
                 continue
             k=(producer,project)+tuple(v[i] for i in ixs)
             blocks[k].add(v[0])
-        stages[label]=sum(len(z)==2 for z in blocks.values())
+            if label=="03_plus_same_trap_model":
+                stage_three_conditions[k][v[0]].add(v[4])
+        matched=[k for k,z in blocks.items() if len(z)==2]
+        stages[label]=len(matched)
+        stage_distinct_plots[label]=len({k[:3] for k in matched})
+        stage_distinct_projects[label]=len({k[:2] for k in matched})
+    condition_diagnostic=Counter()
+    for x,levels in stage_three_conditions.items():
+        if not (levels["upper"] and levels["lower"]):
+            continue
+        up,low=levels["upper"],levels["lower"]
+        if up & low:
+            condition_diagnostic["same_declared_treatment_code_in_both_layers"]+=1
+        if up - {""} and low - {""} and not(up & low):
+            condition_diagnostic["both_layers_have_disjoint_nonempty_treatment_codes"]+=1
+        if "" in up or "" in low:
+            condition_diagnostic["at_least_one_layer_has_empty_treatment_code"]+=1
     grouped=defaultdict(lambda:defaultdict(list))
     for (producer,project,eventid),desc in remaining.items():
         stratum,plot,model,traptype,condition,bait,colour,ym,days=desc
@@ -144,6 +161,9 @@ def conservative_consistent_event_subset(events, conflicted):
         "post_qa_source_event_canonical_stratum_counts":dict(sorted(counts.items())),
         "post_qa_metadata_availability_by_field_source_event_keys":fields_available,
         "post_qa_unpaired_progressive_design_support_groups_nonindependent":stages,
+        "post_qa_progressive_stage_original_project_plot_key_counts":stage_distinct_plots,
+        "post_qa_progressive_stage_original_project_key_counts":stage_distinct_projects,
+        "post_qa_stage03_source_treatment_code_alignment_diagnostic":dict(sorted(condition_diagnostic.items())),
         "post_qa_paired_project_plot_month_method_treatment_strata":len(candidates),
         "post_qa_distinct_project_plot_keys_candidate_only":len(physical),
         "post_qa_distinct_source_project_keys_candidate_only":len(projects),
