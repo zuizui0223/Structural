@@ -5,6 +5,14 @@ on:
       - analysis/forest-macro-plot-environment
     paths:
       - ".github/workflows/forest-macro-datasaprox-original-schema.yml"
+      - "analysis/forest_macro_global/datasaprox_source_metadata_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-original-schema.yml"
+      - "analysis/forest_macro_global/datasaprox_source_metadata_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,6 +25,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Verify source-blind synthetic event/plot hierarchy tests
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q analysis/forest_macro_global/test_datasaprox_source_metadata_gate.py
       - name: Retrieve one exact publisher original DATASAPROX v1.6 DwC-A
         run: |
           set -euo pipefail
@@ -90,6 +102,26 @@ jobs:
           assert r["original_independent_layer_matched_plots_yet_counted"] == 0
           assert r["original_species_or_community_effect_yet_estimated"] is False
           print("SOURCE-SCHEMA GATE PASSED; paired physical plots and species responses remain unopened")
+          PY
+      - name: Evaluate original event metadata without opening any species/abundance fields
+        run: |
+          python analysis/forest_macro_global/datasaprox_source_metadata_gate.py \
+            --archive source_original/datasaprox_v1_6.zip \
+            --out schema_only
+      - name: Enforce no ecological claim and print source-design admission/STOP
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("schema_only/datasaprox_vertical_metadata_gate.json")
+          report=json.loads(p.read_text())
+          assert report["original_occurrence_species_values_read"] is False
+          assert report["original_species_response_test_performed"] is False
+          assert report["raw_sample_plot_project_taxon_or_coordinate_identifiers_exported"] is False
+          assert report["original_plot_independence_field_hierarchy_verified"] is False
+          print("SCIENTIFIC_SOURCE_DESIGN_DECISION:", report["status"])
+          print("physical source project×plot keys:", report["distinct_matched_original_project_plot_keys"])
+          print("distinct source-project keys:", report["distinct_matched_original_project_keys"])
           PY
       - name: Upload response-unopened original source schema only
         if: always()
