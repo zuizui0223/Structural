@@ -1,5 +1,11 @@
 # Structural forest macroecology: independent DATASAPROX vertical sampling intake (2026-11-11)
 
+## Executed source outcome — supersedes the pre-run candidate status
+
+The actual publisher v1.6 ZIP was retrieved, its full **675,525 records were parsed for sampling metadata only**, and the original frozen same-treatment cohort **STOPPED scientifically**, despite CI success. The current response-free diagnostic is **45 physical project×plot candidate keys over three original source projects when treatment alone is not conditioned on**, but this alternative is **NOT** admitted to biodiversity effect testing. Two substantial project clusters contribute 24 and 20 plots; their original treatment labels are exclusive to the upper and lower strata and require a publisher/author protocol crosswalk. Original response species values remain sealed.
+
+**Authoritative source-run result and all denominator/scope corrections:** [FOREST_MACRO_DATASAPROX_ORIGINAL_METADATA_RESULT_20261111.md](FOREST_MACRO_DATASAPROX_ORIGINAL_METADATA_RESULT_20261111.md). [Source CI #43035358400](https://github.com/zuizui0223/Structural/actions/runs/43035358400), **11 tests passed**. The first 0-pair screen was affected by incomplete stratum vocabulary and must not be used as final evidence.
+
 ## Current position and single objective
 
 The established Thai beetle result (18 paired stations within **two** forests) supports a local canopy-capture excess, not a global vertical-niche law. The Brisbane independent source has strong canopy/ground species composition differences at 10 sites nested in one region, but its forest-edge interaction is unsupported. The Nardi 13-landscape/8-country beetle turnover association is a **horizontal**, near-entry-point surveillance sample, not a vertical-stratum replication.
