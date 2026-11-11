@@ -68,6 +68,8 @@ def paper_table7(xml_bytes, *, return_audit=False):
         if not all(k):raise ValueError("STOP_PAPER_TABLE7_KEY_MISSING")
         if k in ambiguous_duplicate_keys:continue
         row_value={
+            "source_published_provider_code":provider,
+            "source_published_project_title":title,
             "published_project_community_scope":norm(community),
             "published_project_family_count":nfamilies,
             "published_project_median_taxa_per_sample":ntaxa,
@@ -175,6 +177,8 @@ def crosswalk(events,bad,published):
             "lower_ID_condition_distinct_nonempty_code_count":len(lower_conditions),
             "upper_lower_shared_ID_condition_nonempty_code_count":len(upper_conditions&lower_conditions),
             "journal_published_Table7_exact_source_project_match":pub is not None,
+            "journal_published_provider_code_publication_only":pub["source_published_provider_code"] if pub else None,
+            "journal_published_project_title_publication_only":pub["source_published_project_title"] if pub else None,
             "journal_published_Table7_scope":pub["published_project_community_scope"] if pub else "NOT_VERIFIED",
             "journal_published_family_count":pub["published_project_family_count"] if pub else None,
             "journal_published_median_taxa_per_sample":pub["published_project_median_taxa_per_sample"] if pub else None,
@@ -199,6 +203,7 @@ def crosswalk(events,bad,published):
         "source_treatment_codes_confirmed_as_just_layer_alias":False,
         "original_same_treatment_design_scientific_STOP_preserved":True,
         "no_taxon_species_abundance_geo_or_raw_field_ID_access":True,
+        "published_only_author_provided_public_project_titles_not_site_event_ids":True,
         "no_biological_community_composition_result":True,
         "eBird_used":False,
     }
