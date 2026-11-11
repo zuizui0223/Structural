@@ -176,6 +176,12 @@ def crosswalk(events,bad,published):
             "upper_ID_condition_distinct_nonempty_code_count":len(upper_conditions),
             "lower_ID_condition_distinct_nonempty_code_count":len(lower_conditions),
             "upper_lower_shared_ID_condition_nonempty_code_count":len(upper_conditions&lower_conditions),
+            "source_declared_upper_treatment_codes_public_metadata_only":[
+                v if re.fullmatch(r"[\\w .:+/()\\-]{1,64}",v,re.UNICODE) else "[masked_original_treatment_code]"
+                for v in sorted(upper_conditions)[:6]],
+            "source_declared_lower_treatment_codes_public_metadata_only":[
+                v if re.fullmatch(r"[\\w .:+/()\\-]{1,64}",v,re.UNICODE) else "[masked_original_treatment_code]"
+                for v in sorted(lower_conditions)[:6]],
             "journal_published_Table7_exact_source_project_match":pub is not None,
             "journal_published_provider_code_publication_only":pub["source_published_provider_code"] if pub else None,
             "journal_published_project_title_publication_only":pub["source_published_project_title"] if pub else None,
@@ -201,6 +207,7 @@ def crosswalk(events,bad,published):
         "candidate_project_metadata":public,
         "original_treatment_field_publisher_definition":"treatments of the sampling design",
         "source_treatment_codes_confirmed_as_just_layer_alias":False,
+        "public_source_treatment_codes_never_suffice_to_infer_causal_height_effect":True,
         "original_same_treatment_design_scientific_STOP_preserved":True,
         "no_taxon_species_abundance_geo_or_raw_field_ID_access":True,
         "published_only_author_provided_public_project_titles_not_site_event_ids":True,
