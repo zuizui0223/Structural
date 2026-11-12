@@ -316,6 +316,8 @@ jobs:
           if-no-files-found: warn
 
   sourceadaptive_v2_site_centered_forest_cross_taxon_temporal:
+    # One-shot source-gated result completed SUCCESS with r=-0.0664, p=.536; seal against outcome-driven reruns.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
