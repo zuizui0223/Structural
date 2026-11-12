@@ -171,6 +171,14 @@ for(si in allsite){
      source_held_tree_opportunities_not_assumed_zero=original$source_VST_events_held_excluded_from_positive_tree_area
   )
 }
+# Optional intermediate original keys for a SEPARATE, same-run source-only
+# tree-height availability check. Stored in runner-private source path and
+# deliberately never included in aggregate/uploaded output directories.
+if(identical(Sys.getenv("VST_FOREST_PATCH_WRITE_PRIVATE_JOIN_KEYS"),"1")){
+  privatefile<-file.path(args[2],"..","private_verified_original_plotyear_keys.txt")
+  writeLines(sort(unique(recordkeys)),privatefile)
+  cat("Runner-private supported forest plot-year keys:",length(recordkeys),"\\n")
+}
 supportsite<-unique(sub("\\|[^|]+\\|[0-9]{4}$","",matchkeys))
 source_domain<-unique(site$domain_id[match(supportsite,site$site_id)])
 outcome_status<-if(length(supportsite)>=6&&length(source_domain)>=4&&length(matchkeys)>=40) {
