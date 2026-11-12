@@ -4,6 +4,7 @@ on:
     paths:
       - ".github/workflows/forest-macro-global-predicts-support.yml"
       - "analysis/forest_macro_global/predicts_site_support.R"
+      - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
   workflow_dispatch:
 permissions:
   contents: read
@@ -49,4 +50,54 @@ jobs:
         with:
           name: forest-macro-global-predicts-forest-biome-support-audit
           path: forest_global_support/
+          if-no-files-found: warn
+
+  forest-community-turnover-observed-original-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 48
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install official PREDICTS client and aggregate-only JSON library
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
+      - name: Test pure turnover and study-level effect independent of raw source
+        env:
+          FOREST_PREDICTS_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_turnover_original.R /tmp/forest-turnover-synthetic
+      - name: One-shot official 2016+2022 PREDICTS original forest response, after prior site gate
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_turnover_original.R forest_macro_predicts_turnover
+      - name: Check scope, no reexport and no globally causal claim
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          f <- "forest_macro_predicts_turnover/predicts_forest_reference_altered_turnover_original_aggregate.json"
+          x <- fromJSON(f,simplifyVector=FALSE)
+          stopifnot(
+            x$schema=="structural.forest_macro_PREDICTS_within_study_reference_replacement.v1",
+            x$original_prevalidated_eligible_forest_sites==1145,
+            x$original_prevalidated_study_method_taxon_strata==39,
+            x$original_prevalidated_countries==20,
+            x$no_original_source_site_species_IDs_coordinates_or_measurements_exported,
+            x$site_pairwise_comparisons_not_independent_replicates,
+            x$land_use_is_observational_cross_sectional_not_intervention,
+            x$tested_canopy_height_or_3D_vertical_niche==FALSE,
+            x$prior_art_PREDICTS_beta_diversity_already_explored,
+            x$publisher_noncommercial_license_respected_raw_not_republished,
+            x$eBird_used==FALSE)
+          print(x$primary_study_equal_inference)
+          RS
+      - name: Upload aggregate-only CC-NC-compliant forest outcome and support
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-predicts-39-stratum-reference-relative-beta-study-aggregate
+          path: forest_macro_predicts_turnover/
           if-no-files-found: warn
