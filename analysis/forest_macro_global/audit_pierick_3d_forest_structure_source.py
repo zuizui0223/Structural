@@ -87,6 +87,62 @@ def source_grain(fields,rows):
         "author_original_independent_forest_network_IDs_verified":False,
     }
 
+LONG_FORMAT_META=("patch","region","climhet_var","structure_var","treatment","taxogroup")
+def audit_long_format_metadata(fields,rows):
+    """Examine only column identity/categorical factor labels; no numeric response."""
+    if not all(k in fields for k in LONG_FORMAT_META):
+        return {
+            "long_format_design_status":"NOT_THE_PUBLISHED_WIDE_TO_LONG_FACTOR_SCHEMA",
+            "long_format_required_factor_names_present":{
+                k:k in fields for k in LONG_FORMAT_META},
+            "original_physical_plot_count_author_verified":False,
+        }
+    n=len(rows)
+    distinct=lambda key:{str(row.get(key) or "").strip() for row in rows
+                         if str(row.get(key) or "").strip().lower() not in BAD}
+    unique_patch=distinct("patch")
+    unique_region=distinct("region")
+    plot_keys={(str(r["region"]).strip(),str(r["patch"]).strip())
+              for r in rows if str(r["region"]).strip() and str(r["patch"]).strip()}
+    perplot=Counter((str(r["region"]).strip(),str(r["patch"]).strip())
+                    for r in rows)
+    per_metadata_combinations={
+        (str(r["region"]).strip(),str(r["patch"]).strip(),
+         str(r["climhet_var"]).strip(),str(r["structure_var"]).strip(),
+         str(r["taxogroup"]).strip(),str(r["treatment"]).strip())
+        for r in rows}
+    category_list={}
+    for field in ("climhet_var","structure_var","taxogroup"):
+        levels=distinct(field)
+        category_list[field]=sorted(levels) if len(levels)<=50 and all(
+            0<len(z)<=90 and not re.search(r"[\n\r]",z) for z in levels) else []
+    counts={k:len(distinct(k)) for k in LONG_FORMAT_META}
+    status=("LONG_FORMAT_30_REGION_PATCH_KEYS_CANDIDATE"
+            if len(plot_keys)==EXPECTED_AUTHOR_PLOTS else
+            "SCIENTIFIC_STOP_SOURCE_REGION_PATCH_COUNT_NOT_30")
+    # Matching identical year/region/forest networks still needs primary
+    # author's original plot hierarchy. Region labels are NOT automatically
+    # independent forest sites.
+    return {
+      "long_format_design_status":status,
+      "source_observation_rows_NOT_independent_field_plots":n,
+      "source_unique_patch_codes":len(unique_patch),
+      "source_unique_region_codes_NOT_independent_forest_studies":len(unique_region),
+      "source_region_patch_unique_keys_NOT_certified_independent_forests":len(plot_keys),
+      "source_rows_per_region_patch_min":min(perplot.values()) if perplot else None,
+      "source_rows_per_region_patch_max":max(perplot.values()) if perplot else None,
+      "source_unique_region_patch_climhet_structure_taxogroup_treatment_combinations":len(per_metadata_combinations),
+      "source_duplicate_original_factor_combination_rows":n-len(per_metadata_combinations),
+      "source_nonmissing_category_cardinality_NOT_values":counts,
+      "source_original_climhet_structure_taxogroup_FACTOR_LABELS_not_effects":category_list,
+      "original_biodiversity_div_values_NOT_READ":True,
+      "original_structure_val_measurements_NOT_READ":True,
+      "original_climhet_val_measurements_NOT_READ":True,
+      "original_region_patch_identifier_VALUES_NOT_EXPORTED":True,
+      "field_replicates_not_independent_regions":True,
+      "source_30_plot_authored_hierarchy_not_independently_verified":True,
+    }
+
 def audit(path):
     src,md5,delimiter,fields,rows=decode_original(path)
     candidates={
@@ -94,6 +150,7 @@ def audit(path):
         for name,pattern in PATTERNS.items()
     }
     original_plot=source_grain(fields,rows)
+    long_grain=audit_long_format_metadata(fields,rows)
     return {
         "schema":"structural.pierick2026_3Dforest_original_source_header_grain.v1",
         "source_DOI":SOURCE_DOI,
@@ -115,6 +172,7 @@ def audit(path):
         "no_independent_multi_region_or_global_confirmation":True,
         "eBird_used":False,
         **original_plot,
+        **long_grain,
     }
 
 def main(path,out):
