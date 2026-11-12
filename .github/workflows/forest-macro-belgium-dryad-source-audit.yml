@@ -5,6 +5,14 @@ on:
       - ".github/workflows/forest-macro-belgium-dryad-source-audit.yml"
       - "analysis/forest_macro_global/audit_belgium_canopy_microclimate_beetles.py"
       - "analysis/forest_macro_global/test_audit_belgium_canopy_microclimate_beetles.py"
+      - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-belgium-dryad-source-audit.yml"
+      - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -72,4 +80,55 @@ jobs:
         with:
           name: forest-macro-belgium-dryad-original-cohort-metadata
           path: belgium_forest_original_source_quality/
+          if-no-files-found: warn
+
+  central_europe_3D_forest_structure_source_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test only original plot schema, no taxon/microclimate values
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py
+      - name: Download original Pierick 2026 Zenodo v1 main_dataset only (no 1GB raw loggers)
+        run: |
+          set -euo pipefail
+          mkdir -p source_pierick_2026
+          curl --fail --location --retry 2 --retry-delay 3 --connect-timeout 15 \
+            --max-time 180 --max-filesize 2000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/19883322/files/main_dataset.csv?download=1' \
+            --output source_pierick_2026/main_dataset.csv
+      - name: Audit 30-plot and three-dimensional forest / microclimate schema only
+        run: |
+          python analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py \
+            --file source_pierick_2026/main_dataset.csv \
+            --out pierick_3D_forest_source_quality
+      - name: Make scientific STOP visible without inferring 30 independent forests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("pierick_3D_forest_source_quality/pierick2026_3D_forest_source_only_schema.json").read_text())
+          assert r["schema"]=="structural.pierick2026_3Dforest_original_source_header_grain.v1"
+          assert r["source_DOI"]=="10.5281/zenodo.19883322"
+          assert r["original_dataset_species_or_microclimate_or_structure_values_fit"] is False
+          assert r["original_response_biodiversity_values_semantically_read"] is False
+          assert r["no_independent_multi_region_or_global_confirmation"]
+          assert r["original_plot_names_taxon_labels_coordinates_not_exported"]
+          assert not r["eBird_used"]
+          print("SOURCE ORIGINAL PLOT GRAIN DECISION:",r["original_30_plot_grain_metadata_status"])
+          print("STRUCTURE FIELDS:",r["source_candidate_variable_families_FROM_HEADERS_ONLY"]["canopy_structure"])
+          print("MICROCLIMATE FIELDS:",r["source_candidate_variable_families_FROM_HEADERS_ONLY"]["microclimate_heterogeneity"])
+          PY
+      - name: Export only source headers and anonymous plot-count evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-pierick-2026-30plots-3D-microclimate-sourceonly
+          path: pierick_3D_forest_source_quality/
           if-no-files-found: warn
