@@ -101,7 +101,7 @@ sample_support<-function(b,p,meta,lock=TRUE){
   elig<-supports[vapply(supports,function(x)isTRUE(x$good),logical(1))]
   syear<-unique(vapply(elig,function(x)paste(x$site,x$year,sep="|"),character(1)))
   rep_plot_pairs<-0L
-  rep_siteyears<-set()
+  rep_siteyears<-character(0)
   rep_sites<-character(0)
   rep_plots<-character(0)
   rep_2023<-0L
@@ -211,9 +211,9 @@ synthetic<-function(){
   r2<-sample_support(b,p,x,lock=FALSE)
   stopifnot(r2$strict_repeated_same_plot_unflagged_trap_and_1m2_subplot_consecutive_plotyear_pairs==1)
   # A flagged pitfall sampling event is ineligible in source-verified strict tier.
-  b$trapConditionFlag[1]<-"fluid level below"
+  b$trapConditionFlag[3]<-"fluid level below"
   r3<-sample_support(b,p,x,lock=FALSE)
-  stopifnot(r3$strict_repeated_same_plot_unflagged_trap_and_1m2_subplot_consecutive_plotyear_pairs==1)
+  stopifnot(r3$strict_repeated_same_plot_unflagged_trap_and_1m2_subplot_consecutive_plotyear_pairs==0)
   cat("SYNTHETIC PASS source forest-only plot-year, 1 m2, trap flags, stable plot+trap+subplot, no taxa\n")
 }
 if(identical(Sys.getenv("NEON_35FOREST_SOURCE_ONLY_SYNTHETIC_ONLY"),"1")){
