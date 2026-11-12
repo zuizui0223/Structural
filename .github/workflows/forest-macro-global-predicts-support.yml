@@ -165,6 +165,8 @@ jobs:
           if-no-files-found: warn
 
   source-geography-locked-secondary-distance-matched-response:
+    # One-shot 31-study secondary sensitivity completed successfully; prevent post-outcome rescoring.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 48
     steps:
