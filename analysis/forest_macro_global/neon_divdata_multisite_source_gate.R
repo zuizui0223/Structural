@@ -10,9 +10,12 @@ date_year<-function(x){
  a
 }
 forest_label<-function(x){
- s<-tolower(trimws(as.character(x)))
+ # Literal source neonDivData 0.3.1 `nlcdClass` vocabulary has camelCase
+ # evergreenForest, deciduousForest, mixedForest. Original code erroneously
+ # assumed space-separated display names. Correct independent of biodiversity.
+ s<-tolower(gsub("[[:space:]_-]","",as.character(x)))
  s[is.na(s)]<-""
- grepl("deciduous forest|evergreen forest|mixed forest",s)
+ s %in% c("deciduousforest","evergreenforest","mixedforest")
 }
 source_gate<-function(beetle,plant,site_table,expected_version="0.3.1"){
  required_b<-c("siteID","plotID","unique_sample_id","trapID",
@@ -148,8 +151,9 @@ official_site_forest_gate<-function(beetle,plant,official){
 }
 
 synthetic<-function(){
- x<-c("Deciduous Forest","Evergreen Forest","Mixed Forest","Shrub/Scrub","Pasture/Hay")
- stopifnot(identical(forest_label(x),c(TRUE,TRUE,TRUE,FALSE,FALSE)))
+ x<-c("Deciduous Forest","Evergreen Forest","Mixed Forest",
+      "deciduousForest","evergreenForest","mixedForest","Shrub/Scrub","Pasture/Hay")
+ stopifnot(identical(forest_label(x),c(TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE)))
  stopifnot(all(is.na(date_year(c("NA","1890-01-01")))))
  meta<-data.frame(site_id=paste0("S",sprintf("%03d",seq_len(81))),
     dominant_nlcd_classes=c("Deciduous Forest","Evergreen Forest",
