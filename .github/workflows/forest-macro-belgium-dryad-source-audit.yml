@@ -164,7 +164,7 @@ jobs:
           r<-fromJSON("published_neon_forest_siteyear_gate/neonDivData_2019_2023_beetle_plant_forest_sourceonly.json")
           stopifnot(
             r$schema=="structural.NEON_published_neonDivData_forest_beetle_plant_source_support.v1",
-            r$derivative_package_version=="0.2.3",
+            r$derivative_package_version=="0.3.1",
             r$source_taxon_id_name_value_data_NEVER_READ,
             r$zero_catch_record_handling_NOT_ASSUMED_TRUE_ABSENCE,
             r$source_NLCD_site_label_not_field_verified_plot_forest,
