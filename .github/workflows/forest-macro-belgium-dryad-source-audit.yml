@@ -8,6 +8,7 @@ on:
       - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
+      - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -15,6 +16,7 @@ on:
       - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
+      - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
   workflow_dispatch:
 permissions:
   contents: read
@@ -198,6 +200,42 @@ jobs:
             "original_forest_sites_with_at_least_two_common_years",
             "original_forest_sites_ecoclimatic_domains",
             "original_forest_sites_positive_official_mean_canopy_height")])
+          RS
+      - name: Test forest exact plot-year, fixed 1 m² plant scale, dates, effort with source-free known truth
+        env:
+          NEON_FOREST_PLOT_TIMING_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R /tmp/forest-plot-timing-synthetic
+      - name: Count official forest actual beetle and plant plot/year seasonal support without any taxon outcomes
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R \
+            published_neon_forest_siteyear_gate \
+            official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv
+      - name: Freeze plot-scale limits and do not treat sampled site-year as biological replacement evidence
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p <- "published_neon_forest_siteyear_gate/NEON_forest_47site_8forest_plottemporal_sourceonly.json"
+          x <- fromJSON(p)
+          stopifnot(
+            x$schema=="structural.neonDivData_0.3.1_official_NEON_forest_plot_temporal_support.v1",
+            x$original_derivative_version=="0.3.1",
+            x$candidate_strict_NLCD_forest_NEON_sites==8,
+            x$candidate_strict_forest_siteyears==40,
+            x$species_taxon_id_name_value_and_biodiversity_composition_NEVER_ACCESSED,
+            x$original_site_plot_sample_event_identifiers_coordinates_NOT_EXPORTED,
+            x$original_tree_height_NOT_contemporaneous_plot_measurement,
+            x$original_beetle_ground_traps_NOT_canopy_strata,
+            x$no_ecological_effect_or_species_turnover_claim,
+            x$eBird_used==FALSE)
+          print(x[c("siteyears_with_actual_both_taxa_original_plotID_overlap",
+            "original_plot_keys_seen_by_both_taxa_some_year",
+            "original_siteyears_with_positive_beetle_effort_and_plant_1m2_samples",
+            "original_siteyears_with_same_calendar_month_of_both_taxa",
+            "original_siteyears_with_nearest_sample_dates_within_30days",
+            "siteyears_exact_plot_effort_plant1m2_and_30day_supported",
+            "distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported",
+            "consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported")])
           RS
       - name: Export only anonymous NEON multi-site field-opportunity counts
         if: always()
