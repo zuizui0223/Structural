@@ -1,5 +1,11 @@
 # 森林構造 × 微気候 × 群集 — 独立データ取得・追加検証の現状（2026-11-12）
 
+## NEON source-onlyゲート通過から一度限りの生物解析まで（本日の確定結果）
+
+公開派生`neonDivData` 0.3.1と固定NEON公式森林メタデータを用い、8森林・7生態気候domains・39/40適格site-years・339採集条件一致plot-years・81反復元plot・242同一区画の連続年比較可能性を確認した。季節や努力を追加一致させた一度限りのv1構成では、8 sites・24 site×year transitionsでも個別site相関が定義できる3以上の反復を持つサイトが4しかなく**科学的STOP**。値を見てv1閾値を下げず、**別のサイト内中心化した共変動**というv2推定量を応答未開封の段階で新規固定した。
+
+v2は8 sites・7 domains・24 year transitionsでsource-only gateを通過。分類群を初めて一度スコアした結果、**7 forest sites・6 domains・20 site transitions・113 original plot transitions**に対し、植物と地表甲虫の年次Simpson置換のサイト内中心化相関 **r=−0.0664、site-bootstrap95%CI[−0.5776,+0.1632]、9,999同siteランダム化p=0.536**。共分散正2・負5。結論は「正の年次同期を検出できない」であり「種群が独立に変わる」との証明ではない。CI [#43216964523](https://github.com/zuizui0223/Structural/actions/runs/43216964523) 成功、artifact #13943484010。最終数値と出典は[FOREST_MACRO_NEON_8FOREST_CROSS_TAXON_TEMPORAL_V2_ORIGINAL_RESULT_20261112.md](FOREST_MACRO_NEON_8FOREST_CROSS_TAXON_TEMPORAL_V2_ORIGINAL_RESULT_20261112.md)。v1/v2とも自動再採点を停止した。**林冠構造・微気候と同年同plotの種構成の機構は未検証**、PREDICTS +0.0942/+0.0847は別の肯定的な空間結果として保持。
+
 ## 主線：既存PREDICTSの群集置換を「林冠の作用」と取り違えない
 
 Structuralでは、NHM PREDICTS 20か国・39原研究の参照林間変動を差し引いたSimpson分類群置換差 **+0.0942** (95% Study bootstrap CI +0.0638〜+0.1253; 36/39正) と、距離対応後31研究の探索的二次感度 **+0.0847** (CI +0.0527〜+0.1166; 25/31正) が完走・スコア凍結済。どちらも林冠高、LiDAR構造、林床温度の**測定効果ではない**。今度は構造・微気候・生物群集を同時点で測った独立観測の適格性を、**元森林地域**を独立単位として探索する。
