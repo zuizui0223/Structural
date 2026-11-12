@@ -141,10 +141,12 @@ jobs:
           f <- "forest_macro_distance_support/predicts_forest_39study_source_only_distance_support.json"
           r <- fromJSON(f)
           stopifnot(
-            r$schema=="structural.PREDICTS_39forest_source_site_geographic_support.v1",
+            r$schema=="structural.PREDICTS_39forest_source_site_geographic_support.v2",
             r$original_source_summaries==35738,
             r$original_forest_sites_eligible==1145,
             r$original_study_method_taxon_comparisons==39,
+            r$original_studies_passing_frozen_geographic_overlap_rule>=0,
+            r$second_biological_sensitivity_still_NOT_RUN,
             r$no_taxon_species_or_abundance_biological_response_read,
             r$original_PREDICTS_observational_39_study_result_not_rescored,
             r$original_source_site_IDs_coordinates_or_reference_spatial_pairs_not_exported,
