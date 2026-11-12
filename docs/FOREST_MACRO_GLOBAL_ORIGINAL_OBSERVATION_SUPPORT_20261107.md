@@ -1,5 +1,15 @@
 # 森林マクロ生態学：全球原観測の支持範囲（2026年11月7日）
 
+## 2026-11-12 NEW：NEON実測樹高×甲虫×植物の同year同original plot原本接続（22 sites・13 domains）
+
+NEON植物・地表甲虫の公開派生`neonDivData` 0.3.1と、別の研究者が公開したNEON木本構造`DP1.10098.001 RELEASE-2026`のsite別RDS（公開commit `3391e702e7be80a3f049c905782661f043be8db8`）を、**同じsource original siteID×plotID×year**と、甲虫/植物/VST各3資料で独立にforest NLCD区画と認定する方法で照合した。サイト全体がstrict forestのみの当初8サイトでは**7 sites・7 domains・26 plot×years**で事前固定最小40に届かずSource-only STOP（先行結果を保持）。
+
+次に**別母集団**「混在景観のforest patches」に限った場合、甲虫・植物の元森林plotが同年存在するのは35 sites・952 plot×years、元VSTの林内木本sampling opportunityもQA支持されたのは**22 sites・13 domains・75 plot×years**、うち74は真正の木本measurement recordsを持っていた。2026-11-12に**生物taxon値を開かず**当該74を元plot×eventと個体ID・source QAで結合したところ、**73 plot×yearsで3以上の別個体 live single/multi bole trees DBH≥10cm 有効height**を取得可（有効樹木数の元plot×year中央値13）。**16 sitesで17同site×yearに2以上のheight有効plot**。構造source-only minimum（6 sites/4 domains/40 plotyears）は22/13/73で通過。原生物値を再スコアして得た生態学的陽性効果ではなく、森林構造と生物組成を同年同plotで検定できる**独立地域の観測機会を実測で確保したこと**が主な進展。
+
+元原本：[strict8 QA](FOREST_MACRO_NEON_VST2026_STRICT_FOREST_ORIGINAL_PLOTYEAR_RESULT_20261112.md)、[mixedforest triple-source QA](FOREST_MACRO_NEON_VST2026_FOREST_PATCH_TRIPLE_SOURCE_RESULT_20261112.md)、[height QA](FOREST_MACRO_NEON_VST2026_FORESTPATCH_HEIGHT_QA_RESULT_20261112.md)。Source-only GitHub Actions [#43238833529](https://github.com/zuizui0223/Structural/actions/runs/43238833529)、[#43240643741](https://github.com/zuizui0223/Structural/actions/runs/43240643741)、[#43242197939](https://github.com/zuizui0223/Structural/actions/runs/43242197939) すべてSUCCESS。
+
+このコホートはNEONの22 sitesが13domainsにネストされるもので、73反復区画年や15,556元全source individual rowsを独立森林数に換算しない。樹高と分類群構成の回帰、同時期の微気候、林冠の垂直虫相や森林改変による因果機構は**未検証**。次のprimary lineは同year同source original plotでの`trappingDays`/trap flagsと植物1m²/調査季節を揃えた比較可能性のsource-only判定。あらかじめ**10 sites、6 domains、12 site×yearsで同year ≥2 plots**を残すことを次段の生物モデル許可要件とし、効果に応じてしきい値を変更しない。
+
 ## 2026-11-12 NEON 7森林での年次同期結果：有意な共変動は検出されず（独立の時系列比較）
 
 **一次設計v1は採集努力と季節を揃えると5以上のサイト内相関が作れずSCIENTIFIC STOP**。v1停止を解除せず、生物応答を開く前に別のv2推定対象「サイト内年次群集置換の等サイト重み共分散／分散比」を固定し、一度だけNEON公開派生`neonDivData`0.3.1（2019–2023）を実解析。森林8サイト・7domainsの元区画母集団で、方法／時期等の固定条件を満たした**24 site×year transitions**のうち、元分類群βが両群で定義された**20 transitions**、113元plot転換（非独立）、**7森林・6domains**で推定できた。
