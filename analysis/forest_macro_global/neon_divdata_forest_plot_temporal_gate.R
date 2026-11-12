@@ -190,7 +190,34 @@ synthetic<-function(){
     all(good_year(b$observation_datetime)==c(2019,2020,2019,2019)),
     all(!is.na(good_date(b$observation_datetime))),
     distinct_valid(c("P1","P1","P2",""))==2)
-  cat("SYNTHETIC source-only prerequisites PASS\n")
+  many<-data.frame(site_id=paste0("S",sprintf("%03d",1:81)),
+    domain_id=c(paste0("D",c(1:7,7)),rep("D8",73)),
+    dominant_nlcd_classes=c(rep("Deciduous Forest",8),rep("Grassland/Herbaceous",73)),
+    mean_canopy_height_m=c(rep(18,8),rep(0,73)))
+  pair<-expand.grid(site=1:8,yr=2019:2023)
+  sitecode<-paste0("S",sprintf("%03d",pair$site))
+  dt<-paste0(pair$yr,"-07-10")
+  plantdate<-paste0(pair$yr,"-07-13")
+  synthetic_b<-data.frame(siteID=sitecode,
+    plotID=paste0(sitecode,"_P1"),
+    unique_sample_id=paste0("b",seq_len(nrow(pair))),
+    trapID="trap1",observation_datetime=dt,
+    trappingDays=14,trapConditionFlag=NA_character_,nlcdClass="Forest")
+  synthetic_p<-data.frame(siteID=sitecode,
+    plotID=paste0(sitecode,"_P1"),
+    unique_sample_id=paste0("p",seq_len(nrow(pair))),
+    observation_datetime=plantdate,
+    sample_area_m2=1,nlcdClass="Forest")
+  v<-assess(synthetic_b,synthetic_p,many)
+  stopifnot(v$candidate_strict_NLCD_forest_NEON_sites==8,
+      v$candidate_strict_forest_siteyears==40,
+      v$siteyears_with_actual_both_taxa_original_plotID_overlap==40,
+      v$siteyears_exact_plot_effort_plant1m2_and_30day_supported==40,
+      v$distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported==8,
+      v$consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported==32,
+      v$original_plot_keys_seen_by_both_taxa_some_year==8,
+      v$species_taxon_id_name_value_and_biodiversity_composition_NEVER_ACCESSED)
+  cat("SYNTHETIC PASS: 8 sites, 40 plot-year co-locations, 32 consecutive year links, no taxa\n")
 }
 if(identical(Sys.getenv("NEON_FOREST_PLOT_TIMING_SYNTHETIC_ONLY"),"1")){
  synthetic();quit(status=0)
