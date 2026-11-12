@@ -47,6 +47,45 @@ counts_by_category <- function(z) {
   names(out)<-names(t)[seq_len(min(12,length(t)))]
   out
 }
+forest_plot_label <- function(x) {
+  z<-tolower(gsub("[[:space:]_/-]+","",trimws(as.character(x))))
+  z[is.na(z)]<-""
+  z %in% c("deciduousforest","evergreenforest","mixedforest")
+}
+# All conditions must occur on the SAME original site, plot and sampling year,
+# with at least one acceptable beetle and plant sampling date <=30 days apart.
+# Never let three different plots jointly pass a site-year criterion.
+qualified_plot_periods <- function(bb,pp) {
+  bp<-as.character(bb$plotID);ppid<-as.character(pp$plotID)
+  plots<-intersect(unique(bp[!is.na(bp)&nzchar(bp)]),
+                   unique(ppid[!is.na(ppid)&nzchar(ppid)]))
+  matched<-character()
+  effortplots<-character()
+  for(pl in plots) {
+    b<-bb[!is.na(bp)&bp==pl,,drop=FALSE]
+    p<-pp[!is.na(ppid)&ppid==pl,,drop=FALSE]
+    days<-suppressWarnings(as.numeric(as.character(b$trappingDays)))
+    area<-suppressWarnings(as.numeric(as.character(p$sample_area_m2)))
+    bk<-as.character(b$unique_sample_id);pk<-as.character(p$unique_sample_id)
+    flags<-as.character(b$trapConditionFlag)
+    bpass<-is.finite(days)&days>0&!is.na(bk)&nzchar(bk)&
+      !is.na(b$trapID)&nzchar(as.character(b$trapID))&
+      (is.na(flags)|!nzchar(trimws(flags)))&
+      forest_plot_label(b$nlcdClass)&!is.na(b$date)
+    ppass<-is.finite(area)&abs(area-1)<1e-9&!is.na(pk)&nzchar(pk)&
+      forest_plot_label(p$nlcdClass)&!is.na(p$date)
+    if(!any(bpass)||!any(ppass))next
+    effortplots<-c(effortplots,pl)
+    bd<-sort(unique(b$date[bpass]))
+    pd<-sort(unique(p$date[ppass]))
+    if(any(abs(outer(as.numeric(bd),as.numeric(pd),"-"))<=30)){
+      matched<-c(matched,pl)
+    }
+  }
+  list(original_same_plot_valid_effort_and_1m2=length(unique(effortplots)),
+       original_plot_ids_qualified=unique(matched))
+}
+
 assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
   if(as.character(utils::packageVersion("neonDivData"))!=expected_version)
     stop("STOP_PUBLIC_NEON_DERIVATIVE_VERSION_CHANGED")
@@ -104,6 +143,8 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
     } else Inf
     flags<-as.character(bb$trapConditionFlag)
     nflags<-sum(!is.na(flags)&nzchar(flags))
+    exact<-qualified_plot_periods(bb,pp)
+    exact_keys<-paste(si,exact$original_plot_ids_qualified,sep="|")
     # preserve original plot-year support, never pseudoreplicate taxon rows
     groups[[k]]<-list(
       site=si,year=yr,
@@ -118,6 +159,9 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
       b_plot_keys=paste(si,plotb,sep="|"),
       p_plot_keys=paste(si,plotp,sep="|"),
       shared_plot_keys=paste(si,shared,sep="|"),
+      original_qualified_plot_keys=exact_keys,
+      source_sameplot_effort_1m2_count=exact$original_same_plot_valid_effort_and_1m2,
+      source_sameplot_effort_1m2_30day_count=length(exact$original_plot_ids_qualified),
       shared_forest_plot_keys=paste(si,sharedforest,sep="|")
     )
   }
