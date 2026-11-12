@@ -11,6 +11,8 @@ on:
       - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
       - "analysis/forest_macro_global/datasaprox_thera_subplots_gate.py"
       - "analysis/forest_macro_global/test_datasaprox_thera_subplots_gate.py"
+      - "analysis/forest_macro_global/datasaprox_thera_spatial_schema_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_thera_spatial_schema_gate.py"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -21,6 +23,8 @@ on:
       - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
       - "analysis/forest_macro_global/datasaprox_thera_subplots_gate.py"
       - "analysis/forest_macro_global/test_datasaprox_thera_subplots_gate.py"
+      - "analysis/forest_macro_global/datasaprox_thera_spatial_schema_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_thera_spatial_schema_gate.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -178,6 +182,29 @@ jobs:
           python analysis/forest_macro_global/datasaprox_thera_subplots_gate.py \
             --archive source_original/datasaprox_v1_6.zip \
             --out schema_only
+      - name: Test THERA geographic plot support without species values
+        run: |
+          python -m pytest -q analysis/forest_macro_global/test_datasaprox_thera_spatial_schema_gate.py
+      - name: Audit exact THERA field coordinates and taxon field schema only
+        run: |
+          python analysis/forest_macro_global/datasaprox_thera_spatial_schema_gate.py \
+            --archive source_original/datasaprox_v1_6.zip \
+            --out schema_only
+      - name: Enforce no geographic independence or species-effect promotion
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("schema_only/datasaprox_thera_spatial_taxon_schema_gate.json").read_text())
+          assert r["source_original_response_taxon_values_read"] is False
+          assert r["source_locations_and_original_site_ids_NOT_EXPORTED"]
+          assert r["source_coordinates_alone_do_not_certify_independent_forests"]
+          assert r["source_georeferencing_accuracy_not_verified"]
+          print("THERA metadata spatial status:",r["status"])
+          print("strict four-trap plot-months:",r["source_balanced_four_trap_plot_month_units"])
+          print("original plot keys:",r["source_distinct_balanced_original_field_plot_keys"])
+          print("original plot geometry groups:",r["source_plot_center_connected_components_at_0p5_1_5_20_km"])
+          PY
       - name: Do not promote any treatment-discordant project to a biology test
         run: |
           python - <<'PY'
