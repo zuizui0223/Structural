@@ -63,8 +63,22 @@ geom_group <- function(x){
    vapply(seq_len(nrow(rf)),
       function(j)distance(xy[nrow(rf)+i,],xy[j,]),numeric(1))),
    use.names=FALSE)
+ # The following criteria are source-geometry-only, frozen independently
+ # of the previously observed biological beta endpoint.
+ gap<-vapply(ar,function(v)min(abs(log((v+.05)/(rr+.05)))),numeric(1))
+ matchable<-which(gap<=log(1.5))
+ modified_indices<-rep(seq_len(nrow(al)),each=nrow(rf))
+ reference_indices<-rep(seq_len(nrow(rf)),times=nrow(al))
+ common_support<-(nrow(rf)>=3 && length(rr)>=3 &&
+   length(matchable)>=5 &&
+   length(unique(modified_indices[matchable]))>=2 &&
+   length(unique(reference_indices[matchable]))>=2)
  # Protect from division by zero if all reference points share a centroid.
  list(geographic_source_support=TRUE,
+   original_ar_pairs_within_1p5x_of_a_source_rr_distance=length(matchable),
+   original_AR_modified_sites_with_distance_match=length(unique(modified_indices[matchable])),
+   original_AR_reference_sites_with_distance_match=length(unique(reference_indices[matchable])),
+   geometry_only_fixed_distance_common_support=common_support,
    mean_ref_ref_km=mean(rr),mean_alt_ref_km=mean(ar),
    median_ref_ref_km=median(rr),median_alt_ref_km=median(ar),
    delta_altref_minus_refref_km=mean(ar)-mean(rr),
@@ -84,6 +98,7 @@ synthetic<-function(){
     lat=c(0,0,0,0),lon=c(0,1,3,4),cm="original")
  res<-geom_group(q)
  stopifnot(res$mean_alt_ref_km>res$mean_ref_ref_km,
+    !res$geometry_only_fixed_distance_common_support,
     res$original_geographic_reference_pair_count_DEPENDENT==1,
     res$original_geographic_alt_reference_pair_count_DEPENDENT==4,
     abs(distance(c(0,0),c(0,1))-111.195)<.01)
@@ -107,8 +122,9 @@ okay<-vapply(metric,function(v)isTRUE(v$geographic_source_support),logical(1))
 eligible<-metric[okay]
 study_equal_ratio<-vapply(eligible,function(v)v$log_ratio_of_mean_geographic_distances,numeric(1))
 study_equal_difference<-vapply(eligible,function(v)v$delta_altref_minus_refref_km,numeric(1))
+common<-sum(vapply(eligible,function(v)isTRUE(v$geometry_only_fixed_distance_common_support),logical(1)))
 i<-list(
- schema="structural.PREDICTS_39forest_source_site_geographic_support.v1",
+ schema="structural.PREDICTS_39forest_source_site_geographic_support.v2",
  source="NHM PREDICTS original 2016+2022 site summaries only",
  previous_observed_positive_beta_difference_unaltered=0.0942,
  original_source_summaries=nrow(raw),
@@ -119,6 +135,10 @@ i<-list(
  original_studies_altref_geographically_farther_than_refref=sum(study_equal_difference>0),
  original_studies_altref_geographically_nearer_than_refref=sum(study_equal_difference<0),
  original_studies_equal_distance_zero=sum(study_equal_difference==0),
+ original_studies_passing_frozen_geographic_overlap_rule=common,
+ fixed_geographic_overlap_rule="3+ reference sites; >=5 AR pairs with log distance ratio within log1.5 of a RR pair; >=2 altered and >=2 reference sites; distances offset +0.05km",
+ second_biological_sensitivity_study_count_gate_ge10=common>=10,
+ second_biological_sensitivity_still_NOT_RUN=TRUE,
  study_equal_mean_log_ratio_altref_refref=if(length(eligible))mean(study_equal_ratio) else NULL,
  study_equal_median_distance_difference_km=if(length(eligible))median(study_equal_difference) else NULL,
  study_equal_median_reference_reference_distance_km=if(length(eligible))median(vapply(eligible,function(v)v$mean_ref_ref_km,numeric(1))) else NULL,
