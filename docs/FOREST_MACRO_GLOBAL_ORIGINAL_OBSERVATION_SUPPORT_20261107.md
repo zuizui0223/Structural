@@ -1,5 +1,17 @@
 # 森林マクロ生態学：全球原観測の支持範囲（2026年11月7日）
 
+## 2026-11-12 NEW: 20か国・39原研究で参照林を超える群集置換を実測（PREDICTS）
+
+前回のTHERA 20区画・地理2森林で探索を止め、独立した多研究の森林マクロ生態学へ主線を移行した。事前固定したPREDICTS厳格森林1,145地点／39 original Study×method×target taxon／20か国について、公式NHM 2016+2022 full diversityから**242,677分類群×地点測定記録を実際に使用**した。各研究の改変林–参照林Simpson置換成分から参照林–参照林の基準置換成分を引いた結果、**研究等重みΔβ_sim=+0.0942、Study 4,000-bootstrap95%区間[+0.0638,+0.1253]、36/39研究正方向、9,999 Study符号反転p=0.0001**。39 original Studiesが各1 groupで、1,145地点や数万ペアを独立森林として計数していない。**群集構成に関する新しい肯定的な二次解析結果**であり、独立の新野外実験ではない。
+
+気候帯別記述では湿潤熱帯34群の31群正・平均+0.1028、温帯広葉樹5群の5群正・平均+0.0361。ただし森林バイオーム間差の確認的相互作用検定や森林内部の実測高さ・群落層の比較ではない。
+
+原本実行 [GitHub Actions #43164680231](https://github.com/zuizui0223/Structural/actions/runs/43164680231) 二ジョブ成功、原生物集計artifact #13919791026。仕様[FOREST_MACRO_PREDICTS_REFERENCE_RELATIVE_TURNOVER_PRESPEC_20261112.md](FOREST_MACRO_PREDICTS_REFERENCE_RELATIVE_TURNOVER_PRESPEC_20261112.md)、結果[FOREST_MACRO_PREDICTS_REFERENCE_RELATIVE_TURNOVER_ORIGINAL_RESULT_20261112.md](FOREST_MACRO_PREDICTS_REFERENCE_RELATIVE_TURNOVER_ORIGINAL_RESULT_20261112.md)。再実行で結果を探さないよう元の生物学的一次jobは一回成功後自動SEALED済み。
+
+**ただし地理距離による交絡が確認された。** 同じ39研究のsite-only原座標で改変–参照群の平均水平距離の方が参照–参照より遠い研究が22、近い15、同値2。studyごとの平均距離の中央値は各7.9313 km、4.0613 km。したがって観測された置換差すべてを人為土地利用の因果的な環境フィルタと呼べない。距離支援の原本CI [#43165483599](https://github.com/zuizui0223/Structural/actions/runs/43165483599) は生物応答0件開封。次段として原座標だけで凍結した距離比1.5x以内のeligible Studiesは**33/39**（CI #43166027360）、生物学的な二次感度は初回得点とは独立した後付け探索として実行。実際の森林構造／樹高との結合は**未検証**であり、これをすでに検証済みとは呼ばない。
+
+文献上の新規性の上限：PREDICTSの森林土地利用×βは既存論文の主題。2026-11-10 Nature Ecology & Evolution DOI 10.1038/s41559-026-03205-z は同じPREDICTS母集団の184研究38,010地点対でBray-Curtis類似度と外挿精度を検討済。今回の推定量は同一研究内の**Simpson入れ替わり成分と参照林相互の基準差の比較**。自然林が多いから必ず保護効果がある、島のメタ個体群救済と同じ機構という飛躍はしない。
+
 ## 2026-11-12 現在地：THERA地理階層の実確認と独立マクロ検証への切替
 
 DATASAPROXのTHERA（EFNO）は厳格な2上層＋2下層の同法・同時期比較が**55 plot×month、20原区画、220イベント**。原座標の欠測・矛盾はゼロ。ただし5kmおよび20km連結成分は**2群**であり、20の独立森林とはいえない。Balvay et al. (2026, DOI 10.1016/j.foreco.2026.124001) は同じくフランスの2森林・20区画でLindgren垂直甲虫群集差と衰退による均質化を公表済みで、THERAとのフィールド系列重複の可能性が高い。標本IDの直接照合までは未完了であるため「確定的な重複」も「独立再現」も主張しない。
