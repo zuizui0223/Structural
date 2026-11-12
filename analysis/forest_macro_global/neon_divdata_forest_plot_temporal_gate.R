@@ -12,6 +12,12 @@ good_year <- function(x) {
 good_date <- function(x){
   suppressWarnings(as.Date(substr(as.character(x),1,10)))
 }
+source_plot_forest <- function(x){
+ # The published neonDivData 0.3.1 plot-level NLCD codes are camelCase.
+ y<-tolower(gsub("[[:space:]_-]","",as.character(x)))
+ y[is.na(y)]<-""
+ y %in% c("deciduousforest","evergreenforest","mixedforest")
+}
 only_forest <- function(meta) {
   cls<-as.character(meta$dominant_nlcd_classes)
   vapply(strsplit(cls,"|",fixed=TRUE),function(z){
@@ -73,6 +79,9 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
     plotb<-plotb[!is.na(plotb)&nzchar(plotb)]
     plotp<-plotp[!is.na(plotp)&nzchar(plotp)]
     shared<-intersect(plotb,plotp)
+    bforestplot<-unique(as.character(bb$plotID[source_plot_forest(bb$nlcdClass)]))
+    pforestplot<-unique(as.character(pp$plotID[source_plot_forest(pp$nlcdClass)]))
+    sharedforest<-intersect(intersect(bforestplot,pforestplot),shared)
     area<-suppressWarnings(as.numeric(as.character(pp$sample_area_m2)))
     trapdays<-suppressWarnings(as.numeric(as.character(bb$trappingDays)))
     bvalid<-is.finite(trapdays)&trapdays>0&!is.na(bb$unique_sample_id)&
@@ -99,6 +108,8 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
     groups[[k]]<-list(
       site=si,year=yr,
       bplots=length(plotb),pplots=length(plotp),sharedplots=length(shared),
+      bforestplots=length(bforestplot),pforestplots=length(pforestplot),
+      sharedforestplots=length(sharedforest),
       bvalidsamples=length(bsids),pvalidsamples=length(psids),
       p1msamples=length(p1sids),
       monthmatch=length(intersect(mb,mp))>0,
@@ -106,12 +117,14 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
       any_condition_flag=nflags>0,
       b_plot_keys=paste(si,plotb,sep="|"),
       p_plot_keys=paste(si,plotp,sep="|"),
-      shared_plot_keys=paste(si,shared,sep="|")
+      shared_plot_keys=paste(si,shared,sep="|"),
+      shared_forest_plot_keys=paste(si,sharedforest,sep="|")
     )
   }
   good<-vapply(groups,function(x)x$bvalidsamples>0 && x$p1msamples>0,
                logical(1))
   shared<-vapply(groups,function(x)x$sharedplots>0,logical(1))
+  shared_source_forest<-vapply(groups,function(x)x$sharedforestplots>0,logical(1))
   nearby<-vapply(groups,function(x)x$nearest_days<=30,logical(1))
   overlap<-vapply(groups,function(x)x$monthmatch,logical(1))
   sitekeys<-vapply(groups,function(x)x$site,character(1))
@@ -131,13 +144,13 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
   all_bplots<-unique(unlist(lapply(groups,function(v)v$b_plot_keys),use.names=FALSE))
   all_pplots<-unique(unlist(lapply(groups,function(v)v$p_plot_keys),use.names=FALSE))
   all_shplots<-intersect(all_bplots,all_pplots)
-  qualified_sites<-unique(sitekeys[good&shared&nearby])
+  qualified_sites<-unique(sitekeys[good&shared_source_forest&nearby])
   # Critical 2023 ground-beetle protocol shift: source counts may move
   # from ten to six original plotIDs. Only paired year intervals retaining
   # at least one SAME originally sampled plot in both years are suitable
   # candidates for later taxon turnover analyses.
-  qualified_keys<-names(groups)[good&shared&nearby]
-  q_by_site<-split(qualified_keys,sitekeys[good&shared&nearby])
+  qualified_keys<-names(groups)[good&shared_source_forest&nearby]
+  q_by_site<-split(qualified_keys,sitekeys[good&shared_source_forest&nearby])
   transitions<-0L
   transitions_sites<-character(0)
   overlap2022to2023<-0L
@@ -150,8 +163,8 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
       one<-paste(si,y,sep="|")
       two<-paste(si,y+1L,sep="|")
       if(!(one%in%names(groups) && two%in%names(groups)))next
-      original_plots_both_years<-intersect(groups[[one]]$shared_plot_keys,
-                                        groups[[two]]$shared_plot_keys)
+      original_plots_both_years<-intersect(groups[[one]]$shared_forest_plot_keys,
+                                        groups[[two]]$shared_forest_plot_keys)
       if(length(original_plots_both_years)>0){
         transitions<-transitions+1L
         transitions_sites<-c(transitions_sites,si)
@@ -170,6 +183,9 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
     candidate_strict_forest_siteyears=length(groups),
     original_2019_2023_forest_site_years_by_calendar_year=tby,
     siteyears_with_actual_both_taxa_original_plotID_overlap=sum(shared),
+    siteyears_with_original_plotlevel_forest_NLCD_for_both_taxa=sum(shared_source_forest),
+    siteyears_original_plotlevel_forest_NLCD_same_plot_plant1m2_beetle_effort_30days=sum(
+        good&shared_source_forest&nearby),
     original_plot_keys_with_beetle_sampling_in_forest_siteyear=length(all_bplots),
     original_plot_keys_with_plant_sampling_in_forest_siteyear=length(all_pplots),
     original_plot_keys_seen_by_both_taxa_some_year=length(all_shplots),
@@ -178,7 +194,7 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
     original_siteyears_with_positive_beetle_effort_and_plant_1m2_samples=sum(good),
     original_siteyears_with_same_calendar_month_of_both_taxa=sum(overlap),
     original_siteyears_with_nearest_sample_dates_within_30days=sum(nearby),
-    siteyears_exact_plot_effort_plant1m2_and_30day_supported=sum(good&shared&nearby),
+    siteyears_exact_plot_effort_plant1m2_and_30day_supported=sum(good&shared_source_forest&nearby),
     distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported=length(qualified_sites),
     consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported=transitions,
     source_forest_sites_retaining_exact_same_original_plot_in_consecutive_suitable_years=length(unique(transitions_sites)),
@@ -239,16 +255,17 @@ synthetic<-function(){
     plotID=paste0(sitecode,"_P1"),
     unique_sample_id=paste0("b",seq_len(nrow(pair))),
     trapID="trap1",observation_datetime=dt,
-    trappingDays=14,trapConditionFlag=NA_character_,nlcdClass="Forest")
+    trappingDays=14,trapConditionFlag=NA_character_,nlcdClass="evergreenForest")
   synthetic_p<-data.frame(siteID=sitecode,
     plotID=paste0(sitecode,"_P1"),
     unique_sample_id=paste0("p",seq_len(nrow(pair))),
     observation_datetime=plantdate,
-    sample_area_m2=1,nlcdClass="Forest")
+    sample_area_m2=1,nlcdClass="evergreenForest")
   v<-assess(synthetic_b,synthetic_p,many)
   stopifnot(v$candidate_strict_NLCD_forest_NEON_sites==8,
       v$candidate_strict_forest_siteyears==40,
       v$siteyears_with_actual_both_taxa_original_plotID_overlap==40,
+      v$siteyears_with_original_plotlevel_forest_NLCD_for_both_taxa==40,
       v$siteyears_exact_plot_effort_plant1m2_and_30day_supported==40,
       v$distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported==8,
       v$consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported==32,
