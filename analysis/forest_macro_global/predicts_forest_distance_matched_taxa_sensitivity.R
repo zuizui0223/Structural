@@ -120,7 +120,7 @@ synthetic<-function(){
  x<-data.frame(id=c("r1","r2","r3","a1","a2"),
    reference=c(TRUE,TRUE,TRUE,FALSE,FALSE),
    altered=c(FALSE,FALSE,FALSE,TRUE,TRUE),
-   lat=rep(0,5),lon=c(0,1,2,.5,1.5))
+   lat=rep(0,5),lon=c(0,1,2,-.99,2.99))
  m<-geometric_matches(x)
  stopifnot(!is.null(m),m$n_AR_matched>=5,
            all(m$AR[,1]%in%c("r1","r2","r3")),
