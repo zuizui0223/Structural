@@ -12,7 +12,7 @@ PREDICTSの39研究で参照林内の変動を超える群集置換が+0.0942（
 4. original `plotID`（NEON Distributed base plot）を一次のフィールド階層とし、年を反復単位、siteID・domainIDを空間階層として別に保持。甲虫ピットフォールと植物subplotの観察量・検出方法は異なる。公式NEON site designは地表甲虫と植物をbase plotsの一部にco-locateしているが、実データに同じ`plotID`が存在するか別に数える。<https://www.neonscience.org/data-samples/data-collection/observational-sampling/site-level-sampling-design>
 5. 植物1m²の調査サンプルを時間的比較の第一候補に限定（10/100m²はNEONでは近年隔年になることがある）。甲虫は`trappingDays>0`の元distinct sample keyのみ数える。trapConditionFlagの内容を残し、不良トラップ標本を正常な努力量と合算しない。
 6. 植物と甲虫の同一original `plotID`・同年・採集日30日以内を**観測の時間空間的近接支持条件**とする。この条件でも直接の物種相互作用・送粉・栄養塩伝達・微気候の作用は証明されない。
-7. 元`nlcdClass`が最初の3原文字列のforest検査で0となった原因は、**カテゴリー名・欠測値の頻度のみ**を公開し切り分ける。作者のコード体系と結ばないうちはsource plotが公式forest siteのすべてでforestだったとはみなさない。
+7. `neonDivData 0.3.1` の実際の元`nlcdClass`値を生物応答を見ずに監査すると、`evergreenForest`, `deciduousForest`, `mixedForest` という**camelCase**だった。旧解析の`Deciduous Forest`など空白区切りに限定した0件は**文字列コードブックの誤指定**であり、森林区画なしという科学的な結果ではない。修正後、同一元`plotID`で両群とも元のforestラベルを持つことを明示的に要求する。原siteが森林であるだけの比較をbio endpointへは進めない。
 
 ## 2023年採集プロトコルの構造的変化
 
