@@ -1,0 +1,109 @@
+name: "Forest macro: public NEON VST2026 forest patches within mixed-landscape sites"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-neon-vst2026-forest-patch-source.yml"
+      - "analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-neon-vst2026-forest-patch-source.yml"
+      - "analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_plotlevel_forests_only_within_original_neon_mixed_sites:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install pinned organismal derivative 0.3.1 and aggregate-only JSON writer
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+      - name: Source-only forest plot code, NA, QA held and original year tests
+        env:
+          VST_FOREST_PATCH_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R
+      - name: Pinned NEON 2026-08-05 official site domains and context, SHA verified
+        run: |
+          set -euo pipefail
+          mkdir -p neon_vst_patch_private
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            --proto '=https' --proto-redir '=https' \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o neon_vst_patch_private/site.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  neon_vst_patch_private/site.csv' | sha256sum -c -
+      - name: Derive local forest-patch sites from beetle and plant original plot codes before any outcome values
+        env:
+          VST_FOREST_PATCH_SITE_LIST_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R \
+            neon_vst_patch_private/site.csv \
+            neon_vst_patch_private/original_site_list.txt
+          test "$(wc -l < neon_vst_patch_private/original_site_list.txt)" -ge 8
+      - name: Retrieve matched candidate forest-patch site bundles from independently public frozen 42-site VST family
+        run: |
+          set -euo pipefail
+          mkdir -p neon_vst_patch_private/woody_bundles
+          while IFS= read -r site; do
+            [[ "$site" =~ ^[A-Z0-9]{4}$ ]] || exit 11
+            u="https://raw.githubusercontent.com/tgilbert14/NEON-Vegetation-Structure-Explorer/3391e702e7be80a3f049c905782661f043be8db8/data/sites/$site.rds"
+            if curl --fail --silent --show-error --location --retry 1 \
+              --connect-timeout 15 --max-time 120 --max-filesize 50000000 \
+              --proto '=https' --proto-redir '=https' \
+              "$u" -o "neon_vst_patch_private/woody_bundles/$site.rds"; then
+              test -s "neon_vst_patch_private/woody_bundles/$site.rds"
+            else
+              rm -f "neon_vst_patch_private/woody_bundles/$site.rds"
+              echo "Source VST site bundle unavailable in pinned published 42-site family (aggregate diagnostic only)"
+            fi
+          done < neon_vst_patch_private/original_site_list.txt
+          du -sh neon_vst_patch_private/woody_bundles
+      - name: Independently verify three-source forest-plot original NLCD and QA-matched original site plot years
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R \
+            neon_vst_patch_private/site.csv \
+            neon_vst_patch_private/woody_bundles \
+            neon_vst_patch_source_only_aggregate
+      - name: Explicitly enforce distinct source-population and no taxon-outcome access
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          x<-fromJSON("neon_vst_patch_source_only_aggregate/neon_vst2026_mixedlandscape_forest_patch_support.json")
+          stopifnot(
+            x$schema=="structural.neon_vst2026_mixed_landscape_forest_patch_source_gate.v1",
+            x$public_source_vst_fixed_commit=="3391e702e7be80a3f049c905782661f043be8db8",
+            x$forest_patches_within_sites_NOT_equivalent_entire_site_strict_forest_only,
+            x$prior_eight_strict_forest_source_stop_unmodified,
+            x$original_woody_height_values_never_read,
+            x$beetle_plant_taxon_species_abundance_values_never_read,
+            x$all_original_site_plot_tree_species_and_locations_not_reexported,
+            x$source_woody_held_opportunities_not_reclassified_to_zero,
+            x$sameyear_plot_support_is_not_same_date_microclimate,
+            x$previous_PREDICTS_and_NEON_biological_scores_sealed,
+            x$eBird_used==FALSE)
+          print(x[c("forest_patches_both_organismal_original_source_sites",
+                   "original_neon_organismal_forest_patch_coobserved_siteplotyears",
+                   "original_VST_forest_patch_bundle_site_count",
+                   "original_triple_source_supported_siteplotyears",
+                   "original_triple_source_distinct_NEON_site_count",
+                   "original_triple_source_NEON_ecoclimatic_domains",
+                   "frozen_source_support_min6sites_min4domains_min40plotyears_passed",
+                   "gate_status")])
+          RS
+      - name: Export source sampling counts only, never raw woody bundles or original identifiers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-neon-VST2026-mixed-landscape-forest-patches-source-gate
+          path: neon_vst_patch_source_only_aggregate/
+          if-no-files-found: warn
