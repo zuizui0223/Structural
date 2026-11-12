@@ -96,6 +96,57 @@ source_gate<-function(beetle,plant,site_table,expected_version="0.3.1"){
     eBird_used=FALSE
  ))
 }
+official_site_forest_gate<-function(beetle,plant,official){
+  needed<-c("site_id","dominant_nlcd_classes","mean_canopy_height_m",
+            "tower_height_m","number_tower_levels","domain_id")
+  if(!all(needed%in%names(official))||nrow(official)!=81)
+    stop("STOP_OFFICIAL_NEON_20260805_ORIGINAL_81_SITECONTEXT_SCHEMA")
+  sid<-as.character(official$site_id)
+  if(anyDuplicated(sid)||any(is.na(sid))||any(sid==""))
+    stop("STOP_ORIGINAL_OFFICIAL_NEON_SITE_ID_DUPLICATION")
+  label<-trimws(as.character(official$dominant_nlcd_classes))
+  isforest<-vapply(strsplit(label,"|",fixed=TRUE),function(v){
+      v<-trimws(v);v<-v[nzchar(v)]
+      length(v)>0 && all(v %in% c("Deciduous Forest","Evergreen Forest","Mixed Forest"))
+    },logical(1))
+  b<-beetle[!is.na(date_year(beetle$observation_datetime))&
+             date_year(beetle$observation_datetime)>=2019&
+             date_year(beetle$observation_datetime)<=2023,,drop=FALSE]
+  p<-plant[!is.na(date_year(plant$observation_datetime))&
+             date_year(plant$observation_datetime)>=2019&
+             date_year(plant$observation_datetime)<=2023,,drop=FALSE]
+  s_b<-unique(paste(b$siteID,date_year(b$observation_datetime),sep="|"))
+  s_p<-unique(paste(p$siteID,date_year(p$observation_datetime),sep="|"))
+  common<-intersect(s_b,s_p)
+  original_site<-sub("\\|[0-9]{4}$","",common)
+  if(any(!original_site%in%sid))
+    stop("STOP_SOURCE_PUBLISHED_DERIVATIVE_SITE_UNKNOWN_TO_OFFICIAL_NEON")
+  forest_ids<-sid[isforest]
+  forest_covered<-common[original_site%in%forest_ids]
+  groups<-table(sub("\\|[0-9]{4}$","",forest_covered))
+  heights<-suppressWarnings(as.numeric(as.character(official$mean_canopy_height_m)))
+  if(all(!is.finite(heights[isforest])))
+    stop("STOP_OFFICIAL_FOREST_SOURCE_MEAN_CANOPY_HEIGHT_NOT_MEASURED")
+  keys<-sid[isforest]
+  k<-match(unique(sub("\\|[0-9]{4}$","",forest_covered)),sid)
+  list(
+    official_NEON_site_metadata_release="2026-08-05",
+    official_NEON_fieldsite_count=nrow(official),
+    source_NLCD_forest_class_definition="all supplied dominant_nlcd_classes in {Deciduous Forest, Evergreen Forest, Mixed Forest}",
+    official_strict_forest_only_source_site_count=sum(isforest),
+    original_NLCD_forest_siteyear_beetle_plant_record_overlaps=length(forest_covered),
+    original_forest_sites_with_both_taxa_same_year=length(groups),
+    original_forest_sites_with_at_least_two_common_years=sum(groups>=2),
+    original_forest_sites_ecoclimatic_domains=length(unique(official$domain_id[k])),
+    original_forest_sites_positive_official_mean_canopy_height=sum(is.finite(heights[k])&heights[k]>0),
+    official_strict_forest_only_sites_with_canopy_height_recorded=sum(is.finite(heights[isforest])&heights[isforest]>0),
+    original_site_coverage_not_original_beetle_forest_plot_certification=TRUE,
+    official_site_mean_height_is_not_contemporaneous_plot_structure=TRUE,
+    original_species_taxon_values_unread_for_site_classification=TRUE,
+    original_site_identifiers_locations_and_heights_not_exported=TRUE
+  )
+}
+
 synthetic<-function(){
  x<-c("Deciduous Forest","Evergreen Forest","Mixed Forest","Shrub/Scrub","Pasture/Hay")
  stopifnot(identical(forest_label(x),c(TRUE,TRUE,TRUE,FALSE,FALSE)))
@@ -106,13 +157,15 @@ if(identical(Sys.getenv("NEON_DIVDATA_SYNTHETIC_ONLY"),"1")){
  synthetic();quit(status=0)
 }
 args<-commandArgs(trailingOnly=TRUE)
-if(length(args)!=1)stop("usage: Rscript neon_divdata_multisite_source_gate.R OUT")
+if(length(args)!=2)stop("usage: Rscript neon_divdata_multisite_source_gate.R OUT OFFICIAL_NEON_SITE_CSV")
 synthetic()
 out<-args[1];dir.create(out,recursive=TRUE,showWarnings=FALSE)
 b<-neonDivData::data_beetle
 p<-neonDivData::data_plant
 sites<-neonDivData::neon_sites
 result<-source_gate(b,p,sites)
+site_original<-utils::read.csv(args[[2]],stringsAsFactors=FALSE,check.names=FALSE)
+result$source_official_20260805_site_forest_covariate_gate <- official_site_forest_gate(b,p,site_original)
 writeLines(jsonlite::toJSON(result,auto_unbox=TRUE,pretty=TRUE,null="null"),
  file.path(out,"neonDivData_2019_2023_beetle_plant_forest_sourceonly.json"))
 cat(jsonlite::toJSON(result,auto_unbox=TRUE,pretty=TRUE,null="null"),"\n")
