@@ -4,9 +4,9 @@
 
 本資料は新たな種データの解析ではない。DATASAPROX v1.6の原本Occurrence core 675,525行のうち、THERA（EFNO）に属する標本の**採集設計・座標列だけ**を参照した。元論文からTable 7のTHERAが**complete**（44科、1イベント中央値18分類群）であることをすでに確認している。
 
-- 元ソース：DATASAPROX v1.6、UUID \`d050a143-2e62-4908-9d9e-a7f541eab94d\`、ZIP SHA256 \`4163a2f8f72d756e74f64319b8e199b284ecc6414196147e4465d342d7dcb6d0\`。
-- 原本監査：GitHub Actions [#43126599073](https://github.com/zuizui0223/Structural/actions/runs/43126599073)、**SUCCESS**（最初のCIは無関係のテスト文字列 \`event\` による偽陽性、修正後は合成テスト・原本監査ともPASS）。元イベント座標値、区画ID、種名、各個体数は一切公開しない。
-- スクリプト \`analysis/forest_macro_global/datasaprox_thera_spatial_schema_gate.py\`、テスト \`analysis/forest_macro_global/test_datasaprox_thera_spatial_schema_gate.py\`。既存Draft PR #469のみ、未マージ。
+- 元ソース：DATASAPROX v1.6、UUID `d050a143-2e62-4908-9d9e-a7f541eab94d`、ZIP SHA256 `4163a2f8f72d756e74f64319b8e199b284ecc6414196147e4465d342d7dcb6d0`。
+- 原本監査：GitHub Actions [#43126599073](https://github.com/zuizui0223/Structural/actions/runs/43126599073)、**SUCCESS**（最初のCIは無関係のテスト文字列 `event` による偽陽性、修正後は合成テスト・原本監査ともPASS）。元イベント座標値、区画ID、種名、各個体数は一切公開しない。
+- スクリプト `analysis/forest_macro_global/datasaprox_thera_spatial_schema_gate.py`、テスト `analysis/forest_macro_global/test_datasaprox_thera_spatial_schema_gate.py`。既存Draft PR #469のみ、未マージ。
 
 ### 実行済み原本の地理的証拠（response unopened）
 
@@ -21,7 +21,7 @@
 | 区画中心の距離しきい値連結成分 | **0.5 km:20、1 km:19、5 km:2、20 km:2** |
 | species/taxon/individual response read | **0** |
 
-距離しきい値連結成分は**近距離グループの診断**にすぎず、実森林境界・行政区域・独立森林ネットワークの証明ではない。座標が区画キー単位で完全一致したということは元イベント間の位置分解能が無く、実トラップの水平距離や正確な樹上高度を示さない。元 \`coordinateUncertaintyInMeters\` 列は存在するが、その値分布は未読。
+距離しきい値連結成分は**近距離グループの診断**にすぎず、実森林境界・行政区域・独立森林ネットワークの証明ではない。座標が区画キー単位で完全一致したということは元イベント間の位置分解能が無く、実トラップの水平距離や正確な樹上高度を示さない。元 `coordinateUncertaintyInMeters` 列は存在するが、その値分布は未読。
 
 ### 重要な既発表論文：垂直分化そのものは新規性がない
 
@@ -35,8 +35,8 @@ THERAの元ソースには20区画、Lindgren、supra/infra canopyと同様の�
 
 1. 比較単位は55 plot×monthではなく20 plotであり、実際の独立**森林**は2候補にとどまる。森林を無視して20独立森林の検定をしてはならない。
 2. 元データはOccurrence coreに現れたイベントだけ。捕獲ゼロのEvent原本や観測努力の完全分母は未確保。元Occurrence行で現れない種・イベントを生態学的な真の不在とみなさない。
-3. \`ID_condition\`が層／黒色Lindgrenを文字列に含むことは監査済みだが、元文献の原設計上の他の操作・サンプリング選別・trapsの物理独立性は未認証。
-4. \`scientificName\`, \`taxonID\`, \`taxonRank\`, \`organismQuantity\`列は**存在**するだけ確認。実際の同定階級分布や計数定義は一切読み込んでいない。
+3. `ID_condition`が層／黒色Lindgrenを文字列に含むことは監査済みだが、元文献の原設計上の他の操作・サンプリング選別・trapsの物理独立性は未認証。
+4. `scientificName`, `taxonID`, `taxonRank`, `organismQuantity`列は**存在**するだけ確認。実際の同定階級分布や計数定義は一切読み込んでいない。
 
 ## マクロ生態学主線への接続：次の独立証拠が必要
 
