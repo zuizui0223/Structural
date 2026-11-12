@@ -21,7 +21,7 @@ Structuralでは、NHM PREDICTS 20か国・39原研究の参照林間変動を�
 
 ## 米国NEON: 多数の独立観測地を優先
 
-公式NEON 2026 data API の生物ファイルは2026年6月以降token必須。接続トークンがない状態でHTTP403/401を回避する試みは行わない。一方、既に研究者によって公開されている **neonDivData**（`daijiang.r-universe.dev/neonDivData`, current 0.2.3）は、NEONの地表甲虫 DP1.10022.001（公開掲載47 sites、831 taxa）と植物 DP1.10058.001（47 sites、7,047 taxa）を整理し、同じsiteID, plotID, observation_datetimeとサンプル努力／NLCD land-cover/検出0の指標を持つ。これは現在の公式2026配信を直接取得したわけではない**別途公開済みの派生アーカイブ**。植生構造DP1.10098.001や温湿度DP1.00002.001はこれに含まれず、植物の存在情報をLiDAR樹高の同義語としない。
+公式NEON 2026 data API の生物ファイルは2026年6月以降token必須。接続トークンがない状態でHTTP403/401を回避する試みは行わない。一方、既に研究者によって公開されている **neonDivData**（`daijiang.r-universe.dev/neonDivData`, current 0.3.1）は、NEONの地表甲虫 DP1.10022.001（公開掲載47 sites、831 taxa）と植物 DP1.10058.001（47 sites、7,047 taxa）を整理し、同じsiteID, plotID, observation_datetimeとサンプル努力／NLCD land-cover/検出0の指標を持つ。これは現在の公式2026配信を直接取得したわけではない**別途公開済みの派生アーカイブ**。植生構造DP1.10098.001や温湿度DP1.00002.001はこれに含まれず、植物の存在情報をLiDAR樹高の同義語としない。
 
 `analysis/forest_macro_global/neon_divdata_multisite_source_gate.R` を新規作成、まず **2019–2023 site×year、オリジナル plotID、元森林NLCD分類、標準pitfall採集努力がどれだけ揃うか**を生物応答を開かず監査する。甲虫と植物は調査法・区画サイズが異なる。地点と年が一致しても同区画ではなく、元の全く検出されなかった標本と真の不在を混同しない。site-yearが多くても独立研究地点は最大47で、独立ecoclimatic domainはそれより少ない。
 
