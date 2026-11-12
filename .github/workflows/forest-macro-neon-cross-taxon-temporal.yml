@@ -16,6 +16,8 @@ permissions:
   contents: read
 jobs:
   eight_site_original_plot_temporal_coherence:
+    # Original v1 halted at source-effort independent-site threshold; preserve scientific STOP, do not reopen outcomes.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
