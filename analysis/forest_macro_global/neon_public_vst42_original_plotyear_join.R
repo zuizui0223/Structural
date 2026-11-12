@@ -126,12 +126,43 @@ synthetic <- function(){
             !any(source_forest(c("shrubScrub","NA","pastureHay"))),
             all(year(c("2019-01-01","2023-12-01"))==c(2019,2023)),
             is.na(year("2026-11-12")))
-  cat("VST SOURCE SCHEMA synthetic forest class/year PASS\n")
+  tmp<-tempfile(fileext=".rds")
+  saveRDS(list(
+    plots=data.frame(plotID=c("NEON_TST_001","NEON_TST_001","NEON_TST_002"),
+                     eventID=c("e1","e2","e3"),year=c(2019,2020,2019),
+                     tree_support=c("sampled_with_records","held_sampling_impractical","sampled_absence"),
+                     area_trees=c(400,400,400)),
+    trees=data.frame(plotID=c("NEON_TST_001","NEON_TST_001"),height=c(12.3,13.4)),
+    opportunity_source=data.frame(plotID="NEON_TST_001",eventID="e1"),
+    meta=list(release="RELEASE-2026"),
+    contract=list(id="NEON-VST-DP1.10098.001-v2")),tmp)
+  v<-vst_source_meta(tmp)
+  unlink(tmp)
+  stopifnot(length(v$all_plotyears)==3,
+            length(v$eligible_plotyears)==2,
+            length(v$measured_plotyears)==1,
+            v$eligible_opportunity_events==2,
+            v$measured_tree_opportunity_events==1,
+            v$source_QA_held_events==1,
+            v$original_woody_plant_height_field_declared,
+            !any(grepl("NEON_TST",unlist(v$source_field_names_metadata_ONLY))))
+  cat("VST SOURCE SCHEMA synthetic forest class/year/event-QA PASS\n")
 }
 if(identical(Sys.getenv("NEON_VST_SYNTHETIC_ONLY"),"1")){
   synthetic();quit(status=0)
 }
 args<-commandArgs(trailingOnly=TRUE)
+if(identical(Sys.getenv("NEON_VST_ONLY_SITE_CODES"),"1")) {
+  if(length(args)!=2)stop("SOURCE SITE-LIST MODE requires official site CSV and local temporary output path")
+  original<-read.csv(args[1],stringsAsFactors=FALSE,check.names=FALSE)
+  if(nrow(original)!=81)stop("SCIENTIFIC_STOP_NEON_OFFICIAL_SITE_TABLE_DRIFT")
+  chosen<-biodiversity_source_plotyears(
+    neonDivData::data_beetle,neonDivData::data_plant,original)
+  dir.create(dirname(args[2]),recursive=TRUE,showWarnings=FALSE)
+  writeLines(chosen$site_codes,args[2])
+  cat("source-only NEON forest candidate sites",length(chosen$site_codes),"\n")
+  quit(status=0)
+}
 if(length(args)!=3)stop("usage: Rscript neon_public_vst42_original_plotyear_join.R OFFICIAL_SITE_CSV PRIVATE_BUNDLES_DIRECTORY OUTPUT_DIRECTORY")
 synthetic()
 official<-read.csv(args[1],stringsAsFactors=FALSE,check.names=FALSE)
