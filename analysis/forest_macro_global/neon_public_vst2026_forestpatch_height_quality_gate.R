@@ -142,7 +142,10 @@ for(file in files){
     plotkeys<-union(plotkeys,aligned)
   }
 }
-private<-unlist(all_counts,use.names=TRUE)
+# Avoid R unlist prefixing list-member labels (which would turn
+# original "SITE|PLOT|YEAR" into "SITE.SITE|PLOT|YEAR").
+private<-unlist(all_counts,use.names=FALSE)
+names(private)<-unlist(lapply(all_counts,names),use.names=FALSE)
 if(length(private)!=length(plotkeys)||anyDuplicated(names(private)))
   stop("SCIENTIFIC_STOP_TRIPLE_SOURCE_WOODY_PLOTYEAR_KEYS_NOT_UNIQUE")
 qualify<-private>=3
