@@ -154,9 +154,19 @@ jobs:
           NEON_DIVDATA_SYNTHETIC_ONLY: "1"
         run: |
           Rscript analysis/forest_macro_global/neon_divdata_multisite_source_gate.R /tmp/neon-divdata-source-synthetic
+      - name: Retrieve exact published NEON 2026-08-05 site-class and mean canopy-height source
+        run: |
+          set -euo pipefail
+          mkdir -p official_NEON_2026_site_metadata
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv' | sha256sum -c -
       - name: Inspect original site, plot, date, effort, forest context of publicly distributed source derivative
         run: |
-          Rscript analysis/forest_macro_global/neon_divdata_multisite_source_gate.R published_neon_forest_siteyear_gate
+          Rscript analysis/forest_macro_global/neon_divdata_multisite_source_gate.R \
+            published_neon_forest_siteyear_gate \
+            official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv
       - name: Require intact source R package metadata and never interpret site-year as paired plot species effect
         run: |
           Rscript - <<'RS'
@@ -166,6 +176,9 @@ jobs:
             r$schema=="structural.NEON_published_neonDivData_forest_beetle_plant_source_support.v1",
             r$derivative_package_version=="0.3.1",
             r$source_taxon_id_name_value_data_NEVER_READ,
+            r$source_official_20260805_site_forest_covariate_gate$official_NEON_fieldsite_count==81,
+            r$source_official_20260805_site_forest_covariate_gate$original_site_identifiers_locations_and_heights_not_exported,
+            r$source_official_20260805_site_forest_covariate_gate$official_site_mean_height_is_not_contemporaneous_plot_structure,
             r$zero_catch_record_handling_NOT_ASSUMED_TRUE_ABSENCE,
             r$source_NLCD_site_label_not_field_verified_plot_forest,
             r$no_tree_height_microclimate_structure_response_join_yet,
@@ -178,6 +191,13 @@ jobs:
             "NLCD_forest_label_both_taxa_same_siteyear_count",
             "source_sites_with_forest_label_and_same_year_both_taxa",
             "original_NLCD_forest_site_domains_WITHOUT_siteID_export")])
+          print(r$source_official_20260805_site_forest_covariate_gate[c(
+            "official_strict_forest_only_source_site_count",
+            "original_NLCD_forest_siteyear_beetle_plant_record_overlaps",
+            "original_forest_sites_with_both_taxa_same_year",
+            "original_forest_sites_with_at_least_two_common_years",
+            "original_forest_sites_ecoclimatic_domains",
+            "original_forest_sites_positive_official_mean_canopy_height")])
           RS
       - name: Export only anonymous NEON multi-site field-opportunity counts
         if: always()
