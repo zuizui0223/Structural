@@ -378,8 +378,9 @@ report<-list(
  PREDICTS_39study_beta_and_31study_sensitivity_LEFT_FROZEN=TRUE,
  eBird_used=FALSE
 )
-if(!v2metadata)report$status="SCIENTIFIC_STOP_V2_SITE_BLOCK_SUPPORT"
-else {
+if(!v2metadata) {
+  report$status="SCIENTIFIC_STOP_V2_SITE_BLOCK_SUPPORT"
+} else {
   included_keys<-unique(unlist(lapply(candidate_blocks,function(group)
     unlist(lapply(group,function(pk)c(c1$pairs[[pk]]$k1,c1$pairs[[pk]]$k2))))))
   for(k in included_keys){
@@ -414,8 +415,9 @@ else {
   report$siteyear_transitions_with_both_taxon_beta_defined<-nrow(df)
   report$siteyear_transitions_excluded_undefined_taxon_beta<-fails
   report$total_scored_plot_annual_contrasts_NOT_independent<-if(nrow(df))sum(df$original_plot_contrasts_not_independent) else 0
-  if(!nrow(df))report$status="SCIENTIFIC_STOP_V2_NO_DEFINED_TAXON_TRANSITIONS"
-  else{
+  if(!nrow(df)) {
+    report$status="SCIENTIFIC_STOP_V2_NO_DEFINED_TAXON_TRANSITIONS"
+  } else {
     z<-fit_v2(df,official)
     report$v2_site_equal_temporal_coherence_inference<-z
     report$status<-z$status
