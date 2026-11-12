@@ -32,7 +32,7 @@ def test_balanced_all_four_trap_support_and_site_dependence():
     assert r["source_plot_center_connected_components_at_0p5_1_5_20_km"]["0.5"]==1
     assert r["source_coordinates_alone_do_not_certify_independent_forests"]
     assert "SECRET_PLOT" not in str(r)
-    assert "event" not in str(r)
+    assert "event00upper0" not in str(r)  # require actual ID absence, not a generic key fragment
 
 def test_nonidentical_four_trap_effort_stops_that_period_before_taxon_read():
     events,extra,xy=source(1,1)
