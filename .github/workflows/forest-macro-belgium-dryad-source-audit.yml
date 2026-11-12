@@ -218,7 +218,7 @@ jobs:
           p <- "published_neon_forest_siteyear_gate/NEON_forest_47site_8forest_plottemporal_sourceonly.json"
           x <- fromJSON(p)
           stopifnot(
-            x$schema=="structural.neonDivData_0.3.1_official_NEON_forest_plot_temporal_support.v1",
+            x$schema=="structural.neonDivData_0.3.1_official_NEON_forest_plot_temporal_support.v2",
             x$original_derivative_version=="0.3.1",
             x$candidate_strict_NLCD_forest_NEON_sites==8,
             x$candidate_strict_forest_siteyears==40,
@@ -227,6 +227,8 @@ jobs:
             x$original_tree_height_NOT_contemporaneous_plot_measurement,
             x$original_beetle_ground_traps_NOT_canopy_strata,
             x$no_ecological_effect_or_species_turnover_claim,
+            x$all_sampling_conditions_on_same_original_plot,
+            x$sitewide_v1_coincidence_mistaken_for_exact_plot_match_SUPERSEDED,
             x$eBird_used==FALSE)
           print(x[c("siteyears_with_actual_both_taxa_original_plotID_overlap",
             "original_plot_keys_seen_by_both_taxa_some_year",
@@ -235,7 +237,10 @@ jobs:
             "original_siteyears_with_nearest_sample_dates_within_30days",
             "siteyears_exact_plot_effort_plant1m2_and_30day_supported",
             "distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported",
-            "consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported")])
+            "consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported",
+            "original_STRICT_plot_to_same_plot_consecutive_year_transitions_STRICT_effort30day",
+            "source_only_preoutcome_minimum_6sites_4domains_16consecutive_plotyears_passed",
+            "source_gate_status")])
           RS
       - name: Export only anonymous NEON multi-site field-opportunity counts
         if: always()
