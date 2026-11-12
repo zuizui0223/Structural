@@ -1,5 +1,27 @@
 # NEON 公開派生データ：同一区画・季節・努力の観測支持監査（2026-11-12）
 
+## 2026-11-12：原本スキーマ・区画・採集努力の厳格一致が完了
+
+公式サイト原本（2026-08-05 SHA固定）×公開 `neonDivData` 0.3.1により、**森林8サイト、7生態気候ドメイン、2019–2023年の40サイト年**を原本で確認。全40サイト年に両分類群が記録された元同一plotIDがあり、計83の元plot keysが2分類群で少なくとも一度共有された。
+
+初版v1では「サイト年内のどこかに同じplot」「どこかに採集努力」「どこかの採集日が30日以内」を別plotで満たせたため、**39/40を『厳密同一区画一致』とした解釈を撤回**。修正版v2は、**同一original plotID・同年・正常フラグ甲虫trappingDays>0・植物1m²・両群30日以内**を全て同一区画で必須化した。合成テストは、条件が異なるplotに分散する偽陽性とフラグ付きトラップを拒否し、原本 [GitHub Actions #43204131183](https://github.com/zuizui0223/Structural/actions/runs/43204131183) でSUCCESS。
+
+| 修正後の原本集計 | 数 |
+| --- | ---: |
+| 同一plotでの厳格採集条件を満たすplot×year | **339** |
+| 元plotIDが2年以上残るもの | **81** |
+| 同じ元plotIDの隣接年の機会数 | **242（非独立）** |
+| 厳格条件のあるsite×year | **39/40** |
+| 同じ元plotが隣接年に残るsite×year遷移 | **30** |
+| 独立forest site（site-context）とdomains | **8 sites / 7 domains** |
+| 2022→2023で同一plotを保てたsite | **8** |
+
+この条件は**採集可能性**のみで、種・個体数・群集βを読んだ結果ではない。2023年の甲虫区画数中央値は6（2019–2022の各年10）と異なり、site-yearが一致するだけで同じサンプル面積・調査努力が保証されるわけではない。
+
+元パッケージ文書によると、甲虫はゼロ捕獲を努力標本として保存する一方、植物1m²のtargetTaxaPresent=Nの空標本は派生データから削除済み。よって植物の記録済みsubplots数は元のすべての調査単位数ではない。[NEON package beetle documentation](https://daijiang.github.io/neonDivData/reference/data_beetle.html)、[plant documentation](https://daijiang.github.io/neonDivData/reference/data_plant.html)。植物の真の不在や植生の消失をこの派生データだけで確証しない。
+
+次の一度限りの探索的生物スコアは[解析前固定仕様](FOREST_MACRO_NEON_FOREST_CROSS_TAXON_TEMPORAL_ALIGNMENT_PRESPEC_20261112.md)に分離し、サイト/plot階層を尊重する。PREDICTSの39研究主スコア・31研究感度は再採点しない。森林構造/微気候の因果も主張しない。
+
 ## 研究主線
 
 PREDICTSの39研究で参照林内の変動を超える群集置換が+0.0942（Study bootstrap 95%CI [0.0638,0.1253]）、地理距離対応の探索的31研究でも+0.0847（CI [0.0527,0.1166]）という既存肯定結果は一度の解析後凍結済み。PREDICTSの結果を林冠構造や温度の因果的効果に昇格しない。今回の目的は、**北米NEONの森林観測ネットワークで植物と地表甲虫を同じplotID/年に標準化して比較できるか**を、分類群値を開く前に確定すること。
