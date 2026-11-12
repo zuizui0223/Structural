@@ -14,10 +14,14 @@ PREDICTSの39研究で参照林内の変動を超える群集置換が+0.0942（
 6. 植物と甲虫の同一original `plotID`・同年・採集日30日以内を**観測の時間空間的近接支持条件**とする。この条件でも直接の物種相互作用・送粉・栄養塩伝達・微気候の作用は証明されない。
 7. 元`nlcdClass`が最初の3原文字列のforest検査で0となった原因は、**カテゴリー名・欠測値の頻度のみ**を公開し切り分ける。作者のコード体系と結ばないうちはsource plotが公式forest siteのすべてでforestだったとはみなさない。
 
+## 2023年採集プロトコルの構造的変化
+
+NEON公式地表甲虫ユーザーガイド（2025年改訂F）では **2013–2022: 10 Distributed plots／site、2023以降: 6 plots／site** を明記している。原区画の退役や位置移動もあり得る。<https://data.neonscience.org/api/v0/documents/NEON_beetle_userGuide_vF?inline=true>。「同じsiteID・異なる年」だけで種交代を計算してはならない。次段の時間軸候補は、連続年**両方**で植物1 m²・甲虫努力正・採集日30日以内という条件を満たす**同一元plotID**が最低1つ残るsite×year遷移に限る。2022→2023のプロトコル変更を独立感度層とし、結果の符号を見て2023年の採用を選択しない。
+
 ## 原本検査の次段階への定量的ゲート（生物応答を見る前に固定）
 
 - `analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R` は**サイト/年、元plotとsample ID、採集努力・面積・月だけ**を読む。種名、taxon_id、taxon_name、value、植物種数を一切読まず、元サイト・区画座標を出力しない。
-- Exploratory cross-taxon forest temporal beta の生物応答を開く条件は、(a)同一plotの甲虫・植物・同年・30日以内かつ植物1m²と正の甲虫trap daysがある**6以上の元forest site**、(b)**4以上の元ecoclimatic domains**、(c)同じ条件の連続した年の比較機会が**16以上**（ただし独立サンプルn=最大8 site）を同時に満たすこと。各条件は生物応答の符号やp値に関係なく固定。条件未達なら**SCIENTIFIC_STOP_SAMPLE_HIERARCHY_INSUFFICIENT**、分類群スコアを開かず別設計を検討。
+- Exploratory cross-taxon forest temporal beta の生物応答を開く条件は、(a)同一plotの甲虫・植物・同年・30日以内かつ植物1m²と正の甲虫trap daysがある**6以上の元forest site**、(b)**4以上の元ecoclimatic domains**、(c)同じ原plotIDが両年に残る条件の連続した年の比較機会が**16以上**（ただし独立サンプルn=最大8 site）を同時に満たすこと。各条件は生物応答の符号やp値に関係なく固定。条件未達なら**SCIENTIFIC_STOP_SAMPLE_HIERARCHY_INSUFFICIENT**、分類群スコアを開かず別設計を検討。
 - 生物値を開くことが可能であっても、sampled plotsの空間同一性、品質フラグ、植物調査面積による努力差を原単位で固定するまで、全サイト年の単純なspecies-richness/turnover統合は行わない。独立性はsite単位（その背後の7 domainsでの階層を保つ）、40 siteyears=40独立森林と数えない。
 - 元生物スコアを後から都合良く「林冠高」「微気候」「生態系サービス連鎖」の因果機構と結びつけず、外部森林構造の同時点・同plot field joinの別確認を必要とする。
 
