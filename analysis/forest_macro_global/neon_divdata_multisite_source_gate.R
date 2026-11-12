@@ -14,7 +14,7 @@ forest_label<-function(x){
  s[is.na(s)]<-""
  grepl("deciduous forest|evergreen forest|mixed forest",s)
 }
-source_gate<-function(beetle,plant,site_table,expected_version="0.2.3"){
+source_gate<-function(beetle,plant,site_table,expected_version="0.3.1"){
  required_b<-c("siteID","plotID","unique_sample_id","trapID",
              "observation_datetime","nlcdClass","trappingDays","trapConditionFlag")
  required_p<-c("siteID","plotID","observation_datetime","nlcdClass","sample_area_m2")
