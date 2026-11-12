@@ -10,6 +10,7 @@ on:
       - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
       - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
       - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -19,6 +20,7 @@ on:
       - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
       - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
       - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R"
   workflow_dispatch:
 permissions:
   contents: read
@@ -91,6 +93,8 @@ jobs:
           if-no-files-found: warn
 
   central_europe_3D_forest_structure_source_only:
+    # Source-only finished or v1 scientific STOP recorded; do not rerun.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -142,6 +146,8 @@ jobs:
           if-no-files-found: warn
 
   public_neondivdata_beetle_plant_multisite_forest_siteyear:
+    # Source-only finished or v1 scientific STOP recorded; do not rerun.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 26
     steps:
@@ -253,6 +259,8 @@ jobs:
           if-no-files-found: warn
 
   cross_taxon_forest_biodiversity_original_plot_onepass:
+    # Source-only finished or v1 scientific STOP recorded; do not rerun.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -305,4 +313,66 @@ jobs:
         with:
           name: structural-neon-8forest-cross-taxon-synchrony-onepass
           path: neon_forest_cross_taxon_onepass/
+          if-no-files-found: warn
+
+  sourceadaptive_v2_site_centered_forest_cross_taxon_temporal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install pinned published public NEON derivative and summary-only writer
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+      - name: Test source-blind v1 and v2 annual time-boundaries and pooled site-demeaned correlations
+        env:
+          NEON_CROSS_TAXON_V2_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R /tmp/v2-known-truth /tmp/no-original
+      - name: Retrieve pinned official NEON 2026 site source without token-gated file access
+        run: |
+          mkdir -p original_neon_sites
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o original_neon_sites/site.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  original_neon_sites/site.csv' | sha256sum -c -
+      - name: Execute distinct pooled-site-mean v2 after metadata-only support; v1 STOP preserved
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R \
+            neon_forest_sourceadaptive_v2 \
+            original_neon_sites/site.csv
+      - name: Enforce source and inference boundaries, accept both positive and scientific STOP
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p<-"neon_forest_sourceadaptive_v2/NEON_8forest_sourceadaptive_v2_site_centered_temporal_coherence.json"
+          x<-fromJSON(p)
+          stopifnot(
+            x$schema=="structural.NEON_forest_cross_taxon_temporal_alignment_sourceadaptive_v2.v1",
+            x$v1_scientific_STOP_NOT_OVERRIDDEN,
+            x$source_only_adaptation_to_distinct_site_centered_estimand,
+            x$original_source_only_8forests_7domains_verified,
+            x$original_source_only_339plotyear_v2_metadata_gate_reused,
+            x$source_original_plot_site_taxon_sample_names_coordinates_NOT_EXPORTED,
+            x$forest_canopy_structure_temperature_effect_NOT_OBSERVED,
+            x$PREDICTS_39study_beta_and_31study_sensitivity_LEFT_FROZEN,
+            x$eBird_used==FALSE)
+          if(!x$source_only_v2_admission_passed) stopifnot(!x$original_species_taxon_or_abundance_values_READ)
+          print(x[c("original_strict_siteyear_blocks_with_3plus_effort_matched_plots",
+                    "original_strict_source_sites_with_2plus_annual_transitions",
+                    "original_strict_original_ecoclimatic_domains",
+                    "source_only_v2_admission_passed","status",
+                    "siteyear_transitions_with_both_taxon_beta_defined",
+                    "v2_site_equal_temporal_coherence_inference")])
+          RS
+      - name: Preserve only anonymized original forest site scale aggregate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-neon-8forest-temporal-coherence-v2-distinct-onepass
+          path: neon_forest_sourceadaptive_v2/
           if-no-files-found: warn
