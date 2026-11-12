@@ -122,15 +122,46 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
       forest_sites_with_both_taxa=sum(k),
       forest_siteyears_same_orig_plot=sum(k&shared),
       forest_siteyears_beetle_effort_and_plant_1m2=sum(k&good),
-      forest_siteyears_nearest_taxon_sampling_within_30days=sum(k&nearby))
+      forest_siteyears_nearest_taxon_sampling_within_30days=sum(k&nearby),
+      median_beetle_original_plots_per_site=median(vapply(groups[k],
+             function(x)x$bplots,numeric(1))),
+      median_plant_original_plots_per_site=median(vapply(groups[k],
+             function(x)x$pplots,numeric(1))))
   })
   all_bplots<-unique(unlist(lapply(groups,function(v)v$b_plot_keys),use.names=FALSE))
   all_pplots<-unique(unlist(lapply(groups,function(v)v$p_plot_keys),use.names=FALSE))
   all_shplots<-intersect(all_bplots,all_pplots)
   qualified_sites<-unique(sitekeys[good&shared&nearby])
-  transitions<-sum(vapply(split(yrkeys[good&shared&nearby],
-      sitekeys[good&shared&nearby]),function(v)
-     sum(diff(sort(unique(v)))==1),integer(1)))
+  # Critical 2023 ground-beetle protocol shift: source counts may move
+  # from ten to six original plotIDs. Only paired year intervals retaining
+  # at least one SAME originally sampled plot in both years are suitable
+  # candidates for later taxon turnover analyses.
+  qualified_keys<-names(groups)[good&shared&nearby]
+  q_by_site<-split(qualified_keys,sitekeys[good&shared&nearby])
+  transitions<-0L
+  transitions_sites<-character(0)
+  overlap2022to2023<-0L
+  for(si in names(q_by_site)){
+    qk<-q_by_site[[si]]
+    yr<-sort(unique(as.integer(sub("^.*\\|","",qk))))
+    if(length(yr)<2)next
+    for(y in yr){
+      if(!(y+1L%in%yr))next
+      one<-paste(si,y,sep="|")
+      two<-paste(si,y+1L,sep="|")
+      if(!(one%in%names(groups) && two%in%names(groups)))next
+      original_plots_both_years<-intersect(groups[[one]]$shared_plot_keys,
+                                        groups[[two]]$shared_plot_keys)
+      if(length(original_plots_both_years)>0){
+        transitions<-transitions+1L
+        transitions_sites<-c(transitions_sites,si)
+        if(y==2022L)overlap2022to2023<-overlap2022to2023+1L
+      }
+    }
+  }
+  minimum_support<-length(unique(transitions_sites))>=6 &&
+     transitions>=16 &&
+     length(unique(siteinfo$domain_id[match(unique(transitions_sites),sid)]))>=4
   return(list(
     schema="structural.neonDivData_0.3.1_official_NEON_forest_plot_temporal_support.v1",
     original_NEON_metadata_release="2026-08-05",
@@ -150,6 +181,12 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
     siteyears_exact_plot_effort_plant1m2_and_30day_supported=sum(good&shared&nearby),
     distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported=length(qualified_sites),
     consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported=transitions,
+    source_forest_sites_retaining_exact_same_original_plot_in_consecutive_suitable_years=length(unique(transitions_sites)),
+    source_forest_ecoclimatic_domains_represented_in_strict_consecutive_plot_support=length(unique(
+       siteinfo$domain_id[match(unique(transitions_sites),sid)])),
+    source_original_plot_matched_2022_to_2023_transitions=overlap2022to2023,
+    source_only_preoutcome_minimum_6sites_4domains_16consecutive_plotyears_passed=minimum_support,
+    siteyear_count_is_not_independent_forest_network_count=TRUE,
     forest_beetle_siteyears_with_original_sample_condition_flag=sum(vapply(
       groups,function(x)x$any_condition_flag,logical(1))),
     forest_siteyear_beetle_plot_counts_median=median(vapply(groups,function(x)x$bplots,numeric(1))),
@@ -215,6 +252,10 @@ synthetic<-function(){
       v$siteyears_exact_plot_effort_plant1m2_and_30day_supported==40,
       v$distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported==8,
       v$consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported==32,
+      v$source_forest_sites_retaining_exact_same_original_plot_in_consecutive_suitable_years==8,
+      v$source_forest_ecoclimatic_domains_represented_in_strict_consecutive_plot_support==7,
+      v$source_original_plot_matched_2022_to_2023_transitions==8,
+      v$source_only_preoutcome_minimum_6sites_4domains_16consecutive_plotyears_passed,
       v$original_plot_keys_seen_by_both_taxa_some_year==8,
       v$species_taxon_id_name_value_and_biodiversity_composition_NEVER_ACCESSED)
   cat("SYNTHETIC PASS: 8 sites, 40 plot-year co-locations, 32 consecutive year links, no taxa\n")
