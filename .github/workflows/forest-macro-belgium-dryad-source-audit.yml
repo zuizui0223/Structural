@@ -7,17 +7,21 @@ on:
       - "analysis/forest_macro_global/test_audit_belgium_canopy_microclimate_beetles.py"
       - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - ".github/workflows/forest-macro-belgium-dryad-source-audit.yml"
       - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   belgium_original_forest_canopy_temperature_carabid_linkage:
+    # Retain previous source audit but stop repeated 401 official Dryad file-access failures.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 17
     steps:
@@ -131,4 +135,54 @@ jobs:
         with:
           name: structural-pierick-2026-30plots-3D-microclimate-sourceonly
           path: pierick_3D_forest_source_quality/
+          if-no-files-found: warn
+
+  public_neondivdata_beetle_plant_multisite_forest_siteyear:
+    runs-on: ubuntu-latest
+    timeout-minutes: 26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install public NEON derivative R package, never query the token-gated original NEON data endpoint
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+      - name: Validate source forest NLCD label rules without biological outcomes
+        env:
+          NEON_DIVDATA_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_multisite_source_gate.R /tmp/neon-divdata-source-synthetic
+      - name: Inspect original site, plot, date, effort, forest context of publicly distributed source derivative
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_multisite_source_gate.R published_neon_forest_siteyear_gate
+      - name: Require intact source R package metadata and never interpret site-year as paired plot species effect
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          r<-fromJSON("published_neon_forest_siteyear_gate/neonDivData_2019_2023_beetle_plant_forest_sourceonly.json")
+          stopifnot(
+            r$schema=="structural.NEON_published_neonDivData_forest_beetle_plant_source_support.v1",
+            r$derivative_package_version=="0.2.3",
+            r$source_taxon_id_name_value_data_NEVER_READ,
+            r$zero_catch_record_handling_NOT_ASSUMED_TRUE_ABSENCE,
+            r$source_NLCD_site_label_not_field_verified_plot_forest,
+            r$no_tree_height_microclimate_structure_response_join_yet,
+            r$selected_original_site_or_plot_IDs_locations_taxa_counts_NOT_EXPORTED,
+            r$same_siteyear_does_not_imply_same_plot_or_temporal_sampling_date,
+            r$eBird_used==FALSE)
+          print(r[c("beetle_sites_with_recent_record",
+            "plant_sites_with_recent_record",
+            "same_site_beetle_and_plant_recorded_site_count",
+            "NLCD_forest_label_both_taxa_same_siteyear_count",
+            "source_sites_with_forest_label_and_same_year_both_taxa",
+            "original_NLCD_forest_site_domains_WITHOUT_siteID_export")])
+          RS
+      - name: Export only anonymous NEON multi-site field-opportunity counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-NEON-neonDivData-47sites-beetle-plant-sourceonly
+          path: published_neon_forest_siteyear_gate/
           if-no-files-found: warn
