@@ -115,7 +115,7 @@ build_transitions <- function(cohorts,official) {
     ks<-original_by_plot[[pk]]
     years<-vapply(cohorts[ks],function(z)z$year,integer(1))
     for(y in sort(unique(years))) {
-      if(!(y+1L%in%years))next
+      if(!((y+1L) %in% years))next
       k1<-ks[which(years==y)][1]
       k2<-ks[which(years==y+1L)][1]
       a<-cohorts[[k1]];b<-cohorts[[k2]]
@@ -227,6 +227,20 @@ synthetic <- function(){
             inf$site_equal_mean_pearson_temporal_alignment>.9,
             inf$site_correlations_positive==6,
             !grepl("SECRET_SITE",paste(capture.output(str(inf)),collapse=" ")))
+  # Regression test for 2023 boundary. In R, the special %in% operator
+  # has higher precedence than +; explicit (year+1L) is mandatory.
+  mini<-list()
+  for(yy in 2019:2023){
+    id<-paste("SECRET_SITE","SECRET_PLOT",yy,sep="|")
+    mini[[id]]<-list(site="SECRET_SITE",plot="SECRET_PLOT",
+       year=as.integer(yy),day_of_year=170,
+       beetle_effort_days=14,plant_1m2_recorded_subplots=8)
+  }
+  at<-build_transitions(mini,
+      data.frame(site_id="SECRET_SITE",domain_id="D01"))
+  stopifnot(length(at$pairs)==4,
+            all(vapply(at$pairs,function(z)z$year,integer(1))%in%2019:2022),
+            !at$pre_taxon_gate_pass)
   cat("NEON SYNTHETIC PASS: within-site year alignment, true beta=0/1/1/3, source effort and no identifiers\n")
 }
 if(identical(Sys.getenv("NEON_CROSS_TAXON_SYNTHETIC_ONLY"),"1")){
