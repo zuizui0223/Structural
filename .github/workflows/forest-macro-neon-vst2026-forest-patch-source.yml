@@ -6,11 +6,13 @@ on:
     paths:
       - ".github/workflows/forest-macro-neon-vst2026-forest-patch-source.yml"
       - "analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R"
+      - "analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - ".github/workflows/forest-macro-neon-vst2026-forest-patch-source.yml"
       - "analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R"
+      - "analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R"
   workflow_dispatch:
 permissions:
   contents: read
@@ -69,11 +71,52 @@ jobs:
           done < neon_vst_patch_private/original_site_list.txt
           du -sh neon_vst_patch_private/woody_bundles
       - name: Independently verify three-source forest-plot original NLCD and QA-matched original site plot years
+        env:
+          VST_FOREST_PATCH_WRITE_PRIVATE_JOIN_KEYS: "1"
         run: |
           Rscript analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R \
             neon_vst_patch_private/site.csv \
             neon_vst_patch_private/woody_bundles \
             neon_vst_patch_source_only_aggregate
+      - name: Known-truth live DBH tree and author source-height QA filtering, held event exclusion
+        env:
+          NEON_VST_HEIGHT_SOURCE_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R
+      - name: Count actual height-positive original woody plants in 74 triple-source sameplot sameyear events, still no biodiversity
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R \
+            neon_vst_patch_private/woody_bundles \
+            neon_vst_patch_private/private_verified_original_plotyear_keys.txt \
+            neon_vst_patch_private/site.csv \
+            neon_vst_patch_source_only_aggregate
+      - name: Require observed height positive availability and source forest design threshold as separate statuses
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p<-"neon_vst_patch_source_only_aggregate/neon_vst2026_forest_patch_height_source_availability.json"
+          x<-fromJSON(p)
+          stopifnot(
+            x$schema=="structural.NEON_vst2026_forestpatch_woody_height_source_quality.v1",
+            x$prior_VST_original_plotyear_matched_record_supported==74,
+            x$previous_75forestpatch_74woodyrecord_plotyear_prebiology_source_cohort_UNMODIFIED,
+            x$no_original_tree_height_values_or_species_exported,
+            x$no_original_beetle_plant_taxon_abundance_or_composition_values_read,
+            x$no_raw_site_plot_year_or_original_woody_tree_identifiers_exported,
+            x$microclimate_not_measurement_joined,
+            x$canopy_structure_causal_hypothesis_NOT_TESTED,
+            x$previous_positive_PREDICTS_and_nonsignificant_NEON_synchrony_left_frozen,
+            x$eBird_used==FALSE)
+          print(x[c(
+            "original_forest_plotyear_with_any_source_valid_tree_height_plant",
+            "original_forest_plotyear_with_3plus_distinct_source_live_trees_DBH10_and_usable_height",
+            "original_forests_with_3plus_tree_height_field_support",
+            "original_NEON_domains_with_3plus_tree_height_field_support",
+            "source_same_siteyear_with_two_or_more_distinct_supported_height_plots",
+            "source_sites_with_any_sameyear_2plot_height_comparison",
+            "metadata_only_next_biology_admission_min6sites_min4domains_min40plotyears_PASS",
+            "next_biological_stage_status")])
+          RS
       - name: Explicitly enforce distinct source-population and no taxon-outcome access
         run: |
           Rscript - <<'RS'
