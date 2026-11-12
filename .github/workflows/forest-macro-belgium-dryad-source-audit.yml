@@ -9,6 +9,7 @@ on:
       - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
       - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -17,6 +18,7 @@ on:
       - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
       - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
       - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
   workflow_dispatch:
 permissions:
   contents: read
@@ -248,4 +250,59 @@ jobs:
         with:
           name: structural-NEON-neonDivData-47sites-beetle-plant-sourceonly
           path: published_neon_forest_siteyear_gate/
+          if-no-files-found: warn
+
+  cross_taxon_forest_biodiversity_original_plot_onepass:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install original published NEON derivative and fixed JSON writer
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+      - name: Known-truth species sets and site-blocked year-permutation test
+        env:
+          NEON_CROSS_TAXON_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R /tmp/test /tmp/unused.csv
+      - name: Source-original NEON forest context CSV with frozen digest
+        run: |
+          mkdir -p official_neon_forest
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o official_neon_forest/source.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  official_neon_forest/source.csv' | sha256sum -c -
+      - name: Pre-outcome source effort and exact-plot protocol gate, then only if passed compare annual taxon replacement
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R \
+            neon_forest_cross_taxon_onepass \
+            official_neon_forest/source.csv
+      - name: Check original study independence and no fabricated forest structural mechanism
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          r<-fromJSON("neon_forest_cross_taxon_onepass/NEON_cross_taxon_8forest_temporal_alignment_aggregate.json")
+          stopifnot(r$schema=="structural.NEON_forest_8site_temporal_taxon_alignment_exploratory.v1",
+                    r$source_original_2019_2023_metadata_plot_years>=339,
+                    r$original_source_forests_NLCD_site_context==8,
+                    r$original_source_domains_before_effort==7,
+                    r$no_individual_source_site_plot_taxon_coordinates_reexported,
+                    r$source_data_no_global_or_3D_forest_causality,
+                    r$no_true_extinction_colonization_or_zero_survey_denominator_claim,
+                    r$primary_39study_PREDICTS_result_left_frozen,
+                    r$eBird_used==FALSE)
+          if(!r$source_only_gate_passed)
+            stopifnot(!r$source_biology_taxon_or_values_read)
+          cat("SCIENTIFIC_GATE_RESULT: ",r$status,"\n")
+          RS
+      - name: Archive anonymous forest source and response summary (no private sample IDs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-neon-8forest-cross-taxon-synchrony-onepass
+          path: neon_forest_cross_taxon_onepass/
           if-no-files-found: warn
