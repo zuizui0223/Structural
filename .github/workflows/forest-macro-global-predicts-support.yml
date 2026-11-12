@@ -6,12 +6,14 @@ on:
       - "analysis/forest_macro_global/predicts_site_support.R"
       - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
       - "analysis/forest_macro_global/predicts_forest_pair_distance_support.R"
+      - "analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - ".github/workflows/forest-macro-global-predicts-support.yml"
       - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
       - "analysis/forest_macro_global/predicts_forest_pair_distance_support.R"
+      - "analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R"
       - "analysis/forest_macro_global/predicts_site_support.R"
   workflow_dispatch:
 permissions:
@@ -160,4 +162,57 @@ jobs:
         with:
           name: forest-macro-predicts-reference-pair-distance-sourceonly
           path: forest_macro_distance_support/
+          if-no-files-found: warn
+
+  source-geography-locked-secondary-distance-matched-response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 48
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install original NHM client and aggregate JSON writer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
+      - name: Test fixed geographic overlap synthetic known truth first
+        env:
+          PREDICTS_GEO_MATCHED_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R /tmp/geo-biological-synthetic
+      - name: Score only 33 geographically eligible studies, never reopen frozen 39-study primary result
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R forest_macro_geo_matched_sensitivity
+      - name: Verify sensitivity nature and fixed source pre-biology geometry
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p <- "forest_macro_geo_matched_sensitivity/predicts_forest_33study_distance_matched_secondary_beta.json"
+          r <- fromJSON(p)
+          stopifnot(
+            r$schema=="structural.PREDICTS_forest_distance_matched_secondary_sensitivity.v1",
+            r$frozen_primary_39study_delta_beta_sim==0.0942,
+            r$frozen_primary_39study_result_NOT_REOPENED_FOR_MODEL_TUNING,
+            r$this_is_secondary_outcome_exposed_exploratory_sensitivity,
+            r$source_original_forest_sites==1145,
+            r$original_Study_groups_frozen==39,
+            r$original_Study_groups_admitted_by_geography_before_biology==33,
+            r$original_Study_groups_with_scored_distance_matched_beta>=10,
+            r$no_causal_environmental_filtering_or_absolute_richness_stability_claim,
+            r$original_distances_have_unverified_coordinate_precision,
+            r$never_fished_multiple_distance_thresholds,
+            r$no_original_source_site_study_taxon_measurements_coordinates_exported,
+            r$publisher_CC_NC_original_data_not_republished,
+            r$eBird_used==FALSE)
+          print(r$secondary_descriptive_inference)
+          RS
+      - name: Export only anonymized postoutcome secondary sensitivity summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-PREDICTS-33study-geography-locked-sensitivity-secondary
+          path: forest_macro_geo_matched_sensitivity/
           if-no-files-found: warn
