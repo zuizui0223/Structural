@@ -203,7 +203,7 @@ assess <- function(beetle,plant,siteinfo,expected_version="0.3.1"){
     yr<-sort(unique(as.integer(sub("^.*\\|","",qk))))
     if(length(yr)<2)next
     for(y in yr){
-      if(!(y+1L%in%yr))next
+      if(!((y+1L) %in% yr))next
       one<-paste(si,y,sep="|")
       two<-paste(si,y+1L,sep="|")
       if(!(one%in%names(groups) && two%in%names(groups)))next
