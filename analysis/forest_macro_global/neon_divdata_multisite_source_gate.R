@@ -151,7 +151,24 @@ synthetic<-function(){
  x<-c("Deciduous Forest","Evergreen Forest","Mixed Forest","Shrub/Scrub","Pasture/Hay")
  stopifnot(identical(forest_label(x),c(TRUE,TRUE,TRUE,FALSE,FALSE)))
  stopifnot(all(is.na(date_year(c("NA","1890-01-01")))))
- cat("KNOWN-TRUTH PASS: NLCD strict labels and source year, no taxon outcome\n")
+ meta<-data.frame(site_id=paste0("S",sprintf("%03d",seq_len(81))),
+    dominant_nlcd_classes=c("Deciduous Forest","Evergreen Forest",
+      "Deciduous Forest|Mixed Forest",rep("Grassland/Herbaceous",78)),
+    mean_canopy_height_m=c(10,12,14,rep(0,78)),
+    tower_height_m=20,number_tower_levels=3,
+    domain_id=c("D1","D1","D2",rep("D3",78)))
+ dates<-as.Date(c("2019-07-10","2020-07-10","2019-08-10","2020-08-10"))
+ bd<-data.frame(siteID=c("S001","S001","S002","S003"),
+                observation_datetime=dates)
+ pd<-data.frame(siteID=c("S001","S001","S002","S003"),
+                observation_datetime=dates)
+ v<-official_site_forest_gate(bd,pd,meta)
+ stopifnot(v$official_strict_forest_only_source_site_count==3,
+           v$original_NLCD_forest_siteyear_beetle_plant_record_overlaps==4,
+           v$original_forest_sites_with_at_least_two_common_years==1,
+           v$original_forest_sites_ecoclimatic_domains==2,
+           v$official_site_mean_height_is_not_contemporaneous_plot_structure)
+ cat("KNOWN-TRUTH PASS: official 81-source forest only, site-year overlap, domain nesting, no taxon outcome\n")
 }
 if(identical(Sys.getenv("NEON_DIVDATA_SYNTHETIC_ONLY"),"1")){
  synthetic();quit(status=0)
