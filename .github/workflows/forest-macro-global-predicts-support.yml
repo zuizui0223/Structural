@@ -5,6 +5,12 @@ on:
       - ".github/workflows/forest-macro-global-predicts-support.yml"
       - "analysis/forest_macro_global/predicts_site_support.R"
       - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-global-predicts-support.yml"
+      - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
+      - "analysis/forest_macro_global/predicts_site_support.R"
   workflow_dispatch:
 permissions:
   contents: read
