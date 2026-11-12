@@ -5,11 +5,13 @@ on:
       - ".github/workflows/forest-macro-global-predicts-support.yml"
       - "analysis/forest_macro_global/predicts_site_support.R"
       - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
+      - "analysis/forest_macro_global/predicts_forest_pair_distance_support.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - ".github/workflows/forest-macro-global-predicts-support.yml"
       - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
+      - "analysis/forest_macro_global/predicts_forest_pair_distance_support.R"
       - "analysis/forest_macro_global/predicts_site_support.R"
   workflow_dispatch:
 permissions:
@@ -59,6 +61,8 @@ jobs:
           if-no-files-found: warn
 
   forest-community-turnover-observed-original-study:
+    # Original 2026-11-12 one-shot outcome scored successfully; never auto-rescore.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 48
     steps:
@@ -106,4 +110,52 @@ jobs:
         with:
           name: forest-macro-predicts-39-stratum-reference-relative-beta-study-aggregate
           path: forest_macro_predicts_turnover/
+          if-no-files-found: warn
+
+  source-site-distance-support-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install PREDICTS official site metadata client and JSON
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
+      - name: Geographic distance synthetic known-truth (no source)
+        env:
+          FOREST_PREDICTS_GEOGRAPHY_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_pair_distance_support.R /tmp/geo-synthetic
+      - name: Official original PREDICTS site coordinates; do not read taxon measurements
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_pair_distance_support.R forest_macro_distance_support
+      - name: Fail closed on mismatched source frame or inadvertent biological scoring
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          f <- "forest_macro_distance_support/predicts_forest_39study_source_only_distance_support.json"
+          r <- fromJSON(f)
+          stopifnot(
+            r$schema=="structural.PREDICTS_39forest_source_site_geographic_support.v1",
+            r$original_source_summaries==35738,
+            r$original_forest_sites_eligible==1145,
+            r$original_study_method_taxon_comparisons==39,
+            r$no_taxon_species_or_abundance_biological_response_read,
+            r$original_PREDICTS_observational_39_study_result_not_rescored,
+            r$original_source_site_IDs_coordinates_or_reference_spatial_pairs_not_exported,
+            r$source_site_pairs_are_DEPENDENT_and_not_independent_forests,
+            r$eBird_used==FALSE)
+          print(r)
+          RS
+      - name: Store ONLY distance summary and zero-biological-access status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-predicts-reference-pair-distance-sourceonly
+          path: forest_macro_distance_support/
           if-no-files-found: warn
