@@ -228,7 +228,7 @@ run_gate<-function(official,bsource,psource,rds_dir,private_keys){
     source_siteyear_groups_with_2plus_effort_comparable_plantseason_plots=length(eligible_sy),
     source_forest_sites_with_2plus_source_plantbeetle_VST_comparable_plots=length(eligible_sites),
     source_official_NEO_domain_count_with_2plus_comparable_plots=length(eligible_domains),
-    source_siteyear_eligible_plot_pair_count_NONINDEPENDENT=sum(lengths(pairs_per_sy)),
+    source_siteyear_eligible_plot_pair_count_NONINDEPENDENT=if(ncol(allflags)) sum(apply(allflags,2,all)) else 0L,
     frozen_min_10_sites_6_domains_12_siteyears_PASS=pass,
     gate_status=if(pass)"SOURCE_SEASON_EFFORT_ELIGIBLE_NO_BIOLOGY_YET" else
        "SCIENTIFIC_STOP_ORIGINAL_SAMEPLOT_SEASON_EFFORT_REPLICATION_INSUFFICIENT",
