@@ -29,7 +29,7 @@ compare_forest_plot_pair<-function(a,b){
   # Both plots must be same original site/year, source sampling effort ratio,
   # and a common field season. Number of plot pairs is not independent n.
   within_ratio(a$beetle_total_trap_days,b$beetle_total_trap_days)&&
-    within_ratio(a$plant_recorded_1m2_subplots,b$plant_recorded_1m2_subplots)&&
+    within_ratio(a$recorded_one_m2_plant_subplots,b$recorded_one_m2_plant_subplots)&&
     abs(as.numeric(a$plant_first_date-b$plant_first_date))<=30
 }
 date_effort_in_plot<-function(beetle,plant,vst_dates) {
@@ -168,8 +168,8 @@ run_gate<-function(official,bsource,psource,rds_dir,private_keys){
     m<-vapply(seq_len(ncol(pairidx)),function(i){
       a<-retained[[pairidx[1,i]]];b<-retained[[pairidx[2,i]]]
       c(beetle_effort=within_ratio(a$beetle_total_trap_days,b$beetle_total_trap_days),
-        plant_subplot_effort=within_ratio(a$plant_recorded_1m2_subplots,
-                                         b$plant_recorded_1m2_subplots),
+        plant_subplot_effort=within_ratio(a$recorded_one_m2_plant_subplots,
+                                         b$recorded_one_m2_plant_subplots),
         field_season=abs(as.numeric(a$plant_first_date-b$plant_first_date))<=30)
     },logical(3))
     if(is.null(dim(m)))matrix(m,nrow=3,dimnames=list(c("beetle_effort",
@@ -267,8 +267,8 @@ synthetic<-function() {
   bb<-v;bb$beetle_total_trap_days<-200
   trap_ratio_pass<-within_ratio(a$beetle_total_trap_days,bb$beetle_total_trap_days)
   trap_pair_pass<-compare_forest_plot_pair(a,bb)
-  bb<-v;bb$plant_recorded_1m2_subplots<-20
-  plant_ratio_pass<-within_ratio(a$plant_recorded_1m2_subplots,bb$plant_recorded_1m2_subplots)
+  bb<-v;bb$recorded_one_m2_plant_subplots<-20
+  plant_ratio_pass<-within_ratio(a$recorded_one_m2_plant_subplots,bb$recorded_one_m2_plant_subplots)
   plant_pair_pass<-compare_forest_plot_pair(a,bb)
   bb<-v;bb$plant_first_date<-a$plant_first_date+90
   season_gap_days<-abs(as.numeric(a$plant_first_date-bb$plant_first_date))
