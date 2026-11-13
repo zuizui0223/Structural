@@ -1,0 +1,111 @@
+name: "Forest macro NEON: historical 2014-2018 independent source-only three-channel forest-patch opportunity"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-neon-vst2026-historical-2014-18-source.yml"
+      - "analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-neon-vst2026-historical-2014-18-source.yml"
+      - "analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  historical_2014_2018_woody_beetle_plant_source_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install pinned publicly published NEON organismal derivative 0.3.1
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+      - name: Synthetic original historical plot/year, 1m2 effort and woody tree-quality STOP tests
+        env:
+          NEON_HISTORICAL_SOURCE_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R
+      - name: Retrieve source-original official NEON 81-site and 2026-08-05 domain metadata
+        run: |
+          set -euo pipefail
+          mkdir -p historical_neon_private/site
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            --proto '=https' --proto-redir '=https' \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o historical_neon_private/site/official.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  historical_neon_private/site/official.csv' | sha256sum -c -
+      - name: Source-only shortlist historical pre-2019 sites from original forest plot/effort metadata
+        run: |
+          Rscript analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R \
+            historical_neon_private/site/official.csv \
+            historical_neon_private/site/candidate_sites.txt
+          echo "Historical NEON original forest patch site count: $(wc -l < historical_neon_private/site/candidate_sites.txt)"
+      - name: Retrieve only the historical source candidate public VST RELEASE-2026 site bundles
+        run: |
+          set -euo pipefail
+          mkdir -p historical_neon_private/woody_source
+          while IFS= read -r site; do
+            [[ -n "$site" ]] || continue
+            [[ "$site" =~ ^[A-Z0-9]{4}$ ]] || { echo "SCIENTIFIC_STOP_BAD_ORIGINAL_SOURCE_SITE_ID"; exit 1; }
+            url="https://raw.githubusercontent.com/tgilbert14/NEON-Vegetation-Structure-Explorer/3391e702e7be80a3f049c905782661f043be8db8/data/sites/$site.rds"
+            if curl --fail --silent --show-error --location --retry 1 --connect-timeout 15 \
+              --max-time 120 --max-filesize 50000000 \
+              --proto '=https' --proto-redir '=https' \
+              "$url" -o "historical_neon_private/woody_source/$site.rds"; then
+              test -s "historical_neon_private/woody_source/$site.rds"
+            else
+              rm -f "historical_neon_private/woody_source/$site.rds"
+              echo "Public pinned site original VST bundle unavailable; original site name never exported"
+            fi
+          done < historical_neon_private/site/candidate_sites.txt
+          du -sh historical_neon_private/woody_source/
+      - name: Quantify independent pre-2019 forest-patch plot-year timing/effort/woody-height availability without taxon values
+        run: |
+          Rscript analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R \
+            historical_neon_private/site/official.csv \
+            historical_neon_private/site/candidate_sites.txt \
+            historical_neon_private/woody_source \
+            forest_macro_historical_2014_2018_source_only
+      - name: Validate historical cohort and prevent misleading 2019-2023 posthoc rescue
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          file <- "forest_macro_historical_2014_2018_source_only/neon_historical_2014_2018_source_only_forest_patch_gate.json"
+          x<-fromJSON(file)
+          stopifnot(
+            x$schema=="structural.NEON_2014_2018_historical_forestpatch_three_source_method_gate.v1",
+            identical(as.integer(x$source_study_years),2014:2018),
+            x$source_VST_published_exact_git_commit=="3391e702e7be80a3f049c905782661f043be8db8",
+            x$prior_2019_2023_10site_8domain_10siteyear_source_STOP_NOT_REWRITTEN,
+            x$PREDICTS_original_39_study_positive_forest_result_sealed,
+            x$NEON_7forest_cross_taxon_no_synchrony_result_sealed,
+            x$raw_source_site_plot_woody_individual_taxon_names_coordinates_not_exported,
+            x$no_plant_or_beetle_taxon_name_id_abundance_value_or_beta_ACCESS,
+            x$actual_tree_height_values_ONLY_QC_read_NOT_EFFECT_SCORED,
+            x$eBird_used==FALSE)
+          print(x[c("historical_beetle_plant_usable_source_plotyears_without_woody",
+            "historical_beetle_plant_4sample_and_4recorded_plant_subplot_plotyears",
+            "historical_forest_patch_sites_with_both_taxa_metadata",
+            "historical_VST_original_forest_plotyears_with_3_live_DBH10_height_QA_and_plant_beetle_season_overlap",
+            "original_same_siteyear_pairs_all_three_requirements",
+            "original_independent_NEON_sites_with_geographically_matched_forest_patch_pairs",
+            "original_NEON_ecoclimatic_domains_with_geographically_matched_forest_patch_pairs",
+            "original_same_siteyear_groups_with_2plot_source_effort_and_date_matched",
+            "frozen_historical_10sites_6domains_12siteyears_threshold_PASS",
+            "historical_source_only_status")])
+          RS
+      - name: Upload historical source-only anonymized original observational-support aggregate, not any underlying data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-neon-historical-2014-2018-forestpatch-source-gate-only
+          path: forest_macro_historical_2014_2018_source_only/
+          if-no-files-found: warn
