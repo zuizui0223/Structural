@@ -20,6 +20,10 @@ permissions:
   contents: read
 jobs:
   author_plotlevel_forests_only_within_original_neon_mixed_sites:
+    # Complete original-source 2026-11-13 QA: 73->36 plotyears, 35 comparable pairs in 10 siteyears.
+    # Keep earlier zero-pair schema error audit and corrected source scientifically immutable;
+    # do not run costly 35 public site downloads on doc-only updates.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
