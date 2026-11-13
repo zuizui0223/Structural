@@ -201,6 +201,10 @@ jobs:
           if-no-files-found: warn
 
   historical_2014_2018_woody_beetle_plant_source_only:
+    # One-shot original source-only 2014-18 cohort completed: 33 sites, 730 plotyears,
+    # 674 beetle/plant effort-ready, 227 woody event-context overlaps,
+    # zero author-QA forest tree-opportunity support. Preserve scientific STOP.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 38
     steps:
