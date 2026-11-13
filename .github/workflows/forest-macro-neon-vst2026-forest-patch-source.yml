@@ -7,12 +7,14 @@ on:
       - ".github/workflows/forest-macro-neon-vst2026-forest-patch-source.yml"
       - "analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R"
       - "analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R"
+      - "analysis/forest_macro_global/neon_vst2026_forestpatch_species_source_season_effort_gate.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - ".github/workflows/forest-macro-neon-vst2026-forest-patch-source.yml"
       - "analysis/forest_macro_global/neon_public_vst2026_mixedlandscape_forest_patches_gate.R"
       - "analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R"
+      - "analysis/forest_macro_global/neon_vst2026_forestpatch_species_source_season_effort_gate.R"
   workflow_dispatch:
 permissions:
   contents: read
@@ -84,6 +86,8 @@ jobs:
         run: |
           Rscript analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R
       - name: Count actual height-positive original woody plants in 74 triple-source sameplot sameyear events, still no biodiversity
+        env:
+          VST_FOREST_PATCH_PRIVATE_HEIGHT_QUALIFIED_KEYS: "1"
         run: |
           Rscript analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R \
             neon_vst_patch_private/woody_bundles \
@@ -116,6 +120,45 @@ jobs:
             "source_sites_with_any_sameyear_2plot_height_comparison",
             "metadata_only_next_biology_admission_min6sites_min4domains_min40plotyears_PASS",
             "next_biological_stage_status")])
+          RS
+      - name: Known-truth 3-source same-plot, season, trap QC and source effort-ratio tests
+        env:
+          NEON_VST_SEASON_EFFORT_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_vst2026_forestpatch_species_source_season_effort_gate.R
+      - name: Author-original 73 height-ready plot-year, same-plot plant/beetle survey effort and VST season source-only audit
+        run: |
+          Rscript analysis/forest_macro_global/neon_vst2026_forestpatch_species_source_season_effort_gate.R \
+            neon_vst_patch_private/site.csv \
+            neon_vst_patch_private/woody_bundles \
+            neon_vst_patch_private/private_height_qualified_plotyears.txt \
+            neon_vst_patch_source_only_aggregate
+      - name: Enforce original 73 height-ready cohort and source-only 10site 6domain 12siteyear design gate
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p<-"neon_vst_patch_source_only_aggregate/neon_vst2026_forestpatch_original_season_effort_gate.json"
+          x<-fromJSON(p)
+          stopifnot(
+            x$schema=="structural.NEON_2026VST_0p3p1_forestpatch_strict_plot_season_effort.v1",
+            x$preoutcome_73_real_height_eligible_source_plotyears_UNCHANGED==73,
+            x$original_source_height_three_live_DBH10_plotyear_cohort_used,
+            x$original_source_taxon_values_never_accessed,
+            x$original_tree_height_magnitude_never_accessed,
+            x$no_original_site_plot_individual_or_source_event_IDs_exported,
+            x$siteyear_and_plot_pairs_NOT_independent_forests,
+            x$plant_1m2_positive_records_not_complete_zero_absence_census,
+            x$original_PREDICTS_primary_and_NEON_v2_temporal_results_left_sealed,
+            x$eBird_used==FALSE)
+          print(x[c("source_original_valid_plotyears_by_non_biological_exclusion_reason",
+                     "original_source_height_plotyears_with_four_unflagged_beetle_samples_four_plant_1m2_subplots_and_VST_within90d",
+                     "source_siteyear_groups_with_2plus_eligible_plots_BEFORE_effort_matching",
+                     "source_siteyear_groups_with_2plus_effort_comparable_plantseason_plots",
+                     "source_forest_sites_with_2plus_source_plantbeetle_VST_comparable_plots",
+                     "source_official_NEO_domain_count_with_2plus_comparable_plots",
+                     "source_siteyear_eligible_plot_pair_count_NONINDEPENDENT",
+                     "frozen_min_10_sites_6_domains_12_siteyears_PASS",
+                     "gate_status")])
           RS
       - name: Explicitly enforce distinct source-population and no taxon-outcome access
         run: |
