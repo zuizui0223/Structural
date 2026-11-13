@@ -149,6 +149,14 @@ names(private)<-unlist(lapply(all_counts,names),use.names=FALSE)
 if(length(private)!=length(plotkeys)||anyDuplicated(names(private)))
   stop("SCIENTIFIC_STOP_TRIPLE_SOURCE_WOODY_PLOTYEAR_KEYS_NOT_UNIQUE")
 qualify<-private>=3
+# Published plot/plant IDs never leave the Actions runner: save this exact
+# source-only height eligibility for a separate date/effort crosswalk.
+if(identical(Sys.getenv("VST_FOREST_PATCH_PRIVATE_HEIGHT_QUALIFIED_KEYS"),"1")){
+  if(sum(qualify)!=73)stop("SCIENTIFIC_STOP_FROZEN_73_HEIGHT_READY_PLOTYEARS_CHANGED")
+  path<-file.path(dirname(args[2]),"private_height_qualified_plotyears.txt")
+  writeLines(sort(names(private)[qualify]),path)
+  cat("SOURCE_ONLY_PRIVATE_HEIGHT_COHORT_SIZE:",sum(qualify),"\n")
+}
 site<-sub("\\|[^|]+\\|[0-9]{4}$","",names(private))
 site_good<-unique(site[qualify])
 domain_good<-unique(official$domain_id[match(site_good,official$site_id)])
