@@ -157,14 +157,46 @@ run_gate<-function(official,bsource,psource,rds_dir,private_keys){
   # with mutually comparable trap-days, 1m2 recorded subplot counts and DOY.
   valid_keys<-names(retained)
   group<-split(valid_keys,sub("\\|[^|]+\\|([0-9]{4})$","|\\1",valid_keys))
-  pairs_per_sy<-lapply(group,function(keys){
-    if(length(keys)<2)return(character())
-    pairs<-combn(keys,2)
-    eligible<-apply(pairs,2,function(i)
-       compare_forest_plot_pair(retained[[i[1]]],retained[[i[2]]]))
-    which(eligible)
+  # Independent SOURCE-ONLY failure attribution. These are not three
+  # alternative model specifications, and they never relax the joint gate.
+  pair_flags<-lapply(group,function(keys) {
+    if(length(keys)<2) return(matrix(FALSE,nrow=0,ncol=3,
+                                    dimnames=list(NULL,c("beetle_effort",
+                                                        "plant_subplot_effort",
+                                                        "field_season"))))
+    pairidx<-combn(keys,2)
+    m<-vapply(seq_len(ncol(pairidx)),function(i){
+      a<-retained[[pairidx[1,i]]];b<-retained[[pairidx[2,i]]]
+      c(beetle_effort=within_ratio(a$beetle_total_trap_days,b$beetle_total_trap_days),
+        plant_subplot_effort=within_ratio(a$plant_recorded_1m2_subplots,
+                                         b$plant_recorded_1m2_subplots),
+        field_season=abs(as.numeric(a$plant_first_date-b$plant_first_date))<=30)
+    },logical(3))
+    if(is.null(dim(m)))matrix(m,nrow=3,dimnames=list(c("beetle_effort",
+      "plant_subplot_effort","field_season"),NULL)) else m
   })
-  eligible_sy<-names(pairs_per_sy)[vapply(pairs_per_sy,length,integer(1))>0]
+  allflags<-do.call(cbind,pair_flags[lengths(group)>=2])
+  if(is.null(allflags))allflags<-matrix(FALSE,nrow=3,ncol=0,
+      dimnames=list(c("beetle_effort","plant_subplot_effort","field_season"),NULL))
+  pair_pass<-vapply(pair_flags,function(m){
+    if(nrow(m)==0)return(FALSE)
+    if(nrow(m)==3)any(apply(m,2,all)) else any(apply(m,1,all))
+  },logical(1))
+  eligible_sy<-names(pair_pass)[pair_pass]
+  pairdiagnostics<-list(
+     original_same_siteyear_candidate_plot_pairs_total=if(ncol(allflags))ncol(allflags) else 0,
+     original_candidate_pairs_with_beetle_trapdays_ratio_0p5to2=if(ncol(allflags))sum(allflags["beetle_effort",])else 0,
+     original_candidate_pairs_with_positive_plant_subplot_ratio_0p5to2=if(ncol(allflags))sum(allflags["plant_subplot_effort",])else 0,
+     original_candidate_pairs_with_plant_first_survey_dates_within30d=if(ncol(allflags))sum(allflags["field_season",])else 0,
+     original_candidate_pairs_with_both_effort_ratios=if(ncol(allflags))sum(allflags["beetle_effort",]&allflags["plant_subplot_effort",])else 0,
+     original_candidate_pairs_with_effort_and_season_all_three=if(ncol(allflags))sum(apply(allflags,2,all))else 0,
+     source_siteyears_with_any_beetle_effort_matched_pair=sum(vapply(pair_flags,function(m)
+        nrow(m)>0&&any(m["beetle_effort",]),logical(1))),
+     source_siteyears_with_any_plant_subplot_matched_pair=sum(vapply(pair_flags,function(m)
+        nrow(m)>0&&any(m["plant_subplot_effort",]),logical(1))),
+     source_siteyears_with_any_plant_date_matched_pair=sum(vapply(pair_flags,function(m)
+        nrow(m)>0&&any(m["field_season",]),logical(1)))
+  )
   eligible_sites<-unique(sub("\\|[0-9]{4}$","",eligible_sy))
   eligible_domains<-unique(as.character(official$domain_id[
      match(eligible_sites,as.character(official$site_id))]))
@@ -192,6 +224,7 @@ run_gate<-function(official,bsource,psource,rds_dir,private_keys){
     source_original_valid_plotyears_by_non_biological_exclusion_reason=diagnostics,
     original_source_height_plotyears_with_four_unflagged_beetle_samples_four_plant_1m2_subplots_and_VST_within90d=length(retained),
     source_siteyear_groups_with_2plus_eligible_plots_BEFORE_effort_matching=sum(lengths(group)>=2),
+    source_only_candidate_pair_failure_attribution_NO_GATE_CHANGED=pairdiagnostics,
     source_siteyear_groups_with_2plus_effort_comparable_plantseason_plots=length(eligible_sy),
     source_forest_sites_with_2plus_source_plantbeetle_VST_comparable_plots=length(eligible_sites),
     source_official_NEO_domain_count_with_2plus_comparable_plots=length(eligible_domains),
@@ -231,6 +264,10 @@ synthetic<-function() {
   stopifnot(date_effort_in_plot(b,p,as.Date("2020-12-20"))$status==
     "VST_EVENT_OUTSIDE_PRESPEC_90DAY_PLANT_SEASON")
   a<-v;bb<-v;bb$beetle_total_trap_days<-200
+  stopifnot(!compare_forest_plot_pair(a,bb))
+  bb<-v;bb$plant_recorded_1m2_subplots<-20
+  stopifnot(!compare_forest_plot_pair(a,bb))
+  bb<-v;bb$plant_first_date<-a$plant_first_date+90
   stopifnot(!compare_forest_plot_pair(a,bb))
   cat("SOURCE KNOWN TRUTH PASS: source sample effort / season / QA / between-plot ratios\n")
 }
