@@ -98,6 +98,50 @@ source_frame<-function(beetle,plant,official){
        sub("^.*\\|","",keys),levels=as.character(YEARS))))
   )
 }
+historical_vst_source_stage_diagnostics<-function(bundle,site,source){
+  # Source-field-only attrition. Do not change scientific eligibility.
+  # The archived VST bundle need not contain same-year original forest plots.
+  q<-bundle$plots
+  fields<-c("plotID","eventID","date","nlcdClass",
+            "tree_support","area_trees")
+  if(!is.data.frame(q)||!all(fields%in%names(q)))
+    stop("SCIENTIFIC_STOP_HISTORICAL_VST_SOURCE_STAGE_FIELDS_MISSING")
+  y<-source_year(q$date)
+  date<-source_day(q$date)
+  forest<-forest_plot(q$nlcdClass)
+  a<-suppressWarnings(as.numeric(as.character(q$area_trees)))
+  key<-paste(site,q$plotID,y,sep="|")
+  good_year<-!is.na(y)&valid_id(q$plotID)&valid_id(q$eventID)
+  qa<-good_year&forest&is.finite(a)&a>0&
+     q$tree_support=="sampled_with_records"
+  candidate<-source$source_candidate_plotyear_keys
+  qualified<-names(source$exact)
+  rawForest<-unique(key[good_year&forest])
+  qaForest<-unique(key[qa])
+  sourceRaw<-intersect(rawForest,candidate)
+  sourceQA<-intersect(qaForest,candidate)
+  effortQA<-intersect(sourceQA,qualified)
+  seasonal<-character()
+  for(k in effortQA) {
+    ii<-which(qa&key==k)
+    d<-source$exact[[k]]$first_plant_date
+    if(length(ii)&&any(abs(as.numeric(date[ii]-d))<=90,na.rm=TRUE))
+      seasonal<-c(seasonal,k)
+  }
+  list(
+     original_VST_all_2014_2018_plot_event_context_rows=sum(good_year),
+     original_VST_early_forest_plot_event_context_rows=sum(good_year&forest),
+     original_VST_early_forest_tree_QA_area_event_rows=sum(qa),
+     original_VST_early_forest_unique_plotyears=length(rawForest),
+     original_VST_early_forest_tree_QA_unique_plotyears=length(qaForest),
+     source_beetle_plant_raw_forest_plotyears_matching_any_VST_context=length(sourceRaw),
+     source_beetle_plant_raw_plotyears_matching_VST_tree_QA=length(sourceQA),
+     source_4plus_beetle_and_4plus_plant_subplot_plotyears_matching_VST_tree_QA=length(effortQA),
+     source_original_plant_first_date_within90d_of_VST_QA_plotyears=length(seasonal),
+     no_original_plot_identifiers_exported=TRUE
+  )
+}
+
 source_vst_for_candidate<-function(bundle,site,cohorts){
   if(!is.list(bundle)||!all(c("plots","trees","meta","contract")%in%names(bundle))||
       !identical(as.character(bundle$contract$id),"NEON-VST-DP1.10098.001-v2"))
@@ -219,6 +263,12 @@ tests<-function(){
        date="2016-06-20",tree_support="sampled_with_records",
        area_trees=400,nlcdClass="mixedForest")
   bundle<-list(plots=q,trees=tree,meta=list(),contract=list(id="NEON-VST-DP1.10098.001-v2"))
+  stages<-historical_vst_source_stage_diagnostics(bundle,"S001",list(
+    source_candidate_plotyear_keys=c$candidates,exact=c$exact))
+  stopifnot(stages$original_VST_early_forest_unique_plotyears==1,
+            stages$source_beetle_plant_raw_plotyears_matching_VST_tree_QA==1,
+            stages$source_4plus_beetle_and_4plus_plant_subplot_plotyears_matching_VST_tree_QA==1,
+            stages$source_original_plant_first_date_within90d_of_VST_QA_plotyears==1)
   z<-source_vst_for_candidate(bundle,"S001",c$exact)
   stopifnot(length(z)==1)
   bundle$plots$date<-"2016-12-01"
@@ -248,13 +298,28 @@ if(length(args)!=4)stop("SCIENTIFIC_STOP_HISTORICAL_SOURCE_CLI")
 dir.create(args[4],recursive=TRUE,showWarnings=FALSE)
 files<-list.files(args[3],pattern="^[A-Z0-9]{4}\\.rds$",full.names=TRUE)
 matched<-character();missing_sites<-character()
+stage_reports<-list()
 for(site in meta$source_candidate_sites){
   f<-file.path(args[3],paste0(site,".rds"))
   if(!file.exists(f)){missing_sites<-c(missing_sites,site);next}
-  z<-source_vst_for_candidate(readRDS(f),site,meta$exact)
+  bundle<-readRDS(f)
+  stage_reports[[site]]<-historical_vst_source_stage_diagnostics(bundle,site,list(
+     source_candidate_plotyear_keys=meta$candidates,exact=meta$exact))
+  z<-source_vst_for_candidate(bundle,site,meta$exact)
   matched<-union(matched,z)
 }
 matched<-sort(unique(matched))
+stage_names<-c("original_VST_all_2014_2018_plot_event_context_rows",
+  "original_VST_early_forest_plot_event_context_rows",
+  "original_VST_early_forest_tree_QA_area_event_rows",
+  "original_VST_early_forest_unique_plotyears",
+  "original_VST_early_forest_tree_QA_unique_plotyears",
+  "source_beetle_plant_raw_forest_plotyears_matching_any_VST_context",
+  "source_beetle_plant_raw_plotyears_matching_VST_tree_QA",
+  "source_4plus_beetle_and_4plus_plant_subplot_plotyears_matching_VST_tree_QA",
+  "source_original_plant_first_date_within90d_of_VST_QA_plotyears")
+stages<-setNames(lapply(stage_names,function(n)
+  sum(vapply(stage_reports,function(x)as.numeric(x[[n]]),numeric(1)))),stage_names)
 comparison<-pair_diagnostic(meta$exact,matched)
 pairsites<-unique(sub("\\|[0-9]{4}$","",comparison$eligible_original_site_years))
 d<-unique(as.character(official$domain_id[match(pairsites,official$site_id)]))
@@ -281,6 +346,7 @@ r<-list(
  historical_source_only_species_measurement_unopened_drop_reasons=meta$meta_exclusions,
  historical_forest_patch_sites_with_both_taxa_metadata=length(meta$source_candidate_sites),
  original_public_VST_source_site_bundles_missing_for_candidate_sites=length(missing_sites),
+ historical_VST_source_record_attrition_hierarchy_before_height_screen=stages,
  historical_VST_original_forest_plotyears_with_3_live_DBH10_height_QA_and_plant_beetle_season_overlap=length(matched),
  historical_VST_site_count_with_three_source_year_alignment=length(unique(sub("\\|[^|]+\\|[0-9]{4}$","",matched))),
  historical_VST_three_source_plotyears_by_year=as.list(table(factor(
