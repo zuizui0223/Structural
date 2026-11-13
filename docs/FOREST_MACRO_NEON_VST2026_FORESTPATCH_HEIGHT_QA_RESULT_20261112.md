@@ -1,5 +1,9 @@
 # NEON 22森林観測サイト：木本の有効樹高・同年複数区画の実測支持（2026-11-12）
 
+## 継続結果（2026-11-13）：採集努力と調査季節を揃えた原本検査完了
+
+この文書の73樹高有効plot×yearsについて、別の原source-only検証で**季節・最低努力条件を満たす36 plot×years、同一NEON site/yearに2plot以上ある10 groups、甲虫trap days・植物1m²subplot・植物調査日を一致させられる35 plot pairs／10 sites／8 domains／10 siteyears**が確認された。事前の生物効果解析許可は12 siteyearsだったので、**正しい原sourceでは生物効果未実行の科学的STOP**。旧誤判定の「0 plot pairs」はsource effort列名の不一致であり、訂正済み。詳細：[2026-11-13 season/effort source audit](FOREST_MACRO_NEON_VST2026_73_HEIGHT_PATCH_SEASON_EFFORT_ORIGINAL_RESULT_20261113.md)、[success CI #43340430135](https://github.com/zuizui0223/Structural/actions/runs/43340430135)。既存のPREDICTS/NEON陽性・非有意スコアは封印維持。
+
 ## 実行済み結果：原データをつなぐ科学的データ取得の肯定結果
 
 **混在景観にあるoriginal forest patchesという独立の対象母集団**について、公開元の甲虫 `neonDivData`0.3.1・植物 `neonDivData`0.3.1・別途公表された木本構造 `DP1.10098.001 RELEASE-2026` を、3資料のsource-original `siteID×plotID×year`で対応させた。
