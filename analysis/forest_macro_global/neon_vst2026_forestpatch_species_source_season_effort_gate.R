@@ -263,12 +263,25 @@ synthetic<-function() {
   b$trapConditionFlag<-NA_character_
   stopifnot(date_effort_in_plot(b,p,as.Date("2020-12-20"))$status==
     "VST_EVENT_OUTSIDE_PRESPEC_90DAY_PLANT_SEASON")
-  a<-v;bb<-v;bb$beetle_total_trap_days<-200
-  stopifnot(!compare_forest_plot_pair(a,bb))
+  a<-v
+  bb<-v;bb$beetle_total_trap_days<-200
+  trap_ratio_pass<-within_ratio(a$beetle_total_trap_days,bb$beetle_total_trap_days)
+  trap_pair_pass<-compare_forest_plot_pair(a,bb)
   bb<-v;bb$plant_recorded_1m2_subplots<-20
-  stopifnot(!compare_forest_plot_pair(a,bb))
+  plant_ratio_pass<-within_ratio(a$plant_recorded_1m2_subplots,bb$plant_recorded_1m2_subplots)
+  plant_pair_pass<-compare_forest_plot_pair(a,bb)
   bb<-v;bb$plant_first_date<-a$plant_first_date+90
-  stopifnot(!compare_forest_plot_pair(a,bb))
+  season_gap_days<-abs(as.numeric(a$plant_first_date-bb$plant_first_date))
+  season_pair_pass<-compare_forest_plot_pair(a,bb)
+  cat("SYNTHETIC PAIR DIAG (source-free): beetle trap ratio",trap_ratio_pass,
+      " / rejected",!trap_pair_pass,"; plant subplot ratio",plant_ratio_pass,
+      " / rejected",!plant_pair_pass,"; calendar gap",season_gap_days,
+      " / rejected",!season_pair_pass,"\n")
+  stopifnot(identical(trap_ratio_pass,FALSE),
+            identical(plant_ratio_pass,FALSE),season_gap_days==90,
+            identical(trap_pair_pass,FALSE),
+            identical(plant_pair_pass,FALSE),
+            identical(season_pair_pass,FALSE))
   cat("SOURCE KNOWN TRUTH PASS: source sample effort / season / QA / between-plot ratios\n")
 }
 if(identical(Sys.getenv("NEON_VST_SEASON_EFFORT_SYNTHETIC_ONLY"),"1")){
