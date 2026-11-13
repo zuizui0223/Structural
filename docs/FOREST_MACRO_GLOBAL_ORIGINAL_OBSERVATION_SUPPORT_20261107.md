@@ -1,5 +1,13 @@
 # 森林マクロ生態学：全球原観測の支持範囲（2026年11月7日）
 
+## 2026-11-14：2014–2018未利用のNEON歴史コホートも実測、元森林VST quality supportでSTOP
+
+公開`neonDivData 0.3.1`の未利用2014–2018地表甲虫・植物sourceで**33元NEON sites・730 original forest plot×years**が同year同plotに存在し、植物初回調査日±7d、甲虫±30d、各元記録4sample/4subplot以上のsource supportを持つ**674 plot×years**を原本CIで取得。この5年は公開木本VST RELEASE-2026の収録期間に入っていた。
+
+ところが33公開VST site bundlesをsource QAまで実際に照合すると、当該早期VST`plots`に**2,780 original plot-event contexts、うち1,889 forest source event contexts、甲虫・植物sourceと同じ森林plot×yearが227区画年**存在しても、**作者の`tree_support=sampled_with_records`かつ有効`area_trees>0`かつ同年森林plotを満たす元VSTイベントは0**。従って3資料の同年有効樹高効果を推測することは**原資料のquality supportがないため不可能**。新時期2014–2018は旧2019–23の足りない2 siteyearsに補充できず、旧22sites/73 height-readyからの10sites/10siteyears/35pairsもなお生物効果Scientific STOPのまま。これは森林構造に生物学的作用がないという帰無結果ではない。
+
+成功CI [#43459879574](https://github.com/zuizui0223/Structural/actions/runs/43459879574)・匿名artifact #14054839489。完全な[2014–2018の元森林tree-QA attrition](FOREST_MACRO_NEON_HISTORICAL_2014_2018_VST_ORIGINAL_QA_ATTRITION_RESULT_20261114.md)。これ以上同じ観測を閾値調整して結果探索しない。新しい独立の木本原資料または本当に同年同plotのリモートセンシング高さを、別の証拠とデザインとして検討する。先に凍結したPREDICTSの+0.0942/+0.0847とNEON年次の−0.0664(p=.536)は全く変更していない。
+
 ## 2026-11-13：NEON実測樹高73区画年の季節・採集努力Source QAを完了、10森林・35組の比較機会
 
 固定したNEON mixed-landscape森林パッチ22sites・13domains・73樹高有効元plot×yearに対し、甲虫正常trap採集（植物最初の調査±30d、元sample数≥4）、植物1m²（最初の調査日±7d、記録済みsubplot≥4）、木本元event日（植物日±90d）、元forest `plotID×year`を**分類群生物応答未読で**再検証。**73→36 plot×yearsが時期・最低努力条件を満たす**。同一site×yearに2以上のplotがあるのは10 siteyears、41組のplot対が候補。甲虫努力量比0.5–2.0は39、植物記録済みsubplot比0.5–2.0は41、植物初回調査日の差30d以内は36、**3条件を同じplot対で全て満たすのは35組／10独立NEON sites／8 domains／10 siteyears**。事前固定した許可基準は10 sites/6 domains/**12 siteyears**で、後者のみ未達。**構造と群集組成の生物効果検定はSTOP（未実行）**。
