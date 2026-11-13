@@ -25,9 +25,16 @@ asday<-function(x){
 within_ratio<-function(x,y,lower=.5,upper=2){
   is.finite(x)&&is.finite(y)&&x>0&&y>0&&x/y>=lower&&x/y<=upper
 }
+assert_plot_effort_fields<-function(a,b){
+  required<-c("beetle_total_trap_days","recorded_one_m2_plant_subplots",
+              "plant_first_date")
+  if(!all(required%in%names(a))||!all(required%in%names(b)))
+    stop("SCIENTIFIC_STOP_SOURCE_PLOT_EFFORT_FIELD_NAME_MISMATCH")
+}
 compare_forest_plot_pair<-function(a,b){
   # Both plots must be same original site/year, source sampling effort ratio,
   # and a common field season. Number of plot pairs is not independent n.
+  assert_plot_effort_fields(a,b)
   within_ratio(a$beetle_total_trap_days,b$beetle_total_trap_days)&&
     within_ratio(a$recorded_one_m2_plant_subplots,b$recorded_one_m2_plant_subplots)&&
     abs(as.numeric(a$plant_first_date-b$plant_first_date))<=30
@@ -167,6 +174,7 @@ run_gate<-function(official,bsource,psource,rds_dir,private_keys){
     pairidx<-combn(keys,2)
     m<-vapply(seq_len(ncol(pairidx)),function(i){
       a<-retained[[pairidx[1,i]]];b<-retained[[pairidx[2,i]]]
+      assert_plot_effort_fields(a,b)
       c(beetle_effort=within_ratio(a$beetle_total_trap_days,b$beetle_total_trap_days),
         plant_subplot_effort=within_ratio(a$recorded_one_m2_plant_subplots,
                                          b$recorded_one_m2_plant_subplots),
@@ -277,6 +285,11 @@ synthetic<-function() {
       " / rejected",!trap_pair_pass,"; plant subplot ratio",plant_ratio_pass,
       " / rejected",!plant_pair_pass,"; calendar gap",season_gap_days,
       " / rejected",!season_pair_pass,"\n")
+  missing<-v
+  missing$recorded_one_m2_plant_subplots<-NULL
+  missing_should_stop<-tryCatch(compare_forest_plot_pair(a,missing),
+    error=function(e)grepl("FIELD_NAME_MISMATCH",conditionMessage(e)))
+  stopifnot(identical(missing_should_stop,TRUE))
   stopifnot(identical(trap_ratio_pass,FALSE),
             identical(plant_ratio_pass,FALSE),season_gap_days==90,
             identical(trap_pair_pass,FALSE),
