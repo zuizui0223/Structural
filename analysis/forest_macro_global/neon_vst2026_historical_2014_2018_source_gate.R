@@ -134,8 +134,11 @@ source_vst_for_candidate<-function(bundle,site,cohorts){
   } else {
     tolower(trimws(as.character(t$plantStatus)))=="live"
   }
-  qcheight<-if("size_height_ok"%in%names(t))as.logical(t$size_height_ok)%in%TRUE
-            else rep(TRUE,nrow(t))
+  qcheight<-if("size_height_ok"%in%names(t)) {
+    as.logical(t$size_height_ok)%in%TRUE
+  } else {
+    rep(TRUE,nrow(t))
+  }
   goodtree<-hasq&valid_id(t$individualID)&is.finite(h)&h>0&
       is.finite(dbh)&dbh>=10&islive&qcheight&
       gf%in%c("single bole tree","multi-bole tree")
