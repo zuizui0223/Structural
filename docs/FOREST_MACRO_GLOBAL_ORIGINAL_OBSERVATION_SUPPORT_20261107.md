@@ -1,5 +1,13 @@
 # 森林マクロ生態学：全球原観測の支持範囲（2026年11月7日）
 
+## 2026-11-13：NEON実測樹高73区画年の季節・採集努力Source QAを完了、10森林・35組の比較機会
+
+固定したNEON mixed-landscape森林パッチ22sites・13domains・73樹高有効元plot×yearに対し、甲虫正常trap採集（植物最初の調査±30d、元sample数≥4）、植物1m²（最初の調査日±7d、記録済みsubplot≥4）、木本元event日（植物日±90d）、元forest `plotID×year`を**分類群生物応答未読で**再検証。**73→36 plot×yearsが時期・最低努力条件を満たす**。同一site×yearに2以上のplotがあるのは10 siteyears、41組のplot対が候補。甲虫努力量比0.5–2.0は39、植物記録済みsubplot比0.5–2.0は41、植物初回調査日の差30d以内は36、**3条件を同じplot対で全て満たすのは35組／10独立NEON sites／8 domains／10 siteyears**。事前固定した許可基準は10 sites/6 domains/**12 siteyears**で、後者のみ未達。**構造と群集組成の生物効果検定はSTOP（未実行）**。
+
+**誤判定訂正：** 初回Source QA CI #43338037317の「0比較組」は、存在しない植物努力量フィールド名`plant_recorded_1m2_subplots`を参照したコードの人工物だった。生物データは未開封のまま合成テストにより発見し、`recorded_one_m2_plant_subplots`へ修正・欠落フィールドを明示STOPする防御を追加した。後続の原本CI [#43340430135](https://github.com/zuizui0223/Structural/actions/runs/43340430135) **SUCCESS** が**35区画対**を確認。以前の0/FAILの値は**研究証拠として無効**。脱落理由は樹木日±90d超25、正常甲虫日±30dなし3、植物/甲虫最低採集数不足9。区画対に3条件を揃えると35/41が一致するので「データがほとんど対応しない」と一般化しない。
+
+完全な修正後source数値：[FOREST_MACRO_NEON_VST2026_73_HEIGHT_PATCH_SEASON_EFFORT_ORIGINAL_RESULT_20261113.md](FOREST_MACRO_NEON_VST2026_73_HEIGHT_PATCH_SEASON_EFFORT_ORIGINAL_RESULT_20261113.md)。既存PREDICTS 39研究`+0.0942`／距離対応31研究`+0.0847`、NEON7森林の植物甲虫年次同期`−0.0664,p=.536`は元結果を一切変更していない。独立森林間で樹高が群集種組成を決める因果機構はまだ検証できていない。
+
 ## 2026-11-12 NEW：NEON実測樹高×甲虫×植物の同year同original plot原本接続（22 sites・13 domains）
 
 NEON植物・地表甲虫の公開派生`neonDivData` 0.3.1と、別の研究者が公開したNEON木本構造`DP1.10098.001 RELEASE-2026`のsite別RDS（公開commit `3391e702e7be80a3f049c905782661f043be8db8`）を、**同じsource original siteID×plotID×year**と、甲虫/植物/VST各3資料で独立にforest NLCD区画と認定する方法で照合した。サイト全体がstrict forestのみの当初8サイトでは**7 sites・7 domains・26 plot×years**で事前固定最小40に届かずSource-only STOP（先行結果を保持）。
