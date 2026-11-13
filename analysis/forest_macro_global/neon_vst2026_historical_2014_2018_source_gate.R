@@ -129,8 +129,11 @@ source_vst_for_candidate<-function(bundle,site,cohorts){
   h<-suppressWarnings(as.numeric(as.character(t$height)))
   dbh<-suppressWarnings(as.numeric(as.character(t$stemDiameter)))
   gf<-tolower(trimws(as.character(t$growthForm)))
-  islive<-if("live"%in%names(t))as.logical(t$live)%in%TRUE
-          else tolower(trimws(as.character(t$plantStatus)))=="live"
+  islive<-if("live"%in%names(t)) {
+    as.logical(t$live)%in%TRUE
+  } else {
+    tolower(trimws(as.character(t$plantStatus)))=="live"
+  }
   qcheight<-if("size_height_ok"%in%names(t))as.logical(t$size_height_ok)%in%TRUE
             else rep(TRUE,nrow(t))
   goodtree<-hasq&valid_id(t$individualID)&is.finite(h)&h>0&
@@ -255,8 +258,11 @@ d<-unique(as.character(official$domain_id[match(pairsites,official$site_id)]))
 if(anyNA(d))stop("SCIENTIFIC_STOP_HISTORICAL_SOURCE_DOMAIN_UNMAPPED")
 admit<-length(pairsites)>=10&&length(d)>=6&&
         length(comparison$eligible_original_site_years)>=12
-status<-if(admit) "HISTORICAL_SOURCE_GEOGRAPHY_AND_METHOD_METADATA_ELIGIBLE_BUT_BIOLOGY_SEALED"
-        else "SCIENTIFIC_STOP_HISTORICAL_SOURCE_PLOT_SEASON_EFFORT_INSUFFICIENT"
+status<-if(admit) {
+  "HISTORICAL_SOURCE_GEOGRAPHY_AND_METHOD_METADATA_ELIGIBLE_BUT_BIOLOGY_SEALED"
+} else {
+  "SCIENTIFIC_STOP_HISTORICAL_SOURCE_PLOT_SEASON_EFFORT_INSUFFICIENT"
+}
 r<-list(
  schema="structural.NEON_2014_2018_historical_forestpatch_three_source_method_gate.v1",
  source_study_population="new 2014-2018 historical source-only cohort, no retrospective rescue of 2019-2023 scores",
