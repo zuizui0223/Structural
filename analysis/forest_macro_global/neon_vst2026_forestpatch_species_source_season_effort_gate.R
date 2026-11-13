@@ -33,8 +33,14 @@ compare_forest_plot_pair<-function(a,b){
     abs(as.numeric(a$plant_first_date-b$plant_first_date))<=30
 }
 date_effort_in_plot<-function(beetle,plant,vst_dates) {
-  # All 3 inputs are from the SAME site, plot, year, before opening taxa.
+  # Fail closed if the caller accidentally mixes plot/year or site.
   if(!nrow(beetle)||!nrow(plant))return(list(status="NO_SOURCE_BOTH_TAXA"))
+  a<-unique(paste(beetle$siteID,beetle$plotID,
+     extractyear(beetle$observation_datetime),sep="|"))
+  b<-unique(paste(plant$siteID,plant$plotID,
+     extractyear(plant$observation_datetime),sep="|"))
+  if(length(a)!=1||length(b)!=1||a!=b||grepl("\\|NA$",a))
+    return(list(status="STOP_INPUT_NOT_SAME_ORIGINAL_SITE_PLOT_YEAR"))
   p<-plant[isforest(plant$nlcdClass),,drop=FALSE]
   pdate<-asday(p$observation_datetime)
   area<-suppressWarnings(as.numeric(as.character(p$sample_area_m2)))
@@ -170,7 +176,7 @@ run_gate<-function(official,bsource,psource,rds_dir,private_keys){
         length(eligible_sy)>=12
   diagnostics<-as.list(table(factor(status,levels=c(
     "PLOT_SOURCE_SEASON_EFFORT_SUPPORTED",
-    "NO_SOURCE_BOTH_TAXA","NO_VALID_PLANT_ONE_M2_SOURCE",
+    "NO_SOURCE_BOTH_TAXA","STOP_INPUT_NOT_SAME_ORIGINAL_SITE_PLOT_YEAR","NO_VALID_PLANT_ONE_M2_SOURCE",
     "NO_UNFLAGGED_BEETLE_SAME_PLOT_WITHIN_30D",
     "INSUFFICIENT_FOUR_BEETLE_FOUR_RECORDED_PLANT_SUBPLOTS",
     "VST_ORIGINAL_EVENT_DATE_MISSING",
@@ -180,7 +186,7 @@ run_gate<-function(official,bsource,psource,rds_dir,private_keys){
     schema="structural.NEON_2026VST_0p3p1_forestpatch_strict_plot_season_effort.v1",
     pinned_VST_release_commit="3391e702e7be80a3f049c905782661f043be8db8",
     preoutcome_73_real_height_eligible_source_plotyears_UNCHANGED=length(private_keys),
-    original_source_height_three_live_DHB10_plotyear_cohort_used=TRUE,
+    original_source_height_three_live_DBH10_plotyear_cohort_used=TRUE,
     original_source_taxon_values_never_accessed=TRUE,
     original_tree_height_magnitude_never_accessed=TRUE,
     source_original_valid_plotyears_by_non_biological_exclusion_reason=diagnostics,
@@ -220,8 +226,7 @@ synthetic<-function() {
   stopifnot(date_effort_in_plot(b,p,as.Date("2020-06-20"))$status==
     "INSUFFICIENT_FOUR_BEETLE_FOUR_RECORDED_PLANT_SUBPLOTS")
   stopifnot(date_effort_in_plot(b,transform(p,plotID="OTHER"),as.Date("2020-06-20"))$status==
-    "INSUFFICIENT_FOUR_BEETLE_FOUR_RECORDED_PLANT_SUBPLOTS" ||
-    TRUE) # real exact plot isolation occurs in run_gate's original key filter
+    "STOP_INPUT_NOT_SAME_ORIGINAL_SITE_PLOT_YEAR")
   b$trapConditionFlag<-NA_character_
   stopifnot(date_effort_in_plot(b,p,as.Date("2020-12-20"))$status==
     "VST_EVENT_OUTSIDE_PRESPEC_90DAY_PLANT_SEASON")
