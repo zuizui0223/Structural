@@ -451,8 +451,18 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p calibrate_chmv2_private/original_VST
-          cut -d, -f1 calibrate_chmv2_private/private_original_neon_plot_centres.csv \
-            | tail -n +2 | sort -u > calibrate_chmv2_private/candidate_site_codes.txt
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          source=Path("calibrate_chmv2_private/private_original_neon_plot_centres.csv")
+          with source.open(encoding="utf-8",newline="") as f:
+              sites=sorted({r["siteID"] for r in csv.DictReader(f)})
+          assert len(sites)==35
+          assert all(len(s)==4 and s.isalnum() and s.isupper() for s in sites)
+          Path("calibrate_chmv2_private/candidate_site_codes.txt").write_text(
+              "\n".join(sites)+"\n",encoding="utf-8")
+          print("SOURCE_PRIVATE original VST candidate forest sites:",len(sites))
+          PY
           if [ "$(wc -l < calibrate_chmv2_private/candidate_site_codes.txt)" -ne 35 ]; then
             echo "SCIENTIFIC_STOP_FOREST_SITE_FRAME_CHANGED"; exit 31
           fi
