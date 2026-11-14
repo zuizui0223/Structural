@@ -12,6 +12,8 @@ on:
       - "analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R"
       - "analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py"
       - "analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py"
+      - "analysis/forest_macro_global/neon_chmv2_vst_field_height_source.R"
+      - "analysis/forest_macro_global/neon_chmv2_vst_crosssensor_height_check.py"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -23,6 +25,8 @@ on:
       - "analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R"
       - "analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py"
       - "analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py"
+      - "analysis/forest_macro_global/neon_chmv2_vst_field_height_source.R"
+      - "analysis/forest_macro_global/neon_chmv2_vst_crosssensor_height_check.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -306,6 +310,9 @@ jobs:
           if-no-files-found: warn
 
   independent_meta_chmv2_source_tiles_at_neon_forest_centroids:
+    # Static CHMv2 237 plots / 232 positive pixels / 34 sites source QA done SUCCESS #43540584860.
+    # Seal prior source measurement to avoid post-output threshold fishing.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 32
     steps:
@@ -400,4 +407,110 @@ jobs:
         with:
           name: structural-neon-Meta-WRI-CHMv2-1m-public-source-only-plot-coverage
           path: meta_chmv2_public_source_aggregate/
+          if-no-files-found: warn
+
+  independent_neon_vst_vs_chmv2_crosssensor_source_calibration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 42
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned 0.3.1 public NEON derivative, plus source-only rasters and site bootstrap
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+          python -m pip install --quiet numpy rasterio scipy pyarrow
+      - name: Source-blind synthetic VST live DBH tree identity and independent site-block CHM agreement test
+        env:
+          NEON_CHM_FIELD_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_chmv2_vst_field_height_source.R
+          python analysis/forest_macro_global/neon_chmv2_vst_crosssensor_height_check.py
+      - name: Read immutable original 81 NEON site context 2026-08-05 from official public endpoint
+        run: |
+          set -euo pipefail
+          mkdir -p calibrate_chmv2_private
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            --proto '=https' --proto-redir '=https' \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o calibrate_chmv2_private/official.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  calibrate_chmv2_private/official.csv' | sha256sum -c -
+      - name: Reconstruct original NEON 952 plotyear coordinate/source keys WITHOUT species, response or ecosystem function
+        run: |
+          Rscript analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R \
+            calibrate_chmv2_private/official.csv \
+            calibrate_chmv2_private/private_original_neon_plot_centres.csv \
+            calibration_source_aggregate/NEON_forest_plot_original_location_gate.json
+      - name: Fetch only 35 NEON original field-sites from pinned separately public VST RELEASE-2026 source
+        run: |
+          set -euo pipefail
+          mkdir -p calibrate_chmv2_private/original_VST
+          cut -d, -f1 calibrate_chmv2_private/private_original_neon_plot_centres.csv \
+            | tail -n +2 | sort -u > calibrate_chmv2_private/candidate_site_codes.txt
+          if [ "$(wc -l < calibrate_chmv2_private/candidate_site_codes.txt)" -ne 35 ]; then
+            echo "SCIENTIFIC_STOP_FOREST_SITE_FRAME_CHANGED"; exit 31
+          fi
+          while IFS= read -r site; do
+            [[ "$site" =~ ^[A-Z0-9]{4}$ ]] || { echo "STOP_BAD_SOURCE_SITE_ID"; exit 32; }
+            url="https://raw.githubusercontent.com/tgilbert14/NEON-Vegetation-Structure-Explorer/3391e702e7be80a3f049c905782661f043be8db8/data/sites/$site.rds"
+            curl --fail --silent --show-error --location --retry 2 \
+              --connect-timeout 20 --max-time 120 --max-filesize 50000000 \
+              --proto '=https' --proto-redir '=https' \
+              "$url" -o "calibrate_chmv2_private/original_VST/$site.rds"
+            test -s "calibrate_chmv2_private/original_VST/$site.rds"
+          done < calibrate_chmv2_private/candidate_site_codes.txt
+      - name: Reproduce frozen 73 VST field height plotyears / 22 sites / 13 domains as runner-private source rows
+        run: |
+          Rscript analysis/forest_macro_global/neon_chmv2_vst_field_height_source.R \
+            calibrate_chmv2_private/official.csv \
+            calibrate_chmv2_private/private_original_neon_plot_centres.csv \
+            calibrate_chmv2_private/original_VST \
+            calibrate_chmv2_private
+          cp calibrate_chmv2_private/source_public_field_VST_support.json \
+            calibration_source_aggregate/NEON_original_VST_field_height_source_support.json
+      - name: Match each original NEON plot ONE time to public CHMv2 40m pixels; compare independent field tree p90 by source site medians
+        run: |
+          python analysis/forest_macro_global/neon_chmv2_vst_crosssensor_height_check.py \
+            --private-neon-locations calibrate_chmv2_private/private_original_neon_plot_centres.csv \
+            --private-vst-field-source calibrate_chmv2_private/private_vst_field_height_plotyears.csv \
+            --official-neon-sites calibrate_chmv2_private/official.csv \
+            --out calibration_source_aggregate
+      - name: Verify all original study and source grain, fixed descriptive inference and sealed biodiversity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          f=Path("calibration_source_aggregate")
+          a=json.loads((f/"NEON_original_VST_field_height_source_support.json").read_text())
+          b=json.loads((f/"NEON_2026_CHMv2_vs_original_VST_height_crosssensor_aggregate.json").read_text())
+          assert a["schema"]=="structural.NEON_original_VST_RE2026_73_field_height_plotyears_source.v1"
+          assert a["original_published_forest_plots_with_3plus_independent_live_trees_field_height"]==73
+          assert a["original_NEON_field_sites_revalidated"]==22
+          assert a["original_NEON_ecoclimatic_domains_revalidated"]==13
+          assert a["original_NEON_plant_beetle_species_taxon_abundance_values_NOT_READ"]
+          assert b["schema"]=="structural.NEON_CHMv2_public_40m_vs_RE2026_VST_field_height_crosssensor.v1"
+          assert b["forest_2019_2023_73_original_VST_field_plotyears_reproduced"]==73
+          assert b["original_field_height_plot_CHM40m_positive_QA_matched"]<=73
+          assert b["source_scene_window_not_proof_of_actual_plot_pixel_acquisition"]
+          assert b["original_beetle_plant_taxon_species_or_abundance_OUTCOMES_NOT_READ"]
+          assert b["original_site_plot_height_individual_pixel_or_coordinates_NOT_EXPORTED"]
+          assert b["no_ecological_effect_of_canopy_height_or_biodiversity_causality_claim"]
+          assert b["eBird_used"] is False
+          print("SOURCE ONLY CROSSSENSOR CALIBRATION STATUS:",b["crosssensor_calibration"]["status"])
+          print("INDEPENDENT PLOTS:",b["original_field_height_plot_CHM40m_positive_QA_matched"])
+          print("SITES:",b["original_field_height_plot_CHM40m_positive_QA_independent_sites"])
+          print("Original source QC stage did not reopen beetle/plant ecological responses")
+          PY
+      - name: Upload ONLY anonymous cross-sensor field-height source support and source calibration, never private rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-NEON-RE2026-VST-vs-Meta-CHMv2-field-height-crosssensor-source
+          path: calibration_source_aggregate/
           if-no-files-found: warn
