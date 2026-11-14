@@ -1,5 +1,13 @@
 # 森林マクロ生態学：全球原観測の支持範囲（2026年11月7日）
 
+## 2026-11-14：独立CHMv2と現地VSTの空間的高さ対応を実測（ρ=+0.906、22sites／72plots）
+
+**新しい肯定的なデータ検証結果（生物taxonは未読）**：公開NEON VST RELEASE-2026の元live DBH≥10cm有効木本heightを**73 plot×years／22sites／13domains**で前回の作者品質と同じ規則で再現し、同一plotの年重複を除いて**72 original field plots**を選んだ。独立衛星Meta/WRI CHMv2の固定40m×40m positive-only p90を72plotで確認し、72/72全て画素QA通過。**22sites等重みのVST原plot field P90とCHMv2 pixel P90のSpearman順位相関は+0.9063**（元site単位4,000 bootstrap95%CI**[+0.7457,+0.9658]**）。VST P90中央値22.48m、衛星CHM20.5m、衛星−現地の高さ差中央値−2.77m、絶対差中央値3.57m。16sitesには2以上の元plotがあり、site内中心化Pearsonは+0.6726（記述的、別の確認検定ではない）。
+
+**最大の制限：** 元VST field survey yearは2020〜2023に集中し、公開CHMv2`acq_dates`の**タイル撮影期間がfield yearと重なるのは8/72plots・2sitesのみ**。画素単位の撮影日、同季節の有効植生、現地original areaと40m四方の一致は未確認。従ってこれは**森林間の静的な樹高順位という測定proxyの妥当性支持**であり、毎年の現地林冠の真値／森林改変の因果機構／昆虫や植物の組成への効果を示さない。別センサ整合性の原本CI [#43561149201](https://github.com/zuizui0223/Structural/actions/runs/43561149201) SUCCESS、成果[FOREST_MACRO_NEON_CHMV2_VST_FIELD_HEIGHT_CROSSSENSOR_ORIGINAL_RESULT_20261114.md](FOREST_MACRO_NEON_CHMV2_VST_FIELD_HEIGHT_CROSSSENSOR_ORIGINAL_RESULT_20261114.md)。自動再実行を封印済。
+
+前回のPREDICTS森林改変と分類群置換`+0.0942`・距離対応`+0.0847`は独立に凍結。NEON植物×甲虫年次同期`−0.0664,p=.536`も変更していない。次の主線は、CHMv2を**静的な森林構造proxy**として用いる別設計の植物/地表甲虫組成のsource sampling methodを、植物・甲虫taxon値を再開封する**前に固定・源監査する**こと。元VST sourceの12siteyears未達STOPをCHMv2で後から救済したと表現しない。
+
 ## 2026-11-14：独立CHMv2の40m元画素を237森林区画で監査、232 plotの樹冠高proxyを確保
 
 NEON公開`neonDivData 0.3.1`の2019–2023 forest patch `siteID×plotID`元位置と、独立公開のMeta/WRI CHMv2 v2（2026 DINOv3衛星林冠高）の公開COGを接続した。NEON original`.basePlot.div/.brd`中心を優先する位置バグを修正し、**35 NEON sites・17 ecoclimatic domains・237 field plots／952 plot×years**の全元区画位置が同定でき、**公開39タイルすべての元1m級画素を40m正方形で読み込んだ**。
