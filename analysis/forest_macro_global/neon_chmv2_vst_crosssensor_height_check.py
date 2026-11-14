@@ -213,7 +213,7 @@ def synthetic():
             x=float(4+i*2+plot*.3)
             rows.append({"siteID":site,"plotID":f"PRIVATE_PLOT_{plot}",
                          "field_p90_m":x,"CHM_p90_m":x+1})
-    res=source_site_stats(rows,domain,B=199,P=0 if False else 0) if False else source_site_stats(rows,domain,B=199)
+    res=source_site_stats(rows,domain,B=199)
     assert res["status"]=="INDEPENDENT_CHMV2_VST_CROSSSENSOR_SPATIAL_CONCORDANCE_DESCRIPTIVE"
     assert res["original_independent_NEON_sites"]==10
     assert res["distinct_original_field_plots_one_field_survey_per_plot"]==30
