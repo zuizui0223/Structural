@@ -7,7 +7,7 @@ The original Meta/WRI CHMv2 uint8 value 0 can mean nodata OR no canopy:
 never infer 0m canopy, absence or deforestation from 0 pixels.
 """
 from __future__ import annotations
-import argparse,csv,datetime as dt,json,math,statistics,tempfile,urllib.request
+import argparse,csv,datetime as dt,json,math,os,statistics,tempfile,urllib.request
 from collections import Counter,defaultdict
 from pathlib import Path
 
@@ -156,6 +156,27 @@ def audit(private_csv,official_csv,out):
                         qa[(site,plot)]={"status":"SOURCE_PLOT40M_PIXEL_READ_ERROR"}
     counts=Counter(v["status"] for v in qa.values())
     passing={key for key,v in qa.items() if v["status"]=="SOURCE_PLOT40M_CHM_POSITIVE_PIXEL_QA_PASS"}
+    if os.environ.get("NEON_CHMV2_WRITE_RUNNER_PRIVATE_2019_2020_PLOT_QA")=="1":
+        # Original site IDs, plot IDs, CHM per-plot p90 and tile scene dates
+        # are SENSITIVE SOURCE ROWS; stay ONLY in private runner directory.
+        # Never include this file under the aggregate artifact path.
+        if len(passing)!=232 or len({k[0] for k in passing})!=34:
+            raise ValueError("STOP_PREVIOUSLY_FROZEN_232_CHM_QA_34SITES_DRIFT")
+        private=Path(private_csv).parent/"private_CHMv2_positive_plot_p90_and_source_window.csv"
+        with private.open("w",encoding="utf-8",newline="") as file:
+            writer=csv.DictWriter(file,fieldnames=("siteID","plotID","CHM_p90_m",
+                "positive_fraction","source_tile_acq_start","source_tile_acq_end"))
+            writer.writeheader()
+            for site,plot in sorted(passing):
+                v=qa[(site,plot)]
+                lat,lon=plots[(site,plot)]
+                a,b,n=dates[quadkey(lat,lon)]
+                writer.writerow({"siteID":site,"plotID":plot,
+                    "CHM_p90_m":v["height_positive_p90_m"],
+                    "positive_fraction":v["positive_fraction"],
+                    "source_tile_acq_start":a.isoformat(),
+                    "source_tile_acq_end":b.isoformat()})
+        print("Runner-private CHMv2 232 original plot QA rows written (never upload):",len(passing))
     sites={site for site,plot in passing}
     p90=[qa[key]["height_positive_p90_m"] for key in passing]
     f=[qa[key]["positive_fraction"] for key in passing]
