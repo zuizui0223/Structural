@@ -1,0 +1,46 @@
+name: Thai beetle canopy original pair station and survey campaigns audit
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-pairing.yml"
+      - "analysis/forest_macro_global/thai_beetle_pairing_diagnostic.py"
+      - "analysis/forest_macro_global/test_thai_beetle_pairing_diagnostic.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paired_vertical_SLAM_source_geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test unambiguous and ambiguous canopy station pairing
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_thai_beetle_pairing_diagnostic.py
+      - name: Download source-published Event core and check spatial-temporal matching
+        run: |
+          python analysis/forest_macro_global/thai_beetle_pairing_diagnostic.py \
+            --out thai_beetle_canopy_original_pairs
+      - name: Check source network counts and no species data access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("thai_beetle_canopy_original_pairs/thai_beetle_SLAM_spatial_pairing_diagnostic.json").read_text())
+          assert x["schema"]=="structural.thai_beetle_forestSLAM_spatial_temporal_pairing_v1"
+          assert x["forest_n"]==2 and x["total_SLAM_jar_event_rows"]==144
+          assert x["expected_station_pairs"]==18
+          assert not x["biological_taxon_values_used_for_pairing"]
+          assert x["no_raw_coords_or_eventIDs_exported"]
+          PY
+      - name: Archive anonymized forest/pair diagnostics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-forest-station-pairing
+          path: thai_beetle_canopy_original_pairs/
+          if-no-files-found: warn

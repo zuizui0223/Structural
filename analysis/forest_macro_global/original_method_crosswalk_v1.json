@@ -1,0 +1,67 @@
+{
+  "schema": "structural.forest_macro_splotopen_original_method_crosswalk.v1",
+  "frozen_as_of": "2026-11-07",
+  "intent": "Interpret GIVD source geography, plot hierarchy, and biological survey scope before any sPlotOpen species response modeling. Counts from source pages are original database metadata; counts from sPlotOpen are a differently sampled open subset.",
+  "source_records": [
+    {
+      "source_givd_dataset": "AS-BD-001",
+      "source_database_name": "Tropical forest dataset of Bangladesh",
+      "original_metadata_url": "https://www.givd.info/ID/AS-BD-001",
+      "original_design_claim": "225 homogeneous patches nested within 66 larger sampling plots drawn from three forests; 800m grid spacing of plots; species are trees with DBH >10 cm; local vegetation height and total tree cover recorded",
+      "original_units": {
+        "forests": 3,
+        "plots": 66,
+        "patches": 225
+      },
+      "source_scope": "woody_trees_dbh_gt10cm",
+      "year_alignment": "archive-specific field date needed",
+      "source_independence_gate": "NESTED_3_FORESTS_SOURCE_HIERARCHY_NOT_85_INDEPENDENT_FORESTS",
+      "source_outcome_admission": "PENDING_PLOT_HIERARCHY_AND_EFFORT"
+    },
+    {
+      "source_givd_dataset": "AS-CN-003",
+      "source_database_name": "Vegetation Database of the BEF China Project",
+      "original_metadata_url": "https://www.idiv.de/research/projects/splot/members-splot/",
+      "original_methods_url": "https://doi.org/10.1111/geb.13346",
+      "original_design_claim": "sPlotOpen original contributor project is a China biodiversity-ecosystem-functioning project, with 24 plots in sPlotOpen and 27 plots reported on iDiv current source listing. Verify experimental treatment and plot nesting before calling them independent naturally assembled forest communities.",
+      "original_units": {
+        "project_reported_plots": 27
+      },
+      "source_scope": "declared_woody_class_in_splotopen_metadata",
+      "year_alignment": "archive-specific field date needed",
+      "source_independence_gate": "BEF_CHINA_EXPERIMENTAL_PLOT_TREATMENT_NOT_GLOBAL_FOREST_REPLICATION",
+      "source_outcome_admission": "PENDING_TREATMENT_AND_PLOT_HIERARCHY"
+    },
+    {
+      "source_givd_dataset": "SA-BR-002",
+      "source_database_name": "Santa Catarina Forest Inventory (IFFSC)",
+      "original_metadata_url": "https://www.givd.info/ID/SA-BR-002",
+      "original_design_claim": "Systematic permanent native-forest plots on ~10km grid; 4000m2 sample cluster = 4 subplots of 1000m2; separate tree DBH >=10cm and understory/regeneration <10cm >0.5m strata, some vegetation categories including herbs and epiphytes.",
+      "original_units": {
+        "givd_metadata_plot_count": 444,
+        "cluster_m2": 4000,
+        "subplots_per_cluster": 4,
+        "subplot_m2": 1000
+      },
+      "source_scope": "woody_and_understory_stratified",
+      "year_alignment": "inventory cycles 2007-2011 and 2014 onward; actual per-source-plot year required",
+      "source_independence_gate": "RECONCILE_444_GIVD_PLOTS_WITH_1561_OPEN_SUBSET_NODES_AND_NESTING",
+      "source_outcome_admission": "PENDING_NESTING_TAXON_SCOPE_AND_REPEAT_CYCLE"
+    },
+    {
+      "source_givd_dataset": "EU-CH-005",
+      "source_database_name": "Swiss Forest Vegetation Database",
+      "original_metadata_url": "https://www.givd.info/ID/EU-CH-005",
+      "original_scope_pdf": "https://www.biodiversity-plants.de/biodivers_ecol/publishing/b-e.00131.pdf",
+      "original_design_claim": "Historical Swiss forest vegetation relevés 1904-1998 gathered from ~320 source studies/collectors; spatial precision varies and sample dates/methods are heterogeneous; database report indicates trees and shrubs only.",
+      "original_units": {
+        "givd_metadata_releves_approx": 14800,
+        "contributor_studies_approx": 320
+      },
+      "source_scope": "woody_trees_shrubs_historical",
+      "year_alignment": "historical 1904-1998, not contemporaneous with satellite canopy year 2020",
+      "source_independence_gate": "REQUIRE_SOURCE_STUDY_AND_METHOD_STRATA_AND_SPATIAL_PRECISION",
+      "source_outcome_admission": "PENDING_SOURCE_STUDY_AND_HISTORICAL_PROTOCOL"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+name: "NEON 8-forest-site ground beetle vs plant annual beta: one source-gated exploration"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-neon-cross-taxon-temporal.yml"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-neon-cross-taxon-temporal.yml"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  eight_site_original_plot_temporal_coherence:
+    # Original v1 halted at source-effort independent-site threshold; preserve scientific STOP, do not reopen outcomes.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install only public NEON derivative package and anonymized-summary writer
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+      - name: Test true Simpson beta, seasonal effort, and site-blocked temporal synchrony without source
+        env:
+          NEON_CROSS_TAXON_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R /tmp/NEON-synthetic /tmp/NEON-synthetic-sites.csv
+      - name: Fetch pinned OFFICIAL NEON 81-site context metadata
+        run: |
+          set -euo pipefail
+          mkdir -p original_official_neon
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            --output original_official_neon/NEON_Field_Site_Metadata_20260805.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  original_official_neon/NEON_Field_Site_Metadata_20260805.csv' | sha256sum -c -
+      - name: Run once: strict same-plot and seasonal effort source metadata gate before touching taxon records
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R \
+            forest_macro_neon_cross_taxon_aggregate \
+            original_official_neon/NEON_Field_Site_Metadata_20260805.csv
+      - name: Gate: publish negative/STOP and positives without misrepresenting independence
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          f<-"forest_macro_neon_cross_taxon_aggregate/NEON_cross_taxon_8forest_temporal_alignment_aggregate.json"
+          x<-fromJSON(f)
+          stopifnot(
+            x$schema=="structural.NEON_forest_8site_temporal_taxon_alignment_exploratory.v1",
+            x$original_source_forests_NLCD_site_context==8,
+            x$original_source_domains_before_effort==7,
+            x$source_original_2019_2023_metadata_plot_years>=339,
+            x$no_individual_source_site_plot_taxon_coordinates_reexported,
+            x$source_data_no_global_or_3D_forest_causality,
+            x$no_true_extinction_colonization_or_zero_survey_denominator_claim,
+            x$primary_39study_PREDICTS_result_left_frozen,
+            x$eBird_used==FALSE)
+          if(!x$source_only_gate_passed){
+            stopifnot(!x$source_biology_taxon_or_values_read)
+            print(paste("SOURCE_GATE_SCIENTIFIC_STOP",x$status))
+          } else {
+            stopifnot(x$source_biology_taxon_or_values_read)
+            print(paste("BIOLOGICAL_EXPLORATORY_STATUS",x$status))
+            print(x$exploratory_temporal_alignment_inference)
+          }
+          RS
+      - name: Export only anonymized forest-site scale source and taxon outcome aggregate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-NEON-8forest-cross-taxon-temporal-beta-onepass
+          path: forest_macro_neon_cross_taxon_aggregate/
+          if-no-files-found: warn

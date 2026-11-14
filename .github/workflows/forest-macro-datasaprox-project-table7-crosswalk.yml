@@ -1,0 +1,77 @@
+name: "DATASAPROX original project methods vs published Table 7 (response-unopened)"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-project-table7-crosswalk.yml"
+      - "analysis/forest_macro_global/datasaprox_project_method_table7_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-project-table7-crosswalk.yml"
+      - "analysis/forest_macro_global/datasaprox_project_method_table7_gate.py"
+      - "analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  published_article_crosswalk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Source-only known-truth tests: XML Table 7 and sampling-design separation
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py
+      - name: Download the pinned publisher occurrence archive for metadata only
+        run: |
+          set -euo pipefail
+          mkdir -p source_private author_article article_scope
+          curl --fail --location --retry 1 --connect-timeout 15 --max-time 180 --max-filesize 80000000 \
+            --proto '=https' --proto-redir '=https' \
+            "https://ipt.gbif.fr/archive.do?r=datasaprox&v=1.6" \
+            --output source_private/datasaprox_original_v1_6.zip
+      - name: Retrieve published open-access article XML, not inferred from taxa
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 1 --connect-timeout 15 --max-time 120 --max-filesize 18000000 \
+            --proto '=https' --proto-redir '=https' \
+            "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12993481/fullTextXML" \
+            --output author_article/PMC12993481.xml
+      - name: Join only original study names to independently published completeness table
+        run: |
+          python analysis/forest_macro_global/datasaprox_project_method_table7_gate.py \
+            --archive source_private/datasaprox_original_v1_6.zip \
+            --paper-xml author_article/PMC12993481.xml \
+            --out article_scope
+      - name: Assert all biological responses still unopened and old scientific STOP binding
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("article_scope/datasaprox_published_table7_project_scope_crosswalk.json").read_text())
+          assert r["source_original_occurrence_rows_metadata_only"]==675525
+          assert r["original_source_sample_event_keys"]==65642
+          assert r["excluded_all_conflicting_source_event_keys"]==1133
+          assert r["candidate_without_ID_condition_paired_units"]==87
+          assert r["candidate_without_ID_condition_distinct_plot_keys"]==45
+          assert r["candidate_without_ID_condition_distinct_source_projects"]==3
+          assert r["original_same_treatment_design_scientific_STOP_preserved"]
+          assert r["no_taxon_species_abundance_geo_or_raw_field_ID_access"]
+          assert r["no_biological_community_composition_result"]
+          assert all(not p["original_author_specific_treatment_semantics_verified"] for p in r["candidate_project_metadata"])
+          print("PUBLISHED_AUTHOR_TABLE7_CROSSWALK_COMPLETED; NO BIOLOGY CLAIM")
+          PY
+      - name: Export only anonymized publisher Table 7 scope and sampling-hierarchy evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: datasaprox-published-table7-project-scope-only
+          path: article_scope/
+          if-no-files-found: warn

@@ -1,0 +1,62 @@
+name: "Forest vertical-niche beetle horizontal distance support gate"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-distance-support.yml"
+      - "analysis/forest_macro_global/thai_beetle_vertical_horizontal_beta.py"
+      - "analysis/forest_macro_global/thai_beetle_distance_decay_gate.py"
+      - "analysis/forest_macro_global/test_thai_beetle_distance_decay_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no_extrapolation_of_vertical_to_horizontal_niche_distance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate quartile interpolation gates, original forest sampling hierarchy and privacy
+        run: |
+          python -m pip install pytest
+          python -m pytest -q \
+            analysis/forest_macro_global/test_thai_beetle_vertical_horizontal_beta.py \
+            analysis/forest_macro_global/test_thai_beetle_distance_decay_gate.py
+      - name: Analyze frozen original Thai beetle canopy-stratum vs horizontal family dissimilarity
+        run: |
+          python analysis/forest_macro_global/thai_beetle_distance_decay_gate.py \
+            --out original_thai_beta_distance_support
+      - name: Require strict original source and explicit support-gate status
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("original_thai_beta_distance_support/thai_distance_decay_support.json").read_text())
+          assert r["schema"]=="structural.thai_beetle_horizontal_distance_decay_support_gate.v1"
+          assert r["source_frozen_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          assert r["forest_count"]==2
+          assert r["physical_station_pairs"]==18
+          assert r["source_beetle_individuals"]==1622
+          assert len(r["forest_campaign_results"])==4
+          assert r["not_a_vertical_meters_to_horizontal_meters_conversion"]
+          assert r["unobserved_short_horizontal_distance_not_extrapolated"]
+          assert r["no_raw_coordinates_eventIDs_taxa_exported"]
+          for s in r["forest_campaign_results"]:
+              assert s["vertical_paired_station_BC_n"]==9
+              assert s["horizontal_within_layer_pairwise_BC_n_nonindependent"]>=40
+              gate=s["horizontal_equivalent_support_gate"]
+              if gate["status"]=="DESCRIPTIVE_WITHIN_OBSERVED_DISTANCE_SUPPORT":
+                  distance=gate["interpolated_horizontal_equivalent_m_NOT_vertical_travel_distance"]
+                  assert s["horizontal_distance_min_m"]<=distance<=s["horizontal_distance_max_m"]
+              else:
+                  assert gate["interpolated_horizontal_equivalent_m_NOT_vertical_travel_distance"] is None
+          PY
+      - name: Archive only anonymized distance-support diagnostics, no raw species or coordinates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-distance-support-gate
+          path: original_thai_beta_distance_support/
+          if-no-files-found: warn

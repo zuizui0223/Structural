@@ -1,0 +1,50 @@
+name: Thai canopy beetle matched 18 stations and two season original response
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-matched-stations.yml"
+      - "analysis/forest_macro_global/thai_beetle_matched_station_response.py"
+      - "analysis/forest_macro_global/test_thai_beetle_matched_station_response.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_fixed_stations_paired_vertical_beetle_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Synthetic 18-station tests of canopy dominance, forest reversal, and effort errors
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_thai_beetle_matched_station_response.py
+      - name: Original frozen-source canopy vs understorey beetles, paired by station and season
+        run: |
+          python analysis/forest_macro_global/thai_beetle_matched_station_response.py \
+            --out thai_beetle_paired_original_result
+      - name: Audit physical pairing, original 1622 specimens, and 2-forest inference boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("thai_beetle_paired_original_result/thai_beetle_matched_SLAM_station_season_results.json").read_text())
+          assert r["schema"]=="structural.thai_beetle_canopy_18_station_2_campaign_paired_exploratory.v1"
+          assert r["independent_physical_station_pairs_within_forests"]==18
+          assert r["original_independent_forests"]==2
+          assert r["actual_original_SLAM_jar_events"]==144
+          assert r["complete_pairs_station_x_campaign"]==36
+          assert r["canopy_total_beetles"]+r["understorey_total_beetles"]==1622
+          assert r["identical_sampling_effort_metadata_distribution_across_strata"]
+          assert not r["not_an_estimate_of_canopy_height_causal_effect"] is False
+          assert r["raw_coords_trap_ids_forest_names_not_exported"]
+          PY
+      - name: Archive aggregate paired model diagnostics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-matched-site-season-response
+          path: thai_beetle_paired_original_result/
+          if-no-files-found: warn

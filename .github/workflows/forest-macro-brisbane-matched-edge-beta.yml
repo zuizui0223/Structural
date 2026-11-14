@@ -1,0 +1,68 @@
+name: "Forest beetle Brisbane matched vertical canopy-ground edge beta"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-brisbane-matched-edge-beta.yml"
+      - "analysis/forest_macro_global/score_brisbane_matched_vertical_edge_beta.py"
+      - "analysis/forest_macro_global/test_score_brisbane_matched_vertical_edge_beta.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_10site_five_remnant_groups_matched_forest_edge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify prespecified one primary edge1 minus interior256 within-site contrast exists before scoring
+        run: |
+          test -s docs/FOREST_BEETLE_BRISBANE_PAIRED_VERTICAL_EDGE_PRESPEC_20261108.md
+          grep -q 'D_s = V' docs/FOREST_BEETLE_BRISBANE_PAIRED_VERTICAL_EDGE_PRESPEC_20261108.md
+      - name: Test known positive, negative, zero, missing source taxon and incorrect original site pairing
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_score_brisbane_matched_vertical_edge_beta.py
+      - name: Acquire exact original Stone CC0 80-trap workbook
+        run: |
+          mkdir -p original_Brisbane_Stone_2018
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 120 \
+            "https://zenodo.org/records/4998317/files/BeetleAndEnviroData.Stone.et.al.2017.xlsx?download=1" \
+            -o original_Brisbane_Stone_2018/BeetleAndEnviroData.Stone.et.al.2017.xlsx
+      - name: Fit ONE original matched site vertical species composition contrast edge1 vs forest interior256
+        run: |
+          python analysis/forest_macro_global/score_brisbane_matched_vertical_edge_beta.py \
+            --source original_Brisbane_Stone_2018/BeetleAndEnviroData.Stone.et.al.2017.xlsx \
+            --out original_Brisbane_matched_vertical_edge_result
+      - name: Assert original source and preserve ecological conditional evidence boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("original_Brisbane_matched_vertical_edge_result/Brisbane_beetle_original_paired_canopy_ground_edge_beta.json").read_text())
+          assert r["schema"]=="structural.Brisbane_2018_original_matched_vertical_beetle_edge_beta.v1"
+          assert r["original_publisher_source_MD5"]=="153743ec4d968f20349e7caddd49dac1"
+          assert r["source_original_wide_taxon_code_columns"]==246
+          assert r["source_trap_records"]==80
+          assert r["source_ground_flight_traps"]==50
+          assert r["source_canopy_flight_traps"]==30
+          assert r["source_original_10_sampling_sites_one_region"]==10
+          assert r["source_full_30_site_by_edge_ground_canopy_pair_opportunities"]==30
+          assert r["main_endpoint_prespecified_before_scoring"]
+          assert r["mid_16m_is_secondary_descriptive_only"]
+          assert r["inference_conditional_on_study_10_sites_and_5_unverified_remnant_groups"]
+          assert r["source_sites_not_independent_forest_or_study_regions"]
+          assert r["beetle_microclimate_and_movement_NOT_observed"]
+          assert r["raw_original_morphospecies_names_Obs_siteIDs_NOT_exported"]
+          assert r["no_eBird_used"]
+          print("Original vertical edge contrast status:",r["within_source_site_primary_effect"]["status"])
+          PY
+      - name: Save anonymous matched vertical composition summaries and ten-source-site uncertainty
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-Brisbane-matched-canopy-ground-edge-beta-single-contrast
+          path: original_Brisbane_matched_vertical_edge_result/
+          if-no-files-found: warn

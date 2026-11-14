@@ -1,0 +1,66 @@
+name: "Forest 8-country beetle 207 trap-cell and 13 landscape original join"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-eight-country-beetle-joins.yml"
+      - "analysis/forest_macro_global/qualify_eight_country_beetle_joins.py"
+      - "analysis/forest_macro_global/test_qualify_eight_country_beetle_joins.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify_source_beetle_environment_sampling_cell_join:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Known truth for 207 cells, 13 landscape IDs and no positional source joins
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_qualify_eight_country_beetle_joins.py
+      - name: Download original 4 Zenodo v3 sample-beetle-landscape tables
+        run: |
+          mkdir -p original_zenodo_beetles
+          for file in bio_cast.txt bio_data_trapscale.txt env_data_sitescale.txt env_data_trapscale.txt; do
+            curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 130 \
+              "https://zenodo.org/records/17044394/files/${file}?download=1" \
+              -o "original_zenodo_beetles/${file}"
+          done
+      - name: Validate SITE CELL_ID joins and forest-cover plot_id crosswalk from original values
+        run: |
+          python analysis/forest_macro_global/qualify_eight_country_beetle_joins.py \
+            --bio_wide original_zenodo_beetles/bio_cast.txt \
+            --bio_long original_zenodo_beetles/bio_data_trapscale.txt \
+            --site_env original_zenodo_beetles/env_data_sitescale.txt \
+            --trap_env original_zenodo_beetles/env_data_trapscale.txt \
+            --out eight_country_original_cell_join
+      - name: Scientific admission remains stopped unless actual source identities match
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          x=json.loads(Path("eight_country_original_cell_join/zenodo_beetle_original_site_and_trap_join.json").read_text())
+          assert x["schema"]=="structural.zenodo_13_landscape_beetles_original_cell_join.v1"
+          assert x["original_sampled_landscapes_n"]==13
+          assert x["sampling_CELL_ID_SITE_pairs_unique"]==207
+          assert x["trap_environment_CELL_ID_SITE_pairs_unique"]==207
+          assert x["original_bio_long_rows"]==3215
+          assert x["all_biological_sampling_cells_have_matching_trap_environment"]
+          assert x["site_environment_join_status"] in (
+              "DIRECT_13_LANDSCAPE_ID_EQUIVALENCE","STOP_REQUIRES_SOURCE_IDENTITY_CROSSWALK")
+          assert x["original_independent_forest_patches_count_verified"]==0
+          assert not x["species_source_occupancy_or_connectivity_model_fit"]
+          assert x["no_original_ids_coordinates_species_labels_exported"]
+          assert not x["eBird_used"]
+          print("Observed original landscape source join:",x["site_environment_join_status"])
+          PY
+      - name: Preserve source-only audit counts, never original plot/taxon records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-8-country-207cell-site-environment-join
+          path: eight_country_original_cell_join/
+          if-no-files-found: warn

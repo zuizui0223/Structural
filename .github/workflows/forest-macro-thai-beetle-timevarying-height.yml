@@ -1,0 +1,57 @@
+name: "Thai canopy beetle actual time-varying trapping height vs vertical captures"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-timevarying-height.yml"
+      - "analysis/forest_macro_global/thai_beetle_timevarying_height_response.py"
+      - "analysis/forest_macro_global/test_thai_beetle_timevarying_height_response.py"
+      - "analysis/forest_macro_global/thai_beetle_trap_height_association.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual_two_season_stations_height_vs_capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify station trajectory resampling and nonzero/zero/negative known truth
+        run: |
+          python -m pip install pytest
+          python -m pytest -q \
+            analysis/forest_macro_global/test_thai_beetle_timevarying_height_response.py \
+            analysis/forest_macro_global/test_thai_beetle_trap_height_association.py
+      - name: Run frozen original Thai beetles time-varying height contrast within forests and campaigns
+        run: |
+          python analysis/forest_macro_global/thai_beetle_timevarying_height_response.py \
+            --out actual_canopy_height_varying_association
+      - name: Scientific interpretation boundary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("actual_canopy_height_varying_association/thai_beetle_time_varying_trap_height_association.json").read_text())
+          assert r["schema"]=="structural.thai_beetle_actual_timevarying_height_by_campaign.v1"
+          assert r["source_original_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          assert r["original_independent_forest_n"]==2
+          assert r["original_physical_station_n"]==18
+          assert r["original_station_campaign_pairs"]==36
+          assert r["original_beetle_individuals"]==1622
+          assert r["all_original_stations_included_including_height_movers"]
+          assert r["posthoc_exploratory_after_station_fixed_height_STOP"]
+          assert r["forest_and_campaign_fixed_intercepts"]
+          assert r["no_HOBO_temperature_or_light_timeseries_in_the_model"]
+          assert r["not_test_of_thermal_refuge_or_climate_warming"]
+          assert r["not_causal_effect_of_canopy_height"]
+          assert r["raw_coordinates_tree_station_event_ids_not_exported"]
+          PY
+      - name: Archive forest and station-block aggregate evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-timevarying-height-capture
+          path: actual_canopy_height_varying_association/
+          if-no-files-found: warn

@@ -1,0 +1,59 @@
+name: "Forest beetles canopy trap height vs vertical capture ratio"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-trap-height-association.yml"
+      - "analysis/forest_macro_global/thai_beetle_trap_height_association.py"
+      - "analysis/forest_macro_global/test_thai_beetle_trap_height_association.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual_18_station_canopy_height_forest_centered_exploratory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test nested forest station/season and measured trap height effect under known truth
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_thai_beetle_trap_height_association.py
+      - name: Reanalyze source-frozen Thai beetle original trap heights with paired season capture counts
+        run: |
+          python analysis/forest_macro_global/thai_beetle_trap_height_association.py \
+            --out original_thai_beetle_height_response
+      - name: Require measured height, separate station clustering and no climate-causal inference
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("original_thai_beetle_height_response/thai_beetle_height_vs_vertical_capture_ratio.json").read_text())
+          assert r["schema"]=="structural.thai_beetle_trap_height_vs_capture_vertical_asymmetry.v1"
+          assert r["source_archive_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          assert r["original_forest_n"]==2 and r["physical_stations_n"]==18
+          assert r["source_original_SLAM_jar_events"]==144
+          assert r["source_original_beetle_individuals"]==1622
+          assert r["source_archive_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          if r.get("original_fixed_height_model_status")=="SCIENTIFIC_STOP_TRAP_HEIGHT_CHANGED_BETWEEN_CAMPAIGNS":
+              assert r["association_estimate"] is None
+              assert r["not_evidence_of_thermal_escape_behavior_or_warming_response"]
+              assert r["raw_station_forest_identifiers_and_coordinates_not_exported"]
+              print("SCIENTIFIC STOP: station canopy heights changed; no fixed-height effect was estimated")
+          else:
+              assert r["original_fixed_height_model_status"]=="ESTIMATED_WITHIN_STUDY_EXPLORATORY"
+              assert r["source_canopy_trap_height_m_min"]>=10 and r["source_canopy_trap_height_m_max"]<=35
+              assert r["temperature_and_light_logger_time_series_not_used"]
+              assert r["based_on_post_result_exploratory_question"]
+              assert r["not_evidence_of_thermal_escape_behavior_or_warming_response"]
+              assert r["raw_station_forest_identifiers_and_coordinates_not_exported"]
+          PY
+      - name: Archive forest-level slope and site-resampled diagnostics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-height-capture-asymmetry
+          path: original_thai_beetle_height_response/
+          if-no-files-found: warn

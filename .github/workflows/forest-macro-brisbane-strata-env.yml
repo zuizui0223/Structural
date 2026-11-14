@@ -1,0 +1,56 @@
+name: "Forest Brisbane 80 canopy and ground beetle trap source matching"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-brisbane-strata-env.yml"
+      - "analysis/forest_macro_global/audit_brisbane_stratum_env_grain.py"
+      - "analysis/forest_macro_global/test_audit_brisbane_stratum_env_grain.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_80_beetle_strata_50_29_source_environment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test original OOXML 80 beetle rows, 50+29 climate/vegetation rows and hidden source species
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_brisbane_stratum_env_grain.py
+      - name: Fetch exact original Brisbane source workbook with MD5 pin
+        run: |
+          mkdir -p original_Brisbane_Stone
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 130 \
+            "https://zenodo.org/records/4998317/files/BeetleAndEnviroData.Stone.et.al.2017.xlsx?download=1" \
+            --output original_Brisbane_Stone/BeetleAndEnviroData.Stone.et.al.2017.xlsx
+      - name: Audit actual original vertical stratum labels and environment source units without any beetle taxa
+        run: |
+          python analysis/forest_macro_global/audit_brisbane_stratum_env_grain.py \
+            --source original_Brisbane_Stone/BeetleAndEnviroData.Stone.et.al.2017.xlsx \
+            --out original_Brisbane_canopy_ground_field_grain
+      - name: Preserve original observed unit and no false inference
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          x=json.loads(Path("original_Brisbane_canopy_ground_field_grain/Brisbane_original_ground_canopy_meta_grain.json").read_text())
+          assert x["schema"]=="structural.brisbane_canopy_ground_original_80trap_metadata_grain.v1"
+          assert x["original_source_MD5"]=="153743ec4d968f20349e7caddd49dac1"
+          assert x["source_original_Beetle_data_TRAP_records_NOT_80_FORESTS"]==80
+          assert x["source_environment_rows_total"]==79
+          assert x["taxon_abundance_source_columns_read"]==0
+          assert x["forest_fragment_and_stratum_source_hierarchy_not_yet_resolved"]
+          assert not x["new_biological_effect_calculated"]
+          assert x["no_original_taxon_names_trap_IDs_raw_environment_values_exported"]
+          PY
+      - name: Save original sampling support and source metadata only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-Brisbane-original-80trap-vertical-strata-grain
+          path: original_Brisbane_canopy_ground_field_grain/
+          if-no-files-found: warn

@@ -1,0 +1,57 @@
+name: "Forest canopy-ground beetles Brisbane original 80-trap stratum source"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-brisbane-canopy-original.yml"
+      - "analysis/forest_macro_global/audit_brisbane_canopy_ground_original_xlsx.py"
+      - "analysis/forest_macro_global/test_audit_brisbane_canopy_ground_original_xlsx.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_Brisbane_CC0_canopy_ground_80_trap_source_support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test office XML source workbook schema identity and no raw beetle export
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_brisbane_canopy_ground_original_xlsx.py
+      - name: Retrieve original source publication CC0 beetle and environment workbook from Zenodo
+        run: |
+          mkdir -p original_brisbane_forest_beetle
+          curl --fail --location --retry 2 --retry-delay 3 --connect-timeout 15 --max-time 150 \
+            "https://zenodo.org/records/4998317/files/BeetleAndEnviroData.Stone.et.al.2017.xlsx?download=1" \
+            --output original_brisbane_forest_beetle/BeetleAndEnviroData.Stone.et.al.2017.xlsx
+      - name: Audit frozen original 80 beetle trap observations and source workbook structure
+        run: |
+          python analysis/forest_macro_global/audit_brisbane_canopy_ground_original_xlsx.py \
+            --source original_brisbane_forest_beetle/BeetleAndEnviroData.Stone.et.al.2017.xlsx \
+            --out Brisbane_forest_canopy_beetle_original_source
+      - name: Verify original checksum and no novel ecological results claimed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("Brisbane_forest_canopy_beetle_original_source/brisbane_stone_beetle_original_workbook_schema.json").read_text())
+          assert q["schema"]=="structural.brisbane_forest_beetle_original_xlsx_sheet_grain_audit.v1"
+          assert q["source_original_md5_verified"]=="153743ec4d968f20349e7caddd49dac1"
+          assert q["source_DOI"]=="10.5061/dryad.14hp7"
+          assert q["source_paper_reports_flight_intercept_trap_locations"]==80
+          assert q["source_paper_reports_species_under_2_trap_locations_excluded"]
+          assert q["original_independent_forest_study_region_count"]==1
+          assert q["source_same_trap_type_canopy_and_ground_reported_in_publication"]
+          assert q["original_species_site_observation_values_NOT_EXPORTED"]
+          assert not q["new_canopy_beetle_effect_scored"]
+          PY
+      - name: Archive source checksum and structure only, not original spreadsheet contents
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-brisbane-original-vertical-beetle-trap-schema
+          path: Brisbane_forest_canopy_beetle_original_source/
+          if-no-files-found: warn

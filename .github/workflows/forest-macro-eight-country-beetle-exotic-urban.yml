@@ -1,0 +1,70 @@
+name: "Forest native vs exotic beetle incidence within 13 urban landscapes"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-eight-country-beetle-exotic-urban.yml"
+      - "analysis/forest_macro_global/score_eight_country_beetle_exotic_urbanization.py"
+      - "analysis/forest_macro_global/test_score_eight_country_beetle_exotic_urbanization.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_exotic_share_urban_gradient_13_landscapes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Confirm exact source-frozen one-test prespec is committed before scoring
+        run: |
+          test -s docs/FOREST_BEETLE_URBAN_NATIVE_EXOTIC_PRESPEC_20261108.md
+          grep -q '固定する唯一の主コントラスト' docs/FOREST_BEETLE_URBAN_NATIVE_EXOTIC_PRESPEC_20261108.md
+      - name: Test known positive, known negative, unestimable and local-species-status conflict
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_score_eight_country_beetle_exotic_urbanization.py
+      - name: Retrieve four source-version-frozen original Zenodo beetle and landscape TSVs
+        run: |
+          mkdir -p original_zenodo_beetles
+          for file in bio_cast.txt bio_data_trapscale.txt env_data_sitescale.txt env_data_trapscale.txt; do
+            curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 130 \
+              "https://zenodo.org/records/17044394/files/${file}?download=1" \
+              -o "original_zenodo_beetles/${file}"
+          done
+      - name: Fit frozen exploratory 13-landscape mean of urbanized exotic detection slopes
+        run: |
+          python analysis/forest_macro_global/score_eight_country_beetle_exotic_urbanization.py \
+            --bio_wide original_zenodo_beetles/bio_cast.txt \
+            --bio_long original_zenodo_beetles/bio_data_trapscale.txt \
+            --site_env original_zenodo_beetles/env_data_sitescale.txt \
+            --trap_env original_zenodo_beetles/env_data_trapscale.txt \
+            --out forest_exotic_beetle_urbanization_one_shot
+      - name: Require landscape-scope inference and no pseudo-confirmatory species mobility
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("forest_exotic_beetle_urbanization_one_shot/forest_beetle_exotic_incidence_urbanization_study_sites.json").read_text())
+          assert r["schema"]=="structural.forest_beetle_within_landscape_exotic_share_urbanization.v1"
+          assert r["source_Zenodo_v3_DOI"]=="10.5281/zenodo.17044394"
+          assert r["source_original_landscapes"]==13 and r["source_original_cell_count"]==207
+          assert r["source_original_cell_taxon_incidence_count"]==3215
+          assert r["source_301_taxa_binary_incidence_matrix_verified"]
+          assert r["absolute_individual_abundance_not_used_due_to_published_source_difference"]
+          assert r["same_landscape_fixed_context_removed_from_main_slope"]
+          assert r["forest_2000_spatial_amount_NOT_scored_this_test"]
+          assert r["confounder_country_biogeographic_pool_not_resolved"]
+          assert r["not_thermal_movement_or_canopy_understorey_layer_test"]
+          assert r["no_original_site_IDS_taxa_names_trap_records_reexported"]
+          assert not r["eBird_used"]
+          print("Original ecological main result:",r["main_result"]["status"])
+          PY
+      - name: Archive original fixed-scope 13-landscape native-exotic test, not raw captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-13-landscape-exotic-incidence-urbanization
+          path: forest_exotic_beetle_urbanization_one_shot/
+          if-no-files-found: warn
