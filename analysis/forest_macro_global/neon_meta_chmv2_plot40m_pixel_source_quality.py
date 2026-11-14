@@ -108,9 +108,20 @@ def audit(private_csv,official_csv,out):
     if len(rows)!=952:raise ValueError("STOP_PRIVATE_SOURCE_952_FIXED_COHORT_DRIFT")
     plots=unique_plots(rows)
     if len(plots)!=237:raise ValueError("STOP_PRIVATE_237_ORIGINAL_PLOTS_CHANGED")
-    official=list(csv.DictReader(Path(official_csv).open(encoding="utf-8")))
-    domain={r["site_id"]:r["domain_id"] for r in official}
-    if len(official)!=81 or len(domain)!=81:raise ValueError("STOP_OFFICIAL_NEON_SOURCE_81_SITE_METADATA_DRIFT")
+    with Path(official_csv).open(encoding="utf-8-sig",newline="") as file:
+        reader=csv.DictReader(file)
+        headers=[str(c or "").lstrip("\ufeff").strip() for c in (reader.fieldnames or [])]
+        if "site_id" not in headers:
+            raise ValueError("STOP_OFFICIAL_NEON_SITE_ID_COLUMN_MISSING")
+        domain_field=next((c for c in ("domain_id","domainID","domainId","domain") if c in headers),None)
+        if domain_field is None:
+            print("Official source field names (metadata only):",headers)
+            raise ValueError("STOP_OFFICIAL_NEON_DOMAIN_ID_SOURCE_COLUMN_MISSING")
+        official=[{str(k or "").lstrip("\ufeff").strip():v for k,v in row.items()}
+                  for row in reader]
+    domain={r["site_id"]:r[domain_field] for r in official}
+    if len(official)!=81 or len(domain)!=81:
+        raise ValueError("STOP_OFFICIAL_NEON_SOURCE_81_SITE_METADATA_DRIFT")
     grouped=defaultdict(list)
     for (site,plot),(lat,lon) in plots.items():
         if site not in domain:raise ValueError("STOP_NEON_SOURCE_SITE_DOMAIN_NOT_VERIFIED")
@@ -231,6 +242,13 @@ def synthetic():
         with rasterio.open(f) as ds:
             z=measure_window(ds,0,0)
             assert z["status"]=="SOURCE_PLOT40M_ALL_ZERO_OR_NODATA_NOT_PROVEN_TREES_ABSENT"
+    with tempfile.TemporaryDirectory() as originalcsv:
+        f=Path(originalcsv)/"official.csv"
+        f.write_text("\ufeffdomain_id,site_id\nD01,S001\n",encoding="utf-8")
+        with f.open(encoding="utf-8-sig",newline="") as fh:
+            rr=csv.DictReader(fh)
+            assert "domain_id" in rr.fieldnames
+            assert next(rr)["site_id"]=="S001"
     assert parse_date("2019-08-01T13:30:00") == dt.date(2019,8,1)
     assert parse_date(None) is None
     print("Synthetic source CHMv2 40m EPSG3857 plot window, zero-vs-nodata, date parsing PASS")
