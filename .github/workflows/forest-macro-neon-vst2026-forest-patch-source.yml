@@ -15,6 +15,7 @@ on:
       - "analysis/forest_macro_global/neon_chmv2_vst_field_height_source.R"
       - "analysis/forest_macro_global/neon_chmv2_vst_crosssensor_height_check.py"
       - "analysis/forest_macro_global/neon_chmv2_2019_2020_forest_community_source_triads.R"
+      - "analysis/forest_macro_global/neon_chmv2_2019_2020_beetle_spatial_beta_onepass.R"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -29,6 +30,7 @@ on:
       - "analysis/forest_macro_global/neon_chmv2_vst_field_height_source.R"
       - "analysis/forest_macro_global/neon_chmv2_vst_crosssensor_height_check.py"
       - "analysis/forest_macro_global/neon_chmv2_2019_2020_forest_community_source_triads.R"
+      - "analysis/forest_macro_global/neon_chmv2_2019_2020_beetle_spatial_beta_onepass.R"
   workflow_dispatch:
 permissions:
   contents: read
@@ -531,6 +533,9 @@ jobs:
           if-no-files-found: warn
 
   independent_neon_chmv2_2019_2020_beetle_plant_forest_source_triads:
+    # Original source 26sites/15domains/44siteyears prebiology gate PASS once (#43562142519).
+    # Preserve outcome-unopened source receipt, prevent postoutcome source re-selection.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 36
     steps:
@@ -615,4 +620,117 @@ jobs:
         with:
           name: structural-NEON-CHMv2-2019-20-beetle-plant-forest-original-source-triads
           path: chmv2_2019_2020_source_aggregate/
+          if-no-files-found: warn
+
+  one_shot_original_neon_chmv2_beetle_spatial_simpson_distance_adjusted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 42
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned publicly released original NEON beetle/plant samples and remote CHM source libraries
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+          python -m pip install --quiet numpy rasterio pyarrow
+      - name: Known-truth original CHMv2 complete sampling cliques and source-blind beetle beta partial-distance site-resampling
+        env:
+          NEON_CHM_SPATIAL_TRIADS_SYNTHETIC_ONLY: "1"
+          NEON_CHM_BEETLE_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_chmv2_2019_2020_forest_community_source_triads.R
+          Rscript analysis/forest_macro_global/neon_chmv2_2019_2020_beetle_spatial_beta_onepass.R
+          NEON_META_CHMV2_COORDINATE_SYNTHETIC_ONLY=1 Rscript analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R
+          python analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py
+      - name: Original published 81 NEON source site metadata with immutable 2026-08-05 digest
+        run: |
+          mkdir -p chmv2_beetle_private
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            --proto '=https' --proto-redir '=https' \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o chmv2_beetle_private/official.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  chmv2_beetle_private/official.csv' | sha256sum -c -
+      - name: Reconstruct same original 35 forest sites and 952 plotyears (NO species values)
+        run: |
+          Rscript analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R \
+            chmv2_beetle_private/official.csv \
+            chmv2_beetle_private/private_neon_forest_plot_centres.csv \
+            chmv2_beetle_original_aggregate/NEON_source_plot_geography_QA.json
+      - name: Reconstruct same 232 original CHMv2 40m positive plots, retain original source plot heights PRIVATE
+        env:
+          NEON_CHMV2_WRITE_RUNNER_PRIVATE_2019_2020_PLOT_QA: "1"
+        run: |
+          python analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py \
+            --private-original-neon-plots chmv2_beetle_private/private_neon_forest_plot_centres.csv \
+            --official-neon-site-source chmv2_beetle_private/official.csv \
+            --out chmv2_beetle_original_aggregate
+      - name: Recreate published source-only 26site 15domain 44siteyear same-year three-plot clique gate with private selection
+        run: |
+          Rscript analysis/forest_macro_global/neon_chmv2_2019_2020_forest_community_source_triads.R \
+            chmv2_beetle_private/official.csv \
+            chmv2_beetle_private/private_neon_forest_plot_centres.csv \
+            chmv2_beetle_private/private_CHMv2_positive_plot_p90_and_source_window.csv \
+            chmv2_beetle_original_aggregate \
+            chmv2_beetle_private/private_selected_clique_source_plot_metadata.csv
+      - name: Fail closed unless original prebiology source eligibility and fixed one-year site selection are identical
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p <- "chmv2_beetle_original_aggregate/NEON_CHMv2_2019_2020_forest_spatial_community_source_eligible_groups.json"
+          x <- fromJSON(p)
+          stopifnot(
+            x$schema=="structural.NEON_MetaCHMv2_2019_2020_35site_forest_patch_beetle_plant_spatial_source_triads.v1",
+            x$original_siteyear_groups_with_complete_effort_and_date_comparable_three_plot_source_CHM_contrasts==44,
+            x$original_independent_NEON_sites_with_forest_plot_source_triads==26,
+            x$original_NEON_ecoclimatic_domains_with_source_triads==15,
+            x$metadata_frozen_10sites_6domains_12siteyears_source_gate_PASS,
+            x$source_original_beetle_plant_taxon_species_abundance_values_NOT_READ)
+          d<-read.csv("chmv2_beetle_private/private_selected_clique_source_plot_metadata.csv")
+          stopifnot(length(unique(d$siteID))==26,
+            all(table(d$siteID)>=3),all(vapply(split(d$year,d$siteID),
+              function(y)length(unique(y))==1,logical(1))))
+          cat("One original calendar-year and one complete sampling clique/site frozen: 26 independent source sites\n")
+          RS
+      - name: Score only precommitted forest ground beetle species-rank βsim vs static CHM p90 differences after log spatial distance adjustment
+        run: |
+          Rscript analysis/forest_macro_global/neon_chmv2_2019_2020_beetle_spatial_beta_onepass.R \
+            chmv2_beetle_private/private_selected_clique_source_plot_metadata.csv \
+            chmv2_beetle_private/official.csv \
+            chmv2_beetle_original_aggregate
+      - name: Verify original biological inference is exploratory regardless of positive, null or source detection STOP
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          x <- fromJSON("chmv2_beetle_original_aggregate/NEON_2019_2020_CHMv2_static_canopy_beetle_spatial_beta_original_aggregate.json")
+          stopifnot(
+            x$schema=="structural.NEON_CHMv2_2019_2020_beetle_spatial_replacement_single_endpoint.v1",
+            x$original_source_CHMv2_2019_2020_26site_15domain_44siteyear_design_passed_before_species_values,
+            x$source_original_one_preselected_2020preferred_or_2019_year_per_site,
+            x$original_neon_source_26independent_site_cliques_before_taxonomy==26,
+            x$original_neon_source_domains_before_taxonomy==15,
+            x$source_tree_height_not_annual_NEON_AOP_LiDAR,
+            x$prior_PREDICTS_39study_beta0p0942_and_31study_sensitivity_beta0p0847_unchanged,
+            x$prior_NEON_7site_temporal_beta_alignment_negative0p0664_p0p536_unchanged,
+            x$no_original_site_plot_taxon_name_ID_species_abundance_or_coordinates_exported,
+            x$no_plant_species_beta_secondary_or_chem_ecosystem_services_scored,
+            x$previous_vst_original_12siteyear_effort_scientific_STOP_unchanged,
+            x$eBird_used==FALSE)
+          print(x[c("status",
+            "original_sites_excluded_whole_clique_for_beetle_taxon_not_defined",
+            "original_sites_with_defined_beetle_species_rank_incidence_and_pairwise_beta",
+            "original_domains_with_defined_beetle_beta",
+            "primary_exploratory_beetle_site_equal_inference")])
+          RS
+      - name: Archive only aggregate source and plot-label permutation results, no raw taxon or individual tree rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-NEON-2019-2020-ground-beetle-spatial-beta-vs-CHMv2-onepass
+          path: chmv2_beetle_original_aggregate/
           if-no-files-found: warn
