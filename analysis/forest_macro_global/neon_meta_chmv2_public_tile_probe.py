@@ -179,7 +179,7 @@ def audit(path,out):
     return result
 def synthetic():
     assert quadkey(0.,0.)=="3000000000"
-    assert quadkey(0.,0.)==quadkey(0.00001,0.00001)
+    assert quadkey(39.0,-105.0)==quadkey(39.00001,-104.99999)
     assert quadkey(38.0,-122.0)!=quadkey(38.0,-80.0)
     for lat,lon in ((86,0),(0,181),(float("nan"),1)):
         try:quadkey(lat,lon)
