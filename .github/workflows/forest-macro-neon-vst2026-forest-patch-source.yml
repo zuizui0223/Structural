@@ -410,6 +410,9 @@ jobs:
           if-no-files-found: warn
 
   independent_neon_vst_vs_chmv2_crosssensor_source_calibration:
+    # Source-only cross-sensor positive 22-site 72-plot rho+0.9063 CI[+0.7457,+0.9658] completed #43561149201.
+    # Prevent post-outcome exploratory threshold/selection rescoring of this completed calibration.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 42
     steps:
