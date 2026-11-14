@@ -9,6 +9,8 @@ on:
       - "analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R"
       - "analysis/forest_macro_global/neon_vst2026_forestpatch_species_source_season_effort_gate.R"
       - "analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R"
+      - "analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R"
+      - "analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -17,6 +19,8 @@ on:
       - "analysis/forest_macro_global/neon_public_vst2026_forestpatch_height_quality_gate.R"
       - "analysis/forest_macro_global/neon_vst2026_forestpatch_species_source_season_effort_gate.R"
       - "analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R"
+      - "analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R"
+      - "analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -297,4 +301,80 @@ jobs:
         with:
           name: structural-neon-historical-2014-2018-forestpatch-source-gate-only
           path: forest_macro_historical_2014_2018_source_only/
+          if-no-files-found: warn
+
+  independent_meta_chmv2_source_tiles_at_neon_forest_centroids:
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install public NEON organismal derivative version 0.3.1 and acquisition-date reader
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+          python -m pip install --quiet pyarrow
+      - name: Synthetic source original NEON location grain and Meta CHMv2 quadkey z10 tests
+        env:
+          NEON_META_CHMV2_COORDINATE_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R
+          python analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py
+      - name: Fetch immutable original 81 NEON site metadata without canopy or biological outcomes
+        run: |
+          set -euo pipefail
+          mkdir -p meta_chmv2_source_private
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            --proto '=https' --proto-redir '=https' \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o meta_chmv2_source_private/official.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  meta_chmv2_source_private/official.csv' | sha256sum -c -
+      - name: Extract original NEON 2019-23 forest 35-site/952-plotyear location metadata only
+        run: |
+          Rscript analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R \
+            meta_chmv2_source_private/official.csv \
+            meta_chmv2_source_private/private_original_neon_plot_centres.csv \
+            meta_chmv2_public_source_aggregate/NEON_forest_plot_original_location_gate.json
+      - name: Check independently public ~1m Meta CHMv2 COG tile heads and acquisition-date metadata without reading raster pixels
+        run: |
+          python analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py \
+            --private-neon-plotyears meta_chmv2_source_private/private_original_neon_plot_centres.csv \
+            --out meta_chmv2_public_source_aggregate
+      - name: Fail closed on source cohort drift, original plot ID leakage and false annual canopy equivalence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          folder=Path("meta_chmv2_public_source_aggregate")
+          site=json.loads((folder/"NEON_forest_plot_original_location_gate.json").read_text())
+          tile=json.loads((folder/"neon_forest_patch_META_CHMv2_public_tile_and_date_source_coverage.json").read_text())
+          assert site["schema"]=="structural.NEON_forest_patch_META_CHMv2_original_plot_centroid_source.v1"
+          assert tile["schema"]=="structural.NEON_2019_2023_forest_plot_Meta_CHMv2_public_source_coverage.v1"
+          assert site["original_2019_2023_forest_plot_years_held_fixed"]==952
+          assert site["original_2019_2023_forest_sites_held_fixed"]==35
+          assert tile["source_original_NEON_private_plotyear_rows_tested"]<=952
+          assert site["no_original_species_or_plant_value_or_woody_height_revisited"]
+          assert tile["original_beetle_plant_taxon_abundance_species_did_not_open"]
+          assert tile["no_CHM_pixel_values_read_or_effect_fitted"]
+          assert tile["Meta_CHMv2_single_composite_image_epoch_not_NEON_annual_measurement"]
+          assert tile["NEON_2019_2023_woody_plotyear_12siteyear_STOP_preserved"]
+          assert tile["no_original_site_plot_coordinates_quadkeys_identifiers_exported"]
+          assert tile["eBird_used"] is False
+          print("ORIGINAL NEON forest patch locations verified:",
+            site["original_forest_plotyears_with_valid_original_location_coords"])
+          print("PUBLIC META CHMv2 tile HEAD200:",tile["public_source_quadkeys_head200"])
+          print("VALID canopy source is not an annual plot-year exposure; effect is NOT fitted")
+          PY
+      - name: Upload only two anonymous provenance and tile-availability JSONs, never original coordinates or COG files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-neon-Meta-WRI-CHMv2-1m-public-source-only-plot-coverage
+          path: meta_chmv2_public_source_aggregate/
           if-no-files-found: warn
