@@ -97,7 +97,7 @@ choose_complete_clique<-function(rows) {
   }
   NULL
 }
-source_gate<-function(beetle,plant,plotgeo,chm,site) {
+source_gate<-function(beetle,plant,plotgeo,chm,site,private_selected_csv=NULL) {
   if(as.character(utils::packageVersion("neonDivData"))!="0.3.1"||
      !all(fields_beetle%in%names(beetle))||!all(fields_plant%in%names(plant)))
     stop("SCIENTIFIC_STOP_PUBLISHED_ORGANISMAL_SOURCE_SCHEMA_DRIFT")
@@ -146,7 +146,7 @@ source_gate<-function(beetle,plant,plotgeo,chm,site) {
   }
   groups<-split(names(qualified),vapply(qualified,function(x)
        paste(x$site,x$year,sep="|"),character(1)))
-  grouped_source<-list();possible_years<-character()
+  grouped_source<-list();private_candidate_cliques<-list();possible_years<-character()
   for(ky in names(groups)){
     ks<-groups[[ky]]
     if(length(ks)<3)next
@@ -157,6 +157,7 @@ source_gate<-function(beetle,plant,plotgeo,chm,site) {
     if(is.null(clique))next
     if(length(clique)<3)stop("STOP_CLIQUE_SOURCE_GRAIN_NOT_GE3")
     values<-s[clique]
+    private_candidate_cliques[[ky]]<-values
     positions<-lapply(values,function(v)c(v$lat,v$lon))
     distances<-combn(seq_along(positions),2,FUN=function(ix)
        earth_km(positions[[ix[1]]],positions[[ix[2]]]))
@@ -190,6 +191,37 @@ source_gate<-function(beetle,plant,plotgeo,chm,site) {
   eligible_source_plotyear<-sum(vapply(grouped_source,function(x)
     x$compatible_clique_original_plots,numeric(1)))
   gate<-length(unique_site)>=10&&length(dom)>=6&&length(original_siteyear)>=12
+  if(!is.null(private_selected_csv) && gate){
+    # Source method cohort is decided before reading any taxon_id/value.
+    # Save original site/plot/time, spatial proxy and effort PRIVATE in runner.
+    chosen<-list()
+    for(si in names(selection)){
+      ky<-selection[[si]]
+      v<-private_candidate_cliques[[ky]]
+      if(is.null(v)||length(v)<3)stop("STOP_SOURCE_SELECTED_CLIQUE_MISSING")
+      for(plate in v) {
+        key<-paste(plate$site,plate$plot,plate$year,sep="|")
+        chosen[[key]]<-data.frame(
+          siteID=plate$site,plotID=plate$plot,year=as.integer(plate$year),
+          first_plant_survey_date=as.character(plate$first_plant),
+          source_beetle_total_trapdays=plate$total_beetle_trapdays,
+          source_plant_recorded_1m2_subplots=plate$recorded_plant_subplots,
+          source_beetle_normal_samples=plate$unflagged_beetle_samples,
+          CHMv2_40m_static_p90_m=plate$CHM_p90_m,
+          original_baseplot_lat=plate$lat,original_baseplot_lon=plate$lon,
+          stringsAsFactors=FALSE)
+      }
+    }
+    d<-do.call(rbind,unname(chosen))
+    if(length(unique(d$siteID))!=length(selection) ||
+       anyDuplicated(paste(d$siteID,d$plotID,d$year,sep="|")) ||
+       any(table(d$siteID)<3))
+      stop("SCIENTIFIC_STOP_SELECTED_ORIGINAL_SOURCE_CLIQUE_IDENTITY")
+    dir.create(dirname(private_selected_csv),recursive=TRUE,showWarnings=FALSE)
+    write.csv(d,private_selected_csv,row.names=FALSE)
+    cat("Runner-private original site-fixed beetle cohort selection:",
+        length(unique(d$siteID)),"sites /",nrow(d),"original field plots; no taxon values read\n")
+  }
   list(
      schema="structural.NEON_MetaCHMv2_2019_2020_35site_forest_patch_beetle_plant_spatial_source_triads.v1",
      independent_satellite_CHMv2_fixed_static_40m_source_not_annual_LiDAR=TRUE,
@@ -249,13 +281,13 @@ if(identical(Sys.getenv("NEON_CHM_SPATIAL_TRIADS_SYNTHETIC_ONLY"),"1")){
   synthetic();quit(status=0)
 }
 args<-commandArgs(trailingOnly=TRUE)
-if(length(args)!=4)stop("usage: Rscript neon_chmv2_2019_2020_forest_community_source_triads.R OFFICIAL_NEON_CSV ORIGINAL_952_PLOTYEAR_COORDINATES_CSV PRIVATE_CHM_232_PLOT_HEIGHTS_CSV AGGREGATE_OUTPUT")
+if(!(length(args)%in%c(4,5)))stop("usage: Rscript neon_chmv2_2019_2020_forest_community_source_triads.R OFFICIAL_NEON_CSV ORIGINAL_952_PLOTYEAR_COORDINATES_CSV PRIVATE_CHM_232_PLOT_HEIGHTS_CSV AGGREGATE_OUTPUT [RUNNER_PRIVATE_FIXED_CLIQUE_CSV]")
 synthetic()
 official<-read.csv(args[1],stringsAsFactors=FALSE)
 geo<-read.csv(args[2],stringsAsFactors=FALSE)
 chm<-read.csv(args[3],stringsAsFactors=FALSE)
 result<-source_gate(neonDivData::data_beetle,neonDivData::data_plant,
-                    geo,chm,official)
+                    geo,chm,official,if(length(args)==5)args[5] else NULL)
 dir.create(args[4],recursive=TRUE,showWarnings=FALSE)
 file<-file.path(args[4],"NEON_CHMv2_2019_2020_forest_spatial_community_source_eligible_groups.json")
 writeLines(jsonlite::toJSON(result,auto_unbox=TRUE,pretty=TRUE,null="null"),file)
