@@ -74,7 +74,7 @@ compatible<-function(a,b){
 choose_complete_clique<-function(rows) {
   if(length(rows)<3)return(NULL)
   if(length(rows)>20)stop("SCIENTIFIC_STOP_SOURCE_TOO_MANY_FOREST_PLOTS_PER_SITEYEAR")
-  names(rows)<-sort(names(rows)) # after call caller sorts source plot names
+  rows<-rows[order(names(rows))]  # sort key–value pairs together, never relabel plot measurements
   keys<-names(rows)
   ok<-matrix(FALSE,nrow=length(keys),ncol=length(keys))
   diag(ok)<-TRUE
