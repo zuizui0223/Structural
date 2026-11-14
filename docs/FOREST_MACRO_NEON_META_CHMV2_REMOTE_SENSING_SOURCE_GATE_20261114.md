@@ -19,6 +19,7 @@ Structuralの森林マクロ生態学で既凍結の生物学的知見は、PRED
 1. 元NEON`neon_location`のplot座標が何plot／siteに存在するか、basePlot中心が存在するか、元plot内位置が分散するかを元site/plot匿名集計で証明する。元座標・site ID・plot ID・quadkeyをrunner-private CSVで一時保存し、GitHub artifactには出さない。
 2. 元座標からWeb Mercator zoom10 quadkeyを計算して、公開S3とCORS mirrorの**元COGファイルにHEAD 200が実際に返るか**を確認する。元GeoTIFFの数値・樹高値は本stageでは読まない。HTTP 403、ネットワーク不通やsource障害は「forest height=0」に変換せず`SOURCE_UNAVAILABLE_OR_UNVERIFIED`と明示。
 3. 公開`acq_dates.parquet`のHTTP可用性・列スキーマ・サンプル内のtile key対応を別検査する。元撮影日が不明なplotは同期する林冠高と見なさない。タイルへのHEAD 200も、NEON原plot中心の画素が有効であることや全plotの樹冠高（0m vs nodata）を保証しない。
+3a. 公開CHMv2の値はuint8のm単位だが、**0画素は真の林冠高0mとnodataの両方を意味する**ため、原plot内の0画素だけから草原化・林冠消失を判定してはならない。将来の画素抽出では著者の有効画素maskや別元データで欠測率を監査しなければならない。[CHMv2 COG原配布の注意](https://source.coop/tge-labs/meta-chm-v2)。元サイト座標があってもoriginal NEON plotの正確な外形polygonではなく、中心点と元試料境界の一致も未確定。
 4. **第2段生物モデルの許可条件はこの段階で一切認定しない。** 公開CHMタイルが少なくとも6 independent NEON sitesを覆い、原plot中心のsource品質と元撮影時期が適格と確認できた場合にのみ、**別事前仕様の空間的な林冠構造proxyと群集組成の探索的比較**を新設する。既存VSTの10/12 source STOPに新たなCHM siteyearを単純加算しない。2020〜2023毎年の樹高変動・気温緩衝・生態系サービス連鎖や因果的なforest modificationの影響として報告しない。
 
 実装`analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R`、`analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py`と新規GitHub Actions（元NEON raw座標・taxonは非公開）。source version、仮説と調査単位は固定し、sourceの品質を見てから生物学的応答を追加得点する際には必ず`separate exploratory, non-independent NEON population`と明示。PR #469 Draft未マージ。eBird、TinyFish不使用。
