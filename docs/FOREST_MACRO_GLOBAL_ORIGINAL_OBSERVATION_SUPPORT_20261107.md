@@ -1,5 +1,14 @@
 # 森林マクロ生態学：全球原観測の支持範囲（2026年11月7日）
 
+## 2026-11-14：独立CHMv2の40m元画素を237森林区画で監査、232 plotの樹冠高proxyを確保
+
+NEON公開`neonDivData 0.3.1`の2019–2023 forest patch `siteID×plotID`元位置と、独立公開のMeta/WRI CHMv2 v2（2026 DINOv3衛星林冠高）の公開COGを接続した。NEON original`.basePlot.div/.brd`中心を優先する位置バグを修正し、**35 NEON sites・17 ecoclimatic domains・237 field plots／952 plot×years**の全元区画位置が同定でき、**公開39タイルすべての元1m級画素を40m正方形で読み込んだ**。
+
+実測されたSource QAでは、**232/237 plots（34 sites・17 domains）**が正画素≥25かつ40m窓の20%以上という事前固定基準を通過。4 plotは正画素被覆不足、1 plotはゼロ/nodataの未識別のため有効林冠高0mと扱わず除外。通過plotの正画素のみの`CHM_p90`の中央値は**19m**。公開タイル`acq_dates.parquet`は39タイル全てで参照可能、うち36タイルの画像撮影範囲が2019–2020と重なり、3は2019年以前。ただし**tile単位の日付windowでありplot pixel単位の撮影年ではない**。静的CHMv2を952の独立年次林冠高・森林改変の因果データとは扱わない。原生物taxon・個体数・旧群集βは再開封していない。
+
+原本成功CI [#43540584860](https://github.com/zuizui0223/Structural/actions/runs/43540584860)、匿名集計artifact `14091791814`、検査記録[FOREST_MACRO_NEON_META_CHMV2_40M_PLOT_PIXEL_SOURCE_QA_ORIGINAL_RESULT_20261114.md](FOREST_MACRO_NEON_META_CHMV2_40M_PLOT_PIXEL_SOURCE_QA_ORIGINAL_RESULT_20261114.md)。前のVST source-only 2019–23・2014–18での科学的STOPは維持。現在の一つの主目標は、**同じ元NEON forest plotのVST生木DBH≥10cm field p90と静的CHMv2 40m p90の別センサ整合性**を、前固定の10site/25plot/6domain条件で検査し、これを満たす場合にのみ新しい別endpointの群集モデルに進むことである。[原本比較仕様](FOREST_MACRO_NEON_META_CHMV2_VST_FIELD_HEIGHT_CROSSSENSOR_PRESPEC_20261114.md)。これは現時点では樹高proxyの品質検証であり、林冠・群集応答の生態学的陽性効果は未測定。
+
+
 ## 2026-11-14：2014–2018未利用のNEON歴史コホートも実測、元森林VST quality supportでSTOP
 
 公開`neonDivData 0.3.1`の未利用2014–2018地表甲虫・植物sourceで**33元NEON sites・730 original forest plot×years**が同year同plotに存在し、植物初回調査日±7d、甲虫±30d、各元記録4sample/4subplot以上のsource supportを持つ**674 plot×years**を原本CIで取得。この5年は公開木本VST RELEASE-2026の収録期間に入っていた。
