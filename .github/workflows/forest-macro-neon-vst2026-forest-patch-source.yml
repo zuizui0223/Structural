@@ -11,6 +11,7 @@ on:
       - "analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R"
       - "analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R"
       - "analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py"
+      - "analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -21,6 +22,7 @@ on:
       - "analysis/forest_macro_global/neon_vst2026_historical_2014_2018_source_gate.R"
       - "analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R"
       - "analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py"
+      - "analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -319,13 +321,14 @@ jobs:
         run: |
           Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
           Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
-          python -m pip install --quiet pyarrow
+          python -m pip install --quiet pyarrow numpy rasterio
       - name: Synthetic source original NEON location grain and Meta CHMv2 quadkey z10 tests
         env:
           NEON_META_CHMV2_COORDINATE_SYNTHETIC_ONLY: "1"
         run: |
           Rscript analysis/forest_macro_global/neon_meta_chmv2_forest_plot_source_gate.R
           python analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py
+          python analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py
       - name: Fetch immutable original 81 NEON site metadata without canopy or biological outcomes
         run: |
           set -euo pipefail
@@ -345,6 +348,12 @@ jobs:
         run: |
           python analysis/forest_macro_global/neon_meta_chmv2_public_tile_probe.py \
             --private-neon-plotyears meta_chmv2_source_private/private_original_neon_plot_centres.csv \
+            --out meta_chmv2_public_source_aggregate
+      - name: Independently read only 40m original field-plot COG windows and author per-tile source acquisition dates
+        run: |
+          python analysis/forest_macro_global/neon_meta_chmv2_plot40m_pixel_source_quality.py \
+            --private-original-neon-plots meta_chmv2_source_private/private_original_neon_plot_centres.csv \
+            --official-neon-site-source meta_chmv2_source_private/official.csv \
             --out meta_chmv2_public_source_aggregate
       - name: Fail closed on source cohort drift, original plot ID leakage and false annual canopy equivalence
         run: |
@@ -369,6 +378,20 @@ jobs:
           print("ORIGINAL NEON forest patch locations verified:",
             site["original_forest_plotyears_with_valid_original_location_coords"])
           print("PUBLIC META CHMv2 tile HEAD200:",tile["public_source_quadkeys_head200"])
+          pixel=json.loads((folder/"neon_35forest_META_CHMv2_40m_plot_pixel_quality_source_aggregate.json").read_text())
+          assert pixel["schema"]=="structural.NEON_forestpatch_META_WRI_CHMv2_2026_40m_original_plot_pixel_sourceQA.v1"
+          assert pixel["original_NEON_forest_plot_years_fixed"]==952
+          assert pixel["original_unique_NEON_original_field_plots_QA_attempted"]==237
+          assert pixel["source_CHMv2_quadkey_tiles_covered"]==39
+          assert pixel["source_CHMv2_date_index_tiles_verified"]==39
+          assert pixel["source_CHM_uint8_zero_indistinguishable_no_canopy_or_nodata"]
+          assert pixel["source_original_field_plot_40m_square_NOT_AUTHOR_POLYGON"]
+          assert pixel["source_imagery_date_SOURCE_TILE_WINDOW_NOT_PIXEL_ACQUISITION"]
+          assert pixel["original_species_taxon_or_abundance_response_values_NOT_READ"]
+          assert pixel["no_original_NEON_site_plot_lat_lon_quadkey_taxon_species_or_raw_pixel_arrays_exported"]
+          assert pixel["eBird_used"] is False
+          print("SOURCE_ONLY original forest plots QA attempted:",pixel["original_unique_NEON_original_field_plots_QA_attempted"])
+          print("SOURCE_ONLY 40m canopy positive-pixel source QA passed:",pixel["source_40m_COG_window_positive_QA_passing_original_plots"])
           print("VALID canopy source is not an annual plot-year exposure; effect is NOT fitted")
           PY
       - name: Upload only two anonymous provenance and tile-availability JSONs, never original coordinates or COG files
