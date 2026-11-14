@@ -36,7 +36,7 @@ location_centres<-function(loc,site_plot){
   for(k in names(byplot)){
     a<-use[byplot[[k]],,drop=FALSE]
     iscanonical<-if("location_id"%in%names(a)){
-       grepl("basePlot[.]all$",as.character(a$location_id),ignore.case=TRUE)
+       grepl("[.]basePlot[.][[:alnum:]_]+$",as.character(a$location_id),ignore.case=TRUE)
     } else rep(FALSE,nrow(a))
     selected<-if(any(iscanonical))a[iscanonical,,drop=FALSE] else a
     if(nrow(selected)==0)next
@@ -144,11 +144,13 @@ source <- function(beetle,plant,loc,site) {
 synthetic<-function(){
   loc<-data.frame(siteID=c("S001","S001","S001","S002"),
     plotID=c("S001_001","S001_001","S001_001","S002_001"),
-    location_id=c("S001_001.basePlot.all","S001_001.nw","S001_001.se",
+    location_id=c("S001_001.basePlot.div","S001_001.tickPlot.tck","S001_001.se",
                   "S002_001.subplot"),
     latitude=c(39.00,39.00004,38.99995,42),
     longitude=c(-105,-105.00005,-104.9999,-106))
   r<-location_centres(loc,c("S001|S001_001","S002|S002_001"))
+  # Author package stores original centres as ".basePlot.div"/".basePlot.brd",
+  # never require the nonexistent ".basePlot.all" spelling.
   stopifnot(r$coordinate_source_status[r$original_siteplot_key=="S001|S001_001"]==
      "AUTHOR_ORIGINAL_BASEPLOT_CENTRE",
      r$coordinate_source_status[r$original_siteplot_key=="S002|S002_001"]==
