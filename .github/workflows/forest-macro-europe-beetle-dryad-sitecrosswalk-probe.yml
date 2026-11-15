@@ -1,0 +1,94 @@
+name: "Forest beetle author 2021 Dryad original physical-site crosswalk source access"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-europe-beetle-dryad-sitecrosswalk-probe.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_dryad_method_data_access_once:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "One authorized public Dryad original file-stream GET per source file; no API bypass or biological read"
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json, re, urllib.error, urllib.request
+          from pathlib import Path
+          out=Path("author_dryad_sourceonly_aggregate")
+          raw=Path("author_original_Dryad_PRIVATE")
+          out.mkdir(exist_ok=True);raw.mkdir(exist_ok=True)
+          # Exact public download links exposed by authors' DOI Dryad 2021
+          files={
+              "README_data.txt":1035347,
+              "DATA_Finland.csv":1035351,
+              "DATA_Germany.csv":1035354,
+              "DATA_Norway.csv":1035349,
+          }
+          diag={}
+          for name,source_id in files.items():
+              url=f"https://datadryad.org/downloads/file_stream/{source_id}"
+              try:
+                  req=urllib.request.Request(
+                      url,headers={"User-Agent":"Structural-forest-source-method-audit/1.0"}
+                  )
+                  with urllib.request.urlopen(req,timeout=40) as conn:
+                      code=conn.status
+                      data=conn.read(4000001)
+                  if code!=200 or len(data)>4000000 or len(data)==0:
+                      diag[name]={"status":"STOP_BAD_SOURCE_SIZE_OR_HTTP","source_http_code":code}
+                      continue
+                  (raw/name).write_bytes(data)
+                  summary={"status":"SOURCE_FETCH_OK","source_http_code":code,
+                           "source_bytes":len(data),
+                           "source_sha256":hashlib.sha256(data).hexdigest()}
+                  if name.endswith(".csv"):
+                      with (raw/name).open(newline="",encoding="utf-8-sig") as f:
+                          header=next(csv.reader(f),[])
+                      # Author-original metadata FIELD NAMES only, not rows/site labels.
+                      # Limit to first 20 fields to avoid any source beetle species labels.
+                      summaries=[x for x in header[:20]
+                          if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_ .-]{0,45}",x)
+                          and re.search(r"site|plot|year|date|region|forest|habitat|study|sample|trap|ID",x,re.I)]
+                      summary["original_source_total_header_fields"]=len(header)
+                      summary["limited_first20_author_metadata_fieldnames"]=summaries[:12]
+                      summary["original_biological_source_species_values_not_opened"]=True
+                  else:
+                      txt=data.decode("utf-8-sig","replace")
+                      summary["README_first_20_lines_documented_no_sample_values"]=txt.splitlines()[:20]
+                  diag[name]=summary
+              except urllib.error.HTTPError as exc:
+                  diag[name]={"status":"SOURCE_ACCESS_STOP_HTTP","source_http_code":exc.code}
+              except Exception as exc:
+                  diag[name]={"status":"SOURCE_ACCESS_STOP_TRANSPORT",
+                              "error_class":type(exc).__name__}
+          result={
+              "schema":"structural.Burner2021_Dryad_tmpg4f50b_physical_site_metadata_access.v1",
+              "author_original_metadata_DOI":"10.5061/dryad.tmpg4f50b",
+              "source_access_result":diag,
+              "all_author_methods_files_accessible":all(
+                 x["status"]=="SOURCE_FETCH_OK" for x in diag.values()),
+              "no_original_biological_taxon_count_or_traits_scored":True,
+              "no_original_sampling_site_ID_or_coordinates_exported":True,
+              "zenodo_hostguild_biological_endpoint_not_reopened":True,
+              "author_site_key_not_yet_verified_from_file_access_alone":True,
+              "eBird_used":False,
+          }
+          p=out/"author_dryad_2021_method_source_access_only.json"
+          p.write_text(json.dumps(result,indent=2,ensure_ascii=False))
+          print(json.dumps(result,indent=2,ensure_ascii=False))
+          PY
+      - name: "Publish anonymous author-source access statuses and method-field names only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-beetle-Dryad2021-source-author-plot-crosswalk-access-only
+          path: author_dryad_sourceonly_aggregate/
+          if-no-files-found: warn
