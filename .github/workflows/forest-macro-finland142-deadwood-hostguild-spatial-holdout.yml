@@ -1,0 +1,82 @@
+name: "Forest beetle Finland 142 sites: forest deadwood predicts host guild spatial holdout"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-finland142-deadwood-hostguild-spatial-holdout.yml"
+      - "analysis/forest_macro_global/finland142_deadwood_hostguild_spatial_holdout.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_original_forest_resource_hostguild_spatial_holdout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test positive null negative ridge grid holdout and author-source gate before biological response"
+        run: |
+          python -m pip install --quiet numpy
+          python analysis/forest_macro_global/finland142_deadwood_hostguild_spatial_holdout.py --test
+          python analysis/forest_macro_global/finland_author_2023_siteyear_source_crosswalk.py --test
+      - name: "Fetch three pinned public author files into runner-private environment and species store"
+        run: |
+          set -euo pipefail
+          mkdir -p SOURCE_FINLAND_PRIVATE
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 3000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/5950610/files/Finland_sites.species.csv?download=1' \
+            -o SOURCE_FINLAND_PRIVATE/Finland_sites.species.csv
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 3000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/5950610/files/Finland_traits.csv?download=1' \
+            -o SOURCE_FINLAND_PRIVATE/Finland_traits.csv
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 1000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/8322080/files/Site_covariates.csv?download=1' \
+            -o SOURCE_FINLAND_PRIVATE/Site_covariates.csv
+          printf '%s\n' \
+            'c373ec9f597311a636b4f83d39fcfc9d  SOURCE_FINLAND_PRIVATE/Finland_sites.species.csv' \
+            '6e0303545b79a9959b83d3c86437336a  SOURCE_FINLAND_PRIVATE/Finland_traits.csv' \
+            '557451999b19335cbe8058a985d85363  SOURCE_FINLAND_PRIVATE/Site_covariates.csv' \
+            | md5sum -c -
+      - name: "One frozen regional-spatial-block Hellinger loss contrast: baseline versus baseline plus VD10"
+        run: |
+          python analysis/forest_macro_global/finland142_deadwood_hostguild_spatial_holdout.py \
+            --folder SOURCE_FINLAND_PRIVATE --out finland142_deadwood_GUILD_PRIVATE_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("finland142_deadwood_GUILD_PRIVATE_AGGREGATE/Finnish142forest_local_deadwood_hostguild_spatial_H2_original_aggregate.json")
+          assert p.exists()
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.Finland142_original_deadwood_incremental_hostguild_spatial_holdout.v1"
+          if x["status"].startswith(("SOURCE_STOP","SCIENTIFIC_SOURCE_STOP")):
+              assert x["scientific_source_STOP_not_biological_null"]
+              print("SCIENTIFIC_SOURCE_GATE_STOP_NOT_ECOLOGICAL_NULL",x["status"])
+          else:
+              assert x["source_author_sites_for_beetle_hostguild_142"]==142
+              assert x["source_ridge_penalty_fixed"]==10
+              assert x["one_added_source_measurement"]=="VD10 author log-transformed z score"
+              assert x["grid_block_bootstrap_4000_95pct_percentile_CI"]
+              assert x["original_author_environment_sameyear_source_142_site_prebiology_gate"]["all_site_folds_source_defined_BEFORE_biology"]
+              assert x["frozen_original_Finland142site_labelshuffle_D0p035237_UNCHANGED"]
+              assert x["frozen_original_threecountry_D0p091059_UNCHANGED"]
+              assert x["original_PREDICTS_NEON_BALA_GEB_results_frozen"]
+              assert x["eBird_used"] is False
+              print("FROZEN_ONE_TEST_FINLAND_DEADWOOD_SPATIAL_HOLDOUT_COMPLETE",x["main_estimand_grid_block_equal_base_minus_plus_VD10_Hellinger2"])
+          PY
+      - name: "Publish numeric aggregate and inferred status only, no raw site or species data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Finland142-deadwood-guild-spatial-block-holdout-onepass
+          path: finland142_deadwood_GUILD_PRIVATE_AGGREGATE/
+          if-no-files-found: warn
