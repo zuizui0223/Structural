@@ -41,7 +41,7 @@ jobs:
               assert p["original_DWV_unit_publisher_dataStructure1027"]=="cubic meter"
               assert p["source_original_beetle_taxon_abundances_counts_and_traits_NEVER_OPENED"]
               assert p["source_original_host_or_wood_taxon_literal_labels_and_plotIDs_NOT_EXPORTED"]
-              assert p["source_original_2012_deadwood_inventory_not_time_aligned_each_beetle_year"]
+              assert p["source_2012_deadwood_inventory_not_time_aligned_each_beetle_year"]
               assert p["source_31124_trap_effort_zero_opportunity_still_unresolved"]
               assert r["eBird_used"] is False
               print("BELONGDEAD_2012_AMBIENT_WOOD_SOURCE_PREDICTOR_RESULT",r["status"])
