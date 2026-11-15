@@ -36,3 +36,10 @@ The presence of literal `host_tree` as a published source trait column is import
 The prior original JAE authors already tested differences among tree hosts, decay time, taxonomic and functional biodiversity; these are NOT newly discovered by Structural. A distinct ecological question may involve **whether functional resource-use channels remain stable when taxonomic communities replace across years within the same individual logs**, conditioned on host tree identity and source year/exposure age. Such a model requires a new pre-outcome specification and uncertainty clustered at original physical log/plot level, never naive 522 observations as independent forests. A result from one original German log experimental source would remain one independent study, NOT global forest macroecology/causal landscape generalization.
 
 No ecological effect nor model test has been executed on this source. Older Finland 142-site resource-guild original spatial heldout +0.00024237/p=.015, Finnish physical-site guild null +0.035237, Burner three-country +0.091059, PREDICTS +0.0942, NEON canopy +0.0349/p=.1759 non-support, BALA and GEB holds all unchanged. PR #469 remains Draft, no eBird/TinyFish.
+
+
+## 2026-11-15 後続の原本ID対応判定（初期522 vs 525の解消ではない）
+
+著者 `GAM.R` / `NMDS.R` の一次コード監査と、生物値未読で事前固定した `plot,log,tree` の6順列を元行列IDの先頭3要素へ照合した。[Actions #43697804270](https://github.com/zuizui0223/Structural/actions/runs/43697804270) **SUCCESS（source-method計算成功）**では、最も一致する `plot–log–tree–year` ですら **359/522**、元long-only **163**、群集行列-only **166**、残り5順列は一致0。候補が元522組全部に一致するケースは**0**だった。したがって見かけの3行差だけから「3行を除けば全対応」と結論するのは誤り。生物応答スコアは未実施、著者定義IDの一対一対応は未認証であり、現時点のゲートは **SOURCE_CROSSWALK_NOT_UNIQUELY_IDENTIFIABLE_NO_SPECIES_SCORING**。
+
+[一回限りの全6候補と残差の結果、次の科学的停止条件](FOREST_BEETLE_LETTENMAIER_12YEAR_SOURCE_CROSSWALK_HOLD_RESULT_20261115.md)を参照。前掲の初期記録（522 / 525 / trait `host_tree`）は保持しつつ、**異なる原本に対応していると確認できない限り甲虫群集と元丸太環境を結合しない**。
