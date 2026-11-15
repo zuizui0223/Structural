@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Source-only known-truth tests: XML Table 7 and sampling-design separation
+      - name: "Source-only known-truth tests: XML Table 7 and sampling-design separation"
         run: |
           python -m pip install --quiet pytest
           python -m pytest -q analysis/forest_macro_global/test_datasaprox_project_method_table7_gate.py
