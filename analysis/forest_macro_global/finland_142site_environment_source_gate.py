@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-only Finland 2023 environment availability, hierarchy and collinearity.
+"""Source-only Finland 2023 standardized environment, hierarchy and collinearity.
 
 Uses no beetle matrix, species IDs, trait scores or biodiversity responses.
 Original per-site records stay private; exports only aggregate numeric diagnostics.
@@ -125,15 +125,12 @@ def audit(path: Path):
     sources={k:[str(row.get(k,"")) for row in envrows] for k in PREDICTORS}
     results={key:numeric_summary(vals,key) for key,vals in sources.items()}
     result["original_environment_source_anonymous_distribution"]=results
-    if any(z["negative_values"]>0 for z in results.values()):
-        result["status"]="SCIENTIFIC_SOURCE_STOP_NEGATIVE_PHYSICAL_RESOURCE_VALUE"
-        return result
-    for row in envrows:
-        for key in PREDICTORS:
-            raw=str(row.get(key,"")).strip()
-            if raw and raw.upper() not in {"NA","NAN","NULL"}:
-                x=float(raw)
-                if x < 0: raise ScientificStop("SOURCE_STOP_NEGATIVE_RESOURCE")
+    # Author's published 2023 paper transformed positive source resources
+    # (deadwood and old forest) and standardized ALL environmental covariates.
+    # The exact released CSV fields are signed z scores: a negative z is not
+    # negative raw deadwood volume / age. Never log1p a standardized value.
+    result["original_source_environment_values_interpreted_as_author_standardized_zscores"] = True
+    result["original_raw_deadwood_m3_ha_NOT_claimed_from_csv"] = True
     completed=[row for row in envrows if all(
         str(row.get(k,"")).strip() not in {"","NA","NaN","nan","NULL"} for k in PREDICTORS
     )]
@@ -142,15 +139,47 @@ def audit(path: Path):
         data={}
         for k in PREDICTORS:
             arr=[float(row[k]) for row in completed]
-            data[k]=[math.log1p(x) for x in arr] if k in ("VD10","OldFor_1km") else arr
+            data[k]=arr  # already transformed/standardized in original author release
+            avg=sum(arr)/len(arr)
+            sd=math.sqrt(sum((x-avg)**2 for x in arr)/(len(arr)-1))
+            results[k]["mean_author_release_units"]=round(avg,7)
+            results[k]["sample_standard_deviation_author_release_units"]=round(sd,7)
         corr={}
         for i,k in enumerate(PREDICTORS):
             for other in PREDICTORS[i+1:]:
                 x=spearman(data[k],data[other])
                 corr[k+"__"+other]=round(x,6) if math.isfinite(x) else None
         result["original_predictor_only_complete_case_spearman_associations"]=corr
+    context=("climID","MeanTemp","TotalPrecip","globRad_WHm2","log_Nr_traps",
+             "lat_WGS84","lon_WGS84","Year")
+    result["planned_climate_effort_coordinates_field_availability"]={
+        k:k in cols for k in context
+    }
+    if "climID" in cols:
+        groups={}
+        for row in envrows:
+            key=str(row["climID"]).strip()
+            if not key:continue
+            groups[key]=groups.get(key,0)+1
+        result["author_climate_group_anonymous_support"]={
+            "unique_groups":len(groups),
+            "groups_with_two_or_more_source_sites":sum(v>=2 for v in groups.values()),
+            "groups_with_five_or_more_source_sites":sum(v>=5 for v in groups.values()),
+            "max_site_count_one_group":max(groups.values(),default=0),
+            "min_site_count_one_group":min(groups.values(),default=0),
+        }
+    for k in context:
+        if k not in cols or k in ("climID","Year"):continue
+        vals=[]
+        for row in envrows:
+            raw=str(row[k]).strip()
+            if not raw or raw.upper() in ("NA","NULL","NAN"):continue
+            try:val=float(raw)
+            except ValueError:continue
+            if math.isfinite(val):vals.append(val)
+        result.setdefault("other_context_numeric_field_nonmissing_only",{})[k]=len(vals)
     result["status"]=(
-        "ENVIRONMENT_ONLY_THREE_FROZEN_MEASUREMENTS_AVAILABLE_FOR_NEXT_PRESPEC"
+        "ENVIRONMENT_ONLY_AUTHOR_STANDARDIZED_Z_MEASUREMENTS_AVAILABLE_FOR_NEXT_PRESPEC"
         if len(completed)>=60 else
         "SCIENTIFIC_SOURCE_STOP_TOO_FEW_COMPLETE_ENVIRONMENT_SITES_BELOW_60"
     )
