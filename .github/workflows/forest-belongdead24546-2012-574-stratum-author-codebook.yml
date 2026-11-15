@@ -1,0 +1,50 @@
+name: "BELongDead 2012 wood resource original 574 unknown stratum codes methods only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-belongdead24546-2012-574-stratum-author-codebook.yml"
+      - "analysis/forest_macro_global/belongdead24546_source_stratum_574_codebook_diag.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_published_stratum_codebook_30plots_no_wood_numeric_or_beetle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic fixed publisher method-code and source location suppression"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_source_stratum_574_codebook_diag.py --test
+      - name: "Classify all 2012 ambient deadwood sampling strata and author metadata, no DWV or beetle values"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_source_stratum_574_codebook_diag.py \
+            --out BE24546_2012_STRATUM_AUTHOR_METHODOLOGY_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("BE24546_2012_STRATUM_AUTHOR_METHODOLOGY_ONLY/BELongDead24546_2012_original_stratum574_code_and_author_definition_sourceonly.json").read_text())
+          assert q["schema"]=="structural.BELongDead24546_original_2012_stratum_574_unclassified_method_codebook.v1"
+          if q["status"].startswith("SOURCE_STOP"):
+              assert q["source_method_STOP_not_biological_effect"]
+              print("SOURCE_STRATUM_METHOD_ORIGINAL_STOP",q["status"])
+          else:
+              assert q["source_30_plot_2012_stratum_code_counts_only"]["original_wood_item_rows_in_30_experimental_plots"]==1385
+              assert q["original_beetle_species_abundance_and_DWV_wood_measurements_NOT_READ"]
+              assert q["no_new_ecological_effect_positivity_or_negativity_inferred"]
+              assert q["prior_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_SEALED"]
+              assert q["eBird_used"] is False
+              print("ORIGINAL_2012_WOOD_STRATUM_AUTHOR_CODEBOOK_CHECK",q["status"])
+          PY
+      - name: "Archive source method code counts and published short author stratum description only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead24546-574-unknown-stratum-author-sourceonly
+          path: BE24546_2012_STRATUM_AUTHOR_METHODOLOGY_ONLY/
+          if-no-files-found: warn
