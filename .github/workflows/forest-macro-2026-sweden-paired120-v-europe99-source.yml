@@ -1,0 +1,52 @@
+name: "Forest macro independent 2026 paired Sweden tree source versus Europe 99-plot original rights"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-2026-sweden-paired120-v-europe99-source.yml"
+      - "analysis/forest_macro_global/paired_swedish_beetles_and_european_context_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_metadata_only_and_one_readme_get:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Verify synthetic official archive origin/source-rights rules, no beetle biology"
+        run: |
+          python analysis/forest_macro_global/paired_swedish_beetles_and_european_context_source_gate.py --test
+      - name: "One Dryad paired-tree source index/README and one Zenodo 99-plot archive rights check"
+        run: |
+          python analysis/forest_macro_global/paired_swedish_beetles_and_european_context_source_gate.py \
+            --out original_EXTERNAL_source_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("original_EXTERNAL_source_aggregate/forest_120tree_Sweden_99plot_Europe_original_access_only.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.Swedish_2026_birch_pine_paired_tree_v_European_2026_99plot_original_source_gate.v1"
+          assert x["no_original_taxa_wood_environment_rows_or_species_abundances_read"]
+          assert x["no_new_ecological_effect_scored"]
+          assert x["original_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_results_unchanged"]
+          assert x["eBird_used"] is False
+          sw=x["source_Sweden_paired_tree"]
+          eu=x["source_99plot_Europe_3forest_contexts"]
+          assert sw["author_reported_paired_plots"]==30 and sw["author_reported_2024_tree_traps"]==120
+          assert eu["author_reported_original_total_plots"]==99
+          assert eu["author_original_sampling_design_context_fully_confounded_with_trap_height_and_method"]
+          print("INDEPENDENT_SWEDEN_PAIRED_SOURCE_STATUS",sw["status"])
+          print("EUROPE_99_PLOTS_SOURCE_RIGHTS_STATUS",eu["status"],eu.get("license_is_standard_CC_BY_OR_CC0"))
+          PY
+      - name: "Archive ONLY original publisher file metadata and access status, no species or wood data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-original-2026-paired-Sweden120-versus-Europe99-metadata-only
+          path: original_EXTERNAL_source_aggregate/
+          if-no-files-found: warn
