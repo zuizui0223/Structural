@@ -43,12 +43,12 @@ jobs:
             'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
             --output original_official_neon/NEON_Field_Site_Metadata_20260805.csv
           echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  original_official_neon/NEON_Field_Site_Metadata_20260805.csv' | sha256sum -c -
-      - name: Run once: strict same-plot and seasonal effort source metadata gate before touching taxon records
+      - name: "Run once: strict same-plot and seasonal effort source metadata gate before touching taxon records"
         run: |
           Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R \
             forest_macro_neon_cross_taxon_aggregate \
             original_official_neon/NEON_Field_Site_Metadata_20260805.csv
-      - name: Gate: publish negative/STOP and positives without misrepresenting independence
+      - name: "Gate: publish negative/STOP and positives without misrepresenting independence"
         run: |
           Rscript - <<'RS'
           library(jsonlite)
