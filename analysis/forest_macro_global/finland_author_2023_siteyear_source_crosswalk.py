@@ -130,11 +130,11 @@ def compare(old, new):
 
 
 def synthetic():
-    old = [("1993_F101", "F101", 1993),
-           ("2002_F101", "F101", 2002),
-           ("2002_A10", "A10", 2002)]
-    new = [("1993_F101", "F101", 1993),
-           ("2002_A10", "A10", 2002)]
+    old = [("1993_SYNTH_Q987", "SYNTH_Q987", 1993),
+           ("2002_SYNTH_Q987", "SYNTH_Q987", 2002),
+           ("2002_SYNTH_B321", "SYNTH_B321", 2002)]
+    new = [("1993_SYNTH_Q987", "SYNTH_Q987", 1993),
+           ("2002_SYNTH_B321", "SYNTH_B321", 2002)]
     r = compare(old, new)
     assert r["same_exact_original_year_site_rows_in_both_author_releases"] == 2
     assert r["2022_sample_years_unmatched_but_Site_known_in_2023"] == 1
