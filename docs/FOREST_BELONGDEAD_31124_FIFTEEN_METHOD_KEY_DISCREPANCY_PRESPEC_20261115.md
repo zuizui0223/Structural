@@ -1,0 +1,20 @@
+# BELongDead 31124 vs 31123: classify exactly 15 non-matching original method keys (SOURCE ONLY; 2026-11-15)
+
+## Fixed antecedent without biological outcomes
+Original author BExIS31123 full source (8,103,493 bytes, SHA256 73f759e8ce8b2e302dbbc5bddc947252caeb5b0b1fb15aa0280e732f7a31617e), 59,850 long records, 30 plots, 379 source plot×tree keys, 2,943 plot×tree×CollectionYear; BExIS31124 original-author complete-log view (3,636,045 bytes, newly pinned SHA256 e9c6ab60c05c842434c8d976bfedd5da11893200c45556906ce1da1f68ea4c8c) with 26,845 rows, 30 plots, **379 identical original plot×tree keys**, 2,352 plot×tree×year contexts. Both source files CC BY4 (publisher individual metadata). Actual initial source-only [CI #43703613963](https://github.com/zuizui0223/Structural/actions/runs/43703613963) revealed **15 31124 method tuples `(Exploratory,PlotID,TreeID,TreeSpecies,CollectionYear,TrapID)` not in 31123**, despite all 379 plot×tree keys present. Source method scientifically STOPPED, but CI had a pure status-field error (`source_stop_not_ecological_non_support` omitted in a computed STOP result); patched in code commit `6a0d71e` and reverified with the same data/query/metadata criterion. This is NOT beetle species non-support, and the 31124 complete-view is NOT an independent second experiment.
+
+## New narrow source-only classifier, pre-fixed before any beetle abundance or outcome
+1. Re-download **only** those same two exact official BExIS data endpoints, verifying 31123 SHA above and 31124 new SHA above with unchanged lengths. Read exclusively the original 7 method fields (Exploratory,PlotID,TreeID,TreeSpecies,CollectionYear,TrapID,Traptype). Never read taxon names, abundance/capture measures, original individual site/plot/log labels as output, or tree inventory numerical values.
+2. Require original 31123 and 31124 17 headers **exactly equal**, expected method field positions, and original 31124 subset physical original plot×tree keys 379 of 379. No alternate matching rules, no string normalization beyond surrounding whitespace.
+3. For the fixed **15 unmatched six-field method tuples** and all matched, report only:
+   - count whose exact **5-field `(Exploratory,PlotID,TreeID,TreeSpecies,CollectionYear)`** parent key exists in 31123;
+   - count whose exact **4-field plot×tree×species** parent exists;
+   - count whose source `TrapID` exists elsewhere in original same plot×tree, same year, or differs only in trap method (do not export individual IDs or keys);
+   - number of distinct nested source plots, logs and source years among those 15, without exposing their identity or host-tree label;
+   - whether `Traptype` matches the original 31123 unique label or is a new method.
+   These aggregates distinguish a true missing sampling opportunity, an author-new trap identifier or a different year context. **No relabel, no impute, no join repair.**
+4. Output a clear `SOURCE_METHOD_TUPLE_NON_SUBSET_CLASSIFIED_NO_ORGANISM_EFFECT` or `SOURCE_STOP` status with 15 original unmatched key count conserved. If original key mismatch cannot be reconciled by author codebook, preserve an unresolved method STOP. Do not run PREDICTS/NEON/Burner/BALA/GEB or an exploratory host×decay biological score.
+5. Source experimental units are physical original 30 plots nested within three study regions, 379 wood resources; 59,850 capture long-rows and 12,865 trap-year IDs are NOT independent forests. The original author complete-log subset 31124 has 2,352 original tree-year candidates but does not by itself certify effort/zeros. Earlier original published study already analyzed host-tree differences, so no unregistered taxonomic richness significance search.
+
+## End-state
+If all 15 are trap-ID-only distinctions under full-source tree×year parents, record that fact as ***source identity information only***, not permission to equate trap zeros or skip those identifiers. If any new parent plot×tree×year identities exist, flag **sampling opportunity mismatch**, do not force a strict subset. Only source-author published method documents can authorize harmonization.
