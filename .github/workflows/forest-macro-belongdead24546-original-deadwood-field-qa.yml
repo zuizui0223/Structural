@@ -1,0 +1,54 @@
+name: "BELongDead 30 plot original 2012 deadwood species volume field QA no biology"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead24546-original-deadwood-field-qa.yml"
+      - "analysis/forest_macro_global/belongdead24546_original_deadwood_item_field_quality.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_2012_deadwood_species_volume_field_measurement_qa_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic 2012 wood species volume source field definitions and value privacy"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_original_deadwood_item_field_quality.py --test
+      - name: "Audit only verified original BExIS24546 deadwood predictor field completeness for 30 physical plots"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_original_deadwood_item_field_quality.py \
+            --out original_BE24546_2012_resource_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          z=json.loads(Path("original_BE24546_2012_resource_sourceonly/BELongDead24546_2012_original_deadwood_tree_volume_sourceonly_QA.json").read_text())
+          assert z["schema"]=="structural.BELongDead24546_2012_deadwood_measurement_field_source_quality.v1"
+          if z["status"].startswith("SOURCE_STOP"):
+              assert z["scientific_source_STOP_not_a_beetle_effect"]
+              print("SOURCE_ONLY_2012_RESOURCE_SCHEMA_STOP",z["status"])
+          else:
+              assert z["original_BELongDead31123_full_30of30_plot_identity_matched"]
+              assert z["2012_original_deadwood_inventory_rows_not_independent_forests"]==7671
+              assert z["2012_original_deadwood_distinct_plot_IDs"]==148
+              assert z["source_original_species_or_item_volume_values_never_exported"]
+              assert z["BExIS31123_original_insect_species_abundance_or_traits_UNREAD"]
+              assert z["source_original_2012_deadwood_not_living_source_tree_forest_basalarea"]
+              assert z["source_original_2012_time_not_contemporaneous_to_all_2010_2017_beetle_years"]
+              assert z["prior_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+              assert z["eBird_used"] is False
+              print("ORIGINAL_DEADWOOD_2012_PREBIOLOGY_FIELD_QA",z["status"])
+          PY
+      - name: "Archive only original source field names and anonymous plot completeness, not any raw data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead-original-24546-2012-hostwood-measurement-QA
+          path: original_BE24546_2012_resource_sourceonly/
+          if-no-files-found: warn
