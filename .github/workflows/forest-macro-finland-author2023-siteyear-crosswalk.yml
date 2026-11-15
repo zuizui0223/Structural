@@ -1,0 +1,75 @@
+name: "Forest beetle Finland author-2023 site-year crosswalk: source-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-finland-author2023-siteyear-crosswalk.yml"
+      - "analysis/forest_macro_global/finland_author_2023_siteyear_source_crosswalk.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_year_site_source_contract_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-only known-truth test; prevent biological rescore"
+        run: |
+          python analysis/forest_macro_global/finland_author_2023_siteyear_source_crosswalk.py --test
+      - name: "Download TWO separately published exact author Zenodo files into runner-private source"
+        run: |
+          set -euo pipefail
+          mkdir -p finland_AUTHOR_PRIVATE
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 3000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/5950610/files/Finland_sites.species.csv?download=1' \
+            -o finland_AUTHOR_PRIVATE/Finland_sites.species.csv
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 1000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/8322080/files/Site_covariates.csv?download=1' \
+            -o finland_AUTHOR_PRIVATE/Site_covariates.csv
+          printf '%s\n' \
+             'c373ec9f597311a636b4f83d39fcfc9d  finland_AUTHOR_PRIVATE/Finland_sites.species.csv' \
+             '557451999b19335cbe8058a985d85363  finland_AUTHOR_PRIVATE/Site_covariates.csv' \
+             | md5sum -c -
+      - name: "Crosswalk ONLY exact original author Year Site RowID; no raw source IDs exported"
+        run: |
+          python analysis/forest_macro_global/finland_author_2023_siteyear_source_crosswalk.py \
+            --folder finland_AUTHOR_PRIVATE --out finland_siteyear_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path("finland_siteyear_aggregate/finland_2022_2023_author_sourceonly_crosswalk.json")
+          x=json.loads(path.read_text())
+          assert x["schema"]=="structural.Finland_2022Zenodo5950610_2023Zenodo8322080_author_yearsite_crosswalk.v1"
+          assert x["prior_hostguild_D_0p091059_p_0p000333_unchanged"]
+          assert x["prior_PREDICTS_NEON_BALA_GEB_seals_unchanged"]
+          assert x["author_original_site_IDs_species_environmental_values_not_exported"]
+          if x["status"].startswith("SOURCE_STOP"):
+              assert x["source_schema_or_access_STOP_not_biological_null"]
+              print("AUTHOR_DATA_SOURCE_STOP",x["status"])
+          else:
+              m=x["author_source_identity_comparison"]
+              assert x["source_pin_files_md5_checked"]
+              assert m["source_2022_original_sample_year_columns"]==153
+              assert m["source_2023_author_site_year_rows"]==142
+              assert m["source_original_beetle_species_rows_unopened"]
+              assert m["source_2023_environmental_numbers_uninspected"]
+              assert m["source_original_site_year_keys_not_reexported"]
+              assert not m["full_original_2022_physical_site_crosswalk_author_verified"]
+              print("SOURCE_ONLY_CROSSWALK_STATUS",x["status"])
+          PY
+      - name: "Upload ONLY anonymized two-source year/site matching summary"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-finland-author-2023-original-siteyear-crosswalk-sourceonly
+          path: finland_siteyear_aggregate/
+          if-no-files-found: warn
