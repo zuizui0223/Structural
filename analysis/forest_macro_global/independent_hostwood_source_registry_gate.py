@@ -67,12 +67,28 @@ def file_names_from_dryad(j):
     for f in v:
         name=f.get("path") or f.get("filename") or ""
         if name:
+            # Dryad's public file-list JSON omits numeric "id" on some
+            # records, but official HAL self/download links can carry it.
+            # Resolve ID ONLY from an exact official file metadata path.
+            fid=f.get("id")
+            linkkeys=sorted((f.get("_links") or {}).keys())
+            if not isinstance(fid,int):
+                for kind in ("stash:download","self","stash:file"):
+                    href=((f.get("_links") or {}).get(kind) or {}).get("href","")
+                    p=urllib.parse.urlparse(href)
+                    if p.scheme and (p.scheme!="https" or p.hostname!="datadryad.org"):
+                        continue
+                    m=re.fullmatch(r"/api/v2/files/(\\d+)(?:/download)?",p.path)
+                    if m:
+                        fid=int(m.group(1))
+                        break
             out.append({
                 "name":str(name),
                 "size_bytes":f.get("size"),
                 "md5_or_other_digest":f.get("digest"),
                 "digest_type":f.get("digestType"),
-                "author_file_id":f.get("id"),
+                "author_file_id":fid if isinstance(fid,int) else None,
+                "source_official_hal_link_kinds":linkkeys,
                 "source_mime_type":f.get("mimeType"),
             })
     return out
