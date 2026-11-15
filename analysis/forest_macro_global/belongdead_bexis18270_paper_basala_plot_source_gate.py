@@ -165,7 +165,6 @@ def run():
 
 def synthetic():
     assert len(PLOT_NAMES)==6
-    assert ORIGINAL_STAND if False else True
     assert "PlotID" in PLOT_NAMES
     assert bool(GENERIC_RX["basal_area_header"].search("BasalArea_m2ha"))
     assert not bool(GENERIC_RX["basal_area_header"].search("PLOT"))
