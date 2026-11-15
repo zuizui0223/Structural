@@ -1,0 +1,55 @@
+name: "BELongDead author paper BExIS30925 forest source 30 plot exact method-ID gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead31123-papercited30925-forest-source.yml"
+      - "analysis/forest_macro_global/belongdead_bexis30925_paper_last_structure_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_30925_stand_plot_metadata_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-only original publisher cited dataset rights and key known truth"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis30925_paper_last_structure_source_gate.py --test
+      - name: "Check original BExIS30925 CC BY4 and exact source PlotID overlap, never forest or beetle values"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis30925_paper_last_structure_source_gate.py \
+            --out BELONGDEAD_30925_PAPERFOREST_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BELONGDEAD_30925_PAPERFOREST_SOURCEONLY/BELongDead31123_authorcited30925_stand_30plot_sourceonly.json")
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.BELongDead31123_publisher_cited_30925_forest_source_exact_plot_only.v1"
+          if r["status"].startswith(("SOURCE_STOP","SOURCE_RIGHTS_STOP","SOURCE_ACCESS_STOP","SOURCE_TRANSPORT_STOP")):
+              assert r["source_only_stop_not_ecological_null"]
+              assert r["original_study_BE_effects_untouched"]
+              print("AUTHOR_PAPER_BEXIS30925_SOURCE_STOP",r["status"])
+          else:
+              assert r["source_30925_original_license_explicit_CC_BY4"]
+              assert r["source_original_30925_metadata_plot_and_field_headers_only"]["original_source_stand_numeric_tree_data_UNOPENED"]
+              assert r["source_previous_3546_0of30_and_18270_3of30_joins_unmodified"]
+              assert r["source_31124_15_additional_trapID_method_HOLD_unmodified"]
+              assert r["no_original_beetle_species_or_forest_stand_numeric_values_read_or_scored"]
+              assert r["source_original_raw_site_PlotID_species_columns_NOT_REEXPORTED"]
+              assert r["all_Finland_Burner_PREDICTS_NEON_BALA_GEB_prior_outcomes_UNCHANGED"]
+              assert r["eBird_used"] is False
+              print("AUTHOR_PAPER_BEXIS30925_FOREST_SOURCE_PLOT_GATE",r["status"])
+          PY
+      - name: "Archive original source-only forest plot overlap and generic field counts, no original data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead31123-papercited30925-30plot-original-sourceonly
+          path: BELONGDEAD_30925_PAPERFOREST_SOURCEONLY/
+          if-no-files-found: warn
