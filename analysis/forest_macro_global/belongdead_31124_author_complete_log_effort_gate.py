@@ -133,9 +133,10 @@ def scan_both():
 
 
 def known_truth():
-    h=["UID","TrapID","PlotID","Exploratory","TreeID","TreeSpecies"]+
-      ["X"+str(i) for i in range(3)]+["Traptype","X10","CollectionYear"]+
-      ["X"+str(i) for i in range(12,17)]
+    h=(["UID","TrapID","PlotID","Exploratory","TreeID","TreeSpecies"]
+       + ["X"+str(i) for i in range(3)]
+       + ["Traptype","X10","CollectionYear"]
+       + ["X"+str(i) for i in range(12,17)])
     assert len(h)==17
     for field,idx in FIELDS.items():
         assert h[idx]==field
