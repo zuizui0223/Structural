@@ -19,7 +19,7 @@ URI="https://www.bexis.uni-jena.de/api/metadata/24546?tag=1.0"
 TARGET=("spec1","spec2","DWV","Vharv","PT","Tdir","PTNum","dc")
 SYNONYMS={
   "tree_taxon":re.compile(r"(?i)\b(?:species|tree.?species|baumart|tree.?taxon|baumspezies|holzart)\b"),
-  "deadwood_volume":re.compile(r"(?i)\b(?:deadwood.{0,12}volum|volume.{0,12}deadwood|totholzvolumen|deadwood amount|holzvolumen)\b"),
+  "deadwood_volume":re.compile(r"(?i)\b(?:deadwood.{0,12}volume|volume.{0,12}deadwood|totholzvolumen|deadwood amount|holzvolumen)\b"),
   "harvest_volume":re.compile(r"(?i)\b(?:harvest|logging|ernte|holznutzung|entnahme)\b"),
   "cubic_metre":re.compile(r"(?i)(?:m\^?3|m³|cubic meter|cubic metre|kubikmeter|m3/ha)"),
   "diameter":re.compile(r"(?i)\b(?:diameter|dbh|bhd|durchmesser)\b"),
