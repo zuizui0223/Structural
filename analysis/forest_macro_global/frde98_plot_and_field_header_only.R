@@ -38,8 +38,18 @@ lines <- c(paste(c("slot","rows","columns","distinct_plot","distinct_site",
    "effort_header_names","context_header_names"),collapse="\t"))
 for (i in seq_along(sources)) {
     x <- sources[[i]]
-    if (!all(c("plot","region","site") %in% names(x))) stop("SOURCE_STOP_REQUIRED_PLOT_REGION_SITE_FIELDS")
-    ids <- lapply(x[c("region","site","plot")],as.character)
+    # The previous source-only schema audit normalized the three field names
+    # before displaying them. Locate author columns by CASE-INSENSITIVE exact
+    # normalized field names; never choose from values or match on row content.
+    normalized_fields <- tolower(gsub("[^A-Za-z0-9]","",names(x)))
+    author_field_order <- c("region","site","plot")
+    field_index <- match(author_field_order, normalized_fields)
+    if (anyNA(field_index) || any(duplicated(field_index)) ||
+        any(vapply(author_field_order,function(k) sum(normalized_fields==k)!=1L,logical(1L)))) {
+        stop("SOURCE_STOP_REQUIRED_REGION_SITE_PLOT_NAME_NOT_UNIQUE_AFTER_CASE_NORMALIZATION")
+    }
+    ids <- lapply(x[field_index],as.character)
+    names(ids) <- author_field_order
     blank <- vapply(seq_len(nrow(x)),function(k) {
         any(vapply(ids,function(v) is.na(v[k]) || !nzchar(trimws(v[k])),logical(1L)))
     },logical(1L))
