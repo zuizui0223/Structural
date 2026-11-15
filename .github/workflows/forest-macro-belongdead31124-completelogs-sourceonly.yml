@@ -1,0 +1,56 @@
+name: "Forest BELongDead author complete-log 31124 method keys versus full 31123"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead31124-completelogs-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead_31124_author_complete_log_effort_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_BExIS31124_complete_logs_methods_only_no_beetle_outcomes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author exact six method-field keys and no biology"
+        run: |
+          python analysis/forest_macro_global/belongdead_31124_author_complete_log_effort_gate.py --test
+      - name: "Verify actual BExIS31124 author full-log subset of BExIS31123 by original keys only"
+        run: |
+          python analysis/forest_macro_global/belongdead_31124_author_complete_log_effort_gate.py \
+            --out original_BELONGDEAD31124_METHODONLY_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("original_BELONGDEAD31124_METHODONLY_AGGREGATE/BELongDead31124_complete_logs_vs_31123_full_method_sourceonly.json")
+          result=json.loads(p.read_text())
+          assert result["schema"]=="structural.BELongDead_31124_full_valid_logs_vs_31123_source_methodonly.v1"
+          if result["status"].startswith(("SOURCE_STOP","SOURCE_ACCESS_STOP","SOURCE_TRANSPORT_STOP")):
+              assert result["source_stop_not_ecological_non_support"]
+              assert result["original_previous_ecological_results_unchanged"]
+              print("AUTHOR_SOURCE_METHOD_STOP_NOT_BIOLOGICAL_NULL",result["status"])
+          else:
+              assert result["same_study_NOT_new_independent_replication"]
+              assert result["31123_original_full_method_support"]["original_other_species_taxa_and_abundance_10_columns_not_opened_or_scored"]
+              assert result["31124_original_complete_log_subset_method_support"]["original_other_species_taxa_and_abundance_10_columns_not_opened_or_scored"]
+              assert result["author_31124_method_key_tuples_not_in_31123"]==0
+              assert result["source_original_31124_log_candidates_not_in_31123"]==0
+              assert result["original_capture_effort_all_zero_traps_NOT_DOCUMENTED_BY_POSITIVE_SOURCE_ROWS"]
+              assert result["no_new_original_species_effect_or_reclassification"]
+              assert result["original_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_frozen"]
+              assert result["eBird_used"] is False
+              print("AUTHOR_31124_COMPLETE_LOG_SOURCE_COHORT_QA",result["status"])
+          PY
+      - name: "Archive anonymous actual source original log/year/trap-method hierarchy, never taxon/plot records"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead-original-31124-completelogs-vs-full31123-methodonly
+          path: original_BELONGDEAD31124_METHODONLY_AGGREGATE/
+          if-no-files-found: warn
