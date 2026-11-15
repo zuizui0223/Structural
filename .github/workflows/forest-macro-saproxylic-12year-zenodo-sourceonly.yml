@@ -1,0 +1,47 @@
+name: "Independent forest deadwood beetle 12-year host source-only Zenodo eligibility"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-saproxylic-12year-zenodo-sourceonly.yml"
+      - "analysis/forest_macro_global/longterm_saproxylic_12year_zenodo_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_original_source_record_no_beetle_score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test immutable original source DOI and license parser without opening original biological rows"
+        run: |
+          python analysis/forest_macro_global/longterm_saproxylic_12year_zenodo_source_gate.py --test
+      - name: "Read published Zenodo ORIGINAL metadata, access rights, file manifest and nothing else"
+        run: |
+          python analysis/forest_macro_global/longterm_saproxylic_12year_zenodo_source_gate.py \
+            --out source_12year_zenodo_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("source_12year_zenodo_aggregate/longterm_12year_three_host_saproxylic_original_Zenodo_sourceonly.json")
+          r=json.loads(f.read_text())
+          assert r["schema"]=="structural.Lettenmaier_three_host_deadwood12year_original_Zenodo_sourceonly.v1"
+          assert r["original_record_DOI"]=="10.5281/zenodo.17337484"
+          assert r["original_biological_rows_tree_wood_and_species_values_NOT_READ"]
+          assert r["site_plot_log_year_independence_NOT_established"]
+          assert r["original_Finland_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert r["eBird_used"] is False
+          print("SOURCE_LONGTERM_RIGHTS_AND_FILES_STATUS",r["status"])
+          PY
+      - name: "Archive only original published metadata and rights, not any source organismal records"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-12year-three-tree-beetle-original-zenodo-record-only
+          path: source_12year_zenodo_aggregate/
+          if-no-files-found: warn
