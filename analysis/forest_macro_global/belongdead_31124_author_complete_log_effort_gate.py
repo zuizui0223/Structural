@@ -158,6 +158,12 @@ def main():
         r={"schema":"structural.BELongDead_31124_full_valid_logs_vs_31123_source_methodonly.v1",
            "status":str(e),"source_stop_not_ecological_non_support":True,
            "original_previous_ecological_results_unchanged":True}
+    if r["status"].startswith("SOURCE_STOP"):
+        # The author metadata failed a fixed method-key equality gate.
+        # This is a SCIENTIFIC SOURCE STOP, not a Python/runtime exception
+        # and never a negative saproxylic beetle ecological effect.
+        r["source_stop_not_ecological_non_support"]=True
+        r["original_previous_ecological_results_unchanged"]=True
     a.out.mkdir(parents=True,exist_ok=True)
     (a.out/"BELongDead31124_complete_logs_vs_31123_full_method_sourceonly.json").write_text(
        json.dumps(r,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
