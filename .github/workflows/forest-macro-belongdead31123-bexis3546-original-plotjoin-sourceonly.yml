@@ -1,0 +1,56 @@
+name: "BELongDead 31123 hostwood logs vs 3546 forest stands: exact plot key only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead31123-bexis3546-original-plotjoin-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead_31123_3546_original_plot_crosswalk.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_original_experiment_inventory_exact_plot_ID_no_species_or_wood_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic only original author plot joins and source tree method headers"
+        run: |
+          python analysis/forest_macro_global/belongdead_31123_3546_original_plot_crosswalk.py --test
+      - name: "Verify two original public CC BY4 BExIS datasets and compare plot ID source metadata, not biological values"
+        run: |
+          python analysis/forest_macro_global/belongdead_31123_3546_original_plot_crosswalk.py \
+            --out BELONGDEAD_31123_3546_SOURCEONLY_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BELONGDEAD_31123_3546_SOURCEONLY_AGGREGATE/BELongDead_31123_3546_original_exact_plot_sourceonly.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.BELongDead_BExIS31123_with_BExIS3546_exact_PLOT_sourceonly.v1"
+          if x["status"].startswith("SOURCE_STOP"):
+              assert x["source_stop_not_ecological_null"]
+              assert x["no_beetle_or_stand_numeric_effect_scored"]
+              print("ORIGINAL_EXPERIMENT_STAND_PLOT_SCHEMA_STOP",x["status"])
+          else:
+              assert x["original_experimental_beetle_source_ID"]==31123
+              assert x["original_stand_inventory_source_ID"]==3546
+              assert x["original_31123_and_3546_byte_lengths_verified"]==[8103493,40458]
+              assert x["beetle_original_metadata_only"]["source_beetle_capture_abundance_species_or_tree_values_UNREAD"]
+              assert x["stand_original_metadata_only"]["original_inventory_basal_area_volume_tree_measured_cells_UNREAD"]
+              assert x["exact_source_plot_crosswalk"]["source_species_and_forest_measurements_NOT_SCORED"]
+              assert x["no_new_BELongDead_ecological_effect_estimated"]
+              assert x["Finnish_VD10_Burner_PREDICTS_NEON_BALA_GEB_previous_scores_unchanged"]
+              assert x["eBird_used"] is False
+              print("ORIGINAL_STAND_TREE_EXPERIMENT_PLOT_JOIN",x["status"])
+          PY
+      - name: "Archive only aggregate original plot ID match counts and forest inventory field names"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead31123-stand3546-original-plot-ID-crosswalk
+          path: BELONGDEAD_31123_3546_SOURCEONLY_AGGREGATE/
+          if-no-files-found: warn
