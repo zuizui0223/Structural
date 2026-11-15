@@ -40,7 +40,8 @@ jobs:
           assert z["source_all_prior_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_FROZEN"]
           assert z["eBird_used"] is False
           for name,report in z["source_diagnostics"].items():
-              if report["status"].startswith("SOURCE"):
+              if "source_rights" not in report:
+                  assert report["status"].startswith("SOURCE")
                   assert report["SOURCE_STOP_not_ecological_null"]
               else:
                   assert report["source_rights"]["original_source_cc_by_cc0_licence_verified"]
@@ -49,6 +50,11 @@ jobs:
                   assert a["original_species_wood_measurements_organismal_values_NOT_READ"]
                   assert a["original_individual_plot_ID_text_NOT_EXPORTED"]
               print("SOURCE_BEXIS_"+name+"_PLOT_AND_LICENSE",report["status"])
+          assert z["original_2012_deadwood_24546_exact_BELongDead_30of30_plotID_match"] is True
+          assert z["2012_deadwood_exact_plot_join_is_NOT_18270_living_basalarea_crosswalk"]
+          assert z["source_explicit_30of30_author_hierarchy_joined"] is False
+          assert z["source_diagnostics"]["1000"]["status"]=="SOURCE_RIGHTS_STOP_SOURCE_DATASET_NOT_PUBLIC"
+          print("SOURCE_2012_DEADWOOD_BELONGDEAD_DIRECT_30OF30_PLOTS_CONFIRMED")
           print("SOURCE_VIP_EP_AUTHOR_BRIDGE_DECISION",z["status"])
           PY
       - name: "Archive ONLY source rights and anonymized source plot-ID field intersections"
