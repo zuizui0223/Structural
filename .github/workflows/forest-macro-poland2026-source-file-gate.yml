@@ -1,0 +1,49 @@
+name: "Independent Poland 2026 original forest rove beetle and stand source-file integrity"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-poland2026-source-file-gate.yml"
+      - "analysis/forest_macro_global/poland_2026_forest_beetle_source_file_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verified_original_files_no_beetle_biological_read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test synthetic OpenXML package file manifest without scientific source responses"
+        run: |
+          python analysis/forest_macro_global/poland_2026_forest_beetle_source_file_gate.py --test
+      - name: "Verify source Zenodo official files, original MD5, number and sheet names only"
+        run: |
+          python analysis/forest_macro_global/poland_2026_forest_beetle_source_file_gate.py \
+            --out Poland2026_sourceonly_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Poland2026_sourceonly_aggregate/Poland2026_original_beetle_forest_source_file_metadata_only.json")
+          assert p.exists()
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.Poland2026_saproxylic_rove_beetles_and_forest_inventory_sourceonly.v1"
+          assert x["original_beetle_species_abundances_UNREAD"]
+          assert x["original_forest_tree_or_stand_environmental_values_UNREAD"]
+          assert x["no_original_site_join_or_ecological_effect_done"]
+          assert x["Finnish142site_PREDICTS_NEON_BALA_GEB_and_threecountry_endpoints_unchanged"]
+          assert x["one_source_forest_not_independent_country_network_replication"]
+          assert x["eBird_used"] is False
+          print("ORIGINAL_SOURCE_FILE_ELIGIBILITY_NOT_BIOLOGY",x["status"])
+          PY
+      - name: "Publish source-only anonymous original file and sheet metadata"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Poland2026-beetle-forest-stands-source-file-integrity
+          path: Poland2026_sourceonly_aggregate/
+          if-no-files-found: warn
