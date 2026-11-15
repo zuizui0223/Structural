@@ -262,6 +262,10 @@ def run():
         except SourceStop as e:
             receipts[name]={"status":str(e),"SOURCE_STOP_not_ecological_null":True}
     supported=any(x.get("status")=="SOURCE_AUTHOR_VIP_EP_DIRECT_30OF30_LINK_CONFIRMED" for x in receipts.values())
+    deadwood=receipts.get("24546",{})
+    source_deadwood=deadwood.get("source_only_original_plot_identity_and_method",{})
+    direct_30=any(x["source_tokens_exact_match_BELongDead31123_plot_ID"]==30
+                  for x in source_deadwood.get("original_source_identity_field_exact_match_against_references",[]))
     return {
       "schema":"structural.BELongDead_BE1000_publisher_VIP_EP_bridge_and_BE24546_deadwood_sourceonly.v1",
       "source_original_source_datasets_checked":[1000,24546],
@@ -269,13 +273,17 @@ def run():
       "source_forest_basal_area_18270_original_150_EP_verified":True,
       "source_24546_is_2012_deadwood_not_living_tree_basal_area":True,
       "source_explicit_30of30_author_hierarchy_joined":supported,
+      "original_2012_deadwood_24546_exact_BELongDead_30of30_plotID_match":direct_30,
+      "2012_deadwood_exact_plot_join_is_NOT_18270_living_basalarea_crosswalk":True,
       "original_species_trap_count_deadwood_treemeasurement_values_UNOPENED":True,
       "original_location_geography_coordinates_not_read":True,
       "source_all_prior_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_FROZEN":True,
       "eBird_used":False,
       "source_diagnostics":receipts,
       "status":"SOURCE_FULL_AUTHOR_VIP_EP_PHYSICAL_BRIDGE_AVAILABLE_PREBIOLOGY"
-      if supported else "SOURCE_AUTHOR_VIP_EP_BRIDGE_NOT_VERIFIED_BIOLOGY_HOLD"
+      if supported else
+      "SOURCE_DEADWOOD_24546_EXACT_30PLOT_JOIN_CONFIRMED_VIP_EP_LIVING_TREE_BRIDGE_UNVERIFIED"
+      if direct_30 else "SOURCE_AUTHOR_VIP_EP_BRIDGE_NOT_VERIFIED_BIOLOGY_HOLD"
     }
 
 
