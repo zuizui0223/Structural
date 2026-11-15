@@ -9,7 +9,8 @@ import argparse,json,re
 from pathlib import Path
 from belongdead24546_official_variable_stats_codebook import read_one,SourceStop,sanitize_unit
 FIELDS=("spec1","spec2","DWV","Vharv","dc")
-MAX_DESCRIPTION=350
+MAX_DESCRIPTION=12000
+EXCERPT_CHARS=175
 
 def read_dictionary():
     data,sha,n=read_one()
@@ -24,16 +25,20 @@ def read_dictionary():
         descr=e.get("VariableDescription",e.get("variableDescription",""))
         if not isinstance(descr,str) or not descr.strip():
             raise SourceStop("SOURCE_STOP_PUBLISHER_ORIGINAL_DESCRIPTION_MISSING_"+str(name))
-        clean=descr.strip()
-        # Exact public author variable metadata, CC BY4. Strictly no plot,
-        # resource measurement or taxon record values.
-        if len(clean)>MAX_DESCRIPTION or "\t" in clean or "\n" in clean:
-            raise SourceStop("SOURCE_STOP_PUBLISHER_VARIABLE_DESCRIPTION_COMPLEX_OR_TOO_LONG_"+name)
+        original_length=len(descr)
+        if original_length>MAX_DESCRIPTION:
+            raise SourceStop("SOURCE_STOP_PUBLISHER_VARIABLE_DESCRIPTION_OVER12K_"+name)
+        clean=re.sub(r"\\s+"," ",descr).strip()
+        # Public author metadata only. A 175-char excerpt may be incomplete;
+        # it cannot establish an entire tree species/coding dictionary.
+        # All source uniqueValues and wood/beetle measurements remain unopened.
         unit=e.get("Unit",e.get("unit"))
         found[name]={
             "source_author_variable_ID_metadata":e.get("VariableId",e.get("variableId")),
             "source_original_field_name":name,
-            "original_published_author_description_CC_BY4_short":clean,
+            "original_description_raw_character_length":original_length,
+            "original_description_excerpt_truncated":len(clean)>EXCERPT_CHARS,
+            "original_published_author_description_CC_BY4_short":clean[:EXCERPT_CHARS],
             "publisher_declared_unit":sanitize_unit(unit),
             "author_variable_description_not_source_record_values":True,
         }
@@ -58,7 +63,7 @@ def synthetic():
     assert set(FIELDS)=={"spec1","spec2","DWV","Vharv","dc"}
     assert sanitize_unit("cubic meter")=="cubic meter"
     assert sanitize_unit("cubic meter per hectare")=="cubic meter per hectare"
-    assert MAX_DESCRIPTION==350
+    assert MAX_DESCRIPTION==12000 and EXCERPT_CHARS==175
     print("SYNTHETIC_AUTHOR_FIVE_FIELD_DESCRIPTION_ONLY_NO_RECORD_VALUES_PASS")
 
 def main():
