@@ -1,0 +1,49 @@
+name: "Forest BELongDead public BExIS 31123 single data API header source-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead-31123-public-data-firstheader.yml"
+      - "analysis/forest_macro_global/belongdead_bexis_31123_data_header_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_licensed_original_first_header_only_no_species_responses:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-only synthetic CSV header known truth and no species name export"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis_31123_data_header_gate.py --test
+      - name: "One documented official BExIS /api/data/31123 GET, range 64KiB, stop without decoding organismal rows"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis_31123_data_header_gate.py \
+            --out BELongDead31123_first_header_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path("BELongDead31123_first_header_AGGREGATE/bexis31123_public_data_original_first_header_sourceonly.json")
+          r=json.loads(path.read_text())
+          assert r["schema"]=="structural.BELongDead_BExIS31123_original_public_data_first64KiB_header_gate.v1"
+          assert r["official_dataset_ID"]==31123
+          assert r["original_rights_CC_BY4_verified_in_prior_independent_source_metadata_CI43701688869"]
+          assert r["only_one_original_source_endpoint_request_without_auth"]
+          assert r["max_original_body_bytes_requested_for_source_schema"]==65536
+          assert r["no_species_log_plot_raw_sample_rows_reexported"]
+          assert r["old_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_unchanged"]
+          assert r["eBird_used"] is False
+          print("BELONGDEAD_LICENSED_SOURCE_DATA_API_FIRST_HEADER_STATUS",r["status"])
+          PY
+      - name: "Archive only original dataset source content type and generic field headers, no taxon or rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-original-BELongDead-31123-first-header-no-species
+          path: BELongDead31123_first_header_AGGREGATE/
+          if-no-files-found: warn
