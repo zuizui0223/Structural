@@ -1,0 +1,55 @@
+name: "BELongDead 31123 × original publisher-cited BExIS18270 basal area plot key"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead31123-18270-paper-forest-composition-source.yml"
+      - "analysis/forest_macro_global/belongdead_bexis18270_paper_basala_plot_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_reported_18270_forest_basalarea_PlotID_key_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original 18270 author licensed source PlotID lookup and field labels"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis18270_paper_basala_plot_source_gate.py --test
+      - name: "One original CC BY4 stand data BExIS18270 source and original 31123 30 plot exact join, no species"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis18270_paper_basala_plot_source_gate.py \
+            --out BEXIS18270_BELONGDEAD_SOURCE_JOIN_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BEXIS18270_BELONGDEAD_SOURCE_JOIN_AGGREGATE/BELongDead31123_18270_authorcited_forest_basal_area_plot_ID_sourceonly.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.BELongDead31123_publishercited_18270_stand_basal_area_30plot_exact_join_sourceonly.v1"
+          if x["status"].startswith(("SOURCE_STOP","SOURCE_RIGHTS_STOP","SOURCE_ACCESS_STOP","SOURCE_TRANSPORT_STOP")):
+              assert x["source_rights_or_ID_STOP_not_beetle_ecological_null"]
+              assert x["no_new_source_wood_species_interaction_effect_scored"]
+              print("ORIGINAL_BE_18270_FOREST_STRUCTURE_SOURCE_STOP",x["status"])
+          else:
+              assert x["original_publisher_stand_metadata"]["original_license_explicitly_CC_BY4_OR_CC0"]
+              assert x["original_method_only_inventory_and_31123_plot_IDs"]["original_source_stand_numeric_tree_data_UNOPENED"]
+              assert x["no_original_beetle_species_data_or_original_stand_measurement_values_SCORED"]
+              assert x["no_source_original_PlotID_tree_taxon_raw_site_IDs_reexported"]
+              assert x["prior_3546_stand_inventory_0of30_HOLD_preserved"]
+              assert x["prior_31124_15_new_TrapID_source_method_STOP_preserved"]
+              assert x["original_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_effects_UNCHANGED"]
+              assert x["eBird_used"] is False
+              print("PUBLISHER_CITED_BEXIS18270_SOURCE_ID_COMPATIBILITY",x["status"])
+          PY
+      - name: "Publish anonymous original BExIS18270 header/category source and exact 30 plot overlap"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead31123-authorcited18270-original-stand-PLOT-metadata-only
+          path: BEXIS18270_BELONGDEAD_SOURCE_JOIN_AGGREGATE/
+          if-no-files-found: warn
