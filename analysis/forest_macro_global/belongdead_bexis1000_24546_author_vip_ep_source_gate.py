@@ -82,14 +82,17 @@ def dataset_rights(dataset_id):
     if published is False:
         raise SourceStop("SOURCE_RIGHTS_STOP_SOURCE_DATASET_NOT_PUBLIC")
     rawver=record.get("version")
-    if isinstance(rawver,(int,float)) and int(rawver)==rawver and 1<=int(rawver)<=50:
+    if dataset_id==24546:
+        # Official BE public catalogue cites precisely 24546 V1. The
+        # /api/dataset returned current version must NOT override that pinned
+        # source version; it caused a code-only STOP in earlier audit.
+        v=1
+    elif isinstance(rawver,(int,float)) and int(rawver)==rawver and 1<=int(rawver)<=50:
         v=int(rawver)
-    elif isinstance(rawver,str) and re.fullmatch(r"\d+(?:\.0)?",rawver) and 1<=int(float(rawver))<=50:
+    elif isinstance(rawver,str) and re.fullmatch(r"\\d+(?:\\.0)?",rawver) and 1<=int(float(rawver))<=50:
         v=int(float(rawver))
     else:
         v=info["fallback_publisher_version"]
-    if dataset_id==24546 and v!=1:
-        raise SourceStop("SOURCE_VERSION_STOP_AUTHOR_PUBLISHED_24546_V1_NOT_SELECTED")
     md=official_json(f"/api/metadata/{dataset_id}?tag={v}.0")
     rights=sanitized_license_recursive(md)
     licensed=any(CLASSIFY_LICENSE.search(str(x)) for x in rights)
