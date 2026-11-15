@@ -66,6 +66,20 @@ def collect_field_nodes(x,depth=0):
                     units.append(v.strip())
                 if TYPE_KEY.search(k) and SHORT_UNIT.fullmatch(v.strip()):
                     types.append(v.strip())
+            # Published source unit may be a nested *object* with name/symbol,
+            # not an inline string. Read only safe short UNIT metadata fields
+            # from that unit object, not any physical wood/resource values.
+            for k,v in pairs:
+                if k.lower() not in ("unit","measurementunit") or not isinstance(v,dict):
+                    continue
+                for unit_key,unit_val in v.items():
+                    if str(unit_key).lower() not in (
+                        "name","symbol","abbreviation","unitname","displayname",
+                        "shortname","description","dimension","type"):
+                        continue
+                    if isinstance(unit_val,str) and len(unit_val)<=32 and SHORT_UNIT.fullmatch(unit_val.strip()):
+                        units.append(unit_val.strip())
+            units=list(dict.fromkeys(units))[:10]
             for code in targets:
                 yield code,{
                   "source_code_literal_in_attribute_object":True,
