@@ -8,14 +8,14 @@ The 2012 original **BExIS24546 ambient deadwood item inventory** is a legitimate
 
 | Source original field | Publisher declared original type | Publisher declared physical unit | Evidence and inference ceiling |
 | --- | --- | --- | --- |
-| `spec1` | String | none | Original field exists and has an author description; tree taxon coding / primary vs secondary meaning **not yet certified** |
-| `spec2` | String | none | Original field exists and has an author description; cannot duplicate-count as another wood item without direct method definition |
-| `dc` | Integer | none | Original author description semantically matches decay stage, but category thresholds not read or verified |
-| `DWV` | Floating Point Number | **cubic meter (m³)** | Original author description explicitly matches deadwood volume, not per-hectare |
-| `Vharv` | Floating Point Number | **cubic meter per hectare (m³/ha)** | Original description also wood-volume related, but not the same raw quantity or spatial denominator as DWV |
+| `spec1` | String | none | Author-described **deadwood species1** tree taxon code list (specific trees plus generic conifer/deciduous); full code dictionary requires source mapping before trait analysis |
+| `spec2` | String | none | Author-described **deadwood species2** coarse `Conif/Decid` classification, NOT a second independent wood item |
+| `dc` | Integer | none | Author original five ordinal decay classes: 1 intact/undecayed through 5 fully decayed; no invented numeric interval scale |
+| `DWV` | Floating Point Number | **conditional!** m³ for `stratum=T/L`, **m³/ha** for `stratum=T7/S` | Author variable-level unit lists cubic meter, but detailed field description explicitly changes denominator by sampling stratum; NEVER pool raw values |
+| `Vharv` | Floating Point Number | **cubic meter per hectare (m³/ha)** | Original author defines **harvested wood volume estimated from stumps**, not existing unharvested deadwood |
 | `PT, Tdir, PTNum` | String, String, Integer | none | Source method identifiers, not organism traits |
 
-**Critical distinction: never add raw `DWV` m³ to `Vharv` m³/ha** or treat per-item `DWV` as already per-forest-area. The original *source-item measurement* is not the same as BE31123 experimental log supply: 2012 existing ambient forest deadwood vs 13 deliberately offered hostwood categories over 2010–2017, with time lag and possible forest-sampling area corrections.
+**Critical correction: the original `DWV` column mixes per-item m³ in source strata T/L and per-hectare m³/ha in strata T7/S. Do not pool these raw values, regardless of the simpler top-level BExIS `Unit=cubic meter` declaration; do not add either to `Vharv` (stump-derived harvested wood, m³/ha).** The original *source-item measurement* is not the same as BE31123 experimental log supply: 2012 existing ambient forest deadwood vs 13 deliberately offered hostwood categories over 2010–2017, with time lag and possible forest-sampling area corrections.
 
 ### Version and rights provenance closed
 
@@ -26,3 +26,10 @@ A discovered publisher-source API versioning mistake was fixed **before any biol
 - Original published field `DWV` now has a source-authored physical unit. A field-quality check may assess finite volume, signed impossible values, author missingness and site distribution for the **30 matched plots only**, after codebook confirms source `spec1/spec2` resource identity.
 - A future separately locked ecological contrast **ambient 2012 hostwood resource composition × supplied experimental hostwood use** is mechanistically plausible. However original 31123 has unresolved original 31124 **15 TrapID source inconsistencies** within matched log×year parents, and no verified all-zero capture opportunity dataset. It would be invalid to assume absent taxa or unseen trap-year rows represent sampled zeros. The original BELongDead authors already published general host-tree preference, succession and forest conifer context; any new primary test must be genuinely distinct and cluster original 30 physical plots and three Exploratories.
 - **No new ecological coefficient, p-value or diversity positive** has been computed. Prior Finnish 142 forest original positive out-of-grid VD10 ΔHellinger² +0.00024237/p=.015, Finnish Host_tree D+.035237, 3country Burner D+.091059, PREDICTS +.0942, NEON canopy contrast +.0349/p=.1759 (non-support), BALA/GEB HOLD remain frozen. No eBird/TinyFish. Structural PR #469 Draft/unmerged.
+
+
+### Author-field definition follow-up: critical mixed-unit correction
+
+The initial field-unit table from original [DataStatistic CI #43708549515](https://github.com/zuizui0223/Structural/actions/runs/43708549515) was incomplete because the top-level `Unit=cubic meter` does NOT describe the `DWV` field across all wood survey strata. A second source-only uniform-description [Actions #43709126694 SUCCESS](https://github.com/zuizui0223/Structural/actions/runs/43709126694), artifact #14159103443 SHA256 `f2f4182de11abd43fea3e6c2b3a66a9984332f23c4de65ed9b5a3317791afec4`, recovered the short original author descriptions and verified `stratum` unit conditional, `spec1` original tree taxa codebook and `spec2` coarse conifer/decid code, and `dc` classes 1..5. Previous first description CI #43708799629 correctly SOURCE STOPPED on an original `spec1` metadata description of 413 characters exceeding the fixed 350-char limit. The second safely returned only 175-char excerpts with truncation flags, never full category records. **All changes occurred prior to insect outcomes.**
+
+A separate fixed [30-plot stratum-specific source-predictor QA prespec](FOREST_BELONGDEAD_24546_STRATUM_UNITS_30PLOT_RESOURCE_QA_PRESPEC_20261115.md) now explicitly disallows combining sample strata of different units. The initial codebook result should not be used for raw DWV aggregations without the later author-field description correction.
