@@ -121,8 +121,8 @@ def parse_source(raw:bytes):
         "source_original_distinct_exploratory_plot_tree_candidates":len(tree_keys),
         "source_original_distinct_exploratory_plot_tree_trap_candidates":len(trap_keys),
         "source_original_tree_host_label_count":len(full_host_labels),
-        "source_original_host_category_row_counts_anonymous_sorted":sorted(
-            (sum(count for (e,p,t),labs in host_by_tree.items() if host in labs)
+        "source_original_host_category_nested_tree_counts_anonymous_sorted":sorted(
+            (sum(1 for labs in host_by_tree.values() if host in labs)
              for host in full_host_labels),reverse=True),
         "source_original_tree_host_identity_conflicting_keys":conflicts,
         "source_original_exploratory_record_row_counts_unlabeled":sorted(source_categories.values(),reverse=True),
