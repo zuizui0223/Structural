@@ -78,7 +78,7 @@ def file_names_from_dryad(j):
                     p=urllib.parse.urlparse(href)
                     if p.scheme and (p.scheme!="https" or p.hostname!="datadryad.org"):
                         continue
-                    m=re.fullmatch(r"/api/v2/files/(\\d+)(?:/download)?",p.path)
+                    m=re.fullmatch(r"/api/v2/files/(\d+)(?:/download)?",p.path)
                     if m:
                         fid=int(m.group(1))
                         break
