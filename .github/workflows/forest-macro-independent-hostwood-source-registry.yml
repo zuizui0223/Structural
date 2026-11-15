@@ -1,0 +1,53 @@
+name: "Forest macro independent beetle plus original tree-wood host source-only eligibility"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-independent-hostwood-source-registry.yml"
+      - "analysis/forest_macro_global/independent_hostwood_source_registry_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_source_file_gate_only_no_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source URL identity and official API metadata known-truth synthetic gate"
+        run: |
+          python analysis/forest_macro_global/independent_hostwood_source_registry_gate.py --test
+      - name: "Screen one official Dryad Sweden study and two published Poland Zenodo record metadata"
+        run: |
+          python analysis/forest_macro_global/independent_hostwood_source_registry_gate.py \
+            --out original_hostwood_sourceonly_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("original_hostwood_sourceonly_aggregate/independent_forest_hostwood_archival_sourceonly.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.independent_hostwood_2025_Sweden_and_2026_Poland_sourceonly.v1"
+          assert x["original_biodiversity_response_abundance_or_wood_amount_rows_unread"]
+          assert x["no_new_ecological_effect_estimated"]
+          assert x["original_Finland142site_guild_spatial_deadwood_positive_frozen"]
+          assert x["original_threecountry_PREDICTS_NEON_BALA_GEB_scorers_unchanged"]
+          assert x["eBird_used"] is False
+          sw=x["primary_original_Sweden"]
+          assert sw["original_author_field_sites_from_publication"]==23
+          assert sw["original_field_regions_from_publication"]==3
+          assert sw["study_time_gap_not_same_year"]
+          print("ORIGINAL_SWEDISH_SOURCE_GATE",sw["status"])
+          print("ORIGINAL_POLAND_SOURCE_METADATA_STATUS",
+                [(k,v["status"]) for k,v in x["secondary_distinct_Poland_archives"].items()])
+          PY
+      - name: "Archive only source manifest status and published metadata, no original beetle or wood content"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-independent-forest-hostwood-original-sourceonly-intake
+          path: original_hostwood_sourceonly_aggregate/
+          if-no-files-found: warn
