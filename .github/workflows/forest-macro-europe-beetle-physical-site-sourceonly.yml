@@ -1,0 +1,70 @@
+name: "Forest macro Europe beetle physical-site original source-only identity gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-europe-beetle-physical-site-sourceonly.yml"
+      - "analysis/forest_macro_global/three_region_beetle_physical_site_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_source_site_labels_without_taxon_rows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Check synthetic source year markers and prevent false site inference"
+        run: |
+          python analysis/forest_macro_global/three_region_beetle_physical_site_source_gate.py --test
+      - name: "Fetch pinned Zenodo three original headers into runner-private source directory"
+        run: |
+          set -euo pipefail
+          mkdir -p source_raw_PRIVATE
+          cd source_raw_PRIVATE
+          base="https://zenodo.org/records/5950610/files"
+          for f in Finland_sites.species.csv Germany_sites.species.csv Norway_sites.species.csv; do
+            curl --fail --silent --show-error --location --retry 2               --connect-timeout 20 --max-time 140 --max-filesize 3000000               --proto '=https' --proto-redir '=https'               "$base/$f?download=1" -o "$f"
+            test -s "$f"
+          done
+          cat > expected_manifest.md5 <<'END_MD5'
+          c373ec9f597311a636b4f83d39fcfc9d  Finland_sites.species.csv
+          0ab85a1e30e8c9cc52d08255c6cd9c16  Germany_sites.species.csv
+          2320412a2d87e68bb79d1ccf86829bf0  Norway_sites.species.csv
+          END_MD5
+          md5sum -c expected_manifest.md5
+      - name: "Inspect original column identity syntax only; no biological value read"
+        run: |
+          python analysis/forest_macro_global/three_region_beetle_physical_site_source_gate.py             --folder source_raw_PRIVATE --out physical_site_identity_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("physical_site_identity_aggregate/three_country_physical_site_identity_sourceonly.json")
+          assert p.exists()
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.Zenodo5950610_author_physical_site_header_only_gate.v1"
+          if x["status"].startswith("SCIENTIFIC_STOP"):
+              assert x["no_original_biological_response_values_scored"]
+              print("SOURCE_ACCESS_STOP_NOT_ECOLOGICAL_NON_SUPPORT",x["status"])
+          else:
+              assert x["source_original_species_and_abundance_values_unopened"]
+              assert x["source_site_labels_not_reexported"]
+              assert x["candidate_exact_site_count_match_cannot_validate_physical_identity"]
+              assert x["old_hostguild_D_0p091059_p_0p000333_UNCHANGED"]
+              assert all(v["all_site_identity_inference_blocked_until_author_crosswalk"]
+                         for v in x["country"].values())
+              assert [x["country"][country]["observed_original_sampling_columns"]
+                      for country in ("Finland","Germany","Norway")]==[153,386,1111]
+              print("SOURCE_ONLY_HEADER_SYNTAX_QA_COMPLETE_AUTHOR_SITE_CROSSWALK_STILL_REQUIRED")
+          PY
+      - name: "Publish only anonymous source column pattern counts, never site labels or beetle traits"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-three-country-beetle-source-only-physical-site-header-identity
+          path: physical_site_identity_aggregate/
+          if-no-files-found: warn
