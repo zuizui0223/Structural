@@ -18,8 +18,8 @@ PIN={
 }
 FIELD_NAMES=["exp","plotID","PT","Tdir","PTNum","spec1","spec2",
              "sawcut","dc","stratum","DWV","Vharv"]
-STRATA=("T","L","T7","S")
-UNITS={"T":"m3_item","L":"m3_item","T7":"m3_per_ha","S":"m3_per_ha"}
+STRATA=("T","L","L7","S")
+UNITS={"T":"m3_item","L":"m3_item","L7":"UNIT_UNVERIFIED_AUTHOR_T7_VS_L7","S":"m3_per_ha"}
 class ScientificStop(Exception):pass
 
 def pinned(id):
@@ -149,7 +149,7 @@ def sourceonly_qa(raw,plots):
        "original_source_unit_contract":{
          "T":"DWV m3 per plot-sampled item",
          "L":"DWV m3 per plot-sampled item",
-         "T7":"DWV m3 per hectare for transect sampling",
+         "L7":"DWV SOURCE UNIT UNVERIFIED: stratum source author says L7 but DWV description says T7",
          "S":"DWV m3 per hectare for transect sampling",
          "Vharv":"harvested stump wood m3 per hectare, NOT ambient deadwood DWV"
        },
@@ -163,12 +163,14 @@ def sourceonly_qa(raw,plots):
        "eBird_used":False,
     }
     for k in STRATA:
-        totals=[sum(vals) for (p,typ),vals in vol_by_plot_and_stratum.items() if typ==k and vals]
+        totals=([sum(vals) for (p,typ),vals in vol_by_plot_and_stratum.items() if typ==k and vals]
+                if k!="L7" else [])
         out["source_stratum_specific_anonymous_coverage_and_numeric_validity"][k]={
            "original_source_items_in_30_plots":rows_by_stratum.get(k,0),
            "unique_original_plots_with_inventoried_items":len(plots_by_stratum[k]),
            "source_original_DWV_and_Vharv_validity_counts":dict(values[k]),
-           "DWV_sum_per_plot_with_original_observed_items_ONLY":medianquartiles(totals),
+           "DWV_sum_per_plot_with_original_observed_items_ONLY":medianquartiles(totals) if k!="L7" else None,
+           "L7_original_item_DWV_values_read_for_quality_only_NOT_SUMMED":k=="L7",
            "source_DWV_per_plot_sum_unit":UNITS[k],
            "no_missing_stratum_plot_inventories_imputed_as_zero":True,
         }
@@ -180,7 +182,7 @@ def sourceonly_qa(raw,plots):
 
 def synthetic():
     assert UNITS["T"]=="m3_item" and UNITS["L"]=="m3_item"
-    assert UNITS["T7"]=="m3_per_ha" and UNITS["S"]=="m3_per_ha"
+    assert UNITS["L7"]=="UNIT_UNVERIFIED_AUTHOR_T7_VS_L7" and UNITS["S"]=="m3_per_ha"
     assert medianquartiles([1,2,3])["median"]==2
     assert missing("NA") and not missing("4.0")
     print("SYNTHETIC_ORIGINAL_DEADWOOD_DWV_UNIT_STRATA_AND_NO_IMPUTED_ZEROS_PASS")
