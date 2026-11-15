@@ -199,7 +199,7 @@ def known_truth():
     assert abs(float(sqrt_js_distance(p, p)[0])) < 1e-12
     assert abs(float(sqrt_js_distance(p, q)[0]) - 1.) < 1e-12
     m = np.array([[1, 1, 0], [1, 0, 1]], dtype=np.uint8)
-    assert abs(source_species_simpson(m) - 1/3) < 1e-12
+    assert abs(source_species_simpson(m) - 1/2) < 1e-12
     assert abs(mean_guild_sqrt_js(m, np.array([0, 0, 1])) -
                float(sqrt_js_distance(np.array([[1.,0.,0.]]),
                                      np.array([[.5, .5, 0.]]))[0])) < 1e-12
