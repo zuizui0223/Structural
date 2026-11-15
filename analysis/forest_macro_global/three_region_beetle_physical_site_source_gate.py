@@ -200,7 +200,7 @@ def main():
         }
     args.out.mkdir(parents=True, exist_ok=True)
     target = args.out / "three_country_physical_site_identity_sourceonly.json"
-    target.write_text(json.dumps(result, ensure_ascii=False, indent=2)+"\\n", encoding="utf-8")
+    target.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
