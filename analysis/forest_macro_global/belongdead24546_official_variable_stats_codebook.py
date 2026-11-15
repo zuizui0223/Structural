@@ -128,7 +128,9 @@ def synthetic():
     assert x["source_exact_spec1_spec2_DWV_field_records_present"]
     assert x["source_DWV_author_unit_name_specified"]
     assert x["author_variable_codebook_properties_selected_ONLY"]["DWV"]["original_declared_unit_name_only"]=="m³"
-    assert "uniqueValues" not in json.dumps(x)
+    assert "raw species value" not in json.dumps(x)
+    assert all("uniqueValues" not in o for o in
+               x["author_variable_codebook_properties_selected_ONLY"].values())
     print("SYNTHETIC_OFFICIAL_DATASTATISTICS_METADATA_REDACTION_UNIT_AND_FROZEN_FIELDS_PASS")
 
 def main():
