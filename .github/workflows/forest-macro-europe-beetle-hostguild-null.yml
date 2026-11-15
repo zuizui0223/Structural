@@ -1,0 +1,97 @@
+name: "Forest macro Europe three-country original beetle host guild conditional null"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-europe-beetle-hostguild-null.yml"
+      - "analysis/forest_macro_global/three_region_beetle_host_guild_turnover.py"
+      - "docs/FOREST_BEETLE_THREE_REGION_HOST_GUILD_TURNOVER_PRESPEC_20261115.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_pinned_zenodo_country_guild_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only scientific numeric dependency
+        run: python -m pip install --quiet numpy
+      - name: Test exact identical/orthogonal trait guild JSD and Simpson replacement
+        run: |
+          python analysis/forest_macro_global/three_region_beetle_host_guild_turnover.py --mode test
+      - name: Download immutable publicly published three-country source in runner-private directory
+        run: |
+          set -euo pipefail
+          mkdir -p original_zenodo_private
+          cd original_zenodo_private
+          base="https://zenodo.org/records/5950610/files"
+          for f in \
+            Finland_sites.species.csv Finland_traits.csv \
+            Germany_sites.species.csv Germany_traits.csv \
+            Norway_sites.species.csv Norway_traits.csv
+          do
+            curl --fail --silent --show-error --location --retry 2 \
+              --connect-timeout 20 --max-time 130 --max-filesize 3000000 \
+              --proto '=https' --proto-redir '=https' \
+              "$base/$f?download=1" -o "$f"
+            test -s "$f"
+          done
+          cat > published_source_md5.txt <<'END_DIGESTS'
+          c373ec9f597311a636b4f83d39fcfc9d  Finland_sites.species.csv
+          6e0303545b79a9959b83d3c86437336a  Finland_traits.csv
+          0ab85a1e30e8c9cc52d08255c6cd9c16  Germany_sites.species.csv
+          51b711c03bc3926c8030537fc8d581f3  Germany_traits.csv
+          2320412a2d87e68bb79d1ccf86829bf0  Norway_sites.species.csv
+          342f68d55222b844c91cb4b415edd791  Norway_traits.csv
+          END_DIGESTS
+          md5sum -c published_source_md5.txt
+      - name: Verify original source headers and source sample-column opportunities before biological score
+        run: |
+          python analysis/forest_macro_global/three_region_beetle_host_guild_turnover.py \
+            --mode source --folder original_zenodo_private --out beetle_hostguild_aggregate
+          python - <<'PY'
+          import json
+          x=json.load(open("beetle_hostguild_aggregate/three_country_source_only_receipt.json"))
+          assert x["source_original_manifest_all_md5_verified"]
+          assert x["no_biological_abundance_or_Host_tree_values_read_in_source_gate"]
+          assert set(x["country_source_only"])=={"Finland","Germany","Norway"}
+          assert all(v["sampling_columns_not_independent_forests"]>=20 for v in x["country_source_only"].values())
+          PY
+      - name: One frozen retrospective endpoint, no taxon-wise or source-axis cherry-picking
+        run: |
+          python analysis/forest_macro_global/three_region_beetle_host_guild_turnover.py \
+            --mode score --folder original_zenodo_private --out beetle_hostguild_aggregate
+          python - <<'PY'
+          import json, pathlib
+          folder=pathlib.Path("beetle_hostguild_aggregate")
+          effect=folder/"three_country_beetle_hostguild_original_aggregate.json"
+          stop=folder/"source_STOP.json"
+          assert effect.exists() or stop.exists(), "STOP_NO_EXPECTED_PUBLIC_AGGREGATE"
+          if stop.exists():
+              x=json.loads(stop.read_text())
+              assert x["no_biological_effect_claim"]
+              print("SCIENTIFIC_SOURCE_STOP_NOT_BIOLOGICAL_NULL",x["status"])
+          else:
+              x=json.loads(effect.read_text())
+              assert x["eBird_used"] is False
+              assert x["original_sampling_column_ids_and_raw_abundances_not_exported"]
+              assert x["prior_PREDICTS_NEON_BALA_GEB_original_endpoints_not_read_or_changed"]
+              if x["status"].startswith("SCIENTIFIC_STOP"):
+                  assert "primary_inference" not in x
+                  print("SCIENTIFIC_SUPPORT_STOP_NOT_BIOLOGICAL_NULL",x["status"])
+              else:
+                  assert x["primary_inference"]["country_wise_simultaneous_host_tree_species_label_permutations"]==2999
+                  print("COMPLETED_EXPLORATORY_HOSTGUILD_ENDPOINT",x["primary_inference"])
+          PY
+      - name: Export anonymous aggregates only (never source species/capture/trait tables)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-beetle-hostguild-three-country-zenodo-original-onepass
+          path: beetle_hostguild_aggregate/
+          if-no-files-found: warn
