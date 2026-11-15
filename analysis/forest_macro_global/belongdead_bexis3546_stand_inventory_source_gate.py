@@ -9,7 +9,9 @@ from __future__ import annotations
 import argparse,csv,json,re,urllib.error,urllib.request,urllib.parse
 from pathlib import Path
 
-from belongdead_bexis_13tree_original_source_gate import metadata_get,CLASSIFY_LICENSE,NoRedirect
+from belongdead_bexis_13tree_original_source_gate import (
+    metadata_get, CLASSIFY_LICENSE, NoRedirect, sanitized_license_recursive
+)
 
 ORIGINAL_ID=3546
 DATA_ENDPOINT="https://www.bexis.uni-jena.de/api/data/3546"
@@ -94,9 +96,34 @@ def source_first_header():
     except (urllib.error.URLError,OSError,TimeoutError) as e:
         return {"status":"SOURCE_TRANSPORT_STOP","error_class":type(e).__name__}
 
+def original_version5_metadata():
+    """One exact publisher-prescribed BExIS /api/metadata/3546?tag=5.0."""
+    req=urllib.request.Request(
+        "https://www.bexis.uni-jena.de/api/metadata/3546?tag=5.0",
+        headers={"User-Agent":"Structural-BExIS-3546-original-metadata-v5/1.0",
+                 "Accept":"application/json"})
+    try:
+        with urllib.request.build_opener(NoRedirect).open(req,timeout=25) as resp:
+            raw=resp.read(350001)
+            status=resp.status
+            ctype=resp.headers.get("Content-Type","")
+        if status!=200 or len(raw)>350000 or "json" not in ctype.lower():
+            return {"status":"SOURCE_STOP_PUBLISHED_VERSION5_METADATA_NOT_JSON_OR_TOO_LARGE"}
+        doc=json.loads(raw.decode("utf-8"))
+        return {"status":"PUBLISHED_ORIGINAL_ENDPOINT_REACHABLE",
+                "http_status":200,
+                "original_publisher_rights_disclosures":sanitized_license_recursive(doc),
+                "original_source_metadata_bytes":len(raw)}
+    except urllib.error.HTTPError as exc:
+        return {"status":"SOURCE_ACCESS_STOP_HTTP","http_status":exc.code}
+    except (urllib.error.URLError,OSError,TimeoutError,ValueError) as exc:
+        return {"status":"SOURCE_TRANSPORT_OR_PARSE_STOP",
+                "error_class":type(exc).__name__}
+
+
 def run():
     ds=metadata_get("/api/dataset/3546")
-    meta=metadata_get("/api/metadata/3546?tag=5.0")
+    meta=original_version5_metadata()
     original_license=meta.get("original_publisher_rights_disclosures",[])
     if "original_public_license" in ds:original_license.append(ds["original_public_license"])
     verified=any(CLASSIFY_LICENSE.search(v) for v in original_license)
@@ -136,6 +163,7 @@ def synthetic():
     assert len(x["original_generic_plot_tree_volume_time_fields_only"])==4
     assert not any("sylvestris" in str(v) for v in x["original_generic_plot_tree_volume_time_fields_only"])
     assert CLASSIFY_LICENSE.search("CC BY 4.0")
+    assert original_version5_metadata.__name__=="original_version5_metadata"
     print("SYNTHETIC_BEXIS3546_SOURCE_LICENSE_AND_TREE_INVENTORY_HEADER_PRIVACY_PASS")
 
 def main():
