@@ -143,6 +143,16 @@ def dryad_source():
         output["status"]="SOURCE_STOP_SWEDEN_ORIGINAL_FILE_INDEX_UNAVAILABLE"
         return output
     files=file_names_from_dryad(ff["data"])
+    # Diagnose *public* original HAL link shape, rather than inventing file IDs
+    # after two metadata-only attempts found no IDs in the published records.
+    raw=((ff["data"].get("_embedded") or {}).get("stash:files") or [])
+    readme_public=next((row for row in raw if row.get("path")=="README.md"),None)
+    if readme_public is not None:
+        output["readme_public_HAL_link_paths_for_file_identity_diagnosis"]={
+            kind:((readme_public.get("_links") or {}).get(kind) or {}).get("href")
+            for kind in ("self","stash:download","stash:file")
+        }
+    files=file_names_from_dryad(ff["data"])
     output["original_public_file_metadata"]=files
     output["original_file_total_returned"]=len(files)
     names={r["name"].rsplit("/",1)[-1] for r in files}
