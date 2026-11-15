@@ -40,7 +40,7 @@ jobs:
           assert z["source_all_prior_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_FROZEN"]
           assert z["eBird_used"] is False
           for name,report in z["source_diagnostics"].items():
-              if report["status"].startswith("SOURCE_STOP"):
+              if report["status"].startswith("SOURCE"):
                   assert report["SOURCE_STOP_not_ecological_null"]
               else:
                   assert report["source_rights"]["original_source_cc_by_cc0_licence_verified"]
