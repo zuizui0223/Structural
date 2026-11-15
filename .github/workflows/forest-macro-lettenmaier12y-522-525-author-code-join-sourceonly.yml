@@ -1,0 +1,53 @@
+name: "Original 12yr beetle 522 long log-years vs 525 matrix rows author R-code source-identity"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-lettenmaier12y-522-525-author-code-join-sourceonly.yml"
+      - "analysis/forest_macro_global/lettenmaier_12year_author_code_source_identity.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_author_original_key_only_not_species_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author R explicit source-key matching and no-false identity"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_author_code_source_identity.py --test
+      - name: "Read original 2 author R scripts and source IDs; no species/trait numerical values"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_author_code_source_identity.py \
+            --out original_author522_525_identity_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path("original_author522_525_identity_aggregate/Lettenmaier12y_original_author_R_join_and_522_525_sourceonly.json")
+          x=json.loads(path.read_text())
+          assert x["schema"]=="structural.Lettenmaier12y_original_R_author_522vs525_firstcolumn_sourceidentity.v1"
+          assert x["original_author_R_code_NOT_EXECUTED"]
+          assert x["original_beetle_taxa_and_species_counts_NOT_OPENED"]
+          assert x["source_log_year_IDs_and_taxon_identifiers_NOT_EXPORTED"]
+          assert x["frozen_original_2026_Finland_Burner_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert x["eBird_used"] is False
+          if x["status"].startswith("SOURCE_STOP"):
+              assert x["source_method_STOP_not_ecological_null"]
+              print("SOURCE_AUTHOR_JOIN_STOP_NO_BIOLOGICAL_CLAIM",x["status"])
+          else:
+              assert x["source_author_two_R_scripts_plus_two_source_csv_MD5_verified"]
+              assert x["original_author_522_logyear_525_comm_ID_count_unchanged"]
+              print("AUTHOR_IDENTITY_METHOD_GATE",x["status"])
+          PY
+      - name: "Archive only anonymized source-author ID pattern counts, no original R code or taxa"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-12yr-beetle-author-R-source-key-522v525-no-biology
+          path: original_author522_525_identity_aggregate/
+          if-no-files-found: warn
