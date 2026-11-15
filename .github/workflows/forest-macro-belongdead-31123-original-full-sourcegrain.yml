@@ -1,0 +1,58 @@
+name: "Forest BELongDead original full 31123 plot tree host grain (NO beetle effect)"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead-31123-original-full-sourcegrain.yml"
+      - "analysis/forest_macro_global/belongdead_31123_original_source_plot_tree_grain.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify_source_only_BExIS_CC_BY4_original_plot_tree_host_keys:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original 17 field header and nested tree plot source hierarchy"
+        run: |
+          python analysis/forest_macro_global/belongdead_31123_original_source_plot_tree_grain.py --test
+      - name: "Read just known original source plot TreeSpecies year identifiers from one pinned 8.1MB public CC BY4 source"
+        run: |
+          python analysis/forest_macro_global/belongdead_31123_original_source_plot_tree_grain.py \
+            --out BELONGDEAD_31123_PRIVATE_SOURCE_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BELONGDEAD_31123_PRIVATE_SOURCE_AGGREGATE/BELongDead31123_17field_fullCSV_original_metadata_only.json")
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.BELongDead31123_original_FullCSV_exploratory_plot_tree_sourcegrain.v1"
+          assert r["original_BExIS_dataset_ID"]==31123
+          assert r["original_cc_by_4_license_confirmed_CI43701688869"]
+          assert r["original_CSV_17_fields_content_length_8103493_confirmed_CI43701987094"]
+          assert r["original_source_biology_and_abundance_values_not_opened_or_scored"]
+          assert r["all_prior_Finland_Burner_PREDICTS_NEON_BALA_GEB_effects_unmodified"]
+          assert r["eBird_used"] is False
+          if r["status"].startswith(("SOURCE_STOP","SOURCE_ACCESS_STOP","SOURCE_TRANSPORT_STOP")):
+              assert r["original_source_failure_not_ecological_null"]
+              print("BELONGDEAD_ORIGINAL_SOURCE_STOP_NOT_BIOLOGY",r["status"])
+          else:
+              s=r["source_only_original_sampling_unit_audit"]
+              assert s["original_header_field_count"]==17
+              assert s["source_original_taxa_individual_counts_other_columns_NEVER_USED"]
+              assert s["source_original_plot_tree_species_ID_values_NOT_EXPORTED"]
+              assert s["source_original_distinct_exploratory_by_plot_keys"]>0
+              assert r["original_data_source_bytes_verified"]==8103493
+              print("BELONGDEAD_ORIGINAL_BEXIS_SOURCE_GRAIN",r["status"])
+          PY
+      - name: "Publish anonymous source-structure evidence only; never original taxa/traps/plot IDs"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-original-BELongDead-31123-plot-tree-sampling-grain
+          path: BELONGDEAD_31123_PRIVATE_SOURCE_AGGREGATE/
+          if-no-files-found: warn
