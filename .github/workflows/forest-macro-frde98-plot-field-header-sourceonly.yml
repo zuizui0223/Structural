@@ -1,0 +1,95 @@
+name: "Forest macro 2026 France Germany 98 plot source metadata key and variable headers"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-frde98-plot-field-header-sourceonly.yml"
+      - "analysis/forest_macro_global/frde98_plot_and_field_header_only.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_98_observation_sources_only_no_beetle_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: "Download original CC-BY4 public RData/Rmd into runner-private storage with frozen MD5"
+        run: |
+          python analysis/forest_macro_global/frde99_original_archive_method_gate.py \
+            --mode download --private Cours98_PRIVATE --out Cours98_SOURCEONLY_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("Cours98_SOURCEONLY_AGGREGATE/source_only_download_receipt.json").read_text())
+          assert x["status"]=="PUBLISHED_TWO_ORIGINAL_FILES_MD5_AND_SIZE_VERIFIED"
+          PY
+      - name: "Read ONLY original row ID keys and named ecological field headers in three source dataframes"
+        run: |
+          Rscript analysis/forest_macro_global/frde98_plot_and_field_header_only.R \
+            Cours98_PRIVATE/Decline_Data.RData Cours98_PRIVATE/forest_98_context_fieldnames_PRIVATE.tsv
+      - name: "Sanitize and verify 56 plus 27 plus 15 plot-source and field-availability evidence"
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, re
+          p=Path("Cours98_PRIVATE/forest_98_context_fieldnames_PRIVATE.tsv")
+          lines=p.read_text().splitlines()
+          expected=["slot","rows","columns","distinct_plot","distinct_site","distinct_region",
+            "distinct_composite","missing_ID_rows","duplicate_composite",
+            "numeric_columns","resource_col_count","disturbance_col_count",
+            "response_col_count","effort_col_count","context_col_count",
+            "resource_header_names","disturbance_header_names","response_header_names",
+            "effort_header_names","context_header_names"]
+          assert lines[0].split("\t")==expected and len(lines)==4
+          parsed=[]
+          for ln in lines[1:]:
+              vals=ln.split("\t")
+              assert len(vals)==len(expected)
+              obj=dict(zip(expected,vals))
+              assert re.fullmatch("obj[1-3]",obj["slot"])
+              for key in expected[1:15]:
+                  obj[key]=int(obj[key])
+                  assert 0<=obj[key]<=1000
+              for key in expected[15:]:
+                  assert re.fullmatch("[A-Za-z0-9_,.+-]{0,700}",obj[key])
+                  obj[key]=[q for q in obj[key].split(",") if q]
+              parsed.append(obj)
+          assert sorted(q["rows"] for q in parsed)==[15,27,56]
+          assert all(q["columns"]==82 for q in parsed)
+          assert all(q["missing_ID_rows"]==0 and q["duplicate_composite"]==0 for q in parsed)
+          assert all(q["distinct_composite"]==q["rows"] for q in parsed)
+          result={
+           "schema":"structural.Cours2026_frde98_original_plot_resource_beetle_header_only.v1",
+           "original_Zenodo":"10.5281/zenodo.17927769",
+           "source_original_RData_MD5_34312f823dafa60568fa0cd92926ee37_verified":True,
+           "source_exposure_and_biology_ROW_VALUES_UNREAD":True,
+           "source_meta_identifier_fields_only_original_region_site_plot_READ":True,
+           "published_study_original_selected_99_plots_but_98_source_analysis_rows":True,
+           "source_original_3_opaque_context_dataframes":parsed,
+           "source_original_98_composite_within_context_plot_keys":True,
+           "source_original_between_context_method_and_canopy_height_CONFOUNDED":True,
+           "taxon_community_matrices_and_observation_effort_JOIN_UNVERIFIED":True,
+           "no_new_beetle_or_forest_effect_scored":True,
+           "prior_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_effects_unchanged":True,
+           "eBird_used":False,
+           "status":"SOURCE_IDENTIFIABLE_98_SITE_HEADER_METADATA_ONLY_BIOLOGY_NOT_REOPENED"
+          }
+          q=Path("Cours98_SOURCEONLY_AGGREGATE/frde98_cours_original_plot_header_sourceonly.json")
+          q.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps(result,ensure_ascii=False,indent=2))
+          PY
+      - name: "Upload anonymized original field headers and plot-key counts only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-frde98-original-plot-ID-and-fieldnames-only
+          path: Cours98_SOURCEONLY_AGGREGATE/
+          if-no-files-found: warn
