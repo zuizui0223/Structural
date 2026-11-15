@@ -1,0 +1,53 @@
+name: "BELongDead ambient deadwood original 5 author variable definitions and units only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-belongdead24546-original-five-field-descriptions.yml"
+      - "analysis/forest_macro_global/belongdead24546_author_field_descriptions.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_source_field_semantics_before_plot_predictors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic exact five field metadata and source-unit restrictions"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_author_field_descriptions.py --test
+      - name: "One original BExIS24546 CC BY4 source dictionary descriptions for spec1/spec2/DWV/Vharv/dc"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_author_field_descriptions.py \
+            --out BE24546_SHORT_AUTHOR_SOURCE_METHOD_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BE24546_SHORT_AUTHOR_SOURCE_METHOD_AGGREGATE/BExIS24546_original_spec1_spec2_DWV_Vharv_dc_short_author_descriptions.json")
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.BExIS24546_original_published_short_source_field_descriptions.v1"
+          if r["status"].startswith("SOURCE_STOP"):
+              assert r["source_STOP_not_ecological_non_support"]
+              print("AUTHOR_ORIGINAL_FIELD_DESCRIPTION_SOURCE_STOP",r["status"])
+          else:
+              assert len(r["original_public_source_field_descriptions"])==5
+              assert r["original_source_30of30_tag1_BELongDead_plot_join_ALREADY_VERIFIED"]
+              assert r["original_wood_items_and_beetle_abundance_numeric_values_UNREAD"]
+              assert r["source_API_original_uniqueValues_min_max_observation_counts_NOT_EXPORTED"]
+              assert r["BExIS_31124_15_new_TrapID_and_sampling_effort_still_UNVERIFIED"]
+              assert r["all_Finland_Burner_PREDICTS_NEON_BALA_GEB_old_results_FROZEN"]
+              assert r["eBird_used"] is False
+              print("ORIGINAL_BEXIS24546_AUTHOR_FIVE_FIELD_DEFINITIONS_SOURCE_ONLY_DONE")
+          PY
+      - name: "Archive short public source-author field definitions only, never item wood or beetle values"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead24546-original-source-spec1spec2DWV-field-definitions
+          path: BE24546_SHORT_AUTHOR_SOURCE_METHOD_AGGREGATE/
+          if-no-files-found: warn
