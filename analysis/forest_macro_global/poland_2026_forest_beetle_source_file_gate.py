@@ -68,7 +68,7 @@ def xlsx_package_metadata(binary:bytes):
 def download_one(info:dict):
     rec=int(info["record"])
     fname=info["filename"]
-    safe=urllib.parse.quote(fname,safe="") if False else fname
+    safe=fname  # all three prespecified archive filenames are ASCII
     url=f"https://zenodo.org/records/{rec}/files/{safe}?download=1"
     req=urllib.request.Request(url,headers=UA)
     try:
