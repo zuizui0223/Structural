@@ -1,0 +1,69 @@
+name: "Forest macro 2026 France Germany 99 plot original RData schemas only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-frde99-original-rdata-sourceonly.yml"
+      - "analysis/forest_macro_global/frde99_original_archive_method_gate.py"
+      - "analysis/forest_macro_global/frde99_original_RData_structure_only.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_original_RData_classes_and_fieldnames_only_no_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: "Verify synthetic source-method and object-schema parser"
+        run: |
+          python analysis/forest_macro_global/frde99_original_archive_method_gate.py --mode test
+      - name: "Fetch exact official original Zenodo RData and Rmd with immutable MD5, keep files private"
+        run: |
+          python analysis/forest_macro_global/frde99_original_archive_method_gate.py \
+            --mode download --private Cours99_PRIVATE_original --out Cours99_SOURCEONLY_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rec=json.loads(Path("Cours99_SOURCEONLY_aggregate/source_only_download_receipt.json").read_text())
+          assert rec["status"]=="PUBLISHED_TWO_ORIGINAL_FILES_MD5_AND_SIZE_VERIFIED"
+          assert rec["no_original_biological_values_opened"]
+          assert set(rec["file_receipts"])=={"Decline_Data.RData","Analysis_Cascade_Decline_Salvage.Rmd"}
+          PY
+      - name: "Read ONLY original RData top-level object types dimensions and harmless field labels with base R"
+        run: |
+          Rscript analysis/forest_macro_global/frde99_original_RData_structure_only.R \
+            Cours99_PRIVATE_original/Decline_Data.RData Cours99_PRIVATE_original/source_object_schema_PRIVATE.tsv
+      - name: "Finalize aggregate method/schema QA; no original biology rows or model results"
+        run: |
+          python analysis/forest_macro_global/frde99_original_archive_method_gate.py \
+            --mode finalize --private Cours99_PRIVATE_original \
+            --tsv Cours99_PRIVATE_original/source_object_schema_PRIVATE.tsv \
+            --out Cours99_SOURCEONLY_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("Cours99_SOURCEONLY_aggregate/frde99_original_RData_method_sourceonly.json")
+          x=json.loads(f.read_text())
+          assert x["schema"]=="structural.frde99_Cours2026_original_RData_Rmd_method_only.v1"
+          assert x["no_original_observations_taxa_traits_abundances_or_SEM_results_read"]
+          assert x["source_original_plot_ID_beetle_observation_and_field_resource_row_JOIN_NOT_YET_ESTABLISHED"]
+          assert x["all_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_prior_effects_sealed"]
+          assert x["original_RData_opaque_object_schema"]
+          assert x["eBird_used"] is False
+          print("FRDE99_SOURCE_RDATA_METHOD_ONLY_STATUS",x["status"])
+          PY
+      - name: "Archive only anonymized original R object metadata, not original files or any source records"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-frde99-original-cours-rdata-rmd-sourceonly-schema
+          path: Cours99_SOURCEONLY_aggregate/
+          if-no-files-found: warn
