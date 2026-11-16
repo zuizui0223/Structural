@@ -71,10 +71,20 @@ def gro_only(doi,obj):
     data=obj.get("data",{})
     if not isinstance(data,dict):
         raise SourceStop("GRO_DATA_NOT_OBJECT")
-    globalid=str(data.get("globalId") or data.get("persistentId") or "")
     version=data.get("latestVersion") or {}
     if not isinstance(version,dict):
         raise SourceStop("GRO_LATEST_VERSION_NOT_OBJECT")
+    # Dataverse versions differ: the DOI may appear in full-form fields,
+    # latestVersion.datasetPersistentId, or protocol+authority+identifier.
+    # Never qualify a record without an exact native DOI match.
+    candidates=[str(x) for x in (
+        data.get("globalId"),data.get("persistentId"),
+        version.get("datasetPersistentId")) if isinstance(x,str) and x]
+    if all(isinstance(data.get(k),str) and data[k] for k in (
+            "protocol","authority","identifier")):
+        candidates.append(data["protocol"]+":"+data["authority"]+"/"+data["identifier"])
+    doi_matches=[x.casefold() in ("doi:"+doi.casefold(),doi.casefold())
+                 for x in candidates]
     files=version.get("files")
     if files is None: files=[]
     if not isinstance(files,list):
@@ -95,7 +105,9 @@ def gro_only(doi,obj):
         if isinstance(size,int) and size>=0:
             size_total+=size
     return {
-       "source_DOI_exact_match":globalid.casefold() in ("doi:"+doi.casefold(),doi.casefold()),
+       "source_DOI_exact_match":any(doi_matches),
+       "source_DOI_identity_field_present":len(candidates)>0,
+       "source_DOI_identity_candidate_count":len(candidates),
        "version_state":str(version.get("versionState","UNCONFIRMED"))[:24],
        "published_version_exists":version.get("versionState")=="RELEASED",
        "metadata_file_record_count":len(files),
@@ -157,6 +169,15 @@ def known_truth():
     assert k["metadata_restricted_file_count"]==1
     assert k["metadata_files_total_bytes_advertised"]==5100
     assert k["file_content_downloaded"] is False
+    assert gro_only(doi,{"status":"OK","data":{
+       "protocol":"doi","authority":"10.25625","identifier":"H8EMJS",
+       "latestVersion":{"versionState":"RELEASED","files":[]}}})["source_DOI_exact_match"]
+    assert gro_only(doi,{"status":"OK","data":{
+       "latestVersion":{"datasetPersistentId":"doi:10.25625/H8EMJS",
+       "versionState":"RELEASED","files":[]}}})["source_DOI_exact_match"]
+    assert not gro_only(doi,{"status":"OK","data":{
+       "protocol":"doi","authority":"10.25625","identifier":"WRONG",
+       "latestVersion":{"versionState":"RELEASED","files":[]}}})["source_DOI_exact_match"]
     assert not gro_only(doi,{"status":"OK","data":{"globalId":"doi:BAD",
         "latestVersion":{"versionState":"RELEASED","files":[]}}})["source_DOI_exact_match"]
     assert all(d.count("/")==1 for d in DOIS)
