@@ -1,0 +1,47 @@
+name: "Piccini 2026 beetles: official source first-line header-only field-method gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-piccini2026-original-header-only.yml"
+      - "analysis/forest_macro_global/piccini2026_gro_original_header_only_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_three_strata_header_only_no_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source-file header-only species-name redaction and collision STOP"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_original_header_only_gate.py --test
+      - name: "One bounded first-line official public file GET each for exactly two full 2026 files"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_original_header_only_gate.py \
+            --out Piccini2026_original_header_only
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Piccini2026_original_header_only/Piccini2026_GRO_original_file_firstline_headeronly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Piccini2026_original_GRO_firstline_headeronly_source_gate.v1"
+          assert x["previous_original_forest_beta_guild_mammal_heldouts_UNCHANGED"]
+          assert x["NOT_new_ecological_positive_or_independent_country_replication"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          assert x["source"]["original_2024_canopy_file_content_read"] is False
+          assert x["source"]["original_2026_species_counts_or_site_data_rows_read"] is False
+          print("ORIGINAL_GRO_FILE_HEADER_ONLY_GATE_NOT_BIOLOGY",x["source"]["status"])
+          PY
+      - name: "Upload generic source header-shape results only; no original files"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Piccini2026-original-header-only-QA
+          path: Piccini2026_original_header_only/
+          if-no-files-found: warn
