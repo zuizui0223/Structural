@@ -4,7 +4,7 @@ Only method fields from publicly pinned original text; no species/trait/count va
 """
 from __future__ import annotations
 import argparse
-from collections import defaultdict
+from collections import defaultdict, Counter
 import csv
 import hashlib
 import io
@@ -26,6 +26,43 @@ def quant(x):
     return ({"min":min(x),"median":float(median(x)),"max":max(x)}
             if x else None)
 
+def nominal_design_benchmark(plot_layer_labels:dict):
+    by_plot=defaultdict(list); by_layer=defaultdict(list)
+    labels=set()
+    for (plot,layer),ids in plot_layer_labels.items():
+        by_plot[plot].append(len(ids))
+        by_layer[layer].append(len(ids))
+        labels.update(ids)
+    if len(by_plot)!=40 or len(by_layer)!=3 or any(len(v)!=3 for v in by_plot.values()):
+        raise MethodStop("SOURCE_STOP_NOMINAL_BENCHMARK_40PLOT_THREELAYER_SUPPORT")
+    if any(len(v)!=40 for v in by_layer.values()):
+        raise MethodStop("SOURCE_STOP_NOMINAL_BENCHMARK_LAYER_PLOT_COVERAGE")
+    if sum(map(len,plot_layer_labels.values()))!=len(labels):
+        raise MethodStop("SOURCE_STOP_NOMINAL_BENCHMARK_TRAPID_CROSS_PLOT_LAYER_COLLISION")
+    shapes=Counter(tuple(sorted(v)) for v in by_plot.values())
+    layer_distributions=sorted(({
+        "source_original_plot_count":len(v),
+        "recorded_trapID_per_plot":quant(v),
+        "recorded_trapID_total_across_40plots":sum(v),
+        "plot_groups_with_3_recorded_IDs":sum(x==3 for x in v),
+        "plot_groups_with_8_recorded_IDs":sum(x==8 for x in v),
+        "plot_groups_with_OTHER_recorded_ID_count":sum(x not in (3,8) for x in v),
+    } for v in by_layer.values()),key=lambda z:z["recorded_trapID_total_across_40plots"])
+    return {
+        "published_nominal_slots_from_40plots_times_8_plus_3_plus_3":560,
+        "source_recorded_distinct_trapID_labels":len(labels),
+        "design_arithmetic_nominal_minus_observed_recorded_labels":560-len(labels),
+        "source_plot_count_with_exact_multiset_3_3_8":shapes.get((3,3,8),0),
+        "anonymous_plot_3layer_recorded_ID_multiset_counts":[
+          {"sorted_ID_counts_three_layers":list(k),"number_of_plots":n}
+          for k,n in sorted(shapes.items())],
+        "per_original_vertical_stratum_ANONYMOUS_sorted":layer_distributions,
+        "missing_deployed_traps_or_zero_catch_NOT_INFERRED":True,
+        "source_original_layer_labels_not_mapped_to_published_year_methods":True,
+        "source_author_codebook_required_before_biology":True,
+    }
+
+
 def audit(raw: bytes, expected_counts=None, expected_rows=EXPECTED_ROWS):
     try:
         r=csv.reader(io.StringIO(raw.decode("utf-8-sig"),newline=""),
@@ -42,6 +79,15 @@ def audit(raw: bytes, expected_counts=None, expected_rows=EXPECTED_ROWS):
     trapcols=[i for i,h in enumerate(hn) if h in TRAP_NAMES]
     if len(trapcols)!=3:
         raise MethodStop("SOURCE_STOP_ORIGINAL_THREE_TRAP_HEADER_DRIFT")
+    design_i=None
+    if expected_counts is not None:
+        # Exact author case-sensitive header fixed before this diagnostic.
+        positions=[i for i,h in enumerate(hdr) if h.strip()=="trapID"]
+        if len(positions)!=1:
+            raise MethodStop("SOURCE_STOP_EXACT_ORIGINAL_trapID_HEADER_UNQUALIFIED")
+        design_i=positions[0]
+        if design_i not in trapcols:
+            raise MethodStop("SOURCE_STOP_trapID_NOT_AMONG_ORIGINAL_TRAP_ROLES")
     safe_original_header_spelling=[]
     for i in trapcols:
         val=hdr[i].strip()
@@ -57,6 +103,7 @@ def audit(raw: bytes, expected_counts=None, expected_rows=EXPECTED_ROWS):
     per_plot_layer_period={i:defaultdict(set) for i in trapcols}
     original_rows=0;missing={i:0 for i in trapcols}
     plot_layer_period=set()
+    original_design_plot_layer_labels=defaultdict(set)
     try:
         for row in r:
             original_rows+=1
@@ -69,6 +116,10 @@ def audit(raw: bytes, expected_counts=None, expected_rows=EXPECTED_ROWS):
             stands[plot].add(stand)
             plotlayers[plot].add(layer)
             plot_layer_period.add((plot,layer,period))
+            if design_i is not None:
+                tok=row[design_i].strip()
+                if not tok:raise MethodStop("SOURCE_STOP_ORIGINAL_trapID_EMPTY")
+                original_design_plot_layer_labels[(plot,layer)].add(tok)
             for i in trapcols:
                 x=row[i].strip()
                 if not x:
@@ -115,7 +166,7 @@ def audit(raw: bytes, expected_counts=None, expected_rows=EXPECTED_ROWS):
               len(per_plot_layer_period[i]),
         })
     all_counts=sorted(x["distinct_source_method_label_count"] for x in out)
-    return {
+    result={
        "status": ("AUTHOR_TRAP_ROLE_UNVERIFIED_PENDING_CODEBOOK"
              if expected_counts is None or all_counts==expected_counts
              else "SOURCE_STOP_PUBLISHED_TRAP_CARDINALITIES_DRIFT"),
@@ -130,6 +181,14 @@ def audit(raw: bytes, expected_counts=None, expected_rows=EXPECTED_ROWS):
        "no_species_guild_count_resource_or_taxon_values_accessed":True,
        "no_raw_site_plot_trap_period_values_exported":True,
     }
+    if design_i is not None and result["status"]=="AUTHOR_TRAP_ROLE_UNVERIFIED_PENDING_CODEBOOK":
+        result["nominal_560_vs_recorded_trapID_source_ONLY"]=nominal_design_benchmark(
+           original_design_plot_layer_labels)
+        if result["nominal_560_vs_recorded_trapID_source_ONLY"][
+           "source_recorded_distinct_trapID_labels"]!=557:
+            raise MethodStop("SOURCE_STOP_NOMINAL_BENCHMARK_RECORDED_557_DRIFT")
+        result["additional_prebiology_protocol"]="docs/FOREST_BEETLE_PICCINI2026_TRAPID_560_DESIGN_BENCHMARK_PRESPEC_20261117.md"
+    return result
 
 def original_source_only():
     ans={"DOI":DOI,"status":"SOURCE_UNREAD",
@@ -184,7 +243,19 @@ def known_truth():
        "labels_spanning_more_than_one_plot"]==0
     assert "PROTECTED_SPECIES" not in json.dumps(z)
     assert "999" not in json.dumps(z)
-    print("SYNTHETIC_PICCINI_TRAP_ID_FUNCTIONAL_DEPENDENCY_SOURCE_ONLY_PASS")
+    nominal={}
+    for pi in range(40):
+        for ly,num in enumerate((8,3,3)):
+            count=num - (1 if pi in (0,1,2) and ly==1 else 0)
+            nominal[("plot"+str(pi),"layer"+str(ly))]={
+              "P"+str(pi)+"_L"+str(ly)+"_T"+str(t) for t in range(count)}
+    d=nominal_design_benchmark(nominal)
+    assert d["published_nominal_slots_from_40plots_times_8_plus_3_plus_3"]==560
+    assert d["source_recorded_distinct_trapID_labels"]==557
+    assert d["design_arithmetic_nominal_minus_observed_recorded_labels"]==3
+    assert d["source_plot_count_with_exact_multiset_3_3_8"]==37
+    assert d["missing_deployed_traps_or_zero_catch_NOT_INFERRED"]
+    print("SYNTHETIC_PICCINI_TRAP_ID_FUNCTIONAL_DEPENDENCY_AND_560_BENCHMARK_PASS")
 
 def main():
     p=argparse.ArgumentParser()
