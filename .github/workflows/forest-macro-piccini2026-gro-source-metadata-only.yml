@@ -1,0 +1,52 @@
+name: "Piccini 2026 3-strata beetles: legitimate GRO original source metadata-only intake"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-piccini2026-gro-source-metadata-only.yml"
+      - "analysis/forest_macro_global/piccini2026_gro_three_strata_source_only_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bibliographic_and_original_source_metadata_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic DOI identity and GRO file metadata shape known-truth tests"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_three_strata_source_only_gate.py --test
+      - name: "One official public DataCite and GRO metadata GET per DOI, NEVER file content"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_three_strata_source_only_gate.py \
+            --out Piccini2026_metadata_only
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Piccini2026_metadata_only/Piccini2026_GRO_source_metadata_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Piccini2026_three_stratum_gro_original_source_metadata_gate.v1"
+          assert len(x["source_results"])==2
+          assert x["NO_original_species_or_forest_numerical_biology_opened"]
+          assert x["NO_40_nominal_stands_claimed_as_independent_sites"]
+          assert x["sources_not_counted_as_independent_field_replications"]
+          assert x["Thai_Finland_PREDICTS_NEON_BALA_GEB_original_scorers_SEALED"]
+          assert x["eBird_used"] is False and x["TinyFish_used"] is False
+          for r in x["source_results"]:
+              assert r["original_species_trap_wood_values_UNOPENED"]
+              assert r["no_author_plot_IDs_or_raw_file_bytes_saved"]
+              assert r["no_prior_Structural_biological_score_changed"]
+              print("GRO_ORIGINAL_SOURCE_METADATA_STATUS_NOT_BIOLOGY",r["doi"],r["status"])
+          PY
+      - name: "Upload anonymous metadata/error statuses, no source files"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Piccini2026-GRO-original-metadata-only
+          path: Piccini2026_metadata_only/
+          if-no-files-found: warn
