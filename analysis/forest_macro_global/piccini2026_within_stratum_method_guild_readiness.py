@@ -35,8 +35,11 @@ MAX_PER_LAYER_VALUES_TO_EXPORT = 0
 
 def typed_generic_headers(header: list[str]) -> dict:
     n = [normalized(h) for h in header]
-    if len(n) != 17 or len(set(n)) != len(n):
-        raise MethodStop("SOURCE_STOP_HEADER_SHAPE_OR_DUPLICATION")
+    # Only the 17-column width is global. Non-selected headers can share
+    # normalized spellings without changing explicitly selected method roles.
+    # Selected core uniqueness and trap-role ambiguity remain guarded below.
+    if len(n) != 17:
+        raise MethodStop("SOURCE_STOP_ORIGINAL_17COLUMN_HEADER_SHAPE")
     core = {key: [i for i,v in enumerate(n) if v == key] for key in FIELDS_CORE}
     methods = {role: [i for i,v in enumerate(n) if v in names]
                for role,names in METHOD_FIELDS.items()}
@@ -267,6 +270,22 @@ def synthetic_known_truth():
     assert "PROTECTED_SPECIES" not in json.dumps(v)
     assert "PROTECTED_TRAIT" not in json.dumps(v)
     assert "999" not in json.dumps(v)
+    duplicate_nonselected=header.copy()
+    duplicate_nonselected[-1]=duplicate_nonselected[-2]
+    p2="\\n".join(";".join(r) for r in ([duplicate_nonselected]+rows+[rows[0]]*n))+"\\n"
+    v2=method_only_qualification(p2.encode())
+    assert v2["status"]=="SOURCE_METHOD_OR_EFFORT_DENOMINATOR_NOT_DEFINED"
+    assert v2["source_parent_sites"]==8 and v2["source_plot_labels"]==40
+    duplicate_core=header.copy()
+    duplicate_core[1]="Site"
+    p3="\\n".join(";".join(r) for r in ([duplicate_core]+rows+[rows[0]]*n))+"\\n"
+    w=method_only_qualification(p3.encode())
+    assert w["status"]=="AUTHOR_NAMED_CORE_METHOD_GRAIN_UNRESOLVED"
+    duplicate_trap=header.copy()
+    duplicate_trap[-1]="TrapID"
+    p4="\\n".join(";".join(r) for r in ([duplicate_trap]+rows+[rows[0]]*n))+"\\n"
+    z=method_only_qualification(p4.encode())
+    assert z["status"]=="SOURCE_TRAP_ID_ROLE_UNRESOLVED_OR_MULTIPLE"
     print("SYNTHETIC_PICCINI_TRAP_METHOD_GUILD_HEADER_AND_SOURCE_GRAIN_FIREWALL_PASS")
 
 def main():
