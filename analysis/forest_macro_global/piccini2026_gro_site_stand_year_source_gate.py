@@ -8,6 +8,8 @@ from collections import defaultdict
 import csv
 import io
 import json
+import re
+from datetime import date
 from pathlib import Path
 from piccini2026_gro_original_method_unit_gate import (
     DOI,MAX_FILE,metadata_source_files,head_shape,get_one_original_publisher_file,
@@ -22,8 +24,24 @@ ROLE_NAMES={
   "stand_category":{"stand","standtype","foresttype"},
   "plot_unit":{"plot","plotid","standid","locationid"},
   "vertical_stratum":{"layer","stratum","verticalstratum","forestlayer"},
-  "year":{"year","sampleyear","samplingyear","collectionyear"},
+  "year":{"year","sampleyear","samplingyear","collectionyear","date",
+          "period","season","samplingperiod","samplingdate","collectiondate",
+          "sampledate","month","surveyyear"},
 }
+
+def calendar_year_from_time_token(token):
+    """Conservative lexical calendar check, no method/biology inference."""
+    if re.fullmatch(r"(?:19|20)[0-9]{2}",token):
+        return token,"FOUR_DIGIT_YEAR"
+    m=re.fullmatch(r"((?:19|20)[0-9]{2})[-/]([0-9]{2})[-/]([0-9]{2})",token)
+    if m:
+        try:
+            date(int(m.group(1)),int(m.group(2)),int(m.group(3)))
+            return m.group(1),"VALID_ISO_DATE"
+        except ValueError:
+            pass
+    return None,"NONCANONICAL_TIME_TOKEN"
+
 
 def role_positions(header):
     normalized_names=[normalized(h) for h in header]
@@ -60,7 +78,10 @@ def audit_source_method_rows(raw,checksum=None):
     stand_sites=defaultdict(set)
     plot_stratum_years=defaultdict(lambda:defaultdict(set))
     plot_year_strata=defaultdict(set)
+    plot_stratum_calendar_years=defaultdict(lambda:defaultdict(set))
     strata_years=defaultdict(set)
+    time_value_shapes=set()
+    noncanonical_time_rows=0
     all_sites=set()
     all_plots=set()
     all_stands=set()
@@ -84,6 +105,12 @@ def audit_source_method_rows(raw,checksum=None):
                 ("parent_site","stand_category","plot_unit","vertical_stratum","year"))
             all_sites.add(site);all_stands.add(stand);all_plots.add(plot)
             all_strata.add(layer);all_years.add(year)
+            actual_year, time_shape=calendar_year_from_time_token(year)
+            time_value_shapes.add(time_shape)
+            if actual_year is None:
+                noncanonical_time_rows+=1
+            else:
+                plot_stratum_calendar_years[plot][layer].add(actual_year)
             plot_site[plot].add(site)
             plot_stand[plot].add(stand)
             site_stands[site].add(stand)
@@ -102,7 +129,21 @@ def audit_source_method_rows(raw,checksum=None):
     for p in plot_three:
         sets=list(plot_stratum_years[p].values())
         year_intersection_sizes.append(len(set.intersection(*sets)))
+    fully_calendar_interpretable=noncanonical_time_rows==0
+    calendar_intersection_sizes=[]
+    if fully_calendar_interpretable:
+        for p in plot_three:
+            sets=list(plot_stratum_calendar_years[p].values())
+            calendar_intersection_sizes.append(len(set.intersection(*sets)))
     summary.update({
+       "recognized_time_generic_field_name":safe_fields["year"][0],
+       "source_time_field_all_tokens_unambiguously_calendar_parseable":fully_calendar_interpretable,
+       "source_time_shapes_only_SORTED_NO_VALUES":sorted(time_value_shapes),
+       "source_time_noncanonical_rows_count":noncanonical_time_rows,
+       "source_plots_shared_calendar_year_three_layers":(
+           sum(n>0 for n in calendar_intersection_sizes)
+           if fully_calendar_interpretable else None),
+       "calendar_year_source_support_DOES_NOT_IMPLY_EQUAL_TRAP_EFFORT":True,
        "source_named_parent_site_labels_count":len(all_sites),
        "source_named_stand_categories_count":len(all_stands),
        "source_named_plot_unit_labels_count":len(all_plots),
@@ -137,8 +178,12 @@ def audit_source_method_rows(raw,checksum=None):
         summary["status"]="SOURCE_AUTHOR_8SITE_FIVE_STAND_CROSS_PRODUCT_INCOMPLETE"
     elif summary["distinct_plot_labels_with_three_vertical_labels_any_year"]!=40:
         summary["status"]="SOURCE_ALL_PLOTS_THREE_LAYER_COVERAGE_INCOMPLETE"
+    elif not fully_calendar_interpretable:
+        summary["status"]="SOURCE_NAMED_NESTING_SUPPORTED_TIME_LABELS_NOT_PROVEN_CALENDAR_YEAR"
+    elif sum(n>0 for n in calendar_intersection_sizes)==0:
+        summary["status"]="SOURCE_NAMED_NESTING_SUPPORTED_NO_SAME_CALENDAR_YEAR_THREE_LAYER_SUPPORT"
     else:
-        summary["status"]="SOURCE_NAMED_8SITE_5STAND_40PLOT_NESTING_SUPPORTED_TEMPORAL_GATE_RECORDED"
+        summary["status"]="SOURCE_NAMED_8SITE_5STAND_40PLOT_NESTING_SUPPORTED_CALENDAR_YEAR_GATE_RECORDED"
     return summary
 
 def original_source_gate():
@@ -183,6 +228,12 @@ def known_truth():
     assert a["source_named_plot_unit_labels_count"]==2
     assert a["distinct_plot_labels_with_three_vertical_labels_any_year"]==2
     assert a["distinct_plot_labels_with_AT_LEAST_ONE_same_year_all_three_layers"]==1
+    assert a["source_plots_shared_calendar_year_three_layers"]==1
+    assert a["source_time_field_all_tokens_unambiguously_calendar_parseable"]
+    assert calendar_year_from_time_token("2019-01-31")==("2019","VALID_ISO_DATE")
+    assert calendar_year_from_time_token("2019-02-31")[0] is None
+    assert calendar_year_from_time_token("Spring 2019")[0] is None
+    assert role_positions(["site","stand","plot","stratum","period"])[0]["year"]==[4]
     assert a["source_plot_year_combinations_with_three_vertical_labels"]==1
     assert "protected_taxon" not in json.dumps(a)
     assert "111" not in json.dumps(a)
@@ -190,7 +241,12 @@ def known_truth():
     cols[0]="NoSiteRole"
     b=audit_source_method_rows((";".join(cols)+"\n").encode())
     assert b["status"]=="AUTHOR_METHOD_FIELD_ROLE_UNRESOLVED"
-    print("SYNTHETIC_AUTHOR_NAMED_8x5x40_NESTING_AND_EXACT_SAMEYEAR_LAYER_SUPPORT_PASS")
+    token_test=(";".join(["site","stand","plot","stratum","period"]+["X"+str(i) for i in range(12)])+"\n"+
+                ";".join(["A","B","P1","floor","Spring 2019"]+["0"]*12)+"\n")
+    x=audit_source_method_rows(token_test.encode())
+    assert x["source_time_noncanonical_rows_count"]==1
+    assert x["source_plots_shared_calendar_year_three_layers"] is None
+    print("SYNTHETIC_AUTHOR_NAMED_8x5x40_NESTING_AND_TIME_TOKEN_YEAR_SEMANTICS_PASS")
 
 def main():
     p=argparse.ArgumentParser()
@@ -202,7 +258,7 @@ def main():
     if a.out is None:p.error("--out needed")
     out={
       "schema":"structural.Piccini2026_original_named_site_stand_layer_year_sourceonly.v1",
-      "protocol":"docs/FOREST_BEETLE_PICCINI2026_PHYSICAL_SITE_STAND_YEAR_RECONCILIATION_PRESPEC_20261116.md",
+      "protocol":"docs/FOREST_BEETLE_PICCINI2026_TIME_FIELD_STRICT_SOURCE_AUDIT_PRESPEC_20261116.md",
       "original_source":original_source_gate(),
       "no_new_biological_beta_or_p_or_guild_effect":True,
       "prior_Thai_Finland_PREDICTS_NEON_BALA_GEB_originals_SEALED":True,
