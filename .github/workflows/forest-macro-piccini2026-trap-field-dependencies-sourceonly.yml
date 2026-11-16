@@ -1,0 +1,53 @@
+name: "Piccini 2026 beetles: three original trap field functional dependencies source-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-piccini2026-trap-field-dependencies-sourceonly.yml"
+      - "analysis/forest_macro_global/piccini2026_trap_fields_dependency_sourceonly.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_trap_field_hierarchy_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic trap/sample dependency known-truth, biological-data redaction"
+        run: |
+          python analysis/forest_macro_global/piccini2026_trap_fields_dependency_sourceonly.py --test
+      - name: "Published original method-only trap-column dependency audit"
+        run: |
+          python analysis/forest_macro_global/piccini2026_trap_fields_dependency_sourceonly.py \
+            --out Piccini2026_trap_field_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Piccini2026_trap_field_sourceonly/Piccini2026_trap_fields_sourceonly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Piccini2026_three_trap_field_dependencies_sourceonly.v1"
+          assert x["no_new_beetle_biological_parameter_or_pvalue"]
+          assert x["prior_Thai_Finland_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          r=x["original"]
+          assert r["original_2024_canopy_file_unread"]
+          assert r["no_original_species_or_guild_responses_opened"]
+          if "result" in r:
+              assert r["result"]["no_species_guild_count_resource_or_taxon_values_accessed"]
+              assert r["result"]["no_raw_site_plot_trap_period_values_exported"]
+              assert r["result"]["zero_capture_or_complete_trap_days_NOT_ESTABLISHED"]
+              assert r["result"]["candidate_key_role_NOT_selected_by_cardinality_or_functional_dependencies"]
+          print("PICCINI_SOURCE_METHOD_DIAGNOSTIC_NOT_BIOLOGICAL_RESULT",r["status"])
+          PY
+      - name: "Upload numeric anonymous trap-key dependency results only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Piccini2026-original-trap-key-dependencies-sourceonly
+          path: Piccini2026_trap_field_sourceonly/
+          if-no-files-found: warn
