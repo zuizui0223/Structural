@@ -128,6 +128,10 @@ def inspect_one(doi):
         result["status"]="ORIGINAL_GRO_METADATA_ACCESS_STOP_NOT_BIOLOGICAL_NULL"
     elif gro_obj is None:
         result["status"]="ORIGINAL_GRO_METADATA_UNAVAILABLE_NOT_BIOLOGICAL_NULL"
+    elif not all(result.get("bibliographic_QA",{}).get(k,False) for k in (
+          "published_DOI_exact_match","publisher_metadata_present","title_metadata_present",
+          "published_publication_year_metadata_present")):
+        result["status"]="PUBLIC_DATACITE_BIBLIOGRAPHIC_CROSSCHECK_STOP"
     elif not result.get("official_dataverse_QA",{}).get("source_DOI_exact_match"):
         result["status"]="ORIGINAL_GRO_SOURCE_DOI_IDENTITY_STOP"
     elif not result["official_dataverse_QA"]["published_version_exists"]:
