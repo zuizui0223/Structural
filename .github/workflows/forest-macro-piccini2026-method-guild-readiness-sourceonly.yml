@@ -1,0 +1,53 @@
+name: "Piccini 2026 beetles: within-stratum original trap effort and guild header readiness"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-piccini2026-method-guild-readiness-sourceonly.yml"
+      - "analysis/forest_macro_global/piccini2026_within_stratum_method_guild_readiness.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_method_and_guild_schema_no_biological_scoring:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic 8×5×40 nested trap/sample/effort and biology-redaction test"
+        run: |
+          python analysis/forest_macro_global/piccini2026_within_stratum_method_guild_readiness.py --test
+      - name: "Official DOI source-only method and guild HEADER audit, never beetle outcomes"
+        run: |
+          python analysis/forest_macro_global/piccini2026_within_stratum_method_guild_readiness.py \
+            --out Piccini2026_method_schema_qa
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Piccini2026_method_schema_qa/Piccini2026_within_stratum_method_guild_readiness_sourceonly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Piccini2026_within_stratum_method_guild_readiness_sourceonly.v1"
+          assert x["no_new_beetle_species_guild_abundance_beta_predictive_effect"]
+          assert x["prior_Thai_Finland_PREDICTS_NEON_BALA_mammals_GEB_frozen"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          r=x["original_source"]
+          assert r["species_guild_abundance_values_NEVER_ACCESSED"]
+          assert r["source_2024_canopy_archive_NOT_READ"]
+          if "result" in r:
+              assert r["result"]["original_biological_row_fields_NEVER_SELECTED"]
+              assert r["result"]["no_raw_author_site_trap_period_labels_reexported"]
+              assert r["result"]["no_zero_capture_trap_frame_inferred_from_positive_records"]
+              assert r["result"]["no_complete_trap_day_effort_assumed_from_taxon_rows"]
+          print("PICCINI_AUTHOR_METHOD_EFFORT_GUILD_HEADER_GATE_NOT_BIOLOGY",r["status"])
+          PY
+      - name: "Archive anonymous aggregate only; original source row values not exported"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Piccini2026-within-stratum-method-guild-sourceonly
+          path: Piccini2026_method_schema_qa/
+          if-no-files-found: warn
