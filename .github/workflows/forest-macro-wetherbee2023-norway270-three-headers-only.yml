@@ -1,0 +1,52 @@
+name: "Wetherbee 2023 Norway forests: species/trait/site-info original CSV header-only audit"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-wetherbee2023-norway270-three-headers-only.yml"
+      - "analysis/forest_macro_global/wetherbee2023_norway270_three_csv_headers_sourceonly.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_only_original_three_csv_headers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original three-table header-source privacy contract"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway270_three_csv_headers_sourceonly.py --test
+      - name: "Official original three Zenodo CSV checksum and first-line only read"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway270_three_csv_headers_sourceonly.py \
+            --out Wetherbee2023_original_headers
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Wetherbee2023_original_headers/Wetherbee2023_Norway270_original_threeCSV_headers_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Wetherbee2023_Norway270_original_three_table_headers_only.v1"
+          assert x["source_Burner_Norway_lineage_independence_UNVERIFIED"]
+          assert x["no_original_ecological_effect_or_p_computed"]
+          assert x["old_Piccini_Georgia_Finland_Burner_Thai_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          r=x["original_source"]
+          assert r["no_species_site_trait_environmental_values_scored"]
+          if "source_original_header_results" in r:
+              for y in r["source_original_header_results"]:
+                  assert y["original_species_site_trait_environmental_data_rows_READ"]==0
+                  assert y["original_raw_headers_and_species_column_labels_NOT_EXPORTED"]
+          print("NORWAY270_ORIGINAL_THREE_SOURCE_HEADER_STATUS_NOT_ECOLOGY",r["status"])
+          PY
+      - name: "Upload anonymous 3-CSV original field semantics only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Wetherbee2023-Norway270-3CSV-header-only
+          path: Wetherbee2023_original_headers/
+          if-no-files-found: warn
