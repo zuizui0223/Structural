@@ -1,0 +1,52 @@
+name: "Wetherbee2023 Norway270: official original R code site/project join grammar only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-wetherbee2023-norway-author-R-join-sourceonly.yml"
+      - "analysis/forest_macro_global/wetherbee2023_norway_author_R_code_sourceonly.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_code_only_without_original_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author R code reader/join token counter, no execution"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway_author_R_code_sourceonly.py --test
+      - name: "Original Zenodo author R scripts published MD5, code grammar only"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway_author_R_code_sourceonly.py \
+            --out Wetherbee2023_author_R_code_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Wetherbee2023_author_R_code_sourceonly/Wetherbee2023_Norway270_R_code_source_join_grammar_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Wetherbee2023_Norway270_original_R_code_source_join_only.v1"
+          assert not x["new_biological_effect_scored"]
+          assert x["overlap_with_Burner_Norway_UNVERIFIED"]
+          assert x["previous_original_biodiversity_heldouts_NOT_RESCORED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          r=x["original_publisher"]
+          assert r["original_species_site_trait_matrix_NOT_ACCESSED"]
+          for f in r.get("author_R_method_lexical_findings",[]):
+              assert f["original_R_code_NOT_EXECUTED"]
+              assert f["original_taxa_guild_site_environment_values_NOT_ACCESSED"]
+              assert f["original_script_text_NOT_EXPORTED"]
+          print("NORWAY270_AUTHOR_CODE_METHOD_JOIN_STATUS_NOT_ECOLOGY",r["status"])
+          PY
+      - name: "Upload anonymous code grammar count only, never source code or original data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Wetherbee2023-Norway270-author-R-join-sourceonly
+          path: Wetherbee2023_author_R_code_sourceonly/
+          if-no-files-found: warn
