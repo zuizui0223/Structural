@@ -1,0 +1,52 @@
+name: "Wetherbee 2023 Norway 270-forest beetles: official Zenodo source and lineage manifest"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-wetherbee2023-norway270-sourceonly.yml"
+      - "analysis/forest_macro_global/wetherbee2023_norway270_source_lineage_manifest_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_metadata_no_species_ever:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic exact publisher DOI, duplicate filenames and biology-firewall"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway270_source_lineage_manifest_only.py --test
+      - name: "Original Zenodo published file manifest only, never source file content"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway270_source_lineage_manifest_only.py \
+            --out Wetherbee2023_Norway_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Wetherbee2023_Norway_sourceonly/Wetherbee2023_Norway270_Zenodo_original_manifest_sourceonly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Wetherbee2023_Norway_270forest_original_manifest_sourceonly.v1"
+          assert not x["new_ecological_result_produced"]
+          assert x["prior_Piccini_Georgia_Finland_Burner_Kriegel_PREDICTS_NEON_BALA_GEB_biology_UNOPENED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          r=x["original_publisher"]
+          assert not r["original_species_site_guild_environmental_BIOLOGICAL_VALUES_READ"]
+          if "metadata" in r:
+              assert r["metadata"]["source_contents_original_NOT_DOWNLOADED"]
+              assert r["metadata"]["overlap_with_prior_Burner_Norway_original_NOT_ESTABLISHED"]
+          else:
+              assert r["SOURCE_STOP_NOT_ECOLOGICAL_NULL"]
+          print("NORWAY270_FIELD_SOURCE_ONLY_LINEAGE_STATUS",r["status"])
+          PY
+      - name: "Upload publisher metadata/file-manifest only, no original biology"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Wetherbee2023-Norway270-original-sourceonly
+          path: Wetherbee2023_Norway_sourceonly/
+          if-no-files-found: warn
