@@ -1,0 +1,59 @@
+name: "Forest BELongDead original author alias naming metadata method gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead_author_alias_naming_source_gate.py"
+      - ".github/workflows/forest-belongdead-author-alias-naming-source-gate.yml"
+      - "docs/FOREST_BELONGDEAD_AUTHOR_ALIAS_NAMING_SOURCE_GATE_PRESPEC_20261117.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_BE_author_alias_and_log_rename_source_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author naming/effort schema test; verify source data nonexport"
+        run: |
+          python analysis/forest_macro_global/belongdead_author_alias_naming_source_gate.py --test
+      - name: "One publisher-only metadata and variable-definition audit; no biological source rows"
+        run: |
+          python analysis/forest_macro_global/belongdead_author_alias_naming_source_gate.py \
+            --out BELONGDEAD_AUTHOR_NAMING_SCHEMA_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("BELONGDEAD_AUTHOR_NAMING_SCHEMA_ONLY/BELongDead_original_author_naming_alias_source_schema_only.json")
+          r = json.loads(p.read_text(encoding="utf-8"))
+          assert r["schema"] == "structural.BELongDead_author_alias_logname_metadata_dictionary_gate.v1"
+          assert r["source_count"] == 4
+          assert r["original_full_beetle_31123_log_31124_and_24546_data_read_count"] == 0
+          assert not r["all_original_species_trap_wood_sampling_rows_READ"]
+          assert not r["original_15_nonmatching_TrapID_key_problem_RESOLVED"]
+          assert r["field_candidate_only_NEVER_authorizes_any_join"]
+          assert not r["independent_multicountry_hostresource_functional_guild_replication_VERIFIED"]
+          assert r["existing_PREDICTS_Finland_Chiu_Piccini_NEON_BALA_GEB_effects_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          for row in r["official_author_sources"]:
+              assert row["original_data_rows_requested"] == 0
+              assert row["original_beetle_abundance_species_trait_deadwood_values_read"] == 0
+              assert row["status"] in (
+                  "SOURCE_ACCESS_OR_RIGHTS_STOP",
+                  "SOURCE_FIELD_CANDIDATES_ONLY",
+                  "SOURCE_DICTIONARY_ONLY_HOLD",
+              )
+          print("SOURCE_GATE_STATUS_COMPLETE_METHOD_ONLY_NO_BIOLOGICAL_EFFECT")
+          PY
+      - name: "Archive source ID, rights, safe dictionary-family counts only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead-author-alias-naming-schema-only
+          path: BELONGDEAD_AUTHOR_NAMING_SCHEMA_ONLY/
+          if-no-files-found: warn
