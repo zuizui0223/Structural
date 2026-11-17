@@ -204,8 +204,8 @@ def known_truth():
     old_manifest=[{"key":k,"checksum":"md5:"+v,"size":8000}
                   for k,v in FILES.items()]
     assert len({x["key"] for x in old_manifest})==3
-    assert len(old_manifest)!=len({x["key"] for x in
-        old_manifest+[old_manifest[0]]})
+    duplicated=old_manifest+[old_manifest[0]]
+    assert len(duplicated)!=len({x["key"] for x in duplicated})
     print("SYNTHETIC_GEORGIA40_ZENODO_MD5_HEADER_AND_METHOD_SOURCE_ONLY_PASS")
 
 def main():
