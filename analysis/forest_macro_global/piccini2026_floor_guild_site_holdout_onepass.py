@@ -97,7 +97,7 @@ def source_design_before_biology(raw:bytes):
         len(plot_site)!=PLOTS or
         any(len(v)!=1 for v in plot_site.values()) or
         any(len(v)!=1 for v in plot_stand.values()) or
-        any(len(v)!=3 for v in layer_plots.values()) or
+        len(layer_plots)!=3 or
         any(len(v)!=PLOTS for v in layer_plots.values()) or
         len(plot_layer_traps)!=120):
         raise ScientificStop("SOURCE_STOP_8SITE_FIVE_STAND_FORTY_PLOT_LAYER_GRAIN")
