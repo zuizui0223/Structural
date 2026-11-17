@@ -1,0 +1,58 @@
+name: "Norway Wetherbee2023: original author R join arguments and SiteInfo hostwood header only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-wetherbee2023-norway-R-joinargs-siteinfo-sourceonly.yml"
+      - "analysis/forest_macro_global/wetherbee2023_norway_r_join_arguments_siteinfo_header_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_original_method_source_without_biological_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic R nested explicit/implicit joins and SiteInfo HEADER-only test"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway_r_join_arguments_siteinfo_header_gate.py --test
+      - name: "Read source-author R grammar and SiteInfo first HEADER, original MD5; no species rows"
+        run: |
+          python analysis/forest_macro_global/wetherbee2023_norway_r_join_arguments_siteinfo_header_gate.py \
+            --out Wetherbee2023_Rjoin_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Wetherbee2023_Rjoin_sourceonly/Wetherbee2023_Norway_R_joinargs_and_SiteInfo_sourceonly.json")
+          obj=json.loads(p.read_text(encoding="utf-8"))
+          assert obj["schema"]=="structural.Wetherbee2023_author_R_joinargs_SiteInfo_original_header.v1"
+          assert not obj["new_biodiversity_effect_estimated"]
+          assert obj["original_Piccini_Finland_Burner_Thai_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert not obj["eBird_used"] and not obj["TinyFish_used"]
+          result=obj["original_source_only"]
+          assert result["original_biology_UNREAD"]
+          if "official_siteinfo_HEADER_only" in result:
+              assert result["official_publisher_MD5_verified_for_two_R_and_one_SiteInfo_CSV"]
+              assert result["official_siteinfo_HEADER_only"]["source_species_site_forest_numeric_rows_read"]==0
+              assert not result["author_project_site_year_source_lineage_VERIFIED"]
+              assert not result["local_measured_hostwood_values_VERIFIED"]
+              for r in result["author_R_static_join_grammar"]:
+                  assert r["author_R_source_code_not_executed"]
+                  assert r["R_code_original_expressions_NOT_EXPORTED"]
+                  assert r["original_species_site_trait_data_rows_NOT_READ"]
+          else:
+              assert result["SOURCE_OR_METHOD_STOP_NOT_ECOLOGICAL_NULL"]
+          print("ORIGINAL_AUTHOR_R_SITENAME_GUILD_RESOURCE_HEADER_ONLY_STATUS",result["status"])
+          PY
+      - name: "Upload anonymized method-grammar metadata, no original R or ecology"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Wetherbee2023-author-R-join-and-SiteInfo-header
+          path: Wetherbee2023_Rjoin_sourceonly/
+          if-no-files-found: warn
