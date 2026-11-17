@@ -1,0 +1,60 @@
+name: "Chiu-Vogel2023 Steigerwald ONE six-plot tree host vs shade species prediction"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-chiu2023-steigerwald-sixplot-host-shade-onepass.yml"
+      - "analysis/forest_macro_global/chiu2023_steigerwald_6plot_host_shade_onepass.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_prespecified_original_species_site_heldout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install frozen numpy only"
+        run: |
+          python -m pip install --quiet numpy
+      - name: "Synthetic 6-site positive and null plus no-heldout leakage"
+        run: |
+          python analysis/forest_macro_global/chiu2023_steigerwald_6plot_host_shade_onepass.py --test
+      - name: "Original pinned six-plot species responses: exactly one precommitted site-heldout test"
+        run: |
+          python analysis/forest_macro_global/chiu2023_steigerwald_6plot_host_shade_onepass.py \
+            --out Chiu2023_6plot_observed_species_holdout
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Chiu2023_6plot_observed_species_holdout/Chiu2023_6plot_host_shade_observed_species_LOPO_onepass.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.ChiuVogel2023_sixplot_host_shade_onepass_predicted_species_composition.v1"
+          assert x["old_Piccini_Finland_Burner_PREDICTS_NEON_BALA_mammals_GEB_SEALED"]
+          assert x["no_original_species_sample_identity_or_abundance_cells_REEXPORTED"]
+          assert x["no_postresult_exposure_tree_host_parameter_selection"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          r=x["one_original_observational_evaluation"]
+          assert r["prior_Piccini_Finland_BALA_GEB_responders_NOT_REOPENED"]
+          if "result" in r:
+              assert r["prebiology_method_gate"]["original_gitblob_sha_VERIFIED"]
+              assert r["result"]["original_geographic_parent_plot_blocks"]==6
+              assert r["result"]["heldout_cells_per_plot"]==18
+              assert r["result"]["train_cells_per_fold"]==90
+              assert r["result"]["no_missing_year_contexts_filled_as_zero"]
+          else:
+              assert r["SCIENTIFIC_STOP_NOT_ECOLOGICAL_NEGATIVE"]
+              assert r["new_biological_estimator_NOT_COMPLETED"]
+          print("ONE_FROZEN_STEIGERWALD_6SITE_BIOLOGICAL_STATUS",r["status"])
+          PY
+      - name: "Upload anonymous original cohort and one test summary, no raw beetles"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Chiu2023-6plot-wood-host-shade-onepass
+          path: Chiu2023_6plot_observed_species_holdout/
+          if-no-files-found: warn
