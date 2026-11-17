@@ -1,0 +1,54 @@
+name: "Chiu-Vogel2023 original 6plots x3shade x6host x4years beetle source methods only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-chiu2023-steigerwald-source-method-only.yml"
+      - "analysis/forest_macro_global/chiu2023_steigerwald_6plot_source_grain_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact_author_original_method_only_no_beetle_response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test synthetic 6plot x3shade x6host x4year + taxon leakage firewall"
+        run: |
+          python analysis/forest_macro_global/chiu2023_steigerwald_6plot_source_grain_gate.py --test
+      - name: "Original pinned Git blob SHA + method-only observation hierarchy"
+        run: |
+          python analysis/forest_macro_global/chiu2023_steigerwald_6plot_source_grain_gate.py \
+            --out Chiu2023_steigerwald_methodonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("Chiu2023_steigerwald_methodonly/Chiu2023_Steigerwald6plot_source_method_only.json")
+          x=json.loads(f.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.ChiuVogel2023_original_Steigerwald_sixplot_method_only.v1"
+          assert x["original_species_abundance_values_NOT_READ"]
+          assert x["ecological_beta_or_p_NOT_TESTED"]
+          assert x["prior_Piccini_Finland_Burner_Thai_BALA_GEB_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "source_method_only" in x:
+              y=x["source_method_only"]
+              assert y["source_species_abundance_inte_columns_UNTOUCHED"]
+              assert y["source_original_site_host_year_IDs_values_NOT_EXPORTED"]
+              assert y["no_original_biodiversity_or_model_estimator_executed"]
+              assert y["original_author_git_blob_sha1_VERIFIED"]
+          else:
+              assert x["SOURCE_ACCESS_OR_ID_STOP_NOT_ECOLOGICAL_NULL"]
+          print("CHIU2023_ORIGINAL_METHOD_ONLY_SCIENTIFIC_STATUS",x["status"])
+          PY
+      - name: "Upload only anonymous source method counts, never original species or files"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Chiu2023-forest-host-shade-original-method-only
+          path: Chiu2023_steigerwald_methodonly/
+          if-no-files-found: warn
