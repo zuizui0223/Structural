@@ -85,10 +85,27 @@ def official_manifest():
     doi=str(ob.get("doi") or (ob.get("pids") or {}).get("doi",{}).get("identifier",""))
     if doi.casefold()!=DOI.casefold():
         raise SourceStop("SOURCE_STOP_PUBLISHED_ORIGINAL_DOI_DRIFT")
-    fs=(ob.get("files") or {}).get("entries",{})
+    rawfiles=ob.get("files")
+    if isinstance(rawfiles,dict):
+        fs=rawfiles.get("entries",{})
+    elif isinstance(rawfiles,list):
+        # Zenodo legacy REST API uses a list of file objects with 'key'.
+        if any(not isinstance(item,dict) for item in rawfiles):
+            raise SourceStop("SOURCE_STOP_ZENODO_FILE_RECORD_NOT_OBJECT")
+        keys=[item.get("key") or item.get("filename") for item in rawfiles]
+        if any(not isinstance(k,str) or not k for k in keys):
+            raise SourceStop("SOURCE_STOP_ZENODO_FILE_KEY_INVALID")
+        if len(keys)!=len(set(keys)):
+            raise SourceStop("SOURCE_STOP_ZENODO_DUPLICATE_PUBLISHER_FILE_NAME")
+        fs=dict(zip(keys,rawfiles))
+    else:
+        raise SourceStop("SOURCE_STOP_ZENODO_FILE_LIST_SCHEMA_UNKNOWN")
     if not isinstance(fs,dict) or len(fs)!=3 or set(fs)!=set(FILES):
         raise SourceStop("SOURCE_STOP_AUTHOR_THREE_FILE_MANIFEST_DRIFT")
-    lic=((ob.get("metadata") or {}).get("rights") or [])
+    md=ob.get("metadata") or {}
+    if not isinstance(md,dict):
+        raise SourceStop("SOURCE_STOP_ZENODO_METADATA_NOT_OBJECT")
+    lic=md.get("rights") or md.get("license") or []
     out={"record":RECORD,"doi":DOI,
          "original_publisher":ob.get("metadata",{}).get("publisher","Zenodo"),
          "source_licence_metadata_present":bool(lic),
@@ -184,6 +201,11 @@ def known_truth():
     read=readme_method_words(b"site forest age sample period, trap effort. Functional group and guild.\n")
     assert read["original_author_README_utf8"] and read["original_readme_text_NOT_EXPORTED"]
     assert len(FILES)==3 and all(len(x)==32 for x in FILES.values())
+    old_manifest=[{"key":k,"checksum":"md5:"+v,"size":8000}
+                  for k,v in FILES.items()]
+    assert len({x["key"] for x in old_manifest})==3
+    assert len(old_manifest)!=len({x["key"] for x in
+        old_manifest+[old_manifest[0]]})
     print("SYNTHETIC_GEORGIA40_ZENODO_MD5_HEADER_AND_METHOD_SOURCE_ONLY_PASS")
 
 def main():
