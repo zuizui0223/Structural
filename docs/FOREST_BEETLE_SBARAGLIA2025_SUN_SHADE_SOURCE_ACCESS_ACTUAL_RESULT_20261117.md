@@ -1,0 +1,30 @@
+# Sbaraglia et al. 2025 sunshine × 4 host trees × five fungal/physical treatments — original Dryad field SOURCE ACCESS STOP (2026-11-17)
+
+## Executed result and independent source evidence ceiling
+
+**Original publisher-only source/provenance gate actually executed and passed all synthetic/privacy checks**: [GitHub Actions #44090435115](https://github.com/zuizui0223/Structural/actions/runs/44090435115) SUCCESS, artifact **14331925633**, artifact ZIP SHA256 **c51f63b808f5db239b16fe9c153d5817aae4ea68fdf720947c8c35de088facf7**. This is CI/code and official *metadata* success; **the first original biological CSV official-download attempt returned HTTP 401**. **Not a biological-null effect.** No original CSV species rows, RDS values, sampling IDs, forest/locality values, environment values, individual beetle counts or ecological regressions were read, scored or exported.
+
+Original paper: [Sbaraglia et al. 2025 *Ecological Entomology*, DOI 10.1111/een.13428](https://doi.org/10.1111/een.13428). Original Dryad source: [10.5061/dryad.zcrjdfnpj](https://doi.org/10.5061/dryad.zcrjdfnpj), landing published February 3 2025.
+
+**Actual official Dryad REST metadata confirmed** (publisher version ID **343413**, versionNumber **4**, `visibility=public`, license `CC0-1.0`; exact three file names):
+| Original published file | Official source byte size | Official original SHA256 |
+| --- | ---: | --- |
+| `stickies_final.csv` | **334,834** | `d28d3550493cd64cea5babc1250880da7521f8663e60a1f1454f6ae19961ebe2` |
+| `env_final.rds` | **6,588** | `4d5571c654f575302a70dd1499959fbcb46b6b467973a0984dc651fdb53ea0ab` |
+| `README.md` | **4,082** | `a14cbd8adb4b1a56becda496f6c4cb476429429bcbffbb3697fb879f2a2a9c6e` |
+
+**Exactly one official file GET** on the publisher-provided `stash:download` URL for CSV first line returned **`SOURCE_FILE_ACCESS_HTTP_401`**. `env_final.rds` remained unopened; `README.md` not downloaded in runner (published landing-page description read from the original publisher's public HTML only). This status cannot be silently bypassed with guessed mirrors, alternate file URLs or serial unauthorized retries. The official metadata's `versionStatus=submitted` is a source literal, not independent evidence that the dataset is unpublished; original published 2025 Dryad landing page remains publicly accessible.
+
+## Original study design and serious inference constraints
+
+Source author reports a Central European **10 independent localities** with one shady forest interior and one open sun-exposed forest margin plot in each locality (20 physical plots). **20 bundles/plot** = four manipulated wood host species (oak, beech, spruce, pine) × five fungal/burning/sterilization/control treatments; 400 bundles of three same-type freshly cut logs each. Two original sampling runs May and June 2022 with sticky traps, **800 sample×run events**, 198 species described in source community CSV and capture effort `time_exp` original RDS metadata. Note: `800` **is not** the independent forest sample count; the highest geographic block is **10**. Same tree×fungi manipulations experimentally designed, but sunny versus shaded plots also differ in site position/forest edge, so local sunlight cannot be isolated from all edge covariates.
+
+The authors **ALREADY PUBLISHED** higher observed capture richness and abundance in shade vs full sun, season-conditional richness/dominance directions, sun-driven composition and limited main fungal-pre-treatment effects. Re-estimating a positive shade main effect or no fungi main effect is PRIOR ART, not novel Structural ecology. The potential distinct future endpoint is whether tree identity and shade together **transport detected species-composition predictions to a heldout parent locality** conditional on original sampling run and exposure days, not a new 'fungi don't matter' discovery or host-specific oviposition verification. Original 198 species do NOT provide a standalone feeding-guild trait crosswalk.
+
+**Data join STOP even after hypothetical CSV accessibility**: Original public README says `env_final.rds` has code/metadata/effort and `stickies_final.csv` is 800×198 species matrix; **equal row counts alone do not prove sample identifier or original author row-order mapping**. Require explicit source-author row-key or original published codebook before matched model. No original R script files are in the publisher's verified three-file manifest despite the README mentioning 01_Models.R/02_Figures.R. Do not invent author source code.
+
+## Reproducibility/status
+
+Pre-response frozen contract: [source prespec](FOREST_BEETLE_SBARAGLIA2025_SUN_SHADE_HOST_FUNGAL_ORIGINAL_SOURCE_GATE_PRESPEC_20261117.md); original access parser `analysis/forest_macro_global/sbaraglia2025_deadwood_sunshade_original_sourceonly.py`; workflow `.github/workflows/forest-macro-sbaraglia2025-sunshade-hostwood-sourceonly.yml`. **SCIENTIFIC_STATUS=AUTHOR_ORIGINAL_DRYAD_BIOLOGICAL_CSV_HTTP401_ACCESS_STOP**. This adds **zero** new biological coefficients/p, and is not an independent cross-country confirmed transfer. No species/taxa/wood values opened. Former Germany Piccini floor one-pass +11.7% Hellinger² error reduction p=.09375 unsupported, Finland +.00024237 p=.015 conditional, other Burner/PREDICTS/Thai/NEON/BALA/GEB results remain unchanged. No eBird/TinyFish, no PR merge, no author contact.
+
+**Next independent LEGITIMATE source candidate**: [Thorn et al. 2016 paired 12-plot bark access experiment; original Zenodo DOI 10.5281/zenodo.13905995](https://doi.org/10.5281/zenodo.13905995) with original `Babund.csv` and `Bdist.csv` publisher metadata. This is another one-German-forest experimental design (one control, one bark scratched, one fully debarked spruce per plot, 36 stem emergence trees). The 2016 prior paper already reported relative target-pest control and non-target biodiversity/colonization changes, so only a *new, clearly separate endpoint* would justify response scoring. Do not count it as macroregional replication. First eligibility is source file/plot/treatment author key, not ecological p searching.
