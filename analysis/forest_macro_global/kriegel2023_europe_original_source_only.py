@@ -101,10 +101,10 @@ def one_public_file_get(href:str,filename:str):
     # No URL variants, credentials, or forced alternate access routes.
     is_header=filename in HEADERS_READ
     cap=MAX_HEADER_BYTES if is_header else MAX_CODEBOOK_BYTES
-    req=urllib.request.Request(url,method="GET",headers={
-        "User-Agent":SOURCE_UA,
-        "Range":"bytes=0-"+str(cap-1) if is_header else "",
-        "Accept":"text/plain,text/csv,*/*"})
+    headers={"User-Agent":SOURCE_UA,"Accept":"text/plain,text/csv,*/*"}
+    if is_header:
+        headers["Range"]="bytes=0-"+str(cap-1)
+    req=urllib.request.Request(url,method="GET",headers=headers)
     try:
         with urllib.request.urlopen(req,timeout=30) as response:
             status=response.status
