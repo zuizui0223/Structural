@@ -1,0 +1,51 @@
+name: "Traylor 2023 USA Georgia 40 forest sites: original Zenodo method and header source gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-traylor2023-georgia40-sourceonly.yml"
+      - "analysis/forest_macro_global/traylor2023_georgia_original_source_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher_original_source_and_method_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source method field whitelist and species value redaction"
+        run: |
+          python analysis/forest_macro_global/traylor2023_georgia_original_source_only.py --test
+      - name: "Three official Zenodo published files MD5 and header-only eligibility"
+        run: |
+          python analysis/forest_macro_global/traylor2023_georgia_original_source_only.py \
+            --out Traylor2023_Georgia_original_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Traylor2023_Georgia_original_sourceonly/Traylor2023_Georgia_40forest_original_source_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Traylor2023_Georgia_40forest_original_source_only.v1"
+          assert x["new_ecological_effect_scored"] is False
+          assert x["prior_Piccini_Kriegel_Finland_Burner_Thai_PREDICTS_NEON_BALA_GEB_sealed"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          assert x["source"]["new_species_guild_environment_BIOLOGICAL_VALUES_SCORED"] is False
+          if "source_header_metadata" in x["source"]:
+              assert len(x["source"]["source_header_metadata"])==2
+              assert x["source"]["status"]=="ORIGINAL_THREE_FILES_MD5_AND_HEADERS_VERIFIED_FIELD_CROSSWALK_STILL_UNTESTED"
+          else:
+              assert x["source"]["source_access_or_schema_STOP_not_ecological_null"]
+          print("TRAYLOR_2023_ORIGINAL_SOURCE_GATE_NO_ECOLOGY",x["source"]["status"])
+          PY
+      - name: "Archive anonymous header/author method QA, no original biological rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Traylor2023-Georgia40-Zenodo-sourceonly
+          path: Traylor2023_Georgia_original_sourceonly/
+          if-no-files-found: warn
