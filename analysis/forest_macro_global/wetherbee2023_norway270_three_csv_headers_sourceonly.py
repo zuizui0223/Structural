@@ -21,7 +21,7 @@ UA="Structural-Wetherbee-2023-Norway-source-header-only/1.0"
 SOURCE_FILES={
 "GBIFnormalized_SpcSite_matrix_FD_unique.csv":(2759229,"1cc6d3599dccd80b0889b55b5d571eda"),
 "GBIFnormalized_Trait_RAW_df.csv":(485427,"da5aa42586fe6994deb039565a782f8a"),
-"SiteInfo_Alltaxon_Pred_Detri_SxFD.csv":(403751,"2b0d5e8a7c209a958b6034838d1fd1"),
+"SiteInfo_Alltaxon_Pred_Detri_SxFD.csv":(403751,"2b0d5e8a7c209a958b6034838d1fd1ee"),
 }
 MAX_HEADER=65536
 CATEGORIES={
