@@ -169,10 +169,12 @@ def manifest_metadata():
         raise SourceStop("SOURCE_STOP_ORIGINAL_DOI_IDENTITY")
     version_link=((dataset.get("_links") or {}).get("stash:version") or {}).get("href")
     version_href=source_url(version_link)
+    m=re.fullmatch(r"/api/v2/versions/([1-9][0-9]*)",version_link)
+    if m is None:
+        raise SourceStop("SOURCE_STOP_PUBLISHER_VERSION_LINK_NOT_CANONICAL")
+    version_id=m.group(1)
+    # Use authoritative publisher-linked ID; versionNumber is NOT this ID.
     v=publisher_get(version_href,MAX_API_BYTES)
-    version_id=str(v.get("id",""))
-    if not version_id.isdigit() or int(version_id)<1:
-        raise SourceStop("SOURCE_STOP_PUBLISHER_LATEST_VERSION_ID")
     source_files_href="/api/v2/versions/"+version_id+"/files"
     f=publisher_get(source_url(source_files_href),MAX_API_BYTES)
     items=((f.get("_embedded") or {}).get("stash:files"))
@@ -261,6 +263,10 @@ def known_truth():
     assert c["original_codebook_text_NOT_EXPORTED"]
     assert all(k in CATEGORIES for k in h["recognized_generic_field_categories"])
     assert set(HEADERS_READ|CODEBOOKS)<SOURCE_FILES
+    assert re.fullmatch(r"/api/v2/versions/([1-9][0-9]*)",
+                        "/api/v2/versions/26724").group(1)=="26724"
+    assert not re.fullmatch(r"/api/v2/versions/([1-9][0-9]*)",
+                            "/api/v2/versions/26724/../wrong")
     print("SYNTHETIC_KRIEGEL2023_PUBLISHER_HEADER_ONLY_GUILD_COUNTRY_OBJECT_READINESS_PASS")
 
 def main():
