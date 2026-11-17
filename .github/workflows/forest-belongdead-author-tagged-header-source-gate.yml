@@ -1,0 +1,61 @@
+name: "Forest BELongDead original published-tag author naming first-header-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead_author_tagged_header_source_gate.py"
+      - "analysis/forest_macro_global/belongdead_author_alias_naming_source_gate.py"
+      - ".github/workflows/forest-belongdead-author-tagged-header-source-gate.yml"
+      - "docs/FOREST_BELONGDEAD_AUTHOR_TAGGED_HEADER_SOURCE_GATE_PRESPEC_20261117.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_published_tag_metadata_header_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic method header redaction and source-tag allowlist"
+        run: |
+          python analysis/forest_macro_global/belongdead_author_tagged_header_source_gate.py --test
+      - name: "Only original BExIS 16846 / 16390 published-tag CSV header, SHA256 and schema"
+        run: |
+          python analysis/forest_macro_global/belongdead_author_tagged_header_source_gate.py \
+            --out BELONGDEAD_AUTHOR_TAGGED_HEADER_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("BELONGDEAD_AUTHOR_TAGGED_HEADER_ONLY/BELongDead_original_tagged_author_method_first_header_only.json")
+          r = json.loads(path.read_text(encoding="utf-8"))
+          assert r["schema"] == "structural.BELongDead_author_published_tagged_header_only.v1"
+          assert r["author_method_original_source_count"] == 2
+          assert r["original_author_source_rows_semantically_opened"] == 0
+          assert r["original_beetle_or_deadwood_observation_rows_opened"] == 0
+          assert r["original_31123_31124_24546_not_requested"]
+          assert r["original_31124_15_TrapID_not_reconciled"]
+          assert r["no_new_ecological_effect_calculated"]
+          assert r["old_Finland_Chiu_Piccini_PREDICTS_NEON_BALA_GEB_sealed"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          for row in r["published_author_original_sources"]:
+              assert row["source_original_31123_31124_specimen_rows_READ"] == 0
+              assert not row["original_alias_or_trap_opportunity_join_PROVED"]
+              if row["status"] == "TAGGED_ORIGINAL_HEADER_VALIDATED_NO_TRAP_CROSSWALK":
+                  header = row["original_tagged_CSV_header_fingerprint_only"]
+                  assert header["original_species_capture_trap_site_wood_numeric_rows_PARSED"] == 0
+                  assert header["original_beyond_first_header_bytes_STREAMED_FOR_HASH_ONLY"]
+              else:
+                  assert row["source_failure_not_ecological_null"]
+          print("TWO_ORIGINAL_TAGGED_AUTHOR_SOURCE_HEADERS_AUDITED_NO_ECOLOGY")
+          PY
+      - name: "Archive anonymous published-tag author header source receipts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead-tagged-author-first-header-only
+          path: BELONGDEAD_AUTHOR_TAGGED_HEADER_ONLY/
+          if-no-files-found: warn
