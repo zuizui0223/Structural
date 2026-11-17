@@ -1,0 +1,20 @@
+# Thorn et al. 2016 Bavarian spruce windthrows: 12 paired-plot bark-access source-only test (2026-11-17)
+
+## Scientific role after external 2025 Dryad ACCESS STOP
+
+The previously selected Sbaraglia et al. 2025 source DOI 10.5061/dryad.zcrjdfnpj is closed for this pass: original public Dryad three-file source manifest/CC0 SHA verified in [#44090435115](https://github.com/zuizui0223/Structural/actions/runs/44090435115), but original `stickies_final.csv` first-line publisher download returned HTTP **401**. No access workaround/retune, no ecological estimate.
+
+A genuinely different **publisher-accessible candidate** is Thorn et al. 2016 *Forest Ecology and Management* [10.1016/j.foreco.2015.12.044](https://doi.org/10.1016/j.foreco.2015.12.044), author-associated [Zenodo 10.5281/zenodo.13905995](https://doi.org/10.5281/zenodo.13905995) originally created 2024-10-09. Authors report **12 geographically placed/artificial spruce windthrow plots**, each containing 3 experimentally felled spruce trees: untreated bark control, scraped/scratched bark, bark completely removed. This is **36 experimental trees, 12 paired plot clusters**, with original stem-emergence trapping over roughly two years. Authors **ALREADY PUBLISHED** lower beetle species density under full debarking and much less non-target biodiversity loss under bark scratching, as well as major target Ips typographus reductions; these are PRIOR ART, not novel Structural biology.
+
+Potential complementary structural mechanism: keeping deadwood mass while manipulating **bark physical access** can alter insect emergence and community filtering. However no cross-tree-species resource difference is manipulated (all spruce), no experimental canopy vs floor, no multiple regional macro-replications and no independent convergence claim unless an external distinct experiment is added.
+
+## Exactly one source-identity and method-only intake (before biology)
+
+1. Use official [Zenodo original REST record 13905995](https://zenodo.org/api/records/13905995) once, confirm exact record ID, original DOI, publicly described license/access status, original **two** publisher file names `Babund.csv` and `Bdist.csv`, publisher MD5/checksum, file size. Source DOI is newer archived republication of older original 2016 study; document this distinction.
+2. Retrieve only those exact original two files from their **publisher-authorized canonical Zenodo record file route**, once each, original size and MD5 verified in GitHub Actions private runner memory. Do not use alternate external hosts or mirrors if public endpoints fail, never bypass HTTP401/403. Classify access STOP not ecological null.
+3. FIRST stage parses only original **first CSV header line**, delimiter, column count, and row counts via counting row separators, plus generic whitelist for physical plot/block, tree/treatment, sample/year/effort/taxon keys. Do not interpret or output the unknown species/taxa source header labels, beetle abundance cells, original geographical coordinates or tree IDs. Avoid original rows except safe row-shape counts. No biological community metric.
+4. Establish whether any source publisher file has source-key and treatment identity in headers; original author plot×treatment may be encoded in rows/row names, but this first line cannot identify it. **Never join by row order or assign a repeated 12×3 layout by assumption.**
+5. Eligibility for future ONE new ecological test: explicit original 12 independent field plot keys, exactly three different bark treatments per plot and matched two-year sampling exposure/zero trap opportunities, a species-by-tree row identity and author source codebook; a genuinely distinct outcome beyond already published treatment effects. Otherwise `SOURCE_ORIGINAL_PHYSICAL_PLOT_TREATMENT_AND_EFFORT_NOT_VERIFIED`; no new species outcomes accessed or p-values.
+6. Keep all prior Finland, Burner, Thai, PREDICTS, NEON, BALA, mammal GEB and German Piccini 8-site source one-pass p=.09375 frozen. No eBird or TinyFish, no author outreach, no PR merge.
+
+This is a standalone **source/provenance** audit, not an ecological confirmation or global forest effect.
