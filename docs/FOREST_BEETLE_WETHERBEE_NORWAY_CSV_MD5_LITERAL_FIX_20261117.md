@@ -1,0 +1,5 @@
+# Wetherbee Norway270 three-source header test: original source MD5 literal correction (2026-11-17)
+
+First Actions [#44082790526](https://github.com/zuizui0223/Structural/actions/runs/44082790526) FAILED in pre-source synthetic test, not original ecological scoring: source-only script had an accidentally truncated local literal for publisher `SiteInfo_Alltaxon_Pred_Detri_SxFD.csv` MD5 (30 rather than 32 hex characters).
+
+The already successful [official Zenodo manifest-only run #44082232916](https://github.com/zuizui0223/Structural/actions/runs/44082232916) gives the verified publisher source checksum **md5:2b0d5e8a7c209a958b6034838d1fd1ee** (32 hex), original file bytes **403,751**. Correct only this script literal by appending the missing `ee`, preserving three fixed file names, same publisher DOI, original source read bounds, metadata/guild source firewall and all source GO/STOP rules. Do NOT change source study identity or biology. Re-run synthetic tests before any actual original file header fetch. This is a code-only fix before biological rows and not ecological non-support.
