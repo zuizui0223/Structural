@@ -1,0 +1,49 @@
+name: "Kriegel 2023 Europe 8-country deadwood beetles: publisher original method-source gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kriegel2023-europe-sourceonly.yml"
+      - "analysis/forest_macro_global/kriegel2023_europe_original_source_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_source_metadata_and_firstline_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic safe eight-country source method/guild schema only"
+        run: |
+          python analysis/forest_macro_global/kriegel2023_europe_original_source_only.py --test
+      - name: "Official publisher Dryad DOI/version/file manifest, source-header codebook only"
+        run: |
+          python analysis/forest_macro_global/kriegel2023_europe_original_source_only.py \
+            --out Kriegel2023_europe_original_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Kriegel2023_europe_original_sourceonly/Kriegel2023_europe_8country_source_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Kriegel2023_Europe_8country_source_only_prebiology.v1"
+          assert x["new_biological_effect_estimated"] is False
+          assert x["original_2026_Piccini_Finland_Thai_PREDICTS_NEON_BALA_GEB_SEALED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          result=x["publisher_original"]
+          assert not result["raw_original_biological_values_opened"]
+          assert not result["species_country_object_data_row_values_scored"]
+          assert result["no_heldout_reopened"]
+          print("SOURCE_ONLY_KRIEGEL2023_EUROPE_GATE_RESULT",result["status"])
+          PY
+      - name: "Publish anonymous publisher manifest and header-type-only result"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Kriegel2023-Europe-publisher-source-only
+          path: Kriegel2023_europe_original_sourceonly/
+          if-no-files-found: warn
