@@ -1,0 +1,7 @@
+# Traylor 2023 Georgia original Zenodo file-list compatibility repair (2026-11-17)
+
+The initial source-only GitHub Actions [#44079562477](https://github.com/zuizui0223/Structural/actions/runs/44079562477) passed all synthetic source/header tests but FAILed at a **Python schema assumption**: `AttributeError: 'list' object has no attribute 'get'` in `official_manifest()` at the `ob["files"]` field. Official Zenodo old API records can return a **list** of source file records, while InvenioRDM newer API records return a dict `files.entries`. Neither indicates file corruption or ecological non-support. The source program stopped **before opening any original source CSV/README file**.
+
+Narrow one-shot source-only fix: accept a list of publisher file objects with exact native `key` (or explicit `filename`) and a dict of `entries`, reject duplicate or unrecognized file names, and require exactly the three precommitted source names, published official MD5s and bounded bytes. No changes to sampled forest selection, prior paper, guild endpoint, sample unit or analysis. Source only; original source biological rows still never parsed in this gate. A synthetic list-form known-truth must pass and malformed/doubled names must fail. Do not infer ecology from API errors, and do not use alternate hosts, mirrors, credentials or downloads.
+
+All previous Structural original biological scorers remain sealed, PR #469 Draft/unmerged; no eBird/TinyFish.
