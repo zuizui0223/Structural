@@ -1,0 +1,57 @@
+name: "Forest BELongDead 20406 missing 2013-17 eclector alternative method source"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead20406_2013_2017_other_method_gate.py"
+      - "docs/FOREST_BELONGDEAD_20406_2013_2017_MISSING_ECLECTOR_METHOD_SOURCE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead20406-2013-2017-other-method-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_2013_2017_method_sources_no_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic precommitted missing eclector versus all author method rows"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_2013_2017_other_method_gate.py --test
+      - name: "Exactly two original publisher files and original METHOD-only projections"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_2013_2017_other_method_gate.py \
+            --out BE20406_2013_2017_ORIGINAL_METHOD_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BE20406_2013_2017_ORIGINAL_METHOD_ONLY/BELongDead20406_original_missing_eclector_source_method_classification.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.BELongDead20406_2013_2017_missing_eclector_method_qualification.v1"
+          assert r["original_20406_tag"]==2 and r["original_31123_tag"]==1
+          assert r["old_Finland_Chiu_Piccini_Burner_PREDICTS_NEON_BALA_GEB_effects_UNCHANGED"]
+          assert r["eBird_used"] is False and r["TinyFish_used"] is False
+          if "original_source_only_missing_method_diagnosis" in r:
+              x=r["original_source_only_missing_method_diagnosis"]
+              assert x["frozen_original_31123_method_tokens_NOT_IN_20406_ECLECTOR_equipment"]==114
+              assert x["original_method_absence_NOT_an_unsampled_trap_or_zero_beetle_capture"]
+              assert x["source_20406_projected_exact_ID_match_not_author_mapping"]
+              assert x["original_31124_fifteen_unmatched_TrapID_names_NOT_explained"]
+              assert x["no_original_species_abundance_counts_or_trait_values_READ"]
+              assert x["no_original_method_labels_or_site_IDs_EXPORTED"]
+              assert x["new_ecological_effect_estimated"] is False
+          else:
+              assert r["source_STOP_not_biological_non_support"]
+          print("BELONGDEAD_2013_2017_ORIGINAL_METHOD_MISSING_ECLECTOR_ONLY",r["status"])
+          PY
+      - name: "Archive anonymous method source status without ecological output"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead20406-2013-17-other-method-source-only
+          path: BE20406_2013_2017_ORIGINAL_METHOD_ONLY/
+          if-no-files-found: warn
