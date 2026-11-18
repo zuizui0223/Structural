@@ -1,0 +1,59 @@
+name: "Forest macro Carpathian 116 plot independent original Zenodo metadata gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_zenodo_metadata_only.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_INDEPENDENT_SOURCE_ADMISSION_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-zenodo-source-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_slobak_carpathian_116plot_zenodo_publisher_manifest_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Response-opaque synthetic official publisher checksum + license validation"
+        run: |
+          python analysis/forest_macro_global/carpathian116_zenodo_metadata_only.py --test
+      - name: "One official published Zenodo record metadata-only intake; no original data files opened"
+        run: |
+          python analysis/forest_macro_global/carpathian116_zenodo_metadata_only.py \
+            --out CARPATHIAN116_ORIGINAL_METADATA_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("CARPATHIAN116_ORIGINAL_METADATA_ONLY/Carpathian116_original_Zenodo_metadata_only.json")
+          obj=json.loads(p.read_text(encoding="utf-8"))
+          assert obj["schema"]=="structural.Gloor2026_Carpathian116_Zenodo_original_metadata_only.v1"
+          assert obj["original_record_id"]==22142713
+          assert not obj["original_data_ORIGINAL_BIOLOGY_READ"]
+          assert obj["original_forest_environment_catch_or_guild_ROWS_READ"]==0
+          assert obj["all_prior_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_frozen"]
+          assert not obj["eBird_used"] and not obj["TinyFish_used"]
+          if "publisher_source_intake" in obj:
+              source=obj["publisher_source_intake"]
+              assert source["original_species_plot_environment_or_guild_values_READ"]==0
+              assert source["original_record_all_binary_source_files_NOT_OPENED"]
+              assert not source["new_ecological_effect_computed"]
+              assert source["status"] in {
+                 "SOURCE_METADATA_ELIGIBLE_FOR_SEPARATE_SCHEMA_GATE",
+                 "SOURCE_METADATA_AMBIGUOUS_HOLD"
+              }
+          else:
+              assert obj["publisher_access_or_rights_STOP_not_biological_null"]
+          print("CARPATHIAN116_AUTHOR_SOURCE_GATE_METHOD_ONLY",obj["status"])
+          PY
+      - name: "Archive only source rights, versioned metadata, original file manifest and sha"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-independent-zenodo-original-metadata-only
+          path: CARPATHIAN116_ORIGINAL_METADATA_ONLY/
+          if-no-files-found: warn
