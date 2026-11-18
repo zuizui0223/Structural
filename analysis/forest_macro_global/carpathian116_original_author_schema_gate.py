@@ -192,7 +192,7 @@ def run():
     docs={}
     for name in FIXED_SOURCES:
         size,md5=FROZEN_FILES[name]
-        raw=official_get(links[name],"application/octet-stream,text/plain;q=0.6",size+1024)
+        raw=official_get(links[name],"*/*",size+1024)
         if len(raw)!=size or hashlib.md5(raw).hexdigest()!=md5:
             raise SourceStop("SOURCE_ORIGINAL_FILE_DIGEST_OR_LENGTH_FAILED")
         if name.endswith(".csv"):
