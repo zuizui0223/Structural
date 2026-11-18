@@ -1,0 +1,62 @@
+name: "Forest macro Weiss2016 original Dryad XLS binary authenticity gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_original_dryad_xls_binary_gate.py"
+      - "docs/FOREST_MACRO_WEISS2016_ORIGINAL_DRYAD_XLS_BYTE_GATE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-own-dryad-original-xls-binary.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_weiss_2016_exact_own_publisher_OLE_XLS_byte_gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic publisher ID, pinned MD5, file format and no outcomes"
+        run: |
+          python analysis/forest_macro_global/weiss2016_original_dryad_xls_binary_gate.py --test
+      - name: "One authorized exact original Dryad file ID 33652 GET; byte fingerprint only"
+        run: |
+          python analysis/forest_macro_global/weiss2016_original_dryad_xls_binary_gate.py \
+            --out WEISS2016_ORIGINAL_DRYAD_BINARY_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("WEISS2016_ORIGINAL_DRYAD_BINARY_ONLY/Weiss2016_Dryad_original_XLS_transport_fingerprint_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Weiss2016_Dryad_own_XLS_original_binary_transport.v1"
+          assert x["original_author_data_DOI"]=="10.5061/dryad.39k32"
+          assert x["original_publisher_file_id"]==33652
+          assert x["original_source_get_max_attempts"]==1
+          assert x["original_Franzen425_Dryad_HTTP401_not_retried"]
+          assert not x["original_Weiss_species_and_guild_values_read"]
+          assert not x["original_Gloor_Carpathian_taxa_or_abundances_read"]
+          assert not x["new_ecological_effect_estimated"]
+          assert x["earlier_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_effects_unchanged"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "original_source_binary_attestation_ONLY" in x:
+              z=x["original_source_binary_attestation_ONLY"]
+              assert z["original_publisher_file_bytes"]==232960
+              assert z["publisher_MD5_verified"]=="83f740353530b8f88b05260813704eab"
+              assert z["format_first_eight_bytes"]=="OLE2_compound_document"
+              assert z["source_original_Excel_sheets_READ"]==0
+              assert z["source_original_species_trophic_guild_VALUES_READ"]==0
+              assert z["source_original_file_body_opaque_except_first8"]
+          else:
+              assert x["source_transport_or_integrity_stop_not_ecological_null"]
+          print("WEISS2016_AUTHOR_ORIGINAL_XLS_BYTE_SOURCE_ONLY",x["status"])
+          PY
+      - name: "Archive source fingerprint or terminal publisher access STOP only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-Dryad-own-XLS-bytes-sourceonly
+          path: WEISS2016_ORIGINAL_DRYAD_BINARY_ONLY/
+          if-no-files-found: warn
