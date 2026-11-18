@@ -47,9 +47,9 @@ jobs:
           if "source_only_header_flags" in r:
               x=r["source_only_header_flags"]
               assert x["source_original_first_header_only_cell_count"]==9
-              assert x["original_author_header_literals_NOT_EXPORTED"]
+              assert x["original_header_literals_NOT_EXPORTED"]
               assert not x["source_512_original_species_data_row_text_nodes_INSPECTED"]
-              assert not x["original_author_names_or_guild_values_NOT_READ"] is False
+              assert x["original_author_names_or_guild_values_NOT_READ"]
           else:
               assert r["source_method_STOP_not_ecological_null"]
           print("WEISS_S1_SOURCE_HEADER_BOOLEAN_FLAGS_ONLY",r["status"])
