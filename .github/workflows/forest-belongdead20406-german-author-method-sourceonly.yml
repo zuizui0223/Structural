@@ -1,0 +1,57 @@
+name: "Forest BELongDead20406 original German Methode Equipment Status method-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead20406_german_method_status_sourceonly.py"
+      - "docs/FOREST_BELONGDEAD_20406_AUTHOR_GERMAN_METHOD_STATUS_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead20406-german-author-method-sourceonly.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_original_method_status_no_organism_rows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Known-truth German methods and redaction unit tests"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_german_method_status_sourceonly.py --test
+      - name: "One original tagged source SHA, categorical method rows ONLY"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_german_method_status_sourceonly.py \
+            --out BELONGDEAD20406_GERMAN_METHOD_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("BELONGDEAD20406_GERMAN_METHOD_ONLY/BELongDead20406_original_German_methode_status_sourceonly.json")
+          r=json.loads(f.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.BELongDead20406_original_German_method_status_qualification.v1"
+          assert r["dataset"]==20406 and r["tag"]==2
+          assert r["no_new_ecological_effect_estimated"]
+          assert r["old_Finland_Chiu_Piccini_Burner_PREDICTS_NEON_BALA_GEB_unchanged"]
+          assert r["eBird_used"] is False and r["TinyFish_used"] is False
+          if "source_20406_method_only" in r:
+              x=r["source_20406_method_only"]
+              assert x["original_14field_row_shape_errors"]==0
+              assert x["old_31123_31124_or_any_species_source_rows_NOT_REQUESTED"]
+              assert x["original_status_or_method_raw_text_and_original_IDs_NOT_EXPORTED"]
+              assert x["original_catch_zeros_or_trap_deployments_NOT_VERIFIED"]
+              assert x["original_31124_fifteen_new_TrapID_keys_NOT_RECONCILED"]
+              assert x["original_20406_StammNR_vs_31123_TreeID_mapping_NOT_VERIFIED"]
+          else:
+              assert r["source_stop_not_ecological_null"]
+          print("ORIGINAL_20406_GERMAN_METHOD_ONLY_EVIDENCE_STATUS",r["status"])
+          PY
+      - name: "Archive anonymized original method field keyword-count evidence only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead20406-german-method-status-source-only
+          path: BELONGDEAD20406_GERMAN_METHOD_ONLY/
+          if-no-files-found: warn
