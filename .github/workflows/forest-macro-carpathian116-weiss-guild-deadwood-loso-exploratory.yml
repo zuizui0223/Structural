@@ -1,0 +1,73 @@
+name: "Forest macro Carpathian116 Weiss170 original detected-guild deadwood LOSO onepass exploratory"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_weiss_guild_deadwood_loso_exploratory_onepass.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_WEISS_GUILD_DEADWOOD_LOSO_EXPLORATORY_ONEPASS_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-weiss-guild-deadwood-loso-exploratory.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_onepass_116plot_18stand_sourceconditional_guild_score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Original Weiss source authentic OLE format reader; no PLOS mirrored sources"
+        run: |
+          if ! command -v libreoffice >/dev/null && ! command -v soffice >/dev/null; then
+            sudo apt-get update -qq
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends libreoffice-writer
+          fi
+      - name: "Synthetic frozen six-guild and ridge/Hellinger model accounting"
+        run: |
+          python analysis/forest_macro_global/carpathian116_weiss_guild_deadwood_loso_exploratory_onepass.py --test
+      - name: "Exactly one original 116-plot exploratory scored endpoint; no historical biology rerun"
+        run: |
+          python analysis/forest_macro_global/carpathian116_weiss_guild_deadwood_loso_exploratory_onepass.py \
+            --out GLOOR116_WEISS170_ONEPASS_ORIGINAL_AGGREGATE
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          f=Path("GLOOR116_WEISS170_ONEPASS_ORIGINAL_AGGREGATE/Carpathian116_Weiss170_sourceoriginal_deadwood_loso_onepass_exploratory.json")
+          r=json.loads(f.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.Carpathian116_Weiss170_guild_detected_LOSO_deadwood_onepass.v1"
+          assert r["original_Zenodo_source"]==22142713
+          assert not r["source_source_author_Gloor_taxon_format_mapping_confirmatory_VERIFIED"]
+          assert r["prior_exact_0of309_and_author_mapping_HOLD_NOT_REPLACED"]
+          assert r["exploratory_response_taxonomy_selected_by_only_one_frozen_source_format"]
+          assert r["source_original_Weiss2016_and_Franzen2026_Dryad_HTTP401_NOT_RETRIED"]
+          assert r["all_earlier_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_onepass_exploratory_observed_guild_prediction" in r:
+              q=r["original_onepass_exploratory_observed_guild_prediction"]
+              assert q["source_original_116_plots_and_18_stands_TESTED"]
+              assert q["original_verified_exploratory_Weiss170_guild_taxa_union"]==170
+              assert q["source_original_Weiss_matched_taxa_by_forest"]=={"B":154,"S":83}
+              assert q["source_original_earlier_exact_names_primary_HOLD_UNCHANGED"]
+              assert q["new_confirmatory_cross_country_guild_transport_NOT_VERIFIED"]
+              assert q["new_exploratory_biological_response_score_EVALUATED"]
+              assert q["model_source_individual_site_species_counts_NOT_EXPORTED"]
+              assert q["original_ONE_forest_type_equal_primary_deadwood_increment"]["exploratory_number_of_signflip_configs"]==2**18
+              assert q["status"] in {
+                  "EXPLORATORY_OBSERVED_GUILD_DEADWOOD_LOSO_DIRECTIONAL_SUPPORT_ONLY",
+                  "EXPLORATORY_OBSERVED_GUILD_DEADWOOD_LOSO_NOT_SUPPORTED"
+              }
+          else:
+              assert r["source_or_original_biology_quality_STOP_not_null_ecology"]
+              assert r["no_new_valid_exploratory_response_score"]
+          print("ORIGINAL_GLOOR116_WEISS170_EXPLORATORY_GUILD_DEADWOOD_LOSO",r["status"])
+          PY
+      - name: "Archive only anonymized aggregate of one original exploratory guild fit"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-weiss170-guild-deadwood-onepass-exploratory
+          path: GLOOR116_WEISS170_ONEPASS_ORIGINAL_AGGREGATE/
+          if-no-files-found: warn
