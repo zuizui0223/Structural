@@ -1,0 +1,58 @@
+name: "Forest macro Carpathian 116 standshort label-vs-partition diagnostic"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_stand_label_conflict_diagnostic.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_STAND_LABEL_CONFLICT_DIAGNOSTIC_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-stand-label-conflict.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_three_environment_firsttwo_ids_only_and_author_R_method_text:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic physical plot partitions versus names and zero response"
+        run: |
+          python analysis/forest_macro_global/carpathian116_stand_label_conflict_diagnostic.py --test
+      - name: "Original environment 2 ID columns + original R code method grammar ONLY"
+        run: |
+          python analysis/forest_macro_global/carpathian116_stand_label_conflict_diagnostic.py \
+            --out CARPATHIAN116_STAND_LABEL_METHOD_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("CARPATHIAN116_STAND_LABEL_METHOD_ONLY/Carpathian116_original_stand_label_partition_method_only.json")
+          d=json.loads(f.read_text(encoding="utf-8"))
+          assert d["schema"]=="structural.Carpathian116_original_standshort_conflict_sourceonly.v1"
+          assert d["no_biodiversity_target_or_model_fitted"]
+          assert d["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          if "source_stand_method_diagnostic" in d:
+              o=d["source_stand_method_diagnostic"]
+              assert not o["new_ecological_effect_estimated"]
+              assert not o["source_raw_species_or_guild_data_files_OPENED"]
+              assert not o["source_original_environment_numeric_columns_OPENED"]
+              assert not o["source_original_richness_or_RL_columns_OPENED"]
+              assert not o["source_author_original_plot_and_stand_ID_values_EXPORTED"]
+              assert o["author_standshort_mountain_range_identity_NOT_PROVEN"]
+              assert o["original_feeding_guild_source_and_trap_zeros_NOT_VERIFIED"]
+              assert len(o["source_original_stand_label_vs_partition_anonymous"])==2
+          else:
+              assert d["source_METHOD_STOP_not_ecological_null"]
+          print("ORIGINAL_STAND_GROUPING_METHOD_DECISION",d["status"])
+          PY
+      - name: "Archive original stand grouping counts only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-stand-label-partition-sourceonly
+          path: CARPATHIAN116_STAND_LABEL_METHOD_ONLY/
+          if-no-files-found: warn
