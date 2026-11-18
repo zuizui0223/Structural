@@ -1,0 +1,15 @@
+# Weiss 2016 original PLOS S1 guild-table layout: response-independent method diagnosis (2026-11-18)
+
+## Frozen antecedent after successful original source bytes
+
+Original CC BY Weiss et al. 2016 PLOS S1 DOI 10.1371/journal.pone.0149506.s001, issuer-pinned OLE DOC 488,960 bytes SHA256 `f5c0d5e7e9e19c45f9e6e23c40c5c8cf1ddda2f4e5b4272289a328912350c3de`; [source bytes CI #44241812693](https://github.com/zuizui0223/Structural/actions/runs/44241812693) succeeded. A separately precommitted original method/format test [CI #44242195098](https://github.com/zuizui0223/Structural/actions/runs/44242195098) succeeded with temporary `antiword -t -w 0` private extraction: **38,317 UTF8 bytes, 4 physical lines, 2 nonblank**; one Latin binomial-containing line (line count only); unconstrained six-letter token counts m=244,n=2,p=1,s=57,x=136,z=80. `antiword -x db` also returned 49,883 bytes but **zero literal table/row/entry tags**. These are *method-token counts*, NOT 512 species validated or guild assignments; the source DOC is likely flattened into a long line. Neither original species names nor guild-by-species pairs have been exported, Gloor response species columns and abundances remain sealed.
+
+## Exactly one additional nonbiological table-layout check
+
+1. Independently reverify original PLOS issuer Location SHA, original R2 host/issuer query, and original DOC binary SHA/size. Use only the fixed authentic source.
+2. Run private `antiword -t -w 0`, `antiword -t -w 120`, `antiword -t -w 200`, and `antiword -x db`; no text output, original species list, family names, guild labels per species, source document or parsed response row leaves runner.
+3. For each width report **only** total/nonblank line counts, number of lines with exactly one or multiple Latin-binomial-shaped patterns, number with exactly one or multiple standalone single-letter six-guild code tokens, number with one of each, total tab/formfeed/vertical-tab counts and counts of 2+-space separators. For DocBook return only `para`/table-like structural tag counts. No original names/values, no per-line output. These numbers merely determine whether published 512 source records are structurally identifiable. No ecology.
+4. If any width produces plausible one-species/one-guild rows, a **separate** prospectively locked *exact source author species-to-guild ontology* parser may be developed; never select the width to achieve a favorable Gloor response or maximize covered taxa. If flattened/unrecoverable, classify `ORIGINAL_SOURCE_TABLE_ROW_BOUNDARY_NOT_VERIFIED`; no invented 512 labels or position-based mapping.
+5. Preserve six source guild codes m/n/p/s/x/z as their author definition, not Franzén five-guild categories. Never access Gloor species columns or match response taxonomy in this task. Previous Finland/Chiu/Piccini/BELongDead/PREDICTS/NEON/BALA/GEB scores unchanged, no eBird/TinyFish, no PR merge/main write.
+
+The purpose is source-method structural estimability only. Neither outcome supports a new biological or predictive effect.
