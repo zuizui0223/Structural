@@ -59,12 +59,27 @@ SOURCE_FILE_MENTIONS=tuple(name for name in FROZEN_FILES if name.endswith(".csv"
 SOURCE_PATH_PREFIX=f"/api/records/{RECORD}/files/"
 EXPECTED_LICENSE={"cc-by-4.0"}
 
-def official_get(url,accept,cap):
+def validate_original_publisher_link(url):
+    """Permit ONLY source-supplied Zenodo links from frozen original record."""
     p=urllib.parse.urlparse(url)
-    if p.scheme!="https" or p.hostname!="zenodo.org" or p.query or p.fragment:
+    if p.scheme!="https" or p.hostname!="zenodo.org" or p.username or p.password or p.port or p.query or p.fragment:
         raise SourceStop("SOURCE_NON_ORIGINAL_ZENODO_FILE_REFERENCE")
-    if url!=API_URL and not (p.path.startswith(SOURCE_PATH_PREFIX) and p.path.endswith("/content")):
-        raise SourceStop("SOURCE_ORIGINAL_PUBLISHER_PATH_NOT_SUPPORTED")
+    if url==API_URL:
+        return "record_metadata"
+    if p.path.startswith(SOURCE_PATH_PREFIX) and p.path.endswith("/content"):
+        name=p.path[len(SOURCE_PATH_PREFIX):-len("/content")]
+        if name not in FROZEN_FILES:
+            raise SourceStop("SOURCE_UNFROZEN_RECORD_FILE_CONTENT_LINK")
+        return "original_record_file_content"
+    parts=p.path.split("/")
+    if (len(parts)==5 and parts[1:3]==["api","files"]
+        and re.fullmatch(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",parts[3])
+        and parts[4] in FROZEN_FILES):
+        return "original_bucket_file_self"
+    raise SourceStop("SOURCE_ORIGINAL_PUBLISHER_PATH_NOT_SUPPORTED")
+
+def official_get(url,accept,cap):
+    validate_original_publisher_link(url)
     req=urllib.request.Request(url,headers={
         "Accept":accept,
         "User-Agent":"Structural-Carpathian116-Gloor-original-method-only/1.0",
@@ -108,9 +123,10 @@ def original_record_links():
         if item.get("size")!=size or item.get("checksum")!="md5:"+md5:
             raise SourceStop("SOURCE_PUBLISHER_ORIGINAL_FILE_SIZE_MD5_DRIFT")
         links=item.get("links",{})
-        link=links.get("content") if isinstance(links,dict) else None
+        link=(links.get("content") or links.get("self")) if isinstance(links,dict) else None
         if not isinstance(link,str):
-            raise SourceStop("SOURCE_ZENODO_ORIGINAL_CONTENT_LINK_ABSENT")
+            raise SourceStop("SOURCE_ZENODO_ORIGINAL_SELF_AND_CONTENT_LINK_ABSENT")
+        validate_original_publisher_link(link)
         if name in actual:raise SourceStop("SOURCE_DUPLICATE_ORIGINAL_FILE")
         actual[name]=link
     if set(actual)!=set(FROZEN_FILES):
@@ -212,6 +228,14 @@ def run():
     }
 
 def synthetic():
+    assert validate_original_publisher_link(
+        "https://zenodo.org/api/files/12345678-aaaa-bbbb-cccc-123456789abc/Beech.csv"
+    ) == "original_bucket_file_self"
+    try:
+        validate_original_publisher_link("https://zenodo.org/api/files/12345678-aaaa-bbbb-cccc-123456789abc/OTHER.csv")
+        raise AssertionError("unfrozen source file link allowed")
+    except SourceStop:
+        pass
     fixture=b"plotID,TreeVolume,Fagus sylvatica,Quercus robur\n1,2.3,4,5\n"
     got=first_header_csv(fixture,"B_SR_BEETLES.csv")
     assert got["original_first_header_column_count"]==4
