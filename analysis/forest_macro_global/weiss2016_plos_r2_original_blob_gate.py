@@ -32,8 +32,10 @@ def validate_original_r2_location(loc,sha=LOCATION_SHA):
     if hashlib.sha256(loc.encode("utf-8")).hexdigest()!=sha:
         raise SourceStop("SOURCE_PLOS_302_LOCATION_SHA_CHANGED")
     p=urllib.parse.urlparse(loc)
-    if p.scheme!="https" or p.hostname!=R2_HOST or p.username or p.password or p.port or p.query or p.fragment:
+    if p.scheme!="https" or p.hostname!=R2_HOST or p.username or p.password or p.port or p.fragment:
         raise SourceStop("SOURCE_ORIGINAL_ISSUED_R2_HOST_OR_URL_NOT_ALLOWED")
+    # The complete source-issued URL (including any query) is SHA-frozen above.
+    # Do not inspect, export, build or modify query values.
     if not p.path.startswith("/") or len(p.path)<2 or any(
         token in (".","..") for token in urllib.parse.unquote(p.path).split("/")
     ):
