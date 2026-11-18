@@ -1,0 +1,61 @@
+name: "Forest macro Carpathian116 original beetle taxon header grammar and author R"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_taxon_header_grammar_rscript_sourceonly.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_TAXON_HEADER_GRAMMAR_AUTHOR_R_SOURCE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-original-taxon-header-grammar.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_Gloor_two_beetle_headers_and_R_method_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic column-grammar diagnostic with no source species or counts"
+        run: |
+          python analysis/forest_macro_global/carpathian116_taxon_header_grammar_rscript_sourceonly.py --test
+      - name: "Author Zenodo-pinned original first header + source R script only"
+        run: |
+          python analysis/forest_macro_global/carpathian116_taxon_header_grammar_rscript_sourceonly.py \
+            --out GLOOR116_ORIGINAL_NAME_GRAMMAR
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("GLOOR116_ORIGINAL_NAME_GRAMMAR/Carpathian116_original_taxon_header_format_Rscript_sourceonly.json").read_text())
+          assert q["schema"]=="structural.Carpathian116_original_taxon_header_R_method_sourceonly.v1"
+          assert q["original_Gloor_beetle_abundance_rows_READ"]==0
+          assert q["original_Gloor_plot_environment_response_rows_READ"]==0
+          assert q["old_Weiss2016_guild_source_ledger_NOT_REOPENED"]
+          assert q["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert q["eBird_used"] is False and q["TinyFish_used"] is False
+          if "original_source_only_header_and_author_R_method" in q:
+              r=q["original_source_only_header_and_author_R_method"]
+              assert r["original_same_literal_taxon_header_in_both_forest_files"]==92
+              assert r["original_taxon_header_unique_union"]==309
+              assert r["earlier_Weiss511_guild_exact_literal_0of309_HOLD_PRESERVED"]
+              assert r["original_source_RAW_species_heading_name_strings_EXPORTED"] is False
+              assert r["original_Gloor_site_species_abundance_or_environment_values_READ"] is False
+              assert r["original_no_guild_species_crosswalk_or_heldout_model_fitted"]
+              for v in r["original_two_CSV_header_shape_by_forest"].values():
+                  assert v["original_taxon_strings_NOT_EXPORTED"]
+                  assert v["original_site_rows_abundances_species_values_NOT_READ"]
+              assert r["original_source_author_Rscript_only"]["author_code_read_as_text_NOT_EXECUTED"]
+          else:
+              assert q["source_method_STOP_not_biological_null"]
+          print("CARPATHIAN116_ORIGINAL_TAXON_NAMING_FORMAT_SOURCE_ONLY",q["status"])
+          PY
+      - name: "Archive only nonidentifying original header shape and code grammar counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-original-taxon-header-authorR-method-only
+          path: GLOOR116_ORIGINAL_NAME_GRAMMAR/
+          if-no-files-found: warn
