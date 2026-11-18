@@ -1,0 +1,54 @@
+name: "Forest macro Weiss2016 original PLOS supplementary redirect headers only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_redirect_headers_only.py"
+      - "docs/FOREST_MACRO_WEISS2016_PLOS_OFFICIAL_REDIRECT_SOURCE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-plos-redirect-headers.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_Weiss_PLOS_s1_only_headers_not_content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic public publisher redirect location sanitization"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_redirect_headers_only.py --test
+      - name: "Exactly one original PLOS file request, no redirect follow, zero content bytes read"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_redirect_headers_only.py \
+            --out WEISS2016_ORIGINAL_REDIRECT_HEADERS_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("WEISS2016_ORIGINAL_REDIRECT_HEADERS_ONLY/Weiss2016_original_PLOS_s1_publisher_redirect_headers_only.json").read_text())
+          assert r["schema"]=="structural.Weiss2016_original_PLOS_s1_headers_redirect_only.v1"
+          assert not r["source_Gloor_beetles_or_guild_DOC_values_READ"]
+          assert r["previous_Franzen_Dryad_HTTP401_NOT_RETRIED"]
+          assert r["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_publisher_one_header_only" in r:
+              q=r["original_publisher_one_header_only"]
+              assert q["original_file_bytes_READ"]==0
+              assert q["original_source_redirect_followed"] is False
+              if "official_publisher_redirect_header_only" in q:
+                  assert q["official_publisher_redirect_header_only"]["publisher_original_Location_URL_and_query_values_NOT_EXPORTED"]
+          else:
+              assert r["source_or_transport_STOP_not_organism_result"]
+          print("PLOS_ORIGINAL_REDIRECT_ONLY",r["status"])
+          PY
+      - name: "Archive original source headers / metadata only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-PLOS-original-redirect-headers-only
+          path: WEISS2016_ORIGINAL_REDIRECT_HEADERS_ONLY/
+          if-no-files-found: warn
