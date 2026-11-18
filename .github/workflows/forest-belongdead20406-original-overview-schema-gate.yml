@@ -1,0 +1,60 @@
+name: "Forest BELongDead original BExIS20406 log overview source schema gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead20406_original_overview_method_gate.py"
+      - "docs/FOREST_BELONGDEAD_20406_AUTHOR_STUDY_OVERVIEW_ORIGINAL_GATE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead20406-original-overview-schema-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher_original_tag2_author_log_overview_method_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source-only redaction and exact endpoint allowlist"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_original_overview_method_gate.py --test
+      - name: "Publisher-only original 20406/tag2 method/CSV header SHA, never sampling rows"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_original_overview_method_gate.py \
+            --out BE20406_AUTHOR_OVERVIEW_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("BE20406_AUTHOR_OVERVIEW_SOURCEONLY/BELongDead20406_original_author_log_overview_schema_only.json")
+          x = json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"] == "structural.BELongDead20406_original_log_overview_source_schema_only.v1"
+          assert x["publisher_original_dataset_id"] == 20406
+          assert x["publisher_original_tag"] == 2
+          assert x["original_BExIS31123_31124_24546_rows_requested"] == 0
+          assert x["source_original_beetle_species_abundance_trait_values_READ"] == 0
+          assert not x["original_31124_fifteen_TrapID_aliases_RESOLVED"]
+          assert x["no_biological_response_estimated"]
+          assert x["author_trap_deployment_effort_NOT_PROVEN"]
+          assert x["source_author_method_ID_crosswalk_NOT_PROVEN"]
+          assert x["prior_Finland_Germany_PREDICTS_NEON_BALA_GEB_scoring_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if x["status"] in ("SOURCE_AUTHOR_METHOD_SCHEMA_CANDIDATE_ONLY", "SOURCE_NO_EXPLICIT_METHOD_CANDIDATE", "SOURCE_TAGGED_HEADER_DICTIONARY_MISMATCH", "SOURCE_DICTIONARY_OR_ORIGINAL_TAG_STOP"):
+              header = x["tagged_original_CSV_first_header_only"]
+              assert header["method_data_rows_parsed"] == 0
+              assert header["beetle_wood_counts_or_observations_read"] == 0
+              assert header["body_beyond_header_bytes_HASHED_NOT_PARSED"]
+          else:
+              assert x["source_or_schema_STOP_not_ecological_null"]
+          print("BELONGDEAD_20406_ORIGINAL_METHOD_SOURCE_ONLY_STATUS",x["status"])
+          PY
+      - name: "Archive anonymous source metadata/header-only receipt"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead20406-original-author-log-overview-sourceonly
+          path: BE20406_AUTHOR_OVERVIEW_SOURCEONLY/
+          if-no-files-found: warn
