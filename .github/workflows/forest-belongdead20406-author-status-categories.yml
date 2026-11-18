@@ -1,0 +1,59 @@
+name: "Forest BELongDead20406 original eclector author Status categories source-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead20406_author_status_semantics.py"
+      - "docs/FOREST_BELONGDEAD_20406_ECLECTOR_AUTHOR_STATUS_SEMANTICS_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead20406-author-status-categories.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  four_author_public_method_categories_no_species:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic Status labels and key-coverage source-redaction test"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_author_status_semantics.py --test
+      - name: "Original publisher eclector method Status only; source key count no ecology"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_author_status_semantics.py \
+            --out BELONGDEAD20406_AUTHOR_STATUS_SOURCE_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BELONGDEAD20406_AUTHOR_STATUS_SOURCE_ONLY/BELongDead20406_original_eclector_author_Status_category_semantics.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.BELongDead20406_original_author_eclector_Status_categories.v1"
+          assert x["publisher_original_20406_tag"]==2 and x["publisher_original_31123_tag"]==1
+          assert x["original_beetle_species_trait_capture_values_read"]==0
+          assert x["previous_Finland_Chiu_Piccini_Burner_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert x["eBird_used"] is False and x["TinyFish_used"] is False
+          if "source_method_only" in x:
+              v=x["source_method_only"]
+              assert v["original_source_20406_Equipment_Status_distinct_nonblank_levels"]==4
+              assert v["original_source_20406_elector_Equipment_record_rows"]==4233
+              assert v["original_source_20406_elector_Equipment_full_log_year_keys"]==4208
+              assert v["original_source_31124_15_TrapIDs_NOT_reconciled"]
+              assert v["source_yearly_2013_2017_missing_31123_method_records_NOT_trap_zeros"]
+              assert v["no_original_sample_ID_or_taxa_catch_count_data_EXPORTED"]
+              assert v["source_method_direct_token_matched_NOT_author_biological_join"]
+              assert v["new_ecological_effect_estimated"] is False
+          else:
+              assert x["source_stop_not_ecological_null"]
+          print("BE20406_ORIGINAL_AUTHOR_STATUS_CATEGORICAL_SOURCE_ONLY",x["status"])
+          PY
+      - name: "Archive safe 4 public method categories and anonymous year counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead20406-author-status-categories
+          path: BELONGDEAD20406_AUTHOR_STATUS_SOURCE_ONLY/
+          if-no-files-found: warn
