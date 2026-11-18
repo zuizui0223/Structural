@@ -1,0 +1,66 @@
+name: "Forest macro Weiss2016 original DOC private HTML table-structure gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_ole_html_table_structure_gate.py"
+      - "docs/FOREST_MACRO_WEISS2016_PLOS_OLE_HTML_TABLE_STRUCTURE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-plos-ole-html-table-structure.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_PLOS_OLE_to_private_HTML_tag_counts_no_species_data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Ensure document format reader, no spreadsheet/table results"
+        run: |
+          if ! command -v libreoffice >/dev/null && ! command -v soffice >/dev/null; then
+            sudo apt-get update -qq
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends libreoffice-writer
+          fi
+          (command -v libreoffice || command -v soffice)
+      - name: "Synthetic original HTML structural-only parser, verifies no source text export"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_ole_html_table_structure_gate.py --test
+      - name: "One pinned original PLOS OLE DOC converted privately, table tags only"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_ole_html_table_structure_gate.py \
+            --out WEISS2016_PRIVATE_DOC_HTML_STRUCTURE_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("WEISS2016_PRIVATE_DOC_HTML_STRUCTURE_ONLY/Weiss2016_original_PLOS_DOC_private_HTML_tables_counts_only.json")
+          x = json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"] == "structural.Weiss2016_PLOS_original_OLE_private_HTML_table_structure.v1"
+          assert x["original_Weiss_data_Dryad_XLS_33652_HTTP401_not_retried"]
+          assert not x["source_original_author_species_guild_pairs_PARSED"]
+          assert not x["original_Gloor_taxa_or_abundance_READ"]
+          assert x["original_six_guild_codes_NOT_remapped"]
+          assert x["previous_Finland_German_PREDICTS_NEON_BALA_GEB_scoring_unchanged"]
+          assert not x["new_biodiversity_effect_estimated"]
+          assert x["eBird_used"] is False and x["TinyFish_used"] is False
+          if "private_only_source_table_shape" in x:
+              q = x["private_only_source_table_shape"]
+              assert q["original_HTML_text_nodes_NOT_READ_OR_RETAINED"]
+              assert q["original_species_family_guild_values_NOT_EXPORTED"]
+              assert q["original_source_species_guild_row_pairs_NOT_RECONSTRUCTED"]
+              assert q["original_source_private_HTML_NEVER_EXPORTED"]
+              assert q["gloor_original_taxa_or_abundance_rows_READ"] == 0
+          else:
+              assert x["format_or_source_STOP_not_ecological_null"]
+          print("ORIGINAL_WEISS_DOC_HTML_STRUCTURE_METHOD_ONLY", x["status"])
+          PY
+      - name: "Archive only counts of original HTML table tags, not HTML or DOC"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-DOC-HTML-table-structure-sourceonly
+          path: WEISS2016_PRIVATE_DOC_HTML_STRUCTURE_ONLY/
+          if-no-files-found: warn
