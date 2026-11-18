@@ -1,0 +1,58 @@
+name: "Forest macro independent Weiss2016 PLOS original six-guild source byte-only gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_guild_original_source_only.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_WEISS2016_TROPHIC_SOURCE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-original-guild-sourceonly.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_PLOS_s1_six_guild_source_fingerprint_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Strict original source DOI, OLE document binary and sealed outcome tests"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_guild_original_source_only.py --test
+      - name: "Original PLOS S1 public binary only, NEVER parse trait or Gloor species"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_guild_original_source_only.py \
+            --out WEISS2016_ORIGINAL_PLOS_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("WEISS2016_ORIGINAL_PLOS_SOURCEONLY/Weiss2016_original_PLOS_S1_guild_doc_source_fingerprint_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Weiss2016_PLOS_S1_original_guild_document_metadata.v1"
+          assert x["source_original_supplement_doi"]=="10.1371/journal.pone.0149506.s001"
+          assert x["original_Gloor_Carpathian_species_response_READ"] is False
+          assert x["original_Franzen_Dryad_blocked_source_NOT_RETRIED"]
+          assert x["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert x["new_ecological_effect_estimated"] is False
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "original_source_fingerprint_ONLY" in x:
+              r=x["original_source_fingerprint_ONLY"]
+              assert r["original_format"]=="OLE2_Document_Magic_Only"
+              assert r["author_original_species_guild_table_rows_PARSED"]==0
+              assert r["original_beetle_species_names_guild_labels_NOT_OPENED"]
+              assert not r["original_Gloor_species_abundance_environment_outcomes_READ"]
+              assert r["six_published_trophic_codes_NOT_remapped"]
+          else:
+              assert x["source_transport_or_format_STOP_not_ecological_null"]
+          print("WEISS2016_ORIGINAL_SOURCE_ONLY",x["status"])
+          PY
+      - name: "Archive only original DOC source checksum/mime/transport status"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-PLOS-guild-DOC-source-only
+          path: WEISS2016_ORIGINAL_PLOS_SOURCEONLY/
+          if-no-files-found: warn
