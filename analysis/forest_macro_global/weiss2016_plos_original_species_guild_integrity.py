@@ -19,7 +19,7 @@ import tempfile
 
 from weiss2016_plos_doc_schema_only import original_doc, SourceStop
 
-PRESPEC = "docs/FOREST_MACRO_WEISS2016_S1_SPECIES_GUILD_ONTOLOGY_EXTRACTION_PRESPEC_20261118.md"
+PRESPEC = "docs/FOREST_MACRO_WEISS2016_S1_FIXED_AUTHOR_SPECIES_GUILD_COLUMNS_PRESPEC_20261118.md"
 SOURCE_SHA = "f5c0d5e7e9e19c45f9e6e23c40c5c8cf1ddda2f4e5b4272289a328912350c3de"
 EXPECTED_TABLE_ROWS = 513
 EXPECTED_TABLE_COLS = 9
@@ -115,17 +115,19 @@ class PrivateGuildTableParser(HTMLParser):
     def _select_author_columns(self):
         if len(self.header) != EXPECTED_TABLE_COLS:
             raise SourceStop("SOURCE_ORIGINAL_AUTHOR_HEADER_NINE_CELLS_MISSING")
-        species_hits = [
-            i for i, h in enumerate(self.header)
-            if header_tokens(h) & {"species", "taxon"}
-        ]
-        guild_hits = [
-            i for i, h in enumerate(self.header)
-            if header_tokens(h) & {"trophic", "guild", "feeding"}
-        ]
-        if len(species_hits) != 1 or len(guild_hits) != 1 or species_hits[0] == guild_hits[0]:
-            raise SourceStop("AUTHOR_ORIGINAL_TABLE_HEADER_GUILD_COLUMN_NOT_UNIQUE")
-        self.species_col, self.guild_col = species_hits[0], guild_hits[0]
+        # FIXED from a separately precommitted, response-unopened header-only
+        # source result. Both first and ninth headers mention "species";
+        # using a generic token selector would be scientifically ambiguous.
+        species_header = header_tokens(self.header[0])
+        guild_header = header_tokens(self.header[6])
+        last_header = header_tokens(self.header[8])
+        if (
+            "species" not in species_header
+            or not {"trophic", "guild"}.issubset(guild_header)
+            or "species" not in last_header
+        ):
+            raise SourceStop("SOURCE_WEISS_AUTHOR_PREDECLARED_COL1_COL7_HEADER_DRIFT")
+        self.species_col, self.guild_col = 0, 6
 
     def aggregate(self):
         if (
@@ -232,18 +234,18 @@ def known_truth():
     source = """
     <table>
       <tr><th>Species</th><th>Family</th><th>Lowland</th><th>Mountains</th>
-      <th>Saproxylic</th><th>Trophic guild</th><th>RL</th><th>Indicator</th><th>Other</th></tr>
+      <th>Saproxylic</th><th>Forest status</th><th>Trophic guild</th><th>RL</th><th>Indicator species</th></tr>
       <tr><td><i>Testa speciesa</i></td><td>FamilyA</td><td>1</td><td>2</td>
-      <td>1</td><td>x</td><td>NT</td><td>Y</td><td>?</td></tr>
+      <td>1</td><td>old</td><td>x</td><td>NT</td><td>Y</td></tr>
       <tr><td>Testb speciesb</td><td>FamilyB</td><td>4</td><td>2</td>
-      <td>1</td><td>m</td><td>LC</td><td>N</td><td>?</td></tr>
+      <td>1</td><td>young</td><td>m</td><td>LC</td><td>N</td></tr>
     </table>
     """
     p = PrivateGuildTableParser()
     # Override only synthetic table row-count requirement for parser behavioral tests.
     p.feed(source)
     assert p.num_tables == 1 and p.rows_seen == 3
-    assert p.species_col == 0 and p.guild_col == 5
+    assert p.species_col == 0 and p.guild_col == 6
     assert p.private_species_guild_rows == [
         ("Testa speciesa", "x"), ("Testb speciesb", "m")
     ]
