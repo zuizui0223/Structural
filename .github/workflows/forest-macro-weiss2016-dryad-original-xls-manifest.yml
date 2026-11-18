@@ -1,0 +1,59 @@
+name: "Forest macro Weiss2016 original Dryad author XLS publisher metadata only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_dryad_author_xls_manifest_only.py"
+      - "docs/FOREST_MACRO_WEISS2016_ORIGINAL_DRYAD_XLS_SOURCE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-dryad-original-xls-manifest.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher_weiss_original_xls_record_metadata_no_file:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic strict Dryad original DOI and zero-XLS access check"
+        run: |
+          python analysis/forest_macro_global/weiss2016_dryad_author_xls_manifest_only.py --test
+      - name: "Only original author Dryad manifest metadata and file digest; no workbook GET"
+        run: |
+          python analysis/forest_macro_global/weiss2016_dryad_author_xls_manifest_only.py \
+            --out WEISS2016_ORIGINAL_DRYAD_XLS_MANIFEST
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("WEISS2016_ORIGINAL_DRYAD_XLS_MANIFEST/Weiss2016_Dryad_original_author_XLS_publisher_manifest_only.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.Weiss2016_author_Dryad_original_XLS_manifest_only.v1"
+          assert r["exact_original_author_DOI"]=="10.5061/dryad.39k32"
+          assert r["original_XLS_file_GET_requests"]==0
+          assert not r["original_Weiss_species_guild_sheet_values_READ"]
+          assert not r["original_Gloor_Carpathian_species_and_abundance_READ"]
+          assert r["original_Franzen_Dryad_HTTP401_dataset_NOT_RETRIED"]
+          assert r["prior_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_frozen"]
+          assert not r["new_ecological_effect_estimated"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_publisher_manifest_ONLY" in r:
+              x=r["original_publisher_manifest_ONLY"]
+              assert x["published_source_workbook_data_rows_REQUESTED"]==0
+              assert x["Gloor_Carpathian_response_species_headers_and_values_READ"]==0
+              assert x["same_study_NOT_additional_ecological_validation"]
+              assert x["original_published_author_workbook_metadata_ONLY"]["original_species_feeding_guild_values_READ"]==0
+          else:
+              assert r["source_rights_or_manifest_STOP_not_ecological_null"]
+          print("WEISS2016_ORIGINAL_DRYAD_XLS_MANIFEST_ONLY",r["status"])
+          PY
+      - name: "Archive publisher metadata and original file ID/digest only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-dryad-XLS-publisher-manifest-only
+          path: WEISS2016_ORIGINAL_DRYAD_XLS_MANIFEST/
+          if-no-files-found: warn
