@@ -1,0 +1,60 @@
+name: "Forest BELongDead 20406 eclector Equipment physical method contexts no biology"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead20406_eclector_method_contexts.py"
+      - "docs/FOREST_BELONGDEAD_20406_ECLECTOR_METHOD_OPPORTUNITY_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead20406-eclector-method-contexts.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_method_equipment_original_eclector_contexts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Known truth tests for method row versus log-year contexts"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_eclector_method_contexts.py --test
+      - name: "Actual original 20406/tag2 Equipment eclector context count; no species"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_eclector_method_contexts.py \
+            --out BELONGDEAD20406_ECLECTOR_METHOD_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BELONGDEAD20406_ECLECTOR_METHOD_ONLY/BELongDead20406_original_eclector_equipment_eligible_method_contexts.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.BELongDead20406_equipment_emergence_method_contexts.v1"
+          assert x["publisher_original_dataset_id"]==20406 and x["tag"]==2
+          assert x["source_method_only"] and x["new_ecological_effect"] is False
+          assert x["previous_frozen_Finland_Chiu_Piccini_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert x["eBird_used"] is False and x["TinyFish_used"] is False
+          if "original_author_source_method_grouping" in x:
+              r=x["original_author_source_method_grouping"]
+              assert r["original_20406_equipment_eclector_REGEX_matched_LONG_ROWS"]==4233
+              assert r["original_20406_tag2_method_rows"]==12289
+              assert r["actual_trap_deployment_NOT_confirmed"]
+              assert r["number_of_true_empty_or_zero_trap_occasions_NOT_estimable"]
+              assert r["original_stamm_vs_TreeID_author_crosswalk_NOT_verified"]
+              assert r["original_PLOT_vs_PlotID_author_crosswalk_NOT_verified"]
+              assert r["original_15_new_31124_TrapIDs_unexplained"]
+              assert r["no_organism_species_abundance_or_31123_31124_data_OPENED"]
+              assert r["no_original_source_IDs_or_Status_categories_exposed"]
+          else:
+              assert x["source_stop_not_biological_non_support"]
+          print("ORIGINAL_ECLECTOR_EQUIPMENT_METHOD_CONTEXTS_ONLY",x["status"])
+          PY
+      - name: "Archive only anonymous author method-context source summaries"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead20406-eclector-equipment-method-contexts
+          path: BELONGDEAD20406_ECLECTOR_METHOD_ONLY/
+          if-no-files-found: warn
