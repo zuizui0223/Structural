@@ -1,0 +1,63 @@
+name: "Forest macro Weiss2016 original PLOS guild DOC source table schema only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_doc_schema_only.py"
+      - "docs/FOREST_MACRO_WEISS2016_ORIGINAL_DOC_GUILD_SCHEMA_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-original-doc-schema-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_weiss2016_author_doc_table_method_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Make open-source antiword document reader available"
+        run: |
+          if ! command -v antiword >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq antiword
+          fi
+          antiword -h 2>&1 | head -5
+      - name: "Synthetic privacy-preserving original DOC structure receipt"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_doc_schema_only.py --test
+      - name: "Pinned original PLOS issuer R2 DOC in runner private temp; shape only"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_doc_schema_only.py \
+            --out WEISS2016_SOURCE_DOC_STRUCTURE_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          o=json.loads(Path("WEISS2016_SOURCE_DOC_STRUCTURE_ONLY/Weiss2016_original_author_DOC_private_schema_aggregate_only.json").read_text())
+          assert o["schema"]=="structural.Weiss2016_original_PLOS_S1_DOC_schema_only.v1"
+          assert o["original_species_to_guild_ontology_NOT_VERIFIED"]
+          assert o["original_Gloor_Carpathian_species_identity_abundance_RESPONSES_UNREAD"]
+          assert o["previous_original_Franzen_Dryad_HTTP401_NOT_RETRIED"]
+          assert o["all_previous_Finland_Germany_PREDICTS_NEON_BALA_GEB_effects_UNCHANGED"]
+          assert not o["new_biodiversity_effect_CALCULATED"]
+          assert not o["eBird_used"] and not o["TinyFish_used"]
+          if "original_source_private_DOC_table_structure_only" in o:
+              a=o["original_source_private_DOC_table_structure_only"]
+              assert a["source_private_extraction_nonempty"]
+              assert a["original_doc_source_text_or_species_taxon_values_NOT_EXPORTED"]
+              assert a["original_species_to_guild_pairs_NOT_EXTRACTED"]
+              assert a["counts_not_proof_of_original_512_species_or_6valid_guilds"]
+          else:
+              assert o["source_method_STOP_not_ecological_null"]
+          print("WEISS2016_ORIGINAL_PRIVATE_DOC_SOURCE_SCHEMA_ONLY",o["status"])
+          PY
+      - name: "Archive only nonidentifying original DOC table method counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-author-DOC-table-schema-only
+          path: WEISS2016_SOURCE_DOC_STRUCTURE_ONLY/
+          if-no-files-found: warn
