@@ -1,0 +1,17 @@
+# Franzén et al. 2026 original 425 saproxylic beetle larval trophic guild workbook — first-schema only source gate
+
+## Freeze before opening any original species/guild XLSX values
+
+Original [Dryad DOI 10.5061/dryad.gf1vhhn3w](https://doi.org/10.5061/dryad.gf1vhhn3w), *Taxonomic and methodological biases in saproxylic beetles: body size, trophic group and detection probability*, published **2026-07-08**, 425 author-reported species, 11 families, five larval trophic classes, under official **CC0**. The original independently frozen publisher-only source audit [Actions #44238657172](https://github.com/zuizui0223/Structural/actions/runs/44238657172) SUCCESS, artifact #14398027879 ZIP SHA256 `be391ae2ace80d19937a7d3438eadcb1640cecbb07b86359b96760019b32deb5`, verified:
+- `tableS1.xlsx` publisher file ID **4851331**, 26,345 original bytes, publisher **SHA256 `68d9c10f70174f2166c664ca6e549d8731ed8ffdbe5f912b02269402aa2c3b08`**.
+- `README.md` file ID 4851334, 1,365 bytes, SHA256 `6213a68c6cdc3c9f7e83d69d09b0d52354f175c8f515ad9dc2758a111ff9f56a`. Public source description names fields `Species`, `Family`, `Trophic_group`, `Body_length`, with five guild labels, but the original exact file structure has NOT been read.
+- This 425 species / 11 families original source cannot be presumed to cover the 303 independently sampled Gloor 2026 Carpathian beetle species; they are different geographic collections and subsets.
+
+## One legal publisher-source *file INTEGRITY + first-header schema* test
+
+1. GET EXACT public official Dryad original `https://datadryad.org/api/v2/files/4851331/download` **once**, no credential, mirror, signed-token construction, retry, alternate source path or changed version. Verify exact 26,345-byte limit and full published SHA256 before ANY parsing; no redirects to other domains are followed. HTTP 401/403/redirect is a source-access HOLD, not an ecological null.
+2. Only if exact fingerprint PASS: source is a small OpenXML `.xlsx`. Inspect safe ZIP central directory, worksheet and shared-string *STRUCTURE*. Require only one original worksheet or record a method hold if multiple ambiguous sheets. Parse the FIRST row only to check exact public publisher-described four field names; no full table values, taxon names, original guild per species, source response labels or numeric body lengths may be traversed or exported. Verify publisher-author-reported sheet *potential* row count at most ~500 but do not assert every row is a validated species until a separate frozen original-data read.
+3. Output original workbook SHA256/bytes, sheet count/worksheet declared dimensions and exact header field names from the predeclared set `Species`, `Family`, `Trophic_group`, `Body_length`, nothing else. **Do not return even one species label, diet value, Family classification, or Gloor source taxon name** in this stage.
+4. Only after this gate PASS may a separate prespecified taxonomy-only coverage test be considered. Before that test, define source year/version, taxon normalization and minimum coverage threshold without looking at any Carpathian community matrix response. No species abundance/catch or local guild score, p value, or model fit at this gate.
+
+Source scope: the old Finnish/Chiu/Piccini/BELongDead/PREDICTS/NEON/BALA/GEB results and original Carpathian biological response are sealed; original Carpathian environment readiness [#44237608898](https://github.com/zuizui0223/Structural/actions/runs/44237608898) remains method-only PASS. No eBird/TinyFish or main merge; PR #469 Draft.
