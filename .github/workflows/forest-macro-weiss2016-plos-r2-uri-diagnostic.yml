@@ -1,0 +1,53 @@
+name: "Forest macro Weiss2016 official PLOS R2 URI predicate diagnostic no file"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_r2_uri_predicate_diag.py"
+      - "docs/FOREST_MACRO_WEISS2016_R2_URI_PREDICATE_DIAG_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-plos-r2-uri-diagnostic.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher_PLOS_302_url_predicate_flags_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original PLOS fixed redirect SHA and no biology"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_r2_uri_predicate_diag.py --test
+      - name: "One original public PLOS 302, URI predicates only, never follow/download"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_r2_uri_predicate_diag.py \
+            --out WEISS2016_ORIGINAL_REDIRECT_FLAGS_ONLY
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("WEISS2016_ORIGINAL_REDIRECT_FLAGS_ONLY/Weiss2016_PLOS_R2_original_issuer_URI_predicates_only.json").read_text())
+          assert r["schema"]=="structural.Weiss2016_R2_URL_publisher_redirect_predicates_no_body.v1"
+          assert r["source_original_PLOS_file_binary_bytes_READ"]==0
+          assert not r["source_original_beetle_trait_or_Gloor_species_values_READ"]
+          assert r["Franzen_blocked_Dryad_source_NOT_RETRIED"]
+          assert r["prior_forest_GEB_BALA_historical_scores_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_issuer_URI_predicates_ONLY" in r:
+              q=r["original_issuer_URI_predicates_ONLY"]
+              assert q["source_location_sha256_matches_previous_pinned"]
+              assert q["original_location_path_query_token_values_NOT_EXPORTED"]
+          else:
+              assert r["source_failure_not_ecological_result"]
+          print("PLOS_ORIGINAL_URI_DIAG_RESULT",r["status"])
+          PY
+      - name: "Archive only true/false original issuer URL predicate receipt"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-plos-publisher-issuer-uri-flags-only
+          path: WEISS2016_ORIGINAL_REDIRECT_FLAGS_ONLY/
+          if-no-files-found: warn
