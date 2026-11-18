@@ -103,13 +103,20 @@ def known_truth():
     for invalid in (
         demo.replace("https://","http://"),
         demo.replace(R2_HOST,"evil.example.org"),
-        demo+"?token=1",
         demo.replace("/original-object-S1.doc","/../private"),
     ):
         try:
             validate_original_r2_location(invalid,sha=hashlib.sha256(invalid.encode()).hexdigest())
             raise AssertionError("unauthorized PLOS issued location allowed")
         except SourceStop:pass
+    # An issuer query is legal ONLY as part of the exact entire pinned URI.
+    signed=demo+"?source-issued-query=1"
+    signed_sha=hashlib.sha256(signed.encode()).hexdigest()
+    assert validate_original_r2_location(signed,sha=signed_sha)==signed
+    try:
+        validate_original_r2_location(signed,sha=sh)
+        raise AssertionError("changed issuer query was not rejected")
+    except SourceStop:pass
     print("SYNTHETIC_PLOS_ORIGINAL_R2_LOCATION_PINNING_AND_NO_BIOLOGY_PASS")
 
 def main():
