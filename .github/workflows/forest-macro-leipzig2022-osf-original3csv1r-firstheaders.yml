@@ -1,0 +1,60 @@
+name: "Forest macro Leipzig 2022 OSF ORIGINAL 3CSV1R headers and R-method ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/haack2022_leipzig_osf_firstheaders_rmethod_gate.py"
+      - "docs/FOREST_LEIPZIG2022_OSF_9DHZW_ORIGINAL_CSV_HEADER_AND_AUTHOR_R_METHOD_GATE_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-leipzig2022-osf-original3csv1r-firstheaders.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_csv_header_and_R_code_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic three CSV headers and source-R code grammar without biological rows"
+        run: |
+          python analysis/forest_macro_global/haack2022_leipzig_osf_firstheaders_rmethod_gate.py --test
+      - name: "Original official OSF 9dhzw four-file first-header and R-script method source ONLY"
+        run: |
+          python analysis/forest_macro_global/haack2022_leipzig_osf_firstheaders_rmethod_gate.py --out LEIPZIG2022_OSF_3CSV1R_SOURCE_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("LEIPZIG2022_OSF_3CSV1R_SOURCE_ONLY/Haack2022_OSF9dhzw_original3CSV1R_headers_R_method_only.json")
+          r=json.loads(p.read_text())
+          assert r["original_species_taxon_trap_OR_community_value_rows_ACCESSED"]==0
+          assert r["original_ground_vs_canopy_preservative_CONFOUNDED"]
+          assert r["all_earlier_England_Carpathian_Finland_Thai_PREDICTS_NEON_BALA_GEB_biology_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_publisher_file_header_and_R_code_only_receipts" in r:
+              d=r["original_publisher_file_header_and_R_code_only_receipts"]
+              assert d["source_original_exact_total_downloaded_4files_bytes"]==813317
+              assert d["source_original_file_structure_count"]=={"original_csv":3,"original_R":1}
+              assert d["original_source_sample_or_beetle_biological_response_rows_READ"]==0
+              assert d["original_files_filenames_URIs_fileIDs_or_raw_headers_NOT_EXPORTED"]
+              for file in d["source_original_file_first_headers_and_R_method_aggregates"]:
+                  assert file["original_catalog_byte_count_verified"]
+                  if file["original_file_type"]==".csv":
+                      assert file["original_csv_data_rows_READ"]==0
+                      assert file["original_csv_raw_field_names_NOT_EXPORTED"]
+                  else:
+                      assert file["author_original_R_script_NOT_EXECUTED"]
+          else:
+              assert r["source_access_or_schema_STOP_not_ecological_null"]
+          print("ORIGINAL_OSF_LEIPZIG2022_AUTHOR_SOURCE_ONLY",r["status"])
+          PY
+      - name: "Archive only original OSF first-field method provenance and SHA receipts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-leipzig2022-OSF-original3CSV1R-header-method-only
+          path: LEIPZIG2022_OSF_3CSV1R_SOURCE_ONLY/
+          if-no-files-found: warn
