@@ -230,7 +230,7 @@ def known_truth():
     aa,cc=get_columns(b,12,REQUIRED_CLIMATE)
     r=id_rows_from_original_bytes(b,aa,cc,"climate")
     assert r["source_original_unique_Block_Plot_candidate_physical_sites"]==1
-    assert r["source_original_expected_three_shades_per_observed_Block_Plot_sites_n"]==3 if False else True
+    assert r["source_original_expected_three_shades_per_observed_plot_candidate_n"]==3
     assert r["source_original_CTIRichness_temperature_resource_original_values_SEMANTICALLY_READ"]==0
     assert "SECRET_CLIMATE" not in json.dumps({k:v for k,v in r.items() if not k.startswith("_private")})
     s=("Block;Plot;Log;Sampling_date;Species;Number;STI\n"+
