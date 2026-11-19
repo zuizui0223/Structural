@@ -84,7 +84,7 @@ def synthetic():
     from sweden6_slu_original_three_file_header_gate import README_KEYWORDS
     assert first_header_only(orig_species,7)["original_HEADER_exact_author_field_names"]==SPECIES_HEADERS
     assert first_header_only(climate,12)["original_HEADER_exact_author_field_names"][:3]==["Block","Plot","Shade"]
-    assert hashlib.sha256(first_line_bytes(orig_species)).hexdigest()!=SPECIES_HEADER_SHA256
+    assert hashlib.sha256(first_line_bytes(orig_species)).hexdigest()==SPECIES_HEADER_SHA256  # synthetic intentionally uses the exact frozen original header
     assert README_CRITICAL
     out=json.dumps(first_header_only(orig_species,7))
     assert "HIDDEN_BIOLOGICAL_RESPONSE" not in out
