@@ -1,0 +1,54 @@
+name: "Forest macro Sweden6 original Block Plot codebook conflict diagnosis only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_block_plot_conflict_diagnostic.py"
+      - "docs/FOREST_SWEDEN6_BLOCK_PLOT_AUTHOR_CODEBOOK_CONFLICT_SOURCE_DIAGNOSTIC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-blockplot-conflict-diagnostic-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_original_ids_only_diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author Plot codebook mismatch and species-value firewall"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_block_plot_conflict_diagnostic.py --test
+      - name: "Original source Block Plot Shade and Log ID columns ONLY"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_block_plot_conflict_diagnostic.py --out SLU_SWEDEN6_BLOCKPLOT_DIAG
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          d=json.loads(Path("SLU_SWEDEN6_BLOCKPLOT_DIAG/SLU_sweden6_original_BlockPlot_2025SOURCE_conflict_diagnosis.json").read_text())
+          assert d["previous_SLUpublisher_BLOCKPLOT_assumption_STOP_UNCHANGED"]
+          assert d["source_original_species_environment_biological_values_SEMANTICALLY_READ"]==0
+          assert d["source_original_treated_sunshade_as_HORIZONTAL_not_canopyheight"]
+          assert d["source_historical_England_Finland_Carpathian_Thai_NEON_PREDICTS_BALA_GEB_outcomes_UNCHANGED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          if "source_original_ID_conflict_diagnosis_aggregates_only" in d:
+              s=d["source_original_ID_conflict_diagnosis_aggregates_only"]
+              assert s["old_strict_BLOCK_PLOT_codebook_scientific_STOP_PRESERVED"]
+              assert s["source_beetle_species_number_STI_original_values_SEMANTICALLY_READ"]==0
+              assert s["source_temperature_CTIRichness_BarkDiameter_original_values_SEMANTICALLY_READ"]==0
+              assert not s["new_biological_or_holdout_effect_COMPUTED"]
+              assert s["original_site_taxon_specimen_values_NOT_EXPORTED"]
+          else:
+              assert d["source_method_or_original_format_STOP_NOT_ECOLOGICAL_NULL"]
+          print("SLU_ORIGINAL_SAMPLE_ID_CONFLICT_SOURCE_ONLY",d["status"])
+          PY
+      - name: "Archive only source anonymized plot-code diagnostic counts and SHA receipts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-sweden6-original-blockplot-codebook-conflict-diagnostic
+          path: SLU_SWEDEN6_BLOCKPLOT_DIAG/
+          if-no-files-found: warn
