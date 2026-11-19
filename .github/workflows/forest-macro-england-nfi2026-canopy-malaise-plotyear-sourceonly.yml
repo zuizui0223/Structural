@@ -1,0 +1,56 @@
+name: "Forest macro England NFI2026 Canopy/Malaise plot-year metadata pairing ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/england_nfi2026_author_canopy_malaise_plotyear_pairing.py"
+      - "docs/FOREST_NFI_ENGLAND_2026_ORIGINAL_CANOPY_MALAISE_PLOT_YEAR_PAIRING_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-england-nfi2026-canopy-malaise-plotyear-sourceonly.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_original_pairing_without_taxon_outcomes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original Canopy/Malaise site year effort and OTU sealing tests"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_author_canopy_malaise_plotyear_pairing.py --test
+      - name: "Original publisher SHA-fixed 24-field NFI sample metadata only"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_author_canopy_malaise_plotyear_pairing.py --out NFI2026_CANOPY_MALAISE_PLOT_YEAR_SOURCE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("NFI2026_CANOPY_MALAISE_PLOT_YEAR_SOURCE/England_NFI2026_author_Canopy_Malaise_plotyear_sourceonly.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["original_328col_biological_response_rows_READ"]==0
+          assert r["publisher_Lindgren_canopy_Malaise_subcanopy_METHOD_CONFOUNDED"]
+          assert r["earlier_Lindgren_literal_0_and_Other166_CLASSIFICATION_PRESERVED"]
+          assert r["all_earlier_Finland_Carpathian_Chiu_PREDICTS_Thai_NEON_BALA_GEB_outcomes_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_sample_only_Canopy_Malaise_PlotID_year_results" in r:
+              d=r["original_sample_only_Canopy_Malaise_PlotID_year_results"]
+              assert d["source_layer_vs_trap_method_PERFECTLY_CONFOUNDED"]
+              assert d["original_328col_OTU_species_sample_response_rows_READ"]==0
+              assert d["source_region_plotyear_BOTH_with_overlapping_original_deployments"] <= d["source_region_plotyear_BOTH_source_methods"]
+              assert d["source_region_plotyear_BOTH_with_overlapping_yes_yes_original_deployment"] <= d["source_region_plotyear_BOTH_with_overlapping_original_deployments"]
+              assert d["source_region_plotyear_BOTH_with_numeric_trap_height_on_each_method"] <= d["source_region_plotyear_BOTH_source_methods"]
+              assert not d["new_species_biodiversity_or_thermal_3D_effect_estimated"]
+          else:
+              assert r["no_ecological_species_or_paired_result_eligible"]
+          print("NFI_CANOPY_MALAISE_SOURCE_METADATA_ONLY",r["status"])
+          PY
+      - name: "Upload anonymous plot-year candidate sampling frame, no 328-column species rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-england-nfi2026-canopy-malaise-plotyear-metadata-only
+          path: NFI2026_CANOPY_MALAISE_PLOT_YEAR_SOURCE/
+          if-no-files-found: warn
