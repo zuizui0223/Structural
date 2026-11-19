@@ -1,0 +1,33 @@
+# Sweden six-region saproxylic beetles × original measured microclimate × spruce substrate (2026-11-19)
+
+## Main question and new authentic source
+
+After England NFI's frozen `ORIGINAL_NFI2026_WITHIN_REGION_YEAR_EXCHANGEABILITY_SINGLETON_STOP` (original OTU species rows still sealed), pursue **independent real co-observation** of thermal and resource conditions. The Swedish University of Agricultural Sciences (SLU) deposited **Micro- and macroclimatic temperature with species data of saproxylic beetles in Swedish forests**, DOI [10.5878/dhmc-bq15](https://doi.org/10.5878/dhmc-bq15), original [SLU eArchive item 496e1831-2cb9-490a-8957-0ed8754658a8](https://earchive.slu.se/items/496e1831-2cb9-490a-8957-0ed8754658a8) (published 2025-05-20), under the reported open-access researchdata.se catalogue.
+
+Official project README [SLU bitstream](https://earchive.slu.se/bitstreams/9c008aa7-2dba-42ff-9c42-9ade88afbf66/download) states:
+- **SIX geographic study blocks** spanning 1,200 km of Sweden, five original plots per block (**30 physical plots**) with **three shade treatments** per plot (sun, half shade, shade). Source `boreal_forest_climate_data.csv` has **88 original plot×shade summary rows** and 12 declared columns (nominal 30×3=90, TWO fewer source rows — do not invent missing combinations).
+- 2020 hourly temperatures were logged under spruce log bark and air at ~1.3 m; original summary includes micro and macro temperatures, bark remaining, spruce log diameter, regional climate, plot aspect, community temperature index (CTI), richness and aggregate abundance.
+- 2021 beetles collected from standardized spruce logs, originally **435** source experimental spruce logs across **six blocks**, article [Goßmann et al. 2024 DOI 10.1111/ddi.13836](https://doi.org/10.1111/ddi.13836) already examined macro temperature × shade effects. The author's `specieslist_xylo.csv` has 3,460 originally reported source records and six columns including log number, sampling date, taxon and count. **No zero-detection log events or unique 435 log source IDs have been verified yet.**
+- This is a potentially strong independent **resource-present thermal sorting** data source, but **NOT vertically paired canopy/understory sampling** and NOT independently varying woody host tree identity (spruce everywhere). It can only test the thermal filter *conditional on available spruce*, not whether a thermally suitable height is blocked by missing hostwood or a 3D rescue route.
+
+**Prior art:** source authors already reported regional temperature × shade, diversity and CTI patterns; those must not be represented as discoveries of Structural. The future opportunity, subject to original site/log/temporal source gates, is a specifically **held-out geographic region predictive improvement** from measured substrate microclimate and original wood properties beyond climate/shade, a different estimand from the published within-sample association. Six regional blocks limit population-level inference.
+
+## Stage 1: ORIGINAL publisher official 3-bitstream, source-only first headers
+
+Before any beetle or plot summary *DATA ROW* is read:
+
+1. Read **exactly** publisher-issued original HTTPS static bitstreams linked from SLU eArchive:
+   - `boreal_forest_climate_data.csv`: `https://earchive.slu.se/bitstreams/cac76f42-041f-489a-a568-7d92c0c7941d/download`.
+   - `specieslist_xylo.csv`: `https://earchive.slu.se/bitstreams/4394f565-ede9-457b-a1b1-c4e5d042cb88/download`.
+   - `readme.txt`: `https://earchive.slu.se/bitstreams/9c008aa7-2dba-42ff-9c42-9ade88afbf66/download`.
+   The redirects may go to the **same** SLU `earchive.slu.se` official `/server/api/core/bitstreams/{id}/content` endpoint. No mirror, signed-URL hacking, alternative repository, web crawler retry, tokens or private dataset access.
+2. Cap each stream at 1 MiB, reject HTML/login/JSON/error and require HTTPS official host through final redirect. Record exact original bytes and SHA256 as newly measured integrity receipts. Original two CSV bodies remain opaque byte sequences; only the **first physical header line** from each is decoded and CSV-parsed (BOM-aware) to report exact original field names and count, no taxon/sample/site values or numeric data rows. Require source 12-column vs six-column header widths, nonempty unique fields, no row sampling. Parse author original README as source **methodology only**, not biological response.
+3. Original source method authorization for later stage requires headers to expose author block, plot, shade, log, date, species/count and explicit micro/macro temperature and bark/diameter fields. Do not resolve exact join keys merely from declaration; separate *precommitted sample-unit and date* gate must inspect nonresponse identifiers before first beetle values. A source header match is not evidence 435 unique logs, 88 independent sites or measured microclimate at exact beetle sampling year.
+4. The source observed thermal logger measurements occurred in **2020** and beetles were collected in **2021**; thus measured temperature is a prior-year microclimatic proxy, **not beetle-day colocated temperature**. Be explicit. Plot×shade is a nested scale, not independent forest block; no causal warming or actual escape.
+5. Admitted metadata result `SOURCE_SWEDEN6_SLU_ORIGINAL_THREE_FILE_HEADERS_PASS` means official original file bytes and first headers authenticated; no biological effects. Stop on any source corruption/missing headers/format. **Do not open or fit any original biological response in this stage**, even if all file checks pass.
+
+## Future prospective holdout (not yet fitted)
+
+Once independent source author hierarchy/site×shade and effective effort is verified, predefine `E0 = regional climate + shade + original plot/measurement effort`, `E1 = E0 + measured 2020 under-bark microclimate`, `E2 = E1 + bark remaining + spruce log diameter` at exactly compatible physical grain. Evaluate independent leave-one-of-six-region-out prediction of **2021 recorded beetle community** (or a clearly fixed and independently checkable species response). Avoid already published CTI/richness association reclaims and leakage from computing CTI using heldout beetle values. Pre-response exact null, trait ontology, holdout loss and uncertainty must be committed separately. If source site keys, zero-catch log opportunity, within-region support or climate/host measurements are not commensurable, scientific STOP rather than relaxing after outcomes.
+
+Earlier Finland142 Host_tree/wood positive, Carpathian116 trophic guild/wood negative, PREDICTS forest modification, Thailand/Brisbane/NEON, UK NFI, BALA, GEB outcomes are frozen. No eBird, no TinyFish, no main merge. PR #469 remains DRAFT.
