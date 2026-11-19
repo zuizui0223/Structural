@@ -1,0 +1,52 @@
+name: Forest macro evidence generality aggregate-only audit
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-20261119-generality-sourcefree-audit.yml"
+      - "analysis/forest_macro_global/verify_forest_macro_20261119_sourcefree.py"
+      - "docs/FOREST_MACRO_20261119_GENERALITY_AND_NOVELTY_SOURCEFREE_SYNTHESIS.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-20261119-generality-sourcefree-audit.yml"
+      - "analysis/forest_macro_global/verify_forest_macro_20261119_sourcefree.py"
+      - "docs/FOREST_MACRO_20261119_GENERALITY_AND_NOVELTY_SOURCEFREE_SYNTHESIS.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-free-receipt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Checkout pinned committed aggregate-audit source
+        uses: actions/checkout@v4
+      - name: Test frozen aggregate arithmetic without original biological data
+        run: |
+          python3 analysis/forest_macro_global/verify_forest_macro_20261119_sourcefree.py --out /tmp/forest_general_sourcefree_receipt.json
+      - name: Fail closed on an unearned ecological replication claim
+        run: |
+          python3 - <<'PY'
+          import json
+          p='/tmp/forest_general_sourcefree_receipt.json'
+          x=json.load(open(p,encoding='utf-8'))
+          assert x['status']=='PASS_FROZEN_AGGREGATE_ARITHMETIC_AND_NO_POOL_FIREWALL'
+          assert x['original_biological_source_rows_opened']==0
+          assert x['new_models_fitted']==0
+          assert x['new_independent_transfer_tests']==0
+          assert x['not_meta_analysis'] is True
+          assert x['not_universal_resource_mechanism'] is True
+          assert x['recomputed']['PREDICTS_supported_biomes']==2
+          assert x['same_original_source_not_independent']['sweden_cti']==x['same_original_source_not_independent']['sweden_richness']
+          print('SOURCE_FREE_GENERALITY_AUDIT_PASS; NOT_NEW_BIOLOGY')
+          PY
+      - name: Store only previously frozen aggregate arithmetic
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-20261119-sourcefree-generality-receipt
+          path: /tmp/forest_general_sourcefree_receipt.json
+          if-no-files-found: error
