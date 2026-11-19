@@ -1,0 +1,52 @@
+name: "Forest macro Leipzig 2022 original OSF9dhzw file manifest ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/haack2022_leipzig_osf_source_manifest_only.py"
+      - "docs/FOREST_LEIPZIG2022_OSF_9DHZW_SOURCE_ONLY_GATE_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-leipzig2022-osf9dhzw-source-manifest-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_OSF_public_metadata_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic OSF original node/providers metadata without original species rows"
+        run: |
+          python analysis/forest_macro_global/haack2022_leipzig_osf_source_manifest_only.py --test
+      - name: "Official OSF project 9dhzw exact GET and public storage manifest only"
+        run: |
+          python analysis/forest_macro_global/haack2022_leipzig_osf_source_manifest_only.py --out LEIPZIG2022_OSF_SOURCE_ONLY
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("LEIPZIG2022_OSF_SOURCE_ONLY/Haack2022_Leipzig_OSF9dhzw_original_public_metadata_only.json").read_text())
+          assert r["source_original_species_OTU_OR_trap_measurement_DATA_ROWS_READ"]==0
+          assert r["source_original_field_study_Leipzig_one_forest"]
+          assert r["source_original_canopy_understory_preservative_confound"]
+          assert r["source_previous_England_NFI_Carpathian_Finland_PREDICTS_Thai_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "source_original_publisher_public_root_metadata_receipts_ONLY" in r:
+              d=r["source_original_publisher_public_root_metadata_receipts_ONLY"]
+              assert d["original_OSF_verified_project"]["source_original_node_explicit_public"]
+              assert d["original_OSF_storage_root_inventory"]["original_species_or_trap_ORIGINAL_FILE_CONTENT_ROWS_OPENED"]==0
+              assert d["original_OSF_storage_root_inventory"]["original_file_names_or_file_IDs_NOT_EXPORTED"]
+          else:
+              assert r["source_metadata_access_OR_schema_STOP_not_ecological_null"]
+          print("LEIPZIG_OSF9DHZW_OFFICIAL_SOURCE_METADATA_ONLY",r["status"])
+          PY
+      - name: "Archive only anonymous source metadata and stop/pass receipt, never raw species"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-leipzig2022-OSF-original-root-metadata-only
+          path: LEIPZIG2022_OSF_SOURCE_ONLY/
+          if-no-files-found: warn
