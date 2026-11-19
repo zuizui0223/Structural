@@ -1,0 +1,51 @@
+name: "Forest macro Sweden6 SLU species original FIRST HEADER diagnostic ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_species_original_header_diagnostic.py"
+      - "docs/FOREST_SWEDEN6_ORIGINAL_SPECIES_FIRST_HEADER_DIAGNOSTIC_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-species-first-header-diagnostic.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_species_csv_header_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic one-line diagnosis, raw biology unread"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_species_original_header_diagnostic.py --test
+      - name: "One official publisher source GET: species original header ONLY"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_species_original_header_diagnostic.py --out SWEDEN6_SOURCE_DIAG
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("SWEDEN6_SOURCE_DIAG/Sweden6_SLU_original_species_first_header_diagnostic.json").read_text())
+          assert r["prior_6_column_script_STOP_NOT_REVISED"]
+          assert r["original_climate_wood_beetle_response_ROWS_READ"]==0
+          assert r["all_previous_Structural_forest_biology_outcomes_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_source_single_file_FIRST_HEADER_DIAGNOSIS" in r:
+              x=r["original_source_single_file_FIRST_HEADER_DIAGNOSIS"]
+              assert x["source_original_species_rows_SEMANTICALLY_READ"]==0
+              assert x["original_first_header_only_source_diagnosis"]
+              assert x["original_species_names_abundances_log_IDs_or_readcounts_EXPORTED"] is False
+          else:
+              assert r["source_or_format_STOP_not_ecological_null"]
+          print("SLU_ORIGINAL_FIRST_HEADER_DIAGNOSTIC",r["status"])
+          PY
+      - name: "Archive only original CSV header grammar and SHA, no data rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-sweden6-SLU-species-original-firstheader-diag
+          path: SWEDEN6_SOURCE_DIAG/
+          if-no-files-found: warn
