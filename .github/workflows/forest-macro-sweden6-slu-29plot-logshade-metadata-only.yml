@@ -1,0 +1,53 @@
+name: "Forest macro Sweden6 original 29plot×logshade source ID-only audit"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_block_plot_log_shade_source_id_audit.py"
+      - "docs/FOREST_SWEDEN6_SOURCE_PUBLISHED_29PLOT_NAMED_KEY_IDENTITY_AUDIT_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-29plot-logshade-metadata-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_only_original_unit_and_author_shade_join:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author Block Plot Log shade identity and no original response field"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_block_plot_log_shade_source_id_audit.py --test
+      - name: "Original SLU two CSV headers and ONLY source sample identifier columns"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_block_plot_log_shade_source_id_audit.py --out SWEDEN6_SITE_LOGSHADE_SOURCE_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("SWEDEN6_SITE_LOGSHADE_SOURCE_ONLY/SLU_sweden6_original_29plot_logshade_site_identity_only.json").read_text(encoding="utf-8"))
+          assert d["historical_6species_header_and_climate_first3_source_STOPS_RETAINED"]
+          assert d["source_original_beetle_Species_Number_STI_and_climate_CTIRichness_read"]==0
+          assert d["source_original_3_shades_HORIZONTALLY_NOT_VERTICALLY_separated"]
+          assert d["historical_England_Finland_Carpathian_PREDICTS_Thai_NEON_BALA_GEB_UNCHANGED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          if "original_source_site_and_experiment_identity_anonymous_ONLY" in d:
+              x=d["original_source_site_and_experiment_identity_anonymous_ONLY"]
+              assert x["source_original_author_log_shade_dictionary15_to3_FROZEN_BEFORE_SAMPLE_IDS"]
+              assert x["source_original_biological_or_numeric_environment_eyes_opened"] is False
+              assert x["source_original_climate_ID_unit_checks"]["source_original_CTIRichness_temperature_resource_original_values_SEMANTICALLY_READ"]==0
+              assert x["source_original_species_ID_unit_checks"]["source_original_species_abundance_STI_original_values_SEMANTICALLY_READ"]==0
+          else:
+              assert d["original_key_or_file_quality_STOP_not_ecological_null"]
+          print("SWEDEN6_SOURCE_PHYSICAL_SHADE_LOG_ID_AUDIT_ONLY",d["status"])
+          PY
+      - name: "Archive anonymized sample hierarchy checks and source SHA, no taxon values"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden6-SLU-original-29plot-logshade-source-only
+          path: SWEDEN6_SITE_LOGSHADE_SOURCE_ONLY/
+          if-no-files-found: warn
