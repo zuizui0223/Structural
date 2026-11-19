@@ -48,6 +48,15 @@ A future independent method validation must compare:
 4. **Holdout & scale:** freeze source-independent region/stand/site/time folds, overlap/positive-support gates, additive loss metric and exact source/response-blind unit fingerprint before outcomes; fit preprocessing only in train blocks.
 5. **Interpretation:** separately report variable increment, all-carrier information closure, data adequacy, missingness/observation audit and true out-of-region transfer. Do not infer causal tree competition, resource limitations or cross-forest universality from an observational predictive increment.
 
+
+## New SDMR synthetic prospective method evidence (independent of forest sources)
+
+The separately source-locked **2026-11-19** SDMR known-truth programme opened unused seeds 96001–96010 across eight fixed synthetic worlds (80 cases). Its prespecified all-carrier plus source-audit rule recovered **30/30** known-positive process-information targets, with **0/50** false favorable calls in null/unsafe targets. The single-variable spatial comparator recovered 20/30 with 29/50 false calls; all-carrier without the observation-quality gate recovered 30/30 but retained 4/50 false calls. Selection-confounded 10/10 remained unresolved, omitted-driver 10/10 unavailable, shared-carrier 10/10 recovered. All registered gates passed.
+
+[Original single opening](https://github.com/zuizui0223/sdmr/actions/runs/44432358638) and [independent saved-score no-refit audit](https://github.com/zuizui0223/sdmr/actions/runs/44432841484), with exact digests and limitations in [SDMR's terminal record](https://github.com/zuizui0223/sdmr/blob/method/structural-context-closure-v1-20261118/docs/SDMR_STRUCTURAL_KT_PROSPECTIVE_V1_TERMINAL.md).
+
+**Do not convert this to Structural biology confirmation.** The synthetic generator supplies its own observation-selection quality indicator; this is not a learned unknown-bias detector. Strong performance across random draws from the same predeclared eight world families does not prove species, biome, movement-operator or data-source portability. The connection to Structural is a **method interface to test**, not a pooled ecological effect or permission to open its old sealed responses.
+
 ## Current handoff
 
 **No request to merge datasets or original empirical effects.** Structural can consume SDMR's typed evidence schema as an optional future adapter after its own response/source gates pass; the immediate handoff is methodology and synthetic tests. The existing Structural forest PR #469 remains draft and its source seals unchanged. A later, independent Structural ecology manuscript remains an orthogonal project, not evidence for SDMR's frozen M5 positive results.
