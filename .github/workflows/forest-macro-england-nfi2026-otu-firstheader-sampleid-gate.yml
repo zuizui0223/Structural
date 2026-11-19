@@ -1,0 +1,55 @@
+name: "Forest macro England NFI2026 OTU first-header vs 316 sample IDs ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/england_nfi2026_otu_header_sampleid_sourcecrosswalk.py"
+      - "docs/FOREST_NFI_ENGLAND_2026_328COL_SAMPLE_HEADER_EXACT_JOIN_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-england-nfi2026-otu-firstheader-sampleid-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_328_header_only_vs_sample_metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic private SampleID and OTU-row-seal source crosswalk"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_otu_header_sampleid_sourcecrosswalk.py --test
+      - name: "Original 328-column FIRST HEADER vs 24-source SampleID only, no biology"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_otu_header_sampleid_sourcecrosswalk.py --out NFI2026_328_FIRST_HEADER_SAMPLE_SOURCE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("NFI2026_328_FIRST_HEADER_SAMPLE_SOURCE/England_NFI2026_328header_316_sampleID_exact_source_gate.json")
+          x=json.loads(p.read_text())
+          assert x["no_328wide_original_taxon_OR_readcount_biology_ROWS_READ"]
+          assert x["old_Finland_Carpathian_Chiu_PREDICTS_Thai_NEON_BALA_GEB_original_scores_NOT_REOPENED"]
+          assert x["method_layer_unchanged_CONFOUNDED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "source_header_only_sample_source_matching_aggregates" in x:
+              d=x["source_header_only_sample_source_matching_aggregates"]
+              assert d["source_original_328_field_species_OTU_readcount_DATA_ROWS_OPENED"]==0
+              assert d["original_328_wide_CSV_first_header_field_count"]==328
+              assert d["source_original_316_yes_ids_MISSING_from_wide_header"]>=0
+              assert d["source_candidate_region_plot_year_groups_with_exact_header_MATCHED_both_yes_concurrent"]<=77
+              assert d["source_method_and_vertical_layer_PERFECTLY_CONFOUNDED"]
+              assert d["source_original_OTU_species_counts_and_any_ecological_score_NOT_COMPUTED"]
+          else:
+              assert x["source_taxonomy_or_original_format_stop_NOT_ecological_null"]
+          print("NFI328WIDE_ORIGINAL_FIRST_HEADER_ONLY_SAMPLE_MATCH",x["status"])
+          PY
+      - name: "Archive only anonymous source first-header sample crosswalk and SHA"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-england-nfi2026-otu-header-316-sampleid-sourceonly
+          path: NFI2026_328_FIRST_HEADER_SAMPLE_SOURCE/
+          if-no-files-found: warn
