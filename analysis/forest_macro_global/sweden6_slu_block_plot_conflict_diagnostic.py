@@ -192,7 +192,7 @@ def synthetic():
             "Block","Plot","Log","Sampling_date","Species","Number","STI"]}
     c=inspect_nonresponse_rows(climate,h1,("Block","Plot","Shade"),"climate")
     b=inspect_nonresponse_rows(species,h2,("Block","Plot","Log","Sampling_date"),"beetles")
-    assert c["source_original_unique_numeric_Block_Plot_keys"]==2
+    assert c["source_unique_numeric_Block_Plot_keys"]==2
     assert c["source_original_Block_Plot_pair_keys_outside_published_codebook"]==0
     assert c["source_climate_key_triplets_missing_from_three_per_observed_plot"]==3
     assert b["source_species_file_DISTINCT_log_ID_keys_with_positive_source_records"]==2
