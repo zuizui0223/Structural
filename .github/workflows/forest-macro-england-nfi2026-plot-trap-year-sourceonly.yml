@@ -1,0 +1,58 @@
+name: "Forest macro England NFI2026 original plot-trap-year metadata ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/england_nfi2026_plot_trap_year_metadata_only.py"
+      - "docs/FOREST_NFI_ENGLAND_2026_AUTHOR_PLOT_TRAP_YEAR_METADATA_ONLY_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-england-nfi2026-plot-trap-year-sourceonly.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_metadata_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source-key, time-pair, taxon sealing and privacy tests"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_plot_trap_year_metadata_only.py --test
+      - name: "One SHA-pinned original England NFI 24-column sampling metadata audit"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_plot_trap_year_metadata_only.py --out NFI2026_ORIGINAL_PLOT_METHOD_METADATA
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("NFI2026_ORIGINAL_PLOT_METHOD_METADATA/England_NFI2026_original_plot_method_year_metadata_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["original_328col_OTU_response_rows_OPENED"]==0
+          assert not x["original_coordinates_or_sample_ID_values_output"]
+          assert x["Lindgren_canopy_Malaise_subcanopy_vertical_effect_NONIDENTIFIABLE"]
+          assert x["all_old_Finland_Carpathian_Chiu_PREDICTS_Thai_NEON_BALA_GEB_scoring_UNCHANGED"]
+          assert not x["new_biodiversity_effect_scored"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "source_original_metadata_diagnostics_ANONYMOUS_ONLY" in x:
+              d=x["source_original_metadata_diagnostics_ANONYMOUS_ONLY"]
+              assert d["original_328col_OTU_species_biological_table_data_rows_READ"]==0
+              assert d["original_metadata_coordinate_and_comment_columns_NOT_SEMANTICALLY_USED"]
+              assert d["source_Lindgren_canopy_vs_Malaise_subcanopy_TRAP_METHOD_CONFOUNDED"]
+              assert sum(d["source_trap_type_frozen_token_class_histogram"].values())==d["original_24column_metadata_rows"]
+              assert d["source_candidates_plot_year_BOTH_methods_same_deployment_overlap"] <= d["source_candidates_plot_year_BOTH_methods"]
+              assert d["source_candidates_plot_year_BOTH_methods_both_yes_AND_overlapping_deployment"] <= d["source_candidates_plot_year_BOTH_methods_same_deployment_overlap"]
+              assert d["new_biodiversity_effects_estimated"] is False
+          else:
+              assert x["source_STOP_no_biological_response_or_candidate_effects"]
+          print("ENGLAND_NFI2026_OFFICIAL_SOURCE_METADATA_ONLY_STATUS", x["status"])
+          PY
+      - name: "Archive anonymous field site / method diagnostics only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-england-nfi2026-plot-method-year-metadata-only
+          path: NFI2026_ORIGINAL_PLOT_METHOD_METADATA/
+          if-no-files-found: warn
