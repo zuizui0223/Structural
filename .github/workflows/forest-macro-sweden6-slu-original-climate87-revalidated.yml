@@ -1,0 +1,55 @@
+name: "Forest macro SLU Sweden6 original 87 climate environmental rows method-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_climate87_nonresponse_revalidated.py"
+      - "docs/FOREST_SWEDEN6_ORIGINAL_CLIMATE87_NONRESPONSE_REVALIDATION_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-original-climate87-revalidated.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen_original_87climate_nonresponse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-free 88-including-header vs 87-record truth"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate87_nonresponse_revalidated.py --test
+      - name: "Original 87 environment rows, CTI species and abundance outcomes sealed"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate87_nonresponse_revalidated.py --out SLU_SWEDEN6_ENV87_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("SLU_SWEDEN6_ENV87_ONLY/Sweden6_SLU_original_climate87_nonresponse_QA.json").read_text())
+          assert r["earlier_88data_record_original_SCISTOP_PRESERVED"]
+          assert r["original_3460_beetle_specimen_SOURCE_ROWS_READ"]==0
+          assert r["original_climate_CTI_species_richness_Totalab_BIOLOGY_FIELDS_READ"]==0
+          assert r["older_forest_island_biology_scores_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_nonresponse_block_plot_shade_87_QA" in r:
+              d=r["original_nonresponse_block_plot_shade_87_QA"]
+              assert d["source_original_climate_TABLE_rows"]==87
+              assert d["source_original_biological_CTI_richness_Totlab_COLUMNS_ACCESSED"]==0
+              assert d["source_original_beetle_SPECIES_FILE_ROWS_ACCESSED"]==0
+              assert d["source_original_full_csv_rows_including_header"]==88
+              assert d["source_author_6block_count"]==6
+              assert d["source_author_30block_plot_count"]==30
+          else:
+              assert r["original_environment_source_method_STOP_not_null_ecology"]
+          print("SLU_SWEDEN6_CORRECTED_NONRESPONSE_CLIMATE87",r["status"])
+          PY
+      - name: "Archive anonymized environmental unit support not original biology"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden6-slu-climate87-nonresponse-source
+          path: SLU_SWEDEN6_ENV87_ONLY/
+          if-no-files-found: warn
