@@ -1,0 +1,56 @@
+name: "Forest macro England NFI2026 ONE exploratory cross-method local OTU test"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/england_nfi2026_crossmethod_local_otu_onepass.py"
+      - "docs/FOREST_NFI_ENGLAND_2026_CROSS_METHOD_LOCAL_OTU_SIGNATURE_EXPLORATORY_ONEPASS_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-england-nfi2026-crossmethod-otu-local-signature-onepass.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_preregistered_sourceconditional_otu_response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Run synthetic OTU inclusion, numeric/zero, blocked Jaccard null and privacy checks"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_crossmethod_local_otu_onepass.py --test
+      - name: "One original source-gated 77 plot-year cross-method OTU signature endpoint"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_crossmethod_local_otu_onepass.py --out NFI2026_ONEPASS_BIOLOGICAL_AGGREGATE
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path("NFI2026_ONEPASS_BIOLOGICAL_AGGREGATE/NFI2026_frozen_original_77plot_OTU_crossmethod_local_signature.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["source_original_77paired_and_316columns_gate_FROZEN_BEFORE_OUTCOME"]
+          assert r["source_layer_method_CONFOUNDED"]
+          assert r["previous_biology_Finland_Carpathian_Chiu_PREDICTS_Thai_NEON_BALA_GEB_NOT_REOPENED"]
+          assert r["no_species_or_site_identifiers_exported"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "onepass_original_source_ecological_test" in r:
+              d=r["onepass_original_source_ecological_test"]
+              assert d["source_original_response_blind_design_gates"]["source_eligible_original_paired_site_year_groups"]==77
+              assert d["source_original_response_blind_design_gates"]["source_original_NFI_regions_in_paired_cohort"]==8
+              assert d["original_one_precommitted_cross_method_local_OTU_response_result"]["fixed_9999_within_source_region_year_label_permutations"]==9999
+              assert d["original_one_precommitted_cross_method_local_OTU_response_result"]["global_forest_thermal_3D_effect_NOT_ESTIMATED"]
+              assert d["original_raw_OTU_or_site_rows_SAVED_TO_REPO_OR_ARTIFACT"] is False
+          else:
+              assert r["source_or_method_quality_STOP_NOT_ecological_null"]
+              assert r["no_eligible_cross_method_response_effect"]
+          print("NFI_SOURCE_ORIGINAL_ONEPASS_CROSSMETHOD_OTU_STATUS",r["status"])
+          PY
+      - name: "Archive ONLY anonymous effect or exact scientific STOP, no original rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-england-nfi2026-crossmethod-otu-original-onepass
+          path: NFI2026_ONEPASS_BIOLOGICAL_AGGREGATE/
+          if-no-files-found: warn
