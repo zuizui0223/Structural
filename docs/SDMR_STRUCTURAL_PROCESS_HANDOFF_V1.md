@@ -21,7 +21,7 @@ After an adequate, declared reference R for a particular held-out endpoint Y is 
 
 ## Relevant observed forest results (separate, NOT pooled)
 
-**SDMR FIA:** Five previously fixed tree taxa have positive *within-county spatial* stand-basal-area predictive increments under equal-plot weighting: P. strobus +2.503%, A. rubrum +1.095%, Q. alba +0.823%, Q. rubra +1.521%, Q. velutina +0.825%. In the *same* selected survivor cohort, a stricter within-plot observed change comparison retained only 2/5 positive point increments, and 1/5 nominal postfit intervals excluding zero. **Same animals?** These are repeated plots/trees within one FIA data lineage; not independent samples or evidence of causal crowding.
+**SDMR FIA:** Five previously fixed tree taxa have positive *within-county spatial* stand-basal-area predictive increments under equal-plot weighting: P. strobus +2.503%, A. rubrum +1.095%, Q. alba +0.823%, Q. rubra +1.521%, Q. velutina +0.825%. In the *same* selected survivor cohort, a stricter within-plot observed change comparison retained only 2/5 positive point increments, and 1/5 nominal postfit intervals excluding zero. **Independence limit:** These are repeated plots/trees within one FIA data lineage; not independent samples or evidence of causal crowding.
 
 **Structural Finland:** 142 original field sites, nine geographic cells; including source-measured deadwood VD10 yields +0.00024237 in cell-equal out-of-cell Hellinger² composition error (conditional p=.0150, retrospective). **Structural Germany:** six parent plots in one Steigerwald forest, shade+offered host identity versus shade only improves Hellinger² by +0.019699892; 6/6 plot effects positive (conditional p=.03125). These are not equal endpoints to FIA tree-growth RMSE, and do not establish universal host-resource causality. Original literature had already studied host wood preferences.
 
@@ -42,7 +42,7 @@ A future independent method validation must compare:
 
 ## Adapter requirements (enforce before any response access)
 
-1. **Identity & grain:** original original-source archive SHA, physical forest/stand/plot identity; nested traps, sessions, trees, years and multi-guild rows never become independent geographic units.
+1. **Identity & grain:** original-source archive SHA, physical forest/stand/plot identity; nested traps, sessions, trees, years and multi-guild rows never become independent geographic units.
 2. **Response/effort:** exact original sampling dates, methods, effort, true zero-catch/absence frame, survival/harvest/attrition states and organism ontology, with non-estimable as a valid outcome.
 3. **Reference & information-carrier registry:** predeclare process taxonomy (e.g. `stand_structure`, `deadwood_amount`, `host_resource_identity`, `thermal`, `moisture`, `site_history`) and many-to-many proxy links; a shared canopy/resource proxy must be removed from *every* declared route for the corresponding process closure.
 4. **Holdout & scale:** freeze source-independent region/stand/site/time folds, overlap/positive-support gates, additive loss metric and exact source/response-blind unit fingerprint before outcomes; fit preprocessing only in train blocks.
