@@ -6,6 +6,7 @@ on:
       - analysis/forest-macro-plot-environment
     paths:
       - ".github/workflows/forest-macro-betafor11-otu-firstheader-sourceonly.yml"
+      - "analysis/forest_macro_global/betafor11_otu_original_firstheader_only.py"
   workflow_dispatch:
 
 permissions:
