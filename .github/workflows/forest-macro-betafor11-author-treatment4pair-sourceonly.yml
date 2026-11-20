@@ -1,0 +1,59 @@
+name: Forest macro BETA-FOR source original A/D four wood-treatment pair gate
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-author-treatment4pair-sourceonly.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-original-treatment-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic author-original patch treatment pairing and time rules
+        run: |
+          python3 analysis/forest_macro_global/betafor11_author_treatment_pairs_sourceonly.py --test
+      - name: Verify original 594-row treatment source method ONLY
+        run: |
+          python3 analysis/forest_macro_global/betafor11_author_treatment_pairs_sourceonly.py --out betafor11_original_treatment_method/receipt.json
+      - name: No new organism response effect and preserve all existing source holds
+        run: |
+          python3 - <<'PY'
+          import json
+          q=json.load(open('betafor11_original_treatment_method/receipt.json',encoding='utf8'))
+          assert q['original_organism_OTU_abundance_rows_read']==0
+          assert q['new_biodiversity_model_fits']==0
+          assert q['original_forest_99_and_island_source_seals_unmodified']
+          assert q['status'].startswith((
+            'SOURCE_TREATMENT_METADATA_STOP_',
+            'SOURCE_TREATMENT_4PAIR_METHOD_READY_CHRONOLOGY_READY_NO_BIOLOGY',
+            'SOURCE_TIME_CHRONOLOGY_HOLD_TREATMENT_FRAME_PASS',
+            'SOURCE_TREATMENT_PAIRING_HOLD_NOT_A_BIOLOGICAL_NULL'
+          ))
+          if 'source_method' in q:
+              s=q['source_method']
+              assert s['original_OTU_and_species_response_rows_parsed']==0
+              print('AUTHOR_METHOD_CONSTRAINT_COUNTS:',json.dumps({k:s[k] for k in (
+                'source_original_method_rows','physical_unique_patches',
+                'author_expected_11forest_9treatment_4_AD_resource_pairs_PASS',
+                'original_author_patch_substr_5_to_6_disagreements',
+                'original_numeric_firstday_or_lastday_invalid',
+                'original_firstday_greater_than_lastday_rows',
+                'original_patch_firstday_nonunique_or_unparsed'
+              )},sort_keys=True))
+          print('BETAFOR11_ORIGINAL_4PAIR_SOURCE_STATUS='+q['status'])
+          PY
+      - name: Save only anonymous treatment/time source method evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-original-AD-4wood-chronology-methodonly
+          path: betafor11_original_treatment_method/
+          if-no-files-found: error
