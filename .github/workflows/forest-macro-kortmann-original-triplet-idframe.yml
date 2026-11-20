@@ -1,0 +1,68 @@
+name: Forest macro Kortmann original 702 sample method ID frame ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann-original-triplet-idframe.yml"
+      - "analysis/forest_macro_global/kortmann2026_original_triplet_id_frame.py"
+      - "analysis/forest_macro_global/kortmann2026_original_triplet_id_frame.R"
+      - "docs/FOREST_MACRO_KORTMANN_TRIPLET_TREATMENT_OFFSET_IDONLY_PREFREEZE_20261121.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann-original-triplet-idframe.yml"
+      - "analysis/forest_macro_global/kortmann2026_original_triplet_id_frame.py"
+      - "analysis/forest_macro_global/kortmann2026_original_triplet_id_frame.R"
+      - "docs/FOREST_MACRO_KORTMANN_TRIPLET_TREATMENT_OFFSET_IDONLY_PREFREEZE_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-four-method-columns-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: Synthetic 40-triplet and missing-round known truth before original source
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_original_triplet_id_frame.py --test
+      - name: Original publisher SHA-pinned small RData with only four source method fields
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_original_triplet_id_frame.py --out kortmann2026_original_4field_method_frame/receipt.json
+      - name: 'Fail closed: no original source IDs, treatment code or OTU response export'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_original_4field_method_frame/receipt.json',encoding='utf-8'))
+          assert x['original_RData_source_response_bearing_DESERIALIZED_PREVIOUSLY']
+          assert x['previous_BETAFOR99_and_234_effects_or_STOPs_UNCHANGED']
+          assert x['original_separate_OTU_matrix_and_workbook_OPENED'] is False
+          assert x['new_ecological_effects_scored']==0
+          assert x['status'].startswith(('SOURCE_ORIGINAL_TRIPLET_3STATE_702_FRAME_COUNT_READY_NO_OTU','SOURCE_ORIGINAL_METHOD_FRAME_HOLD','SOURCE_ORIGINAL_ID_FRAME_STOP_'))
+          if 'source' in x:
+              s=x['source']
+              assert s['original_site_plot_treatment_values_NOT_EXPORTED']
+              assert s['original_offset_numeric_values_NOT_EXPORTED']
+              assert s['original_702_source_records_sample_period_IDs_NOT_VERIFIED']
+              assert s['original_RData_response_bearing_object_DESERIALIZED']
+              assert s['new_biological_effects_fitted']==0
+              q=s['original_source_anonymous_unit_counts_only']
+              print('ORIGINAL_702_METHOD_ROWS',q['original_observed_sampling_rows'])
+              print('ORIGINAL_SOURCE_TRIPLETS',q['original_site_triplets'])
+              print('ORIGINAL_SOURCE_PHYSICAL_PATCHES',q['original_triplet_plot_pairs'])
+              print('ORIGINAL_OBSERVED_OPPORTUNITY_DEFICIT',q['counted_source_patch_opportunity_deficit'])
+          print('KORTMANN_ORIGINAL_FOURFIELD_METHOD_FRAME_STATUS='+x['status'])
+          PY
+      - name: Upload only anonymized source sampling opportunity counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann-40triplet-702method-field-counts-only
+          path: kortmann2026_original_4field_method_frame/
+          if-no-files-found: error
