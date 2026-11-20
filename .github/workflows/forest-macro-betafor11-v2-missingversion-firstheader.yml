@@ -1,0 +1,64 @@
+name: Forest macro BETA-FOR v2 missing-version original source FIRST HEADER
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-v2-missingversion-firstheader.yml"
+      - "analysis/forest_macro_global/betafor11_v2_missingversion_firstheader_sourceonly.py"
+      - "docs/FOREST_MACRO_BETAFOR11_V2_MISSING_VERSION_SOURCE_GATE_PREFREEZE_20261120.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-betafor11-v2-missingversion-firstheader.yml"
+      - "analysis/forest_macro_global/betafor11_v2_missingversion_firstheader_sourceonly.py"
+      - "docs/FOREST_MACRO_BETAFOR11_V2_MISSING_VERSION_SOURCE_GATE_PREFREEZE_20261120.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-original-v2-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact six-MD5 original publisher and header-only synthetic STOPs
+        run: |
+          python3 analysis/forest_macro_global/betafor11_publisher_version_sourceonly_diag.py --test
+          python3 analysis/forest_macro_global/betafor11_information_firstheader_gate.py --test
+          python3 analysis/forest_macro_global/betafor11_v2_missingversion_firstheader_sourceonly.py --test
+      - name: Original Zenodo 15371332 metadata then exact information CSV FIRST HEADER only
+        run: |
+          python3 analysis/forest_macro_global/betafor11_v2_missingversion_firstheader_sourceonly.py --out betafor11_v2_missingversion_firstheader/result.json
+      - name: Fail closed: original biology, data rows and five other sources unopened
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_v2_missingversion_firstheader/result.json',encoding='utf8'))
+          assert x['previous_v1_version_STOP_preserved']
+          assert x['original_organism_response_rows_opened']==0
+          assert x['new_biological_effect_estimations']==0
+          assert x['status'].startswith((
+            'SOURCE_V2_STOP_',
+            'SOURCE_INFORMATION_GENERIC_HEADER_CANDIDATES_ONLY_NO_ROW_ADMISSION',
+            'SOURCE_METHOD_HEADER_HOLD_INCOMPLETE_GENERIC_ROLE_SUPPORT'
+          ))
+          if 'source' in x:
+              y=x['source']
+              assert y['source_provenance']['original_six_filenames_MD5s_and_sizes_verified']
+              assert y['source_provenance']['metadata_version_absent_or_null']
+              assert y['original_source_information_rows_opened']==0
+              assert y['original_other_five_member_GET']==0
+              assert y['original_organism_rows_opened']==0
+              assert y['new_ecological_effects_scored']==0
+          print('BETAFOR11_V2_SOURCE_ONLY_GATE='+x['status'])
+          PY
+      - name: Upload only original-source provenance and header role counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-v2-source-header-only
+          path: betafor11_v2_missingversion_firstheader/
+          if-no-files-found: error
