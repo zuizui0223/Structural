@@ -214,7 +214,7 @@ def synthetic():
           "B04_P1;S2;5;6;5.5;T1;;\n"
           ).encode()
     # Synthetic private fixture exercises exact label and no-body export only.
-    assert len(set(("B04_P1","S1"),))==1
+    assert len({("B04_P1","S1")})==1
     fake=b"OTU,S1,S2\nOTU_SECRET,20,5\n"
     first,size=stream_md5_only_capture_first_header(
         io.BytesIO(fake),len(fake),hashlib.md5(fake).hexdigest()
