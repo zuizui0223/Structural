@@ -32,7 +32,7 @@ jobs:
       - name: Original Zenodo 15371332 metadata then exact information CSV FIRST HEADER only
         run: |
           python3 analysis/forest_macro_global/betafor11_v2_missingversion_firstheader_sourceonly.py --out betafor11_v2_missingversion_firstheader/result.json
-      - name: Fail closed: original biology, data rows and five other sources unopened
+      - name: 'Fail closed: original biology, data rows and five other sources unopened'
         run: |
           python3 - <<'PY'
           import json
