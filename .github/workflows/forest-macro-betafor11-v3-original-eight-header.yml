@@ -1,0 +1,60 @@
+name: Forest macro BETA-FOR v3 eight original information header names only
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-v3-original-eight-header.yml"
+      - "analysis/forest_macro_global/betafor11_v3_author_eight_header_codebook.py"
+      - "docs/FOREST_MACRO_BETAFOR11_AUTHOR_EIGHT_HEADER_CODEBOOK_PREFREEZE_20261120.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-betafor11-v3-original-eight-header.yml"
+      - "analysis/forest_macro_global/betafor11_v3_author_eight_header_codebook.py"
+      - "docs/FOREST_MACRO_BETAFOR11_AUTHOR_EIGHT_HEADER_CODEBOOK_PREFREEZE_20261120.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-method-codebook-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic eight-header, unexpected format and no-body tests
+        run: |
+          python3 analysis/forest_macro_global/betafor11_v3_author_eight_header_codebook.py --test
+      - name: Read only original published information CSV header names after MD5 gate
+        run: |
+          python3 analysis/forest_macro_global/betafor11_v3_author_eight_header_codebook.py --out betafor11_v3_source_header_only/receipt.json
+      - name: Assert all prior results and original species records unopened
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_v3_source_header_only/receipt.json',encoding='utf-8'))
+          assert x['original_v1_VERSION_STOP_preserved']
+          assert x['original_v2_ROLE_HOLD_preserved']
+          assert x['original_source_biological_rows_opened']==0
+          assert x['original_source_information_data_rows_opened']==0
+          assert x['new_organism_effects_fitted']==0
+          assert x['status'].startswith(('ORIGINAL_BETAFOR11_EIGHT_INFORMATION_HEADER_NAMES_METHOD_DIAGNOSTIC_ONLY',
+                                         'ORIGINAL_EIGHT_HEADER_METHOD_DIAGNOSTIC_STOP_'))
+          if x['status']=='ORIGINAL_BETAFOR11_EIGHT_INFORMATION_HEADER_NAMES_METHOD_DIAGNOSTIC_ONLY':
+              y=x['diagnostic']['source_only_field_header_diagnostic']
+              assert y['first_header_column_count']==8
+              assert y['information_source_data_rows_parsed']==0
+              assert y['original_OTU_or_taxon_headers_or_data_rows_read']==0
+              print('ORIGINAL_EIGHT_SAFE_HEADERS:',json.dumps(y['original_column_names_source_method_ONLY']))
+              print('SOURCE_ROLES_NOT_CODEBOOK:',json.dumps(y['role_hint_indices_ONLY_not_author_codebook']))
+          print('BETAFOR11_V3_SOURCE_ONLY_SCIENTIFIC_STATUS='+x['status'])
+          PY
+      - name: Upload only non-biological original header names and source-integrity status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-v3-eight-method-headers-only
+          path: betafor11_v3_source_header_only/
+          if-no-files-found: error
