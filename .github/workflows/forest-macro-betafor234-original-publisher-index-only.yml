@@ -6,6 +6,8 @@ on:
       - analysis/forest-macro-plot-environment
     paths:
       - ".github/workflows/forest-macro-betafor234-original-publisher-index-only.yml"
+      - "analysis/forest_macro_global/betafor234_original_zenodo_metadata_only.py"
+      - "docs/FOREST_MACRO_BETAFOR234_PAIRED_ALPHA_BETA_SOURCE_PREINTAKE_20261120.md"
   workflow_dispatch:
 
 permissions:
