@@ -192,6 +192,8 @@ main <- function() {
   original_total_reads <- sum(sample_sums)
   corrected <- singleton_correction(mat)
   mat <- corrected$mat
+  singleton_removed <- corrected$removed
+  singleton_changed <- corrected$changed
   rm(corrected)
   if(nrow(mat)<100L) halt("OTU_SOURCE_TOO_FEW_CORRECTED_TAXA")
   patch_names <- patch_meta$patch
@@ -280,8 +282,8 @@ main <- function() {
     original_parent_forests=as_key(length(site_order)),
     original_geographic_regions="6",
     original_OTU_total_read_counts=as_key(original_total_reads),
-    author_singleton_correction_removed_counts=as_key(corrected$removed),
-    author_singleton_correction_changed_samples=as_key(corrected$changed),
+    author_singleton_correction_removed_counts=as_key(singleton_removed),
+    author_singleton_correction_changed_samples=as_key(singleton_changed),
     original_patch_corrected_detected_OTU_min=as_key(min(patch_detected)),
     original_patch_corrected_detected_OTU_median=as_key(median(patch_detected)),
     original_patch_corrected_detected_OTU_max=as_key(max(patch_detected)),
