@@ -1,0 +1,60 @@
+name: Forest macro Kortmann 2026 original author R code method-role ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-original-author-code-role-only.yml"
+      - "analysis/forest_macro_global/kortmann2026_17775805_author_code_role_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_17775805_ORIGINAL_AUTHOR_CODE_ROLE_GATE_PREFREEZE_20261120.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-original-author-code-role-only.yml"
+      - "analysis/forest_macro_global/kortmann2026_17775805_author_code_role_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_17775805_ORIGINAL_AUTHOR_CODE_ROLE_GATE_PREFREEZE_20261120.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-author-code-method-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic role scanner verifies two scripts only and original biological sources sealed
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_17775805_author_code_role_sourceonly.py --test
+      - name: Only publisher-authenticated original iNEXT3D.R and models.R source method text
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_17775805_author_code_role_sourceonly.py --out kortmann2026_original_author_code_roles/receipt.json
+      - name: 'Ensure original RData and XLSX biological member content remains sealed'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_original_author_code_roles/receipt.json',encoding='utf8'))
+          assert x['previous_Zenodo_concept_HTTP302_STOP_unchanged'] is True
+          assert x['original_BETAFOR99_beta_onepass_SEALED'] is True
+          assert x['original_organism_or_site_data_rows_read']==0
+          assert x['new_ecological_effects']==0
+          assert x['status'].startswith((
+              'SOURCE_ORIGINAL_AUTHOR_CODE_ROLE_HINTS_ONLY_NO_BIOLOGY',
+              'SOURCE_AUTHOR_CODE_ONLY_STOP_'
+          ))
+          if 'source_role_audit' in x:
+              y=x['source_role_audit']
+              assert y['all_original_RData_and_XLSX_member_CONTENT_UNOPENED']
+              assert y['original_R_code_NOT_EXECUTED']
+              assert y['biological_OTU_or_site_values_accessed'] is False
+              assert y['new_biological_model_fits']==0
+              assert len(y['three_original_RData_member_names_DIRECTORY_ONLY'])==3
+              print('KORTMANN_RDATA_MEMBER_NAME_COUNT',len(y['three_original_RData_member_names_DIRECTORY_ONLY']))
+          print('KORTMANN_AUTHOR_CODE_SOURCE_ONLY',x['status'])
+          PY
+      - name: Save only source-script hashes and anonymous lexical role hints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann-original-R-script-roles-only
+          path: kortmann2026_original_author_code_roles/
+          if-no-files-found: error
