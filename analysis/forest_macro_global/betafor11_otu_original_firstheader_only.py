@@ -58,7 +58,7 @@ def published_otutable_link(record):
         or p.username or p.password or p.port or p.query or p.fragment):
         raise SourceStop("OTU_FIRSTHEADER_NON_ORIGINAL_PUBLISHER_HOST")
     path_a="/api/records/15371332/files/"+SOURCE_FILE+"/content"
-    path_b=re.compile(r"^/api/files/[0-9a-fA-F-]{36}/"+SOURCE_FILE+r"$")
+    path_b=re.compile(r"^/api/files/[0-9a-fA-F-]{36}/"+re.escape(SOURCE_FILE)+r"$")
     if p.path!=path_a and not path_b.fullmatch(p.path):
         raise SourceStop("OTU_FIRSTHEADER_ORIGINAL_PUBLISHER_FILE_PATH_UNRECOGNIZED")
     return link,size
@@ -204,7 +204,7 @@ def run():
         "actual_original_organism_response_value_rows_parsed":0,
         "original_OTU_spp_identifier_values_exported":False,
         "source_method_raw_sample_and_site_IDs_exported":False,
-        "other_original_five_source_members_NOT_requested":False,
+        "other_original_four_source_members_NOT_requested":True,
     }
 
 
