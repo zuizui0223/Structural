@@ -1,0 +1,77 @@
+name: Forest macro Kortmann 39-triplet first original OTU identity schema only
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann39-otu-sample-identity-firstschema.yml"
+      - "analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.R"
+      - "analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.py"
+      - "docs/FOREST_MACRO_KORTMANN39_OTU_SAMPLE_IDENTITY_PREOPEN_20261121.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann39-otu-sample-identity-firstschema.yml"
+      - "analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.R"
+      - "analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.py"
+      - "docs/FOREST_MACRO_KORTMANN39_OTU_SAMPLE_IDENTITY_PREOPEN_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  first-original-otu-identity-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: Synthetic 702 label join and 690 retained sample ID privacy gates
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.py --test
+      - name: 'First original OTU RData deserialization: shape and sample ID only'
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.py --out kortmann2026_original_OTU_sample_identity_only/receipt.json
+      - name: 'Fail closed: OTU counts, taxon IDs, original forest outcomes and effect scores never read'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_original_OTU_sample_identity_only/receipt.json',encoding='utf-8'))
+          assert x['original_strict_40_site_HOLD_UNCHANGED']
+          assert x['new_39_site_exploratory_source_scope_UNCHANGED']
+          assert x['new_ecological_effects']==0
+          assert x['status'].startswith((
+             'SOURCE_OTU_702_KEY_MATCH_690_RETAINED_READY_NO_COUNTS',
+             'SOURCE_OTU_SAMPLE_LINK_HOLD',
+             'SOURCE_OTU_IDENTITY_GATE_STOP_'))
+          if 'source' in x:
+              q=x['source']
+              assert x['first_semantic_OTU_RData_opening_result']=='DESERIALIZED_SCHEMA_ONLY'
+              assert q['original_phylogenetic_tree_RData_UNOPENED']
+              assert q['original_massive_XLSX_UNOPENED']
+              assert q['new_biodiversity_effect_estimated'] is False
+              y=q['source_RData_schema_and_ID_match_only']
+              assert y['response_bearing_OTU_RData_DESERIALIZED']
+              assert y['no_original_otu_numeric_values_accessed_or_summary_computed']
+              assert y['no_original_OTU_names_or_sample_IDs_output']
+              assert y['no_species_beta_or_alpha_model_fitted']
+              if x['status']=='SOURCE_OTU_702_KEY_MATCH_690_RETAINED_READY_NO_COUNTS':
+                  m=y['source_method_to_OTU_sample_ID_overlap_COUNTS_ONLY']
+                  assert m['exact_702_named_axis_matches']==1
+                  assert m['matched_39_retained_sample_keys']==690
+                  assert m['matched_12_excluded_sample_keys']==12
+              print('ORIGINAL_OTU_OBJECT_DIMENSIONS',[
+                  [q['n_rows_NOT_taxon_count_certification'], q['n_columns_NOT_sample_count_certification']]
+                  for q in y['anonymous_original_OTU_RData_object_shapes']])
+          print('KORTMANN_ORIGINAL_OTU_IDENTITY_SOURCE_GATE=' + x['status'])
+          PY
+      - name: Retain only anonymous original RData object shape and sample-ID match counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann39-original-otu-first-id-schema
+          path: kortmann2026_original_OTU_sample_identity_only/
+          if-no-files-found: error
