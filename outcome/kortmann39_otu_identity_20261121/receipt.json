@@ -1,0 +1,54 @@
+{
+  "TinyFish_used": false,
+  "eBird_used": false,
+  "first_semantic_OTU_RData_opening_authorized": true,
+  "first_semantic_OTU_RData_opening_result": "DESERIALIZED_SCHEMA_ONLY",
+  "new_39_site_exploratory_source_scope_UNCHANGED": true,
+  "new_ecological_effects": 0,
+  "original_strict_40_site_HOLD_UNCHANGED": true,
+  "prespec": "docs/FOREST_MACRO_KORTMANN39_OTU_SAMPLE_IDENTITY_PREOPEN_20261121.md",
+  "previous_BETAFOR_PREDICTS_BALA_FINLAND_OTHER_EFFECTS_SEALED": true,
+  "schema": "structural.Kortmann2026_otu_original_response_deserialized_method_sample_ID_schema.v1",
+  "source": {
+    "new_biodiversity_effect_estimated": false,
+    "original_full_ZIP_MD5_publisher_authenticated": true,
+    "original_massive_XLSX_UNOPENED": true,
+    "original_phylogenetic_tree_RData_UNOPENED": true,
+    "original_two_member_SHA256_only": {
+      "diversity_satellite.rda": "8b3f47258b4d9c8f6fa0f7fac0d820ecccb860adadaa9c3c311f21fa28e3da3a",
+      "otu_matrix.rda": "6405103aa3797a283b691da8997585f95a98c76e066d8f0e56ad1414da9ec52c"
+    },
+    "source_RData_schema_and_ID_match_only": {
+      "anonymous_original_OTU_RData_object_shapes": [
+        {
+          "anonymous_object_index": 1,
+          "container_type": "data.frame",
+          "n_column_labels_on_702_candidate_axis_only": 702,
+          "n_columns_NOT_sample_count_certification": 702,
+          "n_row_labels_on_702_candidate_axis_only": 0,
+          "n_rows_NOT_taxon_count_certification": 20898
+        }
+      ],
+      "no_original_OTU_names_or_sample_IDs_output": true,
+      "no_original_otu_numeric_values_accessed_or_summary_computed": true,
+      "no_species_beta_or_alpha_model_fitted": true,
+      "response_bearing_OTU_RData_DESERIALIZED": true,
+      "season_and_detection_coverage_NOT_VERIFIED": true,
+      "source_method_to_OTU_sample_ID_overlap_COUNTS_ONLY": {
+        "exact_702_named_axis_matches": 0,
+        "loaded_otu_object_count": 1,
+        "matched_12_excluded_sample_keys": 0,
+        "matched_39_retained_sample_keys": 0,
+        "max_unique_source_sample_label_overlap": 0,
+        "method_candidate_distinct_vectors": 0,
+        "method_id_eligible_fields": 0
+      },
+      "status": "SOURCE_OTU_SAMPLE_LINK_HOLD",
+      "the_independently_frozen_secondary_39_population_unchanged": true,
+      "the_original_40_triplet_strict_gate_still_failed": true
+    },
+    "source_original_dataset_versioned_id": 17775805,
+    "status": "SOURCE_OTU_SAMPLE_LINK_HOLD"
+  },
+  "status": "SOURCE_OTU_SAMPLE_LINK_HOLD"
+}

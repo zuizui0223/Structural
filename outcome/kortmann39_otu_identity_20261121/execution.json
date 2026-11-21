@@ -1,0 +1,29 @@
+{
+  "R_version": "Rscript (R) version 4.5.0 (2025-04-11)",
+  "ci_original_step_disabled": true,
+  "command": [
+    "python",
+    "analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.py",
+    "--out",
+    "outcome/kortmann39_otu_identity_20261121/receipt.json"
+  ],
+  "executed_code_and_prespec_sha256": {
+    "analysis/forest_macro_global/kortmann2026_17775805_canonical_publisher_index_only.py": "6038b751ccfbc27ddf3e5eaa1e0511521fb38a41fbd344a6169a253b010e8e75",
+    "analysis/forest_macro_global/kortmann2026_17775805_original_zip_directory_only.py": "f32db40159df675439886e58d9c882b346057a8491f509ed9dc0ce4b69b15a7f",
+    "analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.R": "15fcd37f025510f153ee220367e23ad62a3d7a9b4f213e27d7539478760c9d16",
+    "analysis/forest_macro_global/kortmann2026_otu_sample_identity_schema.py": "3efd05a40512aaf01965732c3bf52b6cb5e62042df086d67ee89df4a0ff11b75",
+    "docs/FOREST_MACRO_KORTMANN39_OTU_IDENTITY_REPAIR_20261121.md": "1d788821d0edcfc8d843800e21c373494d8031e0e5eb2d9c96639a1f919c9ca3",
+    "docs/FOREST_MACRO_KORTMANN39_OTU_SAMPLE_IDENTITY_PREOPEN_20261121.md": "0cfe6fa63410e9b74a80cc904df35b2c0d0d5afa9b8c71f2afdd244386996c18"
+  },
+  "execution_state": "PROCESS_FINISHED",
+  "finished_at_utc": "2026-11-21T14:33:19.340183+00:00",
+  "original_source_attempt_number": 1,
+  "previous_failed_ci_original_steps_skipped": true,
+  "process_exit_code": 0,
+  "python_version": "3.12.14",
+  "receipt_sha256": "be7dafd2bd2736117bb3993c31c436323b10aa30767774c5b0ac02457d4a3147",
+  "schema": "structural.kortmann39_single_local_identity_execution.v1",
+  "source_code_commit": "9b81d0a5f7624d8170fd561967e17ef2f59bf4b9",
+  "started_at_utc": "2026-11-21T14:31:28.952691+00:00",
+  "working_files_equal_frozen_commit": true
+}
