@@ -1,0 +1,54 @@
+name: Forest macro BETA-FOR author R four non-sample source headers only
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-authorR-four-meta-header-v4.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-publisher-original-author-R-codebook-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic original R nullable metadata-header role proof
+        run: |
+          python3 analysis/forest_macro_global/betafor11_author_r_four_meta_header_v4_sourceonly.py --test
+      - name: Official unchanged response-file MD5 with only first header admitted
+        run: |
+          python3 analysis/forest_macro_global/betafor11_author_r_four_meta_header_v4_sourceonly.py --out betafor11_author_R_header_v4/receipt.json
+      - name: Confirm author source column roles with zero original organism response rows
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('betafor11_author_R_header_v4/receipt.json',encoding='utf8'))
+          assert r['original_source_response_rows_semantically_parsed']==0
+          assert r['new_biodiversity_estimations']==0
+          assert r['all_previous_version_schema_technical_STOPs_preserved']
+          assert r['status'].startswith(('AUTHOR_R_FOUR_META_SOURCE_STOP_',
+                                         'BETAFOR11_AUTHOR_R_FOUR_SOURCE_META_HEADER_ROLES_QUALIFIED_ONLY'))
+          if 'author_method_header' in r:
+              a=r['author_method_header']
+              assert a['biology_response_source_rows_PARSED']==0
+              assert a['original_594_author_sample_columns_exact_match']
+              print('AUTHOR_R_FIRST_HEADER_ROLES:',json.dumps({k:a[k] for k in (
+                  'original_first_col_unnamed_R_imports_as_X',
+                  'original_OTUNr_column_source_header_position',
+                  'original_Family_column_source_header_position',
+                  'original_Order_column_source_header_position'
+              )},sort_keys=True))
+          print('BETAFOR11_AUTHOR_R_SOURCE_STATUS='+r['status'])
+          PY
+      - name: Store four-codebook-field anonymous receipt ONLY
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-author-r-four-meta-fields-v4
+          path: betafor11_author_R_header_v4/
+          if-no-files-found: error

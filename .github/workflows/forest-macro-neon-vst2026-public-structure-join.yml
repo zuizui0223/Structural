@@ -1,0 +1,107 @@
+name: "Forest macro NEON: published VST 2026 woody plot-year structure vs beetle-plant metadata"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-neon-vst2026-public-structure-join.yml"
+      - "analysis/forest_macro_global/neon_public_vst42_original_plotyear_join.R"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-neon-vst2026-public-structure-join.yml"
+      - "analysis/forest_macro_global/neon_public_vst42_original_plotyear_join.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pinned_published_RELEASE2026_tree_structure_plotyear_original_contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install published NEON organismal derivative 0.3.1 and JSON only
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+      - name: Before source network synthetic plot-event support and held/missing exclusion test
+        env:
+          NEON_VST_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst42_original_plotyear_join.R
+      - name: Retrieve immutable 2026 official NEON 81-site forest contexts
+        run: |
+          set -euo pipefail
+          mkdir -p source_vst_public/official
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            --proto '=https' --proto-redir '=https' \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o source_vst_public/official/site.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  source_vst_public/official/site.csv' | sha256sum -c -
+      - name: Discover eight original forest site codes from sampling metadata, no taxon responses
+        env:
+          NEON_VST_ONLY_SITE_CODES: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst42_original_plotyear_join.R \
+            source_vst_public/official/site.csv \
+            source_vst_public/private_sitecodes.txt
+          test "$(wc -l < source_vst_public/private_sitecodes.txt)" -eq 8
+      - name: Fetch eight independently published release-certified woody structure RDS bundles from pinned public commit
+        run: |
+          set -euo pipefail
+          mkdir -p source_vst_public/private_bundles
+          while IFS= read -r site; do
+            [[ "$site" =~ ^[A-Z0-9]{4}$ ]] || { echo "SCIENTIFIC_STOP_INVALID_ORIGINAL_SITE_CODE"; exit 1; }
+            url="https://raw.githubusercontent.com/tgilbert14/NEON-Vegetation-Structure-Explorer/3391e702e7be80a3f049c905782661f043be8db8/data/sites/$site.rds"
+            if curl --fail --silent --show-error --location --retry 1 \
+              --connect-timeout 20 --max-time 120 --max-filesize 50000000 \
+              --proto '=https' --proto-redir '=https' \
+              "$url" -o "source_vst_public/private_bundles/$site.rds"; then
+                test -s "source_vst_public/private_bundles/$site.rds"
+            else
+              rm -f "source_vst_public/private_bundles/$site.rds"
+              echo "One forest site absent or not downloadable in pinned 42-site source; no source site code is exported"
+            fi
+          done < source_vst_public/private_sitecodes.txt
+          du -sh source_vst_public/private_bundles
+      - name: Inspect only VST original plot-event opportunity support and site-year metadata
+        run: |
+          Rscript analysis/forest_macro_global/neon_public_vst42_original_plotyear_join.R \
+            source_vst_public/official/site.csv \
+            source_vst_public/private_bundles \
+            neon_vst2026_source_only_eligibility
+      - name: Verify source contract and no biological-effect scoring
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p <- "neon_vst2026_source_only_eligibility/neon_public_vst_release2026_plotyear_sourceonly.json"
+          x <- fromJSON(p)
+          stopifnot(
+            x$schema=="structural.NEON_vst2026_public42site_neonDivData0p3p1_plotyear_gate.v1",
+            x$exact_source_commit=="3391e702e7be80a3f049c905782661f043be8db8",
+            x$upstream_NEON_VST_release=="RELEASE-2026",
+            x$historical_beetle_plant_strict_forest_sites==8,
+            x$historical_beetle_plant_sameplot_1m2_effort_plotyear_coavailability>=339,
+            x$actual_tree_height_abundance_or_species_values_NOT_INSPECTED,
+            x$forest_structure_does_not_imply_site_microclimate,
+            x$original_NEON_source_site_area_and_woody_channels_are_QA_filtered,
+            x$source_site_plot_tree_species_measurements_NOT_REEXPORTED,
+            x$no_independent_canopy_mechanism_or_biological_effect_claim,
+            x$eBird_used==FALSE)
+          print(x[c("forest_sites_with_public_VST_bundle",
+                    "forest_sites_with_sameplot_sameyear_supported_VST_woody_opportunity",
+                    "domains_with_sameplot_sameyear_supported_VST_opportunity",
+                    "source_original_beetle_plant_VST_sameplot_sameyear_SUPPORTED_opportunity_count",
+                    "metadata_source_stop_if_fewer_than_six_independent_forest_sites")])
+          RS
+      - name: Upload anonymized source eligibility, never RDS or raw site codes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-NEON-published-VST2026-source-only-original-plotyear-overlap
+          path: neon_vst2026_source_only_eligibility/
+          if-no-files-found: warn

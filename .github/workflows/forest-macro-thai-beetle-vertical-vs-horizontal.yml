@@ -1,0 +1,52 @@
+name: "Forest three-dimensional niche - beetle vertical vs horizontal beta distance"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-vertical-vs-horizontal.yml"
+      - "analysis/forest_macro_global/thai_beetle_vertical_horizontal_beta.py"
+      - "analysis/forest_macro_global/test_thai_beetle_vertical_horizontal_beta.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  vertical_vs_horizontal_original_family_composition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run known-truth axis separation and no pseudo-replication tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_thai_beetle_vertical_horizontal_beta.py
+      - name: Compare original paired canopy-understorey station community distance with horizontal distance
+        run: |
+          python analysis/forest_macro_global/thai_beetle_vertical_horizontal_beta.py \
+            --out original_vertical_horizontal_beta
+      - name: Verify original source and only two independent forests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("original_vertical_horizontal_beta/thai_beetle_vertical_vs_horizontal_family_beta.json").read_text())
+          assert q["schema"]=="structural.thai_beetle_vertical_vs_horizontal_family_beta.v1"
+          assert q["original_source_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          assert q["original_arthropod_forest_study_n"]==2
+          assert q["original_physical_station_pair_n"]==18
+          assert q["source_original_SLAM_jar_events"]==144
+          assert q["source_beetle_individual_count"]==1622
+          assert q["vertical_comparisons_n"]==36
+          assert q["not_abundance_corrected_to_equal_individual_coverage"]
+          assert q["horizontal_and_vertical_distance_not_matched"]
+          assert not q["new_global_effect_or_mechanistic_claim"]
+          assert q["raw_ids_coordinates_and_family_labels_not_exported"]
+          PY
+      - name: Archive aggregate compositional diagnostics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-vertical-horizontal-family-beta
+          path: original_vertical_horizontal_beta/
+          if-no-files-found: warn

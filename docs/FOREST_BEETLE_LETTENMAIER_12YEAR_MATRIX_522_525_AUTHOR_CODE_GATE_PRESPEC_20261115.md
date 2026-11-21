@@ -1,0 +1,20 @@
+# Lettenmaier original 12-year study: resolve 522 source plot×log×year records versus 525 species matrix rows (SOURCE-ONLY; frozen 2026-11-15)
+
+## Outcome-blind problem established by original data, not ecological result
+Original [source metadata CI #43696912095](https://github.com/zuizui0223/Structural/actions/runs/43696912095) succeeded with pinned original Zenodo 17337484 source:
+- `Beetle_Data`: **7,738 source long records**, complete `plot,log,year,tree`, **42 distinct plot tokens**, **52 nested plot×log ID candidates**, **522 distinct plot×log×calendar-year candidate groups**, **all 52 log keys repeated across years**, max **11** years per nested log. Tree identity conflict 0, 3 original tree categories. These numbers are **not** source forest study replication or beetle effects.
+- `Beetle_Community`: **525** different first-column row-ID tokens (298 fields: 1 candidate sample ID plus 297 possible taxon columns); no numerical or species abundance values used.
+- `Trait_Table`: original `host_tree` column 19 and `body_length` column 5 in 20-column first row; actual trait values unopened.
+
+**525 − 522 = 3** cannot be dropped or assigned as genuine absence without examining original AUTHOR method/source code. This is exactly why original year/log sampling identity must precede any new diversity inference.
+
+## Prespecified next one SOURCE-ONLY gate
+1. Retrieve **author-published original code** `GAM.R` (24,865 bytes, MD5 `e9cbb99b1da35ea388793f0aeb28739f`) and `NMDS.R` (13,928 bytes, MD5 `4b80a1c2119b164da0442eb5a1e5b536`) from the same CC BY4 Zenodo 17337484. Verify source hashes; do NOT run original authors' regressions or original species/trait code. Search original code only for explicit first-column row-name/plot/log/year key construction and source joins, recording anonymized counts and operator/field-name usage, NOT raw source scripts in artifacts.
+2. Reopen only original `Beetle_Data` `plot, log, year, tree` (the exact 4 known metadata columns) and `Beetle_Community` FIRST column (525 IDs), with published MD5s and 2026-11-15 pinned source row/categorical checks. Do NOT inspect the other 297 source abundance columns.
+3. Characterize anonymized lexical pattern distribution of community source first-column labels: number of delimited tokens, year token positions, candidate key uniqueness/missingness; no individual labels exported.
+4. An author-defined exact source join of community to original `plot×log×year` is admissible **only if** found in the immutable original code or README description, and verified with no key collisions; count source-author matched, community-only, and long-only groups, but never choose from multiple string concatenations based on ecological score. If code does not specify a join, return **`SOURCE_ID_CROSSWALK_NOT_AUTHOR_VERIFIED`**, even if the numbers look similar.
+5. The three unmatched candidate rows are **metadata discrepancies**, not biological absent/present observations. No assignment of 0-abundance to undocumented trap events, no interpretation as recruitment, extinction or sample failures.
+6. This source code audit is separate from the paper's already published temporal decay/host preferences and must not be called a new ecological positive. No new significance tests before a separately frozen original-host and age-functional-channel endpoint. Finland142site VD10 prediction, Burner host guild, PREDICTS, NEON, BALA/GEB sealed; PR Draft/unmerged; eBird/TinyFish off.
+
+## Scientific next ecological question, still NOT tested
+Provided an author-verified log×year community join exists, one possible specific question is whether original beetle `host_tree` affinity distributions remain more stable *within host log identity* than source taxonomic identity as wood decays, conditional on year/host source composition. However the original article already tests temporal functional diversity; the distinct endpoint, null, host-trait semantics and physical log-level dependence must be evaluated against prior art **before opening any old response score**. No post-hoc selection of years/hosts/predictors to force a positive.

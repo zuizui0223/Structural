@@ -1,0 +1,58 @@
+name: "Forest macro Carpathian 116 original stand environment v2 response-sealed"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_stand_environment_sourceqa_v2.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_STAND_ENVIRONMENT_QA_V2_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-stand-env-v2-source.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen_v2_stand_partition_and_environment_predictors_ONLY:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic stand partition-only code and sealed prior source"
+        run: |
+          python analysis/forest_macro_global/carpathian116_stand_environment_sourceqa_v2.py --test
+      - name: "Original separately labeled forests, exact environmental fields only; no beetles"
+        run: |
+          python analysis/forest_macro_global/carpathian116_stand_environment_sourceqa_v2.py \
+            --out CARPATHIAN116_STAND_ENV_V2
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("CARPATHIAN116_STAND_ENV_V2/Carpathian116_stand_environment_v2_sourceonly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Carpathian116_stand_environment_sourceonly_v2.v1"
+          assert x["new_species_guild_or_community_response_NOT_OPENED"]
+          assert x["no_forest_to_country_generalization_claim"]
+          assert x["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "source_v2" in x:
+              v=x["source_v2"]
+              assert all(v["author_original_stand_partition_identical_within_each_forest"].values())
+              assert not v["new_biological_effect_estimated"]
+              assert v["no_original_beetle_or_richness_response_SOURCE_ACCESSED"]
+              assert v["original_feeding_guild_and_trap_zeros_UNVERIFIED"]
+              assert v["original_standshort_is_NOT_source_verified_mountain_range"]
+              assert v["source_original_plot_and_stand_values_NEVER_EXPORTED"]
+              assert set(v["source_environment_only_by_original_forest"])=={"B","S","combined"}
+          else:
+              assert x["source_ONLY_HOLD_not_ecological_non_support"]
+          print("CARPATHIAN116_AUTHOR_STAND_ENVIRONMENT_V2",x["status"])
+          PY
+      - name: "Archive only source aggregate forest stand and measured deadwood QA"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-original-stand-environment-v2-sourceonly
+          path: CARPATHIAN116_STAND_ENV_V2/
+          if-no-files-found: warn

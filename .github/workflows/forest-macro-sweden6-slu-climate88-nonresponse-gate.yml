@@ -1,0 +1,55 @@
+name: "Forest macro SLU Sweden6 original 88 climate×wood plot-shade QA ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_climate_plotshade_nonresponse_gate.py"
+      - "docs/FOREST_SWEDEN6_ORIGINAL_CLIMATE_PLOTSHADE_NONRESPONSE_QA_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-climate88-nonresponse-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_88climate_nonresponse_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original block-plot-shade identity and biological-response firewall"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate_plotshade_nonresponse_gate.py --test
+      - name: "One SHA-verified official SLU original climate CSV, only nonresponse columns"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate_plotshade_nonresponse_gate.py --out SWEDEN6_CLIMATE_NONRESPONSE_QA
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("SWEDEN6_CLIMATE_NONRESPONSE_QA/Sweden6_SLU_climate88_plotshade_nonresponse_QA.json").read_text())
+          assert r["original_3460_beetle_source_rows_UNREAD"]
+          assert r["original_CTI_species_richness_totalab_BIOLOGY_NOT_OPENED"]
+          assert r["prior_7field_header_and_6field_STOP_preserved"]
+          assert r["historical_Finland_Carpathian_England_PREDICTS_NEON_BALA_GEB_scoring_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_publisher_nonresponse_source_hierarchy" in r:
+              d=r["original_publisher_nonresponse_source_hierarchy"]
+              assert d["source_original_biological_CTI_richness_Totlab_COLUMNS_ACCESSED"]==0
+              assert d["source_original_beetle_SPECIES_FILE_ROWS_ACCESSED"]==0
+              assert d["source_original_climate_TABLE_rows"]==88
+              assert d["source_original_30block_plot_count"]==30
+              assert d["source_30plots_NOT_30_independent_regions"]
+              assert not d["new_species_composition_or_thermal_RESPONSE_ESTIMATED"]
+          else:
+              assert r["source_OR_method_FAILURE_not_ecological_null"]
+          print("ORIGINAL_SLU_SWEDEN6_CLIMATE_PLOTSHADE_METHOD_ONLY",r["status"])
+          PY
+      - name: "Archive original source environment method proof only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden6-SLU-climate88-nonresponse-method-QA
+          path: SWEDEN6_CLIMATE_NONRESPONSE_QA/
+          if-no-files-found: warn

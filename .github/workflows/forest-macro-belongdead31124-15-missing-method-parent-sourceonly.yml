@@ -1,0 +1,55 @@
+name: "BELongDead 31124 original 15 unmatched trap-method keys: source parent only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead31124-15-missing-method-parent-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead_31124_unmatched_trap_method_parent_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_plot_log_year_trap_method_identity_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original nonbio method parent key proof"
+        run: |
+          python analysis/forest_macro_global/belongdead_31124_unmatched_trap_method_parent_gate.py --test
+      - name: "One frozen original 31123/31124 SHA check and 15 unknown method key parent audit"
+        run: |
+          python analysis/forest_macro_global/belongdead_31124_unmatched_trap_method_parent_gate.py \
+            --out BELONGDEAD31124_15SOURCE_METHOD_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BELONGDEAD31124_15SOURCE_METHOD_AGGREGATE/BExIS31124_15_nonmatching_original_method_parent_key_diagnostic.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.BELongDead_31124_fifteen_nonmatching_method_tuples_source_only.v1"
+          if x["status"].startswith("SOURCE_STOP"):
+              assert x["source_failure_not_ecological_null"]
+              assert x["no_new_beetle_effect_scored"]
+              print("BEXIS31124_METHOD_SOURCE_STOP",x["status"])
+          else:
+              assert x["31124_sixfield_method_keys_unmatched"]==15
+              assert x["full_31123_exact_nested_log_ID_count"]==379
+              assert x["31124_complete_log_same_physical_original_nested_log_ID_count"]==379
+              assert x["source_original_taxa_and_beetle_count_fields_UNREAD"]
+              assert x["unknown_zero_capture_opportunities_NOT_imputed"]
+              assert x["author_original_complete_log_view_same_study_NOT_replication"]
+              assert x["original_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_effects_UNCHANGED"]
+              assert x["eBird_used"] is False
+              print("BEXIS31124_15_ORIGINAL_METHOD_PARENT_SOURCE_DIAGNOSTIC",x["status"])
+          PY
+      - name: "Archive anonymous parent-method counts only, no original source site IDs"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead31124-15-original-method-parent-keys-sourceonly
+          path: BELONGDEAD31124_15SOURCE_METHOD_AGGREGATE/
+          if-no-files-found: warn

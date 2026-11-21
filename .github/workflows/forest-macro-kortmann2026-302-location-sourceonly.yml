@@ -1,0 +1,60 @@
+name: Forest macro Kortmann 2026 exact Zenodo 302 Location source-only
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-302-location-sourceonly.yml"
+      - "analysis/forest_macro_global/kortmann2026_original_302_record_id_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_CONCEPT_REDIRECT_SOURCEONLY_DIAG_PREFREEZE_20261120.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-302-location-sourceonly.yml"
+      - "analysis/forest_macro_global/kortmann2026_original_302_record_id_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_CONCEPT_REDIRECT_SOURCEONLY_DIAG_PREFREEZE_20261120.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-redirect-location-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact-publisher and malicious-redirect synthetic STOPs
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_original_302_record_id_sourceonly.py --test
+      - name: Inspect only original Zenodo 17775804 HTTP status and Location, no follow
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_original_302_record_id_sourceonly.py --out kortmann302_location_only/receipt.json
+      - name: Enforce source-only boundary and unchanged historical STOP
+        run: |
+          python3 - <<'PY'
+          import json
+          p = 'kortmann302_location_only/receipt.json'
+          x = json.load(open(p, encoding='utf-8'))
+          assert x['historical_HTTP302_STOP_UNCHANGED'] is True
+          assert x['target_get_requests'] == 0
+          assert x['original_file_member_requests'] == 0
+          assert x['original_plot_method_or_OTU_rows_READ'] == 0
+          assert x['original_biodiversity_effects_fitted'] == 0
+          assert x['status'].startswith((
+              'SOURCE_ONLY_CANONICAL_TARGET_ID_IDENTIFIED_NOT_ADMITTED',
+              'SOURCE_ONLY_REDIRECT_DIAGNOSTIC_STOP_',
+          ))
+          if 'redirect' in x:
+              assert x['redirect']['same_original_zenodo_publisher'] is True
+              assert x['redirect']['destination_url_NOT_REQUESTED'] is True
+              assert x['redirect']['candidate_only_NOT_ADMITTED_FOR_DATA'] is True
+          print('KORTMANN_302_SOURCE_BOUNDARY_PASS: ' + x['status'])
+          PY
+      - name: Archive only HTTP302 header-level provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann-302-location-only-receipt
+          path: kortmann302_location_only/
+          if-no-files-found: error

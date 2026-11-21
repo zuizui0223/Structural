@@ -1,0 +1,56 @@
+name: Forest macro BETA-FOR11 original source information HEADER ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-original-information-header-only.yml"
+      - "analysis/forest_macro_global/betafor11_information_firstheader_gate.py"
+      - "analysis/forest_macro_global/betafor11_publisher_metadata_preintake_only.py"
+      - "docs/FOREST_MACRO_BETAFOR11_AUTHOR_INFORMATION_FIRSTHEADER_PREFREEZE_20261119.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-betafor11-original-information-header-only.yml"
+      - "analysis/forest_macro_global/betafor11_information_firstheader_gate.py"
+      - "analysis/forest_macro_global/betafor11_publisher_metadata_preintake_only.py"
+      - "docs/FOREST_MACRO_BETAFOR11_AUTHOR_INFORMATION_FIRSTHEADER_PREFREEZE_20261119.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-method-header-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source-free changed checksum and disallowed-link known-truth tests
+        run: |
+          python3 analysis/forest_macro_global/betafor11_publisher_metadata_preintake_only.py --test
+          python3 analysis/forest_macro_global/betafor11_information_firstheader_gate.py --test
+      - name: Verify publisher six-file index then read exact original information FIRST HEADER
+        run: |
+          python3 analysis/forest_macro_global/betafor11_information_firstheader_gate.py --out betafor11_author_information_header_only/result.json
+      - name: Source scientific boundaries remain CLOSED
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_author_information_header_only/result.json', encoding='utf-8'))
+          assert x['original_organism_response_rows_read'] == 0
+          assert x['new_biodiversity_effect_estimations'] == 0
+          assert x['original_other_five_source_members_requested'] == 0
+          assert x['status'].startswith(('SOURCE_METHOD_STOP_', 'SOURCE_INFORMATION_GENERIC_HEADER_CANDIDATES_ONLY_NO_ROW_ADMISSION', 'SOURCE_METHOD_HEADER_HOLD_'))
+          if x['status']=='SOURCE_INFORMATION_GENERIC_HEADER_CANDIDATES_ONLY_NO_ROW_ADMISSION':
+              assert x['source']['header_only']['source_data_rows_parsed']==0
+              assert x['source']['original_OTU_and_sequencing_tables_NOT_DOWNLOADED']
+          print('BETAFOR11_FIRST_HEADER_SCIENTIFIC_BOUNDARY: '+x['status'])
+          PY
+      - name: Preserve only anonymous original publisher first-header aggregate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-source-method-header-only
+          path: betafor11_author_information_header_only/
+          if-no-files-found: error

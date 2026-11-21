@@ -1,0 +1,74 @@
+name: Forest macro BETA-FOR original sampling metadata 594 opportunity audit
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-594-source-opportunity-idonly.yml"
+      - "analysis/forest_macro_global/betafor11_594_opportunity_idonly_source.py"
+      - "docs/FOREST_MACRO_BETAFOR11_594_SAMPLE_OPPORTUNITY_IDONLY_PREFREEZE_20261120.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-betafor11-594-source-opportunity-idonly.yml"
+      - "analysis/forest_macro_global/betafor11_594_opportunity_idonly_source.py"
+      - "docs/FOREST_MACRO_BETAFOR11_594_SAMPLE_OPPORTUNITY_IDONLY_PREFREEZE_20261120.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-source-method-frame-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pure synthetic sampling-frame positive and stop tests
+        run: |
+          python3 analysis/forest_macro_global/betafor11_594_opportunity_idonly_source.py --test
+      - name: Published original information CSV eight method fields only
+        run: |
+          python3 analysis/forest_macro_global/betafor11_594_opportunity_idonly_source.py --out betafor11_original_sampling_opportunities/receipt.json
+      - name: Verify original ecological response remains unopened
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_original_sampling_opportunities/receipt.json',encoding='utf8'))
+          assert x['original_OTU_or_biodiversity_files_requested']==0
+          assert x['original_biodiversity_raw_values_read']==0
+          assert x['new_ecological_estimates']==0
+          assert x['prior_v1_version_STOP_and_v2_header_HOLD_unchanged']
+          assert x['status'].startswith((
+            'SOURCE_SAMPLE_FRAME_STOP_',
+            'ORIGINAL_BETAFOR11_SITE_PREFIX_ID_UNVERIFIED_SOURCE_HOLD',
+            'ORIGINAL_BETAFOR11_SAMPLING_OPPORTUNITY_FRAME_MISMATCH_SOURCE_STOP',
+            'ORIGINAL_BETAFOR11_SOURCE_SAMPLE_FRAME_AND_SITE_PREFIX_CANDIDATES_PASS_NOT_BIOLOGY'
+          ))
+          if 'method_source_only' in x:
+              y=x['method_source_only']
+              assert y['original_OTU_response_or_species_values_READ']==0
+              assert y['new_ecological_effects_fitted']==0
+              print('ORIGINAL_METHOD_COUNTS:',json.dumps({k:y[k] for k in (
+                'observed_original_source_sample_metadata_rows',
+                'distinct_original_physical_patch_identifiers',
+                'distinct_original_patch_sample_keys',
+                'source_duplicate_patch_sample_keys',
+                'distinct_samples_per_patch_distribution_anonymous',
+                'each_patch_has_one_source_treatment',
+                'published_11_site_prefix_regex_rows_not_qualified',
+                'source_exact_published_site_prefixes_found',
+                'source_distinct_published_region_groups_if_ID_valid',
+                'original_all_method_time_field_nonblank',
+                'original_published_date_field_syntax_counts',
+                'source_XY_both_finite_rows'
+              )},sort_keys=True))
+          print('ORIGINAL_SOURCE_FRAME_SCIENTIFIC_STATUS='+x['status'])
+          PY
+      - name: Upload ONLY anonymized original source opportunity counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-original-594-method-frame-only
+          path: betafor11_original_sampling_opportunities/
+          if-no-files-found: error

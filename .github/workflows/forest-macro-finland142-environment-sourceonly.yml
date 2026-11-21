@@ -1,0 +1,63 @@
+name: "Forest beetle Finland 142 author sites: prebiology deadwood age oldforest source gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-finland142-environment-sourceonly.yml"
+      - "analysis/forest_macro_global/finland_142site_environment_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_142site_environment_without_beetle_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test numeric missingness and tied environmental ranks without species responses"
+        run: |
+          python analysis/forest_macro_global/finland_142site_environment_source_gate.py --test
+      - name: "Fetch one exact published author forest-environment CSV to private runner"
+        run: |
+          set -euo pipefail
+          mkdir -p private_AUTHOR_FINLAND
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 1000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/8322080/files/Site_covariates.csv?download=1' \
+            -o private_AUTHOR_FINLAND/Site_covariates.csv
+          printf '557451999b19335cbe8058a985d85363  private_AUTHOR_FINLAND/Site_covariates.csv\n' | md5sum -c -
+      - name: "Audit 142 source forest Sites: deadwood VD10, stand age and oldforest at 1 km; no beetle read"
+        run: |
+          python analysis/forest_macro_global/finland_142site_environment_source_gate.py \
+            --file private_AUTHOR_FINLAND/Site_covariates.csv --out env142_SOURCEONLY_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("env142_SOURCEONLY_AGGREGATE/Finland142_original_author_forest_environment_sourceonly.json")
+          assert p.exists()
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.Finland2023_142forest_prebiology_environment_availability.v1"
+          if r["status"].startswith(("SOURCE_STOP","SCIENTIFIC_SOURCE_STOP")):
+              assert r.get("source_ONLY_failure_NOT_a_beetle_effect", True)
+              print("SOURCE_ENVIRONMENT_GATE_STOP_NOT_BIOLOGICAL_NON_SUPPORT",r["status"])
+          else:
+              assert r["original_author_yearsite_identity_verified"]
+              assert r["original_author_sites"]==142
+              assert r["taxon_source_matrix_and_Host_tree_traits_UNOPENED"]
+              assert r["source_original_site_ids_and_covariate_values_NOT_REEXPORTED"]
+              assert r["previous_frozen_Finland142site_D0p035237_UNCHANGED"]
+              assert r["prior_PREDICTS_NEON_BALA_GEB_scoring_UNCHANGED"]
+              print("SOURCE_ENVIRONMENT_ONLY_GATE_STATUS",r["status"])
+          PY
+      - name: "Archive only anonymized source forest measurement support, never site or taxon records"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Finland142-author-forest-resource-environment-sourceonly
+          path: env142_SOURCEONLY_AGGREGATE/
+          if-no-files-found: warn

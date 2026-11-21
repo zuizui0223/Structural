@@ -1,0 +1,380 @@
+name: "Forest canopy microclimate beetles: Belgium original Dryad source audit"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-belgium-dryad-source-audit.yml"
+      - "analysis/forest_macro_global/audit_belgium_canopy_microclimate_beetles.py"
+      - "analysis/forest_macro_global/test_audit_belgium_canopy_microclimate_beetles.py"
+      - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
+      - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-belgium-dryad-source-audit.yml"
+      - "analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py"
+      - "analysis/forest_macro_global/neon_divdata_multisite_source_gate.R"
+      - "analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R"
+      - "analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  belgium_original_forest_canopy_temperature_carabid_linkage:
+    # Retain previous source audit but stop repeated 401 official Dryad file-access failures.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test locale CSV, plot and trap join and no species plot identity publication
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_belgium_canopy_microclimate_beetles.py
+      - name: Download original CC0 Dryad 2025 Belgium source files with exact file IDs
+        run: |
+          mkdir -p original_belgium_dryad
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
+            "https://datadryad.org/api/v2/files/4194844/download" \
+            -o original_belgium_dryad/Plot-characteristics.csv
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
+            "https://datadryad.org/api/v2/files/4194845/download" \
+            -o original_belgium_dryad/Micro-and-Macroclimate-data.csv
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 180 \
+            "https://datadryad.org/api/v2/files/4194846/download" \
+            -o original_belgium_dryad/Macroarthropod-data.csv
+          python - <<'PY'
+          from pathlib import Path
+          d=Path("original_belgium_dryad")
+          for name in ("Plot-characteristics.csv","Micro-and-Macroclimate-data.csv","Macroarthropod-data.csv"):
+              p=d/name
+              assert p.stat().st_size>300, "Source file size too small or blocked"
+              assert not p.read_bytes()[:100].lower().startswith(b"<html")
+              print(name,p.stat().st_size)
+          PY
+      - name: Audit fixed original plot/microclimate/ground-beetle source cohort without model fitting
+        run: |
+          python analysis/forest_macro_global/audit_belgium_canopy_microclimate_beetles.py \
+            --plot original_belgium_dryad/Plot-characteristics.csv \
+            --micro original_belgium_dryad/Micro-and-Macroclimate-data.csv \
+            --arth original_belgium_dryad/Macroarthropod-data.csv \
+            --out belgium_forest_original_source_quality
+      - name: Verify exact 36 plots, source DOI and no false globally independent forest denominator
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("belgium_forest_original_source_quality/belgium_original_climate_beetle_source_quality.json").read_text())
+          assert q["schema"]=="structural.belgium_forest_microclimate_beetles_dryad_source_audit.v1"
+          assert q["source_dryad_DOI"]=="10.5061/dryad.tmpg4f5b0"
+          assert q["original_unique_plot_IDs_not_independent_forests"]==36
+          assert q["original_canopy_cover_nonmissing_n"]>=25
+          assert q["site_overlap_2022_microclimate_vs_arthropod_2022_n"]>=25
+          assert q["all_36_field_plots_from_one_forest"]
+          assert q["original_paper_has_already_published_canopy_buffering_and_beetle_response"]
+          assert q["new_thermal_effect_or_vertical_escape_scored"] is False
+          assert q["original_raw_plot_IDs_species_names_or_coordinates_exported"] is False
+          assert not q["eBird_used"]
+          PY
+      - name: Publish aggregate field-grain and temporal-overlap audit only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-belgium-dryad-original-cohort-metadata
+          path: belgium_forest_original_source_quality/
+          if-no-files-found: warn
+
+  central_europe_3D_forest_structure_source_only:
+    # Source-only finished or v1 scientific STOP recorded; do not rerun.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test only original plot schema, no taxon/microclimate values
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_pierick_3d_forest_structure_source.py
+      - name: Download original Pierick 2026 Zenodo v1 main_dataset only (no 1GB raw loggers)
+        run: |
+          set -euo pipefail
+          mkdir -p source_pierick_2026
+          curl --fail --location --retry 2 --retry-delay 3 --connect-timeout 15 \
+            --max-time 180 --max-filesize 2000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/19883322/files/main_dataset.csv?download=1' \
+            --output source_pierick_2026/main_dataset.csv
+      - name: Audit 30-plot and three-dimensional forest / microclimate schema only
+        run: |
+          python analysis/forest_macro_global/audit_pierick_3d_forest_structure_source.py \
+            --file source_pierick_2026/main_dataset.csv \
+            --out pierick_3D_forest_source_quality
+      - name: Make scientific STOP visible without inferring 30 independent forests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("pierick_3D_forest_source_quality/pierick2026_3D_forest_source_only_schema.json").read_text())
+          assert r["schema"]=="structural.pierick2026_3Dforest_original_source_header_grain.v1"
+          assert r["source_DOI"]=="10.5281/zenodo.19883322"
+          assert r["original_dataset_species_or_microclimate_or_structure_values_fit"] is False
+          assert r["original_response_biodiversity_values_semantically_read"] is False
+          assert r["no_independent_multi_region_or_global_confirmation"]
+          assert r["original_plot_names_taxon_labels_coordinates_not_exported"]
+          assert not r["eBird_used"]
+          print("SOURCE ORIGINAL PLOT GRAIN DECISION:",r["original_30_plot_grain_metadata_status"])
+          print("STRUCTURE FIELDS:",r["source_candidate_variable_families_FROM_HEADERS_ONLY"]["canopy_structure"])
+          print("MICROCLIMATE FIELDS:",r["source_candidate_variable_families_FROM_HEADERS_ONLY"]["microclimate_heterogeneity"])
+          PY
+      - name: Export only source headers and anonymous plot-count evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-pierick-2026-30plots-3D-microclimate-sourceonly
+          path: pierick_3D_forest_source_quality/
+          if-no-files-found: warn
+
+  public_neondivdata_beetle_plant_multisite_forest_siteyear:
+    # Source-only finished or v1 scientific STOP recorded; do not rerun.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install public NEON derivative R package, never query the token-gated original NEON data endpoint
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+      - name: Validate source forest NLCD label rules without biological outcomes
+        env:
+          NEON_DIVDATA_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_multisite_source_gate.R /tmp/neon-divdata-source-synthetic
+      - name: Retrieve exact published NEON 2026-08-05 site-class and mean canopy-height source
+        run: |
+          set -euo pipefail
+          mkdir -p official_NEON_2026_site_metadata
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv' | sha256sum -c -
+      - name: Inspect original site, plot, date, effort, forest context of publicly distributed source derivative
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_multisite_source_gate.R \
+            published_neon_forest_siteyear_gate \
+            official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv
+      - name: Require intact source R package metadata and never interpret site-year as paired plot species effect
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          r<-fromJSON("published_neon_forest_siteyear_gate/neonDivData_2019_2023_beetle_plant_forest_sourceonly.json")
+          stopifnot(
+            r$schema=="structural.NEON_published_neonDivData_forest_beetle_plant_source_support.v1",
+            r$derivative_package_version=="0.3.1",
+            r$source_taxon_id_name_value_data_NEVER_READ,
+            r$source_official_20260805_site_forest_covariate_gate$official_NEON_fieldsite_count==81,
+            r$source_official_20260805_site_forest_covariate_gate$original_site_identifiers_locations_and_heights_not_exported,
+            r$source_official_20260805_site_forest_covariate_gate$official_site_mean_height_is_not_contemporaneous_plot_structure,
+            r$zero_catch_record_handling_NOT_ASSUMED_TRUE_ABSENCE,
+            r$source_NLCD_site_label_not_field_verified_plot_forest,
+            r$no_tree_height_microclimate_structure_response_join_yet,
+            r$selected_original_site_or_plot_IDs_locations_taxa_counts_NOT_EXPORTED,
+            r$same_siteyear_does_not_imply_same_plot_or_temporal_sampling_date,
+            r$eBird_used==FALSE)
+          print(r[c("beetle_sites_with_recent_record",
+            "plant_sites_with_recent_record",
+            "same_site_beetle_and_plant_recorded_site_count",
+            "NLCD_forest_label_both_taxa_same_siteyear_count",
+            "source_sites_with_forest_label_and_same_year_both_taxa",
+            "original_NLCD_forest_site_domains_WITHOUT_siteID_export")])
+          print(r$source_official_20260805_site_forest_covariate_gate[c(
+            "official_strict_forest_only_source_site_count",
+            "original_NLCD_forest_siteyear_beetle_plant_record_overlaps",
+            "original_forest_sites_with_both_taxa_same_year",
+            "original_forest_sites_with_at_least_two_common_years",
+            "original_forest_sites_ecoclimatic_domains",
+            "original_forest_sites_positive_official_mean_canopy_height")])
+          RS
+      - name: Test forest exact plot-year, fixed 1 m² plant scale, dates, effort with source-free known truth
+        env:
+          NEON_FOREST_PLOT_TIMING_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R /tmp/forest-plot-timing-synthetic
+      - name: Count official forest actual beetle and plant plot/year seasonal support without any taxon outcomes
+        run: |
+          Rscript analysis/forest_macro_global/neon_divdata_forest_plot_temporal_gate.R \
+            published_neon_forest_siteyear_gate \
+            official_NEON_2026_site_metadata/NEON_Field_Site_Metadata_20260805.csv
+      - name: Freeze plot-scale limits and do not treat sampled site-year as biological replacement evidence
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p <- "published_neon_forest_siteyear_gate/NEON_forest_47site_8forest_plottemporal_sourceonly.json"
+          x <- fromJSON(p)
+          stopifnot(
+            x$schema=="structural.neonDivData_0.3.1_official_NEON_forest_plot_temporal_support.v2",
+            x$original_derivative_version=="0.3.1",
+            x$candidate_strict_NLCD_forest_NEON_sites==8,
+            x$candidate_strict_forest_siteyears==40,
+            x$species_taxon_id_name_value_and_biodiversity_composition_NEVER_ACCESSED,
+            x$original_site_plot_sample_event_identifiers_coordinates_NOT_EXPORTED,
+            x$original_tree_height_NOT_contemporaneous_plot_measurement,
+            x$original_beetle_ground_traps_NOT_canopy_strata,
+            x$no_ecological_effect_or_species_turnover_claim,
+            x$all_sampling_conditions_on_same_original_plot,
+            x$sitewide_v1_coincidence_mistaken_for_exact_plot_match_SUPERSEDED,
+            x$eBird_used==FALSE)
+          print(x[c("siteyears_with_actual_both_taxa_original_plotID_overlap",
+            "original_plot_keys_seen_by_both_taxa_some_year",
+            "original_siteyears_with_positive_beetle_effort_and_plant_1m2_samples",
+            "original_siteyears_with_same_calendar_month_of_both_taxa",
+            "original_siteyears_with_nearest_sample_dates_within_30days",
+            "siteyears_exact_plot_effort_plant1m2_and_30day_supported",
+            "distinct_forest_sites_exact_plot_effort_plant1m2_and_30day_supported",
+            "consecutive_siteyear_transitions_exact_plot_effort_plant1m2_and_30day_supported",
+            "original_STRICT_plot_to_same_plot_consecutive_year_transitions_STRICT_effort30day",
+            "source_only_preoutcome_minimum_6sites_4domains_16consecutive_plotyears_passed",
+            "source_gate_status")])
+          RS
+      - name: Export only anonymous NEON multi-site field-opportunity counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-NEON-neonDivData-47sites-beetle-plant-sourceonly
+          path: published_neon_forest_siteyear_gate/
+          if-no-files-found: warn
+
+  cross_taxon_forest_biodiversity_original_plot_onepass:
+    # Source-only finished or v1 scientific STOP recorded; do not rerun.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install original published NEON derivative and fixed JSON writer
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+      - name: Known-truth species sets and site-blocked year-permutation test
+        env:
+          NEON_CROSS_TAXON_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R /tmp/test /tmp/unused.csv
+      - name: Source-original NEON forest context CSV with frozen digest
+        run: |
+          mkdir -p official_neon_forest
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o official_neon_forest/source.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  official_neon_forest/source.csv' | sha256sum -c -
+      - name: Pre-outcome source effort and exact-plot protocol gate, then only if passed compare annual taxon replacement
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment.R \
+            neon_forest_cross_taxon_onepass \
+            official_neon_forest/source.csv
+      - name: Check original study independence and no fabricated forest structural mechanism
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          r<-fromJSON("neon_forest_cross_taxon_onepass/NEON_cross_taxon_8forest_temporal_alignment_aggregate.json")
+          stopifnot(r$schema=="structural.NEON_forest_8site_temporal_taxon_alignment_exploratory.v1",
+                    r$source_original_2019_2023_metadata_plot_years>=339,
+                    r$original_source_forests_NLCD_site_context==8,
+                    r$original_source_domains_before_effort==7,
+                    r$no_individual_source_site_plot_taxon_coordinates_reexported,
+                    r$source_data_no_global_or_3D_forest_causality,
+                    r$no_true_extinction_colonization_or_zero_survey_denominator_claim,
+                    r$primary_39study_PREDICTS_result_left_frozen,
+                    r$eBird_used==FALSE)
+          if(!r$source_only_gate_passed)
+            stopifnot(!r$source_biology_taxon_or_values_read)
+          cat("SCIENTIFIC_GATE_RESULT: ",r$status,"\n")
+          RS
+      - name: Archive anonymous forest source and response summary (no private sample IDs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-neon-8forest-cross-taxon-synchrony-onepass
+          path: neon_forest_cross_taxon_onepass/
+          if-no-files-found: warn
+
+  sourceadaptive_v2_site_centered_forest_cross_taxon_temporal:
+    # One-shot source-gated result completed SUCCESS with r=-0.0664, p=.536; seal against outcome-driven reruns.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install pinned published public NEON derivative and summary-only writer
+        run: |
+          Rscript -e 'install.packages(c("jsonlite","neonDivData"),repos=c("https://daijiang.r-universe.dev","https://cloud.r-project.org"),Ncpus=2)'
+          Rscript -e 'stopifnot(as.character(packageVersion("neonDivData"))=="0.3.1")'
+      - name: Test source-blind v1 and v2 annual time-boundaries and pooled site-demeaned correlations
+        env:
+          NEON_CROSS_TAXON_V2_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R /tmp/v2-known-truth /tmp/no-original
+      - name: Retrieve pinned official NEON 2026 site source without token-gated file access
+        run: |
+          mkdir -p original_neon_sites
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 120 \
+            'https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805' \
+            -o original_neon_sites/site.csv
+          echo 'd123c8dd131635bbfb1869f8c899f4c0a7930549a6ec531c612a01bd9ad03461  original_neon_sites/site.csv' | sha256sum -c -
+      - name: Execute distinct pooled-site-mean v2 after metadata-only support; v1 STOP preserved
+        run: |
+          Rscript analysis/forest_macro_global/neon_forest_cross_taxon_temporal_alignment_v2.R \
+            neon_forest_sourceadaptive_v2 \
+            original_neon_sites/site.csv
+      - name: Enforce source and inference boundaries, accept both positive and scientific STOP
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p<-"neon_forest_sourceadaptive_v2/NEON_8forest_sourceadaptive_v2_site_centered_temporal_coherence.json"
+          x<-fromJSON(p)
+          stopifnot(
+            x$schema=="structural.NEON_forest_cross_taxon_temporal_alignment_sourceadaptive_v2.v1",
+            x$v1_scientific_STOP_NOT_OVERRIDDEN,
+            x$source_only_adaptation_to_distinct_site_centered_estimand,
+            x$original_source_only_8forests_7domains_verified,
+            x$original_source_only_339plotyear_v2_metadata_gate_reused,
+            x$source_original_plot_site_taxon_sample_names_coordinates_NOT_EXPORTED,
+            x$forest_canopy_structure_temperature_effect_NOT_OBSERVED,
+            x$PREDICTS_39study_beta_and_31study_sensitivity_LEFT_FROZEN,
+            x$eBird_used==FALSE)
+          if(!x$source_only_v2_admission_passed) stopifnot(!x$original_species_taxon_or_abundance_values_READ)
+          print(x[c("original_strict_siteyear_blocks_with_3plus_effort_matched_plots",
+                    "original_strict_source_sites_with_2plus_annual_transitions",
+                    "original_strict_original_ecoclimatic_domains",
+                    "source_only_v2_admission_passed","status",
+                    "siteyear_transitions_with_both_taxon_beta_defined",
+                    "v2_site_equal_temporal_coherence_inference")])
+          RS
+      - name: Preserve only anonymized original forest site scale aggregate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-neon-8forest-temporal-coherence-v2-distinct-onepass
+          path: neon_forest_sourceadaptive_v2/
+          if-no-files-found: warn

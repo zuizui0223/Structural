@@ -1,0 +1,52 @@
+name: "Forest BELongDead BExIS24546 author dataStructure original species DWV units gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead24546-publisher-datastructure-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead24546_publisher_datastructure_attribute_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_BExIS2_published_data_structure_24546_units_no_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic BExIS published variable structure name units known truth"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_publisher_datastructure_attribute_gate.py --test
+      - name: "Call documented original BExIS2 dataStructureId field unit API, no original observational values"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_publisher_datastructure_attribute_gate.py \
+            --out BE24546_ORIGINAL_STRUCTURE_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("BE24546_ORIGINAL_STRUCTURE_SOURCEONLY/BExIS24546_publisher_dataStructureId_spec1_DWV_units.json").read_text())
+          assert q["schema"]=="structural.BELongDead24546_publisher_data_structure_spec1_DWV_units_only.v1"
+          if q["status"].startswith(("SOURCE_STOP","SOURCE_RIGHTS_STOP","SOURCE_ACCESS_STOP","SOURCE_TRANSPORT_STOP")):
+              assert q["scientific_publisher_schema_STOP_not_ecological_null"]
+              assert q["original_ecological_scores_UNCHANGED"]
+              print("ORIGINAL_PUBLISHED_SOURCE_DATASTRUCTURE_STOP_NOT_BIOLOGY",q["status"])
+          else:
+              assert q["dataset_original_id"]==24546
+              assert q["source_dataStructureId_declaration"]>=1
+              assert q["original_2012_deadwood_30of30_PlotID_join_already_verified"]
+              assert q["no_original_individual_tree_species_site_coord_abundance_or_volume_values_opened"]
+              assert q["old_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_results_frozen"]
+              assert q["eBird_used"] is False
+              print("BEXIS24546_AUTHOR_DATASTRUCTURE_UNITS_STATUS",q["status"])
+          PY
+      - name: "Archive only official source attribute names/unit metadata, never original beetle/wood rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead24546-author-publisher-dataStructure-units-only
+          path: BE24546_ORIGINAL_STRUCTURE_SOURCEONLY/
+          if-no-files-found: warn

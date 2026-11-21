@@ -1,0 +1,56 @@
+name: "Forest macro Weiss2016 original PLOS-issued R2 S1 DOC fingerprint-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_r2_original_blob_gate.py"
+      - "docs/FOREST_MACRO_WEISS2016_PLOS_R2_ISSUED_SOURCE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-plos-r2-issued-source.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher_302_pinned_object_binary_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic exact PLOS-issued original R2 security and no-response validation"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_r2_original_blob_gate.py --test
+      - name: "ONE original publisher 302 and exact original issued object DOC fingerprint ONLY"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_r2_original_blob_gate.py \
+            --out WEISS2016_ORIGINAL_PLOS_R2_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("WEISS2016_ORIGINAL_PLOS_R2_SOURCEONLY/Weiss2016_original_PLOS_issuer_R2_S1_DOC_fingerprint_only.json").read_text())
+          assert d["schema"]=="structural.Weiss2016_original_PLOS_S1_issued_R2_byte_gate.v1"
+          assert d["author_S1_DOI"]=="10.1371/journal.pone.0149506.s001"
+          assert d["previous_original_Franzen425_Dryad_HTTP401_NOT_RETRIED"]
+          assert not d["original_Gloor_Carpathian_species_or_capture_outcome_READ"]
+          assert d["prior_Finland_Germany_PREDICTS_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert not d["new_guild_or_deadwood_ecological_effect_ESTIMATED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          if "original_supplement_byte_fingerprint_only" in d:
+              a=d["original_supplement_byte_fingerprint_only"]
+              assert a["original_author_S1_binary_OLE_DOC_magic"]
+              assert a["original_DOC_species_table_guild_values_parsed"]==0
+              assert not a["source_species_names_body_numeric_values_or_guild_values_READ"]
+              assert not a["Carpathian_Gloor_original_species_response_READ"]
+          else:
+              assert d["source_or_transport_STOP_not_biological_evidence"]
+          print("ORIGINAL_WEISS2016_PLOS_ISSUED_DOC_TRANSPORT_ONLY",d["status"])
+          PY
+      - name: "Archive only original supplement bytes/digest/format status"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-PLOS-issued-R2-original-guild-doc-source-only
+          path: WEISS2016_ORIGINAL_PLOS_R2_SOURCEONLY/
+          if-no-files-found: warn

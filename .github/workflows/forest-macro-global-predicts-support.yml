@@ -1,0 +1,220 @@
+name: Forest macro global original PREDICTS site-support audit
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-global-predicts-support.yml"
+      - "analysis/forest_macro_global/predicts_site_support.R"
+      - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
+      - "analysis/forest_macro_global/predicts_forest_pair_distance_support.R"
+      - "analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-global-predicts-support.yml"
+      - "analysis/forest_macro_global/predicts_forest_turnover_original.R"
+      - "analysis/forest_macro_global/predicts_forest_pair_distance_support.R"
+      - "analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R"
+      - "analysis/forest_macro_global/predicts_site_support.R"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  global-forest-observation-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install required R curl system headers and official PREDICTS package
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
+      - name: Known truth - local forest vs biome, source study, date and methods
+        env:
+          FOREST_MACRO_SYNTHETIC_ONLY: "1"
+        run: Rscript analysis/forest_macro_global/predicts_site_support.R /tmp/forest-global-synthetic
+      - name: Download actual original 2016+2022 PREDICTS SITE summaries from NHM and audit forest support
+        run: Rscript analysis/forest_macro_global/predicts_site_support.R forest_global_support
+      - name: Fail closed on missing original forest counts and absent provenance
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          x <- fromJSON("forest_global_support/quality_manifest.json")
+          stopifnot(x$schema=="structural.forest_macro_PREDICTS_public_site_support.v1",
+                    x$n_original_source_site_summary_rows>10000,
+                    x$original_site_distinct_n>10000,
+                    x$n_original_source_site_summary_rows>=x$original_site_distinct_n,
+                    x$original_source_biological_4million_records_read==FALSE,
+                    x$no_global_ecological_effect_or_validation_claim==TRUE,
+                    x$spatial_precision_gates_NOT_PASSED==TRUE,
+                    x$original_source_site_records_are_not_all_independent_forest_studies==TRUE)
+          print(x$global_report)
+          RS
+      - name: Archive ONLY aggregate original forest biome/realm and source audit, NOT underlying CC NC locations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-global-predicts-forest-biome-support-audit
+          path: forest_global_support/
+          if-no-files-found: warn
+
+  forest-community-turnover-observed-original-study:
+    # Original 2026-11-12 one-shot outcome scored successfully; never auto-rescore.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 48
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install official PREDICTS client and aggregate-only JSON library
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
+      - name: Test pure turnover and study-level effect independent of raw source
+        env:
+          FOREST_PREDICTS_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_turnover_original.R /tmp/forest-turnover-synthetic
+      - name: One-shot official 2016+2022 PREDICTS original forest response, after prior site gate
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_turnover_original.R forest_macro_predicts_turnover
+      - name: Check scope, no reexport and no globally causal claim
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          f <- "forest_macro_predicts_turnover/predicts_forest_reference_altered_turnover_original_aggregate.json"
+          x <- fromJSON(f,simplifyVector=FALSE)
+          stopifnot(
+            x$schema=="structural.forest_macro_PREDICTS_within_study_reference_replacement.v1",
+            x$original_prevalidated_eligible_forest_sites==1145,
+            x$original_prevalidated_study_method_taxon_strata==39,
+            x$original_prevalidated_countries==20,
+            x$no_original_source_site_species_IDs_coordinates_or_measurements_exported,
+            x$site_pairwise_comparisons_not_independent_replicates,
+            x$land_use_is_observational_cross_sectional_not_intervention,
+            x$tested_canopy_height_or_3D_vertical_niche==FALSE,
+            x$prior_art_PREDICTS_beta_diversity_already_explored,
+            x$publisher_noncommercial_license_respected_raw_not_republished,
+            x$eBird_used==FALSE)
+          print(x$primary_study_equal_inference)
+          RS
+      - name: Upload aggregate-only CC-NC-compliant forest outcome and support
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-predicts-39-stratum-reference-relative-beta-study-aggregate
+          path: forest_macro_predicts_turnover/
+          if-no-files-found: warn
+
+  source-site-distance-support-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install PREDICTS official site metadata client and JSON
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
+      - name: Geographic distance synthetic known-truth (no source)
+        env:
+          FOREST_PREDICTS_GEOGRAPHY_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_pair_distance_support.R /tmp/geo-synthetic
+      - name: Official original PREDICTS site coordinates; do not read taxon measurements
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_pair_distance_support.R forest_macro_distance_support
+      - name: Fail closed on mismatched source frame or inadvertent biological scoring
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          f <- "forest_macro_distance_support/predicts_forest_39study_source_only_distance_support.json"
+          r <- fromJSON(f)
+          stopifnot(
+            r$schema=="structural.PREDICTS_39forest_source_site_geographic_support.v2",
+            r$original_source_summaries==35738,
+            r$original_forest_sites_eligible==1145,
+            r$original_study_method_taxon_comparisons==39,
+            r$original_studies_passing_frozen_geographic_overlap_rule>=0,
+            r$second_biological_sensitivity_still_NOT_RUN,
+            r$no_taxon_species_or_abundance_biological_response_read,
+            r$original_PREDICTS_observational_39_study_result_not_rescored,
+            r$original_source_site_IDs_coordinates_or_reference_spatial_pairs_not_exported,
+            r$source_site_pairs_are_DEPENDENT_and_not_independent_forests,
+            r$eBird_used==FALSE)
+          print(r)
+          RS
+      - name: Store ONLY distance summary and zero-biological-access status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-predicts-reference-pair-distance-sourceonly
+          path: forest_macro_distance_support/
+          if-no-files-found: warn
+
+  source-geography-locked-secondary-distance-matched-response:
+    # One-shot 31-study secondary sensitivity completed successfully; prevent post-outcome rescoring.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 48
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install original NHM client and aggregate JSON writer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'install.packages(c("jsonlite","predictsr"), Ncpus=2)'
+      - name: Test fixed geographic overlap synthetic known truth first
+        env:
+          PREDICTS_GEO_MATCHED_SYNTHETIC_ONLY: "1"
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R /tmp/geo-biological-synthetic
+      - name: Score only 33 geographically eligible studies, never reopen frozen 39-study primary result
+        run: |
+          Rscript analysis/forest_macro_global/predicts_forest_distance_matched_taxa_sensitivity.R forest_macro_geo_matched_sensitivity
+      - name: Verify sensitivity nature and fixed source pre-biology geometry
+        run: |
+          Rscript - <<'RS'
+          library(jsonlite)
+          p <- "forest_macro_geo_matched_sensitivity/predicts_forest_33study_distance_matched_secondary_beta.json"
+          r <- fromJSON(p)
+          stopifnot(
+            r$schema=="structural.PREDICTS_forest_distance_matched_secondary_sensitivity.v1",
+            r$frozen_primary_39study_delta_beta_sim==0.0942,
+            r$frozen_primary_39study_result_NOT_REOPENED_FOR_MODEL_TUNING,
+            r$this_is_secondary_outcome_exposed_exploratory_sensitivity,
+            r$source_original_forest_sites==1145,
+            r$original_Study_groups_frozen==39,
+            r$original_Study_groups_admitted_by_geography_before_biology==33,
+            r$original_Study_groups_with_scored_distance_matched_beta>=10,
+            r$no_causal_environmental_filtering_or_absolute_richness_stability_claim,
+            r$original_distances_have_unverified_coordinate_precision,
+            r$never_fished_multiple_distance_thresholds,
+            r$no_original_source_site_study_taxon_measurements_coordinates_exported,
+            r$publisher_CC_NC_original_data_not_republished,
+            r$eBird_used==FALSE)
+          print(r$secondary_descriptive_inference)
+          RS
+      - name: Export only anonymized postoutcome secondary sensitivity summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-PREDICTS-33study-geography-locked-sensitivity-secondary
+          path: forest_macro_geo_matched_sensitivity/
+          if-no-files-found: warn

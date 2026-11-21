@@ -1,0 +1,55 @@
+name: "BELongDead 30 plots 2012 deadwood DWV source strata m3 vs m3ha QA"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-belongdead24546-30plot-stratum-unit-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead24546_2012_stratum_unit_source_quality.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_2012_deadwood_predictors_only_source_30plots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original author DWV split-unit stratum and no missing resource zeros"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_2012_stratum_unit_source_quality.py --test
+      - name: "Read only 2012 original ambient wood source predictors in exact 30 experimental BE forest plots"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_2012_stratum_unit_source_quality.py \
+            --out BELONGDEAD2012_30PLOT_STRATUM_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BELONGDEAD2012_30PLOT_STRATUM_SOURCEONLY/BELongDead24546_original30plots_DWV_strata_sourceonly_QA.json")
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.BELongDead24546_2012_30plots_stratum_dependent_DWV_units_original_sourcequality.v1"
+          if r["status"].startswith("SOURCE_STOP"):
+              assert r["source_STOP_not_ecological_null"]
+              print("SOURCE_ORIGINAL_2012_WOOD_STRATA_STOP",r["status"])
+          else:
+              assert r["original_2012_source_items_in_all_148_plots"]==7671
+              assert r["original_2012_source_items_in_exact_30_BELongDead_experiment_plots"]==1385
+              assert r["exact_original_matched_physical_plot_ID_count"]==30
+              assert r["no_cross_unit_DWV_sum_or_per_ha_conversion_performed"]
+              assert r["all_original_beetle_species_captures_and_trait_scores_NOT_READ"]
+              assert r["original_source_plot_tree_taxon_item_measurement_values_NOT_EXPORTED"]
+              assert r["original_31124_15_trapID_discrepancy_and_all_zero_effort_UNRESOLVED"]
+              assert r["all_prior_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_results_FROZEN"]
+              assert r["eBird_used"] is False
+              print("ORIGINAL_2012_AMBIENT_DEADWOOD_SOURCE_STRATA",r["status"])
+          PY
+      - name: "Archive anonymous source-wood stratum-by-unit coverage and missingness only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead-2012-24546-30plot-mixed-units-wood-QA
+          path: BELONGDEAD2012_30PLOT_STRATUM_SOURCEONLY/
+          if-no-files-found: warn

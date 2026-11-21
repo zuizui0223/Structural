@@ -1,0 +1,62 @@
+name: Forest macro seven recent cross-continent GBIF source Event field quality
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-recent-global-event-qc.yml"
+      - "analysis/forest_macro_global/audit_recent_source_event_fields.py"
+      - "analysis/forest_macro_global/test_audit_recent_source_event_fields.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  prospective_recent_original_forest_sites_eligibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test original Event ID, sampling method, geo uncertainty and no species source selection
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_recent_source_event_fields.py
+      - name: Retrieve only original seven candidate metadata from successful global multi-region screen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p global_forest_screen
+          gh run download 42320818293 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name forest-macro-original-multiregion-temporal-source-screen \
+            --dir global_forest_screen
+      - name: Audit small source-original GBIF 2019+ Event metadata samples across seven networks
+        run: |
+          python analysis/forest_macro_global/audit_recent_source_event_fields.py \
+            --source global_forest_screen/GBIF_multiregion_original_forest_monitoring_screen.csv \
+            --out global_forest_recent_site_metadata_qc
+      - name: Fail closed on unsupported original forest plots and hidden taxa
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("global_forest_recent_site_metadata_qc/source_original_field_QC_manifest.json").read_text())
+          assert r["schema"]=="structural.global_forest_recent_original_source_field_quality.v1"
+          assert r["predefined_source_dataset_n"]==7
+          assert r["sampled_source_dataset_n"]==7
+          assert r["source_datasets_with_successful_metadata_sample"]>=1
+          assert r["full_source_or_independent_plot_counts_verified"]==0
+          assert r["species_names_abundance_values_stored_or_scored"]==0
+          assert r["no_biodiversity_effects_calculated"]
+          assert r["sample_bias_first_indexed_records_not_representative"]
+          assert not r["eBird_used"]
+          print("GBIF source Event field metadata correctly inspected for",r["source_datasets_with_successful_metadata_sample"],"networks")
+          PY
+      - name: Archive site-level eligibility summary ONLY, not raw source species records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-seven-recent-source-event-field-qc
+          path: global_forest_recent_site_metadata_qc/
+          if-no-files-found: warn

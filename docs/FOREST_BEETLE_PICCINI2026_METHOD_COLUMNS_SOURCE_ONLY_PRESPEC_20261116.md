@@ -1,0 +1,22 @@
+# Piccini 2026 official forest-beetle source: site/stand/layer/year/method column hierarchy BEFORE species scoring (2026-11-16)
+
+## Fixed prior-source evidence
+
+Public official DataCite+GRO dataset identity checks for `10.25625/H8EMJS` and older overlapping canopy dataset `10.25625/5AWJBC` passed ([Actions #43875641370](https://github.com/zuizui0223/Structural/actions/runs/43875641370)), with both exact DOI keys, RELEASED versions, 2 un-restricted text-type files per DOI, and **zero original source values** processed. The [separate first-line-only test](https://github.com/zuizui0223/Structural/actions/runs/43876602501) successfully GET 206-read **only the first line of both full 2026 source files**: one 17-column semicolon-separated header with whitelisted candidates for site, vertical layer, sampling year, method, taxon and feeding guild; one 3-column tab-separated header with no whitelisted generic terms. All original biological response rows remain untouched up to this boundary.
+
+The source papers [Piccini et al. 2026](https://doi.org/10.1111/1365-2664.70472) and [Wildermuth et al. 2024](https://doi.org/10.1111/1365-2664.14623) already analysed stand/tree/vertical guild structure. **Existing prior art**, not new Structural positive.
+
+## One additional original-source method-field audit, still no biological response analysis
+
+1. Only DOI `10.25625/H8EMJS`. Require one exact original public DataCite DOI record and native GRO source DOI and `RELEASED` version, exactly two unrestricted original files, and 17-column semicolon header + three-column tab header as a **pre-locked eligibility gate**. No alternate data route, mirrored DOI, privileged access, user credentials or original response-outcome selection.
+2. The original 17-field file may be downloaded *once* from official `GET /api/access/datafile/<id>` with ≤4 MB size bound; hash in private memory against source-publisher published file checksum if available. No source raw file, cell, author labels or coordinates may be committed/exported. The three-field file need not be read beyond its already verified original header.
+3. Parse original 17-column semicolon CSV as records, **using only source columns whose exact generic headers are in a frozen whitelist**: physical site/stand/plot, year/date, vertical stratum/layer and trap/method/effort. The reader necessarily transports original row text to parse these columns, but source species names, guild-category values, abundances, environmental/resource values and other non-method columns are **never accessed in the estimator**. Therefore do not claim biological file bytes unopened; claim original **biological columns unused / unscored** and explicit source-only inspection only.
+4. Report aggregate counts only: original source row count, number of exact whitelist method columns by category, distinct anonymized site/plot key count per method column, number of vertical-layer values, years, trap/method values, and count of unique **method-only combinations**, plus missingness and source-author label contradictions. Raw identifiers, species, individual numbers, site × taxa matrices, capture-rate values and group-by-species tables are never written to logs or artifacts.
+5. If original headers are ambiguous or lack BOTH site plus vertical layer, or if duplicate key interpretation is not source-defined, report `SOURCE_METHOD_HIERARCHY_NOT_IDENTIFIABLE`, even if many source sampling rows exist. Generic method-column collisions do not prove 8 independent research sites, five stands/site, same dates or trap-effort equivalence.
+6. The older 2024 canopy DOI is not read or counted as another independent study. No original BALA/GEB, Finnish, Thai, PREDICTS, NEON or mammal biology reopened, eBird/TinyFish excluded.
+
+## Next (not this step)
+
+Only once **author-original** site versus stand identifiers and sampling opportunities are validated should a separate precommitted test estimate site-block-heldout community/guild composition. Feeding guilds in Piccini are NOT by definition the same variable as Burner/Finnish `Host_tree=broadl/conifer/both`. A later analysis must harmonize trait definitions or explicitly use non-comparable separate outcomes, without manufacturing a transnational common effect size.
+
+This new gate is an eligibility/provenance check, not a significance test, not evidence of dispersal/rescue, and not a novel biological positive.

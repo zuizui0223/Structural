@@ -1,0 +1,33 @@
+name: Forest macro BETA-FOR one-pass R runtime synthetic-only diagnostic
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-r-runtime-diagnostic-sourcefree.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  no-original-data-runtime-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Ubuntu provided R runtime without installing R
+        run: |
+          if ! command -v Rscript >/dev/null 2>&1; then
+            echo "NO_PREINSTALLED_RSCRIPT_THIS_IS_ONLY_A_RUNTIME_DIAGNOSTIC"
+            exit 0
+          fi
+          Rscript --version
+          Rscript --vanilla analysis/forest_macro_global/betafor11_geometry_vs_wood_beta_onepass.R --test
+      - name: Check source-free Python launcher and method-code known truth
+        run: |
+          python3 analysis/forest_macro_global/betafor11_geometry_vs_wood_original_onepass.py --test
+          python3 analysis/forest_macro_global/betafor11_author_treatment_pairs_sourceonly.py --test
+      - name: Confirm no biological source or effect opened
+        run: |
+          echo "SYNTHETIC_ONLY_NO_ORIGINAL_SAMPLE_OR_OTU_FILE_ACCESSED"

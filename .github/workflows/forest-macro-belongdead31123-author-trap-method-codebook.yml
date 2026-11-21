@@ -1,0 +1,55 @@
+name: "BELongDead 31123 author original trap opportunity and ID codebook SOURCE ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead31123-author-trap-method-codebook.yml"
+      - "analysis/forest_macro_global/belongdead_bexis31123_author_method_codebook_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_metadata_trap_method_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-only known-truth original trap method codebook keywords"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis31123_author_method_codebook_gate.py --test
+      - name: "One original BExIS dataset and version1 metadata annotation scan, never field data"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis31123_author_method_codebook_gate.py \
+            --out BEXIS31123_AUTHOR_METHOD_CODEBOOK_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BEXIS31123_AUTHOR_METHOD_CODEBOOK_AGGREGATE/BELongDead31123_publisher_metadata_trap_effort_codebook_lexical_only.json")
+          q=json.loads(p.read_text())
+          assert q["schema"]=="structural.BELongDead31123_original_public_author_trap_effort_codebook_words_only.v1"
+          if q["status"].startswith("SOURCE_STOP"):
+              assert q["scientific_access_STOP_not_beetle_non_support"]
+              print("SOURCE_CODEBOOK_ACCESS_STOP",q["status"])
+          else:
+              assert q["original_licensed_CC_BY4_confirmed_previously"]
+              assert q["original_only_two_published_dataset_metadata_API_requests"]
+              assert q["no_BExIS_original_species_wood_data_or_trap_rows_requested"]
+              assert q["no_original_metadata_text_or_individual_sample_ID_exported"]
+              assert q["31124_15_exact_method_tuples_prior_source_mismatch_still_unresolved"]
+              assert q["3546_stand_inventory_plot_link_prior_0of30_still_unresolved"]
+              assert q["author_zero_capture_effort_frame_NOT_PROVED_FROM_METADATA_KEYWORDS"]
+              assert q["prior_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_results_frozen"]
+              assert q["eBird_used"] is False
+              print("ORIGINAL_TRAP_METHOD_AUTHOR_SOURCE_DOC_STATUS",q["status"])
+          PY
+      - name: "Publish only original metadata lexical evidence, never author prose or original beetle data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead31123-original-trap-effort-codebook-lexical-only
+          path: BEXIS31123_AUTHOR_METHOD_CODEBOOK_AGGREGATE/
+          if-no-files-found: warn

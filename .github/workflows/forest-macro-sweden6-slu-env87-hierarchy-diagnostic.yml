@@ -1,0 +1,52 @@
+name: "Forest macro SLU Sweden6 original 87-source hierarchy DIAGNOSIS only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_87_env_support_diagnostic.py"
+      - "docs/FOREST_SWEDEN6_87_ENVIRONMENT_HIERARCHY_SUPPORT_DIAGNOSTIC_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-env87-hierarchy-diagnostic.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_support_diagnostic_no_species:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic frozen source gate flags without outcome values"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_87_env_support_diagnostic.py --test
+      - name: "Read only original SOURCE environmental columns and diagnose failed sampling gates"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_87_env_support_diagnostic.py --out SWEDEN6_87_SOURCE_DIAG
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("SWEDEN6_87_SOURCE_DIAG/SLU_sweden6_87_original_nonresponse_support_diagnostic.json").read_text())
+          assert r["original_failed_87site_method_admission_STOP_RETAINED"]
+          assert r["biological_response_values_CTI_richness_Totlab_OR_beetles_OPENED"]==0
+          assert r["all_previous_Structural_ecological_results_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "anonymous_original_nonresponse_source_SUPPORT_DIAGNOSIS" in r:
+              d=r["anonymous_original_nonresponse_source_SUPPORT_DIAGNOSIS"]
+              assert d["source_new_biodiversity_response_rows_opened"]==0
+              assert d["original_CTI_species_richness_Totlab_VALUES_SEMANTICALLY_ACCESSED"]==0
+              assert d["source_original_3460_beetle_rows_READ"]==0
+              assert d["source_scientific_previous_environment_HOLD_PRESERVED"]
+          else:
+              assert r["original_source_structure_STOP_not_ecological_null"]
+          print("SWEDEN6_ORIGINAL_ENVIRONMENT87_DIAGNOSTIC",r["status"])
+          PY
+      - name: "Archive only named source gate support flags and anonymous counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden6-SLU-env87-source-hierarchy-diagnosis-only
+          path: SWEDEN6_87_SOURCE_DIAG/
+          if-no-files-found: warn

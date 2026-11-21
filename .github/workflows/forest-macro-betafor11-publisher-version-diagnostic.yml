@@ -1,0 +1,50 @@
+name: Forest macro BETA-FOR11 official REST version diagnostic only
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-publisher-version-diagnostic.yml"
+      - "analysis/forest_macro_global/betafor11_publisher_version_sourceonly_diag.py"
+      - "docs/FOREST_MACRO_BETAFOR11_PUBLISHER_VERSION_DIAG_PREFREEZE_20261119.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-betafor11-publisher-version-diagnostic.yml"
+      - "analysis/forest_macro_global/betafor11_publisher_version_sourceonly_diag.py"
+      - "docs/FOREST_MACRO_BETAFOR11_PUBLISHER_VERSION_DIAG_PREFREEZE_20261119.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher-version-sourceonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fixed synthetic source-version and MD5 drift tests
+        run: |
+          python3 analysis/forest_macro_global/betafor11_publisher_version_sourceonly_diag.py --test
+      - name: One exact official publisher record JSON only, no file request
+        run: |
+          python3 analysis/forest_macro_global/betafor11_publisher_version_sourceonly_diag.py --out betafor11_version_only/source_version_diagnostic.json
+      - name: Ensure original biological closure and no false admission
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_version_only/source_version_diagnostic.json',encoding='utf-8'))
+          assert x['new_original_organism_or_community_effects'] == 0
+          assert x['original_source_data_files_requested'] == 0
+          assert x['original_v1_version_STOP_preserved']
+          assert x['status'].startswith(('SOURCE_ONLY_', 'SOURCE_DIAG_STOP_'))
+          if 'publisher' in x:
+              assert x['publisher']['not_a_v2_source_admission']
+              assert x['publisher']['six_fixed_source_filename_checksum_matches']==6
+          print('BETAFOR11_VERSION_SOURCE_DIAG_SAFE '+x['status'])
+          PY
+      - name: Upload no-biology original publisher REST literal receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-official-rest-version-only
+          path: betafor11_version_only/
+          if-no-files-found: error

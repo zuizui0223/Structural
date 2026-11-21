@@ -1,0 +1,52 @@
+name: "Forest macro England NFI2026 original 24 author header labels only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/england_nfi2026_original_24col_author_header_only.py"
+      - "docs/FOREST_NFI_ENGLAND_2026_24COL_AUTHOR_FIELD_HEADERS_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-england-nfi2026-author24-header-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_2026_author_header_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Frozen synthetic field-only and do-not-open-rows unit check"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_original_24col_author_header_only.py --test
+      - name: "Exact publisher SHA-pinned 486883B archive, only 24 field names"
+        run: |
+          python analysis/forest_macro_global/england_nfi2026_original_24col_author_header_only.py --out NFI2026_AUTHOR24_HEADER_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("NFI2026_AUTHOR24_HEADER_ONLY/NFI2026_author24_original_header_only.json").read_text())
+          assert d["source_original_biological_OR_sample_rows_READ"]==0
+          assert d["source_method_Lindgren_canopy_Malaise_subcanopy_CONFOUNDED"]
+          assert d["source_delocation_is_NOT_original_physical_plot"]
+          assert not d["new_ecological_effect_estimated"]
+          assert d["previous_biological_scores_UNCHANGED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          if d["status"]=="SOURCE_NFI_ENGLAND_2026_AUTHOR_24COL_HEADER_ONLY_PASS":
+              assert len(d["original_source_metadata_24_AUTHOR_COLUMN_NAMES"])==24
+              assert d["other_source_otu_wide_header_COLUMNS_ONLY"]==328
+              assert d["source_original_data_rows_READ"]==0
+          else:
+              assert d["no_original_sample_body_or_biology_access_allowed"]
+          print("AUTHOR_FIELD_SCHEMA_ONLY_NOT_BIOLOGY",d["status"])
+          PY
+      - name: "Archive publisher field names, not original sample/OTU data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-england-nfi2026-author24-fields-only
+          path: NFI2026_AUTHOR24_HEADER_ONLY/
+          if-no-files-found: warn

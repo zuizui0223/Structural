@@ -1,0 +1,58 @@
+name: "Forest macro Carpathian116 original author README underscore taxonomy convention"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_author_readme_underscore_naming_gate.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_AUTHOR_UNDERSCORE_NAMING_CODEBOOK_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-author-underscore-codebook.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_readme_rscript_only_no_beetle_or_guild_rows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author-underscore-documentation redaction"
+        run: |
+          python analysis/forest_macro_global/carpathian116_author_readme_underscore_naming_gate.py --test
+      - name: "Exactly author README and Rscript from MD5-pinned original Zenodo"
+        run: |
+          python analysis/forest_macro_global/carpathian116_author_readme_underscore_naming_gate.py \
+            --out GLOOR_AUTHOR_NAME_CODEBOOK_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("GLOOR_AUTHOR_NAME_CODEBOOK_SOURCEONLY/Carpathian116_original_author_README_Rscript_underscore_taxon_convention.json").read_text())
+          assert r["schema"]=="structural.Carpathian116_original_author_underscore_naming_provenance.v1"
+          assert r["source_Gloor_401_beetle_header_occurrences_NOT_REOPENED"]
+          assert r["source_Weiss511_trophic_pairs_NOT_REOPENED"]
+          assert r["Gloor_species_incidence_abundance_SITE_ROWS_READ"]==0
+          assert r["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_scoring_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_author_text_convention_counts_ONLY" in r:
+              q=r["original_author_text_convention_counts_ONLY"]
+              assert not q["source_original_README_Rscript_body_or_any_taxon_NAMING_TEXT_EXPORTED"]
+              assert q["original_taxon_header_rows_species_values_or_abundance_OPENED"]==0
+              assert q["original_Weiss_guild_ontology_LEDGER_NOT_READ"]
+              assert q["status"] in {
+                  "SOURCE_AUTHOR_BINOMIAL_UNDERSCORE_FORMAT_DOCUMENTED_ONLY",
+                  "SOURCE_AUTHOR_UNDERSCORE_TO_SPACE_RULE_NOT_EXPLICIT_HOLD"
+              }
+          else:
+              assert r["original_method_source_STOP_not_ecological_null"]
+          print("GLOOR_AUTHOR_ORIGINAL_NAMING_CONVENTION_SOURCE_ONLY",r["status"])
+          PY
+      - name: "Archive anonymous original author naming-convention lexical counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-author-underscore-README-Rscript-only
+          path: GLOOR_AUTHOR_NAME_CODEBOOK_SOURCEONLY/
+          if-no-files-found: warn

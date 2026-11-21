@@ -1,0 +1,65 @@
+name: Forest macro environment response models
+on:
+  push:
+    paths:
+      - '.github/workflows/forest-macro-environment-models.yml'
+      - 'analysis/forest_macro/fit_forest_models.py'
+      - 'analysis/forest_macro/verify_and_compare.py'
+      - 'analysis/forest_macro/test_models.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  forest-response-associations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install numpy==2.3.5 pandas==2.2.3 scipy==1.17.0 statsmodels==0.14.6 patsy==1.0.2 pytest rasterio
+      - name: Test all forest-macro analytical and metadata components
+        run: python -m pytest -q analysis/forest_macro/
+      - name: Fetch already-recorded environmental and contemporary-response artifacts only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 42207600533 --repo "$GITHUB_REPOSITORY" --name forest-macro-contemporary-response-selected --dir response_inputs
+          gh run download 42189797069 --repo "$GITHUB_REPOSITORY" --name forest-macro-plot-environment-ledger --dir environment_inputs
+      - name: Primary tree-cover models and predeclared sensitivities
+        run: |
+          python analysis/forest_macro/fit_forest_models.py \
+            --inputs response_inputs \
+            --environment environment_inputs/environment/forest_plot_environment_2021.csv \
+            --out forest_model_results
+      - name: All covariate coefficients, forest/island influence and forest-block prediction
+        run: python analysis/forest_macro/verify_and_compare.py --results forest_model_results
+      - name: Verify outputs and biological accounting without significance-based gates
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          root=Path('forest_model_results')
+          quality=json.loads((root/'response_quality.json').read_text())
+          for dataset in ['BALA','SLAM']:
+              assert quality[dataset]['unlinked_events']==0
+              assert quality[dataset]['origin_conflicting_island_taxa']==0
+          primary=pd.read_csv(root/'primary_models.csv')
+          assert len(primary)==15
+          assert primary[['beta_per20pp','ci_low','ci_high','p','q_BH_15']].notna().all().all()
+          assert set(primary.channel)=={'BALA_foliage','BALA_pitfall','SLAM'}
+          assert all(primary.query('channel != "SLAM"').plots==30)
+          assert all(primary.query('channel == "SLAM"').plots==31)
+          cv=pd.read_csv(root/'forest_block_prediction.csv')
+          assert len(cv)==15
+          assert all(cv.tested_clusters>=10)
+          print('Completed exploratory forest models; no sign/significance required for success.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-environment-response-models
+          path: forest_model_results/
+          if-no-files-found: error

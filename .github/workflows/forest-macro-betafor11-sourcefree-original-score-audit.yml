@@ -1,0 +1,45 @@
+name: Forest macro BETA-FOR original source-free six-region score arithmetic audit
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-sourcefree-original-score-audit.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  sourcefree-no-organism:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recompute 64 six-region signflips using saved anonymous means only
+        run: |
+          python3 analysis/forest_macro_global/betafor11_geometry_wood_sourcefree_aggregate_verify.py --out betafor11_six_region_sourcefree_audit/receipt.json
+      - name: Check inference gates and original biology remains sealed
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_six_region_sourcefree_audit/receipt.json',encoding='utf8'))
+          assert x['status']=='PASS_SIX_REGION_MEAN_AND_EXACT_P_BUT_PRIMARY_GATE_NOT_SUPPORTED'
+          assert x['original_biological_rows_reopened']==0
+          assert x['new_ecological_models_fitted']==0
+          assert x['forests_nested_in_regions']==11
+          assert x['regions_original_independent_conditional_units']==6
+          assert x['exact_two_sided_as_extreme_count']==4
+          assert x['six_region_exact_signflip_permutations']==64
+          assert x['exact_two_sided_p_recomputed']==0.0625
+          assert x['fixed_exploratory_primary_support_criterion_met'] is False
+          assert x['not_meta_analysis'] and x['not_global_forest_mechanism']
+          print('SOURCE_FREE_BETAFOR11_EXACT_INFERENCE_PASS_NO_RESCUE')
+          PY
+      - name: Archive ONLY source-free numerical verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-sourcefree-six-region-verify
+          path: betafor11_six_region_sourcefree_audit/
+          if-no-files-found: error

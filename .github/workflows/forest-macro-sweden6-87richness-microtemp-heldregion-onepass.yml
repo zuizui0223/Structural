@@ -1,0 +1,57 @@
+name: "Forest macro Sweden6 original87 richness plus measured microclimate LOBO ONEPASS"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_87plotshade_microclimate_richness_lobo_onepass.py"
+      - "docs/FOREST_SWEDEN6_87SOURCE_LOBO_MICROCLIMATE_INCREMENTAL_RICHNESS_ONEPASS_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-87richness-microtemp-heldregion-onepass.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_one_source_precommitted_6region_heldout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-free synthetic 87-identity admission and frozen ridge LOBO"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_87plotshade_microclimate_richness_lobo_onepass.py --test
+      - name: "One exact SHA-pinned SLU 87-row microclimate incremental richness score or scientific STOP"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_87plotshade_microclimate_richness_lobo_onepass.py --out SWEDEN6_ORIGINAL_RICHNESS_MICROTEMP_ONEPASS
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          f=Path("SWEDEN6_ORIGINAL_RICHNESS_MICROTEMP_ONEPASS/Sweden6_SLU_original87_microclimate_heldout_richness_onepass.json")
+          r=json.loads(f.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.SLU_Sweden6_source87_microtemp_incremental_LOBO_onepass.v1"
+          assert r["frozen_earlier_species_source_identifier_mismatch_STOP_PRESERVED"]
+          assert r["original_BEETLE_RAW_SPECIES_NUMBERS_STI_source_data_READ"]==0
+          assert r["prior_England_Carpathian_Finland_PREDICTS_Thai_NEON_BALA_GEB_effects_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "one_original_publisher_source_conditional_test" in r:
+              d=r["one_original_publisher_source_conditional_test"]
+              assert d["source_original_raw_3459beetle_species_rows_NOT_OPENED"]
+              assert d["source_original_CTI_Totlab_source_fields_NOT_SEMANTICALLY_ACCESSED"]
+              assert d["original_source_verified_87plotshade_identity"]["source_original_environment_summary_row_count"]==87
+              assert d["original_source_verified_87plotshade_identity"]["source_original_independent_region_block_count"]==6
+              assert d["original_only_one_richness_microclimate_outofregion_test"]["source_original_six_REGION_signflip_total"]==64
+              assert d["original_only_one_richness_microclimate_outofregion_test"]["source_published_richness_and_shade_effects_PRIOR_ART"]
+          else:
+              assert r["scientific_source_data_quality_STOP_not_ecological_null"]
+              assert not r["original_onepass_valid_ecological_score_OBTAINED"]
+          print("SLU_SWEDEN6_ORIGINAL_ONEPASS_SOURCE_OR_ECOLOGICAL_RESULT",r["status"])
+          PY
+      - name: "Archive only anonymous 6-region loss/conditional uncertainty or exact STOP, never raw source"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-sweden6-microclimate-richness-onepass-anonymous
+          path: SWEDEN6_ORIGINAL_RICHNESS_MICROTEMP_ONEPASS/
+          if-no-files-found: warn

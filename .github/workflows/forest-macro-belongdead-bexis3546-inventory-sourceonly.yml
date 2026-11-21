@@ -1,0 +1,50 @@
+name: "Forest BELongDead 13 hostwood source-pool: original BExIS3546 stand inventory"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead-bexis3546-inventory-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead_bexis3546_stand_inventory_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_published_3546_license_and_plot_tree_inventory_header_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic fixed source rights, no original species wide column, and field header tests"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis3546_stand_inventory_source_gate.py --test
+      - name: "Inspect official inventory source V5 metadata; if CC BY4, one 64K BExIS data-header request"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis3546_stand_inventory_source_gate.py \
+            --out BExIS3546_INVENTORY_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BExIS3546_INVENTORY_AGGREGATE/bexis3546_original_forest_inventory_tree_species_supply_headeronly.json")
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.BELongDead_original_BExIS3546_stand_inventory_host_source_pool_sourceonly.v1"
+          assert r["original_inventory_dataset_ID"]==3546
+          assert r["BE_31123_pinned_long_tree_host_metadata_30plots_13tree_species_ALREADY_VERIFIED"]
+          assert r["BE_31124_same_experiment_subset_not_independent_study"]
+          assert r["BExIS_3546_forest_species_resource_source_rows_UNOPENED"]
+          assert r["BExIS_31123_original_beetle_outcome_UNOPENED"]
+          assert r["no_new_source_pool_or_saproxylic_effect_scored"]
+          assert r["old_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_FROZEN"]
+          assert r["eBird_used"] is False
+          print("ORIGINAL_STAND_TREE_SPECIES_AVAILABILITY_SOURCE_GATE",r["status"])
+          PY
+      - name: "Publish only source rights and generic stand field names; original plot/wood records private"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead-original-BExIS3546-tree-supply-header-only
+          path: BExIS3546_INVENTORY_AGGREGATE/
+          if-no-files-found: warn

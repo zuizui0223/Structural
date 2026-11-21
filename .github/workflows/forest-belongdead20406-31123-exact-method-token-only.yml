@@ -1,0 +1,58 @@
+name: "Forest BELongDead 20406 vs 31123 original exact method token audit"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead20406_31123_exact_token_concordance.py"
+      - "docs/FOREST_BELONGDEAD_20406_31123_EXACT_TOKEN_CONCORDANCE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead20406-31123-exact-method-token-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  two_published_BExIS_author_method_keys_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic site-subplot-log projection and no-join test"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_31123_exact_token_concordance.py --test
+      - name: "Original published-tag source metadata token counts only, no taxa/captures"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_31123_exact_token_concordance.py \
+            --out BE20406_31123_EXACT_METHOD_TOKEN_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BE20406_31123_EXACT_METHOD_TOKEN_ONLY/BELongDead20406_31123_original_no_guessing_exact_method_token_comparison.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.BELongDead20406_31123_original_exact_token_source_only.v1"
+          assert r["original_20406_tag"]==2 and r["original_31123_tag"]==1
+          assert r["previous_Finland_Chiu_Piccini_PREDICTS_NEON_BALA_GEB_effects_UNCHANGED"]
+          assert r["new_biological_effect"] is False
+          assert r["eBird_used"] is False and r["TinyFish_used"] is False
+          if "exact_anonymous_source_method_token_comparison" in r:
+              x=r["exact_anonymous_source_method_token_comparison"]
+              assert x["exact_source_token_match_NEVER_authorizes_join"]
+              assert x["source_20406_StammNR_31123_TreeID_semantic_mapping_NOT_verified"]
+              assert x["source_20406_PLOT_31123_PlotID_semantic_mapping_NOT_verified"]
+              assert x["source_31124_new_TrapID_aliases_RESOLVED"] is False
+              assert x["zero_capture_or_trap_deployment_frame_ESTIMATED"] is False
+              assert x["previously_scored_biological_source_response_rows_OPENED"] is False
+              assert x["source_original_sample_ID_values_EXPORTED"] is False
+          else:
+              assert r["source_only_stop_NOT_organism_null"]
+          print("AUTHOR_SOURCE_EXACT_TOKEN_METHOD_ONLY",r["status"])
+          PY
+      - name: "Archive only anonymous exact token-overlap method counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead20406-31123-exact-method-token-only
+          path: BE20406_31123_EXACT_METHOD_TOKEN_ONLY/
+          if-no-files-found: warn

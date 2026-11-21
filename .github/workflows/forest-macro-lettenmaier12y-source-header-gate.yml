@@ -1,0 +1,55 @@
+name: "Independent 12yr spruce fir beech beetle original CSV and trait sheet SOURCE-ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-lettenmaier12y-source-header-gate.yml"
+      - "analysis/forest_macro_global/lettenmaier_12year_original_source_header_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_pub_csv_and_trait_schema_before_biological_response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic known-truth original CSV metadata-only field categories and species redaction"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_original_source_header_gate.py --test
+      - name: "Fetch three publisher original files privately with exact MD5, inspect headers only"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_original_source_header_gate.py \
+            --out Original12yr_three_host_sourceonly_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("Original12yr_three_host_sourceonly_aggregate/Lettenmaier12y_original_header_sourceonly.json")
+          r=json.loads(f.read_text())
+          assert r["schema"]=="structural.Lettenmaier2025_original_12year_beetle_hostwood_source_schema_only.v1"
+          assert r["original_wood_tree_species_taxa_abundance_and_functional_trait_values_NOT_READ"]
+          assert r["source_original_site_log_year_records_NOT_REEXPORTED"]
+          assert r["authors_original_12year_independent_log_count_NOT_INFERRED"]
+          assert r["original_Finland142site_VD10_guild_PREDICTS_NEON_BALA_GEB_original_results_unchanged"]
+          assert r["eBird_used"] is False
+          if r["status"].startswith("SOURCE_STOP"):
+              assert r["source_access_or_schema_STOP_not_ecological_non_support"]
+              print("ORIGINAL_DATA_ACCESS_STOP_NOT_ECOLOGICAL_NON_SUPPORT",r["status"])
+          else:
+              assert r["original_three_pinned_files_MD5_and_size_verified"]
+              assert r["original_source_schema"]["Beetle_Community"]["original_response_taxon_names_and_biology_values_UNREAD"]
+              assert r["original_source_schema"]["Beetle_Data"]["original_response_taxon_names_and_biology_values_UNREAD"]
+              assert r["original_source_schema"]["Trait_Table"]["taxon_traits_cells_and_species_names_UNREAD"]
+              print("ORIGINAL_12YEAR_SOURCE_SCHEMA_QUALIFIED_NO_BIOLOGICAL_RESPONSE",r["status"])
+          PY
+      - name: "Publish only aggregate original metadata schema; not species IDs, log keys or source files"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-12year-saproxylic-three-host-pinned-source-headers-only
+          path: Original12yr_three_host_sourceonly_aggregate/
+          if-no-files-found: warn

@@ -1,0 +1,53 @@
+name: "BELongDead ambient 2012 deadwood BExIS24546 spec1 spec2 DWV original author codebook"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead24546-original-field-codebook-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead24546_original_metadata_field_codebook.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_original_2012_wood_species_and_volume_units_only_no_biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source-author variable unit/metadata interpretation no observed values"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_original_metadata_field_codebook.py --test
+      - name: "Inspect original BExIS24546 publisher v1 metadata for exact spec1 spec2 DWV Vharv meanings"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_original_metadata_field_codebook.py \
+            --out BE24546_ORIGINAL_CODEBOOK_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BE24546_ORIGINAL_CODEBOOK_AGGREGATE/BExIS24546_spec1_spec2_DWV_original_metadata_codebook_sourceonly.json")
+          z=json.loads(p.read_text())
+          assert z["schema"]=="structural.BELongDead24546_spec1_spec2_DWV_Vharv_original_source_codebook.v1"
+          if z["status"].startswith("SOURCE_STOP"):
+              assert z["scientific_source_STOP_not_organismal_non_support"]
+              assert z["old_original_results_unmodified"]
+              print("AUTHOR_CODEBOOK_ORIGINAL_METADATA_SOURCE_STOP",z["status"])
+          else:
+              assert z["source_tree_type_and_volume_units_not_inferred_from_abbreviations"]
+              assert z["source_original_metadata_prose_and_individual_site_IDs_NOT_EXPORTED"]
+              assert z["no_source_original_deadwood_item_tree_measurement_values_READ"]
+              assert z["no_source_original_BELongDead_beetle_taxa_captures_or_traits_READ"]
+              assert z["old_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_frozen"]
+              assert z["eBird_used"] is False
+              print("AUTHOR_ORIGINAL_2012_WOOD_CODEBOOK_SOURCE_STATUS",z["status"])
+          PY
+      - name: "Archive only field-token/unit attribute metadata counts, no original forest/organism records"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead24546-original-spec1-spec2-DWV-author-codebook
+          path: BE24546_ORIGINAL_CODEBOOK_AGGREGATE/
+          if-no-files-found: warn

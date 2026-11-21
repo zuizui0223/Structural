@@ -1,0 +1,59 @@
+name: Forest macro Kortmann2026 original author-R exact field role ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-author-exact-field-sourceonly.yml"
+      - "analysis/forest_macro_global/kortmann2026_author_R_exact_field_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_AUTHOR_R_EXACT_FIELD_CODEBOOK_PREFREEZE_20261121.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-author-exact-field-sourceonly.yml"
+      - "analysis/forest_macro_global/kortmann2026_author_R_exact_field_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_AUTHOR_R_EXACT_FIELD_CODEBOOK_PREFREEZE_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-author-R-code-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test fixed R lexical field and no biology emission
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_author_R_exact_field_sourceonly.py --test
+      - name: Exact original source R scripts only – fields and method-source hints
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_author_R_exact_field_sourceonly.py --out kortmann2026_original_author_R_exact_field_only/receipt.json
+      - name: 'Fail closed: do not treat method lex as ecological source frame'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_original_author_R_exact_field_only/receipt.json',encoding='utf-8'))
+          assert x['historical_concept_HTTP302_STOP_unchanged'] is True
+          assert x['BETAFOR99_original_biological_onepass_SEALED'] is True
+          assert x['source_original_biology_rows_read']==0
+          assert x['new_organismal_effects']==0
+          assert x['no_source_data_RData_or_XLSX_member_GET'] is True
+          assert x['status'].startswith(('SOURCE_AUTHOR_R_ROLE_CANDIDATES_ONLY_NO_FIELD_FRAME_ADMISSION','SOURCE_METHOD_KEY_ROLE_UNRESOLVED_NO_BIOLOGY','SOURCE_AUTHOR_R_ROLE_STOP_'))
+          if 'source' in x:
+              s=x['source']
+              assert s['original_data_members_content_UNOPENED'] is True
+              assert s['source_plot_triplet_and_sample_ID_rows_read']==0
+              assert s['source_OTU_richness_coverage_or_abundance_rows_read']==0
+              assert s['source_R_scripts_executed'] is False
+              assert s['new_ecological_models_fitted']==0
+          print('KORTMANN_AUTHOR_R_ROLE_SOURCE_ONLY=' + x['status'])
+          PY
+      - name: Archive only source role counts and source SHA fingerprints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann-author-R-exact-field-only
+          path: kortmann2026_original_author_R_exact_field_only/
+          if-no-files-found: error

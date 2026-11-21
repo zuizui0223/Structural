@@ -1,0 +1,26 @@
+name: Forest macro contemporary response extraction
+on:
+  push:
+    paths:
+      - '.github/workflows/forest-macro-contemporary-response.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contemporary-responses:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - run: python -m pytest -q analysis/forest_macro/test_response_extract.py
+      - name: Select2019-2022 response records without executing old biological scorers
+        run: python analysis/forest_macro/response_extract.py --out forest_response_selected
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-contemporary-response-selected
+          path: forest_response_selected/
+          if-no-files-found: error

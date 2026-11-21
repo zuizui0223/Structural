@@ -1,0 +1,63 @@
+name: "Forest macro Weiss2016 original S1 author header disambiguation flags only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_s1_header_only_diagnostic.py"
+      - "docs/FOREST_MACRO_WEISS2016_S1_AUTHOR_HEADER_DISAMBIGUATION_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-s1-header-only-flags.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_PLOS_9_header_metadata_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Ensure source DOC table interpreter"
+        run: |
+          if ! command -v libreoffice >/dev/null && ! command -v soffice >/dev/null; then
+            sudo apt-get update -qq
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends libreoffice-writer
+          fi
+      - name: "Synthetic duplicate species-header collision and response redaction"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_s1_header_only_diagnostic.py --test
+      - name: "One PLOS exact source, only 9 original header-cell semantic flags"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_s1_header_only_diagnostic.py \
+            --out WEISS2016_ORIGINAL_HEADER_FLAGS_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("WEISS2016_ORIGINAL_HEADER_FLAGS_ONLY/Weiss2016_PLOS_S1_9header_semantic_boolean_flags_only.json").read_text())
+          assert r["schema"]=="structural.Weiss2016_original_PLOS_S1_first_header_9column_flags_only.v1"
+          assert r["previous_author_guild_integrity_source_header_STOP_not_reopened"]
+          assert not r["Gloor_original_beetle_taxa_and_abundance_READ"]
+          assert not r["Weiss_original_species_guild_pairs_READ"]
+          assert r["Dryad_Weiss_and_Franzen_original_workbooks_HTTP401_not_retried"]
+          assert r["previous_forest_BALA_GEB_scores_unchanged"]
+          assert not r["new_biodiversity_effect_estimated"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "source_only_header_flags" in r:
+              x=r["source_only_header_flags"]
+              assert x["source_original_first_header_only_cell_count"]==9
+              assert x["original_header_literals_NOT_EXPORTED"]
+              assert not x["source_512_original_species_data_row_text_nodes_INSPECTED"]
+              assert x["original_author_names_or_guild_values_NOT_READ"]
+          else:
+              assert r["source_method_STOP_not_ecological_null"]
+          print("WEISS_S1_SOURCE_HEADER_BOOLEAN_FLAGS_ONLY",r["status"])
+          PY
+      - name: "Archive only anonymized original header token booleans"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-S1-9header-disambiguation-sourceonly
+          path: WEISS2016_ORIGINAL_HEADER_FLAGS_ONLY/
+          if-no-files-found: warn

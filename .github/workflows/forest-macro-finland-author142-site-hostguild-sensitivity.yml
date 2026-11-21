@@ -1,0 +1,97 @@
+name: "Forest beetle Finland 142 author sites: single post-result Host_tree sensitivity"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-finland-author142-site-hostguild-sensitivity.yml"
+      - "analysis/forest_macro_global/finland_author_site_hostguild_sensitivity.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_original_author142_physical_site_sensitivity_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install numeric library and validate source-only site OR synthetic truth"
+        run: |
+          python -m pip install --quiet numpy
+          python analysis/forest_macro_global/finland_author_site_hostguild_sensitivity.py --test
+          python analysis/forest_macro_global/finland_author_2023_siteyear_source_crosswalk.py --test
+      - name: "Retrieve exact three author originals without reopening other-country beetle outcomes"
+        run: |
+          set -euo pipefail
+          mkdir -p FIN_AUTHOR_PRIVATE
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 3000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/5950610/files/Finland_sites.species.csv?download=1' \
+            -o FIN_AUTHOR_PRIVATE/Finland_sites.species.csv
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 3000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/5950610/files/Finland_traits.csv?download=1' \
+            -o FIN_AUTHOR_PRIVATE/Finland_traits.csv
+          curl --fail --silent --show-error --location --retry 2 \
+            --connect-timeout 20 --max-time 120 --max-filesize 1000000 \
+            --proto '=https' --proto-redir '=https' \
+            'https://zenodo.org/records/8322080/files/Site_covariates.csv?download=1' \
+            -o FIN_AUTHOR_PRIVATE/Site_covariates.csv
+          printf '%s\n' \
+            'c373ec9f597311a636b4f83d39fcfc9d  FIN_AUTHOR_PRIVATE/Finland_sites.species.csv' \
+            '6e0303545b79a9959b83d3c86437336a  FIN_AUTHOR_PRIVATE/Finland_traits.csv' \
+            '557451999b19335cbe8058a985d85363  FIN_AUTHOR_PRIVATE/Site_covariates.csv' \
+            | md5sum -c -
+      - name: "Recheck frozen 142 author sites plus 10 linked repeats and one unlinked survey before biology"
+        run: |
+          python analysis/forest_macro_global/finland_author_2023_siteyear_source_crosswalk.py \
+            --folder FIN_AUTHOR_PRIVATE --out FIN_SITE_PRIVATE_META
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("FIN_SITE_PRIVATE_META/finland_2022_2023_author_sourceonly_crosswalk.json").read_text())
+          m=x.get("author_source_identity_comparison",{})
+          assert x["source_pin_files_md5_checked"]
+          assert m["source_2023_author_unique_Site_fields"]==142
+          assert m["same_exact_original_year_site_rows_in_both_author_releases"]==142
+          assert m["2022_sample_years_unmatched_but_Site_known_in_2023"]==10
+          assert m["2022_unmatched_sample_years_with_Site_not_in_2023"]==1
+          assert m["source_original_beetle_species_rows_unopened"]
+          print("FROZEN_PRE_BIOLOGY_AUTHOR_SITE_COHORT_142_10_1_PASS")
+          PY
+      - name: "One frozen Finland site-collapsed original beetle response; report positive, null or STOP"
+        run: |
+          python analysis/forest_macro_global/finland_author_site_hostguild_sensitivity.py \
+            --folder FIN_AUTHOR_PRIVATE --out FIN_SITE_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("FIN_SITE_AGGREGATE/finland_author142_site_hostguild_postresult_sensitivity.json").read_text())
+          assert x["schema"]=="structural.Finland2023author_142sites_2022hosttree_postresult_single_sensitivity.v1"
+          if x["status"].startswith("STOP") or x["status"].startswith("SOURCE_STOP"):
+              assert x["scientific_source_STOP_not_biological_null"]
+              print("SOURCE_STOP_NO_ECOLOGICAL_EFFECT_INFERENCE",x["status"])
+          else:
+              assert x["postresult_not_independent_confirmatory"]
+              assert x["source_metadata_142_10_1_verified_before_beetle_rescore"]
+              assert x["source_author_site_grain"]["source_survey_year_events_author_linked"]==152
+              assert x["source_author_site_grain"]["original_unlinked_survey_year_events_excluded_pre_species"]==1
+              assert x["source_author_site_grain"]["independent_source_author_site_keys_from_published_2023_fields"]==142
+              assert x["conditional_null_P"]==2999
+              assert x["old_frozen_threecountry_D_0p091059_p_0p000333_UNCHANGED"]
+              assert x["prior_PREDICTS_NEON_BALA_GEB_all_sealed"]
+              assert x["eBird_used"] is False
+              print("ONE_POSTRESULT_SITE_SENSITIVITY_COMPLETE_ORIGINAL_SCORES_FROZEN")
+          PY
+      - name: "Archive anonymous 142 author-site sensitivity only, no source IDs or raw biology"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-finland-142author-sites-hostguild-postresult-single-sensitivity
+          path: FIN_SITE_AGGREGATE/
+          if-no-files-found: warn

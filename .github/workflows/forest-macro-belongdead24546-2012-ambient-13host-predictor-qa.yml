@@ -1,0 +1,55 @@
+name: "BELongDead original 30 plots × 2012 ambient wood m3 and 13 hosts: predictor QA"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead24546-2012-ambient-13host-predictor-qa.yml"
+      - "analysis/forest_macro_global/belongdead24546_2012_original_30plot_resource_type_support.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_experimental_host_vs_ambient_wood_labels_only_NO_BEETLE:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source original tree category exact label and m3 rules"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_2012_original_30plot_resource_type_support.py --test
+      - name: "Assess 30 exact original plots' 2012 source measured DWV and host tree label support only"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_2012_original_30plot_resource_type_support.py \
+            --out BEXIS_ORIGINAL_30PLOT_WOOD_PREDICTOR_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("BEXIS_ORIGINAL_30PLOT_WOOD_PREDICTOR_AGGREGATE/BELongDead_30plot_2012_WOODtype_m3_predictor_sourceonly.json").read_text())
+          assert r["schema"]=="structural.BELongDead31123_24546_2012_original_woodtype_volume_predictor_support.v1"
+          assert r["original_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          if r["status"].startswith("SOURCE_STOP"):
+              assert r["scientific_source_STOP_not_ecological_non_support"]
+              print("AMBIENT_WOOD_ORIGINAL_SOURCE_STOP",r["status"])
+          else:
+              assert r["source_all_30_supplied_experimental_plots_present_in_deadwood_2012"]
+              p=r["source_original_tree_host_and_2012_deadwood_PREDICTOR_only"]
+              assert p["original_2012_deadwood_items_in_BELongDead_30_exact_plots"]==1385
+              assert p["original_DWV_unit_publisher_dataStructure1027"]=="cubic meter"
+              assert p["source_original_beetle_taxon_abundances_counts_and_traits_NEVER_OPENED"]
+              assert p["source_original_host_or_wood_taxon_literal_labels_and_plotIDs_NOT_EXPORTED"]
+              assert p["source_2012_deadwood_inventory_not_time_aligned_each_beetle_year"]
+              assert p["source_31124_trap_effort_zero_opportunity_still_unresolved"]
+              assert r["eBird_used"] is False
+              print("BELONGDEAD_2012_AMBIENT_WOOD_SOURCE_PREDICTOR_RESULT",r["status"])
+          PY
+      - name: "Archive anonymous host category and 30plot raw m3 distribution QA, not source observations"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-original-BELongDead-2012-30plot-DWV-m3-hosttype-coverage
+          path: BEXIS_ORIGINAL_30PLOT_WOOD_PREDICTOR_AGGREGATE/
+          if-no-files-found: warn

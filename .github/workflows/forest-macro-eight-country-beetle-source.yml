@@ -1,0 +1,64 @@
+name: "Forest eight-country bark and wood beetle original landscape-trap source"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-eight-country-beetle-source.yml"
+      - "analysis/forest_macro_global/audit_nardi_multiregion_beetle_sources.py"
+      - "analysis/forest_macro_global/test_audit_nardi_multiregion_beetle_sources.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  zenodo_13_landscapes_original_8_countries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate source checksums, ecological strata and taxon label privacy
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_nardi_multiregion_beetle_sources.py
+      - name: Retrieve 4 public source tables from Zenodo 17044394 v3
+        run: |
+          mkdir -p original_zenodo_beetles
+          for file in bio_cast.txt bio_data_trapscale.txt env_data_sitescale.txt env_data_trapscale.txt; do
+            curl --fail --location --retry 2 --retry-delay 3 --connect-timeout 15 --max-time 140 \
+              "https://zenodo.org/records/17044394/files/${file}?download=1" \
+              -o "original_zenodo_beetles/${file}"
+          done
+      - name: Verify original MD5 and field-grain support without scoring ecological outcomes
+        run: |
+          python analysis/forest_macro_global/audit_nardi_multiregion_beetle_sources.py \
+            --bio_cast original_zenodo_beetles/bio_cast.txt \
+            --bio_data_trapscale original_zenodo_beetles/bio_data_trapscale.txt \
+            --env_data_sitescale original_zenodo_beetles/env_data_sitescale.txt \
+            --env_data_trapscale original_zenodo_beetles/env_data_trapscale.txt \
+            --out original_13_landscape_beetle_source_gate
+      - name: Assert actual checksum verified source and forest vs landscape independent units
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("original_13_landscape_beetle_source_gate/zenodo_eight_country_beetle_source_grain.json").read_text())
+          assert x["schema"]=="structural.multiregion_beetle_zenodo_original_13_landscapes_audit.v1"
+          assert x["source_dataset_DOI"]=="10.5281/zenodo.17044394"
+          assert x["source_published_article_DOI"]=="10.1002/eap.70194"
+          assert len(x["source_tables"])==4
+          assert all(t["source_row_count"]>3 for t in x["source_tables"].values())
+          assert x["original_study_reports_13_landscapes_eight_countries"]
+          assert x["independent_original_plot_count_verified"]==0
+          assert x["not_an_insect_canopy_v_ground_vertical_data_source"]
+          assert not x["new_source_topology_or_forestation_effect_scored"]
+          assert x["raw_species_values_site_IDs_coordinates_not_exported"]
+          assert not x["eBird_used"]
+          PY
+      - name: Archive source-only geography/method metadata without any raw taxon data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-eight-country-beetle-original-source-schema
+          path: original_13_landscape_beetle_source_gate/
+          if-no-files-found: warn

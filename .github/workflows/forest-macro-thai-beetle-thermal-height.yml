@@ -1,0 +1,50 @@
+name: "Forest canopy beetle trap-height and microclimate source eligibility"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-thermal-height.yml"
+      - "analysis/forest_macro_global/thai_beetle_thermal_height_gate.py"
+      - "analysis/forest_macro_global/test_thai_beetle_thermal_height_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_temperature_and_trap_height_availability_no_species:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test Event-only source metadata parsing and no species leakage
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_thai_beetle_thermal_height_gate.py
+      - name: Audit frozen original Thai sampling Events only (without occurrence extension)
+        run: |
+          python analysis/forest_macro_global/thai_beetle_thermal_height_gate.py \
+            --out original_thai_beetle_thermal_height
+      - name: Verify no hourly logger inference or beetle response access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("original_thai_beetle_thermal_height/thai_beetle_original_height_temperature_availability.json").read_text())
+          assert r["schema"]=="structural.thai_beetle_original_event_microclimate_height_gate.v1"
+          assert r["original_event_rows"]==288
+          assert r["independent_original_forests_from_methods"]==2
+          assert r["original_source_archive_sha256"]=="1565cf6d7f1e7289e28756367e3d137f64723dc1fa0a06d799f6abdb523e1339"
+          assert r["beetle_occurrence_species_or_abundance_rows_read"]==0
+          assert r["source_timeseries_thermal_escape_test_eligible"] is False
+          assert r["original_hobo_hourly_logger_timeseries_extracted_from_Event_core"] is False
+          assert r["all_raw_site_ids_text_coordinates_suppressed"]
+          assert not r["new_thermal_effect_estimated"]
+          PY
+      - name: Archive source metadata support results only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-thermal-height-source-eligibility
+          path: original_thai_beetle_thermal_height/
+          if-no-files-found: warn

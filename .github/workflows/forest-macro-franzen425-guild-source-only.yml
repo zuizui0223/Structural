@@ -1,0 +1,54 @@
+name: "Forest macro original Franzén 425 beetle larval guild source-only intake"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/franzen425_dryad_guild_sourceonly.py"
+      - "docs/FOREST_MACRO_FRANZEN425_GUILD_SOURCE_ONLY_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-franzen425-guild-source-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_independent_425_beetle_larval_guild_publisher_metadata_ONLY:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic published Dryad file and license guard, no species rows"
+        run: |
+          python analysis/forest_macro_global/franzen425_dryad_guild_sourceonly.py --test
+      - name: "Publisher original Dryad dataset version file index only; no trait/catch values"
+        run: |
+          python analysis/forest_macro_global/franzen425_dryad_guild_sourceonly.py \
+            --out FRANZEN425_ORIGINAL_PUBLISHER_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("FRANZEN425_ORIGINAL_PUBLISHER_ONLY/Franzen2026_425_species_original_Dryad_publisher_sourceonly.json")
+          a=json.loads(p.read_text(encoding="utf-8"))
+          assert a["schema"]=="structural.Franzen2026_425spp_larval_guild_Dryad_original_metadata.v1"
+          assert a["original_Carpathian116_and_other_Finland_Chiu_German_BALA_GEB_values_UNREAD"]
+          assert a["no_new_biological_effect"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "original_publisher_metadata_only" in a:
+              z=a["original_publisher_metadata_only"]
+              assert z["original_species_traits_values_READ"]==0
+              assert z["original_Carpathian_species_labels_or_abundance_VALUES_READ"]==0
+              assert not z["new_ecological_effect_estimated"]
+              assert z["publisher_original_file_manifest"]["official_filename_only_not_source_species_coverage"]
+          else:
+              assert a["source_rights_or_manifest_STOP_not_ecological_non_support"]
+          print("FRANZEN425_GUILD_FILE_SOURCE_READINESS",a["status"])
+          PY
+      - name: "Archive official version checksum manifest only, never species data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Franzen425-original-guild-trait-publisher-only
+          path: FRANZEN425_ORIGINAL_PUBLISHER_ONLY/
+          if-no-files-found: warn

@@ -1,0 +1,63 @@
+name: "Forest macro Weiss2016 original PLOS DOC guild layout structure only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_original_doc_layout_diagnostic.py"
+      - "docs/FOREST_MACRO_WEISS2016_S1_GUILD_LAYOUT_DIAGNOSTIC_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-original-doc-layout.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_Weiss_S1_pinned_DOC_wrap_layout_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Ensure fixed original-format reader for nonbiological source method"
+        run: |
+          if ! command -v antiword >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq antiword
+          fi
+      - name: "Synthetic redaction test for species names in layout counts"
+        run: |
+          python analysis/forest_macro_global/weiss2016_original_doc_layout_diagnostic.py --test
+      - name: "One original SHA-frozen PLOS DOC; compare three wrapping modes without taxa export"
+        run: |
+          python analysis/forest_macro_global/weiss2016_original_doc_layout_diagnostic.py \
+            --out WEISS2016_ORIGINAL_DOC_LAYOUT_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("WEISS2016_ORIGINAL_DOC_LAYOUT_ONLY/Weiss2016_source_DOC_layout_token_counts_anonymous_only.json").read_text())
+          assert j["schema"]=="structural.Weiss2016_original_DOC_source_layout_method_only.v1"
+          assert not j["source_Gloor_species_taxon_identity_or_abundance_OPENED"]
+          assert j["previous_Franzen_Dryad_HTTP401_NOT_RETRIED"]
+          assert j["earlier_Finland_Germany_PREDICTS_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert not j["new_ecological_effect_estimated"]
+          assert not j["eBird_used"] and not j["TinyFish_used"]
+          if "method_only_source_layout_diagnostic" in j:
+              q=j["method_only_source_layout_diagnostic"]
+              assert not q["source_guild_or_species_text_values_EXPORTED"]
+              assert not q["Carpathian_Gloor_taxa_or_abundance_DATA_OPENED"]
+              assert not q["species_to_guild_pair_MAPPING_ESTABLISHED"]
+              assert all("width_"+str(v) in q for v in (0,120,200))
+              for v in (0,120,200):
+                  assert q["width_"+str(v)]["original_per_line_and_original_species_guild_values_NOT_EXPORTED"]
+          else:
+              assert j["source_method_STOP_not_ecological_null"]
+          print("ORIGINAL_WEISS_DOC_LAYOUT_SOURCE_ONLY",j["status"])
+          PY
+      - name: "Archive nonidentifying row-shape and guild token counts only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-PLOS-DOC-wrap-layout-only
+          path: WEISS2016_ORIGINAL_DOC_LAYOUT_ONLY/
+          if-no-files-found: warn
