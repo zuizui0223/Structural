@@ -1,0 +1,39 @@
+name: "Forest Ecuador beetle conditional richness fixed source-free checks"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/falconi2026_post_emergence_richness_lopo.py"
+      - ".github/workflows/forest-falconi2026-conditional-richness-sourcefree.yml"
+  pull_request:
+    paths:
+      - "analysis/forest_macro_global/falconi2026_post_emergence_richness_lopo.py"
+      - ".github/workflows/forest-falconi2026-conditional-richness-sourcefree.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fixed-known-truth-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install pure Python dependencies"
+        run: python -m pip install --quiet numpy pandas scikit-learn
+      - name: "Test exact fixed ridge and input guards on synthetic values only"
+        run: |
+          python analysis/forest_macro_global/falconi2026_post_emergence_richness_lopo.py --test
+      - name: "Require original beetle ZIP remains unavailable in the repository checkout"
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          assert not list(Path('.').rglob('R skript and raw data.zip'))
+          assert not list(Path('.').rglob('R%20skript%20and%20raw%20data.zip'))
+          print("ORIGINAL_AUTHOR_ZIP_NOT_REDISRIBUTED_PASS")
+          PY
