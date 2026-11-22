@@ -1,0 +1,53 @@
+name: "Forest beetle Sweden 2026 author Lop_nummer global source ID, no species outcomes"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-author-global-serial-id.yml"
+      - "analysis/forest_macro_global/ramberg2026_lop_nummer_global_id_gate.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-author-global-serial-id.yml"
+      - "analysis/forest_macro_global/ramberg2026_lop_nummer_global_id_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-150-original-source-global-stump-ID-no-beetle-response:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test author codebook and source numeric identity known truth"
+        run: python3 analysis/forest_macro_global/ramberg2026_lop_nummer_global_id_gate.py --test
+      - name: "Compare only source Lop_nummer vs species COLUMN IDs, physical stand and pair keys"
+        run: |
+          python3 analysis/forest_macro_global/ramberg2026_lop_nummer_global_id_gate.py \
+            --out ramberg2026_global_serial_id_sourceonly/receipt.json
+      - name: "Check original species rows remain untouched and old source hold unchanged"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open("ramberg2026_global_serial_id_sourceonly/receipt.json"))
+          assert x['schema']=='structural.ramberg2026_author_lop_nummer_source_global_join.v1'
+          assert x['sample_id_prior_15_of_150_failure_unmodified']
+          assert x['original_species_abundance_numeric_rows_read']==0
+          assert x['new_ecological_effects']==0
+          if 'source_identity' in x:
+              y=x['source_identity']
+              assert y['read_original_Species_observation_or_abundance_rows']==0
+              assert y['new_biological_effects_computed']==0
+              assert not y['raw_sample_stump_site_or_taxon_names_released']
+          print("ORIGINAL_AUTHOR_STUMP_SOURCE_GLOBAL_KEY_STATUS",x['status'])
+          PY
+      - name: "Archive only anonymous original stump ID and parent hierarchy matching counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-ramberg2026-author-global-serial-source-id-gate
+          path: ramberg2026_global_serial_id_sourceonly/receipt.json
+          if-no-files-found: warn
