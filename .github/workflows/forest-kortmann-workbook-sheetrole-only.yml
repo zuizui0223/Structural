@@ -1,0 +1,55 @@
+name: Forest Kortmann original workbook sheet roles ONLY — no cells
+on:
+  push:
+    branches:
+      - audit/forest-kortmann39-ledger-synthetic-20261122
+    paths:
+      - ".github/workflows/forest-kortmann-workbook-sheetrole-only.yml"
+      - "analysis/forest_macro_global/kortmann2026_xlsx_workbook_sheetrole_only.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_AUTHOR_XLSX_WORKBOOK_SHEETROLE_PREFREEZE_20261122.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-original-workbook-sheet-names:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Synthetic safety tests: workbook only, no worksheet or biology'
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_xlsx_workbook_sheetrole_only.py --test
+      - name: 'Exact Zenodo source ZIP and original Excel workbook structure ONLY'
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_xlsx_workbook_sheetrole_only.py --out out_kortmann_original_workbook_sheetroles/receipt.json
+      - name: 'Fail closed: prior sample-link HOLD and no original worksheet numeric values'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('out_kortmann_original_workbook_sheetroles/receipt.json'))
+          assert x['existing_OTU_SAMPLE_LINK_HOLD_unchanged']
+          assert x['historical_40_original_triplet_HOLD_unchanged']
+          assert x['no_new_biodiversity_models']
+          assert x['status'].startswith((
+             'SOURCE_AUTHOR_WORKBOOK_SHEETROLE_CANDIDATE_ONLY_NO_CELL_READ',
+             'SOURCE_AUTHOR_WORKBOOK_SHEETROLE_NOT_EVIDENCED_NO_CELL_READ',
+             'SOURCE_WORKBOOK_SHEETROLE_STOP_'
+          ))
+          if 'source' in x:
+              y=x['source']['original_workbook_structural_sheet_role_only']
+              assert y['source_sheet_titles_NOT_EXPORTED']
+              assert y['original_worksheet_XML_contents_NOT_OPENED']
+              assert y['sharedStrings_XML_NOT_OPENED']
+              assert y['original_taxon_OTU_abundance_fields_NOT_READ']
+              assert y['sample_to_method_join_remains_HOLD']
+              print('ORIGINAL_WORKBOOK_SHEET_COUNT',y['source_worksheet_count'])
+              print('ORIGINAL_METHOD_LIKE_SHEET_TITLE_COUNT',y['method_like_sheet_title_count_not_verified_content'])
+          print('KORTMANN_WORKBOOK_STRUCTURE_GATE='+x['status'])
+          PY
+      - name: 'Store only anonymous sheet-role counts, no workbook or worksheets'
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kortmann17775805-publisher-workbook-sheetnames-only
+          path: out_kortmann_original_workbook_sheetroles/
+          if-no-files-found: warn
