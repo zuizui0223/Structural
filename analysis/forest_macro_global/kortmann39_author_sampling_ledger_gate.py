@@ -59,12 +59,14 @@ def codebook_from_text(text: str) -> dict:
         raise GateHold("CODEBOOK_BAD_JSON") from None
     if not isinstance(x, dict) or set(x) != CODEBOOK_KEYS:
         raise GateHold("CODEBOOK_REQUIRED_FIELDS")
-    if x["dataset_versioned_doi"] != DOI or x["mapping_basis"] not in BASIS:
+    if (x["dataset_versioned_doi"] != DOI or
+        not isinstance(x["mapping_basis"], str) or x["mapping_basis"] not in BASIS):
         raise GateHold("CODEBOOK_PROVENANCE_OR_MAPPING_BASIS")
     treatment = x["treatment_code_to_role"]
     if (not isinstance(treatment, dict) or len(treatment) != 3
         or not all(isinstance(k, str) and k.strip() and len(k) <= 128
                    for k in treatment)
+        or not all(isinstance(v, str) for v in treatment.values())
         or set(treatment.values()) != SEMANTIC_ROLES):
         raise GateHold("CODEBOOK_TREATMENT_ROLES")
     for key in ("offset_units_and_transform", "sampling_time_definition"):
