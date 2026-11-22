@@ -106,7 +106,16 @@ def source_zenodo():
         o["status"]="ZENODO_ORIGINAL_FILE_OFFICIAL_LINK_MISSING"
         return o
     p=urllib.parse.urlparse(href)
-    if p.scheme!="https" or p.hostname!="zenodo.org" or not p.path.startswith("/api/files/"):
+    # Link is copied byte-for-byte from the canonical Zenodo record's exact
+    # checksum-pinned original file entry. Never construct or guess a URL.
+    o["publisher_authorized_link_host"]=p.hostname
+    o["publisher_authorized_link_path_without_query"]=p.path[:220]
+    allowed_path=(
+        p.path.startswith("/api/files/") or
+        p.path.startswith("/api/records/23021809/files/") or
+        p.path.startswith("/records/23021809/files/")
+    )
+    if p.scheme!="https" or p.hostname!="zenodo.org" or not allowed_path:
         o["status"]="ZENODO_ORIGINAL_FILE_URL_HOST_OR_PATH_STOP"
         return o
     status,data=get_bytes(href,150000)
