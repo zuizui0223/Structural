@@ -97,7 +97,8 @@ def score_source_keys(binary):
         species_header=original_row1(z,paths["Species"])
         if len(samp_header)!=18 or len(species_header)!=153:
             raise ValueError("SOURCE_AUTHOR_HEADER_DIMENSION_STOP")
-        hdr_sst={value for _,t,value in samp_header if t=="s"}
+        hdr_sst=({value for _,t,value in samp_header if t=="s"} |
+                 {value for _,t,value in species_header[:3] if t=="s"})
         hdr_shared=base.selected_sharedstrings(z,hdr_sst)
         names={c:to_label((t,v),hdr_shared) for c,t,v in samp_header}
         colmap={c:name for c,name in names.items() if name in ALLOW}
@@ -138,6 +139,8 @@ def score_source_keys(binary):
           len(group_n)==10)
     # No raw names, keys, dates, geographic coordinates, phenology or taxa exported.
     return {
+      "all_original_Samples_18_first_row_field_labels_only":[names[k] for k,_,_ in samp_header],
+      "original_Species_3_first_row_descriptor_labels_only":[to_label((t,v),hdr_shared) for _,t,v in species_header[:3]],
       "source_samples_sheet_used_range":"A1:R168",
       "source_species_sheet_used_range":"A1:EW68",
       "n_samples_sheet_original_xml_data_rows":nrows,
