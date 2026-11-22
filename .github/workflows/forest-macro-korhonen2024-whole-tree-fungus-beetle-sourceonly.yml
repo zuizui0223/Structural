@@ -1,0 +1,49 @@
+name: "Forest beetles Korhonen2024 whole-tree fungus x beetle original source metadata only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-korhonen2024-whole-tree-fungus-beetle-sourceonly.yml"
+      - "analysis/forest_macro_global/korhonen2024_whole_tree_beetle_fungi_sourceonly.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-korhonen2024-whole-tree-fungus-beetle-sourceonly.yml"
+      - "analysis/forest_macro_global/korhonen2024_whole_tree_beetle_fungi_sourceonly.py"
+permissions:
+  contents: read
+jobs:
+  original-dryad-metadata-and-one-readme-GET-no-biology:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Known-truth official Dryad origin and disjoint original data source gate"
+        run: python3 analysis/forest_macro_global/korhonen2024_whole_tree_beetle_fungi_sourceonly.py --test
+      - name: "Inspect original public Dryad file manifest and ONE exact original README GET only"
+        run: |
+          python3 analysis/forest_macro_global/korhonen2024_whole_tree_beetle_fungi_sourceonly.py \
+            --out korhonen2024_whole_tree_sourceonly/receipt.json
+      - name: "Assert no beetle/fungal source observations entered any ecological fit"
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open("korhonen2024_whole_tree_sourceonly/receipt.json"))
+          assert d["schema"]=="structural.korhonen2024_whole_tree_beetle_fungus_sourceonly.v1"
+          assert d["original_organism_source_rows_opened"]==0
+          assert d["new_ecological_predictive_scores"]==0
+          assert d["old_Sweden2026_Ramberg_scientific_ZERO_CATCH_STOP_preserved"]
+          assert d["old_Frostgard2026_and_Ramberg2025_HTTP401_UNRETRIED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          print("SOURCE_BIOLOGY_REMAINED_UNOPENED",d["result"]["status"])
+          PY
+      - name: "Archive only publisher-file metadata and README access result"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Korhonen2024-whole-tree-fungus-beetle-source-only
+          path: korhonen2024_whole_tree_sourceonly/receipt.json
+          if-no-files-found: warn
