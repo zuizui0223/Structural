@@ -85,13 +85,13 @@ def audit():
             # These are unverified candidates, not an author file manifest.
             info["response_free_bootstrap_structure"] = {
                 "html_length": len(data),
-                "has_next_data_json": bool(re.search(r'id=["\\\']__NEXT_DATA__["\\\']', html)),
-                "has_figshare_article_identifier_token": bool(re.search(
-                    r'["\\\'](?:articleId|article_id|articleID)["\\\']\\s*:', html)),
-                "has_inline_files_key": bool(re.search(
-                    r'["\\\']files["\\\']\\s*:', html)),
-                "has_canonical_article_path": bool(re.search(
-                    r'figshare\\.com/articles/[^"\\s<>]+', html)),
+                "has_next_data_json": "__NEXT_DATA__" in html,
+                "has_figshare_article_identifier_token": any(
+                    token in html for token in
+                    ('"articleId"', '"article_id"', '"articleID"')
+                ),
+                "has_inline_files_key": '"files":' in html,
+                "has_canonical_article_path": "figshare.com/articles/" in html,
             }
         x["share_link_statuses"][k] = info
 
