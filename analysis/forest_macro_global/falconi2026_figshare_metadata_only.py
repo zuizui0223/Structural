@@ -75,10 +75,23 @@ def audit():
     for k, url in LINKS.items():
         info, data = request(url)
         if data and "html" in info.get("content_type", "").lower():
+            html = data.decode("utf-8", errors="replace")
             p = PageMeta()
-            p.feed(data.decode("utf-8", errors="replace"))
+            p.feed(html)
             info["canonical_og_metadata_only"] = {
                 name: value[:220] for name, value in p.found.items()
+            }
+            # HTML source DOM metadata only, never follow embedded file URLs.
+            # These are unverified candidates, not an author file manifest.
+            info["response_free_bootstrap_structure"] = {
+                "html_length": len(data),
+                "has_next_data_json": bool(re.search(r'id=["\\\']__NEXT_DATA__["\\\']', html)),
+                "has_figshare_article_identifier_token": bool(re.search(
+                    r'["\\\'](?:articleId|article_id|articleID)["\\\']\\s*:', html)),
+                "has_inline_files_key": bool(re.search(
+                    r'["\\\']files["\\\']\\s*:', html)),
+                "has_canonical_article_path": bool(re.search(
+                    r'figshare\\.com/articles/[^"\\s<>]+', html)),
             }
         x["share_link_statuses"][k] = info
 
