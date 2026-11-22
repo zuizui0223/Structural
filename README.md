@@ -1,5 +1,7 @@
 # Structural
 
+> **2026-11-22 EOG paper-lane handoff:** 89 original structural-manuscript/figure/source files were verified against EOG Git blobs. **70** already match canonical Structural files; **19** unmatched historical versions and tests were preserved under [`archive/eog_structural_legacy_20261122/`](archive/eog_structural_legacy_20261122/README.md). No biological response was rescored and no frozen Structural claim was changed. The EOG repository retains shared methodology and historical method-benchmark evidence, not an independent Structural paper. See [handoff manifest](archive/eog_structural_legacy_20261122/SOURCE_MANIFEST.json).
+
 Standalone repository for the structural/reference-adequacy paper formerly developed inside `zuizui0223/eog`.
 
 ## Scientific question
