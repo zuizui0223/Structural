@@ -15,7 +15,22 @@ permissions:
   contents: read
 
 jobs:
+  source-free-synthetic-only-after-original-scientific-stop:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install deterministic model libraries (synthetic source-free only)"
+        run: python3 -m pip install --quiet "numpy>=1.26,<3" "pandas>=2.1,<3" "scikit-learn>=1.4,<2"
+      - name: "Check scoring algebra without fetching original workbook"
+        run: python3 analysis/forest_macro_global/ramberg2026_stump_microhabitat_pairholdout_onepass.py --test
   original-immutable-source-exploratory-single-pass:
+    # Original source run #45034056795 reached a scientific ZERO-CATCH STOP.
+    # Never open any original species values or fit again on this data.
+    if: false
     runs-on: ubuntu-24.04
     timeout-minutes: 17
     steps:
