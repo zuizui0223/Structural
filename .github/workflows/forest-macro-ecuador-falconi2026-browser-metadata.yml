@@ -84,6 +84,15 @@ jobs:
                       if pattern.search(t) and t not in seen:
                           seen.add(t)
                           candidates.append(t)
+                          # Inspect file-link metadata, not the file itself.
+                          href=el.get_attribute('href')
+                          result.setdefault('file_element_link_metadata',[]).append({
+                            'label':t[:120],
+                            'tag':el.evaluate('(e)=>e.tagName.toLowerCase()'),
+                            'href_present':bool(href),
+                            'href_path_no_query':href.split('?')[0][:220] if href else None,
+                            'data_file_id_present':bool(el.get_attribute('data-file-id')),
+                          })
                   result['visible_file_label_candidates']=candidates[:40]
                   result['status']=('BROWSER_VISIBLE_FILE_LABELS_ONLY_AUTHOR_ID_HOLD'
                       if candidates else 'BROWSER_PAGE_RESOLVED_NO_AUTHENTICATED_FILE_MANIFEST_HOLD')
