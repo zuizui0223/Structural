@@ -1,0 +1,30 @@
+name: Forest Kortmann39 author-ledger synthetic only (no original data)
+on:
+  push:
+    branches:
+      - audit/forest-kortmann39-ledger-synthetic-20261122
+    paths:
+      - ".github/workflows/forest-kortmann39-ledger-offline-synthetic-audit.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-responsefree-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Run only source-free 702/720 sampling ledger known-truth fixtures'
+        run: |
+          python3 -m unittest discover -s analysis/forest_macro_global -p test_kortmann39_author_sampling_ledger_gate.py -v
+      - name: 'Confirm no biological source data were downloaded or scored'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('analysis/forest_macro_global/kortmann39_author_sampling_ledger_gate.py')
+          t=p.read_text(encoding='utf8')
+          assert 'def evaluate(' in t
+          assert 'NO_ORIGINAL_OTU_OR_RDATA_VALUES_READ' in t
+          assert not any(x in t for x in ('import requests', 'urllib.request', 'subprocess.run', 'rpy2'))
+          print('SYNTHETIC_LEDGER_FIREWALL_PASS; ZERO ORIGINAL OTU INPUTS')
+          PY
