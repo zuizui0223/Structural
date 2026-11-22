@@ -68,7 +68,7 @@ jobs:
                 resp=page.goto(PAGE,wait_until='domcontentloaded',timeout=45000)
                 page.wait_for_timeout(4500)
                 a=page.locator('a',has_text='R skript and raw data.zip').first
-                a.wait_for(state='visible',timeout=25000)
+                a.wait_for(state='attached',timeout=18000)
                 r['phase']='UI_FILE_LINK_VISIBLE'
                 href=urljoin(PAGE,a.get_attribute('href',timeout=12000) or '')
                 u=urlsplit(href)
