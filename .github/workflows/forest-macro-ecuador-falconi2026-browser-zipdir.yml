@@ -33,6 +33,7 @@ jobs:
           python - <<'PY'
           import hashlib, json, os, tempfile, zipfile
           from pathlib import Path
+          from urllib.parse import urlsplit, urljoin
           from playwright.sync_api import sync_playwright
           PAGE='https://figshare.com/s/80ba8b612162e4a7ace7'
           EXACT='https://figshare.com/ndownloader/files/51346106'
@@ -69,7 +70,17 @@ jobs:
                 o['share_page_title']=page.title()[:140]
                 a=page.locator('a',has_text='R skript and raw data.zip').first
                 href=a.get_attribute('href',timeout=9000)
-                o['publisher_visible_link_exact_match']=(href==EXACT)
+                resolved=urljoin(PAGE,href or '')
+                actual=urlsplit(resolved)
+                expected=urlsplit(EXACT)
+                o['observed_href_host']=actual.hostname
+                o['observed_href_path']=actual.path[:160]
+                o['observed_href_has_query']=bool(actual.query)
+                o['publisher_visible_link_exact_match']=(
+                    actual.scheme=='https'
+                    and actual.hostname==expected.hostname
+                    and actual.path==expected.path
+                )
                 if not o['publisher_visible_link_exact_match']:
                   o['status']='UI_ORIGINAL_FILE_LINK_MISMATCH_STOP'
                 else:
