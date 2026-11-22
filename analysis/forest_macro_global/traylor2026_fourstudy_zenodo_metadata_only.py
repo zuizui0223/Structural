@@ -11,6 +11,8 @@ from pathlib import Path
 
 RECORD=19206036
 DOI="10.5281/zenodo.19206036"
+VERSION_ID=19206037
+VERSION_DOI="10.5281/zenodo.19206037"
 URL=f"https://zenodo.org/api/records/{RECORD}"
 UA={"User-Agent":"Structural-independent-beetle-fourstudy-metadata/1.0","Accept":"application/json"}
 
@@ -30,13 +32,19 @@ def source():
     except ValueError:return {"status":"SOURCE_PUBLISHER_METADATA_JSON_STOP"}
     md=x.get("metadata") or {}
     doi=x.get("doi") or md.get("doi")
-    if x.get("id")!=RECORD or doi!=DOI:
+    if not (
+        x.get("id")==VERSION_ID and doi==VERSION_DOI
+        and x.get("conceptdoi")==DOI
+        and str(x.get("conceptrecid"))==str(RECORD)
+        and ((md.get("license") or {}).get("id") if isinstance(md.get("license"),dict) else md.get("license"))=="cc-by-4.0"
+        and (md.get("access_right") or md.get("access_status")) in ("open",None)
+    ):
         return {
-            "status":"SOURCE_PUBLISHER_ID_OR_DOI_MISMATCH_STOP",
-            "requested_original_record_id":RECORD,
+            "status":"SOURCE_PUBLISHER_CONCEPT_VERSION_RIGHTS_IDENTITY_STOP",
+            "requested_concept_id":RECORD,
+            "required_version_id":VERSION_ID,
             "returned_record_id":x.get("id"),
             "returned_version_doi":x.get("doi"),
-            "returned_metadata_doi":md.get("doi"),
             "returned_concept_doi":x.get("conceptdoi"),
             "returned_concept_record_id":x.get("conceptrecid"),
             "returned_title":str(md.get("title",""))[:220],
@@ -60,7 +68,7 @@ def source():
         })
     out={
       "status":"SOURCE_OFFICIAL_FILE_METADATA_AND_RIGHTS_READY" if outputs else "SOURCE_PUBLIC_FILE_LIST_EMPTY_HOLD",
-      "doi":DOI,"record":RECORD,"original_title":str(md.get("title",""))[:220],
+      "concept_doi":DOI,"concept_record":RECORD,"version_doi":VERSION_DOI,"version_record":VERSION_ID,"original_title":str(md.get("title",""))[:220],
       "publication_date":md.get("publication_date"),
       "license":md.get("license"),
       "access_right":md.get("access_right") or md.get("access_status"),
@@ -73,7 +81,8 @@ def source():
     return out
 
 def known():
-    assert RECORD==19206036 and DOI.endswith(str(RECORD))
+    assert RECORD==19206036 and VERSION_ID==19206037
+    assert DOI.endswith(str(RECORD)) and VERSION_DOI.endswith(str(VERSION_ID))
     print("TRAYLOR2026_ORIGINAL_SOURCE_ID_ONLY_FIXTURE_PASS")
 
 def main():
