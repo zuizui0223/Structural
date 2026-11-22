@@ -1,0 +1,56 @@
+name: "Forest macro Ecuador Falconi 2026 Figshare source-only metadata gate"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-sourceonly.yml"
+      - "analysis/forest_macro_global/falconi2026_figshare_metadata_only.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publisher-link-and-public-file-metadata-no-biology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Verify link discrepancy and source-only parser synthetic safeguards"
+        run: |
+          python3 analysis/forest_macro_global/falconi2026_figshare_metadata_only.py --test
+      - name: "Inspect publisher share links and public Figshare API metadata only"
+        run: |
+          python3 analysis/forest_macro_global/falconi2026_figshare_metadata_only.py \
+            --out falconi2026_sourceonly/receipt.json
+      - name: "Prevent ecological score or source-file result promotion"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('falconi2026_sourceonly/receipt.json',encoding='utf-8'))
+          assert x['schema']=='structural.falconi2026_sourceonly.v1'
+          assert x['publisher_share_link_conflict'] is True
+          assert x['published_plots']==62 and x['published_logs_deployed']==310
+          assert x['original_log_and_beetle_rows_opened']==0
+          assert x['original_biological_source_files_downloaded']==0
+          assert x['ecological_effects_scored']==0
+          assert x['preexisting_forests_and_mammal_scores_unchanged']
+          assert x['eBird_used'] is False and x['TinyFish_used'] is False
+          assert x['status'] in (
+            'SOURCE_METADATA_UNRESOLVED_HOLD',
+            'SOURCE_FILE_METADATA_ONLY_VISIBLE_CROSSWALK_HOLD',
+          )
+          print('SOURCE_GATE',x['status'])
+          PY
+      - name: "Archive only published and public file metadata, no original biology"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-ecuador-2026-figshare-sourceonly-metadata-receipt
+          path: falconi2026_sourceonly/receipt.json
+          if-no-files-found: warn
