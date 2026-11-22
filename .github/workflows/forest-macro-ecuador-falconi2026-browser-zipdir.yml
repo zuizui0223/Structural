@@ -31,7 +31,7 @@ jobs:
       - name: "Open publisher-cited share page and click only exact official ZIP link; inspect ZIP DIRECTORY, never members"
         run: |
           python - <<'PY'
-          import hashlib, json, os, tempfile, zipfile
+          import hashlib, json, os, tempfile, zipfile, urllib.request, urllib.error
           from pathlib import Path
           from urllib.parse import urlsplit, urljoin
           from playwright.sync_api import sync_playwright
@@ -84,49 +84,53 @@ jobs:
                 if not o['publisher_visible_link_exact_match']:
                   o['status']='UI_ORIGINAL_FILE_LINK_MISMATCH_STOP'
                 else:
-                  # The human-visible publisher link is authorized; only then
-                  # allow the browser its normal download navigation. No API token,
-                  # bypass, alternate mirror or external private credentials.
-                  page.unroute('**/*',preflight_filter)
+                  # Exact publisher-visible href INCLUDING its query. Never log
+                  # query values; those are not stable public file identifiers.
+                  # No login, no user credentials, no alternate download host.
+                  o['complete_publisher_href_query_redacted']=True
                   try:
-                    with page.expect_download(timeout=50000) as di:
-                      a.click(timeout=14000)
-                    download=di.value
-                    o['browser_download_suggested_filename']=download.suggested_filename[:130]
-                    if download.suggested_filename.lower().endswith('.zip'):
+                    req=urllib.request.Request(resolved,headers={
+                      'User-Agent':'Mozilla/5.0',
+                      'Accept':'application/zip,application/octet-stream,*/*;q=0.2'})
+                    with urllib.request.urlopen(req,timeout=50) as source:
+                      o['full_ui_href_GET_http']=source.status
+                      o['full_ui_href_content_type']=source.headers.get('Content-Type','')[:90]
                       dest=Path(tmp)/'original.zip'
-                      download.save_as(str(dest))
-                      size=dest.stat().st_size
+                      size=0
+                      h=hashlib.sha256()
+                      with dest.open('wb') as fh:
+                        while True:
+                          chunk=source.read(65536)
+                          if not chunk:break
+                          size+=len(chunk)
+                          if size>CAP:
+                            o['status']='UI_FULL_HREF_ARCHIVE_CAP_STOP'
+                            break
+                          h.update(chunk)
+                          fh.write(chunk)
+                    if o['status']!='UI_FULL_HREF_ARCHIVE_CAP_STOP':
                       o['original_compressed_bytes']=size
-                      if size>CAP:
-                        o['status']='UI_ARCHIVE_SIZE_CAP_STOP'
-                      else:
-                        h=hashlib.sha256()
-                        with dest.open('rb') as fh:
-                          while True:
-                            b=fh.read(1024*1024)
-                            if not b:break
-                            h.update(b)
-                        o['original_archive_sha256']=h.hexdigest()
-                        try:
-                          with zipfile.ZipFile(dest,'r') as z:
-                            infos=z.infolist()
-                            names=[i.filename for i in infos]
-                            if (len(infos)>1000 or len(set(names))!=len(names)
-                                or any(n.startswith('/') or '..' in n.split('/') for n in names)):
-                              o['status']='UI_SOURCE_ZIP_DIRECTORY_SAFETY_STOP'
-                            else:
-                              o['central_directory_file_records_only']=[
-                                {'name':i.filename[:230], 'compressed_bytes':i.compress_size,
-                                 'uncompressed_bytes':i.file_size, 'directory':i.is_dir()}
-                                for i in infos]
-                              o['status']='UI_SOURCE_DIRECTORY_PASS_NO_BIOLOGY'
-                        except (zipfile.BadZipFile,OSError):
-                          o['status']='UI_SOURCE_NOT_VALID_ZIP_STOP'
-                    else:
-                      o['status']='UI_SOURCE_DOWNLOAD_NONZIP_STOP'
+                      o['original_archive_sha256']=h.hexdigest()
+                      try:
+                        with zipfile.ZipFile(dest) as z:
+                          infos=z.infolist()
+                          names=[i.filename for i in infos]
+                          if (len(infos)>1000 or len(set(names))!=len(names)
+                              or any(n.startswith('/') or '..' in n.split('/') for n in names)):
+                            o['status']='UI_FULL_HREF_ZIP_DIRECTORY_SAFETY_STOP'
+                          else:
+                            o['central_directory_file_records_only']=[
+                              {'name':i.filename[:230], 'compressed_bytes':i.compress_size,
+                               'uncompressed_bytes':i.file_size,'directory':i.is_dir()}
+                              for i in infos]
+                            o['status']='UI_FULL_HREF_DIRECTORY_PASS_NO_BIOLOGY'
+                      except (zipfile.BadZipFile,OSError):
+                        o['status']='UI_FULL_HREF_NONZIP_STOP'
+                  except urllib.error.HTTPError as e:
+                    o['full_ui_href_GET_http']=e.code
+                    o['status']='UI_FULL_HREF_HTTP_STOP'
                   except Exception as e:
-                    o['status']='UI_SOURCE_DOWNLOAD_ERROR_HOLD'
+                    o['status']='UI_FULL_HREF_TRANSPORT_STOP'
                     o['error_class']=type(e).__name__
                 context.close()
                 browser.close()
