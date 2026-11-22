@@ -1,0 +1,52 @@
+name: "Forest beetles Traylor2026 356 wood objects four studies original Zenodo metadata ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-fourstudy-zenodo-sourceonly.yml"
+      - "analysis/forest_macro_global/traylor2026_fourstudy_zenodo_metadata_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-fourstudy-zenodo-sourceonly.yml"
+      - "analysis/forest_macro_global/traylor2026_fourstudy_zenodo_metadata_only.py"
+permissions:
+  contents: read
+jobs:
+  original-Zenodo-rights-and-file-roster-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic-only exact publisher source identity"
+        run: python3 analysis/forest_macro_global/traylor2026_fourstudy_zenodo_metadata_only.py --test
+      - name: "Read only published source metadata, file names/checksums and reuse license"
+        run: |
+          python3 analysis/forest_macro_global/traylor2026_fourstudy_zenodo_metadata_only.py \
+            --out traylor2026_source_only/receipt.json
+      - name: "Assert original beetle/tree outcome and all files remain unopened"
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open("traylor2026_source_only/receipt.json"))
+          assert a["schema"]=="structural.traylor2026_four_original_studies_beetles_source_metadata_only.v1"
+          assert a["source_data_file_gets"]==0
+          assert a["new_ecological_scores"]==0
+          assert a["prior_Ramberg2026_zero_catch_scientific_STOP_preserved"]
+          assert a["prior_Cours2026_rights_only_gate_separate"]
+          assert a["prior_Ecuador_Finland_BALA_GEB_mammal_outcomes_sealed"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "source_beetle_species_or_deadwood_records_read" in a["metadata"]:
+              assert a["metadata"]["source_beetle_species_or_deadwood_records_read"]==0
+          print("PUBLISHER_ONLY_SOURCE_STATUS",a["metadata"]["status"])
+          PY
+      - name: "Upload only rights/metadata receipt, NEVER original sample data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-traylor2026-original-fourstudy-beetle-sourceonly
+          path: traylor2026_source_only/receipt.json
+          if-no-files-found: warn
