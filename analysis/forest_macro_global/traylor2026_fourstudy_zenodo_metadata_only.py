@@ -31,7 +31,19 @@ def source():
     md=x.get("metadata") or {}
     doi=x.get("doi") or md.get("doi")
     if x.get("id")!=RECORD or doi!=DOI:
-        return {"status":"SOURCE_PUBLISHER_ID_OR_DOI_MISMATCH_STOP"}
+        return {
+            "status":"SOURCE_PUBLISHER_ID_OR_DOI_MISMATCH_STOP",
+            "requested_original_record_id":RECORD,
+            "returned_record_id":x.get("id"),
+            "returned_version_doi":x.get("doi"),
+            "returned_metadata_doi":md.get("doi"),
+            "returned_concept_doi":x.get("conceptdoi"),
+            "returned_concept_record_id":x.get("conceptrecid"),
+            "returned_title":str(md.get("title",""))[:220],
+            "returned_rights":md.get("license"),
+            "returned_access":md.get("access_right") or md.get("access_status"),
+            "original_biological_file_gets":0
+        }
     files=x.get("files") or []
     if isinstance(files,dict):files=list((files.get("entries") or {}).values())
     if not isinstance(files,list):
