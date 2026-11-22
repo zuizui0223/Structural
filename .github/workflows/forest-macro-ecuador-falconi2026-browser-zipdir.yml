@@ -1,0 +1,150 @@
+name: "Forest macro Ecuador Falconi2026 publisher UI ZIP directory only"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-browser-zipdir.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-browser-zipdir.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publisher-visible-download-source-directory-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install supported headless chromium"
+        run: |
+          python -m pip install --quiet "playwright==1.56.0"
+          python -m playwright install chromium
+      - name: "Open publisher-cited share page and click only exact official ZIP link; inspect ZIP DIRECTORY, never members"
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, tempfile, zipfile
+          from pathlib import Path
+          from playwright.sync_api import sync_playwright
+          PAGE='https://figshare.com/s/80ba8b612162e4a7ace7'
+          EXACT='https://figshare.com/ndownloader/files/51346106'
+          CAP=80*1024*1024
+          o={
+            'schema':'structural.falconi2026_publisher_ui_original_zip_directory_only.v1',
+            'source_original_paper':'10.1016/j.foreco.2026.124102',
+            'source_file_exact_ui_label':'R skript and raw data.zip',
+            'source_file_exact_href':EXACT,
+            'prior_simple_urllib_source_get_http':403,
+            'source_member_files_uncompressed_or_semantically_opened':0,
+            'original_beetle_and_log_response_rows_read':0,
+            'new_ecological_scores':0,
+            'source_bytes_uploaded':False,
+            'status':'UI_SOURCE_ACCESS_HOLD'
+          }
+          with tempfile.TemporaryDirectory(prefix='falconiui-sourceonly-') as tmp:
+            try:
+              with sync_playwright() as pw:
+                browser=pw.chromium.launch(headless=True,args=['--no-sandbox'])
+                context=browser.new_context(accept_downloads=True)
+                page=context.new_page()
+                def preflight_filter(route):
+                  u=route.request.url.lower().split('?')[0]
+                  if ('/download' in u or '/ndownloader' in u or '/preview/' in u
+                      or u.endswith(('.zip','.csv','.xlsx','.rdata','.rds','.tsv','.pdf','.png','.jpg'))):
+                    route.abort()
+                  else:
+                    route.continue_()
+                page.route('**/*',preflight_filter)
+                response=page.goto(PAGE,wait_until='domcontentloaded',timeout=45000)
+                page.wait_for_timeout(3500)
+                o['share_page_http']=response.status if response else None
+                o['share_page_title']=page.title()[:140]
+                a=page.locator('a',has_text='R skript and raw data.zip').first
+                href=a.get_attribute('href',timeout=9000)
+                o['publisher_visible_link_exact_match']=(href==EXACT)
+                if not o['publisher_visible_link_exact_match']:
+                  o['status']='UI_ORIGINAL_FILE_LINK_MISMATCH_STOP'
+                else:
+                  # The human-visible publisher link is authorized; only then
+                  # allow the browser its normal download navigation. No API token,
+                  # bypass, alternate mirror or external private credentials.
+                  page.unroute('**/*',preflight_filter)
+                  try:
+                    with page.expect_download(timeout=50000) as di:
+                      a.click(timeout=14000)
+                    download=di.value
+                    o['browser_download_suggested_filename']=download.suggested_filename[:130]
+                    if download.suggested_filename.lower().endswith('.zip'):
+                      dest=Path(tmp)/'original.zip'
+                      download.save_as(str(dest))
+                      size=dest.stat().st_size
+                      o['original_compressed_bytes']=size
+                      if size>CAP:
+                        o['status']='UI_ARCHIVE_SIZE_CAP_STOP'
+                      else:
+                        h=hashlib.sha256()
+                        with dest.open('rb') as fh:
+                          while True:
+                            b=fh.read(1024*1024)
+                            if not b:break
+                            h.update(b)
+                        o['original_archive_sha256']=h.hexdigest()
+                        try:
+                          with zipfile.ZipFile(dest,'r') as z:
+                            infos=z.infolist()
+                            names=[i.filename for i in infos]
+                            if (len(infos)>1000 or len(set(names))!=len(names)
+                                or any(n.startswith('/') or '..' in n.split('/') for n in names)):
+                              o['status']='UI_SOURCE_ZIP_DIRECTORY_SAFETY_STOP'
+                            else:
+                              o['central_directory_file_records_only']=[
+                                {'name':i.filename[:230], 'compressed_bytes':i.compress_size,
+                                 'uncompressed_bytes':i.file_size, 'directory':i.is_dir()}
+                                for i in infos]
+                              o['status']='UI_SOURCE_DIRECTORY_PASS_NO_BIOLOGY'
+                        except (zipfile.BadZipFile,OSError):
+                          o['status']='UI_SOURCE_NOT_VALID_ZIP_STOP'
+                    else:
+                      o['status']='UI_SOURCE_DOWNLOAD_NONZIP_STOP'
+                  except Exception as e:
+                    o['status']='UI_SOURCE_DOWNLOAD_ERROR_HOLD'
+                    o['error_class']=type(e).__name__
+                context.close()
+                browser.close()
+            except Exception as e:
+              o['status']='UI_PAGE_OR_BROWSER_ERROR_HOLD'
+              o['error_class']=type(e).__name__
+          dest=Path('falconi2026_UI_zipdir_sourceonly/receipt.json')
+          dest.parent.mkdir(parents=True,exist_ok=True)
+          dest.write_text(json.dumps(o,sort_keys=True,indent=2)+'\n',encoding='utf-8')
+          print('SOURCE_ONLY_UI_ZIP_GATE',o['status'])
+          print('ZIP_MEMBER_COUNT',len(o.get('central_directory_file_records_only',[])))
+          print('NO_BIOLOGY_READ',o['original_beetle_and_log_response_rows_read']==0)
+          PY
+      - name: "Reject source biological read or unauthorized re-score"
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('falconi2026_UI_zipdir_sourceonly/receipt.json'))
+          assert x['schema']=='structural.falconi2026_publisher_ui_original_zip_directory_only.v1'
+          assert x['source_member_files_uncompressed_or_semantically_opened']==0
+          assert x['original_beetle_and_log_response_rows_read']==0
+          assert x['new_ecological_scores']==0
+          assert x['source_bytes_uploaded'] is False
+          print('SOURCE_ONLY_PUBLISHER_UI_GATE',x['status'])
+          PY
+      - name: "Keep only source ZIP fingerprint and directory; never upload ZIP"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-ecuador2026-publisher-ui-zipdir-only-receipt
+          path: falconi2026_UI_zipdir_sourceonly/receipt.json
+          if-no-files-found: warn
