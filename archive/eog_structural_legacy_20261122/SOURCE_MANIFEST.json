@@ -1,0 +1,638 @@
+{
+  "schema": "structural.eog_legacy_handoff.v1",
+  "date": "2026-11-22",
+  "source_repo": "zuizui0223/eog",
+  "source_commit": "6629350feae096bef503105d5c00b0e46d5583d9",
+  "destination_repo": "zuizui0223/Structural",
+  "total": 89,
+  "matching_canonical": 70,
+  "new_archived": 19,
+  "source_validated": true,
+  "scientific_result_changed": false,
+  "description": "A historical source-hash manifest. Canonical files may change subsequently as Structural develops; archival-only files are invariant.",
+  "files": [
+    {
+      "source": "figures/build_figure_1_reference_conditioned.py",
+      "sha": "384a4f1c64f3e07295a69baaf1cd0b030e65d282",
+      "bytes": 10227,
+      "location": "figures/build_figure_1_reference_conditioned.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/build_figure_1_roles.py",
+      "sha": "b7d42869dbfff1ac31b7ab3c8b747cc606a7ed31",
+      "bytes": 15009,
+      "location": "figures/build_figure_1_roles.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/build_figure_2_aislands.py",
+      "sha": "902344de12ac74236d2ef7f2e49f615954727679",
+      "bytes": 31426,
+      "location": "figures/build_figure_2_aislands.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/build_figure_2_aislands_reference_conditioned.py",
+      "sha": "f95949f93f816423959e91853c865262cbf6f67e",
+      "bytes": 18153,
+      "location": "figures/build_figure_2_aislands_reference_conditioned.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/build_figure_3_tanzania.py",
+      "sha": "e95b616e77f3d1dc19e06eb036df9d3798a47887",
+      "bytes": 26865,
+      "location": "figures/build_figure_3_tanzania.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/build_figure_4_boundary.py",
+      "sha": "afd81a61479f76f736f18763df432d1206b27470",
+      "bytes": 19843,
+      "location": "figures/build_figure_4_boundary.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/build_figure_5_audit.py",
+      "sha": "94d6b36ee2981ff424fe79e027f823807114dae7",
+      "bytes": 12121,
+      "location": "figures/build_figure_5_audit.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/figure_1_roles.json",
+      "sha": "6c77bc0678d760b74bce2975642948004a17c74a",
+      "bytes": 2515,
+      "location": "figures/figure_1_roles.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/figure_5_audit_contract.json",
+      "sha": "6f9ebdcb74065325ad7aec4117f58b4c179d4c2d",
+      "bytes": 2261,
+      "location": "figures/figure_5_audit_contract.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/figure_manifest.json",
+      "sha": "1b5d66508230497c2d50e05cf15230e3dedbdc47",
+      "bytes": 7204,
+      "location": "figures/figure_manifest.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/aislands_applicability.csv",
+      "sha": "5f46b2d5c0b80dadce95a02cddb248cc0951c1b0",
+      "bytes": 362,
+      "location": "figures/output/aislands_applicability.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/aislands_fold_coverage.csv",
+      "sha": "e367d71a7b64eb6cd0a794045b7d72f7c6729087",
+      "bytes": 440,
+      "location": "figures/output/aislands_fold_coverage.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/aislands_mode_estimates.csv",
+      "sha": "4686687db6422737cdcbdbe76de2dae4aaad1449",
+      "bytes": 786,
+      "location": "figures/output/aislands_mode_estimates.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/aislands_species_concordance.csv",
+      "sha": "a01113aad04a66b9112dabd1d8469aa1177a335a",
+      "bytes": 42806,
+      "location": "figures/output/aislands_species_concordance.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_1_metadata.json",
+      "sha": "b3820a05394a74701ad639bb8f7b19d20543e87c",
+      "bytes": 501,
+      "location": "figures/output/figure_1_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_1_reference_conditioned.svg",
+      "sha": "be062830d5f82a10a0b7c9634ae7cf100f762f7a",
+      "bytes": 8047,
+      "location": "figures/output/figure_1_reference_conditioned.svg",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_1_reference_conditioned_metadata.json",
+      "sha": "e95ea89f190af059f5c7c4d003991c720b5739a8",
+      "bytes": 544,
+      "location": "figures/output/figure_1_reference_conditioned_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_1_roles.svg",
+      "sha": "3f702b58d28df27967581927126db275fdea7793",
+      "bytes": 13100,
+      "location": "figures/output/figure_1_roles.svg",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_2_aislands.svg",
+      "sha": "b48abd0eedd9f03a5a6b724292b26aa18083e8a7",
+      "bytes": 57048,
+      "location": "figures/output/figure_2_aislands.svg",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_2_aislands_reference_conditioned.svg",
+      "sha": "2b63c2ed214340912e99daf917330661eb9c593b",
+      "bytes": 15138,
+      "location": "figures/output/figure_2_aislands_reference_conditioned.svg",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_2_aislands_reference_conditioned_data.csv",
+      "sha": "4b40bb0334adb3b747baa87875edb5c7f62d9d65",
+      "bytes": 338,
+      "location": "figures/output/figure_2_aislands_reference_conditioned_data.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_2_aislands_reference_conditioned_metadata.json",
+      "sha": "f1e423929c79006a839836740223894e1bfb8f2f",
+      "bytes": 998,
+      "location": "figures/output/figure_2_aislands_reference_conditioned_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_2_metadata.json",
+      "sha": "14d55f4de1da558fd2a85ecc4697b2949cd38e5b",
+      "bytes": 2189,
+      "location": "figures/output/figure_2_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_3_metadata.json",
+      "sha": "bcf0e7d4d94c14c9613950d8415633a7aac0f72c",
+      "bytes": 1582,
+      "location": "figures/output/figure_3_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_3_tanzania.svg",
+      "sha": "0fbb2ab2308e2fe43c34c30c74d9e29b0c1c195c",
+      "bytes": 23098,
+      "location": "figures/output/figure_3_tanzania.svg",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_4_boundary.svg",
+      "sha": "6ade825fcdcf861b2b876dbae2d98f315dcbf335",
+      "bytes": 7983,
+      "location": "figures/output/figure_4_boundary.svg",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_4_metadata.json",
+      "sha": "d314c0904b488dfc516fa5cbd2698f70511c0525",
+      "bytes": 1870,
+      "location": "figures/output/figure_4_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_4_panel_data.csv",
+      "sha": "431f4cfbcedf78c85ad7f0a836b69374496b1fa2",
+      "bytes": 1568,
+      "location": "figures/output/figure_4_panel_data.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_5_audit.svg",
+      "sha": "285dce733d4a2c5343c4b95416edc14fa88628f3",
+      "bytes": 7103,
+      "location": "figures/output/figure_5_audit.svg",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/figure_5_metadata.json",
+      "sha": "c3d405e5a80401363e195c35ea7df8b2bda80389",
+      "bytes": 2276,
+      "location": "figures/output/figure_5_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/tanzania_aggregate_contrasts.csv",
+      "sha": "d803168e287996df7c8e0b545af0f6ed48d87700",
+      "bytes": 775,
+      "location": "figures/output/tanzania_aggregate_contrasts.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/tanzania_applicability.csv",
+      "sha": "1d01b185eaab277e65931db91048829b5d5c5b31",
+      "bytes": 268,
+      "location": "figures/output/tanzania_applicability.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "figures/output/tanzania_species_loso_effects.csv",
+      "sha": "c8f85f92301d9454b03f91c80642f64a31f7035e",
+      "bytes": 4077,
+      "location": "figures/output/tanzania_species_loso_effects.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/STRUCTURAL_ISLAND_PAPER_BOUNDARY_V1.json",
+      "sha": "ddaa793503efc6fbb9eaa07abee9636a76d5f090",
+      "bytes": 6941,
+      "location": "manuscript/STRUCTURAL_ISLAND_PAPER_BOUNDARY_V1.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/build_structural_results_tables.py",
+      "sha": "1be183a8115b14d2ed358bc807992eeae4e6d457",
+      "bytes": 13700,
+      "location": "manuscript/build_structural_results_tables.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/build_structural_submission_package.py",
+      "sha": "1a5b349029c3dae06d72f7aeeeac82f4693556e8",
+      "bytes": 14081,
+      "location": "archive/eog_structural_legacy_20261122/manuscript/build_structural_submission_package.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "manuscript/build_structural_submission_package_v2.py",
+      "sha": "798ae10cc58452e6cca6b48935e2ba0123a40c93",
+      "bytes": 4249,
+      "location": "manuscript/build_structural_submission_package_v2.py",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_1_accessibility.md",
+      "sha": "a7a9f786d66ef64442cdcc5709a5f2cdbb4d7dc1",
+      "bytes": 1122,
+      "location": "manuscript/figure_1_accessibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_1_caption.md",
+      "sha": "872f212d9eecacdca51c999bd6ceafc9ce8e3584",
+      "bytes": 1404,
+      "location": "manuscript/figure_1_caption.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_1_reference_conditioned_accessibility.md",
+      "sha": "6b2006686e1a658604eb8acb6d40175ea5f90380",
+      "bytes": 828,
+      "location": "manuscript/figure_1_reference_conditioned_accessibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_1_reference_conditioned_caption.md",
+      "sha": "e2622fddc727008d2b1acaeb9254e896f8055075",
+      "bytes": 842,
+      "location": "manuscript/figure_1_reference_conditioned_caption.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_2_accessibility.md",
+      "sha": "6430b2cc14cd073491c009139b234f51504bc342",
+      "bytes": 1289,
+      "location": "manuscript/figure_2_accessibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_2_caption.md",
+      "sha": "94d5a110a8660407f1879b4aa5221c103d5af381",
+      "bytes": 1701,
+      "location": "manuscript/figure_2_caption.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_2_reference_conditioned_accessibility.md",
+      "sha": "a0dd98b6b8601b2315e1204c70b4f7464f05a590",
+      "bytes": 994,
+      "location": "manuscript/figure_2_reference_conditioned_accessibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_2_reference_conditioned_caption.md",
+      "sha": "14d20d1493f23ee7a848cb671991990b7f45082e",
+      "bytes": 1374,
+      "location": "manuscript/figure_2_reference_conditioned_caption.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_2_reproducibility.md",
+      "sha": "85ab2069825a82e2adc9347b4feeddb79e040e32",
+      "bytes": 740,
+      "location": "manuscript/figure_2_reproducibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_3_accessibility.md",
+      "sha": "509a18d17ea32b1b9d6e38c87df6152232bcd29d",
+      "bytes": 900,
+      "location": "manuscript/figure_3_accessibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_3_caption.md",
+      "sha": "367ee44283d1d0e6d0c59113e75eb771805fb43e",
+      "bytes": 1185,
+      "location": "manuscript/figure_3_caption.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_4_accessibility.md",
+      "sha": "f3ecfa4b89325b987ebb5398f88e2ddfef391cd5",
+      "bytes": 812,
+      "location": "manuscript/figure_4_accessibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_4_caption.md",
+      "sha": "1cdc623bacda2bada6809b0fc87350e95be9e2d4",
+      "bytes": 1115,
+      "location": "manuscript/figure_4_caption.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_5_accessibility.md",
+      "sha": "b5816547ab8d5cf22cbc21c15d665e8d9e657986",
+      "bytes": 1032,
+      "location": "manuscript/figure_5_accessibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_5_caption.md",
+      "sha": "8103f39a94ca805967abf6c4b65d5debe010762d",
+      "bytes": 875,
+      "location": "manuscript/figure_5_caption.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_5_reproducibility.md",
+      "sha": "b9a1e71b8eef5575e32f69b96c9871d9eefb8b94",
+      "bytes": 753,
+      "location": "manuscript/figure_5_reproducibility.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/aislands_applicability.csv",
+      "sha": "5f46b2d5c0b80dadce95a02cddb248cc0951c1b0",
+      "bytes": 362,
+      "location": "manuscript/figure_data/aislands_applicability.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/aislands_fold_coverage.csv",
+      "sha": "e367d71a7b64eb6cd0a794045b7d72f7c6729087",
+      "bytes": 440,
+      "location": "manuscript/figure_data/aislands_fold_coverage.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/aislands_mode_estimates.csv",
+      "sha": "4686687db6422737cdcbdbe76de2dae4aaad1449",
+      "bytes": 786,
+      "location": "manuscript/figure_data/aislands_mode_estimates.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/aislands_species_concordance.csv",
+      "sha": "a01113aad04a66b9112dabd1d8469aa1177a335a",
+      "bytes": 42806,
+      "location": "manuscript/figure_data/aislands_species_concordance.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/structural_cross_system_evidence.csv",
+      "sha": "431f4cfbcedf78c85ad7f0a836b69374496b1fa2",
+      "bytes": 1568,
+      "location": "manuscript/figure_data/structural_cross_system_evidence.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/tanzania_aggregate_contrasts.csv",
+      "sha": "d803168e287996df7c8e0b545af0f6ed48d87700",
+      "bytes": 775,
+      "location": "manuscript/figure_data/tanzania_aggregate_contrasts.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/tanzania_applicability.csv",
+      "sha": "1d01b185eaab277e65931db91048829b5d5c5b31",
+      "bytes": 268,
+      "location": "manuscript/figure_data/tanzania_applicability.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/figure_data/tanzania_species_loso_effects.csv",
+      "sha": "c8f85f92301d9454b03f91c80642f64a31f7035e",
+      "bytes": 4077,
+      "location": "manuscript/figure_data/tanzania_species_loso_effects.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/result_tables/result_table_manifest.json",
+      "sha": "6444b477a23f8d248a360f81a100e63447c257c2",
+      "bytes": 3327,
+      "location": "manuscript/result_tables/result_table_manifest.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/result_tables/structural_results_tables.md",
+      "sha": "147778613ac0d90d785c0a956843ca9b0a20b422",
+      "bytes": 5123,
+      "location": "manuscript/result_tables/structural_results_tables.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/result_tables/structural_results_tables_metadata.json",
+      "sha": "f70fb826eb6706213a04b40142109e3cadde0008",
+      "bytes": 780,
+      "location": "manuscript/result_tables/structural_results_tables_metadata.json",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/result_tables/table_3_main_sensitivity_results.csv",
+      "sha": "7013e9de708dac0e3bceaf5582d1da9ddcc88c41",
+      "bytes": 2786,
+      "location": "manuscript/result_tables/table_3_main_sensitivity_results.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/result_tables/table_s1_applicability_accounting.csv",
+      "sha": "440af85d6ee7aa32b430a73dc280bb275e904393",
+      "bytes": 1058,
+      "location": "manuscript/result_tables/table_s1_applicability_accounting.csv",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/structural_figure_specification.md",
+      "sha": "13a1c1b52a92400cdde131bf35b9d62419bfb370",
+      "bytes": 10040,
+      "location": "manuscript/structural_figure_specification.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/structural_highlights.txt",
+      "sha": "0743e4c83aa264bfaac8c44a97f3d496f23c1b78",
+      "bytes": 391,
+      "location": "manuscript/structural_highlights.txt",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/structural_reachability_manuscript.md",
+      "sha": "0fb77fe814ea6e817521e04da6b8f28ae245962f",
+      "bytes": 52557,
+      "location": "manuscript/structural_reachability_manuscript.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/structural_reachability_manuscript_skeleton.md",
+      "sha": "d48e8e844711de9f029ae39212db4a3f3b053fc1",
+      "bytes": 38477,
+      "location": "archive/eog_structural_legacy_20261122/manuscript/structural_reachability_manuscript_skeleton.md",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "manuscript/structural_submission_checklist.md",
+      "sha": "7296c28dfae5dbdaf5d75e55f74b71a06cb914ce",
+      "bytes": 12372,
+      "location": "archive/eog_structural_legacy_20261122/manuscript/structural_submission_checklist.md",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "manuscript/structural_verified_references.md",
+      "sha": "26f7ca845eb7cd3971d3dd01012cfa4b639984ce",
+      "bytes": 10735,
+      "location": "manuscript/structural_verified_references.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "manuscript/submission/STRUCTURAL_VISUAL_QA_RECEIPT_2026-09-12.md",
+      "sha": "9663b9a027ae5c948013b80a89dfe1545b17e74c",
+      "bytes": 2479,
+      "location": "manuscript/submission/STRUCTURAL_VISUAL_QA_RECEIPT_2026-09-12.md",
+      "preservation": "preexisting_canonical_exact"
+    },
+    {
+      "source": "tests/test_structural_author_metadata_template.py",
+      "sha": "c7ecbbcf4b1d9a9e8459dab8414d5e51c06800a0",
+      "bytes": 1941,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_author_metadata_template.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_complete_manuscript.py",
+      "sha": "83d9687d14c1347331ffcbe453113b12ff6727c8",
+      "bytes": 6195,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_complete_manuscript.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_figure_1.py",
+      "sha": "8f3c689cab097ffb73a320c3fb2c9be0dbd80538",
+      "bytes": 4130,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_figure_1.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_figure_2.py",
+      "sha": "8d1fa3bf050c5d7c13ad40979e3c88b4b04bdf5e",
+      "bytes": 4713,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_figure_2.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_figure_3.py",
+      "sha": "fd1a4764d9a5c2697268ac14a666b97df1cad167",
+      "bytes": 4426,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_figure_3.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_figure_4.py",
+      "sha": "b53529435afffce08c6ffd098f2bdf6ddb9e3c16",
+      "bytes": 3572,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_figure_4.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_figure_5.py",
+      "sha": "ea1c967a954d8627464f116fe64fa9f7902c216e",
+      "bytes": 3685,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_figure_5.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_figure_delivery_qa.py",
+      "sha": "bceae7c7adbc5b63d5f6ff4b4f4b34f46bf78e92",
+      "bytes": 5235,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_figure_delivery_qa.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_generated_artifact_sync.py",
+      "sha": "5034c4bb3b6df79ffc2dfa4b81e9fc9d0728662b",
+      "bytes": 3496,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_generated_artifact_sync.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_manuscript_contract.py",
+      "sha": "6931bc4e2c744c0357cf0a92fa3d741844d24911",
+      "bytes": 3106,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_manuscript_contract.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_manuscript_prose.py",
+      "sha": "116d56d28df26e14295ff0f734b7cb25d9aae23d",
+      "bytes": 3388,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_manuscript_prose.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_novelty_strategy_contract.py",
+      "sha": "78ad85b2ba49a694a5f19311281b29bae52680b0",
+      "bytes": 5366,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_novelty_strategy_contract.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_release_readiness.py",
+      "sha": "a7a23def5fe0def6b42b71f49f58c3f64086c655",
+      "bytes": 2890,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_release_readiness.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_results_tables.py",
+      "sha": "023dbf9315db11eb16a18eaa5bbc4c5e9ec288e0",
+      "bytes": 5781,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_results_tables.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_second_paper_presentation_v2.py",
+      "sha": "176092ea5bb043b039e65c727ab858eb8d73d633",
+      "bytes": 3898,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_second_paper_presentation_v2.py",
+      "preservation": "archived_exact"
+    },
+    {
+      "source": "tests/test_structural_submission_package.py",
+      "sha": "a5a511e78fb925f928f4e2401f9a2dbfb98dba31",
+      "bytes": 7568,
+      "location": "archive/eog_structural_legacy_20261122/tests/test_structural_submission_package.py",
+      "preservation": "archived_exact"
+    }
+  ]
+}
