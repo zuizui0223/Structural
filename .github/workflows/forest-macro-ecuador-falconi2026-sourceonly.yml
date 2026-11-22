@@ -7,6 +7,11 @@ on:
     paths:
       - ".github/workflows/forest-macro-ecuador-falconi2026-sourceonly.yml"
       - "analysis/forest_macro_global/falconi2026_figshare_metadata_only.py"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-sourceonly.yml"
+      - "analysis/forest_macro_global/falconi2026_figshare_metadata_only.py"
   workflow_dispatch:
 
 permissions:
