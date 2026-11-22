@@ -1,0 +1,50 @@
+name: "Forest beetle Ramberg 2026 Zenodo original first-header sample-ID source gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-zenodo-firstheader.yml"
+      - "analysis/forest_macro_global/ramberg2026_zenodo_xlsx_firstheader_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-zenodo-firstheader.yml"
+      - "analysis/forest_macro_global/ramberg2026_zenodo_xlsx_firstheader_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-header-only-no-original-response:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test source field-name allowlist and original checksum gates"
+        run: python3 analysis/forest_macro_global/ramberg2026_zenodo_xlsx_firstheader_only.py --test
+      - name: "Read only author original public XLSX first-row field names, no source data"
+        run: |
+          python3 analysis/forest_macro_global/ramberg2026_zenodo_xlsx_firstheader_only.py \
+            --out ramberg2026_firstheader_sourceonly/receipt.json
+      - name: "Fail if source biological data or case rows were accessed or model fitted"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open("ramberg2026_firstheader_sourceonly/receipt.json"))
+          assert x['schema']=='structural.ramberg2026_zenodo_23021809_firstheader_sourceonly.v1'
+          assert x['read_original_ecological_sample_rows']==0
+          assert x['read_beetle_species_response_cells']==0
+          assert x['new_ecological_effects']==0
+          assert x['prior_Ramberg2025_Frostgard2026_401_status_unchanged']
+          assert x['status'] in ('SOURCE_FIRST_HEADER_HOLD','SOURCE_FIRST_HEADER_SCHEMA_OR_TRANSPORT_STOP','SOURCE_FIRST_HEADER_METADATA_READY_NO_BIOLOGY')
+          print('SOURCE_ONLY_ORIGINAL_SCHEMA_STATUS',x['status'])
+          PY
+      - name: "Archive only source method-field tokens and verifiable original file identity"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-ramberg2026-zenodo-firstheader-sourceonly
+          path: ramberg2026_firstheader_sourceonly/receipt.json
+          if-no-files-found: warn
