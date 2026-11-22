@@ -102,7 +102,7 @@ def firstrow(z,filename):
                     # Numeric and formula cell values are NEVER read as numbers.
                     cells.append((c.attrib.get("r","")[:8],t,text))
                 break
-            elem.clear()
+            # Keep first-row cell children intact until row end; stop there.
     if not cells or row1 is None:
         raise ValueError("SOURCE_FIRST_HEADER_ROW_EMPTY")
     return {"original_dimension_literal":dim, "first_row_cell_storage":cells}
