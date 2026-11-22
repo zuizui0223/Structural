@@ -1,0 +1,56 @@
+name: "Forest beetle Traylor2026 original CSV HEADER + R method ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-original-csv-header-methodonly.yml"
+      - "analysis/forest_macro_global/traylor2026_original_firstheader_methodonly.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-original-csv-header-methodonly.yml"
+      - "analysis/forest_macro_global/traylor2026_original_firstheader_methodonly.py"
+permissions:
+  contents: read
+jobs:
+  original-source-CSv-firstheader-method-no-sampled-objects:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source concept/version/file author-codebook gates"
+        run: python3 analysis/forest_macro_global/traylor2026_original_firstheader_methodonly.py --test
+      - name: "Original exact SHA? MD5 fixed three-file first HEADER and method text only"
+        run: |
+          python3 analysis/forest_macro_global/traylor2026_original_firstheader_methodonly.py \
+            --out traylor2026_firstheader_methodonly/receipt.json
+      - name: "Deny original organism records or model fitting"
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open("traylor2026_firstheader_methodonly/receipt.json"))
+          assert a["schema"]=="structural.traylor2026_original_3file_CSV_header_R_method_only.v1"
+          assert a["original_field_sample_or_taxon_values_read"]==0
+          assert a["original_biological_effects"]==0
+          assert not a["source_raw_files_distributed"]
+          assert a["prior_Ramberg2026_sci_STOP_preserved"]
+          assert a["prior_Finland_Ecuador_BALA_GEB_sealed"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "method_only" in a:
+              b=a["method_only"]
+              assert b["csv_source_subsequent_data_rows_read"]==0
+              assert b["original_species_beetle_abundance_values_inspected"]==0
+              assert b["ecological_models_fit"]==0
+              assert not b["source_original_method_code_executed"]
+          print("SOURCE_FIRST_HEADER_AND_METHOD_STATUS",a["status"])
+          PY
+      - name: "Archive only source header/key ROLE and safe method vocabulary, no data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-traylor2026-original-CSV-header-method-only
+          path: traylor2026_firstheader_methodonly/receipt.json
+          if-no-files-found: warn
