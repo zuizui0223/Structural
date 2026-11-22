@@ -112,7 +112,7 @@ def main():
     rec={
       "schema":"structural.traylor2026_356_wood_objects_prebiology_nonresponse_gate.v1",
       "original_publisher_version_doi":parent.VERSION_DOI,
-      "all_original_source_MD5_verified_before_opening":True,
+      "all_original_source_MD5_verified_before_opening":False,
       "original_study_beetle_abundance_or_presence_values_inspected":False,
       "ecological_effects_scored":0,
       "previous_Ecuador_Ramberg_Finland_BALA_GEB_effects_unchanged":True,
@@ -121,6 +121,7 @@ def main():
     }
     try:
         raw=parent.source()
+        rec["all_original_source_MD5_verified_before_opening"]=True
         rec["source_anonymous_nonresponse"]=field_qa(raw)
         rec["status"]=rec["source_anonymous_nonresponse"]["status"]
     except Exception as e:
