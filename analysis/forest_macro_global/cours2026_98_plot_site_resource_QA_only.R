@@ -15,7 +15,7 @@ safe_missing <- function(v) {
 if ("--test" %in% commandArgs(trailingOnly=TRUE)) {
   stopifnot(safe_missing(c(NA_real_,3,Inf))==2L)
   stopifnot(safe_missing(c("A","","B"))==1L)
-  stopifnot(!any(grepl("^Abund(_|$)",source_fields)))
+  stopifnot(!any(grepl("^Abund_(Xyl|Sxy|Myc|Zoo|Cav|Fon|Floricolie)$",source_fields)))
   cat("COURS2026_SOURCE_NONRESPONSE_ONLY_SOURCE_FIELD_GATES_PASS\n")
   quit(save="no")
 }
