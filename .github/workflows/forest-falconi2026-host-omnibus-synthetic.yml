@@ -1,0 +1,35 @@
+name: "Ecuador 2026 beetle matched-host omnibus known-truth only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/falconi2026_within_plot_host_omnibus.py"
+      - ".github/workflows/forest-falconi2026-host-omnibus-synthetic.yml"
+  pull_request:
+    paths:
+      - "analysis/forest_macro_global/falconi2026_within_plot_host_omnibus.py"
+      - ".github/workflows/forest-falconi2026-host-omnibus-synthetic.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only-never-download-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only script dependencies"
+        run: python -m pip install --quiet numpy pandas
+      - name: "Run fixed Q arithmetic and frozen source-independent STOP gate"
+        run: python analysis/forest_macro_global/falconi2026_within_plot_host_omnibus.py --test
+      - name: "Original ecology data must NOT be present in a CI checkout"
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          assert not list(Path('.').rglob('R skript and raw data.zip'))
+          print('RAW_AUTHOR_SOURCE_NOT_IN_GITHUB_REPO')
+          PY
