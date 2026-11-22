@@ -1,0 +1,68 @@
+name: "Forest beetle Ramberg2026 ORIGINAL single frozen five-pair microhabitat score"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-stump-microhabitat-onepass.yml"
+      - "analysis/forest_macro_global/ramberg2026_stump_microhabitat_pairholdout_onepass.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-stump-microhabitat-onepass.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  original-immutable-source-exploratory-single-pass:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only deterministic original community model dependencies"
+        run: python3 -m pip install --quiet "numpy>=1.26,<3" "pandas>=2.1,<3" "scikit-learn>=1.4,<2"
+      - name: "Run synthetic-only Hellinger zero-norm fallback and 5-pair signed-score known truths"
+        run: |
+          python3 analysis/forest_macro_global/ramberg2026_stump_microhabitat_pairholdout_onepass.py --test
+      - name: "ONE exact SHA-pinned original public Zenodo source and pre-frozen independent-pair ecological score"
+        run: |
+          python3 analysis/forest_macro_global/ramberg2026_stump_microhabitat_pairholdout_onepass.py \
+            --out ramberg2026_microhabitat_onepass/receipt.json
+      - name: "Verify no original taxon/sample row exported; admit source STOP without inventing ecological zero"
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("ramberg2026_microhabitat_onepass/receipt.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.ramberg2026_stump_microhabitat_pairholdout_onepass.v1"
+          assert x["original_study_count"]==1
+          assert x["fixed_original_geographic_pair_n"]==5
+          assert x["original_beetle_source_rows_exported"] is False
+          assert x["original_taxon_ids_or_sample_ids_exported"] is False
+          assert x["status"] in (
+             "ORIGINAL_SOURCE_OR_SPECIES_ESTIMABILITY_STOP",
+             "ORIGINAL_ONEPASS_EXPLORATORY_COMPLETE",
+          )
+          if x["status"]=="ORIGINAL_ONEPASS_EXPLORATORY_COMPLETE":
+              assert x["new_species_composition_effect_scored"]==1
+              assert x["source_anonymous_eligibility"]["taxon_rows"]==67
+              assert x["source_anonymous_eligibility"]["stump_cols"]==150
+              assert x["source_anonymous_eligibility"]["explicit_species_cells"]==67*150
+              assert x["observed_original_heldpair_predictive_result"]["fixed_n_pairs"]==5
+              assert x["observed_original_heldpair_predictive_result"]["n_exact_sign_vectors"]==32
+          else:
+              assert x["new_species_composition_effect_scored"]==0
+          print("SCIENTIFIC_STATUS",x["status"])
+          PY
+      - name: "Archive only anonymous original-score aggregate or scientific STOP; NEVER underlying workbook"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-ramberg2026-original-pairholdout-stump-microhabitat-onepass
+          path: ramberg2026_microhabitat_onepass/receipt.json
+          if-no-files-found: warn
