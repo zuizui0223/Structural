@@ -145,6 +145,10 @@ def read_original_meta(archive):
         if not geo_pass:
             reason["point_precision_missing_or_over_1000m"]+=1
             continue
+        # Count eligible source EVENTS separately from deduplicated project-points.
+        reason["strict_source_events_meeting_coordinate_and_time_gate"]+=1
+        if not producer:
+            reason["strict_source_events_with_missing_producer_id"]+=1
         # Distinct observed project×point×year support, never independent plot.
         site=(producer,project,lat,lon,y)
         eligible[site]=True
@@ -205,11 +209,12 @@ def match_history(siteyears):
             # chord check is equivalent to geodesic radius under WGS84 sphere
             if d<=radii[1]+1e-15:
                 covered["any_different_project_200km"]=True
-                if srcprod!=producer:
+                # Blank original producer IDs cannot certify distinct providers.
+                if srcprod and producer and srcprod!=producer:
                     covered["any_different_producer_200km"]=True
             if d<=radii[0]+1e-15:
                 covered["any_different_project_100km"]=True
-                if srcprod!=producer:
+                if srcprod and producer and srcprod!=producer:
                     covered["any_different_producer_100km"]=True
             if all(covered.values()):break
         total["target_project_point_years"]+=1
@@ -222,7 +227,9 @@ def match_history(siteyears):
         "source_eligible_observed_project_point_years":len(siteyears),
         "source_distinct_producer_project_point_locations":len(donor),
         "source_producer_project_pairs":len(set((r[0],r[1]) for r in siteyears)),
-        "source_distinct_producer_ids":len(set(r[0] for r in siteyears)),
+        "source_distinct_producer_ids_including_blank":len(set(r[0] for r in siteyears)),
+        "source_distinct_KNOWN_producer_ids":len(set(r[0] for r in siteyears if r[0])),
+        "source_project_point_years_with_blank_producer":sum(not r[0] for r in siteyears),
         "target_2016_2025_project_point_years":len(target),
         "target_with_historical_independent_project_within_100km":
             int(total["any_different_project_100km"]),
@@ -232,6 +239,10 @@ def match_history(siteyears):
             int(total["any_different_producer_100km"]),
         "target_with_historical_independent_PRODUCER_within_200km":
             int(total["any_different_producer_200km"]),
+        "target_eligible_point_years_with_unknown_producer_id":
+            sum(not r[0] for r in target),
+        "historical_100km_independent_KNOWN_producer_coverage_fraction":
+            total["any_different_producer_100km"]/max(len(target),1),
         "historical_100km_independent_project_coverage_fraction":
             total["any_different_project_100km"]/max(len(target),1),
         "target_year_source_history_aggregate_only":{
