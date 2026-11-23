@@ -73,8 +73,10 @@ def read_original_meta(archive):
         meta=original.schema(z)
         fields=meta["fields"]
         required=set(SOURCE_FIELDS)|set(GEO_FIELDS)
-        if not required.issubset(fields):
-            raise SourceStop("SOURCE_MISSING_TIME_COORD_PROJECT_ORIGINAL_DWC_FIELDS")
+        missing=sorted(required-set(fields))
+        if missing:
+            # Field names are public Darwin Core metadata (never organism rows).
+            raise SourceStop("SOURCE_MISSING_PUBLIC_DWC_FIELDS_"+",".join(missing))
         with z.open(meta["file"]) as f:
             raw=io.TextIOWrapper(f,encoding="utf-8-sig",errors="strict",newline="")
             reader=csv.reader(raw,delimiter=meta["delimiter"],
