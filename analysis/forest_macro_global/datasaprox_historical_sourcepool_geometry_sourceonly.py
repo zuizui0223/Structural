@@ -30,7 +30,7 @@ TARGET_FIRST_YEAR=2016
 RADIUS_KM=(100,200)
 EARTH_KM=6371.0088
 GEO_FIELDS=("decimalLatitude","decimalLongitude","georeferenceRemarks",
-            "coordinateUncertaintyInMetres")
+            "coordinateUncertaintyInMeters")
 SOURCE_FIELDS=("ownerInstitutionCode","datasetName","eventID","year","month",
               "eventDate","sampleSizeValue","sampleSizeUnit","dynamicProperties")
 
