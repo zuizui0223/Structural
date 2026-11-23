@@ -1,0 +1,79 @@
+name: "Forest macro DATASAPROX original hostwood-decay METHOD FIELD NAMES ONLY"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-resource-fieldnames-sourceonly.yml"
+      - "analysis/forest_macro_global/datasaprox_original_resource_field_inventory_sourceonly.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-resource-fieldnames-sourceonly.yml"
+      - "analysis/forest_macro_global/datasaprox_original_resource_field_inventory_sourceonly.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publisher-source-metadata-wood-host-fieldname-eligibility-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic field-role guard, never classify generic trap or plot ID as wood"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_original_resource_field_inventory_sourceonly.py --test
+      - name: "Retrieve EXACT publisher original v1.6 DWCA source"
+        run: |
+          set -euo pipefail
+          mkdir -p source_ephemeral
+          curl --fail --location --retry 1 --connect-timeout 20 --max-time 240 \
+            --max-filesize 80000000 --proto '=https' --proto-redir '=https' \
+            'https://ipt.gbif.fr/archive.do?r=datasaprox&v=1.6' \
+            --output source_ephemeral/datasaprox_v1_6.zip
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          raw=Path("source_ephemeral/datasaprox_v1_6.zip").read_bytes()
+          assert hashlib.sha256(raw).hexdigest()=="4163a2f8f72d756e74f64319b8e199b284ecc6414196147e4465d342d7dcb6d0"
+          print("EXACT_ORIGINAL_DATASAPROX_ARCHIVE_HASH_PASS")
+          PY
+      - name: "Read solely source event metadata and dynamicProperties FIELD KEYS, no source taxa"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_original_resource_field_inventory_sourceonly.py \
+            --archive source_ephemeral/datasaprox_v1_6.zip \
+            --out datasaprox_resource_fieldnames_only/receipt.json
+      - name: "Require no original beetle rows and distinguish actual measured wood from lexical keys"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open("datasaprox_resource_fieldnames_only/receipt.json"))
+          assert x["schema"]=="structural.datasaprox_v16_original_resource_field_names_only.v1"
+          assert x["source_species_taxon_organism_numeric_values_read"]==0
+          assert x["previous_datasets_scientific_stops_unchanged"]
+          assert x["original_source_archived_in_git"] is False
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "source_only_field_inventory" in x:
+              r=x["source_only_field_inventory"]
+              assert r["original_occurrence_core_rows_method_only"]==675525
+              assert r["source_unique_original_events"]==65642
+              assert r["source_method_conflicting_event_keys_removed"]==1133
+              assert r["source_method_consistent_event_keys"]==64509
+              assert not r["original_actual_deadwood_amount_host_and_decay_measured_confirmed"]
+              assert not r["original_site_tree_beetle_species_join_admitted"]
+              assert r["original_species_or_beetle_abundance_values_read"]==0
+              assert r["new_ecological_effects_scored"]==0
+          print("SOURCE_ONLY_WOOD_VOCAB_STATUS",x["status"])
+          PY
+      - name: "Archive ONLY anonymous source method field name and counts (no original data)"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-DATASAPROX-original-resource-fieldnames-sourceonly
+          path: datasaprox_resource_fieldnames_only/receipt.json
+          if-no-files-found: warn
