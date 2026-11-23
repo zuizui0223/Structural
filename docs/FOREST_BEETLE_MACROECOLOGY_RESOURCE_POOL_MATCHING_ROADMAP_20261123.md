@@ -53,3 +53,15 @@ At minimum TWO independent original programmes with compatible response and matc
 - Island-mammal graph result cannot be transplanted to terrestrial beetle dispersal without measured source connectivity and independent beetle data.
 
 **Status:** research programme / hypotheses, no new organism coefficients computed, PR #469 Draft, no main merge. No eBird, no TinyFish, no prior frozen score re-opening.
+
+
+## 2026-11-24 actual source eligibility update — two complementary DATA HARDS STOPS (not ecology)
+
+The initial plan listed original French DATASAPROX as a possible independent historic beetle-source survey pool. Two separately frozen, actually executed original metadata-only audits now constrain this candidacy:
+
+1. **Direct resource-state columns not in source**: the original archived 675525 occurrence records reproduced the source 65642 original event keys, 1133 method conflicts, 64509 method-consistent observed events. There are **11 original dynamicProperties field-name keys**, all trap/plot/treatment protocol metadata, with ZERO original field keys for measured hostwood tree identity, decay, bark or volume (CI #45239671825; doc FOREST_DATASAPROX_ORIGINAL_WOOD_RESOURCE_COLUMNS_SOURCE_ACTUAL_RESULT_20261124.md). This is source schema absence, not ecological resource absence.
+2. **Historical survey operators not sufficiently replicated across independent providers**: publisher Table7 complete-labelled later target project×point×year contexts n=570, earlier different producer within 100km n=122 (geo-only); original trap model/type literal same 51; plus explicit same bait/colour 30; plus same calendar month and true recorded 7–35-day effort within 7 days **8**, and these eight target observations represent **one original target project / one target producer only** (CI #45241416268; doc FOREST_DATASAPROX_HISTORICAL_SOURCE_TRAP_METHOD_ACTUAL_20261124.md). Thus 122 survey locations cannot be promoted into a source occupancy/forest transfer validation denominator.
+
+**Scientific impact**: E2→E3 (local measured wood resource × historical independent species source pool) remains **NOT ESTIMABLE from this published French survey archive alone**. Its direct source-landscape plan is demoted to a source catalogue, pending independent author-linked wood/decay survey and sufficient standardized genuinely independent donor survey methods. Do not open original DATASAPROX taxa to search a favorable species subset; do not reweight strict method exclusions into 'absence', and do not treat the author Table7 complete scope as a nonresponse/full-effort validation because it depends partly on detected taxonomic composition.
+
+Macroecology main hypothesis unchanged, but **next acquisition is a genuinely new original multi-region hostwood×species×effort site-level survey and independent earlier donor documentation**. Prior original PREDICTS replacement +0.0942 remains positive *forest modification taxonomy*, not a beetle resource-source mechanism. All source effect freezes and no eBird/TinyFish unchanged.
