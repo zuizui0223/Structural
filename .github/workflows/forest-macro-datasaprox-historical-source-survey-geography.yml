@@ -1,0 +1,84 @@
+name: "Forest macro DATASAPROX historical independent source SURVEY GEOGRAPHY only"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-historical-source-survey-geography.yml"
+      - "analysis/forest_macro_global/datasaprox_historical_sourcepool_geometry_sourceonly.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-historical-source-survey-geography.yml"
+      - "analysis/forest_macro_global/datasaprox_historical_sourcepool_geometry_sourceonly.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-project-temporal-spatial-survey-support-not-beetle-pool:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only source-only geographic KD-tree"
+        run: python3 -m pip install --quiet "numpy>=1.26,<3" "scipy>=1.12,<2"
+      - name: "Synthetic only no future/project donor leakage and certified georeference rules"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_historical_sourcepool_geometry_sourceonly.py --test
+      - name: "Retrieve exactly publisher original 2026 DATASAPROX v1.6 (metadata only)"
+        run: |
+          set -euo pipefail
+          mkdir -p source_private
+          curl --fail --location --retry 1 --connect-timeout 20 --max-time 240 \
+            --max-filesize 80000000 --proto '=https' --proto-redir '=https' \
+            'https://ipt.gbif.fr/archive.do?r=datasaprox&v=1.6' \
+            --output source_private/datasaprox_v1_6.zip
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          s=Path("source_private/datasaprox_v1_6.zip").read_bytes()
+          assert hashlib.sha256(s).hexdigest()=="4163a2f8f72d756e74f64319b8e199b284ecc6414196147e4465d342d7dcb6d0"
+          print("DATASAPROX_IMMUTABLE_ORIGINAL_ZIP_SHA_MATCH")
+          PY
+      - name: "Stream only source event/project/time/location and georeference fields, no species"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_historical_sourcepool_geometry_sourceonly.py \
+            --archive source_private/datasaprox_v1_6.zip \
+            --out datasaprox_historical_sourcepool_meta/receipt.json
+      - name: "Deny species or real source-population ecological claims"
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('datasaprox_historical_sourcepool_meta/receipt.json').read_text())
+          assert d['schema']=='structural.datasaprox_v1_6_historical_project_sampling_geometry_only.v1'
+          assert d['response_beetle_species_taxon_abundance_rows_accessed']==0
+          assert not d['original_species_specific_occupied_donors_identified']
+          assert not d['original_source_raw_coordinates_projects_plotIDs_exported']
+          assert d['new_biological_effects_estimated']==0
+          assert d['previous_Datasaprox_vertical_stop_and_island_forests_results_unchanged']
+          print('SOURCE_ONLY_STATUS',d['status'])
+          if d['status']=='SOURCE_ONLY_HISTORICAL_SURVEY_GEOGRAPHY_FEASIBILITY_PASS_NOT_SOURCE_POOL':
+              x=d['original_source_event_and_precision_gate']
+              assert x['original_rows']==675525
+              assert x['source_unique_events']==65642
+              assert x['method_conflicts']==1133
+              assert x['retained_method_consistent_events']==64509
+              c=d['historical_independent_project_survey_coverage']
+              assert not c['original_uncaptured_zero_sampling_events_observed']
+              assert not c['original_independent_physical_FORESTS_established']
+              assert not c['species_specific_accessible_source_population_established']
+              assert c['target_2016_2025_project_point_years']>=0
+          PY
+      - name: "Archive only anonymous temporal/geographic source-project sample opportunities"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-datasaprox-v16-historical-independent-SURVEY-geography-sourceonly
+          path: datasaprox_historical_sourcepool_meta/receipt.json
+          if-no-files-found: warn
