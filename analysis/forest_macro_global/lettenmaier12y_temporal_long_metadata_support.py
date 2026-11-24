@@ -90,7 +90,7 @@ def test():
     assert a["adjacent_pairs_with_any_earlier_other_plot_training"]==3
     assert a["adjacent_pairs_with_any_earlier_other_plot_same_host_training"]==2
     assert a["all_observed_log_context_gap_length_distribution"][2]==2
-    assert next(z for z in a["per_target_year"] if z["target_calendar_year"]==2019)["pairs_with_any_earlier_other_plot_training"]==0
+    assert next(z for z in a["per_target_year"] if z["target_calendar_year"]==2019)["pairs_with_any_earlier_other_plot_transition"]==0
     assert next(z for z in a["per_target_year"] if z["target_calendar_year"]==2021)["adjacent_pairs"]==0
     print("SYNTHETIC_NO_GAP_BRIDGE_NO_SAME_YEAR_NO_SAME_PLOT_PASS")
 
