@@ -1,0 +1,53 @@
+name: "Forest beetle boreal190 Macdonald2026 Mendeley original metadata ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-macdonald2026-boreal190-mendeley-metadata.yml"
+      - "analysis/forest_macro_global/macdonald2026_boreal190_mendeley_original_metadata_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-macdonald2026-boreal190-mendeley-metadata.yml"
+      - "analysis/forest_macro_global/macdonald2026_boreal190_mendeley_original_metadata_only.py"
+permissions:
+  contents: read
+jobs:
+  original-Mendeley-public-manifest-no-beetle-composition:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original public files source-only parser tests"
+        run: python3 analysis/forest_macro_global/macdonald2026_boreal190_mendeley_original_metadata_only.py --test
+      - name: "Official Mendeley version-1 source record and files metadata only"
+        run: |
+          python3 analysis/forest_macro_global/macdonald2026_boreal190_mendeley_original_metadata_only.py \
+            --out macdonald2026_mendeley190_metadata/receipt.json
+      - name: "Prove public source data files and beetle recovery responses unopened"
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open("macdonald2026_mendeley190_metadata/receipt.json"))
+          assert r["schema"]=="structural.macdonald2026_boreal_recovery_190_dataset_Mendeley_metadata_only.v1"
+          assert r["prior_author_chao_jaccard_beetle_recovery_published_not_new"]
+          assert r["source_original_similarity_or_taxon_values_read"]==0
+          assert r["new_ecological_effects_scored"]==0
+          assert r["older_DATASAPROX_PREDICTS_Ecuador_Traylor_BALA_GEB_unreopened"]
+          assert not r["mendeley_source_original_files_archived"]
+          if "publisher" in r:
+              assert r["publisher"]["original_wood_resource_or_beetle_taxon_rows_read"]==0
+              if "original_file_roster" in r["publisher"]:
+                  assert all(x["original_file_bytes_GET_count"]==0 for x in r["publisher"]["original_file_roster"])
+          print("SOURCE_ONLY_MENDELEY190_STATUS",r["status"])
+          PY
+      - name: "Archive only original publisher file titles, sizes and checksums"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-macdonald2026-anonymized-190-dataset-source-metadata-only
+          path: macdonald2026_mendeley190_metadata/receipt.json
+          if-no-files-found: warn
