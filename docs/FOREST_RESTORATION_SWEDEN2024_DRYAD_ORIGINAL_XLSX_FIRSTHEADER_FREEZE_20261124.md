@@ -1,0 +1,15 @@
+# Original 2024 restoration Excel: one exact Dryad XLSX method/lineage admission (2026-11-24)
+
+The original 2024 Larsson Ekström et al. JAE field study DOI 10.1111/1365-2664.14586 was already published as a C/R/W non-restored/restored/target contrast with deadwood inventories, trap-level guild abundances/richness and 2021 flight intercept traps. 2026 Larsson Ekström Restoration Ecology DOI 10.1111/rec.70592 also evaluates taxonomic/functional/phylogenetic diversity for the SAME 2021 restoration framework with 67 IBL2 traps; treat them as potential shared/overlapping biological observations, not two independent study replicates without source IDs. Both have already reported incomplete restored-community functional recovery: PRIOR ART.
+
+**Original publisher-only manifest actually passed [Actions #45310678815](https://github.com/zuizui0223/Structural/actions/runs/45310678815)**. Dryad DOI 10.5061/dryad.c2fqz61gv, published Jan 08 2024, CC0, two source files:
+- original wbwdatajappl.xlsx, Dryad file id 2826007, **30,080 B**, source SHA256 **5a29e92e95a0efec671f110a292a61b412e592a5004092d99c181658439e2967**;
+- README.md original id 2826010, **4,216 B**, original SHA256 f26e942f6bf75681ba3a0c88d75d7c94a59a18e5e88af12424745ee4eb297596.
+The public Dryad HTML README explicitly defines Plotid, Trap, Treatment C/R/W, declog/decsnag/conlog/consnag and per-trap guild species richness and abundance fields. These were originally used by the authors and are NOT new Structural ecological findings.
+
+**One new source-only file-byte gate, before any workbook content or beetle response**:
+1. Attempt **ONE** published official Dryad GET https://datadryad.org/api/v2/files/2826007/download (fixed ID and SHA), max 100KB. Never other host, unofficial mirror, URL variant or login bypass on HTTP401/403.
+2. If HTTP200 and exact SHA/30,080B, inspect only OpenXML ZIP central directory member names, workbook sheet titles, worksheet used-range metadata and FIRST HEADER ROW field names. Do NOT open any data rows, plot IDs, wood values, trap beetle counts, richness, taxon labels, model results, or infer site count from used-range alone. If workbook format is irregular, SOURCE SCHEMA STOP, no fabricated columns or data.
+3. Output anonymous original schema only with supported columns of plot identity, treatment, source standing/lying wood types, guild response *column existence* only, and whether a true site×trait matrix is actually present. Never export raw xlsx or site/taxon records.
+4. If file access fails HTTP401, retain access STOP without retrying guessed paths. If passes, next gate **separately freeze** response-blind stand-level nonresponse wood-volume overlap between treatment R and W. The ecological H1 assembly-debt score cannot be admitted if resource overlap is insufficient or if only one independent regional programme/unknown donor source; source 2024 and 2026 are not independent.
+5. No new data effect/p values are authorized in this step, no old Structural forest/mammal/BALA/GEB outcomes reopened, no eBird/TinyFish, PR #469 Draft unmerged.
