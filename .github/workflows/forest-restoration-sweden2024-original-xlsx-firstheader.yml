@@ -1,0 +1,52 @@
+name: "Forest restoration Swedish 2024 original Dryad XLSX first header only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-restoration-sweden2024-original-xlsx-firstheader.yml"
+      - "analysis/forest_macro_global/sweden2024_restoration_xlsx_firstheader_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-restoration-sweden2024-original-xlsx-firstheader.yml"
+      - "analysis/forest_macro_global/sweden2024_restoration_xlsx_firstheader_only.py"
+permissions:
+  contents: read
+jobs:
+  published-one-original-XLSX-GET-method-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-free synthetic Excel header and SHA-only fixtures"
+        run: python3 analysis/forest_macro_global/sweden2024_restoration_xlsx_firstheader_only.py --test
+      - name: "ONE official publisher Dryad original file GET, only sheet names and first header"
+        run: |
+          python3 analysis/forest_macro_global/sweden2024_restoration_xlsx_firstheader_only.py \
+            --out sweden2024_original_xlsx_firstheader/receipt.json
+      - name: "Enforce all 2021 beetle values and original stand IDs sealed"
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open("sweden2024_original_xlsx_firstheader/receipt.json"))
+          assert d["schema"]=="structural.sweden2024_restoration_original_2021_XLSX_FIRST_HEADER.v1"
+          assert d["original_workbook_or_beetle_source_rows_exported"] is False
+          assert d["original_taxon_guild_or_site_record_values_read"]==0
+          assert d["new_beetle_or_resource_ecological_effects"]==0
+          assert d["2024_2026_study_lineage_treated_as_potentially_shared"]
+          if "source_workbook_header_method_only" in d:
+              assert all(row["original_data_row_values_read"]==0 and
+                         row["original_beetle_count_or_taxon_cells_read"]==0
+                         for row in d["source_workbook_header_method_only"])
+          print("ORIGINAL_RESTORATION_METHOD_XLSX_SOURCE_STATUS",d["status"])
+          PY
+      - name: "Archive only source workbook titles and header labels; never source workbook"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden2024-restoration-original-XLSX-FIRSTHEADER-only
+          path: sweden2024_original_xlsx_firstheader/receipt.json
+          if-no-files-found: warn
