@@ -1,0 +1,62 @@
+name: "Forest Lettenmaier 12-year beetle legacy source manifest"
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/forest-lettenmaier2026-12year-source-manifest.yml"
+permissions:
+  contents: read
+jobs:
+  original-source-metadata-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify official source identity and file roster only
+        run: |
+          python - <<'PY'
+          import json, re, urllib.request, urllib.error
+          from pathlib import Path
+          doi="10.5281/zenodo.17337484"
+          out={"schema":"structural.lettenmaier2026.12year_metadata.v1","linked_doi":doi,"source_file_bytes_read":0,"biological_rows_read":0,"ecological_effects_scored":0}
+          def require(cond,msg):
+              if not cond: raise ValueError(msg)
+          try:
+              req=urllib.request.Request("https://zenodo.org/api/records/17337484",headers={"Accept":"application/json","User-Agent":"Structural-Lettenmaier-source-only/1.0"})
+              with urllib.request.urlopen(req,timeout=40) as r:
+                  require(r.status==200,"SOURCE_HTTP_NON200")
+                  require(urllib.parse.urlsplit(r.url).hostname=="zenodo.org","SOURCE_REDIRECT_ORIGIN")
+                  raw=r.read(2000001)
+                  require(len(raw)<=2000000,"METADATA_CAP")
+              d=json.loads(raw); m=d.get("metadata",{})
+              observed={str(d.get(k,"")).lower() for k in ("doi","conceptdoi")}
+              observed|={str(m.get(k,"")).lower() for k in ("doi","conceptdoi")}
+              require(doi in observed,"PUBLISHER_DOI_NOT_VERIFIED")
+              require("lettenmaier" in json.dumps(m.get("creators",[])).lower(),"SOURCE_AUTHOR_MISMATCH")
+              require("assembly patterns" in str(m.get("title","")).lower(),"SOURCE_TITLE_MISMATCH")
+              require(m.get("access_right")=="open","SOURCE_NOT_CONFIRMED_OPEN")
+              files=d.get("files",[])
+              require(isinstance(files,list) and 0<len(files)<=100,"SOURCE_FILE_ROSTER_UNAVAILABLE")
+              rows=[]
+              for f in files:
+                  name=str(f.get("key",""))
+                  size=f.get("size")
+                  checksum=str(f.get("checksum",""))
+                  require(bool(name) and isinstance(size,int) and size>=0,"SOURCE_FILE_META_INVALID")
+                  require(re.fullmatch(r"(?:md5:[0-9a-f]{32}|sha256:[0-9a-f]{64})",checksum.lower()) is not None,"SOURCE_CHECKSUM_INVALID")
+                  rows.append({"filename":name,"size":size,"published_checksum":checksum})
+              out.update(status="ORIGINAL_ZENODO_MANIFEST_PASS_NO_BIOLOGY",record_id=d.get("id"),doi=d.get("doi"),conceptdoi=d.get("conceptdoi"),title=m.get("title"),license=m.get("license"),files=rows)
+          except urllib.error.HTTPError as e:
+              out.update(status="SOURCE_METADATA_HTTP_STOP",http=e.code)
+          except Exception as e:
+              out.update(status="SOURCE_METADATA_SCHEMA_OR_TRANSPORT_STOP",error_type=type(e).__name__,reason=str(e) if isinstance(e,ValueError) else None)
+          p=Path("lettenmaier_source/receipt.json");p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(out,indent=2,sort_keys=True))
+          print(json.dumps(out,sort_keys=True))
+          assert out["source_file_bytes_read"]==out["biological_rows_read"]==out["ecological_effects_scored"]==0
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lettenmaier2026-source-metadata-only
+          path: lettenmaier_source/receipt.json
+          if-no-files-found: error
