@@ -1,0 +1,58 @@
+name: "Forest Swiss EnviDat455 frozen 244-bundle held-plot isolation ONE PASS"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-244-heldplot-isolation-onepass.yml"
+permissions:
+  contents: read
+concurrency:
+  group: forest-swiss244-isolation40-original-once
+  cancel-in-progress: false
+jobs:
+  frozen-original-score:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install numerical dependency
+        run: python -m pip install numpy==2.2.6
+      - name: Frozen synthetic test
+        run: python analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py --test
+      - name: Execute the previously frozen original endpoint once
+        run: python analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py --out swiss244_isolation/receipt.json
+      - name: Validate aggregate receipt and distinguish scientific STOP
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          x=json.loads(Path("swiss244_isolation/receipt.json").read_text())
+          assert x["schema"]=="structural.swiss244.frozen_heldplot_isolation40.v1"
+          assert not x["original_rows_exported"] and not x["old_outcomes_reopened"]
+          if x["status"]=="ONE_FROZEN_WITHIN_FOREST_HELD_PLOT_SCORE_COMPLETE":
+              assert x["environment_gate"]["n_bundles"]==244
+              assert x["environment_gate"]["n_plots"]==62
+              assert x["response_gate"]["n_recorded_rows"]==244
+              s=x["result"]
+              assert s["plot_count"]==62 and s["population_p_value"] is None
+              assert s["plots_improved"]+s["plots_tied"]+s["plots_worse"]==62
+              assert all(math.isfinite(s[k]) for k in ("plot_equal_baseline_loss","plot_equal_plus_isolation_loss","delta","relative_error_reduction"))
+              assert math.isclose(s["delta"],s["plot_equal_baseline_loss"]-s["plot_equal_plus_isolation_loss"],abs_tol=1e-12)
+          else:
+              assert x["status"] in {"SOURCE_OR_SCHEMA_STOP","SOURCE_OR_EXECUTION_STOP"}
+              assert "result" not in x
+          print("FROZEN_SWISS244_STATUS",x["status"])
+          print(json.dumps(x,sort_keys=True))
+          PY
+      - name: Archive aggregate receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-swiss244-isolation40-onepass-aggregate
+          path: swiss244_isolation/receipt.json
+          if-no-files-found: error
