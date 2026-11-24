@@ -1,0 +1,23 @@
+# Original Swiss EnviDat455: 62 physical experimental plots and 244 authentically recorded branch bundles
+
+## New verified publisher source finding (NO saproxylic-beetle numeric response accessed)
+Original Haeler et al. 2023/24 JAE DOI 10.1111/1365-2664.14554; EnviDat dataset DOI 10.16904/envidat.455, CC BY-SA.
+All four original EnviDat CSV publisher file SHA256 and byte sizes were authenticated by source-only GitHub Actions #45317186628. The 64-column Forest and environmental variables original file contains Plot_ID and Bundle_ID, original Bundle_Size / surface / volume / installation tree, Dates, direct shortwave radiation, sky-view and Plot summer temperature, measured Isolation_20...Isolation_200. Original community matrix first headers contain 44 and 67 fields respectively. 44/67 are NOT independently validated species counts.
+
+Actual original SOURCE NONRESPONSE gate GitHub Actions #45321295489 passed its software tests and original environmental source audit; anonymous receipt artifact #14887193601, ZIP SHA256 b5aa290cb58e109cb2d224270209d3dad3ac7c563db53c80a052bc735849c414. Source authentication and original codebook definitions for 17 methodology fields were verified with 0 original beetle species/count values opened.
+
+### Original physical design and source observational ledger
+- EXACTLY 62 distinct physical Plot_ID keys, agreeing with JAE experimental plot count, as opposed to public EnviDat catalogue's broader stated 69 monitoring plots. A 62 plot experimental dataset is directly present, not inferred from arbitrary filtering of the 69.
+- EXACTLY 244 original environmental Bundle_ID rows and 244 globally distinct Bundle_ID tokens; 244 original (Plot_ID,Bundle_ID) composite unique keys, no duplicated plot-bundle records.
+- 58 source physical plots each contain all 4 recorded branch bundles; 4 plots contain only 3 records each. The intended randomized experiment nominally provided 62×4=248 bundle assignments, so FOUR SOURCE METHOD ROWS are absent. Absence reason, actual deployment/rearing status and beetle catch status of those four are UNKNOWN; they must NEVER be added as zeros.
+- Original offered bundle-size classes have anonymous counts 60,61,61,62; no original source bundle-size category was silently remapped or excluded.
+- Original method fields Plot_ID, Bundle_ID, Bundle_Size, Bundle_Species, Tree_Species, Date_start_forest, Date_stop_forest, Date_start_emergence_trap, Date_stop_emergence_trap, Bundle_Volume_total_cm3, Bundle_Surface_total_cm2, Isolation_100, Tree_Distance_m, Bundle_SWR_direct, Bundle_Sky_view, Plot_Temp_Summer_high95_celsius and Season fields had NO blank method cells among the 244 source recorded bundle rows. Original variable descriptions identify experimental bundle volume in cm³ and surface in cm², direct light in W/m², high-summer temperature in °C. Resource numeric values were NOT read in this gate.
+- Original source species matrices have FIRST HEADER field identified as a safe generic sample-key candidate, but individual source community matrix FIRST-COLUMN ID values have not yet been compared with the 244 method records. No ID join or species matrix coverage asserted.
+
+### Scientific implication
+This source is unusually well suited to a subsequent within-one-forest source community question: true original 62 physical plots with four nested branch-bundle levels, local branch patch size, light, high-summer temperature and measured surrounding deadwood isolation. But the original article ALREADY tested branch patch size and landscape wood/isolation effects on richness, abundance and composition. A different question might be the incremental held-PLOT predictive value of measured isolation for species composition, after plot/bundle method and environmental effects, conditional on documented sample frame. This remains RETROSPECTIVE one-forest evidence, NOT multiple region macroecology or time-staggered historical resource continuity.
+
+## Active next eligibility gate
+Exact source-only first-field ID comparison has been FROZEN before beetle outcomes: docs/FOREST_HAELER2023_ENVIDAT455_SPECIES_MATRIX_BUNDLE_ID_CROSSWALK_FROZEN_20261124.md. Original source code analysis/forest_macro_global/haeler2023_envidat455_species_matrix_ID_crosswalk_only.py reads only original community matrix FIRST FIELD per row (no organism abundance), compared with 244 original environmental Bundle_ID keys. GitHub Actions #45321896683 was queued when last checked; no result or original source matrix numeric access claimed.
+
+No previous Ecuador, Finland, Germany, Traylor, Ramberg, DATASAPROX, PREDICTS, BALA/GEB/mammal outcomes rescored. No eBird/TinyFish, PR #469 Draft/unmerged.
