@@ -1,0 +1,39 @@
+name: "Forest macro BioTIME ten candidates and two study sample routing"
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/forest-macro-biotime-v4-study-routing.yml"
+permissions:
+  contents: read
+jobs:
+  source-routing-only:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/biotime_v4_forest_beetle_study_routing.py --test
+      - run: python analysis/forest_macro_global/biotime_v4_forest_beetle_study_routing.py --out biotime_routing/receipt.json
+      - name: Verify metadata-only output
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("biotime_routing/receipt.json"))
+          assert r["biological_cells_interpreted"]==r["ecological_effects_scored"]==0
+          assert not r["raw_source_exported"]
+          if r["status"]=="CANDIDATE_ROSTER_AND_STUDY_ROUTING_REVIEW_COMPLETE":
+              assert r["metadata_md5_verified"] and len(r["candidate_roster"])==10
+              assert set(r["studies"])=={"775","458"}
+          print("BIOTIME_ROSTER_ROUTING_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biotime-v4-ten-candidates-two-study-routing
+          path: biotime_routing/receipt.json
+          if-no-files-found: error
