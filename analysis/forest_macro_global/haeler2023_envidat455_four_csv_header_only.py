@@ -85,7 +85,8 @@ def one_download(url,size):
             if final.scheme!="https" or not (
               final.hostname=="www.envidat.ch" or
               final.hostname=="envidat.ch" or
-              str(final.hostname).endswith(".envidat.ch")):
+              str(final.hostname).endswith(".envidat.ch") or
+              final.hostname=="zhw-b.s3.cloud.switch.ch"):
                 raise ValueError("SOURCE_ORIGINAL_FILE_REDIRECT_DOMAIN_STOP")
             data=h.read(size+1)
             if h.status!=200:
