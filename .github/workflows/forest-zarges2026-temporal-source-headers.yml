@@ -1,4 +1,4 @@
-name: "Forest Zarges2026 lagged biotic assembly original source gate"
+name: "Forest Zarges2026 HTTP401 HOLD — synthetic only"
 on:
   pull_request:
     branches:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   original-source-header-only:
-    if: github.run_attempt == 1
+    if: ${{ false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
@@ -42,3 +42,12 @@ jobs:
           name: zarges2026-temporal-source-header-only
           path: zarges_source/receipt.json
           if-no-files-found: error
+  synthetic-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/zarges2026_temporal_source_manifest_headers_only.py --test
