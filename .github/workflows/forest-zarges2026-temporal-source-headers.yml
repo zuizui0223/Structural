@@ -1,8 +1,8 @@
 name: "Forest Zarges2026 lagged biotic assembly original source gate"
 on:
-  push:
+  pull_request:
     branches:
-      - analysis/forest-macro-plot-environment
+      - main
     paths:
       - ".github/workflows/forest-zarges2026-temporal-source-headers.yml"
 permissions:
