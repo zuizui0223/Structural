@@ -1,0 +1,41 @@
+name: Swiss 244 one frozen held-plot isolation40
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/forest-swiss244-isolation40.yml'
+      - 'analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py'
+      - 'docs/FOREST_HAELER2023_244_HELD_PLOT_ISOLATION_INCREMENT_FROZEN_20261124.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  onepass:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy==2.2.6
+      - name: Synthetic gain and leakage guard
+        run: python analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py --test
+      - name: One fixed original source score, stop on source mismatch
+        run: python analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py
+      - name: Validate aggregate-only receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('swiss244_isolation/receipt.json').read_text())
+          assert not r['original_rows_exported'] and not r['old_outcomes_reopened']
+          if r['status']=='ONE_FROZEN_WITHIN_FOREST_HELD_PLOT_SCORE_COMPLETE':
+              assert r['result']['plot_count']==62 and r['response_gate']['n_recorded_rows']==244
+          print(r['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: swiss244-frozen-heldplot-isolation40-aggregate
+          path: swiss244_isolation/receipt.json
+          if-no-files-found: error
