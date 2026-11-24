@@ -1,0 +1,45 @@
+name: "Forest Lettenmaier adjacent-year long-table metadata support"
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/forest-lettenmaier12y-temporal-long-metadata-support.yml"
+permissions:
+  contents: read
+jobs:
+  temporal-metadata-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/lettenmaier12y_temporal_long_metadata_support.py --test
+      - run: python analysis/forest_macro_global/lettenmaier12y_temporal_long_metadata_support.py --out lettenmaier_temporal_support/receipt.json
+      - name: Validate source-only temporal support
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("lettenmaier_temporal_support/receipt.json").read_text())
+          assert r["original_species_counts_read"]==r["original_trait_values_read"]==r["new_ecological_effects_scored"]==0
+          assert not r["community_matrix_opened"] and not r["original_ids_exported"]
+          if r["status"]=="LONG_METADATA_ADJACENT_SUPPORT_DONE_MATRIX_IDENTITY_HOLD":
+              a=r["support"]
+              assert r["long_table_md5_verified"]
+              assert a["candidate_long_table_contexts"]==522 and a["candidate_plot_tokens"]==42 and a["candidate_log_tokens_nested"]==52
+              assert 0<=a["adjacent_pairs_with_any_earlier_other_plot_same_host_training"]<=a["adjacent_pairs_with_any_earlier_other_plot_training"]<=a["adjacent_calendar_year_candidate_pairs"]<=468
+              assert a["matrix_crosswalk_status"]=="UNCHANGED_359_OF_522_HOLD"
+              assert not a["actual_predictive_estimability_claimed"]
+          else:
+              assert r["status"] in {"SOURCE_METADATA_STOP","SOURCE_METADATA_EXECUTION_STOP"}
+          print("LETTENMAIER_TEMPORAL_SUPPORT_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lettenmaier12y-temporal-support-metadata-only
+          path: lettenmaier_temporal_support/receipt.json
+          if-no-files-found: error
