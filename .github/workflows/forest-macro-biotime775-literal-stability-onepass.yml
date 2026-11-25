@@ -1,0 +1,47 @@
+name: "Forest BioTIME775 frozen literal group stability ONE PASS"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-biotime775-literal-stability-onepass.yml"
+permissions:
+  contents: read
+jobs:
+  frozen-descriptive-score:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/biotime775_literal_group_stability_onepass.py --test
+      - run: python analysis/forest_macro_global/biotime775_literal_group_stability_onepass.py --out biotime775_onepass/receipt.json
+      - name: Verify frozen receipt and balanced diagnostic
+        run: |
+          python - <<'PY'
+          import json,math
+          r=json.load(open("biotime775_onepass/receipt.json"))
+          assert r["schema"]=="structural.biotime775.literal_codegroup_spatial_stability.v1"
+          assert not r["raw_rows_exported"] and not r["habitat_crosswalk_author_verified"]
+          assert r["population_p_value"] is None and r["population_ci"] is None
+          if r["status"]=="FROZEN_LITERAL_GROUP_DESCRIPTIVE_SCORE_COMPLETE":
+              assert r["source_frame"]["site_years"]==175 and r["source_frame"]["taxon_labels"]==64
+              assert len(r["year_pairs"])==4
+              for row in r["year_pairs"]:
+                  for g,n in (("F",495),("C",1),("E",6435)):
+                      assert row["balanced8"][g]["subsets"]==n
+                      assert -1-1e-10<=row["full"][g]["alignment"]<=1+1e-10
+              for k,v in r["primary_E_minus_F"].items():
+                  assert math.isclose(v,sum(x["full_E_minus_F"][k] for x in r["year_pairs"])/4,abs_tol=1e-12)
+          else:
+              assert r["primary_E_minus_F"] is None
+          print("BIOTIME775_FROZEN_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biotime775-frozen-literal-group-stability
+          path: biotime775_onepass/receipt.json
+          if-no-files-found: error
