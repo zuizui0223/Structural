@@ -1,0 +1,40 @@
+name: "Forest macro BioTIME author descriptors v2 and paired fungi-beetles"
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/forest-macro-biotime-author-descriptor-v2.yml"
+      - "analysis/forest_macro_global/biotime_v4_author_descriptor_routing_v2.py"
+permissions:
+  contents: read
+jobs:
+  source-routing-only:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/biotime_v4_author_descriptor_routing_v2.py --test
+      - run: python analysis/forest_macro_global/biotime_v4_author_descriptor_routing_v2.py --out biotime_descriptor_v2/receipt.json
+      - name: Verify source-only receipt
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("biotime_descriptor_v2/receipt.json"))
+          assert r["source_numeric_biology_values_interpreted"]==r["ecological_effects_scored"]==0
+          assert not r["source_raw_rows_exported"]
+          if r["status"]=="SOURCE_DIAGNOSTICS_COMPLETE":
+              assert r["metadata_md5_verified"]
+              assert set(r["studies"])=={"775","458","837","838"}
+          print("BIOTIME_AUTHOR_DESCRIPTOR_V2_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biotime-author-descriptor-v2-routing-only
+          path: biotime_descriptor_v2/receipt.json
+          if-no-files-found: error
