@@ -1,0 +1,41 @@
+name: "Forest macro Estonia repeated stand subset conflict diagnostic"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-estonia-repeat-subset-diagnostic.yml"
+permissions:
+  contents: read
+jobs:
+  source-routing-only:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install openpyxl==3.1.5
+      - run: python analysis/forest_macro_global/estonia_repeat_subset_conflict_diagnostic.py --test
+      - run: python analysis/forest_macro_global/estonia_repeat_subset_conflict_diagnostic.py --out estonia_repeat_diagnostic/receipt.json
+      - name: Validate source-only result
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("estonia_repeat_diagnostic/receipt.json"))
+          assert r["schema"]=="structural.estonia.repeat_diagnostic.v1"
+          assert r["original_biological_values_interpreted"]==r["new_ecological_effects_scored"]==0
+          assert not r["raw_rows_exported"]
+          assert r["EMEND"]==r["Finland"]=="HTTP401_HOLD_NO_RETRY"
+          if r["status"]=="ESTONIA_ROUTING_DIAGNOSTIC_COMPLETE":
+              assert r["both_publisher_md5_verified"]
+              assert not r["routing"]["subset_key_diagnostics"]["subset_metadata_join_authorized"]
+          print("ESTONIA_REPEAT_DIAGNOSTIC_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: estonia-repeat-routing-diagnostic-only
+          path: estonia_repeat_diagnostic/receipt.json
+          if-no-files-found: error
