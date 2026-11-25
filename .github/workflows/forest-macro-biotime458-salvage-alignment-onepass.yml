@@ -1,48 +1,19 @@
-name: "Forest BioTIME458 frozen salvage spatial identity ONE PASS"
+name: "Forest BioTIME458 consumed salvage alignment — synthetic only"
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
     paths:
       - ".github/workflows/forest-macro-biotime458-salvage-alignment-onepass.yml"
+      - "analysis/forest_macro_global/biotime458_salvage_temporal_alignment_onepass.py"
 permissions:
   contents: read
 jobs:
-  frozen-descriptive-score:
-    if: github.run_attempt == 1
+  synthetic-only:
     runs-on: ubuntu-24.04
-    timeout-minutes: 6
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: python analysis/forest_macro_global/biotime458_salvage_temporal_alignment_onepass.py --test
-      - run: python analysis/forest_macro_global/biotime458_salvage_temporal_alignment_onepass.py --out biotime458_onepass/receipt.json
-      - name: Validate aggregate frozen score
-        run: |
-          python - <<'PY'
-          import json, math
-          r=json.load(open("biotime458_onepass/receipt.json"))
-          assert r["schema"]=="structural.biotime458.salvage_temporal_alignment.v1"
-          assert not r["raw_data_exported"]
-          assert r["population_p_value"] is None and r["population_ci"] is None
-          if r["status"]=="FROZEN_DESCRIPTIVE_WITHIN_FOREST_SCORE_COMPLETE":
-              assert r["source_frame"]["site_years"]==176
-              assert r["source_frame"]["taxon_labels"]==179
-              assert len(r["year_pairs"])==3
-              for x in r["year_pairs"]:
-                  assert -1-1e-10 <= x["logged"]["alignment"] <= 1+1e-10
-                  assert -1-1e-10 <= x["unlogged"]["alignment"] <= 1+1e-10
-                  assert math.isclose(x["logged_minus_unlogged"],x["logged"]["alignment"]-x["unlogged"]["alignment"],abs_tol=1e-12)
-              assert math.isclose(r["primary_estimate"],sum(x["logged_minus_unlogged"] for x in r["year_pairs"])/3,abs_tol=1e-12)
-          else:
-              assert r["primary_estimate"] is None
-          print("BIOTIME458_FROZEN_STATUS",r["status"])
-          PY
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: biotime458-frozen-alignment-aggregate
-          path: biotime458_onepass/receipt.json
-          if-no-files-found: error
