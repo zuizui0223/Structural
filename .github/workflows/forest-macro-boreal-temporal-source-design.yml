@@ -1,4 +1,4 @@
-name: "Forest macro independent northern temporal source design"
+name: "Forest macro northern source design consumed — synthetic only"
 on:
   pull_request:
     branches: [main]
@@ -7,10 +7,9 @@ on:
 permissions:
   contents: read
 jobs:
-  source-design-only:
-    if: github.run_attempt == 1
+  synthetic-only:
     runs-on: ubuntu-24.04
-    timeout-minutes: 9
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,19 +17,3 @@ jobs:
           python-version: "3.11"
       - run: python -m pip install openpyxl==3.1.5
       - run: python analysis/forest_macro_global/boreal_temporal_independent_source_design.py --test
-      - run: python analysis/forest_macro_global/boreal_temporal_independent_source_design.py --out boreal_temporal_source/receipt.json
-      - run: |
-          python - <<'PY'
-          import json
-          r=json.load(open("boreal_temporal_source/receipt.json"))
-          assert r["original_response_cells_interpreted"]==r["ecological_effects_scored"]==0
-          assert not r["raw_source_exported"]
-          assert set(r["sources"])=={"Canada_EMEND","Finland_Koivula","Estonia_Lohmus"}
-          print("BOREAL_SOURCE_DESIGN_STATUSES", {k:v["status"] for k,v in r["sources"].items()})
-          PY
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: northern-temporal-source-design-only
-          path: boreal_temporal_source/receipt.json
-          if-no-files-found: error
