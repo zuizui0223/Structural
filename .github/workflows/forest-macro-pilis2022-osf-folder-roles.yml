@@ -1,0 +1,41 @@
+name: "Forest macro Pilis2022 OSF folder and source roles"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-pilis2022-osf-folder-roles.yml"
+      - "analysis/forest_macro_global/pilis2022_fp2b8_folder_role_audit.py"
+permissions:
+  contents: read
+jobs:
+  source-only:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/pilis2022_fp2b8_folder_role_audit.py --test
+      - run: python analysis/forest_macro_global/pilis2022_fp2b8_folder_role_audit.py --out pilis_folder/receipt.json
+      - name: Validate source-only receipt
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("pilis_folder/receipt.json"))
+          assert r["schema"]=="structural.pilis_fp2b8.folder_roles.v1"
+          assert r["original_biological_values_interpreted"]==r["new_ecological_effects_scored"]==0
+          assert not r["raw_source_exported"] and not r["original_author_code_executed"]
+          if r["status"] in {"PUBLIC_FOLDER_ROSTER_COMPLETE","PUBLIC_FOLDER_ROSTER_AND_BOUNDED_ROLES_COMPLETE"}:
+              assert r["public_node_verified"] and "file_roster" in r
+              if not r["license"]["allow_header_read"]:
+                  assert not r["files"]
+          print("PILIS_FOLDER_ROLE_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pilis2022-folder-source-roles
+          path: pilis_folder/receipt.json
+          if-no-files-found: error
