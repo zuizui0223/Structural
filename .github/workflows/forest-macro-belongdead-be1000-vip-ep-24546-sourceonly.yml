@@ -1,0 +1,66 @@
+name: "Forest BELongDead original BExIS1000 VIP-EP source bridge and 24546 deadwood"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead-be1000-vip-ep-24546-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead_bexis1000_24546_author_vip_ep_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  BE_vip_EP_field_ID_bridge_original_license_only_no_coordinates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic exact original VIP EP hierarchy; verify no coordinate values"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis1000_24546_author_vip_ep_source_gate.py --test
+      - name: "Check official BExIS1000 basic plot identities and 24546 deadwood original rights/data header, no biology"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis1000_24546_author_vip_ep_source_gate.py \
+            --out BE_ORIGINAL_VIP_EP_SOURCE_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          file=Path("BE_ORIGINAL_VIP_EP_SOURCE_AGGREGATE/BELongDead_BE1000_VIP_EP_and_24546_original_sourceonly.json")
+          z=json.loads(file.read_text())
+          assert z["schema"]=="structural.BELongDead_BE1000_publisher_VIP_EP_bridge_and_BE24546_deadwood_sourceonly.v1"
+          assert z["source_original_source_datasets_checked"]==[1000,24546]
+          assert z["source_BELongDead_reference_31123_original_30plot_verified"]
+          assert z["source_forest_basal_area_18270_original_150_EP_verified"]
+          assert z["source_24546_is_2012_deadwood_not_living_tree_basal_area"]
+          assert z["original_species_trap_count_deadwood_treemeasurement_values_UNOPENED"]
+          assert z["original_location_geography_coordinates_not_read"]
+          assert z["source_all_prior_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_FROZEN"]
+          assert z["eBird_used"] is False
+          for name,report in z["source_diagnostics"].items():
+              if "source_rights" not in report:
+                  assert report["status"].startswith("SOURCE")
+                  assert report["SOURCE_STOP_not_ecological_null"]
+              else:
+                  assert report["source_rights"]["original_source_cc_by_cc0_licence_verified"]
+                  a=report["source_only_original_plot_identity_and_method"]
+                  assert a["original_coordinates_lats_lons_NOT_READ_OR_EXPORTED"]
+                  assert a["original_species_wood_measurements_organismal_values_NOT_READ"]
+                  assert a["original_individual_plot_ID_text_NOT_EXPORTED"]
+              print("SOURCE_BEXIS_"+name+"_PLOT_AND_LICENSE",report["status"])
+          assert z["original_2012_deadwood_24546_exact_BELongDead_30of30_plotID_match"] is True
+          assert z["2012_deadwood_exact_plot_join_is_NOT_18270_living_basalarea_crosswalk"]
+          assert z["source_explicit_30of30_author_hierarchy_joined"] is False
+          assert z["source_diagnostics"]["1000"]["status"]=="SOURCE_RIGHTS_STOP_SOURCE_DATASET_NOT_PUBLIC"
+          print("SOURCE_2012_DEADWOOD_BELONGDEAD_DIRECT_30OF30_PLOTS_CONFIRMED")
+          print("SOURCE_VIP_EP_AUTHOR_BRIDGE_DECISION",z["status"])
+          PY
+      - name: "Archive ONLY source rights and anonymized source plot-ID field intersections"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead-BExIS1000-VIP-EP-24546-author-publish-only
+          path: BE_ORIGINAL_VIP_EP_SOURCE_AGGREGATE/
+          if-no-files-found: warn

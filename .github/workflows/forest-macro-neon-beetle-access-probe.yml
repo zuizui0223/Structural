@@ -1,0 +1,51 @@
+name: "Forest beetle NEON one-site original data access gate"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-neon-beetle-access-probe.yml"
+      - "analysis/forest_macro_global/probe_neon_beetle_original_file_access.py"
+      - "analysis/forest_macro_global/test_probe_neon_beetle_original_file_access.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen_neon_BART_2026_original_data_endpoint_access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate source-only 200 and 401, refuse invented sample months
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_probe_neon_beetle_original_file_access.py
+      - name: Probe one official NEON 2026 forest beetle original file catalog without authentication
+        run: |
+          python analysis/forest_macro_global/probe_neon_beetle_original_file_access.py \
+            --out original_NEON_beetle_file_access_gate
+      - name: Source gate classification, no false beetle population claims
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("original_NEON_beetle_file_access_gate/NEON_one_forest_beetle_file_catalog_access_gate.json").read_text())
+          assert r["schema"]=="structural.neon_2026_original_beetle_file_catalog_one_probe.v1"
+          assert r["source_release"]=="RELEASE-2026"
+          assert r["strict_source_site_code"]=="BART"
+          assert r["original_data_product_code"]=="DP1.10022.001"
+          assert r["one_source_site_calendar_month_probe_only"] is True
+          assert r["downloaded_file_contents"] is False
+          assert r["original_beetle_species_count_or_plot_join_verified"] is False
+          assert r["original_plot_habitat_not_proven_by_site_NLCD"] is True
+          assert not r["eBird_used"]
+          print("NEON 2026 BART ground beetle original file catalog access:",r["access_status"])
+          PY
+      - name: Save access/metadata response only and no actual species file contents
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-neon-beetle-original-file-access-status
+          path: original_NEON_beetle_file_access_gate/
+          if-no-files-found: warn

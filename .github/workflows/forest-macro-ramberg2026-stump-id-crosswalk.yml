@@ -1,0 +1,52 @@
+name: "Forest beetle Ramberg 2026 source stump ID x species HEADER crosswalk"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-stump-id-crosswalk.yml"
+      - "analysis/forest_macro_global/ramberg2026_original_sample_identity_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-ramberg2026-stump-id-crosswalk.yml"
+      - "analysis/forest_macro_global/ramberg2026_original_sample_identity_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-identities-only-no-species-response:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Verify safe sample ID parsing and original study nesting contract"
+        run: python3 analysis/forest_macro_global/ramberg2026_original_sample_identity_only.py --test
+      - name: "Join only original 2026 author sample ID fields and beetle header IDs; no organism rows"
+        run: |
+          python3 analysis/forest_macro_global/ramberg2026_original_sample_identity_only.py \
+            --out ramberg2026_sample_identity_sourceonly/receipt.json
+      - name: "Enforce original response and taxon data firewall and absence of leaked IDs"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open("ramberg2026_sample_identity_sourceonly/receipt.json"))
+          assert x['schema']=='structural.ramberg2026_original_150stump_sample_species_header_crosswalk.v1'
+          assert x['read_original_species_abundance_rows']==0
+          assert x['ecological_effects_computed']==0
+          assert x['old_Ecuador_2026_Frostgard_2026_and_Ramberg2025_effects_unchanged']
+          if 'anonymous_sample_key_and_stand_gate' in x:
+              y=x['anonymous_sample_key_and_stand_gate']
+              assert y['original_species_row_or_abundance_values_parsed']==0
+              assert y['source_sample_and_parent_identifiers_exported'] is False
+          print('STUMP_ID_SOURCE_GATE',x['status'])
+          PY
+      - name: "Archive only anonymous original sample-key intersection counts, no source row/ID"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-ramberg2026-original-stump-species-header-id-crosswalk
+          path: ramberg2026_sample_identity_sourceonly/receipt.json
+          if-no-files-found: warn

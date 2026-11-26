@@ -1,0 +1,60 @@
+name: "Forest Brisbane original beetle species to canopy/ground environment Obs join"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-brisbane-environment-obs-join.yml"
+      - "analysis/forest_macro_global/audit_brisbane_environment_obs_join.py"
+      - "analysis/forest_macro_global/test_audit_brisbane_environment_obs_join.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact_original_80_source_observation_vs79_environment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify original Obs join and forbid missing habitat measurements from being imputed
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_brisbane_environment_obs_join.py
+      - name: Acquire exact Brisbane original 2018 forest canopy and ground species/environment workbook
+        run: |
+          mkdir -p original_Brisbane_environment
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 130 \
+            "https://zenodo.org/records/4998317/files/BeetleAndEnviroData.Stone.et.al.2017.xlsx?download=1" \
+            -o original_Brisbane_environment/BeetleAndEnviroData.Stone.et.al.2017.xlsx
+      - name: Match all 80 original Obs field IDs to source canopy/ground habitat table rows
+        run: |
+          python analysis/forest_macro_global/audit_brisbane_environment_obs_join.py \
+            --source original_Brisbane_environment/BeetleAndEnviroData.Stone.et.al.2017.xlsx \
+            --out original_Brisbane_80trap_environment_join
+      - name: Assert original environmental missingness observed and not invented forest samples
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("original_Brisbane_80trap_environment_join/Brisbane_field_layer_environment_Obs_join_metadata.json").read_text())
+          assert j["schema"]=="structural.Brisbane_original_80beetle_to79canopy_ground_environment_source_obs_join.v1"
+          assert j["source_workbook_verified_MD5"]=="153743ec4d968f20349e7caddd49dac1"
+          assert j["original_beetle_traps"]==80
+          assert j["environment_rows_with_exact_original_Obs_matched_and_stratum_checked"]==79
+          assert j["source_original_missing_environment_trap_count"]==1
+          assert j["original_biological_10sites_30_layer_pair_opportunities"]==30
+          assert j["original_species_taxon_columns_read"]==0
+          assert j["source_canopy_environment_missingness_not_imputed"]
+          assert not j["new_species_environment_effect_calculated"]
+          assert j["no_source_Obs_trap_site_IDs_or_species_names_exported"]
+          print("Original missing environment layer and edge:",
+                j["missing_environment_stratum_type"],j["missing_environment_edge_distance_m"])
+          PY
+      - name: Save only source original join coverage and one missing environment descriptor
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-Brisbane-80trap-79environment-Obs-site-join
+          path: original_Brisbane_80trap_environment_join/
+          if-no-files-found: warn

@@ -1,0 +1,62 @@
+name: "Forest macro Carpathian 116 original author CSV schema and codebook only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_original_author_schema_gate.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_AUTHOR_SCHEMA_GATE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-author-schema-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_only_seven_author_files_original_first_header_and_method_text:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original header redaction and method grammar without a biological row"
+        run: |
+          python analysis/forest_macro_global/carpathian116_original_author_schema_gate.py --test
+      - name: "Seven exact original publisher files for schema and author text ONLY"
+        run: |
+          python analysis/forest_macro_global/carpathian116_original_author_schema_gate.py \
+            --out CARPATHIAN116_AUTHOR_SCHEMA_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("CARPATHIAN116_AUTHOR_SCHEMA_ONLY/Carpathian116_original_author_schema_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Carpathian116_Zenodo_original_author_schema_sourceonly.v1"
+          assert not x["original_raw_beetle_species_counts_wood_environment_values_READ"]
+          assert x["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_effects_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "source_qualification" in x:
+              q=x["source_qualification"]
+              assert q["source_original_file_count"]==7
+              assert q["original_species_or_environment_DATA_ROWS_READ"]==0
+              assert not q["new_biodiversity_effect_ESTIMATED"]
+              assert q["original_site_key_semantics_NOT_PROVED"]
+              assert q["original_feeding_guild_ontology_NOT_PROVED"]
+              assert q["source_zero_capture_effort_NOT_PROVED"]
+              for f in q["original_7_file_source_method_and_first_header_only"].values():
+                  if "all_original_CSV_data_rows_UNOPENED" in f:
+                      assert f["all_original_CSV_data_rows_UNOPENED"]
+                      assert f["original_species_taxon_labels_NOT_EXPORTED"]
+                  else:
+                      assert f["original_source_code_NEVER_EXECUTED"]
+          else:
+              assert x["source_STOP_not_biological_null"]
+          print("CARPATHIAN116_ORIGINAL_SOURCE_SCHEMA_RESULT",x["status"])
+          PY
+      - name: "Archive only anonymized source headers and author-method patterns"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-original-author-schema-no-biology
+          path: CARPATHIAN116_AUTHOR_SCHEMA_ONLY/
+          if-no-files-found: warn

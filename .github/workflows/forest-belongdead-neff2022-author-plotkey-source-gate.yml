@@ -1,0 +1,58 @@
+name: "Forest BELongDead Neff 2022 original author-code forest EP bridge source-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead_neff2022_author_plotkey_crosswalk.py"
+      - "docs/FOREST_BELONGDEAD_NEFF2022_AUTHOR_CODE_PLOTKEY_CROSSWALK_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead-neff2022-author-plotkey-source-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_published_R_code_and_EP_plot_idonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic exact author normalization and key-collision tests"
+        run: |
+          python analysis/forest_macro_global/belongdead_neff2022_author_plotkey_crosswalk.py --test
+      - name: "Publisher-pinned original author R + BExIS18270 EP and 31123 PlotID, never forest/beetle measurements"
+        run: |
+          python analysis/forest_macro_global/belongdead_neff2022_author_plotkey_crosswalk.py \
+            --out NEFF_AUTHOR_IDENTITY_METHODONLY
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path("NEFF_AUTHOR_IDENTITY_METHODONLY/BELongDead_Neff2022_public_R_authorkey_18270_31123_sourceonly.json")
+          d=json.loads(p.read_text(encoding="utf-8"))
+          assert d["schema"]=="structural.BELongDead_Neff2022_author_plotkey_candidate_sourceonly.v1"
+          assert not d["original_beetle_and_forest_numeric_response_READ"]
+          assert not d["original_31124_15_unmatched_TrapIDs_RESOLVED"]
+          assert not d["original_20406_2013_2017_source_method_gaps_RESOLVED"]
+          assert d["old_Finland_Chiu_Piccini_Burner_PREDICTS_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert d["eBird_used"] is False and d["TinyFish_used"] is False
+          if "candidate_original_method_key_result" in d:
+              r=d["candidate_original_method_key_result"]
+              assert r["original_18270_distinct_EP_tokens"]==150
+              assert r["original_31123_distinct_PlotID_tokens"]==30
+              assert r["original_18270_31123_exact_EP_PlotID_intersection"]==3
+              assert r["no_original_plot_labels_or_plant_beetle_measurements_EXPORTED"]
+              assert r["published_author_rule_not_authorized_as_18270_31123_historical_version_crosswalk"]
+              assert not r["new_ecological_effect_estimated"]
+          else:
+              assert d["source_method_STOP_not_biological_null"]
+          print("AUTHOR_PUBLISHED_R_PLOT_ID_METHOD_ONLY",d["status"])
+          PY
+      - name: "Archive only aggregate original source plot ID overlaps"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead-neff2022-author-code-stand-plotid-sourceonly
+          path: NEFF_AUTHOR_IDENTITY_METHODONLY/
+          if-no-files-found: warn

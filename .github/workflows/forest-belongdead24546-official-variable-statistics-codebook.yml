@@ -1,0 +1,52 @@
+name: "Forest BELongDead 24546 original publisher unit and description variable codebook"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-belongdead24546-official-variable-statistics-codebook.yml"
+      - "analysis/forest_macro_global/belongdead24546_official_variable_stats_codebook.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_BE24546_author_unit_description_only_not_unique_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic official original BExIS variable unit/description and uniqueValues redaction"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_official_variable_stats_codebook.py --test
+      - name: "One official read-only BExIS DataStatistic/24546 author variable codebook; no original values exported"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_official_variable_stats_codebook.py \
+            --out BE24546_ORIGINAL_VARMETA_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("BE24546_ORIGINAL_VARMETA_ONLY/BExIS24546_official_variableStats_original_field_units_only.json")
+          r=json.loads(f.read_text())
+          assert r["schema"]=="structural.BExIS24546_original_publisher_variable_statistics_units_semantics.v1"
+          if r["status"].startswith("SOURCE_STOP"):
+              assert r["source_dictionary_STOP_not_ecological_null"]
+              assert r["old_original_results_unchanged"]
+              print("BE24546_AUTHOR_OFFICIAL_DATASTAT_CODEBOOK_SOURCE_STOP",r["status"])
+          else:
+              assert r["no_original_source_uniqueValues_min_max_species_site_ID_or_measurements_OUTPUT"]
+              assert r["no_original_beetle_species_count_response_READ"]
+              assert r["original_tag1_and_latest_31123_24546_byte_identical_verified"]
+              assert r["prior_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_effects_UNCHANGED"]
+              assert r["eBird_used"] is False
+              print("BE24546_AUTHOR_CODEBOOK_UNITS_SCHEMA",r["status"])
+          PY
+      - name: "Archive only publisher variable name/description keyword flags/unit, never uniqueValues"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead24546-publisher-original-variable-codebook-units
+          path: BE24546_ORIGINAL_VARMETA_ONLY/
+          if-no-files-found: warn

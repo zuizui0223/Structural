@@ -1,0 +1,61 @@
+name: "Forest Swiss EnviDat455 BOTH beetle matrices x 244 source BundleID ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-244bundle-beetle-ID-crosswalk.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_species_matrix_ID_crosswalk_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-244bundle-beetle-ID-crosswalk.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_species_matrix_ID_crosswalk_only.py"
+permissions:
+  contents: read
+jobs:
+  source-bundles-244-exact-species-firstfield-ID-no-organisms:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic strict CSV first field only, no species counts"
+        run: python3 analysis/forest_macro_global/haeler2023_envidat455_species_matrix_ID_crosswalk_only.py --test
+      - name: "Author exact official 4 CSV SHA and first ID field only, no taxon rows"
+        run: |
+          python3 analysis/forest_macro_global/haeler2023_envidat455_species_matrix_ID_crosswalk_only.py \
+            --out haeler2023_sourceonly_exact_bundleID/receipt.json
+      - name: "Assert source original species/abundance and 62 plot nested responses unopened"
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('haeler2023_sourceonly_exact_bundleID/receipt.json').read_text())
+          assert x['schema']=='structural.haeler2023_envidat455_two_matrices_244_original_BundleID_source_crosswalk.v1'
+          assert x['frozen_before_matrix_row_observations']
+          assert x['original_beetle_species_abundance_cells_inspected']==0
+          assert x['new_ecological_effects_scored']==0
+          assert not x['source_original_workbook_or_CSV_data_rows_exported']
+          assert x['old_Ecuador_Finland_Chiu_Traylor_PREDICTS_BALA_GEB_unreopened']
+          if 'anonymous_source_key_crosswalk' in x:
+              r=x['anonymous_source_key_crosswalk']
+              assert r['source_environment_Plot_ID_count']==62
+              assert r['source_environment_Bundle_ID_count']==244
+              assert r['source_expected_but_missing_experimental_bundle_method_rows']==4
+              assert r['original_beetle_species_or_abundance_cells_read']==0
+              assert r['new_organism_model_effects_scored']==0
+              assert not r['original_sample_ids_tree_taxon_codes_or_coordinates_exported']
+              assert all(a['source_species_numeric_abundance_values_read']==0
+                         and not a['source_sample_key_values_exported']
+                         for a in r['source_anonymous_community_matrix_source_key_crosswalk'].values())
+          print('SOURCE_ONLY_EXACT_SWISS_SPECIES_KEY_STATUS',x['status'])
+          PY
+      - name: "Archive only anonymous 244 source ID coverage, no beetle species or plot values"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-swiss244-source-two-community-FIRSTFIELD-ID-crosswalk
+          path: haeler2023_sourceonly_exact_bundleID/receipt.json
+          if-no-files-found: warn

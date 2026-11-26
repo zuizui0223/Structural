@@ -1,0 +1,81 @@
+name: "Forest macro DATASAPROX original history x published Table7 COMPLETE source only"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-historical-author-table7-scopeonly.yml"
+      - "analysis/forest_macro_global/datasaprox_historical_table7_scope_sourceonly.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-historical-author-table7-scopeonly.yml"
+      - "analysis/forest_macro_global/datasaprox_historical_table7_scope_sourceonly.py"
+
+permissions:
+  contents: read
+
+jobs:
+  original-taxonomy-completeness-source-only-no-species:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only KD-tree for source project geo support"
+        run: python3 -m pip install --quiet "numpy>=1.26,<3" "scipy>=1.12,<2"
+      - name: "Original source-free author Table7 and temporal leakage fixtures"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_historical_table7_scope_sourceonly.py --test
+      - name: "Download EXACT original dataset and original publisher manuscript (metadata only)"
+        run: |
+          set -euo pipefail
+          mkdir -p source_private original_paper
+          curl --fail --location --retry 1 --connect-timeout 20 --max-time 240 \
+            --max-filesize 80000000 --proto '=https' --proto-redir '=https' \
+            'https://ipt.gbif.fr/archive.do?r=datasaprox&v=1.6' \
+            --output source_private/datasaprox_original_v1_6.zip
+          curl --fail --location --retry 1 --connect-timeout 15 --max-time 120 \
+            --max-filesize 18000000 --proto '=https' --proto-redir '=https' \
+            'https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12993481/fullTextXML' \
+            --output original_paper/PMC12993481.xml
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          b=Path("source_private/datasaprox_original_v1_6.zip").read_bytes()
+          assert hashlib.sha256(b).hexdigest()=="4163a2f8f72d756e74f64319b8e199b284ecc6414196147e4465d342d7dcb6d0"
+          print("EXACT_SOURCE_ZIP_PINNED")
+          PY
+      - name: "Author Table7 complete/partial method scope within strict historical source-project survey geometry"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_historical_table7_scope_sourceonly.py \
+            --archive source_private/datasaprox_original_v1_6.zip \
+            --paper-xml original_paper/PMC12993481.xml \
+            --out datasaprox_historical_table7_scope/receipt.json
+      - name: "Assert no source beetles, study IDs or causal scientific effect accessed"
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open("datasaprox_historical_table7_scope/receipt.json"))
+          assert r["schema"]=="structural.datasaprox_v16_author_table7_historical_independent_survey_scope.v1"
+          assert r["original_beetle_organism_taxon_abundance_values_read"]==0
+          assert not r["original_raw_project_or_point_identifiers_exported"]
+          assert r["old_DATASAPROX_vertical_source_science_STOP_retained"]
+          assert r["prior_Ecuador_Traylor_Ramberg_BALA_GEB_mammal_scores_unreopened"]
+          assert r["new_biological_effects_calculated"]==0
+          if "author_table7_strict_source_coverage" in r:
+              x=r["author_table7_strict_source_coverage"]
+              assert x["strict_source_projects_total"]==60
+              assert x["original_species_labels_or_taxon_abundances_read"]==0
+              assert not x["unmatched_table7_project_assumed_complete"]
+          print("TABLE7_SOURCE_ONLY_STATUS",r["status"])
+          PY
+      - name: "Archive only public author completeness classes and anonymous source counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-DATASAPROX-author-Table7-historical-survey-sourceonly
+          path: datasaprox_historical_table7_scope/receipt.json
+          if-no-files-found: warn

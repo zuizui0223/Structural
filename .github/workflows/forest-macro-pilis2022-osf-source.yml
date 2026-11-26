@@ -1,0 +1,36 @@
+name: "Forest macro Pilis2022 OSF full community source"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-pilis2022-osf-source.yml"
+permissions:
+  contents: read
+jobs:
+  original-source-metadata-only:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/pilis2022_fp2b8_full_community_source.py --test
+      - run: python analysis/forest_macro_global/pilis2022_fp2b8_full_community_source.py --out pilis_source/receipt.json
+      - run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("pilis_source/receipt.json"))
+          assert r["original_response_cells_interpreted"]==r["ecological_effects_scored"]==0
+          assert not r["raw_data_exported"]
+          if r["status"]=="PILIS_PUBLIC_NODE_MANIFEST_ONLY":
+              assert r["public"] and r["data_file_bytes_read"]==0
+          print("PILIS_SOURCE_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pilis2022-osf-source-metadata-only
+          path: pilis_source/receipt.json
+          if-no-files-found: error

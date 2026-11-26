@@ -1,0 +1,56 @@
+name: "Forest beetles Cours2026 three-context original Zenodo rights and file metadata ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-cours2026-three-context-zenodo-rights-only.yml"
+      - "analysis/forest_macro_global/cours2026_three_context_zenodo_metadata_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-cours2026-three-context-zenodo-rights-only.yml"
+      - "analysis/forest_macro_global/cours2026_three_context_zenodo_metadata_only.py"
+permissions:
+  contents: read
+
+jobs:
+  official-original-publisher-rights-metadata-no-biological-content:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic-only original exact record and file roster"
+        run: python3 analysis/forest_macro_global/cours2026_three_context_zenodo_metadata_only.py --test
+      - name: "Read original official Zenodo metadata ONLY (no RData or code GET)"
+        run: |
+          python3 analysis/forest_macro_global/cours2026_three_context_zenodo_metadata_only.py \
+            --out cours2026_three_context_sourceonly/receipt.json
+      - name: "Assert zero organisms, data-file reads and effects"
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open("cours2026_three_context_sourceonly/receipt.json"))
+          assert a["schema"]=="structural.cours2026_three_context_original_publisher_metadata_only.v1"
+          assert a["original_files_downloaded"]==0
+          assert a["new_scientific_ecological_effects"]==0
+          assert a["previous_Ramberg2026_original_zero_catch_STOP_preserved"]
+          assert a["previous_Korhonen2024_Dryad_HTTP401_preserved"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          x=a["source"]
+          if "original_data_or_code_file_GETs" in x:
+              assert x["original_data_or_code_file_GETs"]==0
+              assert x["original_beetle_species_rows_opened"]==0
+              assert x["original_plot_environment_values_opened"]==0
+              assert x["original_biological_effects_scored"]==0
+          print("COURS2026_METADATA_SCIENTIFIC_STATUS",x["status"])
+          PY
+      - name: "Archive only public study metadata and official rights/file counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-cours2026-crossforest-zenodo-rights-sourceonly
+          path: cours2026_three_context_sourceonly/receipt.json
+          if-no-files-found: warn

@@ -1,0 +1,47 @@
+# Independent forest saproxylic beetles × measured hostwood — ORIGINAL METADATA RESULT (2026-11-15)
+
+## Actual source audit success and evidence ceiling
+
+A new source-only workflow [Actions #43694533854](https://github.com/zuizui0223/Structural/actions/runs/43694533854) completed SUCCESS. Anonymous ZIP artifact **14153798004**, SHA256 `33a40804734e94c981b5bc8be60b722701a17135e83028a68326525b72199e23`. The GitHub workflow's original 2025 Swedish Dryad public API returned a published dataset, version and exact **eight-file source manifest**, all with official SHA256 hashes, plus official 2026 Polish Zenodo publisher manifests. Source biological values, local measured wood values, locations, species and original `.xlsx` tables were **not opened, scored, uploaded or reproduced**. This is a proven **data-access and source provenance** result, not an ecological effect.
+
+### Primary independent Sweden: Ramberg et al. 2025
+
+- Original publication [DOI 10.1111/1365-2664.70084](https://doi.org/10.1111/1365-2664.70084). Original dataset [Dryad DOI 10.5061/dryad.k3j9kd5m4](https://doi.org/10.5061/dryad.k3j9kd5m4): **public**, **CC0**, published 2025-05-22; eight files in exact published version, archived under source-native original filenames.
+- Prespecified required **`Beetlespecies_data.xlsx`** SHA256 `082f02b1ceeb2d0e35d276d5673f10f96a7e191171070fb44522b7a238b4665d` (**113,921 bytes**).
+- Prespecified required **`deadwood_local.xlsx`** SHA256 `2e3793c20048d323b30c5f6828ec7c2907b5046888a8024d4a513564cdaacabc` (**100,046 bytes**).
+- Prespecified required **`site_coordinate.xlsx`** SHA256 `97f5eca1db597b6d0d94ebe0f4182ab0df5ecf50bf1b1286f007a8f84ff2234b` (**11,583 bytes**).
+- Prespecified required **`README.md`** SHA256 `b5111cd4adf50175aee0a6f32e5b82780909bc91a9d4db8364bf9b2cb966315c` (**8,797 bytes**).
+- Landscape context 2/5/10/20-km original archives are present (each independently hashed). **Their existence is not a license to choose a spatial radius that yields significance.** Environmental-scale selection must be frozen after method qualification and before opening biological values.
+
+**Original author design, NOT newly measured here:** 23 physical study sites nested in **three Swedish regions**; 2020 local wood transects with source `Species` (pine/spruce/birch/oak/alder/aspen/unknown) and standing/fallen; insects observed in **2022** with 4–5 flight traps/source forest. The publication reports 3,094 saproxylic beetles from 188 species. The **2-year substrate/capture time gap** and landscape differences remain fixed confounders. Beetles captured by flight traps were not necessarily hatched from local measured wood; use only *relative captured guild composition*, not actual larval host choice. Site is original effective observational unit; original beetle individuals, traps and wood transects are not 23×5×wood-count independent replicates.
+
+**Current source transport limit:** the first CI's file-list returned all official file objects but did not expose numeric file IDs through the code's initial `f.get('id')` shortcut, so **README download was not attempted** and the correct outcome is `SOURCE_STOP_AUTHOR_README_SOURCE_FILE_ID_UNAVAILABLE`, a source-access coding issue, **not HTTP 401/403** nor ecological non-support. The source-only parser was patched to read file IDs only from the official Dryad HAL self/download links, without changing any study/source selection: commit [`00c6740b`](https://github.com/zuizui0223/Structural/commit/00c6740bebd20cbcfe58061b245f369752fdeabc). Follow-up CI [#43694701183](https://github.com/zuizui0223/Structural/actions/runs/43694701183) is the canonical attempt for the README source-access step; do not label the README actually downloaded until its result is confirmed.
+
+### Secondary distinct Poland source — public original metadata qualified, not a cross-region population
+
+Melosik et al. 2026 *Agricultural and Forest Entomology* DOI [10.1111/afe.70091](https://doi.org/10.1111/afe.70091). Independent Zenodo:
+- [Original saproxylic rove beetle source 21486790](https://doi.org/10.5281/zenodo.21486790), public CC BY 4.0, v1.0: `abundance_data_dominant.xlsx` **17,503 bytes**, published md5 `ecc1836c111bf08cc1eba3f23aaaf6e4`; author README `README.txt` 1,656 bytes, md5 `2d34fa07c7137e15fc99bd826843d495`.
+- [Original forest stand source 21535672](https://doi.org/10.5281/zenodo.21535672), public CC BY 4.0: `Forest_stand_characteristics.xlsx` **15,002 bytes**, published md5 `283db0672933621c7e4d0e0b8ac03160`.
+
+Neither original spreadsheet has been downloaded or parsed; shared original plot IDs, independent site counts and any tree species-specific resource measurements are **unknown until a new source grain audit**. This 2026 study covers **one lowland forest** and focused on 21 dominant Staphylinidae species; it is unsuitable to claim multi-region generality even if all records match.
+
+## Novelty and prior art — not another trivial host-preference finding
+
+The hypothesis that beetles prefer different host trees depending on forest context is already demonstrably prior art. Müller et al. (2015), [DOI 10.1111/1365-2664.12421](https://doi.org/10.1111/1365-2664.12421), exposed **13 host tree taxa within 30 forest sites in three German regions**, and already showed spatial/stand differences in host preference, most clearly in **the first** rather than second decay year. Their published result should be cited as a comparator and **not renamed a Structural discovery**. The original Ramberg et al. 2025 Sweden article already tests local fallen deadwood vs beetle composition and old forest around burn sites; its source-composition association is also PRIOR ART.
+
+The potentially useful new general question is not "do beetles prefer hosts?" but **what determines whether site-measured resource quantity and identity can predict the functional channel of an independently collected local community when decay stage, colonization window, landscape source-pool and temporal lag vary**. In Sweden, original burn year (2015–2018), deadwood source before/after burn status and forest-region context may be available, but **they are not themselves replicated temporal dynamics**. No mechanistic stage interaction, high-confidence landscape transport, local adaptation, host tree oviposition, mortality, abundance or conservation gain can be inferred from the source manifest alone.
+
+## Next gate, not a result yet
+
+Only after a publisher-verifiable original file-access path and exact site×trap×source-wood matrix hierarchy are obtained, preserve author source selection in runner-private storage and audit source tab names, row counts, site identity conflict and taxonomic resolution BEFORE opening the ecological taxa. Independently freeze **one** test that compares original source *measured conifer vs broadleaf deadwood fractions* with beetles' recorded source trait affiliations while accounting for site region, burn history, method/effort and the original 2020 vs 2022 measurement delay. Do not use a source-only site abundance to infer individual host utilization.
+
+**Prior analysis firewall:** Finland 142-source forest deadwood incremental spatial heldout ΔHellinger² +0.00024237/p=.015, Finland Host_tree source-label-null D=.035237, original 3-country D=.091059, PREDICTS alteration +.0942, NEON static height association +.0349/p=.1759, BALA/GEB scientific holds all unchanged. eBird/TinyFish unused; PR #469 stays Draft and unmerged.
+
+
+## 2026-11-15 official README access final result (no new taxon data opened)
+
+The source-only follow-up [Actions #43694987298](https://github.com/zuizui0223/Structural/actions/runs/43694987298) completed SUCCESS with published Dryad version-file metadata and a correctly parsed official README file ID, verified from the public Dryad HAL `self=/api/v2/files/4082364` / `stash:download=/api/v2/files/4082364/download` metadata. The original **README.md** was then requested **exactly once** through that publisher official file-download endpoint and returned **HTTP 401**. Original file content was not delivered. No original `.xlsx` was downloaded or opened, and 0 original beetle/wood biological values were scored. Corrected CI aggregate artifact **14154281202**, SHA256 `a4bacc8f9ebdb871ac4f7c4f4bccc77dda75638c3e12aa9e938e98d0bd23732a`.
+
+The first two attempts failed to extract the numeric file ID because of (i) a missing `id` JSON field and (ii) an incorrectly double-escaped regex. The second source-only run emitted an anonymized public HAL-link diagnostic; a *single targeted code repair* in [commit `27a6c158`](https://github.com/zuizui0223/Structural/commit/27a6c1585b17edef63cad5070947feb56e5e98d2) made the third run reach the authenticated/blocked original file endpoint. The third run's HTTP 401 is an **access stop** (not the earlier code bug, not ecological non-support). Do **not** attempt URL variants or credential workarounds against the same original publisher resource. Sweden remains **ORIGINAL_METADATA_CONFIRMED, ORIGINAL_FILE_CONTENT_ACCESS_STOP** for any new source-field or ecological inference.
+
+Fallback choice remains a **new original field-method metadata check**, not substitution of a Polish one-forest study for 23 independent Swedish physical sites or multiple biome replication. Current frozen Finnish/PREDICTS/NEON/BALA/GEB results and the 2025 Swedish author's prior published findings are unchanged.

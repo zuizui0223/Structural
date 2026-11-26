@@ -1,0 +1,37 @@
+name: "Forest BioTIME tropical 775 776 habitat routing"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-biotime775-776-tropical-routing.yml"
+      - "analysis/forest_macro_global/biotime775_776_tropical_habitat_routing.py"
+permissions:
+  contents: read
+jobs:
+  source-metadata:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/biotime775_776_tropical_habitat_routing.py --test
+      - run: python analysis/forest_macro_global/biotime775_776_tropical_habitat_routing.py --out biotime_tropical_routing/receipt.json
+      - run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("biotime_tropical_routing/receipt.json"))
+          assert r["original_biological_values_interpreted"]==r["ecological_effects_scored"]==0
+          assert not r["raw_rows_exported"]
+          if r["status"]=="SOURCE_REVIEW_COMPLETE":
+              assert r["pinned_metadata_verified"] and set(r["studies"])=={"775","776"}
+          print("BIOTIME_TROPICAL_ROUTING_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biotime775-776-tropical-routing-only
+          path: biotime_tropical_routing/receipt.json
+          if-no-files-found: error

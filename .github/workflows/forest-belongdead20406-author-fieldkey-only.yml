@@ -1,0 +1,56 @@
+name: "Forest BELongDead 20406 published author field keys no-value audit"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/belongdead20406_original_fieldkey_audit.py"
+      - "docs/FOREST_BELONGDEAD_20406_AUTHOR_FIELDKEY_ALLOWLIST_PRESPEC_20261118.md"
+      - ".github/workflows/forest-belongdead20406-author-fieldkey-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_20406_author_fieldname_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic public author header method-key and no-value tests"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_original_fieldkey_audit.py --test
+      - name: "Only exactly tagged, SHA-locked public author header variable names"
+        run: |
+          python analysis/forest_macro_global/belongdead20406_original_fieldkey_audit.py \
+            --out BE20406_AUTHOR_FIELDKEY_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f = Path("BE20406_AUTHOR_FIELDKEY_ONLY/BELongDead20406_original_tag2_safe_public_author_field_names_only.json")
+          r = json.loads(f.read_text(encoding="utf-8"))
+          assert r["schema"] == "structural.BELongDead20406_original_public_author_field_names_only.v1"
+          assert r["dataset_id"] == 20406 and r["published_tag"] == 2
+          assert r["original_beetle_species_or_capture_values_read"] == 0
+          assert r["original_31124_15_TrapIDs_explained"] is False
+          assert r["no_new_guild_or_community_effect_estimated"]
+          assert r["eBird_used"] is False and r["TinyFish_used"] is False
+          if "source_header_only" in r:
+              x = r["source_header_only"]
+              assert len(x["original_public_field_names"]) == 14
+              assert x["no_original_20406_content_rows_PARSED"]
+              assert x["no_original_31123_31124_species_or_method_rows_REQUESTED"]
+              assert x["no_original_catch_log_site_IDs_exposed"]
+          else:
+              assert r["source_stop_not_ecological_null"]
+          print("ORIGINAL_PUBLISHED_AUTHOR_METHOD_FIELD_NAME_SCHEMA_ONLY",r["status"])
+          PY
+      - name: "Archive only original public method field names and categorical match counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-belongdead20406-published-author-fieldkeys-no-values
+          path: BE20406_AUTHOR_FIELDKEY_ONLY/
+          if-no-files-found: warn

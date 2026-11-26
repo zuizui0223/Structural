@@ -1,0 +1,53 @@
+name: "Thorn2016 12-plot bark access beetles: exact original Zenodo file/header source gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-thorn2016-bark-access-original-sourceonly.yml"
+      - "analysis/forest_macro_global/thorn2016_bark_access_zenodo_source_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_only_author_12paired_windthrow_design:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original publisher manifest/MD5 and biological redaction test"
+        run: |
+          python analysis/forest_macro_global/thorn2016_bark_access_zenodo_source_only.py --test
+      - name: "Original publisher Zenodo exact 2 CSV header-only structural audit"
+        run: |
+          python analysis/forest_macro_global/thorn2016_bark_access_zenodo_source_only.py \
+            --out Thorn2016_12plot_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Thorn2016_12plot_sourceonly/Thorn2016_bark_access_12paired_plots_sourceonly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Thorn2016_12plot_3bark_treatment_Zenodo_sourceonly.v1"
+          assert x["no_biodiversity_effect_or_p_estimated"]
+          assert x["no_old_original_cohorts_rescored"]
+          assert x["eBird_used"] is False and x["TinyFish_used"] is False
+          q=x["original"]
+          assert q["new_original_beetle_species_effect"] is False
+          assert q["previous_Finland_Germany_PREDICTS_BALA_GEB_UNTOUCHED"]
+          for item in q.get("original_source_structure",[]):
+              if "publisher_byte_checksum_VERIFIED" in item:
+                  assert item["biological_rows_INSPECTED"]==0
+                  assert item["species_labels_and_numerical_beetle_rows_NOT_EXPORTED"]
+                  assert item["first_line_cannot_certify_author_physical_plot_treatment_identity"]
+          print("THORN2016_SOURCE_METHOD_GATE_NO_ECOLOGICAL_ESTIMATE",q["status"])
+          PY
+      - name: "Archive publisher digest and anonymous safe header summary only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Thorn2016-paired-bark-Zenodo-source-only
+          path: Thorn2016_12plot_sourceonly/
+          if-no-files-found: warn

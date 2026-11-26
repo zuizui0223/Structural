@@ -1,0 +1,54 @@
+name: "Original 12year log beetle 4-token source identity six fixed permutations"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-lettenmaier12y-4token-source-crosswalk.yml"
+      - "analysis/forest_macro_global/lettenmaier_12year_4token_source_identity_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  four_source_fields_only_no_biological_response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic six exact source identity patterns; never inspect beetle taxa"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_4token_source_identity_gate.py --test
+      - name: "Enumerate exactly six original plot/log/tree orderings against original year-last matrix IDs"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_4token_source_identity_gate.py \
+            --out original12yr_fourtoken_sourceonly_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("original12yr_fourtoken_sourceonly_aggregate/Lettenmaier12y_522logyear_525matrix_fourtoken_all6_sourceonly.json").read_text())
+          assert r["schema"]=="structural.Lettenmaier12y_522logyear_525community_4token_all6_sourceonly.v1"
+          assert r["original_biological_response_297_species_columns_UNREAD"]
+          assert r["original_matrix_sample_ID_values_and_log_tokens_NOT_EXPORTED"]
+          assert r["prior_author_R_code_no_explicit_unique_join_premise_preserved"]
+          assert r["previous_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert r["eBird_used"] is False
+          if r["status"].startswith("SOURCE_STOP"):
+              assert r["source_identity_STOP_not_ecological_null"]
+              print("SOURCE_IDENTITY_STOP_NOT_BIOLOGY",r["status"])
+          else:
+              assert r["author_2_metadata_csv_original_MD5s_checked"]
+              assert r["source_original_522_long_logyear_and_525_matrix_ID_verified"]
+              assert len(r["identity_test"]["all_six_source_original_field_permutations_reported"])==6
+              assert r["identity_test"]["no_unmatched_source_community_ID_treated_as_zero_or_absence"]
+              print("ORIGINAL_FOURTOKEN_SIXPATTERN_SOURCE_ONLY",r["status"])
+          PY
+      - name: "Archive anonymized six-pattern metadata counts only, no individual original IDs or species"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-12yr-author-fourtoken-six-source-permutations-only
+          path: original12yr_fourtoken_sourceonly_aggregate/
+          if-no-files-found: warn

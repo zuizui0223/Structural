@@ -1,0 +1,56 @@
+name: "Poland 2026 forest beetles: original Excel plot-grain header-only qualification"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-poland2026-original-sheet-grain-sourceonly.yml"
+      - "analysis/forest_macro_global/poland_2026_forest_beetle_sheet_grain_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_only_publisher_excel_site_grain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original XLSX header-only names/worksheet grain and species redaction"
+        run: |
+          python analysis/forest_macro_global/poland_2026_forest_beetle_sheet_grain_gate.py --test
+      - name: "Original two Zenodo published study workbooks: source-only sheet grain; no species/covariate values scored"
+        run: |
+          python analysis/forest_macro_global/poland_2026_forest_beetle_sheet_grain_gate.py \
+            --out Poland_sourceonly_excel_grain
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          file=Path("Poland_sourceonly_excel_grain/Poland2026_original_author_excel_sheet_grain_sourceonly.json")
+          result=json.loads(file.read_text())
+          assert result["schema"]=="structural.Poland2026_original_beetle_forest_worksheet_source_grain_gate.v1"
+          assert result["original_beetle_taxa_abundances_UNSCORED"]
+          assert result["original_forest_measurement_values_UNSCORED"]
+          assert result["no_original_beetle_forest_site_rows_JOINED"]
+          assert result["same_one_lowland_forest_original_study_NOT_independent_countries"]
+          assert result["original_Finland_DEADWOOD_PREDICTS_NEON_BALA_GEB_results_unchanged"]
+          assert result["eBird_used"] is False
+          if result["status"].startswith("SOURCE_STOP"):
+              assert result["scientific_SOURCE_STOP_not_ecological_null"]
+              print("AUTHOR_SOURCE_STOP_NOT_BEETLE_NULL",result["status"])
+          else:
+              assert result["original_source_file_manifests_md5_verified"]
+              assert result["status"]=="SOURCE_GRANULARITY_NOT_YET_ESTABLISHED_NO_BIOLOGICAL_SCORE"
+              assert result["original_sheet_grain"]["beetle"]["original_worksheet_count"]==2
+              assert result["original_sheet_grain"]["forest"]["original_worksheet_count"]==1
+              print("PUBLISHED_SHEETS_SOURCE_GRAIN_AUDITED_BIOLOGY_UNOPENED")
+          PY
+      - name: "Archive anonymous workbook source/header metadata only, never original Excel or rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Poland2026-beetle-forest-sheet-grain-sourceonly
+          path: Poland_sourceonly_excel_grain/
+          if-no-files-found: warn

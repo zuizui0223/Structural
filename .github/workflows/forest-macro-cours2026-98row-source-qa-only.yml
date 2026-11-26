@@ -1,0 +1,64 @@
+name: "Forest beetle Cours2026 98 plots original SITE and resource QA NO biology"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-cours2026-98row-source-qa-only.yml"
+      - "analysis/forest_macro_global/cours2026_98_plot_site_resource_QA_only.py"
+      - "analysis/forest_macro_global/cours2026_98_plot_site_resource_QA_only.R"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-cours2026-98row-source-qa-only.yml"
+      - "analysis/forest_macro_global/cours2026_98_plot_site_resource_QA_only.py"
+      - "analysis/forest_macro_global/cours2026_98_plot_site_resource_QA_only.R"
+permissions:
+  contents: read
+jobs:
+  publisher-original-98plot-nonresponse-QA-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only JSON library"
+        run: Rscript -e 'install.packages("jsonlite",repos="https://cloud.r-project.org")'
+      - name: "Synthetic-only original nonresponse method constraints"
+        run: |
+          Rscript analysis/forest_macro_global/cours2026_98_plot_site_resource_QA_only.R --test
+          python3 analysis/forest_macro_global/cours2026_98_plot_site_resource_QA_only.py --test
+      - name: "Original Cours 98 plot/site/wood metadata ONLY; no source beetle guild values"
+        run: |
+          python3 analysis/forest_macro_global/cours2026_98_plot_site_resource_QA_only.py \
+            --out cours2026_site_resource_QA/receipt.json
+      - name: "Response firewall and source result type gate"
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open("cours2026_site_resource_QA/receipt.json"))
+          assert a["schema"]=="structural.cours2026_98source_plot_site_wood_resource_QA.v1"
+          assert not a["original_author_RData_bytes_uploaded"]
+          assert a["new_beetle_response_cells_read"]==0
+          assert a["new_scientific_effects_fitted"]==0
+          assert a["prior_Ramberg2026_sci_STOP_unchanged"]
+          assert a["prior_Korhonen2024_Dryad_401_unchanged"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "source_only_original_field_QA" in a:
+              q=a["source_only_original_field_QA"]
+              assert q["original_beetle_species_or_guild_response_cells_read"]==0
+              assert q["original_new_predictive_scientific_score_count"]==0
+          print("SOURCE_NONRESPONSE_98PLOT_QUALITY",a["status"])
+          PY
+      - name: "Archive only anonymous plot/site counts and predictor missingness"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-cours2026-98row-nonresponse-original-site-resource-QA
+          path: cours2026_site_resource_QA/receipt.json
+          if-no-files-found: warn

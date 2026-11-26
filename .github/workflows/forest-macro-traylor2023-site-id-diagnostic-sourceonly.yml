@@ -1,0 +1,57 @@
+name: "Traylor Georgia 40 sites: author ID and species matrix header source-only diagnosis"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-traylor2023-site-id-diagnostic-sourceonly.yml"
+      - "analysis/forest_macro_global/traylor2023_georgia_source_id_diagnostic.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_original_site_id_documentation_diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic R X-prefix and source lexical collision tests without species data"
+        run: |
+          python analysis/forest_macro_global/traylor2023_georgia_source_id_diagnostic.py --test
+      - name: "One official author source site ID vs species header diagnosis and README codebook"
+        run: |
+          python analysis/forest_macro_global/traylor2023_georgia_source_id_diagnostic.py \
+            --out Traylor2023_Georgia_ID_diagnostic
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Traylor2023_Georgia_ID_diagnostic/Traylor2023_Georgia40_site_ID_source_diagnostic.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Traylor2023_Georgia40_source_lexical_ID_diagnostic.v1"
+          assert x["new_eco_guild_coefficient_or_p"] is False
+          assert x["Piccini_Kriegel_Finland_Burner_Thai_PREDICTS_NEON_BALA_GEB_originals_unopened"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          r=x["original"]
+          assert r["new_biological_OR_environmental_values_SCORING"] is False
+          assert r["previous_original_forest_and_island_heldouts_SEALED"]
+          if "result" in r:
+              q=r["result"]
+              assert q["source_forest_unique_site_labels"]==40
+              assert q["beetle_original_header_columns"]==58
+              assert q["species_guild_abundance_or_forest_numeric_rows_UNREAD"]
+              assert q["raw_site_species_header_labels_NOT_EXPORTED"]
+              assert q["no_key_conversion_authorized_by_diagnostic"]
+          else:
+              assert r["source_STOP_not_ecological_null"]
+          print("GEORGIA_SOURCE_ID_DIAGNOSTIC_NOT_AN_ECOLOGICAL_RESULT",r["status"])
+          PY
+      - name: "Publish anonymous source documentation and lexical diagnostics only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Traylor2023-Georgia40-source-site-ID-diagnostic
+          path: Traylor2023_Georgia_ID_diagnostic/
+          if-no-files-found: warn

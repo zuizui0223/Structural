@@ -1,0 +1,53 @@
+name: Forest macro BETA-FOR234 original publisher FILES SHAPE diagnosis
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor234-files-shape-diagnostic.yml"
+      - "analysis/forest_macro_global/betafor234_publisher_files_shape_diag.py"
+      - "docs/FOREST_MACRO_BETAFOR234_FILES_SHAPE_DIAGNOSTIC_PREFREEZE_20261120.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-betafor234-files-shape-diagnostic.yml"
+      - "analysis/forest_macro_global/betafor234_publisher_files_shape_diag.py"
+      - "docs/FOREST_MACRO_BETAFOR234_FILES_SHAPE_DIAGNOSTIC_PREFREEZE_20261120.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-record-shape-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source-only syntax fixtures without opening any biology
+        run: |
+          python3 analysis/forest_macro_global/betafor234_publisher_files_shape_diag.py --test
+      - name: Read only publisher original record and source descriptor shape
+        run: |
+          python3 analysis/forest_macro_global/betafor234_publisher_files_shape_diag.py --out betafor234_files_shape_only/result.json
+      - name: 'Fail closed: no source member or biological rows'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor234_files_shape_only/result.json',encoding='utf-8'))
+          assert x['v1_STOP_unchanged']
+          assert x['source_file_GET']==0
+          assert x['source_OTU_rows_READ']==0
+          assert x['new_biodiversity_effects']==0
+          assert x['status'].startswith(('SOURCE_DIAGNOSTIC_STOP_', 'SOURCE_PUBLISHER_NO_PUBLIC_FILE_DESCRIPTOR', 'SOURCE_DIAGNOSTIC_FILE_LIST_PRESENT_NOT_ADMITTED'))
+          if 'source' in x:
+              assert x['source']['no_response_or_sample_data_READ']
+              assert x['source']['not_original_file_MD5_verified']
+              print('PUBLISHER_FILES_FIELD_TYPE',x['source']['source_files_field_shape_ONLY'])
+              print('PUBLISHER_DESCRIPTOR_COUNT',x['source']['source_files_entry_count_ONLY'])
+          print('SCIENTIFIC_SOURCE_ONLY',x['status'])
+          PY
+      - name: Upload only publisher descriptor shape and digest receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-betafor234-files-shape-only
+          path: betafor234_files_shape_only/
+          if-no-files-found: error

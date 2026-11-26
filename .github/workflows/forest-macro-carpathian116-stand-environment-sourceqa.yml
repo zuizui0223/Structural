@@ -1,0 +1,59 @@
+name: "Forest macro Carpathian 116 stand blocks and deadwood environment source-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_stand_environment_sourceqa.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_STAND_AND_ENVIRONMENT_QA_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-stand-environment-sourceqa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact_original_environment_only_seal_beetle_richness_and_all_species:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic whitelist fence, stand block and finite environment checks"
+        run: |
+          python analysis/forest_macro_global/carpathian116_stand_environment_sourceqa.py --test
+      - name: "Only source-verified 116 original physical forest nonresponse covariates"
+        run: |
+          python analysis/forest_macro_global/carpathian116_stand_environment_sourceqa.py \
+            --out CARPATHIAN116_ORIGINAL_STAND_QA_ONLY
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path("CARPATHIAN116_ORIGINAL_STAND_QA_ONLY/Carpathian116_original_environment_stand_only.json")
+          a=json.loads(p.read_text(encoding="utf-8"))
+          assert a["schema"]=="structural.Carpathian116_original_environment_source_only_v1"
+          assert a["original_beetle_matrix_files_NEVER_DOWNLOADED"]
+          assert a["old_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "source_environment_only" in a:
+              q=a["source_environment_only"]
+              assert not q["original_species_or_richness_data_rows_OPENED"]
+              assert not q["new_ecological_score_or_effect_ESTIMATED"]
+              assert q["feeding_guild_source_NOT_VERIFIED"]
+              assert q["true_trap_effort_zero_record_NOT_VERIFIED"]
+              assert q["standshort_NOT_independently_validated_as_mountain_range_or_independent_unit"]
+              assert q["source_beech_spruce_116_combined_stand_assignment_conflicts"]==0
+              for v in q["source_original_116_plot_environment_QA"].values():
+                  assert v["source_site_stand_ids_NOT_EXPORTED"]
+                  assert v["beetle_or_other_biodiversity_response_values_NOT_ACCESSED"]
+          else:
+              assert a["source_only_STOP_not_beetle_non_support"]
+          print("ORIGINAL_CARPATHIAN116_ENV_STAND_QA_DECISION",a["status"])
+          PY
+      - name: "Archive anonymous original environmental field QA, never site/response values"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-stand-environment-sourceonly
+          path: CARPATHIAN116_ORIGINAL_STAND_QA_ONLY/
+          if-no-files-found: warn

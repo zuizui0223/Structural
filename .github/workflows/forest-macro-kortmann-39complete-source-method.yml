@@ -1,0 +1,71 @@
+name: Forest macro Kortmann 39 complete triplet source frame ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann-39complete-source-method.yml"
+      - "analysis/forest_macro_global/kortmann2026_39complete_triplet_sourceonly.py"
+      - "analysis/forest_macro_global/kortmann2026_39complete_triplet_sourceonly.R"
+      - "docs/FOREST_MACRO_KORTMANN_39COMPLETE_SOURCE_SCOPE_PREFREEZE_20261121.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann-39complete-source-method.yml"
+      - "analysis/forest_macro_global/kortmann2026_39complete_triplet_sourceonly.py"
+      - "analysis/forest_macro_global/kortmann2026_39complete_triplet_sourceonly.R"
+      - "docs/FOREST_MACRO_KORTMANN_39COMPLETE_SOURCE_SCOPE_PREFREEZE_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-39-method-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: Test 39 matched sites from a known-truth 40-site source with missing traps
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_39complete_triplet_sourceonly.py --test
+      - name: Fixed original publisher ZIP and four source method columns only
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_39complete_triplet_sourceonly.py --out kortmann2026_39complete_source_method/receipt.json
+      - name: 'Fail closed: original 40-site HOLD preserved, no OTU biology'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_39complete_source_method/receipt.json',encoding='utf-8'))
+          assert x['original_strict_40_site_gate_HOLD_UNCHANGED']
+          assert x['previous_RData_source_schema_exposure_UNCHANGED']
+          assert x['original_OTU_matrix_member_requested'] is False
+          assert x['new_ecological_effects_fitted']==0
+          assert x['status'].startswith((
+            'SOURCE_39_COMPLETE_TRIPLETS_METHOD_READY_NO_OTU',
+            'SOURCE_39_TRIPLET_METHOD_HOLD',
+            'SOURCE_39_COMPLETE_METHOD_STOP_'))
+          if 'source' in x:
+              s=x['source']
+              assert s['original_40_site_strict_gate_still_HOLD']
+              assert s['new_secondary_population_is_not_original_strict_40_site_pass']
+              assert s['source_RData_previously_deserialized_response_bearing']
+              assert s['no_original_sample_ID_treatment_label_or_offset_values_exported']
+              assert s['no_OTU_biology_opened_or_fitted']
+              assert s['original_sampling_round_identity_NOT_ESTABLISHED']
+              m=s['anonymous_method_only_counts']
+              print('ORIGINAL_SECONDARY_39_COMPLETE_TRIPLETS',m['retained_complete_triplets'])
+              print('ORIGINAL_SECONDARY_OBSERVED_SAMPLES',m['retained_original_observed_rows'])
+              print('ORIGINAL_SECONDARY_MISSING_ROUNDS',m['retained_nominal_missing_rounds'])
+          print('KORTMANN_39_SITE_SOURCE_FRAME_STATUS='+x['status'])
+          PY
+      - name: Retain only anonymous physical effort-frame counts, no site labels
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann-secondary-39complete-method-only
+          path: kortmann2026_39complete_source_method/
+          if-no-files-found: error

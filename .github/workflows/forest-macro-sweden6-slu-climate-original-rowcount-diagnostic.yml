@@ -1,0 +1,52 @@
+name: "Forest macro Sweden6 SLU original climate CSV ROWCOUNT diagnostic ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_climate_rowcount_diagnostic_only.py"
+      - "docs/FOREST_SWEDEN6_CLIMATE_ORIGINAL_ROW_COUNT_DIAGNOSTIC_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-climate-original-rowcount-diagnostic.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_CSV_shape_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic CSV logical/physical row distinction"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate_rowcount_diagnostic_only.py --test
+      - name: "Original source SHA and comma/semicolon CSV row width without CELL values"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate_rowcount_diagnostic_only.py --out SLU_CLIMATE_SOURCE_SHAPE_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("SLU_CLIMATE_SOURCE_SHAPE_ONLY/SLU_sweden6_climate_original_csv_structure_only.json").read_text())
+          assert d["prior_88_record_gate_STOP_PRESERVED"]
+          assert d["original_BIOLOGICAL_CTI_richness_Totlab_OR_species_DATA_ROWS_READ"]==0
+          assert d["all_earlier_forest_and_island_response_scores_NOT_REOPENED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          if "original_source_CSV_structure_counts_ONLY" in d:
+              r=d["original_source_CSV_structure_counts_ONLY"]
+              assert r["original_field_CELL_VALUES_semantically_READ"]==0
+              assert r["original_species_beetle_source_rows_READ"]==0
+              assert r["original_earlier_88_data_record_gate_REMAINS_STOP"]
+              assert r["source_original_CSV_logical_row_count_INCLUDING_HEADER"] >= 2
+          else:
+              assert d["source_structure_STOP_NOT_ecological_null"]
+          print("SLU_CLIMATE_BYTE_ROW_COUNT_ONLY",d["status"])
+          PY
+      - name: "Archive original line counts and SHA only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden6-slu-climate-original-rowcount-diag-only
+          path: SLU_CLIMATE_SOURCE_SHAPE_ONLY/
+          if-no-files-found: warn

@@ -1,0 +1,16 @@
+# Ramberg 2026 beetle stumps: original Excel first-row/physical-grain source audit (prebiology 2026-11-22)
+
+## Eligibility already verified
+Publisher original paper DOI 10.1007/s10841-026-00832-6, official independent dataset Zenodo 10.5281/zenodo.23021809 (NOT Ramberg 2025 Dryad). Original publication and source metadata authorize exactly one publicly open file Beetles_data.xlsx, 56,235 bytes, publisher MD5 42b6ba1d401cf77fc70efcfa91bf7adf, original file SHA256 352c28b0615a3186914e95fbac27a6159b95d4c28f4028d5f47671513f818344. Official immutable source download was successful in GitHub Actions #45032467713 without biological content opened; source workbook XML contains exactly two sheet titles, Samples and Species (13 OpenXML members).
+
+The authors’ article reports five paired geographical locations, ten cutover stand sites, 15 original spruce stumps/stand (150 intended stump opportunities), 67 recorded species / 1,378 adults. Those numbers are AUTHOR PUBLICATION, NOT verified original row support yet. These original beetle results, forest status comparison, stronger location than stand effects are PRIOR ART. All sampled stumps are SPRUCE: no varied host-tree identity available.
+
+## One new no-response physical-identity audit
+1. Re-fetch ONLY the same original public Zenodo record link for Beetles_data.xlsx. Check exact published record/file name, source size, MD5 and SHA256; no downloads from other hosts or mirrors.
+2. Parse original OpenXML workbook structure, workbook relationships and FIRST HEADER ROW of Samples and Species only. Resolve first-row sharedStrings indices for safe header labels as required. Do NOT open data rows, original species rows, beetle count values, site/stump ID values or any ecological response.
+3. Save: per-sheet verified worksheet used-range/dimension (descriptive metadata only), number of first-row header fields, header storage types, and safe generic matching field names/counters from a strict fixed whitelist. DO NOT export species names, original site codes, coordinates, catch numbers or individual row labels. Never infer 150 actual stump records from worksheet row dimensions alone.
+4. If source schema lacks an explicit stump/tree sample ID, parent stand ID, site-pair identity or source effort in generic fields, hold at SOURCE_METHOD_IDENTIFIERS_UNPROVEN, not ecological non-support. A shared row count or identical row order is not sufficient to link two sheets or sites.
+5. If exact original source IDs are findable, separately freeze a no-biological-response plot/stand/stump ID admission BEFORE opening species/abundance numeric outcomes. Distinguish 5 parent pairs, 10 stands and 150 intended stumps: pseudoreplication at the stump-level must not imply 150 independent forests.
+6. Two-sided exact paired signflip at n=5 location pairs has minimum p=2/2^5=0.0625, so this experiment alone cannot pass a p<0.05 uppermost-independent-unit directional signflip, even with five out of five positive. This is a mathematical design ceiling, not a new empirical effect.
+
+Frostgård 2026 original Dryad README exact publisher ID 4898760 returned HTTP401 in #45032318355; keep that file-source access HOLD, no mirror retry. Former Ramberg 2025 Dryad HTTP401 remains sealed. No new beetle p values, no response matrices or env values read, no eBird/TinyFish, Draft PR #469 unmerged.

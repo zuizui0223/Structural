@@ -1,0 +1,90 @@
+name: "Forest macro BioTIME v4 global temporal beetle metadata screen"
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/forest-macro-biotime-v4-forest-beetle-metadata.yml"
+permissions:
+  contents: read
+jobs:
+  metadata-only:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - name: Download exact public metadata only, not observation data
+        run: |
+          python - <<'PY'
+          import csv, io, json, hashlib, re, collections, urllib.request, urllib.error, urllib.parse
+          from pathlib import Path
+          DOI="10.5281/zenodo.15222193"
+          URL="https://zenodo.org/records/15222193/files/biotime_v2_metadata_15April25.csv?download=1"
+          MD5="3daed71ed554888309f9f2443a847bea"
+          REQ={"STUDY_ID","REALM","HABITAT","BIOME_MAP","TAXA","ORGANISMS","TITLE","START_YEAR","END_YEAR","DATA_POINTS"}
+          # Metadata screen is intentionally permissive for candidacy, not eligibility.
+          beetle=re.compile(r"\b(?:beetles?|coleoptera|carabid\w*|scarabae\w*|saproxylic)\b",re.I)
+          forest=re.compile(r"\b(?:forests?|woodlands?|taiga)\b",re.I)
+          def norm(v): return " ".join(str(v or "").strip().split())
+          def flag(r):
+              if norm(r["REALM"]).casefold()!="terrestrial":return None
+              text=" ".join(norm(r[k]) for k in ("TAXA","ORGANISMS","TITLE"))
+              if not beetle.search(text):return None
+              h=bool(forest.search(norm(r["HABITAT"])))
+              b=bool(forest.search(norm(r["BIOME_MAP"])))
+              if not (h or b):return None
+              return "habitat_and_biome" if h and b else "habitat_only" if h else "biome_only"
+          def classify(rows):
+              studies=collections.defaultdict(list)
+              for r in rows:
+                  sid=norm(r["STUDY_ID"])
+                  if not sid:raise ValueError("MISSING_STUDY_ID")
+                  studies[sid].append(r)
+              candidates=[]
+              for sid, group in sorted(studies.items()):
+                  found=[(r,flag(r)) for r in group]
+                  valid=[(r,f) for r,f in found if f]
+                  if not valid:continue
+                  # Report source metadata candidates; never equate broad biome labels with actual forest plots.
+                  method_flags=sorted({f for r,f in valid})
+                  def vals(k):return sorted({norm(r[k]) for r,f in valid if norm(r[k])})
+                  candidates.append({"study_id":sid,"metadata_row_count":len(group),"forest_beetle_candidate_row_count":len(valid),"forest_scope_flags":method_flags,
+                    "titles":vals("TITLE"),"habitat_labels":vals("HABITAT"),"biome_labels":vals("BIOME_MAP"),"organism_labels":vals("ORGANISMS"),
+                    "reported_start_year_values":vals("START_YEAR"),"reported_end_year_values":vals("END_YEAR"),"reported_data_point_values":vals("DATA_POINTS"),
+                    "parent_study_independence_and_method_and_consecutive_years_verified":False})
+              return len(studies),candidates
+          fake={"STUDY_ID":"1","REALM":"Terrestrial","HABITAT":"forest","BIOME_MAP":"Temperate forests","TAXA":"Invertebrates","ORGANISMS":"ground beetles","TITLE":"example","START_YEAR":"2000","END_YEAR":"2004","DATA_POINTS":"4"}
+          assert flag(fake)=="habitat_and_biome"
+          assert flag(dict(fake,HABITAT="grassland"))=="biome_only"
+          assert flag(dict(fake,REALM="Marine")) is None
+          assert classify([fake,fake])[0]==1 and len(classify([fake,fake])[1])==1
+          out={"schema":"structural.biotime_v4_forest_beetle_metadata.v1","doi":DOI,"expected_md5":MD5,"original_observation_files_opened":0,"species_abundance_values_read":0,"new_ecological_effects_scored":0}
+          try:
+              req=urllib.request.Request(URL,headers={"User-Agent":"Structural-BioTIME-metadata-audit/1.0"})
+              with urllib.request.urlopen(req,timeout=40) as response:
+                  if response.status!=200 or urllib.parse.urlsplit(response.url).hostname!="zenodo.org":raise ValueError("SOURCE_ORIGIN_OR_HTTP_STOP")
+                  raw=response.read(4000001)
+              if len(raw)>4000000 or hashlib.md5(raw).hexdigest()!=MD5:raise ValueError("SOURCE_MD5_OR_SIZE_DRIFT")
+              reader=csv.DictReader(io.StringIO(raw.decode("utf-8-sig"),newline=""))
+              headers=reader.fieldnames or []
+              out["metadata_header_names"]=headers
+              if not REQ.issubset(headers):raise ValueError("SOURCE_REQUIRED_METADATA_FIELDS_MISSING")
+              # Select only field/method descriptions and time coverage. No species totals, record totals or abundance.
+              rows=[{k:r.get(k) for k in REQ} for r in reader]
+              n, candidates=classify(rows)
+              out.update(status="SOURCE_METADATA_CANDIDATES_ONLY",metadata_rows=len(rows),distinct_study_ids=n,candidate_distinct_study_ids=len(candidates),candidates=candidates,
+                         source_md5_verified=True,independent_forest_study_count_verified=False,individual_source_license_and_parent_lineage_review_required=True)
+          except urllib.error.HTTPError as e:
+              out.update(status="SOURCE_METADATA_HTTP_STOP",http=e.code)
+          except Exception as e:
+              out.update(status="SOURCE_METADATA_SCHEMA_OR_TRANSPORT_STOP",error_type=type(e).__name__,reason=str(e) if isinstance(e,ValueError) else None)
+          p=Path("biotime_forest_meta/receipt.json");p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(out,ensure_ascii=False,indent=2,sort_keys=True))
+          print(json.dumps({k:v for k,v in out.items() if k!="candidates"},sort_keys=True))
+          assert out["original_observation_files_opened"]==out["species_abundance_values_read"]==out["new_ecological_effects_scored"]==0
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biotime-v4-forest-beetle-metadata-candidates
+          path: biotime_forest_meta/receipt.json
+          if-no-files-found: error

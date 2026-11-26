@@ -1,0 +1,121 @@
+name: "Forest macro Ecuador Falconi2026 original ZIP central-directory source gate"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-source-zipdir.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-source-zipdir.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-byte-sha-and-zip-names-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "One publisher linked original ZIP: hash and central directory only, no member extraction"
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,tempfile,urllib.request,urllib.error,zipfile
+          from pathlib import Path
+          URL='https://figshare.com/ndownloader/files/51346106'
+          CAP=80*1024*1024
+          out={
+            'schema':'structural.falconi2026_original_zip_central_directory_only.v1',
+            'original_publisher_article_doi':'10.1016/j.foreco.2026.124102',
+            'official_share_page_link':'https://figshare.com/s/80ba8b612162e4a7ace7',
+            'browser_verified_original_file_label':'R skript and raw data.zip',
+            'browser_verified_file_endpoint_id':51346106,
+            'source_zip_download_size_cap_bytes':CAP,
+            'members_uncompressed_or_read':0,
+            'species_abundance_emergence_response_rows_read':0,
+            'new_ecological_effect_estimated':False,
+            'raw_source_file_uploaded_as_artifact':False,
+            'source_archive_reused_for_scoring':False,
+            'status':'SOURCE_ARCHIVE_ACCESS_STOP'}
+          # No source bytes are printed, exported, used as predictors, or committed.
+          with tempfile.TemporaryDirectory(prefix='falconi-sourceonly-') as tmp:
+            p=Path(tmp)/'original_source.zip'
+            try:
+              req=urllib.request.Request(URL,headers={
+                'User-Agent':'Mozilla/5.0 (source-only research archive integrity)'
+              })
+              with urllib.request.urlopen(req,timeout=45) as resp:
+                out['http_status']=resp.status
+                out['content_type']=resp.headers.get('Content-Type','')[:90]
+                n=0
+                h=hashlib.sha256()
+                with p.open('wb') as fh:
+                  while True:
+                    chunk=resp.read(65536)
+                    if not chunk: break
+                    n+=len(chunk)
+                    if n>CAP:
+                      out['status']='SOURCE_ARCHIVE_EXCEEDS_80MIB_STOP'
+                      break
+                    h.update(chunk)
+                    fh.write(chunk)
+              if out['status']!='SOURCE_ARCHIVE_EXCEEDS_80MIB_STOP':
+                out['compressed_zip_bytes']=n
+                out['compressed_zip_sha256']=h.hexdigest()
+                try:
+                  with zipfile.ZipFile(p) as z:
+                    infos=z.infolist() # CENTRAL DIRECTORY ONLY. Do NOT z.open().
+                    names=[f.filename for f in infos]
+                    if (len(names)>1000 or len(names)!=len(set(names)) or
+                        any(name.startswith('/') or '..' in name.split('/') for name in names)):
+                      out['status']='SOURCE_ARCHIVE_DIRECTORY_SAFETY_STOP'
+                    else:
+                      out['members_central_directory_only']=[
+                        {'filename':f.filename[:230], 'uncompressed_bytes':f.file_size,
+                         'compressed_bytes':f.compress_size, 'is_directory':f.is_dir()}
+                        for f in infos]
+                      out['member_count']=len(infos)
+                      out['status']='SOURCE_ARCHIVE_DIRECTORY_PASS_NO_BIOLOGY'
+                except (zipfile.BadZipFile,OSError,ValueError):
+                  out['status']='SOURCE_DOWNLOAD_NOT_VALID_ZIP_STOP'
+            except urllib.error.HTTPError as e:
+              out['http_status']=e.code
+              out['status']='SOURCE_ARCHIVE_HTTP_STOP'
+            except (urllib.error.URLError,TimeoutError,ValueError,OSError) as e:
+              out['status']='SOURCE_ARCHIVE_TRANSPORT_STOP'
+              out['error_class']=type(e).__name__
+            # tmp directory destroyed here; never upload the raw ZIP.
+          path=Path('falconi2026_original_zip_sourceonly/receipt.json')
+          path.parent.mkdir(parents=True,exist_ok=True)
+          path.write_text(json.dumps(out,sort_keys=True,indent=2)+'\n',encoding='utf-8')
+          print('ORIGINAL_ZIP_SOURCE_GATE',out['status'])
+          print('MEMBERS_DIRECTORY_ONLY',out.get('member_count',0))
+          print('NO_BIOLOGICAL_ROWS_READ',out['species_abundance_emergence_response_rows_read']==0)
+          PY
+      - name: "Assert source-only evidence and prior-score firewall"
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('falconi2026_original_zip_sourceonly/receipt.json',encoding='utf-8'))
+          assert x['schema']=='structural.falconi2026_original_zip_central_directory_only.v1'
+          assert x['members_uncompressed_or_read']==0
+          assert x['species_abundance_emergence_response_rows_read']==0
+          assert not x['new_ecological_effect_estimated']
+          assert not x['raw_source_file_uploaded_as_artifact']
+          assert not x['source_archive_reused_for_scoring']
+          print('AUTHOR_ARCHIVE_DIRECTORY_OR_STOP',x['status'])
+          PY
+      - name: "Archive only anonymous source ZIP digest and directory metadata (never ZIP bytes)"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-ecuador2026-original-zip-directory-only-source-receipt
+          path: falconi2026_original_zip_sourceonly/receipt.json
+          if-no-files-found: warn

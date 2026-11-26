@@ -1,0 +1,38 @@
+name: "Forest beetle Ecuador source table crosswalk known truth only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-falconi2026-author-table-crosswalk-sourcefree.yml"
+      - "analysis/forest_macro_global/falconi2026_author_source_invariants.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-falconi2026-author-table-crosswalk-sourcefree.yml"
+      - "analysis/forest_macro_global/falconi2026_author_source_invariants.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-only-original-response-never-downloaded:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install source-free Python check dependencies"
+        run: python -m pip install --quiet pandas numpy
+      - name: "Check taxon code normalization and scientific source-grain guard"
+        run: python analysis/forest_macro_global/falconi2026_author_source_invariants.py --test
+      - name: "Require exact original ZIP not present in repository"
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          assert not list(Path(".").rglob("R skript and raw data.zip"))
+          assert not list(Path(".").rglob("R%20skript%20and%20raw%20data.zip"))
+          print("SOURCE_ONLY_NO_RAW_BIOLOGICAL_ARCHIVE_PASS")
+          PY

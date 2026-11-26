@@ -1,0 +1,50 @@
+name: "Traylor Georgia 40 forests: original site IDs versus beetle matrix header source-only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-traylor2023-georgia40-site-matrix-crosswalk.yml"
+      - "analysis/forest_macro_global/traylor2023_georgia_exact_site_header_crosswalk.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  site_header_source_crosswalk_without_original_beetle_response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic exact 40-site header join, detect ambiguous/missing source fields"
+        run: |
+          python analysis/forest_macro_global/traylor2023_georgia_exact_site_header_crosswalk.py --test
+      - name: "Only original forest site IDs vs beetle HEADER columns, no ecological rows"
+        run: |
+          python analysis/forest_macro_global/traylor2023_georgia_exact_site_header_crosswalk.py \
+            --out Traylor2023_Georgia_site_crosswalk
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Traylor2023_Georgia_site_crosswalk/Traylor2023_Georgia40_author_site_header_crosswalk.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Traylor2023_Georgia40_exact_site_matrix_header_crosswalk.v1"
+          assert x["no_new_biological_effect_scored"]
+          assert x["old_2026_Piccini_Kriegel_Finland_Thai_PREDICTS_NEON_BALA_GEB_sealed"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          assert x["original"]["original_beetle_species_guild_abundance_values_UNREAD"]
+          assert x["original"]["old_original_Structural_scorers_SEALED"]
+          if "beetle_header_site_crosswalk" in x["original"]:
+              assert x["original"]["beetle_header_site_crosswalk"]["original_beetle_species_guild_abundance_rows_READ"]==0
+              assert x["original"]["beetle_header_site_crosswalk"]["no_guess_or_index_based_site_ID_join"]
+          print("GEORGIA40_AUTHOR_SITE_BEETLE_MATRIX_SOURCE_ONLY_STATUS",x["original"]["status"])
+          PY
+      - name: "Archive anonymous source matrix-layout counts only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Traylor2023-Georgia40-author-site-matrix-crosswalk
+          path: Traylor2023_Georgia_site_crosswalk/
+          if-no-files-found: warn

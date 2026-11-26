@@ -1,0 +1,55 @@
+name: "Original 12year beetles: plot log year tree nested source identity only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-lettenmaier12y-log-grain-sourceonly.yml"
+      - "analysis/forest_macro_global/lettenmaier_12year_source_log_method_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_author_log_year_tree_site_grain_no_taxon_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Test synthetic original log-year nested sampling grain and no source identity export"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_source_log_method_gate.py --test
+      - name: "Read only original plot log year tree metadata and trait header from three MD5-pinned author files"
+        run: |
+          python analysis/forest_macro_global/lettenmaier_12year_source_log_method_gate.py \
+            --out original12year_LOG_METHOD_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("original12year_LOG_METHOD_aggregate/Lettenmaier12y_original_log_year_tree_sourceonly.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="structural.Lettenmaier12y_original_plot_log_year_tree_method_gate.v1"
+          assert x["source_species_abundance_response_NOT_SCORED"]
+          assert x["source_original_site_plot_log_ids_NOT_REEXPORTED"]
+          assert x["previous_original_Finland_Burner_PREDICTS_NEON_BALA_GEB_results_SEALED"]
+          assert x["eBird_used"] is False
+          if x["status"].startswith("SOURCE_STOP"):
+              print("AUTHOR_SOURCE_GRAIN_STOP_NOT_ECOLOGICAL_NON_SUPPORT",x["status"])
+          else:
+              assert x["source_original_all_MD5_verified"]
+              m=x["original_assembly_metadata"]
+              assert m["Beetle_Data"]["source_metadata_fields_exact_columns_3_4_5_7_verified"]
+              assert m["Beetle_Data"]["original_source_taxon_and_capture_values_NOT_ACCESSED_OR_SCORED"]
+              assert m["Beetle_Community"]["original_wide_species_names_abundances_other_297_columns_UNREAD"]
+              assert m["Trait_Table"]["original_trait_species_and_value_rows_UNREAD"]
+              print("ORIGINAL_12YEAR_LOG_NESTING_SOURCE_ONLY_VALIDATED_MATRIX_JOIN_NOT_YET_SCORED")
+          PY
+      - name: "Publish anonymous source hierarchy and field metadata, never original log IDs or taxa"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-12year-beetle-original-plot-log-year-tree-sourceonly
+          path: original12year_LOG_METHOD_aggregate/
+          if-no-files-found: warn

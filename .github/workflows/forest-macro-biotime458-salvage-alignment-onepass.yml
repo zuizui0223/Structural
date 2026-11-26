@@ -1,0 +1,19 @@
+name: "Forest BioTIME458 consumed salvage alignment — synthetic only"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-biotime458-salvage-alignment-onepass.yml"
+      - "analysis/forest_macro_global/biotime458_salvage_temporal_alignment_onepass.py"
+permissions:
+  contents: read
+jobs:
+  synthetic-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/biotime458_salvage_temporal_alignment_onepass.py --test

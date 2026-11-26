@@ -1,0 +1,49 @@
+name: "Forest Pilis2022 frozen conditional observed community ONE PASS"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-pilis2022-observed-community-onepass.yml"
+permissions:
+  contents: read
+jobs:
+  frozen-descriptive-score:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/pilis2022_observed_community_onepass.py --test
+      - run: python analysis/forest_macro_global/pilis2022_observed_community_onepass.py --out pilis_onepass/receipt.json
+      - name: Verify frozen receipt
+        run: |
+          python - <<'PY'
+          import json,math
+          r=json.load(open("pilis_onepass/receipt.json"))
+          assert r["schema"]=="structural.pilis2022.observed_community_onepass.v1"
+          assert not r["source_raw_exported"] and not r["original_author_code_executed"]
+          assert not r["actual_trap_effort_verified"] and not r["strict_effort_gate_passed"]
+          assert r["population_p_value"] is None and r["population_ci"] is None
+          if r["status"]=="FROZEN_CONDITIONAL_OBSERVED_COMMUNITY_SCORE_COMPLETE":
+              assert r["two_original_sha256_verified"] and r["author_slice_method_evidence"]["exact_role_supported"]
+              assert r["source_frame"]["observed_nonempty_contexts"]==150 and r["source_frame"]["species_columns"]==49
+              assert r["source_frame"]["total_individuals"]==21352
+              p=r["primary"]
+              for v in p["groups"].values():
+                  assert math.isclose(v["M"],(v["T"]+5*v["U"])/6,abs_tol=1e-12)
+              for k in ("T","U","M"):
+                  assert math.isclose(p["CC_minus_C"][k],p["groups"]["CC"][k]-p["groups"]["C"][k],abs_tol=1e-12)
+              assert p["joint_directional_match"]==(p["CC_minus_C"]["T"]>0 and p["CC_minus_C"]["U"]<0)
+          else:
+              assert r["primary"] is None
+          print("PILIS_ONEPASS_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pilis2022-frozen-observed-community
+          path: pilis_onepass/receipt.json
+          if-no-files-found: error

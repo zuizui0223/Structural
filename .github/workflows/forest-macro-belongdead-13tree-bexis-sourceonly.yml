@@ -1,0 +1,51 @@
+name: "Forest macro BELongDead 13 host trees 30 plots BExIS source rights only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead-13tree-bexis-sourceonly.yml"
+      - "analysis/forest_macro_global/belongdead_bexis_13tree_original_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_BExIS_original_metadata_license_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic BE original dataset API schema/rights restriction and no biology"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis_13tree_original_source_gate.py --test
+      - name: "Bounded original BExIS 31123/31124/30981/30979 public metadata and license source-check"
+        run: |
+          python analysis/forest_macro_global/belongdead_bexis_13tree_original_source_gate.py \
+            --out BExIS13Tree_SOURCEONLY_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BExIS13Tree_SOURCEONLY_AGGREGATE/BELongDead_BExIS_13tree_30plot_original_dataset_API_sourceonly.json")
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.BELongDead_BExIS_13trees_30plots_4originalids_api_metadata_only.v1"
+          assert r["reported_study_plots_from_published_design_NOT_INDEPENDENT_STUDIES"]==30
+          assert r["reported_host_tree_log_taxa_from_original_design"]==13
+          assert r["31124_is_subset_of_31123_not_new_independent_study"]
+          assert r["30981_vs_30979_source_years_2008_vs_2012_2017_NOT_MATCHED"]
+          assert r["original_organism_occurrence_or_wood_measurement_values_NOT_REQUESTED"]
+          assert r["no_original_BExIS_data_table_or_capture_rows_requested"]
+          assert r["all_Finland_Burner_PREDICTS_NEON_BALA_GEB_frozen"]
+          assert r["eBird_used"] is False
+          assert len(r["original_dataset_endpoint_receipts"])==4
+          print("BELONGDEAD_BEXIS_ORIGINAL_SOURCE_METHOD_ONLY_GATE",r["status"])
+          PY
+      - name: "Archive only original publisher API metadata/rights, not original forest beetle rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead-original-13tree-30plot-BExIS-source-only
+          path: BExIS13Tree_SOURCEONLY_AGGREGATE/
+          if-no-files-found: warn

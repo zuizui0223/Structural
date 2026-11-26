@@ -1,0 +1,54 @@
+name: "Forest restoration Swedish 2024/2026 shared field cohort Dryad source ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-restoration-sweden2024-2026-original-source-lineage.yml"
+      - "analysis/forest_macro_global/sweden2024_restoration_original_dryad_metadata_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-restoration-sweden2024-2026-original-source-lineage.yml"
+      - "analysis/forest_macro_global/sweden2024_restoration_original_dryad_metadata_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-original-Dryad-two-file-metadata-no-beetle-responses:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-only official Dryad origin and file roster known truth"
+        run: python3 analysis/forest_macro_global/sweden2024_restoration_original_dryad_metadata_only.py --test
+      - name: "Read original 2024 restoration Dryad official metadata/version/file list only"
+        run: |
+          python3 analysis/forest_macro_global/sweden2024_restoration_original_dryad_metadata_only.py \
+            --out sweden2024_restoration_source_metadata/receipt.json
+      - name: "Enforce original 2021 beetle field responses and files unopened"
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('sweden2024_restoration_source_metadata/receipt.json'))
+          assert r["schema"]=="structural.sweden2024_restoration_Dryad_2026_overlap_SOURCE_METADATA_ONLY.v1"
+          assert r["original_source_species_taxon_or_guild_cells_read"]==0
+          assert r["source_original_workbook_or_full_archive_downloaded"] is False
+          assert r["ecological_effects_scored"]==0
+          assert r["old_Ecuador_Finland_Chiu_Ramberg_Traylor_BALA_GEB_unreopened"]
+          if r.get('original_publisher_file_manifest'):
+              q=r['original_publisher_file_manifest']
+              assert q['source_original_workbook_GETs']==0
+              assert q['2024_2026_same_field_cohort_independence_NOT_assumed']
+              assert len(q['original_exact_two_publisher_files'])==2
+          print('SCIENTIFIC_STATUS',r['status'])
+          PY
+      - name: "Archive only publisher original file names/checksums/license, never ecological data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden2024-restoration-dryad-original-source-lineage-only
+          path: sweden2024_restoration_source_metadata/receipt.json
+          if-no-files-found: warn

@@ -1,0 +1,57 @@
+name: "Forest macro Sweden6 SLU original climate×wood×beetle SOURCE headers ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_original_three_file_header_gate.py"
+      - "docs/FOREST_SWEDEN6_SPRUCE_THERMAL_WOOD_SOURCE_GATE_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-original-three-file-source-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_headers_no_original_response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-free synthetic 12/6-column and author README gates"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_original_three_file_header_gate.py --test
+      - name: "SLU exact original three bitstreams and first headers ONLY"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_original_three_file_header_gate.py --out SWEDEN6_SLU_SOURCE_ONLY
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("SWEDEN6_SLU_SOURCE_ONLY/SLU_sweden6_original_source_three_file_headers_only.json").read_text())
+          assert r["source_original_BEETLE_climate_OR_resource_data_rows_OPENED"]==0
+          assert r["source_6_regions_NOT_6_biomes"]
+          assert r["original_author_Gossmann2024_shade_temperature_RESULTS_PRIOR_ART"]
+          assert r["previous_Finland_Carpathian_England_PREDICTS_Thai_NEON_BALA_GEB_outcomes_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "SLU_original_source_first_headers_aggregates" in r:
+              d=r["SLU_original_source_first_headers_aggregates"]
+              assert d["source_original_biology_rows_read"]==0
+              assert d["source_real_independent_region_N"]==6
+              assert d["source_real_vertical_canopy_understory_pairs_NOT_PRESENT"]
+              assert d["source_2020_climate_2021_beetle_temporal_lag_AUTHOR_REPORTED"]
+              s=d["source_files_and_first_headers_only"]
+              assert s["boreal_forest_climate_data.csv"]["original_header_declared_field_count"]==12
+              assert s["specieslist_xylo.csv"]["original_header_declared_field_count"]==6
+              assert len(s["readme.txt"]["publisher_original_file_sha256"])==64
+          else:
+              assert r["source_OR_method_STOP_NOT_ecological_null"]
+          print("SLU_SWEDEN6_ORIGINAL_SOURCE_ONLY",r["status"])
+          PY
+      - name: "Archive SHA receipts and source field names only, not climate or species rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-sweden6-slu-climate-wood-beetle-source-headers-only
+          path: SWEDEN6_SLU_SOURCE_ONLY/
+          if-no-files-found: warn

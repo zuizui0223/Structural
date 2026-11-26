@@ -1,0 +1,53 @@
+name: Forest macro BETA-FOR 234-patch original publisher index ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor234-original-publisher-index-only.yml"
+      - "analysis/forest_macro_global/betafor234_original_zenodo_metadata_only.py"
+      - "docs/FOREST_MACRO_BETAFOR234_PAIRED_ALPHA_BETA_SOURCE_PREINTAKE_20261120.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-publisher-metadata-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source-only original publisher checksum and licence synthetic tests
+        run: |
+          python3 analysis/forest_macro_global/betafor234_original_zenodo_metadata_only.py --test
+      - name: Public versioned 18467123 record metadata ONLY
+        run: |
+          python3 analysis/forest_macro_global/betafor234_original_zenodo_metadata_only.py --out betafor234_original_publisher_index_only/receipt.json
+      - name: Ensure no original OTU or method row is opened
+        run: |
+          python3 - <<'PY'
+          import json
+          q=json.load(open('betafor234_original_publisher_index_only/receipt.json',encoding='utf8'))
+          assert q['original_biological_response_rows_opened']==0
+          assert q['new_ecological_effects']==0
+          assert q['original_99patch_v1_v2_v3_gates_unchanged']
+          assert q['status'].startswith(('BETAFOR234_SOURCE_METADATA_STOP_',
+                                          'BETAFOR234_PUBLISHER_FILE_MANIFEST_METADATA_ONLY_PASS_NOT_BIOLOGICAL'))
+          if 'source_publisher' in q:
+              x=q['source_publisher']
+              assert x['original_file_member_GET_count']==0
+              assert x['original_OTU_counts_OR_taxon_ids_READ']==0
+              assert x['not_independent_external_forest_replication']
+              print('BETAFOR234_PUBLISHER_FILE_COUNT='+str(x['original_file_count']))
+              print('BETAFOR234_METADATA_MANIFEST_SHA256='+x['publisher_manifest_sha256'])
+          print('BETAFOR234_SOURCE_STATUS='+q['status'])
+          PY
+      - name: Store publisher file-descriptor metadata only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor234-publisher-manifest-only
+          path: betafor234_original_publisher_index_only/
+          if-no-files-found: error

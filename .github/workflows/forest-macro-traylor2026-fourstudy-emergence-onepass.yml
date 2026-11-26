@@ -1,0 +1,86 @@
+name: "Forest beetle Traylor2026 frozen FOUR-study original emergence resource prediction"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-fourstudy-emergence-onepass.yml"
+      - "analysis/forest_macro_global/traylor2026_any_emergence_loso_onepass.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-fourstudy-emergence-onepass.yml"
+permissions:
+  contents: read
+
+jobs:
+  source-free-synthetic-only-after-original-onepass:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install model libraries for source-free synthetic check ONLY"
+        run: python3 -m pip install --quiet "numpy>=1.26,<3" "pandas>=2.1,<3" "scikit-learn>=1.4,<2"
+      - name: "Retain four-study fixed score known truths without fetching original beetle rows"
+        run: |
+          python3 analysis/forest_macro_global/traylor2026_any_emergence_loso_onepass.py --test
+      - name: "Require no original source CSV is distributed in the checkout"
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          assert not list(Path('.').rglob('ambrosia per deadwood object data.csv'))
+          assert not list(Path('.').rglob('R skript and raw data.zip'))
+          print("NO_ORIGINAL_BEETLE_DATA_REOPENED")
+          PY
+  source-sha-pinned-original-beetle-LOSO-one-pass:
+    # Source scored ONCE in #45081945229, n=4 groups, resource prediction
+    # adversely transferred and scientific source frozen. NEVER re-open.
+    if: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only fixed original scoring dependencies"
+        run: python3 -m pip install --quiet "numpy>=1.26,<3" "pandas>=2.1,<3" "scikit-learn>=1.4,<2"
+      - name: "Known-truth fixed 4 study heldout prediction and zero-emergence input guard"
+        run: |
+          python3 analysis/forest_macro_global/traylor2026_any_emergence_loso_onepass.py --test
+      - name: "ONE original CC-BY, exact MD5, author sampled-zero 356 wood objects heldout-study score"
+        run: |
+          python3 analysis/forest_macro_global/traylor2026_any_emergence_loso_onepass.py \
+            --out traylor2026_any_emergence_loso_onepass/receipt.json
+      - name: "Reject all response leakage and preserve SCIENTIFIC STOP as zero effects"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open("traylor2026_any_emergence_loso_onepass/receipt.json"))
+          assert x["schema"]=="structural.traylor2026_onepass_fourstudy_any_emergence_LOSO.v1"
+          assert x["source_original_study_n"]==4
+          assert x["source_original_sampled_deadwood_objects"]==356
+          assert x["source_original_biological_or_site_rows_exported"] is False
+          assert x["source_original_source_files_uploaded"] is False
+          assert x["status"] in (
+            "ORIGINAL_SOURCE_OR_OUTCOME_ESTIMABILITY_STOP_NO_SCORE",
+            "ORIGINAL_FOUR_STUDY_HELDOUT_EMERGENCE_EXPLORATORY_COMPLETED")
+          if "result" in x:
+              assert x["new_original_ecological_predictive_score_count"]==1
+              assert x["source_recorded_any_emergence_positive_total"]==141
+              assert x["result"]["n_original_studies"]==4
+              assert x["result"]["signflip_assignments"]==16
+              assert x["result"]["minimum_two_sided_exact_p"]==.125
+          else:
+              assert x["new_original_ecological_predictive_score_count"]==0
+          print("TRAYLOR_FOUR_STUDY_ORIGINAL_SCIENTIFIC_STATUS",x["status"])
+          PY
+      - name: "Archive ONLY anonymous 4-study score or scientific STOP, never original source"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-traylor2026-fourstudy-emergence-fixed-onepass-result
+          path: traylor2026_any_emergence_loso_onepass/receipt.json
+          if-no-files-found: warn

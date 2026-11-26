@@ -1,0 +1,52 @@
+name: "Piccini 2026 beetles: original field site-layer-year-method columns only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-piccini2026-method-columns-source-only.yml"
+      - "analysis/forest_macro_global/piccini2026_gro_original_method_unit_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  method_only_original_source_grain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic field-only keys, site-layer contrasts, raw taxon and count redaction"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_original_method_unit_gate.py --test
+      - name: "One original full 2026 author file read: ONLY predeclared site-layer-year-method columns selected"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_original_method_unit_gate.py \
+            --out Piccini2026_method_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Piccini2026_method_sourceonly/Piccini2026_original_GRO_method_fields_sourceonly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Piccini2026_original_GRO_method_fields_sourceonly.v1"
+          assert x["result"]["source_original_2024_canopy_file_UNREAD"]
+          assert x["result"]["source_beetle_species_and_guild_measurements_UNSCORED"]
+          assert x["prior_Thai_Finland_PREDICTS_NEON_BALA_GEB_SCORES_UNCHANGED"]
+          assert x["no_species_community_estimator_computed"]
+          assert x["eBird_used"] is False and x["TinyFish_used"] is False
+          if "original_author_method_only" in x["result"]:
+              assert x["result"]["original_author_method_only"]["NO_species_names_guild_values_abundances_environment_extracted_or_scored"]
+              assert x["result"]["original_author_method_only"]["original_all_method_key_strings_PRIVATE_NOT_EXPORTED"]
+          else:
+              assert x["result"]["source_STOP_not_biological_null"]
+          print("PICCINI_ORIGINAL_SITE_METHOD_GATE_NO_BIOLOGY",x["result"]["status"])
+          PY
+      - name: "Archive aggregated source-method cardinality, never raw field IDs/species"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Piccini2026-original-method-column-cardinality-only
+          path: Piccini2026_method_sourceonly/
+          if-no-files-found: warn

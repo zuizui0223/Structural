@@ -1,0 +1,50 @@
+name: "Forest Swiss EnviDat455 original 302 redirect HOST ONLY zero source bytes"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-envidat455-redirect-hostonly.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_redirect_host_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-envidat455-redirect-hostonly.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_redirect_host_only.py"
+permissions:
+  contents: read
+jobs:
+  official-redirect-host-only-no-file-body:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source 302 guard"
+        run: python3 analysis/forest_macro_global/haeler2023_envidat455_redirect_host_only.py --test
+      - name: "Inspect ONE official source 302 Location host with redirect disabled"
+        run: |
+          python3 analysis/forest_macro_global/haeler2023_envidat455_redirect_host_only.py \
+            --out envidat455_redirect_hostonly/receipt.json
+      - name: "Guarantee no original source bytes or model score"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('envidat455_redirect_hostonly/receipt.json'))
+          assert x['schema']=='structural.envidat455_exact_original_302_HOST_ONLY_NO_BODY.v1'
+          assert x['original_beetle_or_resource_data_bytes_read']==0
+          assert x['new_original_ecological_scores']==0
+          if 'source_redirect' in x:
+              assert x['source_redirect']['source_original_resource_data_bytes_read']==0
+              assert x['source_redirect']['original_species_or_deadwood_values_read']==0
+              assert not x['source_redirect']['redirect_url_path_or_query_exported']
+          print('OFFICIAL_ONLY_REDIRECT_HOST_STATUS',x['status'])
+          PY
+      - name: "Archive only 302 host/domain, no signed URL or source data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Swiss-EnviDat455-publisher-redirect-hostonly
+          path: envidat455_redirect_hostonly/receipt.json
+          if-no-files-found: warn

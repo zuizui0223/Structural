@@ -1,0 +1,59 @@
+name: "Forest macro Balducci2026 Europe12 publisher Source Data catalogue ONLY"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-balducci2026-europe12-figure-sourcedata-only.yml"
+      - "analysis/forest_macro_global/balducci2026_europe12_publisher_figure_source_gate.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-balducci2026-europe12-figure-sourcedata-only.yml"
+      - "analysis/forest_macro_global/balducci2026_europe12_publisher_figure_source_gate.py"
+
+permissions:
+  contents: read
+
+jobs:
+  publisher-public-source-data-file-manifest-no-biodiversity-response:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Static test safe official-source ZIP manifests and synthetic worksheet names"
+        run: |
+          python3 analysis/forest_macro_global/balducci2026_europe12_publisher_figure_source_gate.py --test
+      - name: "Fetch one unchanged publisher-linked public Source Data attachment, not private BOTTOMS-UP"
+        run: |
+          python3 analysis/forest_macro_global/balducci2026_europe12_publisher_figure_source_gate.py \
+            --out balducci2026_original_public_attachment_sourceonly/receipt.json
+      - name: "Record actual source ACCESS PASS or STOP without biological scoring"
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('balducci2026_original_public_attachment_sourceonly/receipt.json').read_text())
+          assert x['schema']=='structural.balducci2026_europe12_publisher_source_data_catalogue.v1'
+          assert x['source_article_DOI']=='10.1038/s41467-026-68668-x'
+          assert x['author_reported_all_taxa_plot_count']==7971
+          assert x['original_beetle_only_validated_plot_count'] is None
+          assert x['original_site_species_wood_field_join_verified'] is False
+          assert x['underlying_biodiversity_data_declared_request_only']
+          assert x['original_taxon_response_cells_accessed']==0
+          assert x['new_original_ecological_scores']==0
+          if 'catalogue' in x:
+              assert x['catalogue']['source_article_figure_data_values_read']==0
+              assert x['catalogue']['source_field_plot_taxon_species_abundance_values_read']==0
+          print("ORIGINAL_PUBLIC_SOURCE_DATA_ONLY_STATUS",x['status'])
+          PY
+      - name: "Archive only figure-source file/sheet names and official file checksum; NO actual source ZIP"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-balducci2026-europe12-Nature-public-SourceData-catalogue-only
+          path: balducci2026_original_public_attachment_sourceonly/receipt.json
+          if-no-files-found: warn

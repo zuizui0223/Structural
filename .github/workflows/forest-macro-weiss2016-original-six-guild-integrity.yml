@@ -1,0 +1,68 @@
+name: "Forest macro Weiss2016 original PLOS S1 512 species six-guild ontology integrity"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_plos_original_species_guild_integrity.py"
+      - "docs/FOREST_MACRO_WEISS2016_S1_SPECIES_GUILD_ONTOLOGY_EXTRACTION_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-original-six-guild-integrity.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_weiss_512_species_six_trophic_ontology_anonymous_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Ensure LibreOffice for authentic original document table structure"
+        run: |
+          if ! command -v libreoffice >/dev/null && ! command -v soffice >/dev/null; then
+            sudo apt-get update -qq
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends libreoffice-writer
+          fi
+      - name: "Synthetic strict header, row and six-guild matching without original values"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_original_species_guild_integrity.py --test
+      - name: "One original PLOS DOC publisher pinned; original guild values privately validated only"
+        run: |
+          python analysis/forest_macro_global/weiss2016_plos_original_species_guild_integrity.py \
+            --out WEISS2016_ORIGINAL_GUILD_INTEGRITY_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("WEISS2016_ORIGINAL_GUILD_INTEGRITY_ONLY/Weiss2016_six_guild_source_original_anonymous_integrity_only.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.Weiss2016_original_PLOS_S1_six_guild_taxonomy_integrity.v1"
+          assert r["original_Dryad_Weiss_XLS_HTTP401_not_retried"]
+          assert r["original_Dryad_Franzen425_HTTP401_not_retried"]
+          assert not r["original_Gloor_species_names_catches_or_guild_outcomes_READ"]
+          assert r["previous_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_results_unchanged"]
+          assert not r["new_ecological_effect_calculated"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_private_species_guild_integrity_summary_ONLY" in r:
+              z=r["original_private_species_guild_integrity_summary_ONLY"]
+              assert z["original_published_table_total_rows"]==513
+              assert z["original_published_table_header_cols"]==9
+              assert z["original_published_table_data_rows"]==512
+              assert not z["original_per_species_name_code_pairs_OUTPUT"]
+              assert not z["original_other_7_source_columns_TEXT_INSPECTED"]
+              assert not z["Gloor_species_names_or_abundances_READ"]
+              assert z["original_published_six_guild_codes_remain_uncollapsed"]
+              assert z["original_DOC_HTML_and_private_ledger_NOT_ARCHIVED"]
+              assert all(k in z["source_valid_guild_frequency_by_original_author_code"] for k in "mnpsxz")
+          else:
+              assert r["source_integrity_or_method_STOP_not_ecological_null"]
+          print("ORIGINAL_WEISS2016_SIX_GUILD_ANON_INTEGRITY_ONLY",r["status"])
+          PY
+      - name: "Archive only frozen source integrity counts and private ledger digest"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-six-trophic-guild-integrity-no-raw-names
+          path: WEISS2016_ORIGINAL_GUILD_INTEGRITY_ONLY/
+          if-no-files-found: warn

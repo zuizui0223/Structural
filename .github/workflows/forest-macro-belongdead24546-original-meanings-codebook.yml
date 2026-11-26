@@ -1,0 +1,53 @@
+name: "BELongDead 24546 original spec1 spec2 codebook meanings shape ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-belongdead24546-original-meanings-codebook.yml"
+      - "analysis/forest_macro_global/belongdead24546_original_species_meanings_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_24546_published_tree_species_meanings_key_roles_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original publisher code meaning shape with taxon redaction"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_original_species_meanings_gate.py --test
+      - name: "One original BExIS published structure ID1027 spec1 spec2 meanings schema, no specimen rows"
+        run: |
+          python analysis/forest_macro_global/belongdead24546_original_species_meanings_gate.py \
+            --out BEXIS24546_ORIGINAL_MEANINGS_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("BEXIS24546_ORIGINAL_MEANINGS_SOURCEONLY/BELongDead24546_original_spec1_spec2_meanings_shape_only.json")
+          r=json.loads(p.read_text())
+          assert r["schema"]=="structural.BELongDead24546_original_species_meanings_publisher_dictionary_sourceonly.v1"
+          if r["status"].startswith("SOURCE_STOP"):
+              assert r["source_STOP_not_ecological_null"]
+              print("SOURCE_PUBLISHER_MEANINGS_ACCESS_STOP",r["status"])
+          else:
+              assert r["source_original_dataStructureId"]==1027
+              assert set(r["source_exact_field_meanings_structure"])=={"spec1","spec2"}
+              assert r["original_experimental_13host_vs_natural_13category_exact_text_overlap_ZERO_prior"]
+              assert r["original_publisher_categories_still_not_mapped_to_experiment_tree_taxa"]
+              assert r["no_original_observation_values_species_labels_coordinates_or_insect_data_read"]
+              assert r["prior_Finland142site_Burner_PREDICTS_NEON_BALA_GEB_results_frozen"]
+              assert r["eBird_used"] is False
+              print("SOURCE_SPEC1_SPEC2_MAPPING_DICTIONARY_STATUS",r["status"])
+          PY
+      - name: "Archive only author mappings availability and generic key roles, not taxa"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead24546-original-spec1-spec2-meanings-only
+          path: BEXIS24546_ORIGINAL_MEANINGS_SOURCEONLY/
+          if-no-files-found: warn

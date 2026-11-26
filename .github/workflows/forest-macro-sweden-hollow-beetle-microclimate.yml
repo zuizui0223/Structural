@@ -1,0 +1,72 @@
+name: "Forest Sweden hollow-tree beetle original microclimate and recapture source"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-sweden-hollow-beetle-microclimate.yml"
+      - "analysis/forest_macro_global/audit_sweden_hollow_beetle_microclimate.py"
+      - "analysis/forest_macro_global/test_audit_sweden_hollow_beetle_microclimate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_hollow_beetle_temperature_source_identity_and_join_gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test actual source TSV shape and no specimen, temperature, tree ID exports
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_sweden_hollow_beetle_microclimate.py
+      - name: Download Swedish SND original Open Access TSV source version 1
+        run: |
+          mkdir -p original_sweden_beetle
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 160 \
+            "https://api.researchdata.se/dataset/2022-71-1/1/file/data?filePath=OE_MC_publish_ambient.tsv" \
+            -o original_sweden_beetle/OE_MC_publish_ambient.tsv
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 160 \
+            "https://api.researchdata.se/dataset/2022-71-1/1/file/data?filePath=OE_MC_publish_internal.tsv" \
+            -o original_sweden_beetle/OE_MC_publish_internal.tsv
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 160 \
+            "https://api.researchdata.se/dataset/2022-71-1/1/file/data?filePath=Specimens_data_publish_b_length-habitat-MC.tsv" \
+            -o original_sweden_beetle/Specimens_data_publish_b_length-habitat-MC.tsv
+          curl --fail --location --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 160 \
+            "https://api.researchdata.se/dataset/2022-71-1/1/file/data?filePath=Specimens_data_publish_Recapture.tsv" \
+            -o original_sweden_beetle/Specimens_data_publish_Recapture.tsv
+      - name: Original hourly 2019-2020 hollow-tree climate and beetle specimen record source audit
+        run: |
+          python analysis/forest_macro_global/audit_sweden_hollow_beetle_microclimate.py \
+            --ambient original_sweden_beetle/OE_MC_publish_ambient.tsv \
+            --internal original_sweden_beetle/OE_MC_publish_internal.tsv \
+            --individual original_sweden_beetle/Specimens_data_publish_b_length-habitat-MC.tsv \
+            --recapture original_sweden_beetle/Specimens_data_publish_Recapture.tsv \
+            --out original_sweden_hollow_tree_beetle_source
+      - name: Verify source is one-species microclimate control and not canopy-ground beetle migration
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("original_sweden_hollow_tree_beetle_source/Sweden_hollow_beetle_climate_source_manifest.json").read_text())
+          assert x["schema"]=="structural.forest_hollow_beetle_Sweden_original_source_inventory.v1"
+          assert x["source_DOI"]=="10.5878/856g-v725"
+          assert x["original_data_files"]["ambient"]["data_rows"]>=9000
+          assert x["original_data_files"]["internal"]["data_rows"]>=9000
+          assert x["original_data_files"]["individual"]["data_rows"]>=200
+          assert x["original_data_files"]["recapture"]["data_rows"]>=400
+          assert x["one_species_not_forest_beetle_species_community"]
+          assert x["true_canopy_understorey_trap_strata_not_present"]
+          assert not x["candidate_tree_and_time_join_verified"]
+          assert not x["new_ecological_microclimate_effect_or_thermal_refuge_test_scored"]
+          assert x["original_raw_beetle_or_logger_values_and_site_identifiers_exported"] is False
+          assert not x["eBird_used"]
+          PY
+      - name: Save publisher-original field schema and quality counts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-sweden-hollow-tree-beetle-open-original-source-audit
+          path: original_sweden_hollow_tree_beetle_source/
+          if-no-files-found: warn

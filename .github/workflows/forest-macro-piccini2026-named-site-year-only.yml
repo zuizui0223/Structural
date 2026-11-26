@@ -1,0 +1,47 @@
+name: "Piccini 2026 beetles: author-named 8-site 5-stand 40-plot year support"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-piccini2026-named-site-year-only.yml"
+      - "analysis/forest_macro_global/piccini2026_gro_site_stand_year_source_gate.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_named_field_nesting_year_gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic author-named nesting collision and within-year all-three-layer known truth"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_site_stand_year_source_gate.py --test
+      - name: "Original named field hierarchy and shared-year counts, no species/trait/abundance estimator"
+        run: |
+          python analysis/forest_macro_global/piccini2026_gro_site_stand_year_source_gate.py \
+            --out Piccini2026_nesting_year_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Piccini2026_nesting_year_sourceonly/Piccini2026_named_site_stand_layer_year_original_sourceonly.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Piccini2026_original_named_site_stand_layer_year_sourceonly.v1"
+          assert x["original_source"]["NO_original_2024_canopy_source_file_opened"]
+          assert x["original_source"]["NO_species_or_guild_numeric_outcomes_accessed_or_scored"]
+          assert x["no_new_biological_beta_or_p_or_guild_effect"]
+          assert x["prior_Thai_Finland_PREDICTS_NEON_BALA_GEB_originals_SEALED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          print("SOURCE_ONLY_NAMED_FIELD_YEAR_GATE_NOT_ECOLOGICAL_SCORE",x["original_source"]["status"])
+          PY
+      - name: "Publish source-only anonymized hierarchy and year-opportunity counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Piccini2026-named-field-year-source-only
+          path: Piccini2026_nesting_year_sourceonly/
+          if-no-files-found: warn

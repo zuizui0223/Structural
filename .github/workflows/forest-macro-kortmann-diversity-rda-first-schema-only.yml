@@ -1,0 +1,72 @@
+name: Forest macro Kortmann first original RData schema-only DESERIALIZATION
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann-diversity-rda-first-schema-only.yml"
+      - "analysis/forest_macro_global/kortmann2026_diversity_rda_first_schema.R"
+      - "analysis/forest_macro_global/kortmann2026_diversity_rda_first_schema.py"
+      - "docs/FOREST_MACRO_KORTMANN_DIVERSITY_RDA_SCHEMA_FIRST_OPEN_PREFREEZE_20261121.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann-diversity-rda-first-schema-only.yml"
+      - "analysis/forest_macro_global/kortmann2026_diversity_rda_first_schema.R"
+      - "analysis/forest_macro_global/kortmann2026_diversity_rda_first_schema.py"
+      - "docs/FOREST_MACRO_KORTMANN_DIVERSITY_RDA_SCHEMA_FIRST_OPEN_PREFREEZE_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-first-schema-in-memory-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: Synthetic source structure tests and original-value export protection
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_diversity_rda_first_schema.py --test
+      - name: 'One original diversity_satellite.rda SOURCE deserialization: names and shape ONLY'
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_diversity_rda_first_schema.py --out kortmann2026_first_original_rda_schema/receipt.json
+      - name: 'Fail closed: RData source is no longer response-unopened, no ecological scores'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_first_original_rda_schema/receipt.json',encoding='utf8'))
+          assert x['old_BETAFOR99_original_effects_UNTOUCHED']
+          assert x['prior_BETAFOR234_no_files_STOP_UNCHANGED']
+          assert x['new_organismal_effect_fits']==0
+          assert x['original_OTU_matrix_and_workbook_data_GET']==0
+          assert x['status'].startswith((
+            'SOURCE_RDA_METHOD_COLUMNS_CANDIDATES_ONLY_NO_ID_VALUES',
+            'SOURCE_RDA_METHOD_FIELDS_HOLD',
+            'SOURCE_FIRST_RDA_SCHEMA_STOP_'
+          ))
+          if 'source' in x:
+              s=x['source']
+              assert x['first_original_RData_member_DESERIALIZED_for_schema'] is True
+              assert s['original_separate_OTU_matrix_member_OPENED'] is False
+              assert s['original_phylogeny_and_XLSX_member_OPENED'] is False
+              assert s['new_organismal_effect_fits']==0
+              z=s['source_RData_schema']
+              assert z['fresh_response_unopened_claim_FORBIDDEN'] is True
+              assert z['original_site_and_treatment_VALUES_NOT_READ_OR_EXPORTED'] is True
+              assert z['original_biological_numeric_values_NOT_SUMMARIZED'] is True
+              print('ORIGINAL_SOURCE_ANONYMIZED_OBJECT_COUNT',len(z['source_objects_anonymized']))
+              print('ORIGINAL_SOURCE_METHOD_ROLE_CANDIDATE_OBJECTS',z['dataframe_structural_role_candidates'])
+          print('KORTMANN_FIRST_RDA_SCHEMA_STATUS='+x['status'])
+          PY
+      - name: Upload only bounded anonymous original object shape metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann-first-RData-schema-only
+          path: kortmann2026_first_original_rda_schema/
+          if-no-files-found: error

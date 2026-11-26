@@ -1,0 +1,52 @@
+name: "Forest beetle Cours2026 CC-BY original Rmd method ONLY and zero biology"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-cours2026-original-rmd-method-only.yml"
+      - "analysis/forest_macro_global/cours2026_original_rmd_method_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-cours2026-original-rmd-method-only.yml"
+      - "analysis/forest_macro_global/cours2026_original_rmd_method_only.py"
+permissions:
+  contents: read
+jobs:
+  publisher-author-code-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic known-truth code import and plot field names"
+        run: python3 analysis/forest_macro_global/cours2026_original_rmd_method_only.py --test
+      - name: "Read ONLY authenticated public original Rmd code file, not RData nor response"
+        run: |
+          python3 analysis/forest_macro_global/cours2026_original_rmd_method_only.py \
+            --out cours2026_original_Rmd_methodonly/receipt.json
+      - name: "Deny any original original beetle/RData response or model fit"
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('cours2026_original_Rmd_methodonly/receipt.json'))
+          assert r['schema']=='structural.cours2026_original_author_Rmd_method_only.v1'
+          assert r['original_RData_file_contents_read']==0
+          assert r['original_scientific_organism_scores']==0
+          assert r['prior_Ramberg2026_scientific_STOP_preserved']
+          assert r['prior_Ecuador_BALA_GEB_Finland_sealed']
+          assert not r['eBird_used'] and not r['TinyFish_used']
+          if 'source_method_vocabulary' in r:
+              assert not r['source_method_vocabulary']['source_data_RData_downloaded']
+              assert not r['source_method_vocabulary']['original_script_executed']
+          print('SOURCE_METHOD_ONLY_STATUS',r['status'])
+          PY
+      - name: "Archive only bounded method field/header names and source checksum"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-cours2026-original-method-only
+          path: cours2026_original_Rmd_methodonly/receipt.json
+          if-no-files-found: warn

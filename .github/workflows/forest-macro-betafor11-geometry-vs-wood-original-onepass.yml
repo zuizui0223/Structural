@@ -1,0 +1,67 @@
+name: Forest macro BETA-FOR11 one-shot original geometry-vs-wood OTU beta
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-geometry-vs-wood-original-onepass.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  original-biological-one-shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Synthetic known-truth geometry-win resource-win and null tests before original biology
+        run: |
+          Rscript --vanilla analysis/forest_macro_global/betafor11_geometry_vs_wood_beta_onepass.R --test
+          python3 analysis/forest_macro_global/betafor11_geometry_vs_wood_original_onepass.py --test
+          python3 analysis/forest_macro_global/betafor11_author_treatment_pairs_sourceonly.py --test
+      - name: One source-locked original 594-sample OTU opening and six-region score
+        run: |
+          python3 analysis/forest_macro_global/betafor11_geometry_vs_wood_original_onepass.py --out betafor11_original_geometry_wood_onepass/aggregate_only.json
+      - name: Enforce no new claim if source or biology STOP and no original data exported
+        run: |
+          python3 - <<'PY'
+          import json,math
+          path='betafor11_original_geometry_wood_onepass/aggregate_only.json'
+          obj=json.load(open(path,encoding='utf-8'))
+          assert obj['old_forest_and_island_ecological_results_preserved']
+          assert obj['global_cross_biome_replication_claim'] is False
+          assert obj['original_OTU_species_IDs_or_site_coordinate_records_EXPORTED'] is False
+          assert obj['status'].startswith((
+              'SCIENCE_STOP_','BIOLOGY_','EXPLORATORY_', 'SOURCE_'
+          ))
+          if 'derived_anonymous_scientific_result' in obj:
+              r=obj['derived_anonymous_scientific_result']
+              assert r['one_original_outcome_opening_consumed']
+              assert r['original_sample_columns']==594
+              assert r['original_patches']==99
+              assert r['original_parent_forests']==11
+              assert r['original_geographic_regions']==6
+              assert math.isclose(r['primary_region_equal_D_geometry_minus_wood'],
+                                  r['primary_region_equal_G_simpson']-r['primary_region_equal_W_simpson'],
+                                  rel_tol=0.0,abs_tol=1e-9)
+              assert r['biological_response_source_row_values_EXPORTED']=='false'
+              assert r['not_an_independent_cross_biome_replication']=='true'
+              print('SOURCE_SCOPED_FOREST_ONEPASS_RESULT:',r['status'])
+              print('PRIMARY_G_MINUS_W:',r['primary_region_equal_D_geometry_minus_wood'])
+              print('EXACT_REGION_P:',r['six_region_exact_signed_two_sided_p'])
+          else:
+              print('SCIENTIFIC_STOP_NO_ESTIMABLE_NEW_RESULT:',obj['status'])
+          PY
+      - name: Archive ONLY anonymous original source-result or scientific STOP receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-betafor11-original-geometry-vs-wood-onepass
+          path: betafor11_original_geometry_wood_onepass/
+          if-no-files-found: error

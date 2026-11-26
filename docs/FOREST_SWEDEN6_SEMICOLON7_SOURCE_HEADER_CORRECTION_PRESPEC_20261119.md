@@ -1,0 +1,17 @@
+# Sweden SLU six regions: original author 7-field semicolon species source — response-blind correction (2026-11-19)
+
+## Why corrected, and frozen historic evidence
+
+The initial original-source header-only [Actions #44454005463](https://github.com/zuizui0223/Structural/actions/runs/44454005463) preserved **`SLU_ORIGINAL_EXACT_DECLARED_6_FIELD_HEADER_NOT_UNIQUE`**, based on the SLU dataset README statement that `specieslist_xylo.csv` has "six columns". This was an input schema failure, not an ecological null.
+
+An independent FIRST-PHYSICAL-LINE-only diagnostic [Actions #44454288129](https://github.com/zuizui0223/Structural/actions/runs/44454288129) **SOURCE_DIAGNOSIS_ONLY**, anonymous artifact #**14497242173** ZIP SHA256 **`48cb2f9873ceb359f42780c51ee9ec8ebb484cd3005291e3242406a46b474181`** verified exact original species file length **157,911 bytes**, SHA256 **`a67a905ee05e3994f3e85bc29f8b68fbb314677d6e5a6cc4cd479b2b9d87ec9a`** and first-line SHA256 `6afd0dd229cf48e6e473d1fef419260ec8748ae81ec35a4b1e0087e6582cc443`. Exact header first row (7 fields, semicolon): `Block;Plot;Log;Sampling_date;Species;Number;STI`. There were zero specimen/community/temperature source data rows accessed in the diagnostic. Thus **the README metadata six-field denominator is wrong**; there are **seven** original source CSV fields. Do not silently relabel the past STOP as a PASS.
+
+## Exactly one original first-header correction
+
+1. Re-fetch only the same three official SLU eArchive bitstreams from the frozen original [source gate](FOREST_SWEDEN6_SPRUCE_THERMAL_WOOD_SOURCE_GATE_PRESPEC_20261119.md). The original **species CSV** must have 157,911 bytes SHA256 as above, exactly one *semicolon*-delimited 7-field first header in exact field order above. Original climate CSV source first line must still be uniquely delimited **12** columns; source README must retain its frozen author design wording. Both are new source fingerprints recorded, not invented.
+2. Read only original CSV **first header line**, never species count/date, log identifier, sample IDs, climatic numeric, CTI or richness data rows. A complete source 3-file field/README PASS is **method readiness only**, not proof 88 independent forests, 435 logs, 2020/2021 temporal alignment or novel ecological effects.
+3. Preserve six independent original `Block` units, five original `Plot` units per Block, three `Shade` levels and standardized **spruce host substrate** as literature design, not independently re-counted actual source rows. The original 88 plot×shade metadata observations vs nominal 90 is a planned missingness quality issue; original 3,460 species rows are **positive-record data** until source zero opportunity proven.
+4. Next stage, separately prespecified: original **nonresponse columns only** `Block,Plot,Shade` in climate file and `Block,Plot,Log,Sampling_date` in beetle file, source extra fields untouched, audit physical identities, 88/90 actual plot×shade coverage, 435/450 log opportunity and 2020-vs-2021 date support. No biology before this sample-unit audit.
+5. No original species/CTI/richness/count/temperature value re-analysis during the corrected header stage. Earlier Finland/Carpathian/England/PREDICTS/Thai/NEON/BALA/GEB effects unchanged; eBird/TinyFish off; PR #469 Draft/unmerged and main unchanged.
+
+Status `SOURCE_SWEDEN6_SLU_ORIGINAL_THREE_HEADERS_CORRECTED7_PASS` if publisher identity, species 7-field, climate 12-field, README author methods all verified. Otherwise STOP with exact source reason, no rescue of response.

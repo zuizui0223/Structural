@@ -1,0 +1,133 @@
+name: "Forest macro Ecuador Falconi2026 public share-page file-list only"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-browser-metadata.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-browser-metadata.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  playwright-visible-metadata-only-no-downloads:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install headless browser for share-page metadata (no original data files)"
+        run: |
+          python -m pip install --quiet "playwright==1.56.0"
+          python -m playwright install chromium
+      - name: "Inspect public share-page file labels with file GET/download/preview requests blocked"
+        run: |
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+          from playwright.sync_api import sync_playwright
+          url='https://figshare.com/s/80ba8b612162e4a7ace7'
+          result={
+             'schema':'structural.falconi2026_share_dom_metadata_only.v1',
+             'publisher_html_link_http_verified_prior_run':200,
+             'publisher_pdf_typo_http_verified_prior_run':404,
+             'source_file_downloads_allowed':False,
+             'new_species_or_emergence_values_opened':0,
+             'new_ecological_results':0,
+             'visible_file_label_candidates':[],
+             'status':'BROWSER_SOURCE_ONLY_UNRESOLVED_HOLD'}
+          blocked={'binary_or_download_requests':0}
+          binary_ext=('.csv','.tsv','.xlsx','.xls','.zip','.rds','.rdata','.txt','.pdf','.png','.jpg','.jpeg','.mp4')
+          def block_data_requests(route):
+              path=route.request.url.lower().split('?')[0]
+              if (path.endswith(binary_ext)
+                  or '/download' in path or '/preview/' in path
+                  or '/file/download' in path or '/files/' in path):
+                  blocked['binary_or_download_requests']+=1
+                  route.abort()
+              else:
+                  route.continue_()
+          try:
+              with sync_playwright() as p:
+                  browser=p.chromium.launch(headless=True,args=['--no-sandbox'])
+                  context=browser.new_context(accept_downloads=False)
+                  page=context.new_page()
+                  page.route('**/*',block_data_requests)
+                  res=page.goto(url,wait_until='domcontentloaded',timeout=45000)
+                  page.wait_for_timeout(6000)
+                  result['page_status']=res.status if res else None
+                  result['page_title']=page.title()[:160]
+                  headings=[]
+                  for el in page.locator('h1,h2').all()[:15]:
+                      t=el.inner_text(timeout=2000).strip()
+                      if t:
+                          headings.append(t[:120])
+                  result['visible_heading_metadata_only']=headings
+                  candidates=[]
+                  seen=set()
+                  pattern=re.compile(r'[A-Za-z0-9][A-Za-z0-9._ ()-]{0,100}\.(?:csv|tsv|xlsx|xls|zip|rds|rdata|R|txt)$',re.I)
+                  els=page.locator('a,button,[role="button"],[data-testid*="file"]').all()
+                  result['file_label_container_candidates_scanned']=min(len(els),450)
+                  for el in els[:450]:
+                      try: t=el.inner_text(timeout=600).strip()
+                      except Exception: continue
+                      if not t or len(t)>145: continue
+                      if pattern.search(t) and t not in seen:
+                          seen.add(t)
+                          candidates.append(t)
+                          # Inspect file-link metadata, not the file itself.
+                          href=el.get_attribute('href')
+                          result.setdefault('file_element_link_metadata',[]).append({
+                            'label':t[:120],
+                            'tag':el.evaluate('(e)=>e.tagName.toLowerCase()'),
+                            'href_present':bool(href),
+                            'href_path_no_query':href.split('?')[0][:220] if href else None,
+                            'data_file_id_present':bool(el.get_attribute('data-file-id')),
+                          })
+                  result['visible_file_label_candidates']=candidates[:40]
+                  result['status']=('BROWSER_VISIBLE_FILE_LABELS_ONLY_AUTHOR_ID_HOLD'
+                      if candidates else 'BROWSER_PAGE_RESOLVED_NO_AUTHENTICATED_FILE_MANIFEST_HOLD')
+                  context.close()
+                  browser.close()
+          except Exception as e:
+              result['status']='BROWSER_RENDER_OR_NETWORK_STOP'
+              result['error_class']=type(e).__name__
+          result['file_like_requests_blocked']=blocked['binary_or_download_requests']
+          dest=Path('falconi2026_dom_sourceonly/receipt.json')
+          dest.parent.mkdir(parents=True,exist_ok=True)
+          dest.write_text(json.dumps(result,sort_keys=True,indent=2)+'\n')
+          print('SOURCE_ONLY_BROWSER_STATUS',result['status'])
+          print('FILE_LABEL_CANDIDATE_N',len(result['visible_file_label_candidates']))
+          print('ORIGINAL_BIOLOGY_OPENED',result['new_species_or_emergence_values_opened'])
+          PY
+      - name: "Enforce no original biological rows or file downloads"
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('falconi2026_dom_sourceonly/receipt.json'))
+          assert x['schema']=='structural.falconi2026_share_dom_metadata_only.v1'
+          assert x['source_file_downloads_allowed'] is False
+          assert x['new_species_or_emergence_values_opened']==0
+          assert x['new_ecological_results']==0
+          assert x['status'] in (
+             'BROWSER_VISIBLE_FILE_LABELS_ONLY_AUTHOR_ID_HOLD',
+             'BROWSER_PAGE_RESOLVED_NO_AUTHENTICATED_FILE_MANIFEST_HOLD',
+             'BROWSER_RENDER_OR_NETWORK_STOP')
+          print('SOURCE_ONLY_PUBLISHER_READER_GATE',x['status'])
+          PY
+      - name: "Archive only page/file-label metadata and safe unresolved status"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-ecuador2026-figshare-browser-source-only-labels
+          path: falconi2026_dom_sourceonly/receipt.json
+          if-no-files-found: warn

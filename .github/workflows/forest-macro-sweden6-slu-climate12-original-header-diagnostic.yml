@@ -1,0 +1,53 @@
+name: "Forest macro Sweden6 SLU climate12 original first HEADER diagnosis only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_climate12_first_header_layout_diag.py"
+      - "docs/FOREST_SWEDEN6_CLIMATE_ORIGINAL_HEADER_LAYOUT_DIAGNOSTIC_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-climate12-original-header-diagnostic.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_climate_header_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original climate 12-field field-position test"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate12_first_header_layout_diag.py --test
+      - name: "One original SLU publisher climate file first-header ONLY"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_climate12_first_header_layout_diag.py --out SWEDEN6_CLIMATE12_HEADER_DIAG
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          d=json.loads(Path("SWEDEN6_CLIMATE12_HEADER_DIAG/SLU_sweden6_climate12_first_header_source_diagnostic.json").read_text())
+          assert d["original_source_BEETLE_or_CLIMATE_data_rows_READ"]==0
+          assert d["prior_6_field_species_STOPhistory_UNCHANGED"]
+          assert d["prior_corrected7_climate_first3_STOPhistory_UNCHANGED"]
+          assert d["previous_England_Carpathian_Finland_PREDICTS_Thai_NEON_BALA_GEB_outcomes_UNCHANGED"]
+          assert not d["eBird_used"] and not d["TinyFish_used"]
+          if "source_original_climate_header_diagnostic_only" in d:
+              x=d["source_original_climate_header_diagnostic_only"]
+              assert x["source_original_csv_DATA_ROWS_READ"]==0
+              assert x["source_original_CTIRichnessAbundance_temperature_values_READ"]==0
+              assert len(x["original_source_12_field_names_in_exact_ORDER"])==12
+              assert len(x["original_publisher_climate_file_sha256"])==64
+          else:
+              assert d["source_schema_or_access_STOP_not_ecological_null"]
+          print("ORIGINAL_SLU_CLIMATE_FIRST_HEADER_DIAGNOSIS",d["status"])
+          PY
+      - name: "Archive only exact source field labels and SHA receipts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-sweden6-SLU-climate12-header-diag
+          path: SWEDEN6_CLIMATE12_HEADER_DIAG/
+          if-no-files-found: warn

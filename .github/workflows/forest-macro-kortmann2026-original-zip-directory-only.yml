@@ -1,0 +1,59 @@
+name: Forest macro Kortmann 2026 original ZIP central directory ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-original-zip-directory-only.yml"
+      - "analysis/forest_macro_global/kortmann2026_17775805_original_zip_directory_only.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_17775805_ORIGINAL_ZIP_CENTRAL_DIRECTORY_PREFREEZE_20261120.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-original-zip-directory-only.yml"
+      - "analysis/forest_macro_global/kortmann2026_17775805_original_zip_directory_only.py"
+      - "docs/FOREST_MACRO_KORTMANN2026_17775805_ORIGINAL_ZIP_CENTRAL_DIRECTORY_PREFREEZE_20261120.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-zip-central-directory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic ZIP path and same-publisher security STOP tests, no biology
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_17775805_original_zip_directory_only.py --test
+      - name: Exact original publisher ZIP MD5 then central directory only
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_17775805_original_zip_directory_only.py --out kortmann2026_original_zip_directory_only/receipt.json
+      - name: 'Fail closed: original ZIP members and biological source rows never opened'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_original_zip_directory_only/receipt.json',encoding='utf8'))
+          assert x['biological_source_rows_read']==0
+          assert x['new_organismal_effects']==0
+          assert x['historical_17775804_HTTP302_STOP_unchanged']
+          assert x['historical_BETAFOR234_no_files_STOP_unchanged']
+          assert x['status'].startswith((
+             'SOURCE_ZIP_CENTRAL_DIRECTORY_READY_METADATA_ONLY',
+             'SOURCE_ZIP_STOP_'))
+          if 'source_zip_directory' in x:
+              d=x['source_zip_directory']
+              assert d['no_original_member_extracted_or_opened']
+              assert d['no_original_member_crc_test_or_decompression']
+              assert d['no_source_site_or_OTU_values_read']
+              assert d['ecological_models_fitted']==0
+              print('KORTMANN_ORIGINAL_ZIP_DIRECTORY_ENTRY_COUNT',d['central_directory_entry_count'])
+              print('KORTMANN_ZIP_SAFE_ROLE_CANDIDATE_COUNT',len(d['safe_method_or_table_file_role_candidates_ONLY']))
+          print('KORTMANN_ZIP_STATUS',x['status'])
+          PY
+      - name: Retain only safe original file-role manifest, never archive source bytes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann2026-original-zip-directory-only
+          path: kortmann2026_original_zip_directory_only/
+          if-no-files-found: error

@@ -1,0 +1,57 @@
+name: "Forest macro Weiss2016 original Dryad author legacy XLS one-file byte gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/weiss2016_dryad_author_xls_byte_gate.py"
+      - "docs/FOREST_MACRO_WEISS2016_ORIGINAL_DRYAD_XLS_ONEFILE_GATE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-weiss2016-dryad-original-xls-byte.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact_original_Weiss_author_XLS_MD5_and_OLE_no_sheet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic frozen XLS OLE source digest and no-content guarantees"
+        run: |
+          python analysis/forest_macro_global/weiss2016_dryad_author_xls_byte_gate.py --test
+      - name: "Exactly one publisher-issued Weiss original XLS, no workbook sheet or taxon reads"
+        run: |
+          python analysis/forest_macro_global/weiss2016_dryad_author_xls_byte_gate.py \
+            --out WEISS2016_ORIGINAL_AUTHOR_XLS_BYTES_ONLY
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("WEISS2016_ORIGINAL_AUTHOR_XLS_BYTES_ONLY/Weiss2016_original_Dryad_author_XLS_bytes_only.json").read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.Weiss2016_author_Dryad_XLS_original_byte_only.v1"
+          assert r["original_DOI"]=="10.5061/dryad.39k32" and r["original_publisher_file_id"]==33652
+          assert not r["original_source_workbook_values_opened"]
+          assert r["source_Weiss_species_guild_pair_values_read"]==0
+          assert r["original_Gloor_Carpathian_beetle_taxa_and_abundance_UNREAD"]
+          assert r["original_Franzen425_blocked_Dryad_XLSX_NOT_RETRIED"]
+          assert r["prior_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert not r["new_ecological_result_computed"] and not r["eBird_used"] and not r["TinyFish_used"]
+          if "source_original_binary_fingerprint_ONLY" in r:
+              s=r["source_original_binary_fingerprint_ONLY"]
+              assert s["source_original_legacy_Excel_OLE2_magic_verified"]
+              assert s["source_original_workbook_sheet_or_value_cells_OPENED"]==0
+              assert s["original_species_guild_table_values_UNREAD"]
+              assert s["original_Gloor_species_and_abundance_UNREAD"]
+          else:
+              assert r["source_access_or_format_STOP_not_ecological_null"]
+          print("WEISS2016_ORIGINAL_AUTHOR_XLS_BYTE_ONLY",r["status"])
+          PY
+      - name: "Archive only publisher-verified original binary identity and format receipt"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-weiss2016-original-author-Dryad-legacy-XLS-byteonly
+          path: WEISS2016_ORIGINAL_AUTHOR_XLS_BYTES_ONLY/
+          if-no-files-found: warn

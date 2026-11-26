@@ -1,0 +1,62 @@
+name: Forest macro BETA-FOR OTU source table first-header-only orientation gate
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-otu-firstheader-sourceonly.yml"
+      - "analysis/forest_macro_global/betafor11_otu_original_firstheader_only.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-matrix-first-header-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic MD5 and first-header-only source firewall
+        run: |
+          python3 analysis/forest_macro_global/betafor11_otu_original_firstheader_only.py --test
+      - name: Original versioned Zenodo source plus com_singletons first header after whole-file MD5
+        run: |
+          python3 analysis/forest_macro_global/betafor11_otu_original_firstheader_only.py --out betafor11_original_otu_header_only/receipt.json
+      - name: Fail closed on first biological-row access or invented field result
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_original_otu_header_only/receipt.json',encoding='utf8'))
+          assert x['original_OTU_numeric_response_rows_opened']==0
+          assert x['new_ecological_effects_fitted']==0
+          assert x['original_source_v1_and_v2_HOLDs_unchanged']
+          assert x['status'].startswith((
+            'SOURCE_RESPONSE_HEADER_STOP_',
+            'SOURCE_RESPONSE_FIRST_HEADER_SCHEMA_ONLY_MATCH_READY_FOR_AUTHOR_CODEBOOK',
+            'SOURCE_RESPONSE_FIRST_HEADER_SCHEMA_ONLY_UNMATCHED'
+          ))
+          if 'audit' in x:
+              y=x['audit']
+              assert y['original_community_firstheader_only']['source_OTU_numeric_cells_parsed']==0
+              assert y['other_original_four_source_members_NOT_requested']
+              assert not y['original_OTU_spp_identifier_values_exported']
+              print('OTU_ORIGINAL_HEADER_AUDIT:',json.dumps({k:y['original_community_firstheader_only'][k] for k in (
+                    'first_header_field_count',
+                    'first_header_delimiter_class',
+                    'distinct_global_source_sample_literal_count',
+                    'raw_header_tokens_matching_source_sample_literals',
+                    'raw_header_tokens_matching_source_patch_literals',
+                    'predeclared_generic_header_token_counts',
+                    'first_header_full_source_sha256'
+              )},sort_keys=True))
+          print('BETAFOR11_OTU_FIRSTHEADER_SCIENTIFIC_STATUS='+x['status'])
+          PY
+      - name: Store ONLY first-header anonymous schema and complete original MD5 receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-original-OTU-firstheader-only
+          path: betafor11_original_otu_header_only/
+          if-no-files-found: error

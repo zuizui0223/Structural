@@ -1,0 +1,53 @@
+name: "Forest Zarges2026 HTTP401 HOLD — synthetic only"
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/forest-zarges2026-temporal-source-headers.yml"
+permissions:
+  contents: read
+jobs:
+  original-source-header-only:
+    if: ${{ false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install openpyxl==3.1.5
+      - run: python analysis/forest_macro_global/zarges2026_temporal_source_manifest_headers_only.py --test
+      - run: python analysis/forest_macro_global/zarges2026_temporal_source_manifest_headers_only.py --out zarges_source/receipt.json
+      - name: Enforce zero biological scoring and validate source result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("zarges_source/receipt.json").read_text())
+          assert r["schema"]=="structural.zarges2026.temporal_source_manifest_and_header_only.v1"
+          assert r["original_numeric_biology_cells_scored"]==r["original_data_rows_semantically_inspected"]==r["new_ecological_effects_scored"]==0
+          assert not r["raw_source_exported"]
+          if r["status"]=="ORIGINAL_FOUR_HEADERS_READ_NO_BIOLOGICAL_ROWS_SCORED":
+              assert len(r["publisher"]["original_file_manifest"])==6
+              assert len(r["headers"])==4 and all(v["source_sha256_verified"] for v in r["headers"].values())
+          else:
+              assert r["status"] in {"SOURCE_ACCESS_OR_SCHEMA_STOP","SOURCE_EXECUTION_STOP"}
+          print("ZARGES_SOURCE_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zarges2026-temporal-source-header-only
+          path: zarges_source/receipt.json
+          if-no-files-found: error
+  synthetic-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/zarges2026_temporal_source_manifest_headers_only.py --test

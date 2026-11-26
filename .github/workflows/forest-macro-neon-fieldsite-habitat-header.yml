@@ -1,0 +1,55 @@
+name: "Forest beetle NEON official 2026 habitat site metadata vocabulary"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-neon-fieldsite-habitat-header.yml"
+      - "analysis/forest_macro_global/audit_neon_official_site_habitat_schema.py"
+      - "analysis/forest_macro_global/test_audit_neon_official_site_habitat_schema.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_neon_field_site_metadata_access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test source forest habitat schema classification without outcome data
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_neon_official_site_habitat_schema.py
+      - name: Retrieve official public NEON 2026 field-site table
+        run: |
+          mkdir -p original_neon_fieldsite_2026
+          curl --fail --location --retry 2 --retry-delay 3 --connect-timeout 15 --max-time 130 \
+            "https://www.neonscience.org/field-sites/exports/NEON_Field_Site_Metadata_20260805" \
+            --output original_neon_fieldsite_2026/NEON_Field_Site_Metadata_20260805.csv
+      - name: Identify original site vegetation and ecosystem columns without reading beetle species
+        run: |
+          python analysis/forest_macro_global/audit_neon_official_site_habitat_schema.py \
+            --source original_neon_fieldsite_2026/NEON_Field_Site_Metadata_20260805.csv \
+            --out neon_official_site_2026_schema
+      - name: Confirm source-only forest habitat metadata audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("neon_official_site_2026_schema/neon_fieldsite_2026_header_habitat_fields.json").read_text())
+          assert j["schema"]=="structural.neon_official_field_site_vegetation_metadata_header_v1"
+          assert j["original_record_rows"]>=80
+          assert j["forest_habitat_sites_verified"]==0
+          assert j["original_row_values_siteIDs_coordinates_not_exported"]
+          assert j["species_plot_or_temperature_effect_not_scored"]
+          print("Original site vegetation metadata columns:",
+                list(j["source_fields_relevant_to_habitat_eligibility"]))
+          PY
+      - name: Preserve NEON field habitat metadata vocabulary only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-neon-original-site-vegetation-schema
+          path: neon_official_site_2026_schema/
+          if-no-files-found: warn

@@ -1,0 +1,55 @@
+name: "Forest beetle Sweden 2026 two original publishers source-only intake"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-sweden2026-original-sourceonly.yml"
+      - "analysis/forest_macro_global/sweden2026_original_source_metadata_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-sweden2026-original-sourceonly.yml"
+      - "analysis/forest_macro_global/sweden2026_original_source_metadata_only.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-source-publisher-identity-no-beetle-biology:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Known truth official API origin and file-manifest parser only"
+        run: python3 analysis/forest_macro_global/sweden2026_original_source_metadata_only.py --test
+      - name: "Read only 2026 Dryad and Zenodo official public metadata, not original files"
+        run: |
+          python3 analysis/forest_macro_global/sweden2026_original_source_metadata_only.py \
+            --out sweden2026_sourceonly_metadata/receipt.json
+      - name: "Source-only deny all ecological scoring and raw file distribution"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('sweden2026_sourceonly_metadata/receipt.json'))
+          assert x['schema']=='structural.sweden2026_beetle_two_sources_metadata_only.v1'
+          assert x['original_source_specimen_or_site_values_read']==0
+          assert x['original_source_file_bytes_downloaded']==0
+          assert x['ecological_effects_fitted']==0
+          assert x['previous_2025_Sweden_401_hold_unchanged']
+          assert x['prior_Ecuador_Finland_Germany_BALA_GEB_sealed']
+          assert not x['eBird_used'] and not x['TinyFish_used']
+          assert x['Frostgard_2026_Dryad']['status'].startswith('SOURCE_')
+          assert x['Ramberg_2026_Zenodo']['status'].startswith('SOURCE_')
+          print('SOURCE_ONLY_TWO_PUBLISHER_METADATA_GATE_PASS')
+          PY
+      - name: "Archive only official file names and checksums, no raw source or biological observations"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden2026-two-official-source-metadata-receipt
+          path: sweden2026_sourceonly_metadata/receipt.json
+          if-no-files-found: warn

@@ -1,0 +1,51 @@
+name: Forest macro BETA-FOR four source OTU field-names only
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-betafor11-four-otu-header-names-only.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-nonbiological-four-header-fields:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic safe metadata header-name and no raw row test
+        run: |
+          python3 analysis/forest_macro_global/betafor11_response_four_header_codebook_only.py --test
+      - name: Verify original 28MB response source MD5 and four unmatched header names only
+        run: |
+          python3 analysis/forest_macro_global/betafor11_response_four_header_codebook_only.py --out betafor11_four_header_names_only/receipt.json
+      - name: Enforce absence of ecological OTU results and original labels
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('betafor11_four_header_names_only/receipt.json',encoding='utf-8'))
+          assert x['original_organism_OTU_rows_parsed']==0
+          assert x['original_biodiversity_effects_fitted']==0
+          assert x['previous_original_source_and_ecology_receipts_unchanged']
+          assert x['status'].startswith((
+            'BETAFOR11_ORIGINAL_FOUR_NON_SAMPLE_HEADER_NAMES_PROVEN_SOURCE_ONLY',
+            'SOURCE_OTU_FOUR_HEADER_FIELDS_STOP_'
+          ))
+          if 'codebook' in x:
+              y=x['codebook']
+              assert y['original_sample_fields_exactly_matched']==594
+              assert y['source_original_OTU_data_rows_and_numeric_cells_parsed']==0
+              print('ORIGINAL_FOUR_SOURCE_NON_SAMPLE_HEADERS:', json.dumps(y['source_author_four_non_sample_header_fields']))
+          print('BETAFOR11_ORIGINAL_HEADER_CODEBOOK_STATUS='+x['status'])
+          PY
+      - name: Upload four safe field names and original source hash receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-betafor11-four-OTU-header-fields-only
+          path: betafor11_four_header_names_only/
+          if-no-files-found: error

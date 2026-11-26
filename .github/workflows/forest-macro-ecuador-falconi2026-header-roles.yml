@@ -1,0 +1,165 @@
+name: "Forest macro Ecuador Falconi2026 original ZIP CSV first headers ONLY"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-header-roles.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/forest-macro-ecuador-falconi2026-header-roles.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-source-first-header-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install browser for official publisher-share link only"
+        run: |
+          python -m pip install --quiet "playwright==1.56.0"
+          python -m playwright install chromium
+      - name: "Exact author ZIP SHA gate followed by CSV header-only method roles"
+        run: |
+          python - <<'PY'
+          import csv,hashlib,io,json,re,tempfile,urllib.request,urllib.error,zipfile
+          from pathlib import Path
+          from urllib.parse import urljoin,urlsplit
+          from playwright.sync_api import sync_playwright
+          PAGE='https://figshare.com/s/80ba8b612162e4a7ace7'
+          ZIP_PATH='/ndownloader/files/51346106'
+          SHA='8c6e822866207a3398d6ce32fd35b6786713472ea87c2c1f3267984ebb79500d'
+          MAX_BYTES=80*1024*1024
+          source_files={
+            'R skript for Saproxylic beetle analyses_2024_12_22.R',
+            'PlotLogSpeciesAbundancesDensity.csv',
+            'PlotKat4HostSpecIndiv_3.csv',
+            'a_Agri_3.csv','a_Old_3.csv','a_Reg1_3.csv','a_Reg2_3.csv',
+            'HostBeetleIndiv_3.csv','PlotSpeciesIndiv_3.csv'
+          }
+          r={
+            'schema':'structural.falconi2026_first_header_and_R_imports_only.v1',
+            'source_fingerprint_expected_sha256':SHA,
+            'original_zip_member_basenames_preverified':len(source_files),
+            'csv_member_first_physical_lines_accessed':0,
+            'csv_member_subsequent_lines_or_values_parsed':0,
+            'biological_effects_scored':0,
+            'original_species_or_abundance_rows_exported':0,
+            'source_zip_exported_or_committed':False,
+            'status':'SOURCE_FIRST_HEADER_HOLD',
+            'csv_headers':[],
+            'author_R_import_basename_candidates':[]
+          }
+          with tempfile.TemporaryDirectory(prefix='falconi-headers-') as tmp:
+            try:
+              with sync_playwright() as pw:
+                browser=pw.chromium.launch(headless=True,args=['--no-sandbox'])
+                context=browser.new_context(accept_downloads=False)
+                page=context.new_page()
+                resp=page.goto(PAGE,wait_until='domcontentloaded',timeout=45000)
+                page.wait_for_timeout(4500)
+                a=page.locator('a',has_text='R skript and raw data.zip').first
+                a.wait_for(state='attached',timeout=18000)
+                r['phase']='UI_FILE_LINK_VISIBLE'
+                href=urljoin(PAGE,a.get_attribute('href',timeout=12000) or '')
+                u=urlsplit(href)
+                if not (u.scheme=='https' and u.hostname=='figshare.com' and u.path==ZIP_PATH):
+                  r['status']='AUTHOR_SHARE_LINK_MISMATCH_STOP'
+                else:
+                  req=urllib.request.Request(href,headers={'User-Agent':'Mozilla/5.0'})
+                  r['phase']='SOURCE_ZIP_GET'
+                  with urllib.request.urlopen(req,timeout=60) as f:
+                    total=0
+                    h=hashlib.sha256()
+                    raw=Path(tmp)/'source.zip'
+                    with raw.open('wb') as out:
+                      while True:
+                        chunk=f.read(32768)
+                        if not chunk:break
+                        total+=len(chunk)
+                        if total>MAX_BYTES:
+                          r['status']='SOURCE_SIZE_LIMIT_STOP'
+                          break
+                        out.write(chunk);h.update(chunk)
+                  r['source_zip_bytes']=total
+                  r['source_sha256_observed']=h.hexdigest()
+                  r['phase']='SOURCE_ZIP_SHA_COMPLETE'
+                  if r['status']=='SOURCE_SIZE_LIMIT_STOP':
+                    pass
+                  elif h.hexdigest()!=SHA or total!=11201:
+                    r['status']='SOURCE_VERSION_SHA_MISMATCH_STOP'
+                  else:
+                    r['phase']='SOURCE_ZIP_MEMBER_NAMES_VERIFIED'
+                    with zipfile.ZipFile(raw) as z:
+                      names=set(z.namelist())
+                      if names!=source_files:
+                        r['status']='SOURCE_MEMBER_MANIFEST_MISMATCH_STOP'
+                      else:
+                        r['phase']='SOURCE_FIRST_LINES_ONLY'
+                        for name in sorted(names):
+                          with z.open(name) as file:
+                            if name.lower().endswith('.csv'):
+                              # Exactly one CSV physical line (possibly a header);
+                              # never read or parse a data row.
+                              line=file.readline(16384)
+                              r['csv_member_first_physical_lines_accessed']+=1
+                              label=line.decode('utf-8-sig',errors='replace').strip()
+                              delim=';' if label.count(';')>label.count(',') else ','
+                              columns=next(csv.reader([label],delimiter=delim))
+                              allowed=re.compile(r'(?i)plot|site|log|tree|host|wood|density|species|sp[._]?id|indiv|abund|count|habitat|reg|kat|forest|stage|forest|land.?use|replicate')
+                              r['csv_headers'].append({
+                                'file':name,'first_line_byte_count':len(line),
+                                'header_candidate_field_count':len(columns),
+                                'delimiter_candidate':delim,
+                                'matching_nonresponse_or_response_role_field_labels':[
+                                  c[:85] for c in columns if allowed.search(c)][:30],
+                                'first_line_may_not_be_true_header':True
+                              })
+                            elif name.lower().endswith('.r'):
+                              # Authored METHOD CODE is opened, not abundance tables.
+                              program=file.read(20000).decode('utf-8-sig',errors='replace')
+                              r['author_R_import_basename_candidates']=sorted(set(
+                                re.findall(r'[A-Za-z0-9_ .-]+\.csv',program,re.I)))[:30]
+                        r['status']='SOURCE_CSV_FIRST_LINES_ONLY_AND_R_METHOD_READY'
+                context.close();browser.close()
+            except urllib.error.HTTPError as e:
+              r['http_status']=e.code
+              r['status']='SOURCE_ZIP_HTTP_STOP'
+            except Exception as e:
+              r['status']='SOURCE_FIRST_HEADER_TRANSPORT_OR_SCHEMA_STOP'
+              r['error_class']=type(e).__name__
+          out=Path('falconi2026_firstheaders/receipt.json')
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(r,sort_keys=True,indent=2)+'\n')
+          print('FALCONI_SOURCE_FIRST_HEADER_GATE',r['status'])
+          print('CSV_FIRST_LINES_READ',r['csv_member_first_physical_lines_accessed'])
+          print('LATER_ROWS_PARSED',r['csv_member_subsequent_lines_or_values_parsed'])
+          PY
+      - name: "Verify no original values entered any model"
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('falconi2026_firstheaders/receipt.json'))
+          assert x['schema']=='structural.falconi2026_first_header_and_R_imports_only.v1'
+          assert x['csv_member_subsequent_lines_or_values_parsed']==0
+          assert x['biological_effects_scored']==0
+          assert x['original_species_or_abundance_rows_exported']==0
+          assert x['source_zip_exported_or_committed'] is False
+          print('SOURCE_CROSSWALK_HEADER_STATUS',x['status'])
+          PY
+      - name: "Archive source-first-line field roles only, no raw matrices"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-ecuador2026-verified-original-csv-firstheaders-only
+          path: falconi2026_firstheaders/receipt.json
+          if-no-files-found: warn

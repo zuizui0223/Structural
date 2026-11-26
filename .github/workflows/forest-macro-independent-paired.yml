@@ -1,0 +1,60 @@
+name: Forest macro independent audit and matched ground-foliage gradients
+on:
+  push:
+    paths:
+      - '.github/workflows/forest-macro-independent-paired.yml'
+      - 'analysis/forest_macro_followup/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  independent-ecological-reconstruction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy pandas scipy statsmodels patsy pytest
+      - name: Check independent algebra and same-time plot pairing
+        run: python -m pytest -q analysis/forest_macro_followup/
+      - name: Retrieve already extracted contemporary observations and completed forest models
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 42207600533 --repo "$GITHUB_REPOSITORY" --name forest-macro-contemporary-response-selected --dir response_inputs
+          gh run download 42210266917 --repo "$GITHUB_REPOSITORY" --name forest-macro-environment-response-models --dir previous_models
+      - name: Rebuild richness, rarefaction and sandwich coefficients; fit synchronized paired methods
+        run: |
+          python analysis/forest_macro_followup/independent_audit.py \
+            --inputs response_inputs --models previous_models --out paired_forest_results
+      - name: Verify scope and denominators, without requiring a significant ecological finding
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          p=Path('paired_forest_results')
+          r=json.loads((p/'audit_receipt.json').read_text())
+          assert r['coefficient_rows_recomputed']==30
+          assert r['counts']['event_group_count_values_reconciled']==9555
+          assert r['counts']['rarefaction_values_reconciled']==600
+          assert r['max_coefficient_or_interval_difference']<1e-8
+          assert r['paired_method_plots']==28 and r['paired_clusters']==14 and r['paired_islands']==6
+          assert r['new_original_archives_downloaded']==0
+          assert r['new_historical_biological_scorer_executions']==0
+          excluded=pd.read_csv(p/'paired_temporal_exclusions.csv')
+          assert len(excluded)==2
+          assert set(excluded.ground_year)=={2019} and set(excluded.foliage_year)=={2022}
+          results=pd.read_csv(p/'paired_ground_foliage_models.csv')
+          assert len(results)==20
+          assert results[['beta','ci_low','ci_high','p','q_BH_within10']].notna().all().all()
+          print('PASS: independent biological reconstruction; same-date paired forest method comparison; no significance gate')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-independent-audit-and-paired-gradients
+          path: paired_forest_results/
+          if-no-files-found: error

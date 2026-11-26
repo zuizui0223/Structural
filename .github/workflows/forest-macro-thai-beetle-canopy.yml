@@ -1,0 +1,49 @@
+name: Forest canopy beetles Thai original paired stratum and taxon-quality audit
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-thai-beetle-canopy.yml"
+      - "analysis/forest_macro_global/audit_thai_beetle_canopy_original.py"
+      - "analysis/forest_macro_global/test_audit_thai_beetle_canopy_original.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_canopy_understory_stratum_and_taxon_quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test original Event extension join, taxon ranks and no false species claims
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_thai_beetle_canopy_original.py
+      - name: Fetch publisher GBIF Darwin Core Archive and inspect original canopy stratification fields
+        run: |
+          python analysis/forest_macro_global/audit_thai_beetle_canopy_original.py             --out thai_beetle_original_canopy
+      - name: Validate forest-level pseudoreplication and taxon-resolution audit
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("thai_beetle_original_canopy/thai_beetle_original_canopy_schema_and_taxon_quality.json").read_text())
+          assert r["schema"]=="structural.thai_beetle_canopy_original_DwCA_structure.v1"
+          assert r["source_gbif_dataset_key"]=="7ba1318c-04ed-4521-8369-63731e2867f7"
+          assert r["source_publisher_event_rows"]==288
+          assert r["original_publisher_locationID_values_NOT_independent_sites"]==2
+          assert r["verified_independent_forests"]==2
+          assert r["verified_primary_forestGEO_sampling_points_per_forest_from_original_methods"]==9
+          assert not r["new_beetle_canopy_vs_understorey_effect_scored"]
+          assert not r["species_or_morphospecies_identification_equivalence_assumed"]
+          assert not r["raw_source_identifiers_or_coordinates_exported"]
+          PY
+      - name: Archive only source quality and stratum field summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-thai-beetle-canopy-source-schema
+          path: thai_beetle_original_canopy/
+          if-no-files-found: warn

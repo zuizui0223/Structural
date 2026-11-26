@@ -1,0 +1,84 @@
+name: "Forest macro DATASAPROX historical other-provider trap METHOD match source-only"
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-historical-trap-method-sourceonly.yml"
+      - "analysis/forest_macro_global/datasaprox_historical_independent_trap_method_sourceonly.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-datasaprox-historical-trap-method-sourceonly.yml"
+      - "analysis/forest_macro_global/datasaprox_historical_independent_trap_method_sourceonly.py"
+
+permissions:
+  contents: read
+
+jobs:
+  original-independent-historic-donor-method-match-no-taxa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install source-only geometry data structures (no beetle model)"
+        run: python3 -m pip install --quiet "numpy>=1.26,<3" "scipy>=1.12,<2"
+      - name: "Synthetic test missing bait, different month and >7d effort not treated as method matches"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_historical_independent_trap_method_sourceonly.py --test
+      - name: "Retrieve only original author DATASAPROX v1.6 and published Table7"
+        run: |
+          set -euo pipefail
+          mkdir -p source_private paper_private
+          curl --fail --location --retry 1 --connect-timeout 20 --max-time 240 \
+            --max-filesize 80000000 --proto '=https' --proto-redir '=https' \
+            'https://ipt.gbif.fr/archive.do?r=datasaprox&v=1.6' \
+            --output source_private/datasaprox_v1_6.zip
+          curl --fail --location --retry 1 --connect-timeout 15 --max-time 120 \
+            --max-filesize 18000000 --proto '=https' --proto-redir '=https' \
+            'https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12993481/fullTextXML' \
+            --output paper_private/PMC12993481.xml
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          data=Path("source_private/datasaprox_v1_6.zip").read_bytes()
+          assert hashlib.sha256(data).hexdigest()=="4163a2f8f72d756e74f64319b8e199b284ecc6414196147e4465d342d7dcb6d0"
+          print("DATASAPROX_NATIVE_ARCHIVE_IMMUTABLE_SHA_MATCH")
+          PY
+      - name: "Evaluate strict historical different provider same trap model/type/bait/colour/month/effort metadata only"
+        run: |
+          python3 analysis/forest_macro_global/datasaprox_historical_independent_trap_method_sourceonly.py \
+            --archive source_private/datasaprox_v1_6.zip \
+            --paper-xml paper_private/PMC12993481.xml \
+            --out datasaprox_historical_method_comparability/receipt.json
+      - name: "Ensure source original taxon/beetle values unopened and 122/570 baseline protected"
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open("datasaprox_historical_method_comparability/receipt.json"))
+          assert a["schema"]=="structural.datasaprox_v16_earlier_independent_producer_method_gate.v1"
+          assert a["original_source_organism_species_taxon_abundance_values_read"]==0
+          assert a["new_ecological_composition_or_sourcepool_scores"]==0
+          assert a["old_Datasaprox_vertical_and_traylor_forest_original_science_scores_unchanged"]
+          assert not a["source_original_project_identifiers_geography_values_exported"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "original_independent_provider_method_support" in a:
+              b=a["original_independent_provider_method_support"]
+              assert b["original_author_Table7_complete_source_projects"]==40
+              assert b["original_complete_source_later_2016to2025_project_pointyears"]==570
+              stages=b["source_matching_historial_other_producer_method_stage_100km"]
+              assert stages["other_producer_geo_100km"]["covered_target_project_point_years"]==122
+              assert all(x["covered_target_project_point_years"]<=122 for x in stages.values())
+              assert b["new_ecological_effects_fitted"]==0
+          print("SOURCE_METHOD_COMPARABILITY_ONLY",a["status"])
+          PY
+      - name: "Archive only anonymous original method match counts; original site/taxa raw files stay private"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-DATASAPROX-historical-other-provider-trap-method-only
+          path: datasaprox_historical_method_comparability/receipt.json
+          if-no-files-found: warn

@@ -1,0 +1,32 @@
+name: "Swiss 244 consumed original isolation40 — synthetic checks only"
+# Original endpoint completed: run 45374804949, artifact 14910597614.
+# Original data must not be scored again or tuned against this result.
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-244-heldplot-isolation-onepass.yml"
+      - "analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-244-heldplot-isolation-onepass.yml"
+      - "analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py"
+permissions:
+  contents: read
+jobs:
+  frozen-original-score:
+    if: ${{ false }}
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Original endpoint consumed; no access"
+  synthetic-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install numpy==2.2.6
+      - run: python analysis/forest_macro_global/haeler2023_244_heldplot_isolation40.py --test

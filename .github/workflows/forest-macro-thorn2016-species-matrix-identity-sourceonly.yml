@@ -1,0 +1,55 @@
+name: "Thorn2016 spruce bark: original 120-species rows versus 3-treatment and distance table"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-thorn2016-species-matrix-identity-sourceonly.yml"
+      - "analysis/forest_macro_global/thorn2016_species_treatment_matrix_identity_sourceonly.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_zenodo_method_id_qualification_without_species_effect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original species keys / treatment labels and redaction test"
+        run: |
+          python analysis/forest_macro_global/thorn2016_species_treatment_matrix_identity_sourceonly.py --test
+      - name: "One original Zenodo exact two-file ID-shape audit, no beetle values"
+        run: |
+          python analysis/forest_macro_global/thorn2016_species_treatment_matrix_identity_sourceonly.py \
+            --out Thorn2016_matrix_ID_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Thorn2016_matrix_ID_sourceonly/Thorn2016_120species_treatment_distance_source_grain.json")
+          a=json.loads(p.read_text(encoding="utf-8"))
+          assert a["schema"]=="structural.Thorn2016_original_120species_three_bark_treatments_source_grain.v1"
+          assert a["new_biodiversity_effect_or_p_calculated"] is False
+          assert a["old_Piccini_Finland_Burner_Thai_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          result=a["original"]
+          assert result["original_beetle_abundance_values_NEVER_EVALUATED"]
+          assert result["original_species_distance_values_NEVER_EVALUATED"]
+          if "original_anonymous_source_row_key_comparison" in result:
+              x=result["original_anonymous_source_row_key_comparison"]
+              assert x["all_source_row_and_column_species_labels_UNEXPORTED"]
+              assert x["no_source_abundance_or_distance_matrix_numeric_cells_examined"]
+              assert x["no_original_plot_treatment_year_explicit_response_rows_recovered"]
+          else:
+              assert result["SOURCE_STOP_NOT_BIOLOGICAL_NULL"]
+          print("THORN2016_ORIGINAL_120_SPECIES_AGGREGATE_ID_AUDIT_ONLY",result["status"])
+          PY
+      - name: "Archive only anonymized source keys match counts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Thorn2016-original-species-aggregate-key-gate
+          path: Thorn2016_matrix_ID_sourceonly/
+          if-no-files-found: warn

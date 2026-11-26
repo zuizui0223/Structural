@@ -1,0 +1,51 @@
+name: "Forest beetle Sweden 2026 original README and Excel sheet metadata only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-sweden2026-original-file-method-only.yml"
+      - "analysis/forest_macro_global/sweden2026_original_readme_xlsx_method_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-sweden2026-original-file-method-only.yml"
+      - "analysis/forest_macro_global/sweden2026_original_readme_xlsx_method_only.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-publisher-readme-and-workbook-directory-no-biology:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Source-free original Excel XML structure and official link guards"
+        run: python3 analysis/forest_macro_global/sweden2026_original_readme_xlsx_method_only.py --test
+      - name: "One exact 2026 Dryad README and one published Zenodo original workbook GET"
+        run: |
+          python3 analysis/forest_macro_global/sweden2026_original_readme_xlsx_method_only.py \
+            --out sweden2026_original_method_gate/receipt.json
+      - name: "Validate no biological rows opened or original XLSX exported"
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('sweden2026_original_method_gate/receipt.json'))
+          assert x['schema']=='structural.sweden2026_two_publisher_original_method_sourceonly.v1'
+          assert x['new_original_biological_effects']==0
+          assert x['original_taxon_abundance_or_stump_cells_read']==0
+          assert x['prior_2025_Dryad_401_unretried']
+          assert x['Frostgard_2026_Dryad']['status'].startswith('DRYAD_')
+          assert x['Ramberg_2026_Zenodo']['status'].startswith('ZENODO_')
+          assert not x['eBird_used'] and not x['TinyFish_used']
+          print('SWEDEN2026_ORIGINAL_SOURCE_ONLY_METHOD_GATE_PASS')
+          PY
+      - name: "Archive only original publisher method metadata and source access status"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden2026-original-file-method-only-receipt
+          path: sweden2026_original_method_gate/receipt.json
+          if-no-files-found: warn

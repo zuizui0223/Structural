@@ -1,0 +1,54 @@
+name: "Forest beetle Traylor2026 356 wood original four-study source NONRESPONSE QA"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-356-study-resource-source-qa.yml"
+      - "analysis/forest_macro_global/traylor2026_original_356_nonresponse_qa.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-traylor2026-356-study-resource-source-qa.yml"
+      - "analysis/forest_macro_global/traylor2026_original_356_nonresponse_qa.py"
+permissions:
+  contents: read
+jobs:
+  original-source-row-and-study-source-opportunities-no-beetle-read:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Known-truth four-study, 356-wood-object nonresponse only"
+        run: python3 analysis/forest_macro_global/traylor2026_original_356_nonresponse_qa.py --test
+      - name: "Original MD5 three-file source, read only study and wood nonresponse support"
+        run: |
+          python3 analysis/forest_macro_global/traylor2026_original_356_nonresponse_qa.py \
+            --out traylor2026_356_nonresponse/receipt.json
+      - name: "Enforce no original beetle response or source row export"
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open("traylor2026_356_nonresponse/receipt.json"))
+          assert a["schema"]=="structural.traylor2026_356_wood_objects_prebiology_nonresponse_gate.v1"
+          assert a["original_study_beetle_abundance_or_presence_values_inspected"] is False
+          assert a["ecological_effects_scored"]==0
+          assert a["previous_Ecuador_Ramberg_Finland_BALA_GEB_effects_unchanged"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "source_anonymous_nonresponse" in a:
+              q=a["source_anonymous_nonresponse"]
+              assert q["source_original_wood_object_rows"]==356
+              assert q["original_distinct_studies"]==4
+              assert not q["any_original_ambrosia_abundance_or_presence_values_inspected"]
+              assert q["new_biological_effects_scored"]==0
+          print("PREBIOLOGY_WOOD_OPPORTUNITY_STATUS",a["status"])
+          PY
+      - name: "Publish only anonymous original field-study/support counts, never raw taxa or source files"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-traylor2026-original-four-study-356-source-nonresponse
+          path: traylor2026_356_nonresponse/receipt.json
+          if-no-files-found: warn

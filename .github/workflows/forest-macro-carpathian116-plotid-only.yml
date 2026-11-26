@@ -1,0 +1,61 @@
+name: "Forest macro Carpathian 116 original beetle environment PLOTID-only method gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_plotid_source_crosswalk.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_PLOTID_SOURCE_CROSSWALK_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-plotid-only.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_five_author_tables_first_column_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic independent original plotid no-value / duplicate-ID tests"
+        run: |
+          python analysis/forest_macro_global/carpathian116_plotid_source_crosswalk.py --test
+      - name: "Only exact original PLOTID values across two beetle and three environment files"
+        run: |
+          python analysis/forest_macro_global/carpathian116_plotid_source_crosswalk.py \
+            --out CARPATHIAN116_PLOTID_SOURCE_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("CARPATHIAN116_PLOTID_SOURCE_ONLY/Carpathian116_original_beetles_and_forest_PLOTID_only.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Gloor2026_Carpathian116_original_PLOTID_firstfield_only.v1"
+          assert x["original_record"]==22142713
+          assert not x["original_beetle_abundance_or_species_VALUES_READ"]
+          assert not x["original_environment_numeric_VALUES_READ"]
+          assert x["old_Finland_Chiu_BELongDead_Piccini_PREDICTS_NEON_BALA_GEB_results_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "source_idonly_qualification" in x:
+              r=x["source_idonly_qualification"]
+              assert not r["new_effect_estimated"]
+              assert r["source_stand_or_mountain_range_block_NOT_YET_VERIFIED"]
+              assert r["source_authoritative_beetle_feeding_guild_NOT_YET_VERIFIED"]
+              assert r["source_per_trap_effort_zero_denominator_NOT_YET_VERIFIED"]
+              assert r["original_exact_cross_source_identity_counts"]["original_species_catches_environment_measurements_READ"]==0
+              assert not r["original_exact_cross_source_identity_counts"]["original_sample_ID_values_EXPORTED"]
+              for row in r["source_original_table_schemas"].values():
+                  assert row["non_PLOTID_beetle_or_wood_rows_VALUES_NEVER_DECODED"]
+                  assert row["raw_original_PLOTID_values_NOT_EXPORTED"]
+          else:
+              assert x["source_only_failure_NOT_ecological_null"]
+          print("CARPATHIAN116_ORIGINAL_METHOD_ID_RESULT",x["status"])
+          PY
+      - name: "Archive only anonymous original site identity overlap and environmental header metadata"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-beetle-forest-original-PLOTID-only
+          path: CARPATHIAN116_PLOTID_SOURCE_ONLY/
+          if-no-files-found: warn

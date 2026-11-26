@@ -1,0 +1,57 @@
+name: "Forest macro Swiss EnviDat455 four authentic CSV HEADERS only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-envidat455-four-csv-header.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_four_csv_header_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-envidat455-four-csv-header.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_four_csv_header_only.py"
+permissions:
+  contents: read
+jobs:
+  official-4-files-firstrow-source-only-no-beetle-response:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic dataset identity and strict first-CSV-row reader"
+        run: python3 analysis/forest_macro_global/haeler2023_envidat455_four_csv_header_only.py --test
+      - name: "Fetch each original publisher-listed EnviDat resource exactly once, first header only"
+        run: |
+          python3 analysis/forest_macro_global/haeler2023_envidat455_four_csv_header_only.py \
+            --out envidat455_four_csv_firstheader/receipt.json
+      - name: "Validate original plot species/wood response firewall"
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open("envidat455_four_csv_firstheader/receipt.json"))
+          assert r["schema"]=="structural.haeler2023_envidat455_4_source_CSV_FIRST_HEADER.v1"
+          assert r["new_beetle_ecological_effects_fitted"]==0
+          assert r["source_original_numeric_organism_or_wood_values_read"]==0
+          assert r["original_plot_identity_conflict_still_unresolved"]
+          if "original_file_schema" in r:
+              s=r["original_file_schema"]
+              assert s["original_data_rows_read"]==0
+              assert s["original_taxon_wood_numeric_values_read"]==0
+              assert s["original_plot_keys_crosswalk_verified"] is False
+              assert not s["source_original_resource_file_bytes_archived"]
+              assert all(x["first_header_only"]["original_source_rows_after_header_read"]==0
+                         and x["first_header_only"]["original_numeric_beetle_or_wood_values_read"]==0
+                         and x["source_original_biological_file_redistributed"] is False
+                         for x in s["original_files"])
+          print("SWISS_ORIGINAL_SOURCE_STATUS",r["status"])
+          PY
+      - name: "Archive ONLY original source CSV header roles and SHA256; no row data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Swiss-EnviDat455-four-CSV-first-header-metadata-only
+          path: envidat455_four_csv_firstheader/receipt.json
+          if-no-files-found: warn

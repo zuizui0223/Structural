@@ -1,0 +1,22 @@
+{
+  "checked_at_utc": "2026-11-21T14:37:55.230214+00:00",
+  "collection_interval_or_interruption_ledger_documented_in_reviewed_text": false,
+  "limitations": [
+    "Review covers six method prose paragraphs under the named sections; it does not establish absence of metadata elsewhere.",
+    "BOLD Process ID in the bioinformatics prose describes reference-sequence annotations, not a trap/bottle-to-method-record crosswalk."
+  ],
+  "original_data_archive_or_RData_accessed_in_this_supplement_review": false,
+  "published_result_tables_or_figures_inspected": false,
+  "reviewed_method_prose_paragraphs": {
+    "Bioinformatics": 2,
+    "Metabarcoding": 1,
+    "iNEXT Calculations": 3
+  },
+  "schema": "structural.kortmann2026_published_supplement_method_scope.v1",
+  "serialized_treatment_value_crosswalk_documented_in_reviewed_text": false,
+  "source_bytes": 991180,
+  "source_sample_to_method_row_crosswalk_documented_in_reviewed_text": false,
+  "source_sha256": "51c1448824a79bbc739409a63f79d5256273a6b0a063101f3c285b41418ab30a",
+  "source_url": "https://ars.els-cdn.com/content/image/1-s2.0-S0006320725006846-mmc1.docx",
+  "stored_offset_units_or_transform_documented_in_reviewed_text": false
+}

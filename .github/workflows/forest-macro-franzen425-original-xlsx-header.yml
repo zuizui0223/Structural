@@ -1,0 +1,57 @@
+name: "Forest macro Franzén 425 larval guild original xlsx first-header gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/franzen425_original_xlsx_header_gate.py"
+      - "docs/FOREST_MACRO_FRANZEN425_ORIGINAL_XLSX_STRUCTURE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-franzen425-original-xlsx-header.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_franzen425_Dryad_XLSX_first_sheet_header_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic OOXML first-row only test with unopened species rows"
+        run: |
+          python analysis/forest_macro_global/franzen425_original_xlsx_header_gate.py --test
+      - name: "One original legally published Dryad XLSX request, full SHA256 then header only"
+        run: |
+          python analysis/forest_macro_global/franzen425_original_xlsx_header_gate.py \
+            --out FRANZEN425_ORIGINAL_XLSX_HEADER_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("FRANZEN425_ORIGINAL_XLSX_HEADER_ONLY/Franzen425_original_Dryad_guild_XLSX_first_header_only.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["schema"]=="structural.Franzen425_Dryad_original_guild_xlsx_header_only.v1"
+          assert not r["guild_species_row_values_READ"]
+          assert not r["original_Carpathian_response_species_labels_or_abundance_READ"]
+          assert not r["new_ecological_effect_scored"]
+          assert r["original_other_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "source_verified_first_header_only" in r:
+              x=r["source_verified_first_header_only"]
+              assert x["only_original_first_header_fields_verified"]==[
+                 "Species","Family","Trophic_group","Body_length"]
+              assert x["original_all_species_trophic_group_body_size_VALUES_NOT_OPENED"]
+              assert not x["original_any_subsequent_worksheet_row_PARSED"]
+              assert not x["original_Gloor_species_names_or_observation_rows_ACCESSED"]
+          else:
+              assert r["publisher_source_STOP_not_ecological_non_support"]
+          print("FRANZEN425_AUTHOR_HEADER_GATE_DECISION",r["status"])
+          PY
+      - name: "Archive only source header fingerprint or publisher access STOP"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-original-Franzen425-guild-xlsx-header-only
+          path: FRANZEN425_ORIGINAL_XLSX_HEADER_ONLY/
+          if-no-files-found: warn

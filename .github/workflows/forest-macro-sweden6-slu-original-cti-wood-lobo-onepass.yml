@@ -1,0 +1,59 @@
+name: "Forest macro Sweden6 original CTI wood resource×thermal LOSO onepass"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_cti_wood_thermal_region_holdout_onepass.py"
+      - "docs/FOREST_SWEDEN6_CTISUBSTRATE_REGION_HOLDOUT_EXPLORATORY_ONEPASS_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-original-cti-wood-lobo-onepass.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_original_CTIsource_29plot_6region_predictive_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic physical 6-block leave-region-out, ridge and 64-sign inference"
+        run: |
+          python analysis/forest_macro_global/sweden6_cti_wood_thermal_region_holdout_onepass.py --test
+      - name: "ONE original 87-source row 2021 CTI vs 2020 spruce microclimate and substrate prediction"
+        run: |
+          python analysis/forest_macro_global/sweden6_cti_wood_thermal_region_holdout_onepass.py --out SLU_CTIBIOLOGY_ONEPASS_AGGREGATE
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("SLU_CTIBIOLOGY_ONEPASS_AGGREGATE/Sweden6_original_29plot_2020micro_barkdiameter_2021CTI_LOBO_onepass.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          assert r["original_29_plot_87rows_physical_gate_BEFORE_CTI"]
+          assert r["published_Gossmann2024_regionaltemp_x_shade_PRIOR_ART"]
+          assert r["previous_6field_88row_30plot_SOURCE_STOPS_PRESERVED"]
+          assert r["no_beetle_specieslist_XYLO_OR_original_richness_Totalab_rows_ACCESSED"]
+          assert r["prior_Finland_Carpathian_England_PREDICTS_Thai_NEON_BALA_GEB_biology_UNCHANGED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_source_BIOLOGICAL_CTI_ONEPASS_RESULT" in r:
+              d=r["original_source_BIOLOGICAL_CTI_ONEPASS_RESULT"]
+              assert d["original_87_source_CTI_observations_ALL_FINITE"]
+              assert d["original_29_source_plots_in_6_regions"]
+              assert d["original_region_equal_exact_64signs_twosided_p"]>=0
+              assert d["original_tree_host_species_fixed_spruce_NO_HOST_ABSENCE_test"]
+              assert d["original_specieslist_xylo_3460_SPECIES_ROWS_NOT_ACCESSED"]
+              assert d["causal_thermal_refuge_or_3D_resource_lock_NOT_ESTIMATED"]
+              assert r["original_CTIsource_biological_response_FIRST_READ"]
+          else:
+              assert r["source_or_CTI_value_STOP_not_ecological_null"]
+              assert r["no_valid_CTI_predictive_score"]
+          print("SLU_SWEDEN6_ONEPASS_CTIsubstrate_HOLDOUT",r["status"])
+          PY
+      - name: "Archive anonymous measured-source outcome summary or scientific STOP"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden6-CTIwood-29plot-6block-onepass-exploratory
+          path: SLU_CTIBIOLOGY_ONEPASS_AGGREGATE/
+          if-no-files-found: warn

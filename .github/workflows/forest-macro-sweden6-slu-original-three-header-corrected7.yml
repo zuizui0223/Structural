@@ -1,0 +1,55 @@
+name: "Forest macro Sweden6 SLU CORRECTED 12+7 original headers no biology"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_three_header_corrected7.py"
+      - "docs/FOREST_SWEDEN6_SEMICOLON7_SOURCE_HEADER_CORRECTION_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-original-three-header-corrected7.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  revalidated_source_method_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic corrected 12+7 semicolon header and data-row seal"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_three_header_corrected7.py --test
+      - name: "Three exact original SLU bitstreams with species7 hardpin"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_three_header_corrected7.py --out SWEDEN6_CORRECTED_HEADERS
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("SWEDEN6_CORRECTED_HEADERS/Sweden6_slu_corrected12plus7_original_headers_only.json")
+          r=json.loads(p.read_text())
+          assert r["prior_six_column_original_STOP_PRESERVED"]
+          assert r["original_beetle_species_3460_RECORD_ROWS_READ"]==0
+          assert r["old_Finland_Carpathian_England_PREDICTS_NEON_BALA_GEB_biology_NOT_REOPENED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "original_corrected_source_headers_ONLY" in r:
+              d=r["original_corrected_source_headers_ONLY"]
+              assert d["original_species_and_climate_CSV_DATA_ROWS_READ"]==0
+              assert d["source_prior_6_field_HEADER_FAILURE_REMAINS_STOP"]
+              assert d["source_microclimate2020_beetles2021_temporal_mismatch"]
+              fs=d["source_original_3_file_source_receipts"]
+              assert fs["specieslist_xylo.csv"]["source_original_first_header_only"]["original_header_declared_field_count"]==7
+              assert fs["boreal_forest_climate_data.csv"]["source_original_first_header_only"]["original_header_declared_field_count"]==12
+          else:
+              assert r["source_syntax_or_public_access_STOP_NOT_ecological_null"]
+          print("SWEDEN6_CORRECTED_SOURCE_HEADERS_ONLY",r["status"])
+          PY
+      - name: "Archive only original SHA/header/README evidence, no biological values"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-sweden6-SLU-corrected12plus7-source-headers-only
+          path: SWEDEN6_CORRECTED_HEADERS/
+          if-no-files-found: warn

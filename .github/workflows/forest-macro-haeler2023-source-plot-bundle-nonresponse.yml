@@ -1,0 +1,57 @@
+name: "Forest Swiss EnviDat455 original plot x bundle NONRESPONSE join gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-source-plot-bundle-nonresponse.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_plot_bundle_nonresponse_gate.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-source-plot-bundle-nonresponse.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_plot_bundle_nonresponse_gate.py"
+permissions:
+  contents: read
+jobs:
+  original-plot-bundle-method-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original source ID and method-no-response guards"
+        run: |
+          python3 analysis/forest_macro_global/haeler2023_envidat455_plot_bundle_nonresponse_gate.py --test
+      - name: "Read only original CODEBOOK and ENV original key/date/predictor missingness; species only headers"
+        run: |
+          python3 analysis/forest_macro_global/haeler2023_envidat455_plot_bundle_nonresponse_gate.py \
+            --out haeler2023_sourceonly_physical_bundle/receipt.json
+      - name: "Enforce unchanged original source biology and anonymous output"
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('haeler2023_sourceonly_physical_bundle/receipt.json').read_text())
+          assert x["schema"]=="structural.haeler2023_envidat455_plot_bundle_NONRESPONSE_SOURCE_v1"
+          assert x["author_method_original_JAE_experimental_plot_n"]==62
+          assert x["original_saproxylic_organism_response_rows_read"]==0
+          assert x["new_ecological_results_scored"]==0
+          assert x["old_Ecuador_Traylor_PREDICTS_Finland_BALA_GEB_protected"]
+          assert not x["source_original_CSV_files_redistributed"]
+          if "source_method_qa" in x:
+              a=x["source_method_qa"]
+              assert a["original_beetle_species_or_numeric_abundance_rows_read"]==0
+              assert a["new_beetle_ecological_effects_or_pvalues"]==0
+              assert not a["original_site_ids_tree_labels_OR_files_redistributed"]
+              assert a["original_experimental_site_bundle_NONRESPONSE_only"]["original_taxon_or_beetle_response_values_accessed"]==0
+          print("SOURCE_62PLOT_EXACT_ORIGINAL_METHOD_STATUS",x["status"])
+          PY
+      - name: "Archive only anonymous Plot×Bundle counts and source variable codebook method"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Swiss-EnviDat455-original-plot-bundle-nonresponse
+          path: haeler2023_sourceonly_physical_bundle/receipt.json
+          if-no-files-found: warn

@@ -1,0 +1,60 @@
+name: "Piccini2026 forest floor: ONE original 8-site guild heldout predictive contrast"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-piccini2026-floor-guild-onepass-holdout.yml"
+      - "analysis/forest_macro_global/piccini2026_floor_guild_site_holdout_onepass.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one_predeclared_original_floor_guild_predictive_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only the predeclared required numpy numerical library"
+        run: |
+          python -m pip install --quiet numpy
+      - name: "Test positive/null site heldout and biological firewall before original values"
+        run: |
+          python analysis/forest_macro_global/piccini2026_floor_guild_site_holdout_onepass.py --test
+      - name: "ONE fixed source-qualified original forest floor detected-guild heldout test"
+        run: |
+          python analysis/forest_macro_global/piccini2026_floor_guild_site_holdout_onepass.py \
+            --out Piccini2026_floor_guild_aggregate
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("Piccini2026_floor_guild_aggregate/Piccini2026_floor_guild_site_holdout_original_onepass.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Piccini2026_floor_guild_8site_holdout_one_original_test.v1"
+          assert x["no_raw_taxon_site_trap_guild_records_uploaded"]
+          assert x["old_frozen_originals_NOT_RESCORED"]
+          assert x["postresult_variant_selection_NOT_ALLOWED"]
+          r=x["single_original_evaluation"]
+          assert r["original_2024_canopy_archive_UNOPENED"]
+          assert r["original_old_BALA_GEB_PREDICTS_NEON_Finland_Thai_UNOPENED"]
+          assert not r["eBird_used"] and not r["TinyFish_used"]
+          if "result" in r:
+              assert r["prebiology_method_gate"]["source_floor_8_recorded_ID_plots"]==40
+              assert r["result"]["original_parent_sites_in_cv"]==8
+              assert r["result"]["train_plots_per_fold"]==35
+              assert r["result"]["heldout_plots_per_fold"]==5
+          else:
+              assert r["SCIENTIFIC_OR_METHOD_STOP_NOT_ECOLOGICAL_NULL"]
+              assert r["new_biological_estimator_NOT_COMPLETED"]
+          print("FROZEN_PICCINI2026_ONE_TEST_FINAL_STATUS",r["status"])
+          PY
+      - name: "Upload anonymous aggregate status, NOT original species or environment data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Piccini2026-floor-guild-8site-heldout-onepass
+          path: Piccini2026_floor_guild_aggregate/
+          if-no-files-found: warn

@@ -1,0 +1,54 @@
+name: "Sbaraglia2025 shaded vs sun deadwood beetles: original 10-site Dryad source gate"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-sbaraglia2025-sunshade-hostwood-sourceonly.yml"
+      - "analysis/forest_macro_global/sbaraglia2025_deadwood_sunshade_original_sourceonly.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_dryad_source_only_method_qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic published source three-file checksum/CSV header privacy test"
+        run: |
+          python analysis/forest_macro_global/sbaraglia2025_deadwood_sunshade_original_sourceonly.py --test
+      - name: "One original Dryad API version and file-header access gate; no beetle responses"
+        run: |
+          python analysis/forest_macro_global/sbaraglia2025_deadwood_sunshade_original_sourceonly.py \
+            --out Sbaraglia2025_original_sourceonly
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("Sbaraglia2025_original_sourceonly/Sbaraglia2025_original_three_file_sourceonly.json")
+          x=json.loads(f.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Sbaraglia2025_deadwood_sunshade_10site_source_only.v1"
+          assert x["original_biodiversity_effect_computed"] is False
+          assert x["prior_Finland_Burner_Piccini_Thai_PREDICTS_NEON_BALA_GEB_SEALED"]
+          assert x["no_eBird_or_TinyFish"]
+          r=x["original"]
+          assert r["original_species_abundances_UNSCORED"]
+          assert r["original_env_final_RDS_UNOPENED"]
+          assert r["no_RDS_CSV_rowindex_join_inferred"]
+          assert r["original_2026_Piccini_and_older_scorers_UNTOUCHED"]
+          if "csv_header" in r and "source_matrix_rows_read" in r["csv_header"]:
+              assert r["csv_header"]["source_matrix_rows_read"]==0
+          if "readme_method" in r and "readme_utf8_readable" in r["readme_method"]:
+              assert r["readme_method"]["original_README_text_NOT_EXPORTED"]
+          print("ORIGINAL_DRYAD_SOURCE_ONLY_STOP_OR_PASS_NOT_BIOLOGICAL_RESULT",r["status"])
+          PY
+      - name: "Publish only author metadata/access status; no source raw files or original rows"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-Sbaraglia2025-Dryad-source-only-forest-beetles
+          path: Sbaraglia2025_original_sourceonly/
+          if-no-files-found: warn

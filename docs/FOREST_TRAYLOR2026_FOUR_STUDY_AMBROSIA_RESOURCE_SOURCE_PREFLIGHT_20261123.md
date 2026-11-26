@@ -1,0 +1,16 @@
+# Four-source beetle × deadwood resource network — source admission (2026-11-23)
+
+## New candidate and already-published findings
+Traylor et al. (2026), *Native and non-native ambrosia beetles compete for deadwood resources*, *Proceedings of the Royal Society B* DOI **10.1098/rspb.2026.1825**. Original published data/code Zenodo **10.5281/zenodo.19206036**, citation confirmed by the original published article's data accessibility statement (PMC13577808). **This is one synthesis of four field studies, not four automatically independent forest regions.** Original study comprises **356 original experimental deadwood objects**, 23 tree types, **141/356 objects with detected ambrosia beetle emergence**; all 356 physical sampled objects were sampled using similar rearing protocols. These numbers are the authors' published findings, NOT a new Structural test.
+
+Original authors already established (1) native–non-native beetles tend to use same deadwood pieces, (2) negative native/non-native *abundance association* conditional on co-occurrence, (3) wood volume/time/tree-origin differences in the native share, and examined leave-study-out effects. These are **PRIOR ART**, never claim new competition evidence from the published records.
+
+Potential distinct future question: Do wood resource volume, tree status/type and exposure duration add stable **held-study predictive** information for a *two-stage observed emergence / conditional detected species composition* endpoint after an explicit sampling opportunity and study-independent reference? For 4 original studies, no strong all-study generalization p and taxon composition may differ by source/region. Original tree type must not be assigned to each species by inference. The prior paper's published GLMM, AIC and leave-study-out sensitivity are NOT to be re-stated as new findings.
+
+## First gate: exact official Zenodo data rights/metadata only
+1. Fetch **only** `https://zenodo.org/api/records/19206036`, confirm author-published record id, DOI, title, public license and source file names/sizes/checksums. No source file downloads, original beetle observation rows, author R source model output, tree IDs, numerical ecology or p values.
+2. If access is public with an explicit reuse license and source manifest includes sample opportunity/codebook and beetle species data, separate *method-only* original file introspection can be frozen; verify true sampled zeros, unique physical log/bundle ID, original study ID, original author tree identity and exposure days, true species-by-object keys and original resource volume. Parent field studies have site/block nesting, so 356 deadwood objects are NOT independent regional replications.
+3. If rights or sample-identity inaccessible, report a SOURCE STOP and preserve rather than substitute author literature counts. Biological model is not authorized by this plan.
+4. Any later one-shot held-study predictive contrast must be specified prospectively to this NEW analytical estimand before numerical outcomes, and must not vary model/loss/holdout to chase source-published successes.
+
+Old Ramberg 2026 zero-catch STOP and disabled biological runner, Korhonen source HTTP401, Frostgård/Ramberg2025 HTTP401, PREDICTS/Finland/Germany/Ecuador/BALA/GEB/mapped-mammal frozen results remain untouched. No eBird/TinyFish; PR #469 Draft/unmerged.

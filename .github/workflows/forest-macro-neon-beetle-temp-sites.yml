@@ -1,0 +1,55 @@
+name: "Forest beetles NEON canopy structure and tower temperature site-month support"
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-neon-beetle-temp-sites.yml"
+      - "analysis/forest_macro_global/audit_neon_beetle_vegetation_temp_support.py"
+      - "analysis/forest_macro_global/test_audit_neon_beetle_vegetation_temp_support.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_neon_2026_ground_beetles_tree_canopy_temperature_support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test release-specific ecological site-month join and temporal mismatch
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_audit_neon_beetle_vegetation_temp_support.py
+      - name: Retrieve only NEON official public 2026 product metadata for three biological/environmental sources
+        run: |
+          python analysis/forest_macro_global/audit_neon_beetle_vegetation_temp_support.py \
+            --out neon_original_forest_beetle_site_month_support
+      - name: Validate source product identities and forbid treating all NEON sites as forests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("neon_original_forest_beetle_site_month_support/NEON_three_product_original_release_site_month_support.json").read_text())
+          assert r["schema"]=="structural.NEON_forest_beetle_canopy_temperature_2026_product_metadata_support.v1"
+          assert r["original_NEON_release"]=="RELEASE-2026"
+          assert r["original_product_codes"]=={
+              "ground_beetle":"DP1.10022.001",
+              "vegetation_structure":"DP1.10098.001",
+              "tower_air_temperature_profile":"DP1.00002.001"}
+          assert r["NEON_product_site_count_BEFORE_forest_habitat_filter"]["ground_beetle"]>=30
+          assert r["site_overlap_beetles_and_vegetation"]>0
+          assert r["original_source_ground_beetles_in_pitfall_NOT_vertical_traps"]
+          assert r["forest_habitat_species_plot_and_tower_geometry_site_admission_passed"]==0
+          assert r["original_species_and_temperature_response_rows_read"]==0
+          assert not r["forest_macro_effect_or_thermal_escape_evaluated"]
+          assert not r["eBird_used"]
+          print("NEON sites/months supply, forest suitability not yet determined")
+          PY
+      - name: Store NEON public original site/month metadata only, no species observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-neon-original-three-product-site-month-support
+          path: neon_original_forest_beetle_site_month_support/
+          if-no-files-found: warn

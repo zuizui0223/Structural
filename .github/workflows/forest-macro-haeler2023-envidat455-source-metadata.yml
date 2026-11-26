@@ -1,0 +1,57 @@
+name: "Forest macro Haeler2023 EnviDat455 Swiss wood x beetle original metadata ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-envidat455-source-metadata.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_original_publisher_metadata_only.py"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-haeler2023-envidat455-source-metadata.yml"
+      - "analysis/forest_macro_global/haeler2023_envidat455_original_publisher_metadata_only.py"
+permissions:
+  contents: read
+
+jobs:
+  original-CKAN-four-roles-and-permissions-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic source-role method schema and official CKAN URL only"
+        run: python3 analysis/forest_macro_global/haeler2023_envidat455_original_publisher_metadata_only.py --test
+      - name: "Request ONE original EnviDat public package_show metadata, no resource downloads"
+        run: |
+          python3 analysis/forest_macro_global/haeler2023_envidat455_original_publisher_metadata_only.py \
+            --out haeler2023_envidat455_metadata_only/receipt.json
+      - name: "Guard original beetle and wood responses, explicit 69 versus 62 denominator HOLD"
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open("haeler2023_envidat455_metadata_only/receipt.json"))
+          assert r["schema"]=="structural.haeler2023_sihlwald_envidat455_original_source_metadata_only.v1"
+          assert r["published_metadata_plot_n"]==69
+          assert r["published_experimental_design_plot_n"]==62
+          assert r["source_original_physical_plot_identity_conflict_unresolved"]
+          assert r["one_original_swiss_forest_not_an_independent_region_network"]
+          assert r["source_original_biological_values_read"]==0
+          assert r["new_source_original_ecological_effects_scored"]==0
+          assert r["prior_Ecuador_Finland_Germany_Traylor_PREDICTS_BALA_GEB_unreopened"]
+          s=r["source"]
+          assert s["source_original_plot_resource_organism_files_GET"]==0
+          assert s["original_beetle_taxon_or_wood_source_values_read"]==0
+          if "published_resource_metadata_only" in s:
+              assert all(v["original_resource_data_bytes_downloaded"]==0 for v in s["published_resource_metadata_only"])
+          print("ORIGINAL_SWISS_SOURCE_ONLY_STATUS",s["status"])
+          PY
+      - name: "Archive only public resource title and license, NEVER source beetle data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-haeler2023-Sihlwald-EnviDat455-original-metadata-only
+          path: haeler2023_envidat455_metadata_only/receipt.json
+          if-no-files-found: warn

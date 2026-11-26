@@ -1,0 +1,71 @@
+name: "Forest macro Carpathian 116 Weiss 511 guild exact species-header coverage"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/carpathian116_weiss_original_name_only_coverage.py"
+      - "docs/FOREST_MACRO_CARPATHIAN116_WEISS_GUILD_TAXON_NAME_ONLY_COVERAGE_PRESPEC_20261118.md"
+      - ".github/workflows/forest-macro-carpathian116-weiss-guild-nameonly-coverage.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_only_Weiss511_to_Gloor116_original_species_header:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Ensure official original OLE DOC reader"
+        run: |
+          if ! command -v libreoffice >/dev/null && ! command -v soffice >/dev/null; then
+            sudo apt-get update -qq
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends libreoffice-writer
+          fi
+      - name: "Synthetic exact name-only matching, no taxonomy transformation or beetle response"
+        run: |
+          python analysis/forest_macro_global/carpathian116_weiss_original_name_only_coverage.py --test
+      - name: "Exact publisher source traits plus only Gloor first CSV headers, no biological cells"
+        run: |
+          python analysis/forest_macro_global/carpathian116_weiss_original_name_only_coverage.py \
+            --out CARPATHIAN116_WEISS_GUILD_NAMES_ONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("CARPATHIAN116_WEISS_GUILD_NAMES_ONLY/Gloor116_Weiss2016_511guild_exact_nameonly_coverage.json")
+          x=json.loads(p.read_text(encoding="utf-8"))
+          assert x["schema"]=="structural.Carpathian116_Weiss2016_six_guild_nameonly_admission.v1"
+          assert x["original_Weiss_six_guild_private_source_ledger_SHA256_expected"]=="6b63db8577e8bb65bbdef5aaf30b9f078b5ee02bdcb0b434eed0554ed0bdca6b"
+          assert not x["original_Carpathian_species_matrix_ABUNDANCE_READ"]
+          assert not x["original_Carpathian_site_or_environment_VALUES_READ"]
+          assert x["previous_Dryad_Weiss_and_Franzen_HTTP401_NOT_RETRIED"]
+          assert x["prior_Finland_Chiu_Piccini_BELongDead_PREDICTS_NEON_BALA_GEB_scoring_UNCHANGED"]
+          assert not x["new_ecological_effect_estimated"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "original_publisher_taxon_coverage_anonymous_ONLY" in x:
+              q=x["original_publisher_taxon_coverage_anonymous_ONLY"]
+              assert q["original_Gloor_beech_taxon_headers"]==241
+              assert q["original_Gloor_spruce_taxon_headers"]==160
+              assert q["original_Weiss_verified_source_guild_species"]==511
+              assert q["original_beetle_capture_site_plot_data_rows_READ"]==0
+              assert q["original_species_names_and_individual_species_to_guild_NOT_EXPORTED"]
+              assert q["source_taxonomy_synonym_family_fuzzy_Rname_transform_NOT_PERFORMED"]
+              assert q["no_biodiversity_or_heldout_loss_MODEL_FIT"]
+              assert q["status"] in {
+                  "SOURCE_GLOOR_WEISS_EXACT_GUILD_TAXON_COVERAGE_PASS_SOURCEONLY",
+                  "SOURCE_GLOOR_WEISS_EXACT_GUILD_TAXON_COVERAGE_HOLD"
+              }
+          else:
+              assert x["source_taxonomy_or_integrity_STOP_not_ecological_null"]
+          print("GLOOR_ORIGINAL_GUILD_NAME_ONLY_COVERAGE",x["status"])
+          PY
+      - name: "Archive anonymous independent taxon-name coverage counts only"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-carpathian116-weiss511-exact-guild-nameonly-admission
+          path: CARPATHIAN116_WEISS_GUILD_NAMES_ONLY/
+          if-no-files-found: warn

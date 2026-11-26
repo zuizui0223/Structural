@@ -1,0 +1,64 @@
+name: "Forest beetle Cours2026 RData original object SCHEMA ONLY"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-cours2026-rdata-schema-only.yml"
+      - "analysis/forest_macro_global/cours2026_rdata_schema_only.py"
+      - "analysis/forest_macro_global/cours2026_rdata_schema_only.R"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-cours2026-rdata-schema-only.yml"
+      - "analysis/forest_macro_global/cours2026_rdata_schema_only.py"
+      - "analysis/forest_macro_global/cours2026_rdata_schema_only.R"
+permissions:
+  contents: read
+jobs:
+  original-source-schema-only-no-numerical-organism-data:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Install only JSON output for original R object schema introspection"
+        run: Rscript -e 'install.packages("jsonlite",repos="https://cloud.r-project.org")'
+      - name: "Pure synthetic known-truth source-schema guards"
+        run: |
+          python3 analysis/forest_macro_global/cours2026_rdata_schema_only.py --test
+          Rscript analysis/forest_macro_global/cours2026_rdata_schema_only.R --test
+      - name: "Download ONLY original pinned RData and inspect object/field schema, no original scores"
+        run: |
+          python3 analysis/forest_macro_global/cours2026_rdata_schema_only.py \
+            --out cours2026_RData_schema_only/receipt.json
+      - name: "Deny original biological values, response modelling, raw file persistence"
+        run: |
+          python3 - <<'PY'
+          import json
+          a=json.load(open("cours2026_RData_schema_only/receipt.json"))
+          assert a["schema"]=="structural.cours2026_RData_source_schema_gate.v1"
+          assert not a["RData_raw_file_uploaded"]
+          assert a["original_beetle_numeric_values_or_cells_read"]==0
+          assert a["new_ecological_effects"]==0
+          assert a["historical_Ramberg2026_ZERO_CATCH_STOP_preserved"]
+          assert a["historical_Korhonen_HTTP401_preserved"]
+          assert not a["eBird_used"] and not a["TinyFish_used"]
+          if "source_object_schema_without_values" in a:
+              x=a["source_object_schema_without_values"]
+              assert x["original_beetle_abundance_or_response_cells_read"]==0
+              assert x["original_RData_model_fits"]==0
+          print("SOURCE_ONLY_SCIENTIFIC_STATUS",a["status"])
+          PY
+      - name: "Archive only safe source object schema and aggregate sizes; never RData"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-cours2026-publisher-original-RData-schema-only
+          path: cours2026_RData_schema_only/receipt.json
+          if-no-files-found: warn

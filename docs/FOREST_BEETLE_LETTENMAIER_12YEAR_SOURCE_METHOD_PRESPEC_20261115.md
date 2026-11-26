@@ -1,0 +1,23 @@
+# 12-year spruce–fir–beech saproxylic beetle ORIGINAL study hierarchy and source schema: qualification BEFORE scoring (2026-11-15)
+
+## Current verified result, no biodiversity effect opened
+The official 2025-10-23 Zenodo record [10.5281/zenodo.17337484](https://doi.org/10.5281/zenodo.17337484), associated with *JAE* DOI 10.1111/1365-2656.70183, was confirmed **public, CC BY 4.0, 7 original archived files**, using [Actions #43696147420](https://github.com/zuizui0223/Structural/actions/runs/43696147420) SUCCESS. The original published article reports **35,059 beetle individuals, 297 recorded species, host-log treatments spruce/fir/beech and a 12-year succession**. These are authors' existing published findings, not Structural-generated observations.
+
+Three specified exact source files for a new original METHOD/SOURCE gate (never a silent re-analysis):
+- `Beetle_Community_JAE-2025-00357.csv`: exact Zenodo 2025 original source MD5 **a5d8a26d932594ce40dc6b5aba269c19**, **329736 bytes**.
+- `Beetle_Data_JAE-2025-00357.csv`: exact source MD5 **ae7254baac19934a75242defce6ada59**, **852649 bytes**.
+- `Trait_Table_JAE-2025-00357.xlsx`: exact source MD5 **3a5b226e35d75cd3ed7501dff3c15bc1**, **58578 bytes**.
+
+No original author data values have been inspected by Structural in this new source. Previous Finnish 142-source VD10 heldout positive ΔHellinger² 0.00024237/p.015, positive host-guild trait shuffle, original PREDICTS forest modification +.0942, NEON canopy proxy non-support +.0349/p.1759 and BALA/GEB holds remain frozen.
+
+## This one source-only metadata and sampling-unit gate
+1. Download exactly these three source files from official original Zenodo record **17337484**, verify each published MD5 and byte count. Keep all original files PRIVATE in the GitHub runner, no original biological data as artifact.
+2. Read only the **first CSV header row** and count physical text lines, never score/interpret any original abundance, species identity, tree-resource measurement or guild values. The source CSV may be long-format rows or a species-wide community matrix: report original number of header columns, anonymized counts of generic site/log/tree/trap/year/effort and biological-taxon naming *classes*, never individual species names. A line count is not a population denominator until CSV record grain is validated.
+3. For the original trait workbook read only OpenXML package workbook **sheet names** and structure (no original trait cell values or species names); report original sheets/size checks.
+4. **Prebiology scientific identity rule:** neither date nor individual trap is a standalone forest replicate; original source individual **deadwood log/trunk**, nested forest plot/site/region and **elapsed time since log exposure** are required. Calendar year 2013–2019, 2021–2024 and the paper-reported one-year spruce deployment offset must not be assumed simultaneous; trap relocations along the same original log are repeated measurements, not new independent pieces. Source original `logID`/sampling year/host tree fields must be documented explicitly before any host×decay scoring, never guessed from an ordinal row index.
+5. A separate tree-host trait harmonization is needed to link to Finnish `Host_tree` guilds. If original published 2025 traits do not contain explicit host affinity, do not backfill from species' names or infer larval host solely from emergence traps. Feeding guilds and phylogenetic traits are not automatically identical to broadleaf/conifer host affiliation.
+6. Source-only stage is a success if pinned file hashes, original headers, and trait workbook sheet inventory can be audited without any ecological response scoring. Site/log/trait compatibility stays **NOT YET ESTABLISHED** unless explicitly documented; no test based on post-result selection.
+7. Preserve PR #469 Draft/unmerged, no eBird/TinyFish. No author original organismal site keys, coordinates, raw species matrix or trait values may be exported. The paper itself already studied temporal community/functional dynamics, so a future uniquely interpretable Structural question requires an original **functional-channel maintenance vs replacement** endpoint not merely the known richness declines with wood age.
+
+### Prior alternate-source boundaries
+Poland 2026 original `21_species_abundance` and `Stand characteristics` both have 48 worksheet rows but no author-defined join identified in first 3 header-like rows. It is a source grain STOP, not a forest biotic null. Sweden 2025 23-site Dryad file manifest available but published README download returned HTTP401, source access STOP. Avoid repeated 401 bypass attempts or row-index joins for either source.

@@ -1,0 +1,14 @@
+# Lettenmaier 12-year temporal support: 2026-11-24
+
+## Actual source manifest and prior source audit
+- Original Zenodo 17337484 (CC BY 4.0), seven file names, sizes and MD5 values reverified in run 45384519116, job 138411882082, artifact 14914039855, ZIP SHA256 b3909c0b0709edb649082d89f1c28fcbe3cac2d8945083d6554eae5e337bb547 (logs and artifact metadata checked; not an independent ZIP download).
+- Correction: this is not a new previously unaudited source. 2026-11-15 metadata audit established 42 plot tokens, 52 nested log identities, 522 distinct log-year contexts and 525 distinct matrix sample IDs. The six-permutation comparison matched only 359 of 522 (163 long-only, 166 matrix-only). See FOREST_BEETLE_LETTENMAIER_12YEAR_SOURCE_CROSSWALK_HOLD_RESULT_20261115.md. No old identity gate overridden.
+
+## Newly executed exact combinatorial support calculation (not actual pair count)
+Original calendar years: 2013–2019 and 2021–2024. All 52 logs have at least two context years. Enumerated all subsets of the 11 calendar labels with at least two observed labels; for each subset counted strictly adjacent calendar-year pairs. Dynamic programming over 52 logs subject to total 522 contexts gives **368–430 possible adjacent-year pairs** under these aggregate constraints. The full nominal design would have 468, which is NOT the actual number. These bounds do not require assuming missing years are zeros; they do not establish effort, community-ID match, independence, or biological transfer. No pair bridges the absent 2020 year. Exact count requires original context IDs. Additional author design restrictions could narrow these bounds.
+
+## New actual metadata audit launched
+Code analysis/forest_macro_global/lettenmaier12y_temporal_long_metadata_support.py, commit 90dd5e8919ab6dae9a1cd4e808f77c08b600a94c; workflow commit c79cc9ab549542f100a2969a3f2f860629a5c104; run 45385903658 / job 138416599543 was observed queued. Reads only author plot/log/year/tree fields of the pinned long table, does not open community matrix or traits. Counts adjacent-year candidates by target year and whether an earlier transition exists in another plot token and in the same literal host group. This is a metadata coverage diagnostic, NOT a new biological score or proof of independent forest transfer. Actual pair count and held-out support remain pending verification.
+
+## Single unresolved input for biological prediction
+Need author-defined mapping of community row identifiers to physical plot/log/year plus the complete sampling-opportunity ledger (trap deployment, effort, zero-emergence vs missing/failed sample, experiment, actual exposure age). The existing 359 matched subset is not an admissible substitute; no guessing or response-based selection. No original ecological outcomes reopened and no new effect estimated. Zarges HTTP401, PREDICTS, Swiss and earlier endpoint decisions unchanged.

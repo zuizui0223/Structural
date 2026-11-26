@@ -1,0 +1,53 @@
+name: "BELongDead original data publisher tag1 vs latest provenance and plot ID"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-belongdead-31123-24546-original-tag1-vs-latest.yml"
+      - "analysis/forest_macro_global/belongdead_original_tag1_vs_latest_source_provenance.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_tag1_and_latest_source_provenance_no_beetle_or_wood_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Original source version/previous hashes synthetic contract"
+        run: |
+          python analysis/forest_macro_global/belongdead_original_tag1_vs_latest_source_provenance.py --test
+      - name: "Fetch official original BExIS tag1 for beetle and deadwood, compare hashes and source plot IDs only"
+        run: |
+          python analysis/forest_macro_global/belongdead_original_tag1_vs_latest_source_provenance.py \
+            --out BE_ORIGINAL_TAG1_VS_LATEST_SOURCEONLY
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path("BE_ORIGINAL_TAG1_VS_LATEST_SOURCEONLY/BExIS31123_24546_original_tag1_vs_latest_immutable_sourceonly.json")
+          r=json.loads(f.read_text())
+          assert r["schema"]=="structural.BE31123_24546_publisher_tag1_vs_latest_immutable_original_source_provenance.v1"
+          assert r["source_public_individual_CC_BY4_previously_verified"]
+          assert r["source_only_original_plot_identifier_fields_read"]
+          assert r["original_beetle_taxon_abundance_deadwood_taxon_volume_coordinates_UNREAD"]
+          assert r["old_Finland_Burner_PREDICTS_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert r["eBird_used"] is False
+          for k,v in r["original_tag1_source_receipts"].items():
+              if v["status"]=="PUBLISHER_ORIGINAL_TAG1_CSV_RECEIVED":
+                  assert v["source_only_header_and_plot"]["original_source_specimen_species_and_resource_measurements_UNREAD"]
+                  assert v["source_only_header_and_plot"]["original_source_ID_strings_and_coordinates_NOT_EXPORTED"]
+              else:
+                  assert v["source_version_STOP_not_biological_non_support"]
+          print("PUBLISHER_TAG1_ORIGINAL_VS_LATEST_SOURCE_STATUS",r["status"])
+          PY
+      - name: "Archive only tag1 source version SHA/plot counts, never organism or wood data"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-BELongDead31123-24546-publisher-tag1-vs-latest-sourceonly
+          path: BE_ORIGINAL_TAG1_VS_LATEST_SOURCEONLY/
+          if-no-files-found: warn

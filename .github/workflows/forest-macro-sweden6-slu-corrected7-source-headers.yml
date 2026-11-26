@@ -1,0 +1,55 @@
+name: "Forest macro Sweden6 SLU corrected 7-field source headers only"
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - "analysis/forest_macro_global/sweden6_slu_corrected7_original_headers_only.py"
+      - "docs/FOREST_SWEDEN6_SEMICOLON7_SOURCE_HEADER_CORRECTION_PRESPEC_20261119.md"
+      - ".github/workflows/forest-macro-sweden6-slu-corrected7-source-headers.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publisher_source_headers_not_values:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Synthetic original header-only and source isolation"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_corrected7_original_headers_only.py --test
+      - name: "Official three original SLU files, pinned seven-field source and response seal"
+        run: |
+          python analysis/forest_macro_global/sweden6_slu_corrected7_original_headers_only.py --out SLU_SWEDEN6_CORRECTED7_HEADER_RECEIPT
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("SLU_SWEDEN6_CORRECTED7_HEADER_RECEIPT/SLU_sweden6_corrected7_original_source_header_receipt.json").read_text(encoding="utf-8"))
+          assert x["previous_original_six_column_SOURCE_STOP_UNCHANGED"]
+          assert x["original_2020_temperature_and_2021_beetle_original_rows_READ"]==0
+          assert x["all_earlier_England_Carpathian_Finland_PREDICTS_Thai_NEON_BALA_GEB_scores_UNCHANGED"]
+          assert not x["eBird_used"] and not x["TinyFish_used"]
+          if "original_source_first_header_only_receipts" in x:
+              d=x["original_source_first_header_only_receipts"]
+              assert d["climate_original_CSV_value_rows_OPENED"]==0
+              assert d["beetle_original_CSV_value_rows_OPENED"]==0
+              assert d["source_no_same_trap_method_vertical_stratum_comparison"]
+              y=d["original_file_sha_and_header_receipts_ONLY"]
+              assert y["specieslist_xylo.csv"]["original_header_declared_field_count"]==7
+              assert y["specieslist_xylo.csv"]["original_CSV_header_delimiter"]=="semicolon"
+              assert y["boreal_forest_climate_data.csv"]["original_header_declared_field_count"]==12
+          else:
+              assert x["source_transport_or_original_method_STOP_not_ecological_null"]
+          print("SLU_SWEDEN6_CORRECTED7_SOURCE_ONLY", x["status"])
+          PY
+      - name: "Archive only header, README method flags and original publisher SHA receipts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structural-forest-sweden6-SLU-corrected7-source-headers
+          path: SLU_SWEDEN6_CORRECTED7_HEADER_RECEIPT/
+          if-no-files-found: warn

@@ -1,0 +1,59 @@
+name: Forest macro Kortmann author GAM formula source code ONLY
+
+on:
+  push:
+    branches:
+      - analysis/forest-macro-plot-environment
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-gam-formula-sourceonly.yml"
+      - "analysis/forest_macro_global/kortmann2026_author_gam_formulas_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN_AUTHOR_GAM_FORMULA_METADATA_PREFREEZE_20261121.md"
+  pull_request:
+    paths:
+      - ".github/workflows/forest-macro-kortmann2026-gam-formula-sourceonly.yml"
+      - "analysis/forest_macro_global/kortmann2026_author_gam_formulas_sourceonly.py"
+      - "docs/FOREST_MACRO_KORTMANN_AUTHOR_GAM_FORMULA_METADATA_PREFREEZE_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-author-gam-formula-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Known-truth code expression lexical no-biology tests
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_author_gam_formulas_sourceonly.py --test
+      - name: Static original source GAM expression audit only (no data members)
+        run: |
+          python3 analysis/forest_macro_global/kortmann2026_author_gam_formulas_sourceonly.py --out kortmann2026_author_gam_formula_only/receipt.json
+      - name: 'Fail closed: original RData OTU and source site records remain sealed'
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('kortmann2026_author_gam_formula_only/receipt.json',encoding='utf-8'))
+          assert x['historical_BETAFOR99_original_effect_SEALED']
+          assert x['original_RData_and_XLSX_members_requested']==0
+          assert x['biological_source_rows_READ']==0
+          assert x['new_field_effects_fit']==0
+          assert x['status'].startswith(('SOURCE_GAM_FORMULA_ROLE_CANDIDATES_NO_FIELD_ADMISSION','SOURCE_AUTHOR_GAM_FIELD_IDENTIFICATION_HOLD','SOURCE_GAM_METHOD_STOP_'))
+          if 'source' in x:
+              s=x['source']
+              assert s['all_original_RData_and_XLSX_members_UNOPENED']
+              assert s['original_R_code_EXECUTED'] is False
+              assert s['original_site_sample_rows_read']==0
+              assert s['original_OTU_specimen_richness_values_read']==0
+              assert s['new_ecological_effects_fitted']==0
+              assert s['author_R_method_expression_summary_ONLY']['original_R_code_text_and_formulas_NOT_EXPORTED']
+          print('KORTMANN_GAM_FORMULA_SOURCE_ONLY='+x['status'])
+          PY
+      - name: Publish only aggregate code formula tokens and method cues
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-kortmann-author-gam-formula-only
+          path: kortmann2026_author_gam_formula_only/
+          if-no-files-found: error

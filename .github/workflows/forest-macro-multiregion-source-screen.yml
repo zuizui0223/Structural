@@ -1,0 +1,63 @@
+name: Global forest multi-region original source network temporal screen
+on:
+  push:
+    paths:
+      - ".github/workflows/forest-macro-multiregion-source-screen.yml"
+      - "analysis/forest_macro_global/screen_multiregion_forest_sources.py"
+      - "analysis/forest_macro_global/test_screen_multiregion_forest_sources.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  geographic-temporal-candidate-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test fixed sources and no invented biological sampling sites
+        run: |
+          python -m pip install pytest
+          python -m pytest -q analysis/forest_macro_global/test_screen_multiregion_forest_sources.py
+      - name: Read only previously verified global GBIF forest Event REGISTRY
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p original_global_gbif_registry
+          gh run download 42320079634 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name forest-macro-global-gbif-event-network-candidates \
+            --dir original_global_gbif_registry
+      - name: Screen fixed 18 geographically diverse original forest observation candidates
+        run: |
+          python analysis/forest_macro_global/screen_multiregion_forest_sources.py \
+            --registry original_global_gbif_registry/GBIF_forest_sampling_event_candidates_METADATA_ONLY.csv \
+            --out global_forest_multiregion_source_screen
+      - name: Require actual recent source metadata without calling occurrence counts physical plots
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path("global_forest_multiregion_source_screen/multiregion_source_screen_manifest.json").read_text())
+          assert q["schema"]=="structural.forest_macro_multiregion_source_screen.v1"
+          assert q["original_global_registry_fixed_source_candidates"]==18
+          assert sum(q["statuses"].values())==18
+          assert q["candidate_datasets_with_recent_indexed_occurrences_not_sites"]>=1
+          assert q["actual_original_forest_plot_site_counts_verified"]==0
+          assert q["source_original_Event_rows_read"]==0
+          assert q["source_original_Occurrence_species_rows_read"]==0
+          assert q["source_publishing_country_never_used_as_sampling_country"]
+          assert not q["eBird_used"]
+          print("Current original source recent forest network candidates:",
+                q["candidate_datasets_with_recent_indexed_occurrences_not_sites"])
+          PY
+      - name: Retain 18 source metadata audits, no original species or raw field data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forest-macro-original-multiregion-temporal-source-screen
+          path: global_forest_multiregion_source_screen/
+          if-no-files-found: warn
