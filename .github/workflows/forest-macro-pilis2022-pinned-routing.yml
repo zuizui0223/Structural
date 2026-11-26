@@ -1,0 +1,40 @@
+name: "Forest macro Pilis2022 pinned community routing and static methods"
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/forest-macro-pilis2022-pinned-routing.yml"
+      - "analysis/forest_macro_global/pilis2022_pinned_csv_routing_method_audit.py"
+permissions:
+  contents: read
+jobs:
+  original-method-only:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python analysis/forest_macro_global/pilis2022_pinned_csv_routing_method_audit.py --test
+      - run: python analysis/forest_macro_global/pilis2022_pinned_csv_routing_method_audit.py --out pilis_pinned_routing/receipt.json
+      - name: Verify source-only receipt
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("pilis_pinned_routing/receipt.json"))
+          assert r["schema"]=="structural.pilis_fp2b8.pinned_routing.v1"
+          assert r["original_response_values_interpreted"]==r["new_ecological_effects_scored"]==0
+          assert not r["raw_source_exported"] and not r["original_author_code_executed"]
+          if r["status"]=="PINNED_SOURCE_ROUTING_AND_STATIC_METHOD_DIAGNOSTIC_COMPLETE":
+              assert r["five_pinned_file_hashes_verified"] and r["duplicate_csv_publisher_digest_identical"]
+              assert len(r["tables"])==2 and len(r["methods"])==3
+          print("PILIS_PINNED_ROUTING_STATUS",r["status"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pilis2022-pinned-source-routing
+          path: pilis_pinned_routing/receipt.json
+          if-no-files-found: error
